@@ -35,7 +35,7 @@ jobs:
   deploy_client_prod_server:
     name: Deploy Master Branch to Client Prod Server 
     runs-on: client_prod_server_trahum_project
-    if: github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'production'
+    if: github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'client-production'
     steps:
       - name: Checkout And Restart Project
         run: |
