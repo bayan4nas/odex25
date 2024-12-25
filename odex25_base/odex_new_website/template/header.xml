@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="my_header" inherit_id="website.layout" name="Header">
+            
+        <xpath expr="//header//nav" position="replace">
+
+                <nav class="navbar">
+                    <div class="menu-container">
+                        <div id="menu-btn-container">
+                            <div class="menu-mobile" id="menu">
+                                <div class="menu-lines fading">
+                                    <span class="line-1"></span>
+                                    <span class="line-2"></span>
+                                    <span class="line-3"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="popup-container">
+                            <div class="popup-overlay"></div>
+                            <div class="popup-menu">
+                                <div class="popup-overlay-transition"></div>
+                                <div class="popup-menu-container">
+                                    <div class="user-settings-mobile-container">
+                                    </div>
+                                    <div class="user-login-info">
+                                        <div class="user-img">
+                                            <t t-if="uid">
+                                                <img t-att-src="'data:image/png;base64,%s' % to_text(request.env.user.partner_id.image_128)" alt="user image"/>
+                                            </t>
+                                            <t t-else="">
+                                                <img src="/odex_new_website/static/img/public-user.png" alt="default user image" loading="lazy"/>
+                                            </t>
+                                        </div>
+                                        <div class="user-name-email">
+                                            <t t-if="uid">
+                                                <p class="user-login-name" t-field="request.env.user.partner_id"/>
+                                            </t>
+                                            <t t-else="">
+                                            </t>
+                                            <p class="user-login-email" t-field="request.env.user.email"/>
+                                        </div>
+                                    </div>
+                                    <div class="popup-content">
+                                        <div class="popup-links">
+                                            <a class="sequence" href="/">Home</a>
+                                            <a class="sequence" href="/courses">Training courses</a>
+                                        </div>
+                                        <div class="lang-container-mobile">
+                                            <t t-call="website.language_selector_inline"/>
+                                        </div>
+                                        <div class="logout-btn">
+                                            <t t-if="uid">
+                                                <a role="menuitem" id="o_logout" class="dropdown-item" data-oe-model="ir.ui.view" data-oe-id="441" data-oe-field="arch" data-oe-xpath="/t[1]/li[1]/div[1]/a[1]" href="/web/session/logout?redirect=/">Logout<img src="/odex_new_website/static/img/logout.png" alt=""/></a>
+                                            </t>
+                                            <t t-else="">
+                                            </t>
+                                        </div>
+                                        <div class="social">
+                                            <a href="#"><img src="/odex_new_website/static/img/youtube.png" alt="" title=""/></a>
+                                            <a href="#"><img src="/odex_new_website/static/img/facebook.png" alt="" title=""/></a>
+                                            <a href="#"><img src="/odex_new_website/static/img/x.png" alt="" title=""/></a>
+                                            <a href="#"><img src="/odex_new_website/static/img/linkedin.png" alt="" title=""/></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="logo">
+                        <!-- <a href="/">
+                            <img src="/odex_new_website/static/img/logo.png" alt="" title=""/>
+                        </a> -->
+                        <a class="company-logo fading" href="/">
+                            <svg id="logo" class="image" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 500 300">
+                                <g>
+                                    <path id="path-e" style="opacity: 1; fill: #fefffe; stroke: #fefffe; stroke-width: 3;" d="M 123.5,8.5 C 150.664,7.33639 177.997,7.16973 205.5,8 C 244.667,47.1667 283.833,86.3333 323,125.5 C 330.167,118.333 337.333,111.167 344.5,104 C 371.5,103.333 398.5,103.333 425.5,104 C 404.833,124.667 384.167,145.333 363.5,166 C 400.347,202.68 437.014,239.514 473.5,276.5 C 446.506,277.667 419.506,277.833 392.5,277 C 369.32,253.653 345.986,230.486 322.5,207.5 C 300.374,230.126 278.041,252.626 255.5,275 C 228.167,275.667 200.833,275.667 173.5,275 C 209.68,238.986 245.68,202.82 281.5,166.5 C 229.146,113.479 176.479,60.8123 123.5,8.5 Z" />
+                                </g>
+                                <g>
+                                    <path id="path-other" style="opacity: 1; fill: #fefffe; stroke: #fefffe; stroke-width: 3;" d="M 7.5,58.5 C 53.1679,58.3333 98.8345,58.5 144.5,59 C 165.195,80.0286 186.195,100.695 207.5,121 C 161.501,121.5 115.501,121.667 69.5,121.5 C 69.5,125.833 69.5,130.167 69.5,134.5 C 119.834,134.333 170.168,134.5 220.5,135 C 231.471,144.97 242.137,155.303 252.5,166 C 242.137,176.697 231.471,187.03 220.5,197 C 170.168,197.5 119.834,197.667 69.5,197.5 C 69.5,201.833 69.5,206.167 69.5,210.5 C 115.501,210.333 161.501,210.5 207.5,211 C 186.833,231.667 166.167,252.333 145.5,273 C 99.1679,273.5 52.8345,273.667 6.5,273.5 C 6.17011,201.762 6.50345,130.096 7.5,58.5 Z" />
+                                </g>
+                            </svg>
+                            <span class="company-name">Expert Co. Ltd.</span>
+                        </a>
+                    </div>
+                    <ul class="main_menu fading">
+                        <li><a href="/" data-replace="Home"><span>Home</span></a></li>
+                        <li><a href="/courses" data-replace="Training courses"><span>Training courses</span></a></li>
+                    </ul>
+                    <div class="nav_actions fading">
+                        <a href="">Search</a>
+                        <span class="divider"></span>
+                        <div class="signin">
+                            <!-- Sign In -->
+                            <t t-call="portal.placeholder_user_sign_in">
+                                <t t-set="_item_class" t-value="'nav-item'"/>
+                                <t t-set="_link_class" t-value="''"/>
+                            </t>
+                            <!-- User Dropdown -->
+                            <t class="user-dropdown-options" t-call="portal.user_dropdown">
+                                <t t-set="_user_name" t-value="true"/>
+                                <t t-set="_item_class" t-value="'nav-item dropdown'"/>
+                                <t t-set="_link_class" t-value="''"/>
+                            </t>
+                        </div>
+                    </div>
+                </nav>
+
+		</xpath>
+
+	</template>
+
+</odoo>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!--created an action server which appeared in action button with name Modules Un-Install-->
+        <record id="action_server_module_multiple_uninstall" model="ir.actions.server">
+            <field name="name">Modules Un-Install</field>
+            <field name="type">ir.actions.server</field>
+            <field name="model_id" ref="model_ir_module_module"/>
+            <field name="binding_model_id" ref="model_ir_module_module"/>
+            <field name="state">code</field>
+            <field name="code">records.module_multiple_uninstall()</field>
+        </record>
+
+    </data>
+</odoo>

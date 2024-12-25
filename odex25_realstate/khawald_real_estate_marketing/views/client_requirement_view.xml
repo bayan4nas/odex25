@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <!-- Inherit Form View to Modify it -->
+        <record id="re_clients_requirement_form_inherit" model="ir.ui.view">
+            <field name="name">re.clients.requirement.form.inherit</field>
+            <field name="model">re.clients.requirement</field>
+            <field name="inherit_id" ref="real_estate_marketing.view_client_requirements_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='search_type']" position="before">
+                    <field name="project_id" attrs="{'readonly':[('state', '!=', 'draft')]}"/>
+                </xpath>
+                <field name="user_id" position="after">
+                    <field name="marketer_user_id" attrs="{'readonly':[('state', '!=', 'draft')]}" />
+                </field>
+                <field name="partner_id" position="after">
+                    <field name="client_type" required="1" attrs="{'readonly':[('state', '!=', 'draft')]}" />
+                </field>
+                <xpath expr="//tree/button[@name='create_sale_request']" position="before">
+                    <button name="create_reservation_record" type="object" string="Create Reservation Order" class="oe_highlight"
+                            attrs="{'invisible':['|','|','|',('parent.search_type','!=','unit'),('flag', '=', True),('state','!=','register'),('parent.action_type','!=','sale')]}"/>
+                    <field name="reservation_id" readonly="1" attrs="{'invisible': [('reservation_id', '=', False)]}"/>
+                </xpath>
+                <xpath expr="//tree/button[@name='create_sale_request']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                
+                <!-- rent -->
+                <!-- <xpath expr="//tree/button[@name='create_contract_request']" position="attributes">
+                    <attribute name="attrs">{}</attribute>
+                    <attribute name="attrs">{'invisible':True}</attribute>
+                    <attribute name="invisible">1</attribute>
+                </xpath> -->
+                <!-- <xpath expr="//tree/field[@name='rental_contract_id']" position="attributes">
+                    <attribute name="attrs">{}</attribute>
+                    <attribute name="attrs">{'invisible':True}</attribute>
+                    <attribute name="invisible">1</attribute>
+                </xpath> -->
+                <xpath expr="//tree/field[@name='sale_contract_id']" position="attributes">
+                    <attribute name="attrs">{}</attribute>
+                    <attribute name="attrs">{'invisible':True}</attribute>
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//tree/field[@name='flag']" position="attributes">
+                    <attribute name="attrs">{}</attribute>
+                    <attribute name="attrs">{'invisible':True}</attribute>
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="re_clients_requirement_select_list" model="ir.ui.view">
+           <field name="name">re.clients.requirement.select.list</field>
+           <field name="model">re.clients.requirement</field>
+            <field name="arch" type="xml">
+                <search string="">
+                    <field name="name"/>
+                    <field name="action_type"/>
+                    <field name="search_type"/>
+                    <field name="partner_id"/>
+                    <field name="client_type"/>
+                    <group expand="0" string="Group By..." colspan="12" col="10">
+                        <filter string="Partner" name="group_partner" domain="[]"
+                                context="{'group_by':'partner_id'}"/>
+                        <filter string="Client Type" name="group_client_type" domain="[]"
+                                context="{'group_by':'client_type'}"/>
+                        <filter string="Action Type" name="group_action_type" domain="[]"
+                                context="{'group_by':'action_type'}"/>
+                        <filter string="Property Type" name="group_search_type" domain="[]"
+                                context="{'group_by':'search_type'}"/>
+                        <filter string="City" name="group_city_id" domain="[]"
+                                context="{'group_by':'city_id'}"/>
+                    </group>
+
+            </search>
+           </field>
+        </record>
+
+    </data>
+</odoo>

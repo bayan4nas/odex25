@@ -1,0 +1,188 @@
+<odoo>
+    <data>
+        <template id="header_links" name="kafel_header">
+            <!-- Modal -->
+            <div class="modal kafala_modal group_guarantee_modal  fade" id="exampleModalCenter"
+                tabindex="-1" role="dialog"
+                aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title heading" id="exampleModalLongTitle">إنشاء كفالة
+                                جماعية</h5>
+                            <button type="button" class="close" data-dismiss="modal"
+                                aria-label="Close">
+                                <img src="/takaful_portal_sponsor/static/img/close.png" alt="close" />
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="group_sponsorship" action="">
+                                <input class="" type="hidden"
+                                    name="is_group"
+                                    value="yes" id="is_group" />
+                                <input class="" type="hidden"
+                                    name="sponsorship_type"
+                                    value="group" id="sponsorship_type" />
+
+                                <div class="row">
+                                    <div class="form-group col-lg-6">
+                                        <label for="benefit_type" class=" control-label"> نوع
+                                            المكفولين </label>
+                                        <select id="benefit_type" name="benefit_type"
+                                            class="custom-select">
+                                            <option selected="selected" value="orphan">ايتام</option>
+                                            <option value="widow">ارامل </option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-lg-6">
+                                        <label for="month_amount" class=" control-label">
+                                            الاحتياج الشهري
+                                        </label>
+                                        <div class="">
+                                            <input type="text" class="form-control"
+                                                id="month_amount"
+                                                name="month_amount"
+                                            />
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-lg-6">
+                                        <label for="need_limit" class=" control-label"> نسبة
+                                            الاحتياج </label>
+                                        <input type="text" class="form-control"
+                                            id="need_limit"
+                                            name="need_limit"
+                                        />
+                                    </div>
+
+                                    <div class="form-group col-lg-6">
+                                        <label for="age_limit" class=" control-label"> الاعمار </label>
+                                        <select id="age_limit" name="age_limit"
+                                            class="custom-select">
+                                            <option selected="selected" value="5">اكثر من خمس سنوات </option>
+                                            <option value="10">أكثر من 10 سنوات </option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-lg-6">
+                                        <label for="benefit_ids" class=" control-label"> اختر
+                                            المكفولين </label>
+                                        <select class="js-example-basic-multiple" id="benefit_ids"
+                                            name="benefit_ids[]"
+                                            multiple="multiple">
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group col-lg-6">
+                                        <label for="benefit_count" class="control-label">عدد
+                                            المكفولين </label>
+                                        <div class="">
+                                            <input type="text" class="form-control"
+                                                id="benefit_count" name="benefit_count"
+                                                value="5" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-lg-6">
+                                        <label for="sponsorship_duration" class=" control-label">
+                                            فترة الكفالة </label>
+                                        <select id="sponsorship_duration"
+                                            name="sponsorship_duration" class="custom-select">
+                                            <option selected="selected" value="permanent"> دائمة </option>
+                                            <option value="temporary"> مؤقتة </option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group col-lg-6">
+                                        <label for="sponsor_duration" class=" control-label"> مدة
+                                            الكفالة </label>
+                                        <select id="sponsor_duration" class="custom-select">
+                                            <option selected="selected" value="years"> سنوات </option>
+                                            <option value="months"> شهور </option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group col-lg-6">
+                                        <label for="sponsorship_class" class=" control-label"> نوع
+                                            الكفالة </label>
+                                        <select id="sponsorship_class" name="sponsorship_class"
+                                            class="custom-select">
+                                            <option selected="selected" value="fully"> كلية </option>
+                                            <option value="partial"> جزئية </option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group col-lg-6">
+                                        <label for="months_number" class="control-label">عدد الشهور </label>
+                                        <div class="">
+                                            <input type="text" class="form-control"
+                                                id="months_number"
+                                                name="months_number" placeholder="4" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-lg-6">
+                                        <label for="yrs" class="control-label">عدد السنوات </label>
+                                        <div class="">
+                                            <input type="text" class="form-control" id="yrs"
+                                                name="yrs" placeholder="4" />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-lg-6">
+                                        <label for="kafala_amount" class="control-label"> قيمة
+                                            التحمل للمكفول الواحد </label>
+                                        <div class="">
+                                            <input type="text" value="5 ر.س" class="form-control"
+                                                id="kafala_amount"
+                                                name="kafala_amount" />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-lg-6">
+                                        <label for="payment_option" class=" control-label"> خيارات
+                                            الدفع </label>
+                                        <select id="payment_option" name="payment_option"
+                                            class="custom-select">
+                                            <option selected="selected" value="month">شهري </option>
+                                            <option value="once"> مرة واحدة </option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group col-lg-12">
+                                        <label for="kafala_total" class="control-label"> إجمالي قيمة
+                                            الكفالة </label>
+                                        <div class="">
+                                            <input type="text" value="1200 ر.س" class="form-control"
+                                                id="kafala_total"
+                                                name="kafala_total" />
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-primary">تأكيد انشاء كفاله
+                                        جماعية</button>
+                                </div>
+                                <div class="sponsorship_creation_feedback"></div>
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <link rel="stylesheet" src="/takaful_portal_sponsor/static/css/select2.min.css"></link>
+            <script src="/takaful_portal_sponsor/static/js/create_group_sponsorships.js"></script>
+            <script src="/takaful_portal_sponsor/static/js/sponsorships_needs.js"></script>
+            <script src="/takaful_portal_sponsor/static/js/sponsorships_needs.js"></script>
+            <script src="/takaful_portal_sponsor/static/js/select2.min.js"></script>
+
+            <script>
+                console.log('this is script')
+                $(document).ready(function() {
+                    $('.js-example-basic-multiple').select2();
+                    $('.js-example-basic-multiple').on('change', function() {
+                        var selectedValue = $(this).val();
+                        console.log('Selected value:', selectedValue);
+                    });
+                });
+            </script>
+        </template>
+    </data>
+</odoo>

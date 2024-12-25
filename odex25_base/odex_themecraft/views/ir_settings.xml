@@ -1,0 +1,623 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="res_config_settings_form_inherit" model="ir.ui.view">
+            <field name="name">res_config_settings_form_inhert</field>
+            <field name="model">res.config.settings</field>
+            <field name="inherit_id" ref="base_setup.res_config_settings_view_form" />
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="//div[@id='about']" position="replace">
+                        <div id="about">
+                            <h2>About</h2>
+                            <div class="row mt16 o_settings_container"
+                                name="about_setting_container">
+                                <div class="col-12 col-lg-6 o_setting_box" id="appstore">
+                                    <div class="d-flex">
+                                        <div class="o_setting_right_pane"> FIXME Those links are
+                                            defined directly in the template which means that we
+                                            will have to update the template code is the link ever
+                                            changes <a class="d-block mx-auto"
+                                                href="https://exp-sa.com" target="blank">
+                                                <img alt="Odex Product"
+                                                    class="d-block mx-auto img img-fluid"
+                                                    src="/custom_theme_14/static/description/odex.png" />
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="o_widget">
+                                    <div class="col-12 o_setting_box" id="edition">
+                                        <div class="o_setting_right_pane">
+                                            <div class="user-heading">
+                                                <h3>
+                                                    Odex V.25
+                                                </h3>
+                                            </div>
+                                            <div>
+                                                <div class="tab-content">
+                                                    <div role="tabpanel" id="settings"
+                                                        class="tab-pane active text-muted o_web_settings_compact_subtitle">
+                                                        <small>Copyright © 2018 <a target="_blank"
+                                                                href="https://www.exp-sa.com"
+                                                                style="text-decoration: underline;">Expert
+                                                            Company</a></small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </xpath>
+
+                    <xpath expr="//div[hasclass('settings')]" position="inside">
+ 
+                        <div class="app_settings_block o_backend_theme" data-string="Odex Theme Settings"
+                            string="Odex Theme Settings" data-key="odex_themecraft">
+
+                            <h2>Home Menu</h2>
+                            <div class="row mt16 o_settings_container" name="default_taxes_setting_container">
+                                <div class="col-12 col-lg-6 o_setting_box">
+                                    <div class="o_setting_left_pane"/>
+                                    <div class="o_setting_right_pane">
+                                        <div class="content-group">
+                                            <div class="row">
+                                                <p class="col-12 o_form_label mb-2">Background</p>
+                                                <field name="apps_bg_img" widget="image" class="col-12"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-6 o_setting_box">
+                                    <div class="o_setting_left_pane"/>
+                                    <div class="o_setting_right_pane">
+                                        <div class="row">
+                                            <p class="col-12 o_form_label mb-2">Apps Item Background (Hover)</p>
+                                            <field name="app_hover_bg_color" widget="colorpicker" class="col-12"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <h2>Navigation Bar</h2>
+                            <div class="row mt16 o_settings_container" name="default_taxes_setting_container">
+                                <div class="col-12 col-lg-6 o_setting_box">
+                                    <div class="o_setting_left_pane"/>
+                                    <div class="o_setting_right_pane">
+                                        <div class="content-group">
+                                            <div class="row">
+                                                <p class="col-12 o_form_label mb-2">Navbar Background</p>
+                                                <field name="navbar_bg_color" widget="colorpicker" class="col-12"/>
+                                            </div>
+                                            <div class="row" style="margin-top: 30px;">
+                                                <p class="col-12 o_form_label mb-2">Navbar Background (Hover)</p>
+                                                <field name="navbar_toggle" widget="colorpicker" class="col-12"/>
+                                            </div>
+                                            <div class="row" style="margin-top: 30px;">
+                                                <p class="col-12 o_form_label mb-2">Main Menu Title Background</p>
+                                                <field name="selection_app_color" widget="colorpicker" class="col-12"/>
+                                            </div>
+                                            <div class="row" style="margin-top: 30px;">
+                                                <p class="col-12 o_form_label mb-2">Main Menu Title Background (Hover)</p>
+                                                <field name="selection_app_bg_hover" widget="colorpicker" class="col-12"/>
+                                            </div>
+                                            <div class="row" style="margin-top: 30px;">
+                                                <p class="col-12 o_form_label mb-2">Navbar Item Color</p>
+                                                <field name="navbar_ul_color" widget="colorpicker" class="col-12"/>
+                                            </div>
+                                            <div class="row" style="margin-top: 30px;">
+                                                <p class="col-12 o_form_label mb-2">Navbar Item Background (Hover)</p>
+                                                <field name="navbar_ul_bg_color_hover" widget="colorpicker" class="col-12"/>
+                                            </div>
+                                            <div class="row" style="margin-top: 30px;">
+                                                <p class="col-12 o_form_label mb-2">Navbar Counter Badge Background</p>
+                                                <field name="navbar_badge_color" widget="colorpicker" class="col-12"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-6 o_setting_box">
+                                    <div class="o_setting_left_pane"/>
+                                    <div class="o_setting_right_pane">
+                                        <div class="content-group">
+                                            
+                                            <div class="row">
+                                                <p class="col-12 o_form_label mb-2">Navbar Counter Badge Background</p>
+                                                <field name="app_name_color" widget="colorpicker" class="col-12"/>
+                                            </div>
+                                            <div class="row" style="margin-top: 30px;">
+                                                <p class="col-12 o_form_label mb-2">Navbar Dropdown Background</p>
+                                                <field name="navbar_ul_dropdown_bg_color" widget="colorpicker" class="col-12"/>
+                                            </div>
+                                            <div class="row" style="margin-top: 30px;">
+                                                <p class="col-12 o_form_label mb-2">Navbar Dropdown Item Color</p>
+                                                <field name="navbar_ul_dropdown_item_color" widget="colorpicker" class="col-12"/>
+                                            </div>
+                                            <div class="row" style="margin-top: 30px;">
+                                                <p class="col-12 o_form_label mb-2">Navbar Dropdown Color (Hover)</p>
+                                                <field name="navbar_ul_dropdown_item_color_hover" widget="colorpicker" class="col-12"/>
+                                            </div>
+                                            <div class="row" style="margin-top: 30px;">
+                                                <p class="col-12 o_form_label mb-2">Navbar Dropdown Item Background</p>
+                                                <field name="navbar_ul_dropdown_item_bg_color" widget="colorpicker" class="col-12"/>
+                                            </div>
+                                            <div class="row" style="margin-top: 30px;">
+                                                <p class="col-12 o_form_label mb-2">Navbar Dropdown Item Background (Hover)</p>
+                                                <field name="navbar_ul_dropdown_item_hover_color" widget="colorpicker" class="col-12"/>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <h2>General Settings</h2>
+                            <div class="row mt16 o_settings_container" name="default_taxes_setting_container">
+                                <div class="col-12 col-lg-6 o_setting_box">
+                                    <div class="o_setting_left_pane"/>
+                                    <div class="o_setting_right_pane">
+                                        <div class="row">
+                                            <p class="col-12 o_form_label mb-2">Section Titles Color</p>
+                                            <field name="sections_titles_color" widget="colorpicker" class="col-12"/>
+                                        </div>
+                                        <div class="row" style="margin-top: 30px;">
+                                            <p class="col-12 o_form_label mb-2">Section Titles Background</p>
+                                            <field name="sections_titles_bg" widget="colorpicker" class="col-12"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <h2>Apps Screen</h2>
+                            <div class="row mt16 o_settings_container" name="default_taxes_setting_container">
+                                <div class="col-12 col-lg-6 o_setting_box">
+                                    <div class="o_setting_left_pane"/>
+                                    <div class="o_setting_right_pane">
+                                        <div class="row">
+                                            <p class="col-12 o_form_label mb-2">Apps More Info Button Background</p>
+                                            <field name="apps_more_info" widget="colorpicker" class="col-12"/>
+                                        </div>
+                                        <div class="row" style="margin-top: 30px;">
+                                            <p class="col-12 o_form_label mb-2">Apps Install Button Color</p>
+                                            <field name="apps_install_color" widget="colorpicker" class="col-12"/>
+                                        </div>
+                                        <div class="row" style="margin-top: 30px;">
+                                            <p class="col-12 o_form_label mb-2">Apps Install Button Background</p>
+                                            <field name="apps_install_bg_color" widget="colorpicker" class="col-12"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-6 o_setting_box">
+                                    <div class="o_setting_left_pane"/>
+                                    <div class="o_setting_right_pane">
+                                        <div class="row">
+                                            <p class="col-12 o_form_label mb-2">Apps Upgrade Button Color</p>
+                                            <field name="apps_upgrade_color" widget="colorpicker" class="col-12"/>
+                                        </div>
+                                        <div class="row" style="margin-top: 30px;">
+                                            <p class="col-12 o_form_label mb-2">Apps Upgrade Button Background</p>
+                                            <field name="apps_upgrade_bg_color" widget="colorpicker" class="col-12"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <h2>Fonts</h2>
+                            <div class="row mt16 o_settings_container" name="default_taxes_setting_container">
+                                <div class="col-12 col-lg-6 o_setting_box">
+                                    <div class="o_setting_left_pane"/>
+                                    <div class="o_setting_right_pane">
+                                        <div class="content-group">
+                                            <div class="col-12 d-flex">
+                                                <p class="o_form_label col-6 col-lg-6 mb-2">English Default Font</p>
+                                                <field name="english_default_font"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-6 o_setting_box">
+                                    <div class="o_setting_left_pane"/>
+                                    <div class="o_setting_right_pane">
+                                        <div class="content-group">
+                                            <div class="col-12 d-flex">
+                                                <p class="o_form_label col-5 col-lg-5 mb-2">Arabic Default Font</p>
+                                                <field name="arabic_default_font"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </xpath>
+
+
+                    <xpath expr="//div[hasclass('settings')]" position="inside">
+ 
+                        <div class="app_settings_block o_backend_theme_icons" data-string="Odex Theme Icons Settings"
+                            string="Odex Theme Icons Settings" data-key="odex_themecraft_icons">
+
+                            <h2>Icons Settings</h2>
+
+                            <div class="col-12 mt16" name="default_taxes_setting_container">
+                                <div class="col-12 col-lg-12 o_setting_box">
+                                    <div class="o_setting_left_pane"/>
+                                    <div class="o_setting_right_pane">
+                                        <div class="content-group">
+                                            
+                                            <div class="row">
+                                                <div class="col-12 col-md-2 app_item">
+                                                    <div class="col-12 app_item_body">
+                                                        <p class="col-12 o_form_label mb-2">Settings Icon</p>
+                                                        <field widget="image" name="setting_icon" class="col-12"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md-2 app_item">
+                                                    <div class="col-12 app_item_body">
+                                                        <p class="col-12 o_form_label mb-2">Apps Icon</p>
+                                                        <field widget="image" name="apps_icon" class="col-12"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md-2 app_item">
+                                                    <div class="col-12 app_item_body">
+                                                        <p class="col-12 o_form_label mb-2">Discuss Icon</p>
+                                                        <field widget="image" name="discuss_icon" class="col-12"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md-2 app_item">
+                                                    <div class="col-12 app_item_body">
+                                                        <p class="col-12 o_form_label mb-2">Website Icon</p>
+                                                        <field widget="image" name="website_icon" class="col-12"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md-2 app_item">
+                                                    <div class="col-12 app_item_body">
+                                                    <p class="col-12 o_form_label mb-2">Sales Icon</p>
+                                                    <field widget="image" name="sales_icon" class="col-12"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md-2 app_item">
+                                                    <div class="col-12 app_item_body">
+                                                    <p class="col-12 o_form_label mb-2">Invoicing Icon</p>
+                                                    <field widget="image" name="invoicing_icon" class="col-12"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-12 col-md-2 app_item">
+                                                    <div class="col-12 app_item_body">
+                                                    <p class="col-12 o_form_label mb-2">CRM Icon</p>
+                                                    <field widget="image" name="crm_icon" class="col-12"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md-2 app_item">
+                                                    <div class="col-12 app_item_body">
+                                                    <p class="col-12 o_form_label mb-2">MRP II Icon</p>
+                                                    <field widget="image" name="mrp_icon" class="col-12"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md-2 app_item">
+                                                    <div class="col-12 app_item_body">
+                                                    <p class="col-12 o_form_label mb-2">Inventory Icon</p>
+                                                    <field widget="image" name="inventory_icon" class="col-12"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md-2 app_item">
+                                                    <div class="col-12 app_item_body">
+                                                    <p class="col-12 o_form_label mb-2">Accounting Icon</p>
+                                                    <field widget="image" name="accounting_icon" class="col-12"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md-2 app_item">
+                                                    <div class="col-12 app_item_body">
+                                                    <p class="col-12 o_form_label mb-2">Purchase Icon</p>
+                                                    <field widget="image" name="purchase_icon" class="col-12"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md-2 app_item">
+                                                    <div class="col-12 app_item_body">
+                                                    <p class="col-12 o_form_label mb-2">Point of Sale Icon</p>
+                                                    <field widget="image" name="pos_icon" class="col-12"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-12 col-md-2 app_item">
+                                                    <div class="col-12 app_item_body">
+                                                    <p class="col-12 o_form_label mb-2">Project Icon</p>
+                                                    <field widget="image" name="project_icon" class="col-12"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md-2 app_item">
+                                                    <div class="col-12 app_item_body">
+                                                    <p class="col-12 o_form_label mb-2">eCommerce Icon</p>
+                                                    <field widget="image" name="ecommerce_icon" class="col-12"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md-2 app_item">
+                                                    <div class="col-12 app_item_body">
+                                                    <p class="col-12 o_form_label mb-2">Manufacturing Icon</p>
+                                                    <field widget="image" name="manufacturing_icon" class="col-12"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md-2 app_item">
+                                                    <div class="col-12 app_item_body">
+                                                    <p class="col-12 o_form_label mb-2">Email Marketing Icon</p>
+                                                    <field widget="image" name="email_marketing_icon" class="col-12"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md-2 app_item">
+                                                    <div class="col-12 app_item_body">
+                                                    <p class="col-12 o_form_label mb-2">Timesheets Icon</p>
+                                                    <field widget="image" name="timesheet_icon" class="col-12"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md-2 app_item">
+                                                    <div class="col-12 app_item_body">
+                                                        <p class="col-12 o_form_label mb-2">Expenses Icon</p>
+                                                        <field widget="image" name="expenses_icon" class="col-12"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-12 col-md-2 app_item">
+                                                    <div class="col-12 app_item_body">
+                                                        <p class="col-12 o_form_label mb-2">Studio Icon</p>
+                                                        <field widget="image" name="studio_icon" class="col-12"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md-2 app_item">
+                                                    <div class="col-12 app_item_body">
+                                                        <p class="col-12 o_form_label mb-2">Time Off Icon</p>
+                                                        <field widget="image" name="time_off_icon" class="col-12"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md-2 app_item">
+                                                    <div class="col-12 app_item_body">
+                                                        <p class="col-12 o_form_label mb-2">Recruitment Icon</p>
+                                                        <field widget="image" name="recruitment_icon" class="col-12"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md-2 app_item">
+                                                    <div class="col-12 app_item_body">
+                                                        <p class="col-12 o_form_label mb-2">Employees Icon</p>
+                                                        <field widget="image" name="employee_icon" class="col-12"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md-2 app_item">
+                                                    <div class="col-12 app_item_body">
+                                                        <p class="col-12 o_form_label mb-2">Maintenance Icon</p>
+                                                        <field widget="image" name="maintenance_icon" class="col-12"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md-2 app_item">
+                                                    <div class="col-12 app_item_body">
+                                                        <p class="col-12 o_form_label mb-2">Sign Icon</p>
+                                                        <field widget="image" name="sign_icon" class="col-12"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-12 col-md-2 app_item">
+                                                    <div class="col-12 app_item_body">
+                                                        <p class="col-12 o_form_label mb-2">Helpdesk Icon</p>
+                                                        <field widget="image" name="helpdesk_icon" class="col-12"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md-2 app_item">
+                                                    <div class="col-12 app_item_body">
+                                                        <p class="col-12 o_form_label mb-2">Subscriptions Icon</p>
+                                                        <field widget="image" name="subscriptions_icon" class="col-12"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md-2 app_item">
+                                                    <div class="col-12 app_item_body">
+                                                        <p class="col-12 o_form_label mb-2">Quality Icon</p>
+                                                        <field widget="image" name="quality_icon" class="col-12"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md-2 app_item">
+                                                    <div class="col-12 app_item_body">
+                                                        <p class="col-12 o_form_label mb-2">eLearning Icon</p>
+                                                        <field widget="image" name="elearning_icon" class="col-12"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md-2 app_item">
+                                                    <div class="col-12 app_item_body">
+                                                        <p class="col-12 o_form_label mb-2">Planning Icon</p>
+                                                        <field widget="image" name="planning_icon" class="col-12"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md-2 app_item">
+                                                    <div class="col-12 app_item_body">
+                                                        <p class="col-12 o_form_label mb-2">Data Cleaning Icon</p>
+                                                        <field widget="image" name="data_cleaning_icon" class="col-12"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-12 col-md-2 app_item">
+                                                    <div class="col-12 app_item_body">
+                                                        <p class="col-12 o_form_label mb-2">Events Icon</p>
+                                                        <field widget="image" name="events_icon" class="col-12"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md-2 app_item">
+                                                    <div class="col-12 app_item_body">
+                                                        <p class="col-12 o_form_label mb-2">Contacts Icon</p>
+                                                        <field widget="image" name="contacts_icon" class="col-12"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md-2 app_item">
+                                                    <div class="col-12 app_item_body">
+                                                        <p class="col-12 o_form_label mb-2">Product Lifecycle Management (PLM) Icon</p>
+                                                        <field widget="image" name="mrp_icon" class="col-12"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md-2 app_item">
+                                                    <div class="col-12 app_item_body">
+                                                        <p class="col-12 o_form_label mb-2">Calendar Icon</p>
+                                                        <field widget="image" name="calendar_icon" class="col-12"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md-2 app_item">
+                                                    <div class="col-12 app_item_body">
+                                                        <p class="col-12 o_form_label mb-2">Appraisal Icon</p>
+                                                        <field widget="image" name="appraisal_icon" class="col-12"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md-2 app_item">
+                                                    <div class="col-12 app_item_body">
+                                                        <p class="col-12 o_form_label mb-2">Products and Pricelists Icon</p>
+                                                        <field widget="image" name="products_icon" class="col-12"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-12 col-md-2 app_item">
+                                                    <div class="col-12 app_item_body">
+                                                        <p class="col-12 o_form_label mb-2">Fleet Icon</p>
+                                                        <field widget="image" name="fleet_icon" class="col-12"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md-2 app_item">
+                                                    <div class="col-12 app_item_body">
+                                                        <p class="col-12 o_form_label mb-2">Marketing Automation Icon</p>
+                                                        <field widget="image" name="marketing_automation_icon" class="col-12"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md-2 app_item">
+                                                    <div class="col-12 app_item_body">
+                                                        <p class="col-12 o_form_label mb-2">Live Chat Icon</p>
+                                                        <field widget="image" name="blogs_icon" class="col-12"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md-2 app_item">
+                                                    <div class="col-12 app_item_body">
+                                                        <p class="col-12 o_form_label mb-2">Live Chatx Icon</p>
+                                                        <field widget="image" name="live_chat_icon" class="col-12"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md-2 app_item">
+                                                    <div class="col-12 app_item_body">
+                                                        <p class="col-12 o_form_label mb-2">Appointments Icon</p>
+                                                        <field widget="image" name="appointments_icon" class="col-12"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md-2 app_item">
+                                                    <div class="col-12 app_item_body">
+                                                        <p class="col-12 o_form_label mb-2">Surveys Icon</p>
+                                                        <field widget="image" name="surveys_icon" class="col-12"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-12 col-md-2 app_item">
+                                                    <div class="col-12 app_item_body">
+                                                        <p class="col-12 o_form_label mb-2"> Android and iPhone Icon</p>
+                                                        <field widget="image" name="android_iphone_icon" class="col-12"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md-2 app_item">
+                                                    <div class="col-12 app_item_body">
+                                                        <p class="col-12 o_form_label mb-2">Dashboards Icon</p>
+                                                        <field widget="image" name="dashboards_icon" class="col-12"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md-2 app_item">
+                                                    <div class="col-12 app_item_body">
+                                                        <p class="col-12 o_form_label mb-2">Repairs Icon</p>
+                                                        <field widget="image" name="repairs_icon" class="col-12"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md-2 app_item">
+                                                    <div class="col-12 app_item_body">
+                                                        <p class="col-12 o_form_label mb-2">Attendances Icon</p>
+                                                        <field widget="image" name="attendance_icon" class="col-12"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md-2 app_item">
+                                                    <div class="col-12 app_item_body">
+                                                        <p class="col-12 o_form_label mb-2">SMS Marketing Icon</p>
+                                                        <field widget="image" name="sms_marketing_icon" class="col-12"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md-2 app_item">
+                                                    <div class="col-12 app_item_body">
+                                                        <p class="col-12 o_form_label mb-2">Barcode Icon</p>
+                                                        <field widget="image" name="barcode_icon" class="col-12"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-12 col-md-2 app_item">
+                                                    <div class="col-12 app_item_body">
+                                                        <p class="col-12 o_form_label mb-2">Notes Icon</p>
+                                                        <field widget="image" name="notes_icon" class="col-12"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md-2 app_item">
+                                                    <div class="col-12 app_item_body">
+                                                        <p class="col-12 o_form_label mb-2">Forum Icon</p>
+                                                        <field widget="image" name="forum_icon" class="col-12"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md-2 app_item">
+                                                    <div class="col-12 app_item_body">
+                                                        <p class="col-12 o_form_label mb-2">Skills Management Icon</p>
+                                                        <field widget="image" name="skills_management_icon" class="col-12"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md-2 app_item">
+                                                    <div class="col-12 app_item_body">
+                                                        <p class="col-12 o_form_label mb-2">VoIP Icon</p>
+                                                        <field widget="image" name="voip_icon" class="col-12"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md-2 app_item">
+                                                    <div class="col-12 app_item_body">
+                                                        <p class="col-12 o_form_label mb-2">Lunch Icon</p>
+                                                        <field widget="image" name="lunch_icon" class="col-12"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md-2 app_item">
+                                                    <div class="col-12 app_item_body">
+                                                        <p class="col-12 o_form_label mb-2">Online Jobs Icon</p>
+                                                        <field widget="image" name="online_jobs_icon" class="col-12"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-12 col-md-2 app_item">
+                                                    <div class="col-12 app_item_body">
+                                                        <p class="col-12 o_form_label mb-2">Members Icon</p>
+                                                        <field widget="image" name="members_icon" class="col-12"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </xpath>
+
+                </data>
+            </field>
+        </record>
+
+    </data>
+</odoo>

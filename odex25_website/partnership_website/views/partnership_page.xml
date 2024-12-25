@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template id="partners_page" name="Partners">
+        <t t-call="website.layout">
+            <!-- Internal Styles -->
+            <link rel="stylesheet" href="/partnership_website/static/src/css/material_icon/materialdesignicons.css" />
+            <link rel="stylesheet" href="/partnership_website/static/src/css/style.css"/>
+            <!-- <script src="/socpa_employee_portal_websites/static/src/js/ads_script.js"></script> -->
+            <div class="oe_structure"/>
+            <div id="wrap">
+                <section class="container-fluid page-container">
+                    <div class="row">
+                        <div class="col-md-12 wrap-body">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-md-12 page-header">
+                                        <h1>Our Partners</h1>
+                                        <p>Expert A limited liability company with cadres with distinguished experience working in several fields serving information and communication technology and with a steady and renewed pace that proceeds to draw its vision within sublime standards and values that advance its services with distinguished and international expertise to keep pace with the desire and needs of its customers.</p>
+                                    </div>
+                                    <div class="col-md-12 partner-container">
+                                        <t t-if="lists">
+                                            <t t-foreach="lists" t-as="item">
+                                                <div class="col-md-3 partner-card">
+                                                    <div class="col-md-12 partner-body">
+                                                        <div class="col-md-12 partner-logo">
+                                                            <img t-att-src="'data:image/png;base64,'+item.logo.decode('utf-8')" />
+                                                        </div>
+                                                        <div class="col-md-12 partner-content">
+                                                            <h3 t-esc="item.name"/>
+                                                            <p t-esc="item.description"/>
+                                                        </div>
+                                                        <div class="col-md-12 partner-link">
+                                                            <a t-att-href="item.url" target="_blank">
+                                                                <i class="mdi mdi-arrow-top-right-thin-circle-outline"></i>
+                                                                <span>Company Website</span>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </t>
+                                        </t>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </t>
+    </template>
+</odoo>

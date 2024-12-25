@@ -1,0 +1,61 @@
+<odoo>
+    <data>
+        <record id="family_validation_form" model="ir.ui.view">
+            <field name="name">family.validation.setting.form</field>
+            <field name="model">family.validation.setting</field>
+            <field name="arch" type="xml">
+                <form string="Family Validation Setting">
+                    <sheet>
+                        <group>
+                             <group>
+                                <field name="male_benefit_age"/>
+                                <field name="female_benefit_age"/>
+                                <field name="exceptional_age_scientific_specialty"/>
+                                <field name="exceptional_age_medical_specialty"/>
+                            </group>
+                            <group>
+                                <field name="max_income_for_benefit"/>
+                                <field name="max_income_for_mother"/>
+                                <field name="mini_income_for_mother"/>
+                                <field name="exceptional_age_has_disabilities"/>
+                                <field name="minor_siblings_age"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="cash_expense"/>
+                                <field name="meal_expense"/>
+                                <field name="clothing_expense"/>
+                            </group>
+                            <group>
+                                <field name="cash_expense_account_id"/>
+                                <field name="meal_expense_account_id"/>
+                                <field name="clothing_expense_account_id"/>
+                            </group>
+                        </group>
+                        <group>
+                            <field name="meal_partner_id"/>
+                        </group>
+                        <group>
+                            <field name="benefit_category_ids" widget="many2many_tags"/>
+                            <field name="journal_id"/>
+                            <field name="account_id" string="Service Payment Account"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="family_validation_tree" model="ir.ui.view">
+            <field name="name">family.validation.setting.tree</field>
+            <field name="model">family.validation.setting</field>
+            <field name="arch" type="xml">
+                <tree string="Family Validation Setting">
+                    <field name="male_benefit_age"/>
+                    <field name="female_benefit_age"/>
+                    <field name="max_income_for_benefit"/>
+                    <field name="max_income_for_mother"/>
+                </tree>
+            </field>
+        </record>
+    </data>
+</odoo>

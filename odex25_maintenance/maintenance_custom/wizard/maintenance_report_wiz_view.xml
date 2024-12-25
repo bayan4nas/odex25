@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="maintenance_report_wiz_view" model="ir.ui.view">
+        <field name="name">maintenance.report.wiz.form</field>
+        <field name="model">maintenance.report.wiz</field>
+        <field name="arch" type="xml">
+            <form string="Maintenance Reports">
+                <group>
+                    
+                    <group>
+                        
+                        <field name="time_from" />
+                        <field name="category_ids" widget="many2many_tags" attrs="{'invisible':[('report_type','not in', ['general'])]}"/>
+                        <field name="spare_categ_ids" widget="many2many_tags" attrs="{'invisible':[('report_type','not in', ['spare'])]}" />
+                        <field name="failure_ids" widget="many2many_tags" attrs="{'invisible':[('report_type','not in', ['general'])]}" />
+                        <field name="user_ids" widget="many2many_tags" attrs="{'invisible':[('report_type','not in', ['general'])]}" />
+                        <field name="spare_ids" widget="many2many_tags" attrs="{'invisible':[('report_type', 'in', ['team'])]}"/>
+                        <field name="department_ids" widget="many2many_tags" attrs="{'invisible':[('report_type','not in', ['team'])]}" />
+                        <field name="machine_status" attrs="{'invisible':[('report_type','not in', ['general' ,'equipment'])]}"  />
+                    </group>
+                    <group>
+                        <field name="time_to" />
+                        <field name="employee_ids" widget="many2many_tags" attrs="{'invisible':[('report_type','not in', ['general', 'team'])]}" />
+                        <field name="equipment_ids" widget="many2many_tags" attrs="{'invisible':[('report_type','in', ['team'])]}"/>
+                        <field name="team_type" attrs="{'invisible':[('report_type','not in', ['general'])]}" />
+                        <field name="report_type" invisible="1"  />
+                    </group>
+                </group>
+                <footer>
+                    <button name="print_report" type="object" string="Print" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_maintenance_report_wiz" model="ir.actions.act_window">
+        <field name="name">General Maintenance Reports</field>
+        <field name="res_model">maintenance.report.wiz</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="context">{'default_report_type' : 'general'}</field>
+    </record>
+
+    <record id="action_spare_report_wiz" model="ir.actions.act_window">
+        <field name="name">Spare Parts Reports</field>
+        <field name="res_model">maintenance.report.wiz</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="context">{'default_report_type' : 'spare'}</field>
+    </record>
+
+
+    <record id="action_equipment_report_wiz" model="ir.actions.act_window">
+        <field name="name">Equipment Reports</field>
+        <field name="res_model">maintenance.report.wiz</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="context">{'default_report_type' : 'equipment'}</field>
+    </record>
+
+    <record id="action_team_report_wiz" model="ir.actions.act_window">
+        <field name="name">Teams Reports</field>
+        <field name="res_model">maintenance.report.wiz</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="context">{'default_report_type' : 'team'}</field>
+    </record>
+
+
+    <menuitem 
+        action="action_maintenance_report_wiz" 
+        id="maintenance_report_menu" 
+        name="Maintenance Reports"
+        parent="maintenance.maintenance_reporting"
+    />
+
+    <menuitem 
+        action="action_spare_report_wiz" 
+        id="spare_report_menu" 
+        name="Spare Parts Reports"
+        parent="maintenance.maintenance_reporting"
+    />
+
+    <menuitem 
+        action="action_equipment_report_wiz" 
+        id="equipment_report_menu" 
+        name="Equipment Reports"
+        parent="maintenance.maintenance_reporting"
+    />
+
+    <menuitem 
+        action="action_team_report_wiz" 
+        id="team_report_menu" 
+        name="Maintenance Team Reports"
+        parent="maintenance.maintenance_reporting"
+    />
+
+</odoo>

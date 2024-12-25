@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="system_dashboard_classic.dashboard">
+        <!--View-->
+        <div class="container-fluid dashboard-container">
+            <div class="row">
+                <div class="col-md-12 col-sm-12 col-12  dashboard-header">
+                    <div class="col-md-2 col-sm-12 col-12  dashboard-user-data-section">
+                        <div class="col-md-12 col-sm-12 col-12 profile-container">
+                            <div class="col-md-12 col-sm-12 col-12 pp-image-section">
+                                <div class="img-box"/>
+                            </div>
+                            <div class="col-md-12 col-sm-12 col-12 info-section">
+                                <p class="fn-section"/>
+                                <p class="fn-job"/>
+                                <p class="fn-id"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-10 col-sm-12 col-12 dashboard-user-statistics-section" id="main-cards">
+                        <div class="col-md-10 col-sm-12 col-12 dashboard-charts-section">
+                            <div class="charts-over-layer">
+                                <div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+                            </div>
+                            <div class="col-md-12 col-sm-12 col-12 dashboard-module-charts" style="padding:0;">
+                                <div class="col-md-4 col-sm-6 col-12 module-box" id="leave-section">
+                                    <div class="col-md-12 module-box-container">
+                                        <p>
+                                            <span>
+                                                <i class="fa fa-circle"/> <span class="leave-total-amount"></span>
+                                            </span>
+                                        </p>
+                                        <p>
+                                            <span>
+                                                <i class="fa fa-circle"/> <span class="leave-left-amount"></span>
+                                            </span>
+                                        </p>
+                                        <div id="chartContainer"></div>
+                                        <h4 class="leave-data-percent"></h4>
+                                        <h3>Annual Leave</h3>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-6 col-12 module-box" id="salary-section">
+                                    <div class="col-md-12 col-sm-12 col-12 module-box-container">
+                                        <p>
+                                            <span>
+                                                <i class="fa fa-circle"/> <span class="payroll-total-amount"></span>
+                                            </span>
+                                        </p>
+                                        <p>
+                                            <span>
+                                                <i class="fa fa-circle"/> <span class="payroll-left-amount"></span>
+                                            </span>
+                                        </p>
+                                        <div id="chartPaylips"></div>
+                                        <h4 class="payroll-data-percent"></h4>
+                                        <h3>Salary Slips</h3>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-6 col-12 module-box" id="timesheet-section">
+                                    <div class="col-md-12 col-sm-12 col-12 module-box-container">
+                                        <p>
+                                            <span>
+                                                <i class="fa fa-circle"/> <span class="timesheet-total-amount"></span>
+                                            </span>
+                                        </p>
+                                        <p>
+                                            <span>
+                                                <i class="fa fa-circle"/> <span class="timesheet-total-amount"></span>
+                                            </span>
+                                        </p>
+                                        <div id="chartTimesheet"></div>
+                                        <h4 class="timesheet-data-percent"></h4>
+                                        <h3>Weekly Timesheet</h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-sm-12 col-12 dashboard-attendance-section">
+                            <div class="charts-over-layer">
+                                <div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+                            </div>
+                            <div class="col-md-12 col-sm-12 col-12 attendance-section-body">
+                                <h3>Attendance</h3>
+                                <p class="last-checkin-section"/>
+                                <p class="attendance-img-section"/>
+                                <!--p class="attendance-button-section">
+                                    <button type="button" id="check_button" class="btn btn-danger"></button>
+                                </p-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 col-sm-12 col-12 tabs-container dashboard-body">
+                    <div class="col-md-12 col-sm-12 col-12 dashboard-nav-buttons">
+                        <ul class="nav nav-tabs">
+                            <li class="nav-item" role="presentation"><a href="#general" class="nav-link active" aria-controls="general" role="tab" data-toggle="tab">To Approve</a></li>
+                            <li class="nav-item" role="presentation"><a href="#details" class="nav-link" aria-controls="detials" role="tab" data-toggle="tab">To Track</a></li>
+                        </ul>
+                        <hr/>
+                    </div>
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane fade show active" id="general">
+                            <div class="col-md-12 col-12 d-flex flex-wrap card-section1" style="padding: 0 15px;"></div>
+                        </div>
+                        <div role="tabpanel" class="tab-pane fade" id="details">
+                            <div class="col-md-12 col-sm-12 col-12 d-flex flex-wrap card-section" style="padding: 0 15px;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+</templates>

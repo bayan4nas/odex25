@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- project form view inherit -->
+    <record id="project_project_financial_form" model="ir.ui.view">
+        <field name="name">project.project.form</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project_base.view_edit_project_inherit_form"/>
+        <field name="arch" type="xml">
+            <div class="oe_button_box" position="inside">
+                <button class="oe_stat_button" type="object"
+                        name="action_view_budget" string="Budget" icon="fa-balance-scale">
+                </button>
+            </div>
+            <xpath expr="//page[@name='invoice']" position="after">
+                <page name="financial" string="Financials">
+                    <group>
+                        <group string="Bill Info">
+                            <field name="sale_order_amount" string="Contract Amount" readonly="0"/>
+                            <field name="total_invoiced_amount" string="Billed Amount"/>
+                            <field name="total_invoiced_payment" string="Received Amount"/>
+                            <!-- <field name="back_log_amount" string="Remaining of Contract"/> -->
+                        </group>
+                        <group string="Cost Info" attrs="{'invisible': [('man_hours','=',True)]}">
+                            <field name="project_cost"/>
+                            <field name="project_hours_cost"/>
+                            <field name="project_total_cost"/>
+                            <field name="gross_amount" style="font-size:20pt;" decoration-danger="gross_amount &lt; 0.0" decoration-success="gross_amount &gt; 0.0"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+            <xpath expr="//field[@name='active']" position="after">
+<!--                <field name="resource_calendar_id" attrs="{'readonly':[('state','not in','draft')]}"/>-->
+<!--                <field name="type" attrs="{'readonly':[('state','not in','draft')]}"/>-->
+            </xpath>
+            <xpath expr="//group[1]/group[1]" position="before">
+                <field name="ready_budget" invisible="1"/>
+                <div attrs="{'invisible': [('ready_budget', '=', True)]}">
+                    <span attrs="{'invisible': ['|','|',('ready_budget', '=', True),('project_phase_ids','!=',[]),('id','=',False)]}" class="badge badge-warning">
+                        The Project Budget Must be Approved First in order to Enter Stages
+                    </span>
+                </div>
+            </xpath>
+            <xpath expr="//field[@name='project_phase_ids']" position="attributes">
+                <attribute name="attrs">{'readonly':['|',('state','not in',['draft','confirm']),('ready_budget','!=',True)]}</attribute>
+            </xpath>
+        </field>
+    </record>
+
+
+    <!--Tree and form view for Project Budget Custom-->
+    <record id="project_budget_view_tree" model="ir.ui.view">
+        <field name="name">project_budget_view_tree</field>
+        <field name="model">crossovered.budget</field>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <tree string="project_budget_tree">
+                <field name="name"/>
+                <field name="date_from"/>
+                <field name="date_to"/>
+                <field name="user_id"/>
+                <field name="project_id"/>
+                <field name="sale_order_id"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="crossovered_budget_line_log_tree" model="ir.ui.view">
+        <field name="name">crossovered.budget.line.log</field>
+        <field name="model">crossovered.budget.lines</field>
+        <field name="arch" type="xml">
+            <tree string="Budget Lines">
+                <field name="general_budget_id"/>
+                <field name="analytic_account_id" groups="analytic.group_analytic_accounting"/>
+                <field name="date_from"/>
+                <field name="date_to"/>
+                <field name="qty" string="Qty"/>
+                <field name="amount" string="Unit Cost"/>
+                <field name="project_planned_amount" sum="Budget Amount"/>
+                <field name="practical_amount" sum="Practical Amount"/>
+                <field name="remain" sum="remain" invisible="1"/>
+                <field name="project_remaining_amount" sum="project_remain"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="crossovered_budget_line_log_form" model="ir.ui.view">
+        <field name="name">crossovered.budget.line.log</field>
+        <field name="model">crossovered.budget.lines</field>
+        <field name="arch" type="xml">
+            <form string="Budget Lines" create="0" edit="0">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="currency_id" invisible="1"/>
+                            <field name="general_budget_id" string="Budget Item"/>
+                            <field name="project_planned_amount" force_save="1"/>
+                            <field name="analytic_account_id"
+                                   domain="['|', ('company_id', '=', parent.company_id), ('company_id', '=', False)]"
+                                   groups="analytic.group_analytic_accounting"/>
+                            <field name="project_id"/>
+                        </group>
+                        <group>
+                            <field name="date_from" />
+                            <field name="date_to" />
+                        </group>
+                    </group>
+                </sheet>
+                <!-- Chatter -->
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" groups="base.group_user"/>
+                        <field name="message_ids"/>
+                    </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="project_budget_custom_form" model="ir.ui.view">
+        <field name="name">project_budget_custom.form</field>
+        <field name="model">crossovered.budget</field>
+        <field name="inherit_id" ref="odex25_account_budget.crossovered_budget_view_form"/>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='action_budget_confirm'][1]" position="attributes">
+                <attribute name="groups">project.group_project_manager</attribute>
+            </xpath>
+            <xpath expr="//button[@name='action_budget_validate']" position="attributes">
+                <attribute name="groups">project_base.group_project_department_manager</attribute>
+            </xpath>
+            <xpath expr="//button[@name='action_budget_done']" position="after">
+                <button string="Edit" name="action_budget_edit" states="done" type="object"
+                        groups="project.group_project_manager" confirm="Are you sure you want to edit the Budget?"/>
+            </xpath>
+            <xpath expr="//button[@name='action_budget_done']" position="attributes">
+                <attribute name="groups">account.group_account_manager</attribute>
+            </xpath>
+            <xpath expr="//field[@name='state']" position="replace">
+                <field name="state" widget="statusbar" statusbar_visible="draft,confirm,validate,done"/>
+            </xpath>
+            <xpath expr="//label[@for='date_from']" position="replace">
+            </xpath>
+            <xpath expr="//form/sheet/group[1]/group[2]/div" position="replace">
+                    <field name="date_from" class="oe_inline" attrs="{'readonly':[('state','!=','draft')]}"/>
+                    <field name="date_to" class="oe_inline" attrs="{'readonly':[('state','!=','draft')]}"/>
+            </xpath>
+            <xpath expr="//field[@name='company_id']" position="after">
+                <field name="analytic_account_id"/>
+            </xpath>
+            <xpath expr="//form/sheet/div[1]" position="before">
+                <div class="oe_button_box" name="button_box">
+                    <button name="open_sale_order" type="object" class="oe_stat_button" icon="fa-money">
+                            <field name="sale_order_id" widget="statinfo" string="Sale Order"/>
+                    </button>
+                </div>
+            </xpath>
+            <!-- <xpath expr="//field[@name='fiscalyear_id']" position="attributes">
+                <attribute name="required">0</attribute>
+                <attribute name="invisible">1</attribute>
+            </xpath> -->
+            <xpath expr="//label[@for='name']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='name']" position="attributes">
+                <attribute name="required">0</attribute>
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='user_id']" position="after">
+                <field name="project_id" required='1' attrs="{'readonly':[('state','!=','draft')]}"/>
+                <field name="project_no"/>
+                <field name="project_user_id"/>
+                <field name="man_hours" invisible="1"/>
+                <!-- <field name="fiscalyear_id" required="0" invisible="1"/> -->
+                <field name="sale_order_amount"/>
+            </xpath>
+            <xpath expr="//field[@name='crossovered_budget_line']" position="replace">
+                <!-- type Man hours -->
+<!--                <field name="crossovered_budget_line" attrs="{'invisible':[('man_hours','=', False)]}"></field>-->
+                <separator string="Man-Hours" attrs="{'invisible':[('man_hours','=',False)]}"/>
+                <field name="hour_line_ids"
+                       context="{'default_date_from': date_from,'default_date_to': date_to,'default_analytic_account_id':analytic_account_id,'default_crossovered_budget_id':id}"
+                       widget="section_and_note_one2many" attrs="{'readonly':[('state','!=','draft')],'invisible':[('man_hours','=',False)]}">
+                    <tree string="Budget Lines" editable="bottom">
+                        <field name="general_budget_id" string="Budget Item"
+                               required="1"
+                               domain="[('is_timesheet_hours', '=', True)]"/>
+                        <field name="analytic_account_id"
+                               invisible="1"
+                               domain="['|', ('company_id', '=', False), ('company_id', '=', parent.company_id)]"
+                               groups="analytic.group_analytic_accounting"/>
+                        <field name="date_from" />
+                        <field name="date_to" />
+                        <field name="currency_id" invisible="1"/>
+                        <field name="qty" string="Hours"/>
+                        <field name="amount" string="Hour Cost"/>
+                        <field name="planned_amount" sum="Planned Amount" readonly="1" force_save="1" invisible="1"/>
+                        <field name="project_planned_amount" sum="Budget Hours" string="Budget Hours" readonly="1" force_save="1"/>
+                        <field name="timesheet_hours" sum="Timesheet hours" readonly="1" force_save="1"/>
+                        <field name="practical_amount" string="Actual Amount" sum="Actual Amount" force_save="1"/>
+                        <field name="remain" sum="remain" invisible="1"/>
+                        <field name="project_remaining_amount" sum="project_remain"/>
+                        <button type="object" name="open_line" string="Log"
+                                icon="fa-list"/>
+                    </tree>
+                    <form string="Budget Lines">
+                        <group>
+                            <group>
+                                <field name="currency_id" invisible="1"/>
+                                <field name="general_budget_id" string="Budget Item"/>
+                                <field name="planned_amount" force_save="1" invisible="1"/>
+                                <field name="project_planned_amount" readonly="1" force_save="1"/>
+                                <field name="analytic_account_id"
+                                       domain="['|', ('company_id', '=', parent.company_id), ('company_id', '=', False)]"
+                                       groups="analytic.group_analytic_accounting"/>
+                                <field name="project_id"/>
+                            </group>
+                            <group>
+                                <label for="date_from" string="Period"/>
+                                <div>
+                                    <field name="date_from" class="oe_inline"/>
+                                    -
+                                    <field name="date_to" class="oe_inline"/>
+                                </div>
+                                <field name="company_id" options="{'no_create': True}"
+                                       groups="base.group_multi_company"/>
+                            </group>
+                        </group>
+                    </form>
+                </field>
+                <!-- type Other Expensess -->
+                <separator string="Others Expensess" />
+                <field name="expensess_line_ids"
+                       context="{'default_date_from': date_from,'default_date_to': date_to,'default_analytic_account_id':analytic_account_id,'default_crossovered_budget_id':id}"
+                       widget="section_and_note_one2many" attrs="{'readonly':[('state','!=','draft')],}">
+                    <tree string="Budget Lines" editable="bottom">
+                        <field name="general_budget_id" string="Budget Item"
+                               required="1"
+                               domain="[('is_timesheet_hours', '=', False)]"/>
+                        <field name="analytic_account_id"
+                               invisible="1"
+                               domain="['|', ('company_id', '=', False), ('company_id', '=', parent.company_id)]"
+                               groups="analytic.group_analytic_accounting"/>
+                        <field name="date_from" />
+                        <field name="date_to"/>
+                        <field name="currency_id" invisible="1"/>
+                        <field name="qty" string="Percentage"/>
+                        <field name="amount" string="Project Amount"/>
+                        <field name="planned_amount" sum="Planned Amount" readonly="1" force_save="1" invisible="1"/>
+                        <field name="project_planned_amount" sum="Budget Amount" readonly="1" force_save="1"/>
+                        <field name="practical_amount" string="Actual Amount" sum="Actual Amount"/>
+                        <field name="remain" sum="remain" invisible="1"/>
+                        <field name="project_remaining_amount" sum="project_remain"/>
+                        <button type="object" name="open_line" string="Log"
+                                icon="fa-list"/>
+                    </tree>
+                    <form string="Budget Lines">
+                        <group>
+                            <group>
+                                <field name="currency_id" invisible="1"/>
+                                <field name="general_budget_id" string="Budget Item"/>
+                                <field name="planned_amount" force_save="1" invisible="1"/>
+                                <field name="project_planned_amount" sum="Budget Amount" readonly="1" force_save="1"/>
+                                <field name="analytic_account_id"
+                                       domain="['|', ('company_id', '=', parent.company_id), ('company_id', '=', False)]"
+                                       groups="analytic.group_analytic_accounting"/>
+                                <field name="project_id"/>
+                            </group>
+                            <group>
+                                <label for="date_from" string="Period"/>
+                                <div>
+                                    <field name="date_from" class="oe_inline"/>
+                                    -
+                                    <field name="date_to" class="oe_inline"/>
+                                </div>
+                                <field name="company_id" options="{'no_create': True}"
+                                       groups="base.group_multi_company"/>
+                            </group>
+                        </group>
+                    </form>
+                </field>
+
+                <group>
+                    <label for="projected_profit" class="oe_inline"/>
+                    <div>
+                        <field name="projected_profit" class="oe_inline"/>
+                    </div>
+                </group>
+                <group class="oe_subtotal_footer oe_right" name="budget_total">
+                    <field name="total_budget_cost" class="oe_subtotal_footer_separator"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <!--Tree and form view for Account Budget Post Custom-->
+    <record id="project_budget_post_form" model="ir.ui.view">
+        <field name="name">budgetary.positions.form</field>
+        <field name="model">account.budget.post</field>
+        <field name="inherit_id" ref="odex25_account_budget.view_budget_post_form"/>
+        <field name="arch" type="xml">
+            <field name="company_id"/>
+            <xpath expr="//field[@name='company_id']" position="after">
+                <field name="is_timesheet_hours" widget="boolean_toggle"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!--Project Budget Custom Action-->
+    <record model="ir.actions.act_window" id="project_budget_custom_action">
+        <field name="name">Budgets</field>
+        <field name="res_model">crossovered.budget</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('project_id','!=',False)]</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+        (0, 0, {'view_mode': 'tree','view_id':ref('project_budget.project_budget_view_tree')}),
+            (0, 0, {'view_mode': 'form', 'view_id': ref('project_budget.project_budget_custom_form')})]"/>
+    </record>
+
+
+    <record id="crossovered_budget_line_project_pivot" model="ir.ui.view">
+        <field name="name">project_budget_view_pivot</field>
+        <field name="model">crossovered.budget.lines</field>
+        <field name="arch" type="xml">
+        <pivot string="Budget Lines" sample="1">
+                <field name="general_budget_id" string="Budget Item" type="row"/>
+                <field name="project_planned_amount" type="measure" string="Budget Amount"/>
+                <field name="practical_amount" type="measure" string="Actual Amount"/>
+            </pivot>
+        </field>
+    </record>
+
+
+
+    <!--Project Budget Menu-->
+    <menuitem id="project_budget_custom_main_menu" name="Budgets"
+              parent="project.menu_main_pm" groups="account.group_account_manager,project.group_project_manager,project_base.group_project_department_manager" action="project_budget_custom_action" sequence="2"/>
+<!--     <menuitem id="project_budget_custom_menu" name="Budgets"
+              parent="project_budget_custom_main_menu"
+              action="project_budget_custom_action" sequence="1"/>
+ -->
+
+</odoo>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="certificates_settings">
+        <t t-set="title"> اعدادات شهادات  كفالاتي </t>
+        <t t-call="website.layout">
+            <div class="benifits_wrapper">
+                <div class="container">
+                    <h2 class="heading"> الاعدادات </h2>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="#"> الاعدادات </a></li>
+                            <li class="breadcrumb-item active" aria-current="page"> اعدادات شهادات كفالاتى </li>
+                        </ol>
+                    </nav>
+                    <div class="user_reg_form notification_wrapper">
+                        <div class="form_wrapper">
+                            
+                            <form method="post" action="/portal/sponsor/certificate_setting/update" class="notification_form" id="certificate_settings_form">
+                                <div class="row">
+                                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                    <div class="col-lg-12">
+                                        <div class="mb-4">
+                                            <h5>اعدادات شهادات كفالاتى </h5>
+                                            <div class="form-group flex-row">
+                                                <input type="checkbox"  name="name_in_certificate"/>
+                                                <label for="name_in_certificate"> اظهار أسماء المكفولين في الشهادة </label>
+                                            </div>
+                                            <div class="form-group flex-row">
+                                                <input type="checkbox" name="type_in_certificate"/>
+                                                <label for="type_in_certificate">اظهار نوع  المكفولين في الشهادة </label>
+                                            </div>
+                                            <div class="form-group flex-row">
+                                                <input type="checkbox" name="duration_in_certificate"/>
+                                                <label for="duration_in_certificate">   اظهار مدة الكفالة  في الشهادة   </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                                <div class="submit  mb-3">
+                                    <button id="certificate_update" type="submit"> حفظ التعديلات </button>
+                                </div>
+                                <div class="certificate_setting_feedback"></div>
+        
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <link rel="stylesheet" href="/takaful_portal_sponsor/static/css/notifications.css" />
+            <script src="/takaful_portal_sponsor/static/js/certification_settings.js"></script>
+
+        </t>
+
+    </template>
+
+
+</odoo>

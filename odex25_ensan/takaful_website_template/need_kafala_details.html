@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home Page | الصفحة الرئيسية </title>
+
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/datatables.min.css" />
+    <link rel="stylesheet" href="css/fontawesome-all.min.css" />
+    <link rel="stylesheet" href="css/style.css" />
+
+
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <img src="imgs/logo.png" alt="logo" />
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">الرئيسية <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            عن الجمعية
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="#">Action</a>
+                            <a class="dropdown-item" href="#">Another action</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">Something else here</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            تواصل معنا
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="#">Action</a>
+                            <a class="dropdown-item" href="#">Another action</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">Something else here</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            المتجر
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="#">Action</a>
+                            <a class="dropdown-item" href="#">Another action</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">Something else here</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            الحكومة
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="#">Action</a>
+                            <a class="dropdown-item" href="#">Another action</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">Something else here</a>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">الكفالات</a>
+                    </li>
+                </ul>
+                <div class="nav_actions d-flex align-items-center">
+                    <div class="search">
+                        <span>
+                            <img src="imgs/search.png" alt="search" />
+                        </span>
+                    </div>
+                    <div class="login">
+                        <img src="imgs/user.png" alt="user" />
+                        <a href="#"> تسجيل الدخول </a>
+                    </div>
+                    <span class="separator">
+                        <img src="imgs/separator.png" alt="">
+                    </span>
+                    <div class="cart">
+                        <a href="#">
+                            <img src="imgs/shopping-cart.png" alt="cart" />
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <section class="my_details padding_top">
+        <div class="container">
+            <h2 class="heading">بحاجة الى كفالة </h2>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#"> الكفالات</a></li>
+                    <li class="breadcrumb-item"><a href="#">ايتام بانتظار كفاله </a></li>
+                    <li class="breadcrumb-item active" aria-current="page">اليتيم أحمد عبدالله</li>
+                </ol>
+            </nav>
+            <section class="makfoul_data">
+                <div class="row">
+                    <div class="col-lg-9">
+                        <div class="data_wrapper d-flex flex-lg-wrap">
+                            <div class="right_part ">
+                                <div class="header">
+                                    <img src="imgs/document.png" alt="document" />
+                                    <span>بيانات اليتيم </span>
+                                </div>
+                                <div class="data_content">
+                                    <ul class="p-0 list-unstyled">
+                                        <li class="d-flex align-items-center">
+                                            <h5>الاسم</h5>
+                                            <span>احمد عبدالله محمد</span>
+                                        </li>
+                                        <li class="d-flex align-items-center">
+                                            <h5>الجنس</h5>
+                                            <span> ذكر </span>
+                                        </li>
+                                        <li class="d-flex align-items-center">
+                                            <h5>السن </h5>
+                                            <span> 10 </span>
+                                        </li>
+                                        <li class="d-flex align-items-center">
+                                            <h5>المدينة </h5>
+                                            <span> الرياض </span>
+                                        </li>
+                                        <li class="d-flex align-items-center">
+                                            <h5>رقم اليتيم </h5>
+                                            <span> 510 </span>
+                                        </li>
+                                        <li class="d-flex align-items-center">
+                                            <h5>نوع الحالة </h5>
+                                            <span> يتيم الابوين </span>
+                                        </li>
+                                    </ul>
+
+                                </div>
+
+                            </div>
+                            <div class="left_part ">
+                                <div class="header">
+                                    <img src="imgs/file.png" alt="file" />
+                                    <span> بيانات شخصية و إجتماعية </span>
+                                </div>
+                                <div class="data_content">
+                                    <ul class="p-0 list-unstyled">
+                                        <li class="d-flex align-items-center">
+                                            <h5>العائل الحالي</h5>
+                                            <span> الأخ </span>
+                                        </li>
+                                        <li class="d-flex align-items-center">
+                                            <h5>حالة السكن </h5>
+                                            <span> ايجار </span>
+                                        </li>
+                                        <li class="d-flex align-items-center">
+                                            <h5>التعليم </h5>
+                                            <span> جيد </span>
+                                        </li>
+                                        <li class="d-flex align-items-center">
+                                            <h5>المرحلة الدراسية </h5>
+                                            <span> الابتدائية </span>
+                                        </li>
+                                        <li class="d-flex align-items-center">
+                                            <h5>رقم اليتيم </h5>
+                                            <span> 510 </span>
+                                        </li>
+                                        <li class="d-flex align-items-center">
+                                            <h5>نوع الحالة </h5>
+                                            <span> يتيم الابوين </span>
+                                        </li>
+                                    </ul>
+
+                                </div>
+
+                            </div>
+                        </div>
+                        <div style="border-radius: 0;" class="data_wrapper d-flex flex-lg-wrap">
+                            <div class="right_part " style="flex-basis: 100%;">
+                                <div class="header">
+                                    <img src="imgs/document.png" alt="document" />
+                                    <span>بيانات المكفول</span>
+                                </div>
+                                <div class="data_content">
+                                    <ul class="p-0 list-unstyled">
+                                        <li class="d-flex align-items-center">
+                                            <h5>الاسم</h5>
+                                            <span>احمد عبدالله محمد</span>
+                                        </li>
+                                        <li class="d-flex align-items-center">
+                                            <h5>الجنس</h5>
+                                            <span> ذكر </span>
+                                        </li>
+                                        <li class="d-flex align-items-center">
+                                            <h5>السن </h5>
+                                            <span> 10 </span>
+                                        </li>
+                                        <li class="d-flex align-items-center">
+                                            <h5>المدينة </h5>
+                                            <span> الرياض </span>
+                                        </li>
+                                        <li class="d-flex align-items-center">
+                                            <h5>رقم اليتيم </h5>
+                                            <span> 510 </span>
+                                        </li>
+                                        <li class="d-flex align-items-center">
+                                            <h5>نوع الحالة </h5>
+                                            <span> يتيم الابوين </span>
+                                        </li>
+                                    </ul>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="actions">
+                            <a href="#" class="d-flex align-items-center justify-content-center " data-toggle="modal" data-target="#SingleKafala">
+                                <img src="imgs/Icon awesome-plus.png" alt="add" />
+                                <span>  إنشاء كفالة   </span>
+                            </a>
+                            <a href="#" class="d-flex align-items-center justify-content-center ">
+                                <img src="imgs/gift_1.png" alt="gift" />
+                                <span>إهداء مالي</span>
+                            </a>
+
+                            <a href="#" class="d-flex align-items-center justify-content-center ">
+                                <img src="imgs/helping.png" alt="helping" />
+                                <span> ساهم في الاحتياجات </span>
+                            </a>
+
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </section>
+
+        <!-- Single Kafala Modal  -->
+
+        <div class="modal kafala_modal single_kafala fade" id="SingleKafala" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title heading" id="exampleModalLongTitle">إنشاء كفالة </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <img src="imgs/close.png" alt="close" />
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="">
+                        <div class="row">
+                            <div class="form-group col-lg-6">
+                                <label for="work" class="control-label"> اسم المكفول   </label>
+                                <div class="">
+                                    <input type="text" class="form-control" id="work" name="work"
+                                        placeholder="كما موضح في بطاقة الهوية">
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-6">
+                                <label for="work" class="control-label"> رقم المكفول   </label>
+                                <div class="">
+                                    <input type="text" class="form-control" id="work" name="work"
+                                        placeholder="كما موضح في بطاقة الهوية">
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-6">
+                                <label for="myCity" class=" control-label"> نوع المكفولين </label>
+                                <select id="myCity" class="custom-select">
+                                    <option selected="">ايتام</option>
+                                    <option value="1">ارامل </option>
+                                </select>
+                            </div>
+                            <div class="form-group col-lg-6">
+                                <label for="myCity" class=" control-label">   الاحتياج  الشهري </label>
+                                <select id="myCity" class="custom-select">
+                                    <option selected="">90 ر.س </option>
+                                    <option value="1">80 ر.س  </option>
+                                </select>
+                            </div>
+                            <div class="form-group col-lg-6">
+                                <label for="name"> هل تريد اهداء الكفاله لاحد ؟ </label>
+                                <div class="gender d-flex">
+                                    <div class="mail d-flex align-items-center">
+                                        <input class="d-inline-block w-auto" type="radio" checked name="gender"
+                                            value="mail" id="mail">
+                                        <label class="mb-0"> نعم </label>
+                                    </div>
+                                    <div class="femail d-flex align-items-center">
+                                        <input class="d-inline-block w-auto" type="radio" name="gender"
+                                            value="femail" id="femail">
+                                        <label class="mb-0"> لا </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group col-lg-6">
+                                <label for="myCity" class=" control-label"> فترة الكفالة  </label>
+                                <select id="myCity" class="custom-select">
+                                    <option selected="">اكثر من خمس سنوات </option>
+                                    <option value="1">متزوج </option>
+                                </select>
+                            </div>
+                            <div class="form-group col-lg-6">
+                                <label for="myCity" class=" control-label"> مدة الكفالة   </label>
+                                <select id="myCity" class="custom-select">
+                                    <option selected="">احمد حسن </option>
+                                    <option value="1">محمد ابراهيم </option>
+                                </select>
+                            </div>
+
+                            <div class="form-group col-lg-6">
+                                <label for="month" class="control-label">عدد الشهور  </label>
+                                <div class="">
+                                    <input type="text" class="form-control" id="month" name="month"
+                                        placeholder="4">
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-6">
+                                <label for="yrs" class="control-label">عدد السنوات   </label>
+                                <div class="">
+                                    <input type="text" class="form-control" id="yrs" name="yrs"
+                                        placeholder="4">
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-6">
+                                <label for="phNumber" class="control-label"> رقم جوال المهدى اليه    </label>
+                                <div class="">
+                                    <input type="number" class="form-control" id="phNumber" name="phNumber"
+                                        placeholder="4012322">
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-6">
+                                <label for="name">هل الشخص المهدى الية كافل ؟ </label>
+                                <div class="gender d-flex">
+                                    <div class="mail d-flex align-items-center">
+                                        <input class="d-inline-block w-auto" type="radio" checked name="gender"
+                                            value="mail" id="mail">
+                                        <label class="mb-0"> نعم </label>
+                                    </div>
+                                    <div class="femail d-flex align-items-center">
+                                        <input class="d-inline-block w-auto" type="radio" name="gender"
+                                            value="femail" id="femail">
+                                        <label class="mb-0"> لا </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-6">
+                                <label  class=" control-label">  اختر المهدى الية  </label>
+                                <select class="custom-select">
+                                    <option selected="">سالم محمد حسن </option>
+                                    <option value="1">عبد الحميد الدسوقي  </option>
+                                </select>
+                            </div>
+
+                            
+
+                            <div class="form-group col-lg-12">
+                                <label for="month_number" class="control-label"> اسم الشخص المهدى </label>
+                                <div class="">
+                                    <input type="text" value="سالم محمد حسن " class="form-control" id="month_number"
+                                        name="month_number">
+                                </div>
+                            </div>
+
+                            <div class="form-group col-lg-12">
+                                <label for="month_number" class="control-label"> رسالة للشخص المهدى الية </label>
+                                <div class="">
+                                    <textarea type="text" value="سالم محمد حسن " class="form-control" id="month_number"
+                                        name="month_number"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="form-group col-lg-6">
+                                <label for="name"> هل تريد كفالة ايتام الارملة ايضا </label>
+                                <div class="gender d-flex">
+                                    <div class="mail d-flex align-items-center">
+                                        <input class="d-inline-block w-auto" type="radio" checked name="gender"
+                                            value="mail" id="mail">
+                                        <label class="mb-0"> نعم </label>
+                                    </div>
+                                    <div class="femail d-flex align-items-center">
+                                        <input class="d-inline-block w-auto" type="radio" name="gender"
+                                            value="femail" id="femail">
+                                        <label class="mb-0"> لا </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group col-lg-6">
+                                <label for="myCity" class=" control-label"> اختر الأيتام   </label>
+                                <select id="myCity" class="custom-select">
+                                    <option selected="">أحمد محمد  </option>
+                                    <option value="1"> سيد جلال  </option>
+                                </select>
+                            </div>
+
+                            <div class="form-group col-lg-6">
+                                <label for="myCity" class=" control-label"> نوع الكفالة     </label>
+                                <select id="myCity" class="custom-select">
+                                    <option selected=""> جزئية    </option>
+                                    <option value="1"> تيست  </option>
+                                </select>
+                            </div>
+
+                            <div class="form-group col-lg-6">
+                                <label for="kafala_amount" class="control-label"> قيمة الكفالة للارملة </label>
+                                <div class="">
+                                    <input type="text" value="5 ر.س" class="form-control" id="kafala_amount"
+                                        name="kafala_amount">
+                                </div>
+                            </div>
+
+                            <div class="form-group col-lg-6">
+                                <label for="kafala_amount" class="control-label"> قيمة الكفالة لكل يتيم  </label>
+                                <div class="">
+                                    <input type="text" value="5 ر.س" class="form-control" id="kafala_amount"
+                                        name="kafala_amount">
+                                </div>
+                            </div>
+
+                            <div class="form-group col-lg-6">
+                                <label for="myCity" class=" control-label"> خيارات الدفع </label>
+                                <select id="myCity" class="custom-select">
+                                    <option selected="">شهري </option>
+                                    <option value="1"> سنوي </option>
+                                </select>
+                            </div>
+
+                            <div class="form-group col-lg-12">
+                                <label for="kafala_total" class="control-label"> إجمالي قيمة الكفالة </label>
+                                <div class="">
+                                    <input type="text" value="1200 ر.س" class="form-control" id="kafala_total"
+                                        name="kafala_total">
+                                </div>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary">تأكيد انشاء كفاله </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/datatables.min.js"></script>
+
+</body>
+
+</html>

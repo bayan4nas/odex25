@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+
+        <record id="view_client_requirements_form" model="ir.ui.view">
+            <field name="name">clients requirement</field>
+            <field name="model">re.clients.requirement</field>
+            <field name="inherit_id" ref="real_estate_marketing.view_client_requirements_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='client_line_ids']/tree/button[@name='create_sale_request']" position="after">
+                    <button name="create_contract_request" type="object" string="Create Rental Contract" 
+                        class="oe_highlight" attrs="{'invisible':['|','|',('flag', '=', True),('state','!=','register'),('parent.action_type','!=','rent')]}"/>
+                </xpath>
+
+                <xpath expr="//field[@name='client_line_ids']/tree/field[@name='flag']" position="after">
+                    <field name="rental_contract_id" readonly="1" attrs="{'invisible': [('rental_contract_id', '=', False)]}"/>
+                </xpath>
+
+            </field>
+        </record>
+    </data>
+</odoo>

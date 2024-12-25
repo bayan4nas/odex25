@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+		<record id="view_company_form_inherit_otp" model="ir.ui.view">
+            <field name="name">res.company.form.default</field>
+            <field name="model">res.company</field>
+            <field name="inherit_id" ref="base.view_company_form"/>
+            <field name="arch" type="xml">
+            	<xpath expr="//page" position="after">
+					<page string="OTP Information">
+						<group>
+							<field name="use_otp_login" style="margin-bottom:10px; margin-left:10px;"/>
+		            		<field name="otp_provider_token" attrs="{'required':[('use_otp_login','=',True)],'invisible':[('use_otp_login','!=',True)]}" style="margin-bottom:10px; margin-left:10px;" password="True"/>
+		            		<field name="otp_sender_name" attrs="{'required':[('use_otp_login','=',True)],'invisible':[('use_otp_login','!=',True)]}" style="margin-bottom:10px; margin-left:10px;"/>
+						</group>
+					</page>
+
+					<page string="SMS Information">
+						<group>
+							<field name="use_sms_notification" style="margin-bottom:10px; margin-left:10px;" />
+		            		<field name="sms_provider_token" attrs="{'required':[('use_sms_notification','=',True)],'invisible':[('use_sms_notification','!=',True)]}" style="margin-bottom:10px; margin-left:10px;" password="True" />
+		            		<field name="sms_sender_name" attrs="{'required':[('use_sms_notification','=',True)],'invisible':[('use_sms_notification','!=',True)]}" style="margin-bottom:10px; margin-left:10px;" />
+						</group>
+					</page>
+
+					<page string="Moyaser Integration">
+						<group>
+							<label for="moyaser_public_key" string="Publicy Key" class="col-xs-3 col-md-3 o_light_label"/>
+                            <field name="moyaser_public_key" placeholder="Moyaser Publicy Key" password="True" nolabel="1"/>
+						</group>
+						<label for="vat_default_percent" string="Default Vat Value"
+                                           class="col-xs-3 col-md-3 o_light_label"/>
+                        <field name="vat_default_percent" placeholder="Default Vat Value" nolabel="1"/>
+					</page>
+
+            	</xpath>
+            
+            </field>
+       </record>
+</odoo>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_partner_type_form_profit_inherit" model="ir.ui.view">
+        <field name="name">Partner Type</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field eval="100" name="priority"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="before">
+                <header>
+                <button name="action_approve" groups="account.group_account_manager"  attrs="{'invisible': ['|','|',('partner_type','=',False),('state','!=','waiting'),('partner_type','=','cash')]}" type="object" string="Approve" class="oe_highlight"/>
+                <button name="action_set_waiting" groups="account.group_account_manager" states="approved" type="object" string="Set To Waiting" class="oe_highlight"/>
+                <field name="state" widget="statusbar" attrs="{'invisible': [('partner_type','!=','postpaid')]}"/>
+                </header>
+            </xpath>
+            <field name="vat" position="before">
+                <field name="partner_type" invisible="1"/>
+                <field name="journal_id" domain="[('partner_type', 'in', ['cash', 'postpaid'])]" groups="partner_type.group_partner_type"/>
+            </field>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="sequence_benefit" model="ir.sequence">
+        <field name="name">Benefit Sequence</field>
+        <field name="code">benefit.sequence</field>
+        <field name="prefix">B/</field>
+        <field eval="1" name="number_next"/>
+        <field eval="1" name="number_increment"/>
+        <field eval="True" name="use_date_range"/>
+        <field eval="False" name="company_id"/>
+        <field name="padding">4</field>
+    </record>
+    <record id="receive_zkat_sequence" model="ir.sequence">
+        <field name="name">Receive Zkat Sequence</field>
+        <field name="code">benefit.receive.zkat.sequence</field>
+        <field name="prefix">RZ/</field>
+        <field eval="1" name="number_next"/>
+        <field eval="1" name="number_increment"/>
+        <field eval="True" name="use_date_range"/>
+        <field eval="False" name="company_id"/>
+        <field name="padding">4</field>
+    </record>
+
+    <record id="zkat_sequence" model="ir.sequence">
+        <field name="name">Zkat Sequence</field>
+        <field name="code">benefit.zkat.sequence</field>
+        <field name="prefix">Z/</field>
+        <field eval="1" name="number_next"/>
+        <field eval="1" name="number_increment"/>
+        <field eval="True" name="use_date_range"/>
+        <field eval="False" name="company_id"/>
+        <field name="padding">4</field>
+    </record>
+    <!-- Sequence For Visit -->
+    <record id="visit_location_sequence" model="ir.sequence">
+        <field name="name">Visit Sequence</field>
+        <field name="code">visit.location.sequence</field>
+        <field name="prefix">V/</field>
+        <field eval="1" name="number_next"/>
+        <field eval="1" name="number_increment"/>
+        <field eval="True" name="use_date_range"/>
+        <field eval="False" name="company_id"/>
+        <field name="padding">4</field>
+    </record>
+     <!-- Sequence for services requests -->
+    <record id="service_request_sequence" model="ir.sequence">
+        <field name="name">Services Requests Sequence</field>
+        <field name="code">service.request.sequence</field>
+        <field name="prefix">R/</field>
+        <field eval="1" name="number_next"/>
+        <field eval="1" name="number_increment"/>
+        <field eval="True" name="use_date_range"/>
+        <field eval="False" name="company_id"/>
+        <field name="padding">4</field>
+    </record>
+     <!-- Sequence for payment orders -->
+    <record id="payment_orders_sequence" model="ir.sequence">
+        <field name="name">Payment Orders Sequence</field>
+        <field name="code">payment.orders.sequence</field>
+        <field name="prefix">P/</field>
+        <field eval="1" name="number_next"/>
+        <field eval="1" name="number_increment"/>
+        <field eval="True" name="use_date_range"/>
+        <field eval="False" name="company_id"/>
+        <field name="padding">4</field>
+    </record>
+     <!-- Sequence for Family Expense -->
+    <record id="family_expense_sequence" model="ir.sequence">
+        <field name="name">Family Expense Sequence</field>
+        <field name="code">family.expense.sequence</field>
+        <field name="prefix">EXP/</field>
+        <field eval="1" name="number_next"/>
+        <field eval="1" name="number_increment"/>
+        <field eval="True" name="use_date_range"/>
+        <field eval="False" name="company_id"/>
+        <field name="padding">4</field>
+    </record>
+</odoo>

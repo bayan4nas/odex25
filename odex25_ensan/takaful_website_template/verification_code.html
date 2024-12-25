@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Order Process</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/fontawesome-all.min.css" />
+    <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body>
+    <div class="benifits_wrapper">
+        <div class="container">
+            <div class="stepper_header d-flex flex-wrap">
+                <div class="step d-flex flex-column align-items-center active">
+                    <img src="imgs/step_1_act.png" alt="1" />
+                    <div class="step_content">
+                        انشاء حساب
+                    </div>
+                </div>
+                <div class="step d-flex flex-column align-items-center active">
+                    <img src="imgs/step_2_act.png" alt="2" />
+                    <div class="step_content">
+                        تأكيد الحساب
+                    </div>
+                </div>
+                <div class="step d-flex flex-column align-items-center">
+                    <img src="imgs/step_3_inact.png" alt="3" />
+                    <div class="step_content">
+                        حدد شاراتك
+                    </div>
+                </div>
+                <div class="step d-flex flex-column align-items-center">
+                    <img src="imgs/step_4_inact.png" alt="4" />
+                    <div class="step_content">
+                        استكمال البيانات
+                    </div>
+                </div>
+                <div class="step d-flex flex-column align-items-center">
+                    <img src="imgs/step_5_inact.png" alt="5" />
+                    <div class="step_content">
+                        تم بنجاح
+                    </div>
+                </div>
+            </div>
+            <div class="user_reg_form">
+                <div class="code_wrapper">
+                    <h6> من فضلك ادخل رمز التأكيد المكون من 4 أرقام </h6>
+                    <p> قم بادخال الرقم الذي تم ارساله على هاتفك المحمول </p>
+                    <a href="#"> تعديل الرقم ؟ </a>
+                    <div id="form">
+                        <div class="d-flex inputs">
+                            <input type="text" maxLength="1" size="1" min="0" max="9" pattern="[0-9]{1}" />
+                            <input type="text" maxLength="1" size="1" min="0" max="9" pattern="[0-9]{1}" />
+                            <input type="text" maxLength="1" size="1" min="0" max="9" pattern="[0-9]{1}" />
+                            <input type="text" maxLength="1" size="1" min="0" max="9" pattern="[0-9]{1}" />
+                        </div>
+                        <div class="resend d-flex justify-content-between">
+                            <a href="#"> اعادة ارسال الرمز </a>
+                            <span>انتظر 45 ثانية </span>
+                        </div>
+                        <button class="btn btn-primary btn-embossed">تأكيد</button>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/verification_code.js"></script>
+</body>
+
+</html>

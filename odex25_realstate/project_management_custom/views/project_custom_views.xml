@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <record id="custom_open_view_project_all" model="ir.actions.act_window">
+            <field name="name">Projects</field>
+            <field name="res_model">project.project</field>
+            <field name="domain">[]</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+             (0, 0, {'view_mode': 'kanban', 'view_id': ref('project.view_project_kanban')}),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('project.view_project')})
+               ]"/>
+            <field name="search_view_id" ref="project.view_project_project_filter"/>
+            <field name="target">main</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    No projects found. Let's create one!
+                </p>
+                <p>
+                    Projects regroup tasks on the same topic and each have their own dashboard.
+                </p>
+            </field>
+        </record>
+
+        <record id="edit_project_customs" model="ir.ui.view">
+            <field name="name">project.project.form.inherit</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.edit_project"/>
+            <field name="arch" type="xml">
+                <xpath expr="//header" position="inside">
+                    <button name="action_submit" type="object" string="In Progress" states="draft"
+                            groups="project.group_project_user"
+                            class="oe_highlight"/>
+                    <button name="action_draft" type="object" string="Set To Draft" states="in_progess"
+                            groups="project.group_project_user"
+                            class="oe_highlight"/>
+                    <button name="action_done" type="object" string="Done" states="in_progess"
+                            groups="project.group_project_manager"
+                            class="oe_highlight"/>
+                    <button name="action_cancel" type="object" string="Cancel" states="draft,in_progess"
+                            groups="project.group_project_user"
+                            class="oe_highlight"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,in_progess,done"/>
+                </xpath>
+                <xpath expr="//div[@class='oe_button_box']//button[2]" position="replace"/>
+                <xpath expr="//div[@class='oe_button_box']//button[@name='attachment_tree_view']" position="before">
+
+                    <button class="oe_stat_button" name="get_subcontractor_installment" type="object"
+                            icon="fa-file-text-o">
+                        <field string="Subcontractor Installment" name="sinstallment_count" widget="statinfo"/>
+                    </button>
+
+                    <button class="oe_stat_button" name="get_subcontractor_payment" type="object" icon="fa-money">
+                        <field string="Subcontractor Payment" name="spayment_counts" widget="statinfo"/>
+                    </button>
+
+                    <button class="oe_stat_button" name="get_engineering_payment" type="object" icon="fa-money">
+                        <field string="Engineering Office Payment" name="epayment_counts" widget="statinfo"/>
+                    </button>
+                </xpath>
+                
+                <xpath expr="//field[@name='name']" position="after">
+                    <p>-</p>
+                    <field name="code" required="1" attrs="{'readonly': [('state', '!=', 'draft')]}"  placeholder="Project Code"/>
+                </xpath>
+                <xpath expr="//div[2]" position="after">
+                    <group name="project_info">
+                        <group>
+                            <field name="project_owner_type" attrs="{'readonly': [('state', '!=', 'draft')]}" required="1"/>
+                            <field name="city" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            <field name="district" domain="[('city_id','=',city)]" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            <field name="street" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            <field name="user_id" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            <field name="partner_id" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                        </group>
+                        <group>
+                            <field name="project_type" required="1" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            <field name="branch_id" required="0" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            <field name="project_total_cost" required="1" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            <field name="project_revenue" readonly="1" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            <field name="project_cost" readonly="1" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            <field name="estimated_cost" readonly="1" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                        </group>
+                    </group>
+                </xpath>
+
+                <xpath expr="//div[@name='options_active']" position="replace">
+                </xpath>
+
+                <xpath expr="//form//sheet//notebook/page[@name='settings']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//notebook//page[@name='description_page']" position="replace"/>
+
+                <field name="name" position="attributes">
+                    <attribute name="attrs">{'readonly': [('state', '!=', 'draft')]}</attribute>
+                </field>
+
+                <xpath expr="//notebook" position="inside">
+                    <page name="team" string="Teams" attrs="{'readonly': [('state', '!=', 'draft')]}">
+                        <field name="member_ids" widget="section_and_note_one2many" mode="tree"
+                               attrs="{'readonly': [('state', '!=', 'draft')]}">
+                            <control>
+                                <create name="add_line_control" string="Add a line"/>
+                                <create name="add_section_control" string="Add a section"
+                                        context="{'default_display_type': 'line_section'}"/>
+                                <create name="add_note_control" string="Add a note"
+                                        context="{'default_display_type': 'line_note'}"/>
+                            </control>
+                            <tree editable="bottom">
+                                <field name="name"/>
+                            </tree>
+                        </field>
+                    </page>
+
+                    <page name="info" string="Other Information">
+                        <group>
+                            <group>
+                                <field name="privacy_visibility" widget="radio" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+
+                                <field name="allowed_internal_user_ids" widget="many2many_tags" attrs="{'invisible': [('privacy_visibility', '!=', 'followers')], 'readonly': [('state', '!=', 'draft')]}"/>
+
+                                <field name="allowed_portal_user_ids" widget="many2many_tags" options="{'no_create': True}" attrs="{'invisible': [('privacy_visibility', '!=', 'portal')], 'readonly': [('state', '!=', 'draft')]}"/>
+
+                                <field name="company_id" groups="base.group_multi_company" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            </group>
+                            <group string="Other">
+                                <field name="date_start" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="date_end" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="analytic_account_id" attrs="{'readonly': [('state', '!=', 'draft')]}" groups="analytic.group_analytic_accounting"/>
+                            </group>
+                        </group>
+                    </page>
+
+                    <page name="phase" string="Project Phase">
+                        <field name="type_ids" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                    </page>
+                    <page name="Task" string="Project Tasks">
+                        <field name="task_ids" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                    </page>
+
+                    <page name="engineering" string="Engineering Office">
+                        <group>
+                            <field name="engineering_office_id" required="1"
+                                   domain="[('is_engineering_office','=',True)]"
+                                   attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                        </group>
+                        <group colspan="2" col="4">
+                            <field name="engineering_contract_amount" required="1"
+                                   attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            <field name="engineering_contract_balance" readonly="1"
+                                   attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                        </group>
+                        <field name="engineering_office_line_ids" widget="section_and_note_one2many" mode="tree,kanban"
+                               attrs="{'readonly': [('state', '!=', 'draft')]}">
+                            <tree editable="bottom">
+                                <control>
+                                    <create name="add_product_control" string="Add a Line"/>
+                                    <create name="add_section_control" string="Add a section"
+                                            context="{'default_display_type': 'line_section'}"/>
+                                    <create name="add_note_control" string="Add a note"
+                                            context="{'default_display_type': 'line_note'}"/>
+                                </control>
+                                <field name="display_type" invisible="1"/>
+                                <field name="name" required="1" widget="section_and_note_text" optional="show"/>
+                                <field name="percent" sum="Percentage"
+                                       attrs="{'required': [('display_type', '=', False)]}"/>
+                                <field name="due_date" attrs="{'required': [('display_type', '=', False)]}"/>
+                                <field name="amount" sum="Payment Amount" readonly="1"/>
+                                <button name="create_office_payment" type="object" string="Create Payment"
+                                        class="oe_highlight"
+                                        attrs="{'invisible':[('payment_id', '!=', False)]}"/>
+                                <field name="payment_id" readonly="0"/>
+                                <field name="paid" readonly="1"/>
+                                <field name="paid_date" attrs="{'invisible':[('paid', '=', False)]}" readonly="1"/>
+                            </tree>
+
+                        </field>
+                    </page>
+
+                    <page name="contractor" string="Contractor">
+                        <field name="subcontractor_work_ids" attrs="{'readonly': [('state', '!=', 'draft')]}">
+                            <tree editable="bottom">
+                                <field name="subcontractor_id" domain="[('is_subcontractor', '=', True)]" required="1"/>
+                                <field name="work_item_id" required="1"/>
+                                <field name="contract_amount" required="1"/>
+                                <field name="balance"/>
+                                <field name="installment_id" invisible="1"/>
+                                <button name="%(view_subcontractor_work_line_installment_action)d"
+                                        string="contract terms with the contractor" type="action"
+                                        icon="fa-pencil-square-o"
+                                        class="oe_highlight"
+                                        attrs="{'invisible': [('installment_id', '!=', False)]}"/>
+                                <button name="open_installment_view" type="object"
+                                        string="Open Installment"
+                                        class="oe_highlight"
+                                        attrs="{'invisible': [('installment_id', '=', False)]}"
+                                />
+                            </tree>
+
+                        </field>
+                    </page>
+
+                    <page name="quantity" string="Estimated Quantity">
+                        <field name="project_estimated_quantities_ids" widget="section_and_note_one2many"
+                               mode="tree,kanban" attrs="{'readonly': [('state', '!=', 'draft')]}">
+                            <tree editable="bottom">
+                                <control>
+                                    <create name="add_product_control" string="Add a Line"/>
+                                    <create name="add_section_control" string="Add a section"
+                                            context="{'default_display_type': 'line_section'}"/>
+                                </control>
+                                <field name="display_type" invisible="1"/>
+                                <field name="work_item_id" attrs="{'required': [('display_type', '=', False)]}"/>
+                                <field name="name" required="1" widget="section_and_note_text"/>
+                                <field name="quantity" sum="Qty" attrs="{'required': [('display_type', '=', False)]}"/>
+                                <field name="uom_id" attrs="{'required': [('display_type', '=', False)]}"
+                                       optional="show"/>
+                                <field name="unit_price" sum="unit"
+                                       attrs="{'required': [('display_type', '=', False)]}"/>
+                                <field name="total_estimated_qty" sum="total"/>
+                            </tree>
+                        </field>
+                    </page>
+
+                    <page name="project_account_config" string="Accounting configuration">
+                        <group>
+                            <group>
+                                <field name="project_expenses_account_id"
+                                       attrs="{'readonly': [('state', 'not in', ['draft', 'in_progess'])]}"/>
+                                <field name="discount_account_id" attrs="{'readonly': [('state', 'not in', ['draft', 'in_progess'])]}" />
+                            </group>
+                            <group>
+                                <field name="project_investment_account_id"
+                                       attrs="{'readonly': [('state', 'not in', ['draft', 'in_progess'])]}"/>
+                            </group>
+                        </group>
+
+                    </page>
+
+                    <!-- <page name="attachment" string="Attachments">
+                        <field name="attachment_ids">
+                            <tree editable="bottom">
+                                <field name="name" required="1"/>
+                                <field name="datas" required="1"/>
+                            </tree>
+                        </field>
+                    </page> -->
+
+                </xpath>
+
+            </field>
+        </record>
+
+        <record id="view_task_form2_custom" model="ir.ui.view">
+            <field name="name">project.task.custom</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_form2"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='project_id']" position="attributes">
+                    <attribute name="required">0</attribute>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

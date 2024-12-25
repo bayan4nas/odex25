@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data>
+
+        <!-- purchase.request form view -->
+        <record id="purchase_request_form_inherit" model="ir.ui.view">
+            <field name="name">purchase.request.view.form</field>
+            <field name="model">purchase.request</field>
+            <field name="inherit_id" ref="purchase_requisition_custom.purchase_request_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="/form/header/button[@name='action_done']" position="replace">
+                    <button name="action_done" type="object" string="Delivery Done" class="oe_highlight"
+                                groups="purchase_requisition_custom.create_purchase_request" attrs="{'invisible':[('show_emp_button' , '=' , False)]}" />
+                </xpath>
+                   <xpath expr="//field[@name='use_analytic']" position="attributes">
+                    <attribute name="attrs">{'readonly':[('state','!=','draft')]}</attribute>
+                </xpath>
+                <xpath expr="//group[1]" position="after">
+                    <group col="2" colspan="2">
+                        <field name="view_location_id" invisible="1"/>
+                        <field name="edit_locations" invisible="1"/>
+                        <field name="show_emp_button" invisible="1"/>
+                        <field name="show_approve_warehouse" invisible="0"/>
+                        <div>
+                            <label for="warehouse_id"/>
+                            <field name="warehouse_id"  attrs="{'readonly':['|',('edit_locations' , '=' , False),('state' , '!=' , 'warehouse')]}"  groups="stock.group_stock_user,stock.group_stock_manager"/>
+
+                        </div>
+                        <div>
+                            <label for="location_id"/>
+                            <field name="location_id"  attrs="{'readonly':['|',('edit_locations' , '=' , False),('state' , '!=' , 'warehouse')]}"   groups="stock.group_stock_user,stock.group_stock_manager" />
+
+                        </div>
+                    </group>
+                </xpath>
+                <xpath expr="//button[@name='open_requisition']" position="after">
+                    <field name="picking_id" invisible="1"/>
+                    <button class="oe_stat_button" name="open_picking" type="object"
+                            string="Delivery" icon="fa-list-ol"
+                            attrs="{'invisible' : [('picking_id' , '=' ,False)]}"
+                            groups="stock.group_stock_user,stock.group_stock_manager"/>
+                </xpath>
+
+                <xpath expr="//button[@name='action_confirm']" position="after">
+                    <button name="action_confirm_picking"
+                            type="object" string="Confirm"
+                            attrs="{'invisible':[('show_approve_warehouse' , '=' , False)]}" class="oe_highlight" groups="stock.group_stock_user,stock.group_stock_manager"/>
+                    <button name="action_available_qty"
+                            type="object" string="Available Quantity" attrs="{'invisible':[('show_approve_warehouse' , '=' , False)]}" class="oe_highlight" groups="stock.group_stock_user,stock.group_stock_manager"/>
+                </xpath>
+                <xpath expr="//field[@name='line_ids']/tree[1]/field[@name='qty']" position="after">
+                    <field name="available_qty" readonly="1" attrs="{'column_invisible': [('parent.state', '!=', 'warehouse')]}"/>
+                    <field name="qty_purchased" readonly="1" attrs="{'column_invisible': [('parent.state', '!=', 'waiting')]}"/>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- purchase.request tree view -->
+
+
+    </data>
+</odoo>

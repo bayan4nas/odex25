@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data noupdate="1">
+
+        <!-- On Sponsorship Creation -->
+        <record model="takaful.message.template" id="sponsorship_creation_template">
+            <field name="title">إنشاء كفالة</field>
+            <field name="body">تم إنشاء كفالة</field>
+            <field name="template_name">sponsorship_creation</field>
+        </record>
+
+        <!-- On paid sponsorship -->
+        <record model="takaful.message.template" id="sponsorship_paid_template">
+            <field name="title">إشعار سداد</field>
+            <field name="body">تم سداد كفالة</field>
+            <field name="template_name">sponsorship_paid</field>
+        </record>
+
+        <!-- On canceled sponsorship  -->
+        <record model="takaful.message.template" id="sponsorship_canceled_template">
+            <field name="title">إلغاء كفالة</field>
+            <field name="body">لقد تم إلغاء الكفالة</field>
+            <field name="template_name">sponsorship_canceled</field>
+        </record>
+
+    </data>
+
+    <data noupdate="1">
+
+        <!-- On Sponsorship About to cancel -->
+        <record model="takaful.message.template" id="sponsorship_to_cancel_template">
+            <field name="title">علي وشك الإلغاء</field>
+            <field name="body">الكفالة علي وشك الإلغاء</field>
+            <field name="template_name">sponsorship_to_cancel</field>
+        </record>
+
+        <!-- On Sponsorship Close -->
+        <record model="takaful.message.template" id="sponsorship_close_template">
+            <field name="title">إنهاء كفالة</field>
+            <field name="body">تم إنهاء الكفالة</field>
+            <field name="template_name">sponsorship_close</field>
+        </record>
+
+        <!-- On Sponsorship to Close -->
+        <record model="takaful.message.template" id="sponsorship_to_close_template">
+            <field name="title">علي وشك الإنتهاء</field>
+            <field name="body">الكفالة علي وشك النهاية</field>
+            <field name="template_name">sponsorship_to_close</field>
+        </record>
+
+    </data>
+
+</odoo>

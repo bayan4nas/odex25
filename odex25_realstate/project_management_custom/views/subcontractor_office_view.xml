@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record id="view_subcontractor_office_partner" model="ir.actions.act_window">
+            <field name="name">Subcontractor Office</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('is_subcontractor','=',True)]</field>
+            <field name="context">{'search_default_is_subcontractor': True,
+                'default_is_subcontractor': True}
+            </field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to create a Subcontractor Office.
+                </p>
+            </field>
+        </record>
+
+        <menuitem id="contractor_office_menu" name="Subcontractor Office" parent="project_installment"
+                  action="view_subcontractor_office_partner" sequence="1"/>
+
+
+        <record id="view_subcontractor_installment_search" model="ir.ui.view">
+            <field name="name">Subcontractor Installment</field>
+            <field name="model">subcontractor.installment</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <filter name="subcontractor_id" string="Subcontractor"/>
+                    <filter name="project_id" string="Project"/>
+                    <group expand="0" string="Group By...">
+                        <filter string="Subcontractor Office Name" name="subcontractor_id" domain="[]"
+                                context="{'group_by':'subcontractor_id'}"/>
+                        <filter string="Project" name="project_id" domain="[]"
+                                context="{'group_by':'project_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="subcontractor_office_installment_tree" model="ir.ui.view">
+            <field name="name">Subcontractor Office Installment</field>
+            <field name="model">subcontractor.installment</field>
+            <field name="arch" type="xml">
+                <tree create="false" sample="1">
+                    <field name="project_id"/>
+                    <field name="subcontractor_id"/>
+                    <field name="subcontractor_work_id"/>
+                    <field name="name" optional="show"/>
+                    <field name="work_item_id"/>
+                    <field name="delivery_date"/>
+                    <field name="contract_amount" sum="Contract Amount"/>
+                    <field name="total_installment" sum="Total Installment Amount"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="subcontractor_installment_view_action" model="ir.actions.act_window">
+            <field name="name">Subcontractor</field>
+            <field name="res_model">subcontractor.installment</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="subcontractor_office_installment_tree"/>
+            <field name="search_view_id" ref="view_subcontractor_installment_search"/>
+            <field name="context">{'search_default_subcontractor_id': 1,'search_default_project_id':1}</field>
+        </record>
+
+        <menuitem id="subcontractor_office_installment_menu" name="Subcontractor Office Installment"
+                  parent="project_installment"
+                  action="subcontractor_installment_view_action" sequence="3"/>
+
+
+        <!-- Subcontractor Installment Line -->
+        <record id="subcontractor_installment_line_form" model="ir.ui.view">
+            <field name="name">Subcontractor Installment Line</field>
+            <field name="model">subcontractor.work.line</field>
+            <field name="arch" type="xml">
+                <form create="false" edit="false">
+                    <sheet>
+                        <h1>
+                            <field name="name" readonly="1" required="1"/>
+                        </h1>
+                        <group>
+                            <group string="Work Line Details">
+                                <field name="subcontractor_installment_id" readonly="1"/>
+                                <field name="name" readonly="1"/>
+                                <field name="type" readonly="1"/>
+                                <field name="value" readonly="1"/>
+                                <field name="amount" readonly="1"/>
+                                <field name="payment_id" readonly="1"/>
+                                <field name="paid_date" readonly="1"/>
+                                <field name="paid" readonly="1"/>
+                            </group>
+                            <group string="Penalty Details">
+                                <field name="penalty_after" readonly="1"/>
+                                <field name="penalty_amount" readonly="1"/>
+                                <field name="penalty_percentage" readonly="1"/>
+                                <field name="penalty_percentage_limit" readonly="1"/>
+                            </group>
+                        </group>
+
+                    </sheet>
+                </form>
+
+            </field>
+        </record>
+
+
+        <record id="view_subcontractor_installment_line_search" model="ir.ui.view">
+            <field name="name">Subcontractor Installment Line</field>
+            <field name="model">subcontractor.work.line</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <filter name="subcontractor_installment_id" string="Subcontractor"/>
+                    <filter name="project_id" string="Project"/>
+                    <group expand="0" string="Group By...">
+                        <filter string="Subcontract Work" name="subcontractor_installment_id" domain="[]"
+                                context="{'group_by':'subcontractor_installment_id'}"/>
+                        <filter string="Project" name="project_id" domain="[]"
+                                context="{'group_by':'project_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="view_subcontractor_installment_line_tree" model="ir.ui.view">
+            <field name="name">Subcontractor Installment Line</field>
+            <field name="model">subcontractor.work.line</field>
+            <field name="arch" type="xml">
+                <tree create="false" edit="false" sample="1">
+                    <field name="name" optional="show"/>
+                    <field name="project_id"/>
+                    <field name="subcontractor_installment_id"/>
+                    <field name="work_item_id"/>
+                    <field name="type"/>
+                    <field name="amount" sum="Contract Amount"/>
+                    <field name="paid_date"/>
+                    <field name="penalty_after"/>
+                    <field name="penalty_amount" sum="Penalty Amount"/>
+                    <field name="paid"/>
+                    <field name="last_installment"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="view_subcontractor_installment_line_action" model="ir.actions.act_window">
+            <field name="name">Subcontractor Installment Line</field>
+            <field name="res_model">subcontractor.work.line</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_subcontractor_installment_line_tree"/>
+            <field name="search_view_id" ref="view_subcontractor_installment_line_search"/>
+            <field name="context">{'search_default_subcontractor_installment_id': 1,'search_default_project_id':1}
+            </field>
+        </record>
+
+        <menuitem id="subcontractor_installment_line_menu" name="Subcontractor Installment Line"
+                  parent="project_installment"
+                  action="view_subcontractor_installment_line_action" sequence="4"/>
+
+
+    </data>
+</odoo>

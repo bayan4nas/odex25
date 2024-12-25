@@ -1,0 +1,28 @@
+<odoo>
+    <data>
+        <record id="member_disabilities_form" model="ir.ui.view">
+            <field name="name">member.diseases.form</field>
+            <field name="model">member.diseases</field>
+            <field name="arch" type="xml">
+                <form string="Member Disabilities">
+                    <sheet>
+                        <group>
+                             <group>
+                                <field name="name"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="member_disabilities_tree" model="ir.ui.view">
+            <field name="name">member.disabilities.tree</field>
+            <field name="model">member.disabilities</field>
+            <field name="arch" type="xml">
+                <tree string="Member Disabilities">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+    </data>
+</odoo>

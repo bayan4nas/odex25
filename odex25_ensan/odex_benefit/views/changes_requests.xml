@@ -1,0 +1,71 @@
+<odoo>
+    <data>
+        <record id="changes_requests_form" model="ir.ui.view">
+            <field name="name">changes.requests.form</field>
+            <field name="model">changes.requests</field>
+            <field name="arch" type="xml">
+                <form string="Changes Requests">
+                    <header>
+                        <button name="approval_of_department_head_c1" type="object" class="oe_highlight" string="Approve"
+                                confirm="Are you sure you want to Approve?" attrs="{'invisible': ['|',('change_type', '!=', 'transfer_family_from_research_to_another_research'),('state','!=','draft')]}"/>
+                        <button name="approval_of_department_head_c2" type="object" class="oe_highlight" string="Approve"
+                                confirm="Are you sure you want to Approve?" attrs="{'invisible': ['|',('change_type', '!=', 'transfer_family_from_branch_to_another_branch'),('state','!=','draft')]}"/>
+                        <button name="approval_of_branch_manager_c1" type="object" class="oe_highlight" string="Approve"
+                                confirm="Are you sure you want to Approve?" attrs="{'invisible': ['|',('change_type', '!=', 'transfer_family_from_research_to_another_research'),('state','!=','approval_of_department_head')]}"/>
+                        <button name="approval_of_branch_manager_c2" type="object" class="oe_highlight" string="Approve"
+                                confirm="Are you sure you want to Approve?" attrs="{'invisible':['|',('change_type', '!=', 'transfer_family_from_branch_to_another_branch'),('state','!=','approval_of_department_head')]}"/>
+                        <button name="approval_of_department_head_c3" type="object" class="oe_highlight" string="Approve"
+                                confirm="Are you sure you want to Approve?" attrs="{'invisible': ['|',('change_type', '!=', 'transfer_research_from_branch_to_another_branch'),('state','!=','draft')]}"/>
+                        <button name="approval_of_branch_manager_c3" type="object" class="oe_highlight" string="Approve"
+                                confirm="Are you sure you want to Approve?" attrs="{'invisible': ['|',('change_type', '!=', 'transfer_research_from_branch_to_another_branch'),('state','!=','approval_of_department_head')]}"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <group>
+                             <group>
+                                <field name="change_type" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                <field name="team_type" attrs="{'invisible': [('change_type', '!=', 'transfer_research_from_branch_to_another_branch')],'readonly':[('state','=','approval_of_branch_manager')]}"/>
+                                <field name="gender_researcher_id" attrs="{'invisible': [('change_type', '!=', 'transfer_research_from_branch_to_another_branch')],'readonly':[('state','=','approval_of_branch_manager')]}"/>
+                                <field name="is_whole_team" attrs="{'invisible': [('change_type', '!=', 'transfer_research_from_branch_to_another_branch')],'readonly':[('state','=','approval_of_branch_manager')]}"/>
+                                <field name="researcher_ids" widget="many2many_tags" attrs="{'invisible': ['|',('change_type', '!=', 'transfer_research_from_branch_to_another_branch'),('is_whole_team','=',True)],'readonly':[('state','=','approval_of_branch_manager')]}"/>
+                                <field name="benefit_id" attrs="{'invisible': [('change_type', '=', 'transfer_research_from_branch_to_another_branch')],'readonly':[('state','!=','draft')]}"/>
+                                <field name="researcher_id" attrs="{'invisible': [('change_type', '=', 'transfer_research_from_branch_to_another_branch')]}"/>
+                                <field name="researcher_branch_id" attrs="{'invisible': [('change_type', '!=', 'transfer_research_from_branch_to_another_branch')]}"/>
+                            </group>
+                            <group>
+                                <field name="branch_custom_id" attrs="{'invisible': [('change_type', '=', 'transfer_research_from_branch_to_another_branch')]}"/>
+                                <field name="new_branch_id" attrs="{'invisible': [('change_type', '=', 'transfer_family_from_research_to_another_research')],'readonly':[('state','=','approval_of_branch_manager')]}"/>
+                                <field name="new_researcher_id" attrs="{'invisible': [('change_type', '!=', 'transfer_family_from_research_to_another_research')],'readonly':[('state','=','approval_of_branch_manager')]}"/>
+                                <field name="new_gender_researcher_id" attrs="{'invisible': ['|',('change_type', '!=', 'transfer_research_from_branch_to_another_branch'),('is_whole_team','=',False)],'readonly':[('state','=','approval_of_branch_manager')]}"/>
+                                <field name="new_gender_researcher_one" attrs="{'invisible': ['|',('change_type', '!=', 'transfer_research_from_branch_to_another_branch'),('is_whole_team','=',True)],'readonly':[('state','=','approval_of_branch_manager')]}"/>
+                                <field name="new_branch_researcher" attrs="{'invisible': [('change_type', '!=', 'transfer_family_from_branch_to_another_branch')],'readonly':[('state','=','approval_of_branch_manager')]}"/>
+                                <field name="execution_date" attrs="{'readonly':[('state','=','approval_of_branch_manager')]}"/>
+                            </group>
+                        </group>
+                    </sheet>
+                     <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+        <record id="changes_requests_tree" model="ir.ui.view">
+            <field name="name">changes.requests.tree</field>
+            <field name="model">changes.requests</field>
+            <field name="arch" type="xml">
+                <tree string="Changes Requests">
+                    <field name="change_type"/>
+                    <field name="benefit_id"/>
+                    <field name="researcher_id"/>
+                    <field name="branch_custom_id"/>
+                    <field name="new_branch_id" attrs="{'invisible': [('change_type', '!=', 'transfer_family_from_branch_to_another_branch')]}"/>
+                    <field name="new_researcher_id" attrs="{'invisible': [('change_type', '!=', 'transfer_family_from_research_to_another_research')]}"/>
+                    <field name="new_branch_researcher" attrs="{'invisible': [('change_type', '!=', 'transfer_family_from_branch_to_another_branch')]}"/>
+                    <field name="execution_date"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<odoo>
+
+    
+    <record id="kpi_category_view_form" model="ir.ui.view">
+        <field name="name">kpi.category.form.inherit</field>
+        <field name="model">kpi.category</field>
+        <field name="inherit_id" ref="kpi_scorecard.kpi_category_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='parent_id']" position="before">
+                <field name="code" />
+                <field name="type" />
+                <field name="weight" />
+            </xpath>
+        </field>
+    </record>
+    
+    <record id="kpi_category_view_tree" model="ir.ui.view">
+        <field name="name">kpi.category.tree.inherit</field>
+        <field name="model">kpi.category</field>
+        <field name="inherit_id" ref="kpi_scorecard.kpi_category_view_tree"/>
+        <field name="arch" type="xml">
+		    <xpath expr="//tree" position="replace">
+		            <tree  decoration-bf="type in ('pillar','st_goal')"  decoration-warning="type=='pillar'"  decoration-info="type=='op_goal'">
+		            <field name="sequence" widget="handle"/>
+		            <field name="type"/>
+		            <field name="code"/>
+		            <field name="name"/>
+		            <field name="parent_id"/>
+		            <field name="weight"  />
+		            <field name="active" invisible="1"/>
+		            <field name="child_ids" invisible="1"/>
+		        </tree>
+		     </xpath>
+        </field>
+    </record>
+   
+</odoo>

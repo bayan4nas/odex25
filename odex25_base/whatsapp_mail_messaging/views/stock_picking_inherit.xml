@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="whatsapp_stock_view_form" model="ir.ui.view">
+            <field name="name">whatsapp.view.form.inherit.stock</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='button_scrap']" position="after">
+                <button type="object" class="oe_stat_button" style="background-color: #25D366;color: white;"
+                        name="action_send_whatsapp" icon="fa-whatsapp" string="Send by Whatsapp"/>
+            </xpath>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="stock_view_list_inherited">
+        <field name="name">stock.picking.list.view.inherited</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.vpicktree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//tree" position="inside">
+                <header>
+                    <button type="object" class="btn-primary"
+                            name="action_whatsapp_multi" icon="fa-whatsapp" string="Send by Whatsapp"/>
+                </header>
+            </xpath>
+        </field>
+    </record>
+</odoo>

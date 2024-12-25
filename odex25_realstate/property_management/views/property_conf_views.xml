@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="res_property_settings_view_form" model="ir.ui.view">
+            <field name="name">res.property.config.settings</field>
+            <field name="model">res.config.settings</field>
+            <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[hasclass('settings')]" position="inside">
+                    <div class="app_settings_block" data-string="Property Settings" data-key="property_management">
+                        <h2>Property Settings</h2>
+                        <div class="row mt16 o_settings_container" name="property_management_setting_container">
+                            <div class="col-12 col-lg-6 o_setting_box" id="late_fine">
+                                <div class="o_setting_left_pane"/>
+                                <div class="o_setting_right_pane">
+                                    <span class="o_form_label">Property Commission Settings</span>
+                                    <div class="text-muted">Commission Settings.</div>
+                                    <div class="text-muted content-group mt16">
+                                        <label for="commission_percentage">Commission Percentage:</label>
+                                        <field class="text-left oe_inline" name="commission_percentage" widget="percentage"/><br/>
+                                        <label for="commission_account_id">Commission Account:</label>
+                                        <field class="text-left oe_inline" name="commission_account_id"/><br/>
+                                        <label for="collecting_company_id">Collecting Company:</label>
+                                        <field class="text-left oe_inline" name="collecting_company_id"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="rent_type_form_view" model="ir.ui.view">
+            <field name="name">Rent Type</field>
+            <field name="model">rent.type</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-archive">
+                                <field name="active" widget="boolean_button"
+                                       options="{&quot;terminology&quot;: &quot;archive&quot;}"/>
+                            </button>
+                        </div>
+                        <group col="4" colspan="2">
+                            <field name="name" required="1"/>
+                            <field name="months" required="1"/>
+                            <field name="company_id" readonly="1"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

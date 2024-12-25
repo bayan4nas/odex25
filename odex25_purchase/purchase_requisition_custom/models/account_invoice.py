@@ -1,0 +1,66 @@
+from odoo import models, fields, api, _
+
+
+class AccountMove(models.Model):
+    _inherit = 'account.move'
+
+
+
+    def button_cancel(self):
+        res = super(AccountMove, self).button_cancel()
+        date = fields.Date.from_string(self.invoice_date)
+        if self.purchase_id:
+            confirm_budget = self.env['budget.confirmation'].search([('po_id', '=', self.purchase_id.id)])
+
+            if confirm_budget:
+                for line in self.invoice_line_ids:
+                    analytic_account_id = line.analytic_account_id
+                    budget_post = self.env['account.budget.post'].search([]).filtered(
+                        lambda x: line.account_id in x.account_ids)
+                    budget_lines = analytic_account_id.crossovered_budget_line.filtered(
+                        lambda x: x.general_budget_id in budget_post and
+                                  x.crossovered_budget_id.state == 'done' and
+                                  fields.Date.from_string(x.date_from) <= date <= fields.Date.from_string(x.date_to))
+                    budget_lines.write({'purchase_remain': abs(budget_lines.purchase_remain + line.price_subtotal)})
+
+
+            return res
+
+    def action_post(self):
+        res = super(AccountMove, self).action_post()
+        if self.purchase_id:
+            confirm_budget = self.env['budget.confirmation'].search([('po_id', '=', self.purchase_id.id)])
+            if confirm_budget:
+                for line in self.invoice_line_ids:
+                    analytic_account_id = line.analytic_account_id
+                    budget_post = self.env['account.budget.post'].search([]).filtered(
+                        lambda x: line.account_id in x.account_ids)
+                    budget_lines = analytic_account_id.crossovered_budget_line.filtered(
+                        lambda x: x.general_budget_id in budget_post and
+                                  x.crossovered_budget_id.state == 'done' and
+                                  x.date_from <= self.invoice_date <= x.date_to)
+                    budget_lines.write({'purchase_remain': abs(budget_lines.purchase_remain - line.price_subtotal)})
+
+
+
+                return res
+
+    def button_draft(self):
+        res = super(AccountMove, self).button_draft()
+        if self.purchase_id:
+            confirm_budget = self.env['budget.confirmation'].search([('po_id', '=', self.purchase_id.id)])
+            if confirm_budget:
+                date = fields.Date.from_string(self.date)
+                for line in self.invoice_line_ids:
+                    analytic_account_id = line.analytic_account_id
+                    budget_post = self.env['account.budget.post'].search([]).filtered(
+                        lambda x: line.account_id in x.account_ids)
+                    budget_lines = analytic_account_id.crossovered_budget_line.filtered(
+                        lambda x: x.general_budget_id in budget_post and
+                                  x.crossovered_budget_id.state == 'done' and
+                                  fields.Date.from_string(x.date_from) <= date <= fields.Date.from_string(x.date_to))
+                    budget_lines.write({'purchase_remain': abs(budget_lines.purchase_remain + line.price_subtotal)})
+
+
+
+        return res

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="view_entity_refused_reason_wizard_form" model="ir.ui.view">
+            <field name="name">view.entity.refused.reason.wizard.form</field>
+            <field name="model">entity.refused.reason.wizard</field>
+            <field name="arch" type="xml">
+                <form string="شاشة سبب الرفض">
+                    <sheet>
+                        <group>
+                            <field name="entity_id" invisible="1"/>
+                            <field name="refused_reason"/>
+                        </group>
+
+                        <footer>
+                            <button name="create_action" type="object" string="Refused" class="oe_highlight"/>
+                            or
+                            <button special="cancel" string="Cancel"/>
+                        </footer>
+                    </sheet>
+                </form>
+
+            </field>
+        </record>
+        <record id="view_entity_final_refused_reason_wizard_form" model="ir.ui.view">
+            <field name="name">view.entity.refused.reason.wizard.form</field>
+            <field name="model">entity.refused.reason.wizard</field>
+            <field name="arch" type="xml">
+                <form string="شاشة سبب الرفض">
+                    <sheet>
+                        <group>
+                            <field name="entity_id" invisible="1"/>
+                            <field name="refused_reason"/>
+                        </group>
+
+                        <footer>
+                            <button name="final_refuse" type="object" string="Refused" class="oe_highlight"/>
+                            or
+                            <button special="cancel" string="Cancel"/>
+                        </footer>
+                    </sheet>
+                </form>
+
+            </field>
+        </record>
+<!--        <record id="view_grant_refused_reason_wizard_form" model="ir.ui.view">-->
+<!--            <field name="name">view.entity.refused.reason.wizard.form</field>-->
+<!--            <field name="model">grant.refused.reason.wizard</field>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <form string="شاشة سبب الرفض">-->
+<!--                    <sheet>-->
+<!--                        <group>-->
+<!--                            <field name="entity_id" invisible="1"/>-->
+<!--                            <field name="refused_reason"/>-->
+<!--                        </group>-->
+
+<!--                        <footer>-->
+<!--                            <button name="create_action" type="object" string="Refused" class="oe_highlight"/>-->
+<!--                            or-->
+<!--                            <button special="cancel" string="Cancel"/>-->
+<!--                        </footer>-->
+<!--                    </sheet>-->
+<!--                </form>-->
+
+<!--            </field>-->
+<!--        </record>-->
+        <!--Add by fatima 19/6/2019-->
+<!--        <record id="view_grant_first_refused_reason_wizard_form" model="ir.ui.view">-->
+<!--            <field name="name">view.entity.first.refused.reason.wizard.form</field>-->
+<!--            <field name="model">grant.first.refused.reason.wizard</field>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <form string="شاشة سبب الرفض">-->
+<!--                    <sheet>-->
+<!--                        <group>-->
+<!--                            <field name="entity_id" invisible="1"/>-->
+<!--                                                      <field name="refused_reason"/>-->
+<!--                             &lt;!&ndash; <field name="last_edit_date" /> &ndash;&gt;-->
+<!--                        </group>-->
+
+<!--                        <footer>-->
+<!--                            <button name="create_action" type="object" string="Refused" class="oe_highlight"/>-->
+<!--                            or-->
+<!--                            <button special="cancel" string="Cancel"/>-->
+<!--                        </footer>-->
+<!--                    </sheet>-->
+<!--                </form>-->
+
+<!--            </field>-->
+<!--        </record>-->
+
+
+    </data>
+</openerp>

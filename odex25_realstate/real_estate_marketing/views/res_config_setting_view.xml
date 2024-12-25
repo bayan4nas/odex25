@@ -1,0 +1,81 @@
+<odoo>
+    <data>
+        <!-- Setting form -->
+        <record id="real_estate_marketing_settings_form_view_inherit" model="ir.ui.view">
+            <field name="name">real.estate.marketing.config.settings</field>
+            <field name="model">res.config.settings</field>
+            <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+            <xpath expr="//div[hasclass('settings')]" position="inside">
+                <div class="app_settings_block" data-string="Real Estate Marketing" string="Real Estate Marketing" data-key="real_estate_marketing"
+                     groups="real_estate_marketing.group_sale_marketer_normal_user">
+                    <h2>Sales Marketing Account Configuration</h2>
+                        <div class="row mt16 o_settings_container" name="default_commission_setting_container">
+                            <div class="col-12 col-lg-6 o_setting_box" id="default_commission"
+                                title="These accounts are set in any new Real Estate Sale created.">
+                                <div class="o_setting_left_pane"/>
+                                <div class="o_setting_right_pane">
+                                    <span class="o_form_label">Commission Accounts</span>
+                                    <span class="fa fa-lg fa-building-o" title="Values set here are company-specific." aria-label="Values set here are company-specific." groups="base.group_multi_company" role="img"/>
+                                    <div class="text-muted">
+                                        These Accounts will use in any real estate sale created
+                                    </div>
+                                    <div class="content-group">
+                                        <div class="row mt16">
+                                            <label string="Sale Journal" for="re_sale_journal_id" class="col-lg-3 o_light_label"/>
+                                            <field name="re_sale_journal_id" domain="[('type', '=', 'sale')]"/>
+                                        </div>
+                                        <div class="row">
+                                            <label string="Commission Account" for="commission_account_id" class="col-lg-3 o_light_label"/>
+                                            <field name="commission_account_id" />
+                                        </div>
+                                        <div class="row">
+                                            <label string="Commission Journal" for="commission_journal_id" class="col-lg-3 o_light_label"/>
+                                            <field name="commission_journal_id" domain="[('type', '=', 'sale')]"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o_setting_box" id="intermediary_include_account" title="intermediary and included accounts.">
+                                <div class="o_setting_left_pane"/>
+                                <div class="o_setting_right_pane">
+                                    <span class="o_form_label">Intermediary and Include accounts</span>
+                                    <span class="fa fa-lg fa-building-o" title="Values set here are company-specific." aria-label="Values set here are company-specific." groups="base.group_multi_company" role="img"/>
+                                    <div class="text-muted">
+                                        Intermediary and Include commission accounts
+                                    </div>
+                                     <div class="content-group">
+                                        <div class="row">
+                                            <label string="Intermediary Commission" for="intermediary_commission_account_id" class="col-lg-3 o_light_label"/>
+                                            <field name="intermediary_commission_account_id"/>
+                                        </div>
+                                        <div class="row">
+                                            <label string="Included By Commission" for="included_by_commission_account_id" class="col-lg-3 o_light_label"/>
+                                            <field name="included_by_commission_account_id"/>
+                                        </div>
+                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+            </xpath>
+            </field>
+        </record>
+
+
+        <record id="action_real_estate_marketing_configuration" model="ir.actions.act_window">
+            <field name="name">Settings</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.config.settings</field>
+            <field name="view_mode">form</field>
+            <field name="target">inline</field>
+            <field name="context">{'module' : 'real_estate_marketing','bin_size': False}</field>
+        </record>
+
+        <menuitem id="menu_real_estate_marketing_settings" name="Settings" parent="real_estate.configuration_main_menu"
+            sequence="0" action="action_real_estate_marketing_configuration" groups="real_estate_marketing.group_sale_marketer_normal_user"/>
+
+
+
+    </data>
+</odoo>

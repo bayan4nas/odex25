@@ -1,0 +1,270 @@
+<odoo>
+    <template id="general_maintenance_report">
+        <t t-call="web.html_container">
+        <t t-call="web.external_layout">
+            <style> 
+                body{
+                    margin: 0;
+                    width: 100%;
+                    }
+                .date_tb{
+                    display: table;
+                }
+
+                .date_th{
+                    display: table;
+                }
+                .date_tb div{
+                    display: table-cell;
+                    border-color: #888888;
+                    border: 1px solid #dee2e6;
+                    padding: 10px;
+                    min-width:30px;
+                }
+                .date_th{
+                    background-color: #dee2e6;
+                }
+                .box{
+                    padding-left: 10px;
+                    padding-right: 10px;
+                    border: 1px solid black;
+                    text-align: center;
+                    margin-top:10px;
+                    width: 150px;
+                    height: 100px;
+                    min-width: 150px;
+                    min-height: 100px;
+                    max-width: 150px;
+                    max-height: 100px;
+                    color:white;
+                    font-weight: bold;
+                }
+                .box-title{
+                    margin: 10px;
+                    font-weight: bold;
+                }
+
+                .box-content{
+                    margin: 15px;
+                    font-weight: bold;
+                }
+                
+                
+
+                .main-box-container, date_th{
+                    margin:30px;
+                }
+
+                .box-container{
+                    
+                }
+                .main-box-container .left{
+                    float: left;
+                    margin-top:10px;
+                }
+
+                .main-box-container .right{
+                    margin-left:300px;
+               }
+               .main-box-container .row{
+                   display: table;
+                   border-spacing: 20px;
+               }
+
+               .main-box-container .row .box{
+                   display: table-cell;
+               }
+               
+                .data_tb{
+                    text-align:center;
+                }
+                .data_tb th, #filters_tb th{
+                    background-color: #dee2e6;
+                }
+
+                .data_tb td , .data_tb th{
+                    border-color: #888888;
+                    border: 1px solid black;
+                    padding: 10px;
+                    min-width:30px;
+                    
+                }
+
+                #filters_tb, #filters_tb th,  #filters_tb td{
+                    border: 1px solid black;
+                    text-align : center;
+                    padding : 15px;
+                }
+
+                #filters_tb th, #filters_tb td{
+                    min-width: 150px;
+                    max-width: 150px;
+                }
+
+                .zooba{
+                    background-color:#66CDAA;
+                    
+                }
+
+                .over{
+                    background-color:#DC143C;
+                }
+
+                .high{
+                    background-color:red;
+                }
+                .open{
+                    background-color:#FFD700;
+                }
+                .closed{
+                    background-color:#228B22 ;
+                }
+                .total_work_order{
+                    background-color:#87CEFA ;
+                }
+                .plan{
+                    background-color:#6495ED ;
+                }
+                .hours{
+                    background-color:#1E90FF ;
+                }
+                .cost{
+                    background-color:#663399 ;
+                }
+                .downtime{
+                    background-color:#9370DB ;
+                }
+                .loss{
+                    background-color:#4B0082 ;
+                }
+            </style>
+            
+                <center>
+                <table id="filters_tb">
+                    <tr>
+                        <th>Date From</th>
+                        <th>Date To</th>
+                        <th>Equipment</th>
+                        <th>Category</th>
+                        <th>FAILURE TYPE</th>
+                        <th>Supervisor</th>
+                        <th>Team Member</th>
+                        <th>Team Type</th>
+                        <th>Spare Part</th>
+                        <th>Machine Status</th>
+                    </tr>
+                    <tr>
+                        <td><span t-esc="time_from" /></td>
+                        <td><span t-esc="time_to" /> </td>
+                        <td><span t-esc="filters.get('equipment_id', 'ALL')" /></td>
+                        <td><span t-esc="filters.get('category_id', 'ALL')" /></td>
+                        <td><span t-esc="filters.get('failure_id', 'ALL')" /></td>
+                        <td><span t-esc="filters.get('user_id', 'ALL')" /></td>
+                        <td><span t-esc="filters.get('employee_id', 'ALL')" /></td>
+                        <td><span t-esc="filters.get('team_type', 'ALL')" /></td>
+                        <td><span t-esc="filters.get('spare_id', 'ALL')" /></td>
+                        <td><span t-esc="filters.get('machine_status', 'ALL')" /></td>
+                    </tr>
+                </table>
+                
+                <div class="main-box-container">
+                <div class="">
+                    <div class="row">
+                        <div class="box zooba">
+                            <div class="box-title">TOTAL EQUIPMENT</div>
+                            <div class="box-content"><span t-esc="total['total_equipment']" /></div>
+                        </div>
+                        <div class="box total_work_order">
+                            <div class="box-title">TOTAL WORK ORDERS</div>
+                            <div class="box-content"><span t-esc="total['total_orders']" /></div>
+                        </div>
+                        <div class="box closed">
+                            <div class="box-title">CLOSED ORDERS</div>
+                            <div class="box-content"><span t-esc="total['total_colse']" /></div>
+                        </div>
+                        <div class="box open">
+                            <div class="box-title">OPEN ORDERS</div>
+                            <div class="box-content"><span t-esc="total['total_open']" /></div>
+                        </div>
+                        <div class="box over">
+                            <div class="box-title">OVER DUUE TASKS</div>
+                            <div class="box-content"><span t-esc="total['total_over_due']" /></div>
+                        </div>
+                        <div class="box high">
+                            <div class="box-title">HIGH PRIORITY</div>
+                            <div class="box-content"><span t-esc="total['total_high']" /></div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="box zooba">
+                            <div class="box-title"><br />TOTAL STAFF<br /> </div>
+                            <div class="box-content"><span t-esc="total['total_members']" /></div>
+                        </div>
+                        <div class="box plan">
+                            <div class="box-title">PLANNED VS UNPLANNED</div>
+                            <div class="box-content"><span t-esc="total['total_planned']" /></div>
+                        </div>
+                        <div class="box hours">
+                            <div class="box-title"> WORKING HOURS</div>
+                            <div class="box-content"><span t-esc="total['total_working_hours']" />H</div>
+                        </div>
+                        <div class="box cost">
+                            <div class="box-title"><br />REPAIR COST<br />  </div>
+                            <div class="box-content"><span t-esc="total['total_cost']" /> SDG</div>
+                        </div>
+                        <div class="box downtime">
+                            <div class="box-title">TOTAL DOWNTIME</div>
+                            <div class="box-content"><span t-esc="total['total_downtime']" /> H</div>
+                        </div>
+                        <div class="box loss">
+                            <div class="box-title"><br />TOTAL LOSSES <br /> </div>
+                            <div class="box-content"><span t-esc="total['total_loss']" /> Unit</div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+                
+                <table class="data_tb">
+                    <tr>
+                        <th>JOB NO</th>
+                        <th>DATE</th>
+                        <th>EQUIPMENT</th>
+                        <th>TITLE</th>
+                        <th>MAINTENANCE Type</th>
+                        <th>FAILURE TYPE</th>
+                        <th>PRIORITY</th>
+                        <th>ASSIGN STAFF</th>
+                        <th>TEAM</th>
+                        <th>MAN POWER</th>
+                        <th>Machine Status</th>
+                        <th>Down-Time</th>
+                        <th>LOSSES</th>
+                        <th>WORK Stage</th>
+                    </tr>
+                    <t t-foreach="docs" t-as="o">
+                    <tr>
+                        <td><span t-field="o.code"/></td>
+                        <td><span t-field="o.request_date"/></td>
+                        <td><span t-field="o.equipment_id.name"/></td>
+                        <td><span t-field="o.name"/></td>
+                        <td><span t-field="o.maintenance_type"/></td>
+                        <td><span t-field="o.failure_id.name"/></td>
+                        <td><span t-field="o.priority"/></td>
+                        <td><span t-field="o.user_id.name"/></td>
+                        <td>
+                            <span t-if="o.team_type=='in'"><span t-field="o.team_type"/></span>
+                            <span t-if="o.team_type=='out'"><span t-field="o.out_entity_id.name"/></span>
+                        </td>
+                        <td><span t-esc="len(o.employee_ids.ids)" /></td>
+                        <td><span t-field="o.machine_status"/></td>
+                        <td><span t-field="o.down_time"/></td>
+                        <td><span t-field="o.product_loss"/></td>
+                        <td><span t-field="o.stage_id.name"/></td>
+                    </tr>
+                    </t>
+                </table>
+                </center>
+            </t>
+        </t>
+    </template>
+</odoo>

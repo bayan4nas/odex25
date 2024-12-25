@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <template id="receive_unit_report">
+        <t t-call="web.html_container">
+            <t  t-foreach="docs" t-as="doc">
+                <div class="page">
+                    <t t-call="web.external_layout">
+                        <!-- <style>
+                            .line {
+                              width: 112px;
+                              height: 47px;
+                              border-bottom: 1px solid red;
+                              transform: translateY(-20px) translateX(5px) rotate(27deg);
+                              position: absolute;
+                              z-index: -1;
+                            }
+                        </style> -->
+                        <h2 class="text-center">To receive Unit</h2> <br/>
+
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th colspan="2" style="text-align: center; background-color:#e6e5e5;"><strong>Customer Name</strong></th>
+                                    <th style="text-align: center; background-color:#e6e5e5;"><strong>Project</strong></th>
+                                    <th style="text-align: center; background-color:#e6e5e5;"><strong>District</strong></th>
+                                    <th style="text-align: center; background-color:#e6e5e5;"><strong>Unit No.</strong></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <td colspan="2" style="text-align: center;"> <t t-esc="doc.partner_id.name"/> </td>
+                                <td style="text-align: center;"> <t t-esc="doc.unit_id.project_id.name"/> </td>
+                                <td style="text-align: center;"> <t t-esc="doc.unit_id.district_id.name"/> </td>
+                                <td style="text-align: center;"> <t t-esc="doc.unit_id.name"/> </td>
+                            </tbody>
+
+                        </table>
+
+                        <table class="table table-bordered">
+                           <thead>
+                                <tr>
+                                    <th style="text-align: center; background-color:#e6e5e5;"> Section</th>
+                                    <th style="text-align: center; background-color:#e6e5e5;"><strong>Paint</strong></th>
+                                    <th style="text-align: center; background-color:#e6e5e5;"><strong>Windows</strong></th>
+                                    <th style="text-align: center; background-color:#e6e5e5;"><strong>Tiles</strong></th>
+                                    <th style="text-align: center; background-color:#e6e5e5;"><strong>Lighting</strong></th>
+                                    <th style="text-align: center; background-color:#e6e5e5;"><strong>Air Conditioner Electricity</strong></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="text-align: center; background-color:#e6e5e5;"><strong>Council</strong></td>
+                                    <td style="text-align: center;">  </td>
+                                    <td style="text-align: center;">  </td>
+                                    <td style="text-align: center;">  </td>
+                                    <td style="text-align: center;">  </td>
+                                    <td style="text-align: center;">  </td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: center; background-color:#e6e5e5;"><strong>Hall</strong></td>
+                                    <td style="text-align: center;">  </td>
+                                    <td style="text-align: center;">  </td>
+                                    <td style="text-align: center;">  </td>
+                                    <td style="text-align: center;">  </td>
+                                    <td style="text-align: center;">  </td>
+                                </tr>
+
+                                <tr>
+                                    <td style="text-align: center; background-color:#e6e5e5;"><strong>Bedroom 1</strong></td>
+                                    <td style="text-align: center;">  </td>
+                                    <td style="text-align: center;">  </td>
+                                    <td style="text-align: center;">  </td>
+                                    <td style="text-align: center;">  </td>
+                                    <td style="text-align: center;">  </td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: center; background-color:#e6e5e5;"><strong>Bedroom 2</strong></td>
+                                    <td style="text-align: center;">  </td>
+                                    <td style="text-align: center;">  </td>
+                                    <td style="text-align: center;">  </td>
+                                    <td style="text-align: center;">  </td>
+                                    <td style="text-align: center;">  </td>
+                                </tr>
+
+                                <tr>
+                                    <td style="text-align: center; background-color:#e6e5e5;"><strong>Master Bedroom</strong></td>
+                                    <td style="text-align: center;">  </td>
+                                    <td style="text-align: center;">  </td>
+                                    <td style="text-align: center;">  </td>
+                                    <td style="text-align: center;">  </td>
+                                    <td style="text-align: center;">  </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <table class="table table-bordered">
+                           <thead>
+                                <tr>
+                                    <th style="text-align: center; background-color:#e6e5e5;"> Section</th>
+                                    <th style="text-align: center; background-color:#e6e5e5;"><strong>Shower and Rinse</strong></th>
+                                    <th style="text-align: center; background-color:#e6e5e5;"><strong>Siphon</strong></th>
+                                    <th style="text-align: center; background-color:#e6e5e5;"><strong>Heater</strong></th>
+                                    <th style="text-align: center; background-color:#e6e5e5;"><strong>Suction Fan</strong></th>
+                                    <th style="text-align: center; background-color:#e6e5e5;"><strong>Ourity</strong></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="text-align: center; background-color:#e6e5e5;"><strong>Majlis Bath</strong></td>
+                                    <td style="text-align: center;">  </td>
+                                    <td style="text-align: center;">  </td>
+                                    <td style="text-align: center;">  </td>
+                                    <td style="text-align: center;">  </td>
+                                    <td style="text-align: center;">  </td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: center; background-color:#e6e5e5;"><strong>Service Bath</strong></td>
+                                    <td style="text-align: center;">  </td>
+                                    <td style="text-align: center;">  </td>
+                                    <td style="text-align: center;">  </td>
+                                    <td style="text-align: center;">  </td>
+                                    <td style="text-align: center;">  </td>
+                                </tr>
+
+                                <tr>
+                                    <td style="text-align: center; background-color:#e6e5e5;"><strong>Master Bedroom Bath</strong></td>
+                                    <td style="text-align: center;">  </td>
+                                    <td style="text-align: center;">  </td>
+                                    <td style="text-align: center;">  </td>
+                                    <td style="text-align: center;">  </td>
+                                    <td style="text-align: center;">  </td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: center; background-color:#e6e5e5;"><strong> Maid's Bath </strong></td>
+                                    <td style="text-align: center;">  </td>
+                                    <td style="text-align: center;">  </td>
+                                    <td style="text-align: center;">  </td>
+                                    <td style="text-align: center;">  </td>
+                                    <td style="text-align: center;">  </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <table class="table table-bordered">
+                           <thead>
+                                <tr>
+                                    <th style="text-align: center; background-color:#e6e5e5;"><strong>Section</strong></th>
+                                    <th style="text-align: center; background-color:#e6e5e5;"><strong>Paint</strong></th>
+                                    <th style="text-align: center; background-color:#e6e5e5;"><strong>Valve</strong></th>
+                                    <th style="text-align: center; background-color:#e6e5e5;"><strong>Heater</strong></th>
+                                    <th style="text-align: center; background-color:#e6e5e5;"><strong>Suction Fan</strong></th>
+                                    <th style="text-align: center; background-color:#e6e5e5;"><strong>Ourity</strong></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <td style="text-align: center; background-color:#e6e5e5;"> Kitchen </td>
+                                <td style="text-align: center;">  </td>
+                                <td style="text-align: center;">  </td>
+                                <td style="text-align: center;">  </td>
+                                <td style="text-align: center;">  </td>
+                                <td style="text-align: center;">  </td>
+                            </tbody>
+                        </table>
+
+                        <br/>
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th colspan="6" style="text-align: center; background-color:#e6e5e5;"><strong>Notes</strong></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <td colspan="6"></td>
+                            </tbody>
+                        </table>
+
+                        <table class="table table-bordered">
+                            <tr>
+                                <td style="text-align: center; background-color:#e6e5e5;"><strong>Sales Employee</strong></td>
+                                <td colspan="2"> </td>
+
+                                <td style="text-align: center; background-color:#e6e5e5;"><strong>Signature</strong></td>
+                                <td colspan="2"> </td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center; background-color:#e6e5e5;"><strong>Customer</strong></td>
+                                <td colspan="2"> </td>
+
+                                <td style="text-align: center; background-color:#e6e5e5;"><strong>Signature</strong></td>
+                                <td colspan="2"> </td>
+                            </tr>
+                        </table>
+                    </t>
+                </div>
+            </t>
+        </t>
+    </template>
+    <report
+            id ="action_receive_unit_pdf"
+            model ="re.sale"
+            string ="Receive Unit"
+            report_type ="qweb-pdf"
+            name ="khwalid_real_estate_report.receive_unit_report"
+            file ="khwalid_real_estate_report.receive_unit_report"
+            />
+
+</odoo>

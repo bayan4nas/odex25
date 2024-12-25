@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--Menus-->
+    <menuitem name="Membership"
+              id="menu_membership_main"
+              sequence="10" groups="dev_membership.group_membership_user" web_icon="dev_membership,static/description/icon.png"/>
+    <menuitem name="Membership"
+              id="menu_membership_root"
+              parent="menu_membership_main"
+              sequence="6" groups="dev_membership.group_membership_user"/>
+    <menuitem name="Configuration"
+              id="menu_configuration_root"
+              parent="menu_membership_main"
+              sequence="8" groups="dev_membership.group_membership_manager"/>
+
+    <menuitem id="menu_partner_title_contact"
+              action="base.action_partner_title_contact"
+              name="Contact Titles" parent="dev_membership.menu_configuration_root"
+              sequence="5"/>
+
+</odoo>

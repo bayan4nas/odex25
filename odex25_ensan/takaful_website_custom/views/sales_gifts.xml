@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <record id="sale_gifts_tree" model="ir.ui.view">
+        <field name="name">sale.order.gifts.tree</field>
+        <field name="model">sale.order.gifts</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="reciever_name"/>
+                <field name="reciever_phone"/>
+                <field name="reciever_mail"/>
+                <field name="sender_name"/>
+                <field name="sale_order_id"/>
+            </tree>
+        </field>
+    </record>
+    <!-- Sale Gifts actions -->
+    <record id="sale_gifts_action" model="ir.actions.act_window">
+        <field name="name"> Gifts </field>
+        <field name="res_model">sale.order.gifts</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+     <menuitem id="sale_gifts_root_menu"
+              name="Sale Gifts"
+              parent="website.menu_website_configuration"/>
+
+    <menuitem id="sale_gifts_menu"
+              name="Sale Gifts"
+              parent="sale_gifts_root_menu"
+              action="sale_gifts_action"
+              sequence="16"/>
+</odoo>

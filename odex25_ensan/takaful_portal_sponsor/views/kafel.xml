@@ -1,0 +1,776 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="my_guarantees">
+        <t t-set="title"> بوابة الكافل</t>
+        <t t-call="website.layout">
+            <section class="guarantees padding_top">
+                <div class="container">
+                    <h2 class="heading">بوابة الكافل</h2>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="#">بوابة الكافل</a>
+                            </li>
+                            <li class="breadcrumb-item active" aria-current="page">كفالاتي</li>
+                        </ol>
+                    </nav>
+
+                    <div class="guarantee_header">
+                        <div class="departments d-flex">
+                            <a href="/guarantees" class="box active">
+                                <div class="img">
+                                    <img src="/takaful_portal_sponsor/static/img/Gurantees/kafalaty.png" alt="Kafalaty" />
+                                </div>
+                                <h5 class="description text-center"> كفالاتي </h5>
+                            </a>
+                            <a href="/sadad" class="box">
+                                <div class="img">
+                                    <img src="/takaful_portal_sponsor/static/img/Gurantees/cashback.png" alt="Kafalaty" />
+                                </div>
+                                <h5 class="description text-center"> سداد الكفالات </h5>
+                            </a>
+                            <a href="/need_kafala" class="box">
+                                <div class="img">
+                                    <img src="/takaful_portal_sponsor/static/img/Gurantees/cash1.png" alt="Kafalaty" />
+                                </div>
+                                <h5 class="description text-center"> بحاجة الى كفاله</h5>
+                            </a>
+                            <a href="#" class="box trigger_group_guarantee_modal">
+                                <div class="img">
+                                    <img src="/takaful_portal_sponsor/static/img/Gurantees/kafala_gama3ya.png" alt="Kafalaty" />
+                                </div>
+                                <h5 class="description text-center"> إنشاء كفالة جماعية </h5>
+                            </a>
+                            <a href="/orphan_needs" class="box">
+                                <div class="img">
+                                    <img src="/takaful_portal_sponsor/static/img/Gurantees/yateem.png" alt="yateem" />
+                                </div>
+                                <h5 class="description text-center"> احتياجات ايتام وارامل </h5>
+                            </a>
+                            <a href="/kafala_gift" class="box">
+                                <div class="img">
+                                    <img src="/takaful_portal_sponsor/static/img/Gurantees/gift.png" alt="Kafalaty" />
+                                </div>
+                                <h5 class="description text-center">إهداء مالي</h5>
+                            </a>
+                            <a href="/general_needs" class="box">
+                                <div class="img">
+                                    <img src="/takaful_portal_sponsor/static/img/Gurantees/trend.png" alt="Kafalaty" />
+                                </div>
+                                <h5 class="description text-center"> إحتياجات عامة </h5>
+                            </a>
+                            <a href="/cancel_kafala" class="box">
+                                <div class="img">
+                                    <img src="/takaful_portal_sponsor/static/img/Gurantees/cancel.png" alt="Kafalaty" />
+                                </div>
+                                <h5 class="description text-center"> إلغاء الكفالة </h5>
+                            </a>
+                        </div>
+                    </div>
+                    <t t-call="takaful_portal_sponsor.header_links" />
+
+                    <section class="my_data">
+                        <div>
+                            <label for="benefits-type">فلتر بـ</label>
+                            <select id="benefits-type">
+                                <option value="orphan">يتيم</option>
+                                <option value="widow">أرملة</option>
+                            </select>
+                        </div>
+                        <table id="table_id" class="display kafalaty_table w-100">
+                            <thead>
+                                <tr>
+                                    <th>الرقم</th>
+                                    <th>الاسم</th>
+                                    <th>الجنس</th>
+                                    <th>السن</th>
+                                    <th>المدينة</th>
+                                    <th>نوع الحالة </th>
+                                    <th>نسبة الاحتياج</th>
+                                    <th>متأخرات مالية </th>
+                                    <th>تاريخ بدء الكفالة </th>
+                                    <th>حالة الكفالة </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                        <div>
+                            <button id="benefits-prev" disabled="disabled">
+                                <img src="/takaful_portal_benefit/static/img/prev.png" />
+                            </button>
+                            <button id="benefits-next" disabled="disabled">
+                                <img src="/takaful_portal_benefit/static/img/next.png" />
+                            </button>
+                        </div>
+                    </section>
+                </div>
+            </section>
+            <script src="/takaful_portal_sponsor/static/js/kafel.js"></script>
+        </t>
+
+    </template>
+
+    <template id="sadad">
+        <t t-set="title"> سداد الكفالات     </t>
+        <t t-call="website.layout">
+            <section class="guarantees padding_top">
+                <div class="container">
+                    <h2 class="heading">بوابة الكافل</h2>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="#">بوابة الكافل</a>
+                            </li>
+                            <li class="breadcrumb-item active" aria-current="page">سداد الكفالات </li>
+                        </ol>
+                    </nav>
+
+                    <div class="guarantee_header">
+                        <div class="departments d-flex">
+                            <a href="/guarantees" class="box ">
+                                <div class="img">
+                                    <img src="/takaful_portal_sponsor/static/img/Gurantees/kafalaty.png" alt="Kafalaty" />
+                                </div>
+                                <h5 class="description text-center"> كفالاتي </h5>
+                            </a>
+                            <a href="/sadad" class="box active">
+                                <div class="img">
+                                    <img src="/takaful_portal_sponsor/static/img/Gurantees/cashback.png" alt="Kafalaty" />
+                                </div>
+                                <h5 class="description text-center"> سداد الكفالات </h5>
+                            </a>
+                            <a href="/need_kafala" class="box">
+                                <div class="img">
+                                    <img src="/takaful_portal_sponsor/static/img/Gurantees/cash1.png" alt="Kafalaty" />
+                                </div>
+                                <h5 class="description text-center"> بحاجة الى كفاله</h5>
+                            </a>
+                            <a href="#" class="box trigger_group_guarantee_modal">
+                                <div class="img">
+                                    <img src="/takaful_portal_sponsor/static/img/Gurantees/kafala_gama3ya.png" alt="Kafalaty" />
+                                </div>
+                                <h5 class="description text-center"> إنشاء كفالة جماعية </h5>
+                            </a>
+                            <a href="/orphan_needs" class="box">
+                                <div class="img">
+                                    <img src="/takaful_portal_sponsor/static/img/Gurantees/yateem.png" alt="yateem" />
+                                </div>
+                                <h5 class="description text-center"> احتياجات ايتام وارامل </h5>
+                            </a>
+                            <a href="/kafala_gift" class="box">
+                                <div class="img">
+                                    <img src="/takaful_portal_sponsor/static/img/Gurantees/gift.png" alt="Kafalaty" />
+                                </div>
+                                <h5 class="description text-center">إهداء مالي</h5>
+                            </a>
+                            <a href="/general_needs" class="box">
+                                <div class="img">
+                                    <img src="/takaful_portal_sponsor/static/img/Gurantees/trend.png" alt="Kafalaty" />
+                                </div>
+                                <h5 class="description text-center"> إحتياجات عامة </h5>
+                            </a>
+                            <a href="/cancel_kafala" class="box">
+                                <div class="img">
+                                    <img src="/takaful_portal_sponsor/static/img/Gurantees/cancel.png" alt="Kafalaty" />
+                                </div>
+                                <h5 class="description text-center"> إلغاء الكفالة </h5>
+                            </a>
+                        </div>
+                    </div>
+                    <t t-call="takaful_portal_sponsor.header_links" />
+                    <div>
+                        <label for="benefits-type">فلتر بـ</label>
+                        <select id="benefits-type">
+                            <option value="orphan">يتيم</option>
+                            <option value="widow">أرملة</option>
+                        </select>
+                    </div>
+                    <section class="my_data sadad ">
+                        <table id="table_id" class="display sponsorships_pay w-100">
+                            <thead>
+                                <tr>
+                                    <th>الرقم</th>
+                                    <th>الاسم</th>
+                                    <th>الجنس</th>
+                                    <th>السن</th>
+                                    <th>المدينة</th>
+                                    <th>نوع الحالة </th>
+                                    <th>نسبة الاحتياج</th>
+                                    <th>متأخرات مالية </th>
+                                    <th>تاريخ بدء الكفالة </th>
+                                    <th style="padding:24px ;">حالة الكفالة </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+                        </table>
+                        <div>
+                            <button id="benefits-prev" disabled="disabled">
+                                <img src="/takaful_portal_benefit/static/img/prev.png" />
+                            </button>
+                            <button id="benefits-next" disabled="disabled">
+                                <img src="/takaful_portal_benefit/static/img/next.png" />
+                            </button>
+                        </div>
+                    </section>
+                </div>
+            </section>
+            <script src="/takaful_portal_sponsor/static/js/sponsorships_pay.js"></script>
+            <script src="/takaful_portal_sponsor/static/js/kafel.js"></script>
+        </t>
+
+    </template>
+
+    <template id="need_kafala">
+        <t t-set="title"> بحاجة للكفالة   </t>
+        <t t-call="website.layout">
+            <section class="guarantees padding_top">
+                <div class="container">
+                    <h2 class="heading">بوابة الكافل</h2>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="#">بوابة الكافل</a>
+                            </li>
+                            <li class="breadcrumb-item active" aria-current="page"> بحاجة للكفالة   </li>
+                        </ol>
+                    </nav>
+                    <div class="guarantee_header">
+                        <div class="departments d-flex">
+                            <a href="/guarantees" class="box ">
+                                <div class="img">
+                                    <img src="/takaful_portal_sponsor/static/img/Gurantees/kafalaty.png" alt="Kafalaty" />
+                                </div>
+                                <h5 class="description text-center"> كفالاتي </h5>
+                            </a>
+                            <a href="/sadad" class="box">
+                                <div class="img">
+                                    <img src="/takaful_portal_sponsor/static/img/Gurantees/cashback.png" alt="Kafalaty" />
+                                </div>
+                                <h5 class="description text-center"> سداد الكفالات </h5>
+                            </a>
+                            <a href="/need_kafala" class="box active">
+                                <div class="img">
+                                    <img src="/takaful_portal_sponsor/static/img/Gurantees/cash1.png" alt="Kafalaty" />
+                                </div>
+                                <h5 class="description text-center"> بحاجة الى كفاله</h5>
+                            </a>
+                            <a href="#" class="box trigger_group_guarantee_modal">
+                                <div class="img">
+                                    <img src="/takaful_portal_sponsor/static/img/Gurantees/kafala_gama3ya.png" alt="Kafalaty" />
+                                </div>
+                                <h5 class="description text-center"> إنشاء كفالة جماعية </h5>
+                            </a>
+                            <a href="/orphan_needs" class="box">
+                                <div class="img">
+                                    <img src="/takaful_portal_sponsor/static/img/Gurantees/yateem.png" alt="yateem" />
+                                </div>
+                                <h5 class="description text-center"> احتياجات ايتام وارامل </h5>
+                            </a>
+                            <a href="/kafala_gift" class="box">
+                                <div class="img">
+                                    <img src="/takaful_portal_sponsor/static/img/Gurantees/gift.png" alt="Kafalaty" />
+                                </div>
+                                <h5 class="description text-center">إهداء مالي</h5>
+                            </a>
+                            <a href="/general_needs" class="box">
+                                <div class="img">
+                                    <img src="/takaful_portal_sponsor/static/img/Gurantees/trend.png" alt="Kafalaty" />
+                                </div>
+                                <h5 class="description text-center"> إحتياجات عامة </h5>
+                            </a>
+                            <a href="/cancel_kafala" class="box">
+                                <div class="img">
+                                    <img src="/takaful_portal_sponsor/static/img/Gurantees/cancel.png" alt="Kafalaty" />
+                                </div>
+                                <h5 class="description text-center"> إلغاء الكفالة </h5>
+                            </a>
+                        </div>
+                    </div>
+                    <t t-call="takaful_portal_sponsor.header_links" />
+                    <section class="my_data sadad">
+                        <div>
+                            <label for="benefits-type">فلتر بـ</label>
+                            <select id="benefit-type">
+                                <option value="orphan">يتيم</option>
+                                <option value="widow">أرملة</option>
+                            </select>
+                        </div>
+                        <table id="table_id" class="display need_sponsorship w-100">
+                            <thead>
+                                <tr>
+                                    <th>الرقم</th>
+                                    <th>الاسم</th>
+                                    <th>الجنس</th>
+                                    <th>السن</th>
+                                    <th>المدينة</th>
+                                    <th>نوع المستفيد </th>
+                                    <th>نسبة الاحتياج</th>
+                                    <th style="padding:24px ; width:auto"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            
+                            </tbody>
+                        </table>
+                        <div>
+                            <button id="benefits-prev" disabled="disabled">
+                                <img src="/takaful_portal_benefit/static/img/prev.png" />
+                            </button>
+                            <button id="benefits-next" disabled="disabled">
+                                <img src="/takaful_portal_benefit/static/img/next.png" />
+                            </button>
+                        </div>
+                    </section>
+                </div>
+            </section>            
+            <script src="/takaful_portal_sponsor/static/js/sponsorships_needs.js"></script>
+            <script src="/takaful_portal_sponsor/static/js/kafel.js"></script>
+        </t>
+    </template>
+
+    <template id="orphan_needs">
+        <t t-set="title"> بوابة الكافل   </t>
+        <t t-call="website.layout">
+            <section class="guarantees padding_top">
+                <div class="container">
+                    <h2 class="heading">بوابة الكافل</h2>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="#">بوابة الكافل</a>
+                            </li>
+                            <li class="breadcrumb-item active" aria-current="page"> إحتياجات أيتام
+                                و ارامل  </li>
+                        </ol>
+                    </nav>
+                    <div class="guarantee_header">
+                        <div class="departments d-flex">
+                            <a href="/guarantees" class="box ">
+                                <div class="img">
+                                    <img src="/takaful_portal_sponsor/static/img/Gurantees/kafalaty.png" alt="Kafalaty" />
+                                </div>
+                                <h5 class="description text-center"> كفالاتي </h5>
+                            </a>
+                            <a href="/sadad" class="box">
+                                <div class="img">
+                                    <img src="/takaful_portal_sponsor/static/img/Gurantees/cashback.png" alt="Kafalaty" />
+                                </div>
+                                <h5 class="description text-center"> سداد الكفالات </h5>
+                            </a>
+                            <a href="/need_kafala" class="box ">
+                                <div class="img">
+                                    <img src="/takaful_portal_sponsor/static/img/Gurantees/cash1.png" alt="Kafalaty" />
+                                </div>
+                                <h5 class="description text-center"> بحاجة الى كفاله</h5>
+                            </a>
+                            <a href="#" class="box trigger_group_guarantee_modal">
+                                <div class="img">
+                                    <img src="/takaful_portal_sponsor/static/img/Gurantees/kafala_gama3ya.png" alt="Kafalaty" />
+                                </div>
+                                <h5 class="description text-center"> إنشاء كفالة جماعية </h5>
+                            </a>
+                            <a href="/orphan_needs" class="box active" >
+                                <div class="img">
+                                    <img src="/takaful_portal_sponsor/static/img/Gurantees/yateem.png" alt="yateem" />
+                                </div>
+                                <h5 class="description text-center"> احتياجات ايتام وارامل </h5>
+                            </a>
+                            <a href="/kafala_gift" class="box">
+                                <div class="img">
+                                    <img src="/takaful_portal_sponsor/static/img/Gurantees/gift.png" alt="Kafalaty" />
+                                </div>
+                                <h5 class="description text-center">إهداء مالي</h5>
+                            </a>
+                            <a href="/general_needs" class="box">
+                                <div class="img">
+                                    <img src="/takaful_portal_sponsor/static/img/Gurantees/trend.png" alt="Kafalaty" />
+                                </div>
+                                <h5 class="description text-center"> إحتياجات عامة </h5>
+                            </a>
+                            <a href="/cancel_kafala" class="box">
+                                <div class="img">
+                                    <img src="/takaful_portal_sponsor/static/img/Gurantees/cancel.png" alt="Kafalaty" />
+                                </div>
+                                <h5 class="description text-center"> إلغاء الكفالة </h5>
+                            </a>
+                        </div>
+                    </div>
+                    <t t-call="takaful_portal_sponsor.header_links" />
+                    <div>
+                        <label for="benefits-type">فلتر بـ</label>
+                        <select id="benefit-type">
+                            <option value="orphan">يتيم</option>
+                            <option value="widow">أرملة</option>
+                        </select>
+                    </div>
+                    <section class="my_data sadad">
+                        <table id="table_id" class="display orphan_widows_needs w-100">
+                            <thead>
+                                <tr>
+                                    <th>الرقم</th>
+                                    <th>الاسم</th>
+                                    <th>الجنس</th>
+                                    <th>السن</th>
+                                    <th>المدينة</th>
+                                    <th>نوع المستفيد </th>
+                                    <th>نسبة الاحتياج</th>
+                                    <th style="padding:24px ;"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                
+
+                            </tbody>
+                        </table>
+                        <div>
+                            <button id="benefits-prev" disabled="disabled">
+                                <img src="/takaful_portal_benefit/static/img/prev.png" />
+                            </button>
+                            <button id="benefits-next" disabled="disabled">
+                                <img src="/takaful_portal_benefit/static/img/next.png" />
+                            </button>
+                        </div>
+                    </section>
+                </div>
+            </section>
+            <script src="/takaful_portal_sponsor/static/js/orphan_widows_needs.js"></script>
+            <script src="/takaful_portal_sponsor/static/js/kafel.js"></script>
+        </t>
+    </template>
+
+    <template id="kafala_gift">
+        <t t-set="title"> بوابة الكافل   </t>
+        <t t-call="website.layout">
+            <section class="guarantees padding_top">
+                <div class="container">
+                    <h2 class="heading">بوابة الكافل</h2>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="#">بوابة الكافل</a>
+                            </li>
+                            <li class="breadcrumb-item active" aria-current="page">إهداء مالي </li>
+                        </ol>
+                    </nav>
+                    <div class="guarantee_header">
+                        <div class="departments d-flex">
+                            <a href="/guarantees" class="box ">
+                                <div class="img">
+                                    <img src="/takaful_portal_sponsor/static/img/Gurantees/kafalaty.png" alt="Kafalaty" />
+                                </div>
+                                <h5 class="description text-center"> كفالاتي </h5>
+                            </a>
+                            <a href="/sadad" class="box">
+                                <div class="img">
+                                    <img src="/takaful_portal_sponsor/static/img/Gurantees/cashback.png" alt="Kafalaty" />
+                                </div>
+                                <h5 class="description text-center"> سداد الكفالات </h5>
+                            </a>
+                            <a href="/need_kafala" class="box">
+                                <div class="img">
+                                    <img src="/takaful_portal_sponsor/static/img/Gurantees/cash1.png" alt="Kafalaty" />
+                                </div>
+                                <h5 class="description text-center"> بحاجة الى كفاله</h5>
+                            </a>
+                            <a href="#" class="box trigger_group_guarantee_modal">
+                                <div class="img">
+                                    <img src="/takaful_portal_sponsor/static/img/Gurantees/kafala_gama3ya.png" alt="Kafalaty" />
+                                </div>
+                                <h5 class="description text-center"> إنشاء كفالة جماعية </h5>
+                            </a>
+                            <a href="/orphan_needs" class="box">
+                                <div class="img">
+                                    <img src="/takaful_portal_sponsor/static/img/Gurantees/yateem.png" alt="yateem" />
+                                </div>
+                                <h5 class="description text-center"> احتياجات ايتام وارامل </h5>
+                            </a>
+                            <a href="/kafala_gift" class="box active">
+                                <div class="img">
+                                    <img src="/takaful_portal_sponsor/static/img/Gurantees/gift.png" alt="Kafalaty" />
+                                </div>
+                                <h5 class="description text-center"  > إهداء مالي </h5>
+                            </a>
+                            <a href="/general_needs" class="box ">
+                                <div class="img">
+                                    <img src="/takaful_portal_sponsor/static/img/Gurantees/trend.png" alt="Kafalaty" />
+                                </div>
+                                <h5 class="description text-center"> إحتياجات عامة </h5>
+                            </a>
+                            <a href="/cancel_kafala" class="box">
+                                <div class="img">
+                                    <img src="/takaful_portal_sponsor/static/img/Gurantees/cancel.png" alt="Kafalaty" />
+                                </div>
+                                <h5 class="description text-center"> إلغاء الكفالة </h5>
+                            </a>
+                        </div>
+                    </div>
+                    <t t-call="takaful_portal_sponsor.header_links" />
+                    <div>
+                        <label for="benefits-type">فلتر بـ</label>
+                        <select id="benefit-type">
+                            <option value="orphan">يتيم</option>
+                            <option value="widow">أرملة</option>
+                        </select>
+                    </div>
+                    <section class="my_data">
+                        <table id="table_id" class="display financial_donation w-100">
+                            <thead>
+                                <tr>
+                                    <th>الرقم</th>
+                                    <th>الاسم</th>
+                                    <th>الجنس</th>
+                                    <th>السن</th>
+                                    <th>المدينة</th>
+                                    <th>نوع المستفيد </th>
+                                    <th>نسبة الاحتياج</th>
+                                    <th> احتياجات طارئة </th>
+                                    <th>متأخرات مالية </th>
+                                    <th style="padding: 24px"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            
+                            </tbody>
+                        </table>
+                        <div>
+                            <button id="benefits-prev" disabled="disabled">
+                                <img src="/takaful_portal_benefit/static/img/prev.png" />
+                            </button>
+                            <button id="benefits-next" disabled="disabled">
+                                <img src="/takaful_portal_benefit/static/img/next.png" />
+                            </button>
+                        </div>
+                    </section>
+                </div>
+            </section>
+            <script src="/takaful_portal_sponsor/static/js/financial_donation.js"></script>
+            <script src="/takaful_portal_sponsor/static/js/kafel.js"></script>
+        </t>
+    </template>
+
+    <template id="general_needs">
+        <t t-set="title"> بوابة الكافل   </t>
+        <t t-call="website.layout">
+            <section class="guarantees padding_top">
+                <div class="container">
+                    <h2 class="heading">بوابة الكافل</h2>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="#">بوابة الكافل</a>
+                            </li>
+                            <li class="breadcrumb-item active" aria-current="page">   احتياجات عامة</li>
+                        </ol>
+                    </nav>
+                    <div class="guarantee_header">
+                        <div class="departments d-flex">
+                            <a href="/guarantees" class="box ">
+                                <div class="img">
+                                    <img src="/takaful_portal_sponsor/static/img/Gurantees/kafalaty.png" alt="Kafalaty" />
+                                </div>
+                                <h5 class="description text-center"> كفالاتي </h5>
+                            </a>
+                            <a href="/sadad" class="box">
+                                <div class="img">
+                                    <img src="/takaful_portal_sponsor/static/img/Gurantees/cashback.png" alt="Kafalaty" />
+                                </div>
+                                <h5 class="description text-center"> سداد الكفالات </h5>
+                            </a>
+                            <a href="/need_kafala" class="box">
+                                <div class="img">
+                                    <img src="/takaful_portal_sponsor/static/img/Gurantees/cash1.png" alt="Kafalaty" />
+                                </div>
+                                <h5 class="description text-center"> بحاجة الى كفاله</h5>
+                            </a>
+                            <a href="#" class="box trigger_group_guarantee_modal">
+                                <div class="img">
+                                    <img src="/takaful_portal_sponsor/static/img/Gurantees/kafala_gama3ya.png" alt="Kafalaty" />
+                                </div>
+                                <h5 class="description text-center"> إنشاء كفالة جماعية </h5>
+                            </a>
+                            <a href="/orphan_needs" class="box">
+                                <div class="img">
+                                    <img src="/takaful_portal_sponsor/static/img/Gurantees/yateem.png" alt="yateem" />
+                                </div>
+                                <h5 class="description text-center"> احتياجات ايتام وارامل </h5>
+                            </a>
+                            <a href="/kafala_gift" class="box active">
+                                <div class="img">
+                                    <img src="/takaful_portal_sponsor/static/img/Gurantees/gift.png" alt="Kafalaty" />
+                                </div>
+                                <h5 class="description text-center"  > إهداء مالي </h5>
+                            </a>
+                            <a href="/general_needs" class="box ">
+                                <div class="img">
+                                    <img src="/takaful_portal_sponsor/static/img/Gurantees/trend.png" alt="Kafalaty" />
+                                </div>
+                                <h5 class="description text-center"> إحتياجات عامة </h5>
+                            </a>
+                            <a href="/cancel_kafala" class="box">
+                                <div class="img">
+                                    <img src="/takaful_portal_sponsor/static/img/Gurantees/cancel.png" alt="Kafalaty" />
+                                </div>
+                                <h5 class="description text-center"> إلغاء الكفالة </h5>
+                            </a>
+                        </div>
+                    </div>
+                    <section class="my_data sadad">
+                        <table id="table_id" class="display general_needs w-100">
+                            <thead>
+                                <tr>
+                                    <th>الرقم</th>
+                                    <th>نوع الإحتياج</th>
+                                    <th>المنطقة </th>
+                                    <th>عدد المستفيدين</th>
+                                    <th>المبلغ </th>
+                                    <th> نسبة اكتمال المبلغ  </th>
+                                    <th> المبلغ المتبقي </th>
+                                    <th style="padding:24px ;"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            
+
+                            </tbody>
+                        </table>
+                    </section>
+                </div>
+            </section>
+            <script src="/takaful_portal_sponsor/static/js/general_needs.js"></script>
+
+        </t>
+    </template>
+
+    <template id="cancel_kafala">
+        <t t-set="title"> بوابة الكافل   </t>
+        <t t-call="website.layout">
+            <section class="guarantees padding_top">
+                <div class="container">
+                    <h2 class="heading">بوابة الكافل</h2>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="#">بوابة الكافل</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">إلغاء الكفالة</li>
+                        </ol>
+                    </nav>
+                    <div class="guarantee_header">
+                        <div class="departments d-flex">
+                            <a href="/guarantees" class="box ">
+                                <div class="img">
+                                    <img src="/takaful_portal_sponsor/static/img/Gurantees/kafalaty.png" alt="Kafalaty" />
+                                </div>
+                                <h5 class="description text-center"> كفالاتي </h5>
+                            </a>
+                            <a href="/sadad" class="box">
+                                <div class="img">
+                                    <img src="/takaful_portal_sponsor/static/img/Gurantees/cashback.png" alt="Kafalaty" />
+                                </div>
+                                <h5 class="description text-center"> سداد الكفالات </h5>
+                            </a>
+                            <a href="/need_kafala" class="box">
+                                <div class="img">
+                                    <img src="/takaful_portal_sponsor/static/img/Gurantees/cash1.png" alt="Kafalaty" />
+                                </div>
+                                <h5 class="description text-center"> بحاجة الى كفاله</h5>
+                            </a>
+                            <a href="#" class="box trigger_group_guarantee_modal">
+                                <div class="img">
+                                    <img src="/takaful_portal_sponsor/static/img/Gurantees/kafala_gama3ya.png" alt="Kafalaty" />
+                                </div>
+                                <h5 class="description text-center"> إنشاء كفالة جماعية </h5>
+                            </a>
+                            <a href="/orphan_needs" class="box">
+                                <div class="img">
+                                    <img src="/takaful_portal_sponsor/static/img/Gurantees/yateem.png" alt="yateem" />
+                                </div>
+                                <h5 class="description text-center"> احتياجات ايتام وارامل </h5>
+                            </a>
+                            <a href="/kafala_gift" class="box">
+                                <div class="img">
+                                    <img src="/takaful_portal_sponsor/static/img/Gurantees/gift.png" alt="Kafalaty" />
+                                </div>
+                                <h5 class="description text-center"  > إهداء مالي </h5>
+                            </a>
+                            <a href="/general_needs" class="box ">
+                                <div class="img">
+                                    <img src="/takaful_portal_sponsor/static/img/Gurantees/trend.png" alt="Kafalaty" />
+                                </div>
+                                <h5 class="description text-center"> إحتياجات عامة </h5>
+                            </a>
+                            <a href="/cancel_kafala" class="box active">
+                                <div class="img">
+                                    <img src="/takaful_portal_sponsor/static/img/Gurantees/cancel.png" alt="Kafalaty" />
+                                </div>
+                                <h5 class="description text-center"> إلغاء الكفالة </h5>
+                            </a>
+                        </div>
+                    </div>
+                    <t t-call="takaful_portal_sponsor.header_links" />
+                    <section class="my_data cancel_kafala">
+                        <table id="table_id" class="display sponsorship_cancelation w-100">
+                            <thead>
+                                <tr>
+                                    <th>الرقم</th>
+                                    <th>الاسم</th>
+                                    <th>الجنس</th>
+                                    <th>السن</th>
+                                    <th>المدينة</th>
+                                    <th>نوع الحالة </th>
+                                    <th>نسبة الاحتياج</th>
+                                    <th>متأخرات مالية </th>
+                                    <th>تاريخ بدء الكفالة </th>
+                                    <th style="padding: 24px 32px;">حالة الكفالة </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </section>
+                </div>
+            </section>
+
+            <div class="modal kafala_modal single_kafala fade" id="sponsorship_cancelation" tabindex="-1"
+            role="dialog"
+            aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title heading" id="exampleModalLongTitle"> إلغاء الكفالة  </h5>
+                            <button type="button" class="close" data-dismiss="modal"
+                                aria-label="Close">
+                                <img src="/takaful_portal_sponsor/static/img/close.png" alt="close" />
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>
+                                نأسف على إلغائكم للكفالة ونأمل منكم العودة مرة أخري
+                                للمساعدة  في الخير     
+                            </p>
+                            <form id="cancelation_form" method="POST">
+                                <div class="row">
+                                    <input type="hidden" class="form-control" id="sponsorship_id" name="sponsorship_id"/>
+                                    <div class="form-group col-lg-12">
+                                        <label for="reason_id" class=" control-label"> سبب إلغاء الكفالة </label>
+                                        <select id="reason_id" class="custom-select">
+                                        
+                                        </select>
+                                    </div>
+                                    <div class="cancelation_feedback"></div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-primary">تأكيد   </button>
+                                    <button type="button" class="btn btn-outline-danger"> الغاء   </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <script src="/takaful_portal_sponsor/static/js/kafel.js"></script>
+        </t>
+    </template>
+
+</odoo>

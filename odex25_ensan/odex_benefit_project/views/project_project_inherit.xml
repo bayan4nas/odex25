@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+      <record id="project_project_view_form" model="ir.ui.view">
+            <field name="name">project.project.add.service.request.information.form</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.edit_project"/>
+             <field name="arch" type="xml">
+                 <div class="oe_button_box" position="inside">
+                        <button class="oe_stat_button" type="object" name="action_view_related_records"  icon="fa-list-ol">
+                     <field name="service_requests_count" widget="statinfo" string="Services Requests"/>
+                        </button>
+
+                    </div>
+                <xpath expr="//page[@name='settings']" position="after">
+                    <page string="Home Restoration Service" attrs="{'invisible':[('service_type', '!=', 'home_restoration')]}">
+                         <group>
+                             <field name="service_type" readonly="1" force_save="1"/>
+                            <field name="requested_service_amount"/>
+                            <field name="restoration_max_amount"/>
+                            <field name="has_money_field_is_appearance" invisible="1"/>
+                            <field name="has_money_to_pay_first_payment" widget="boolean_toggle" attrs="{'invisible':[('has_money_field_is_appearance', '=', False)]}"/>
+                            <field name="is_family_need_evacuate" groups="project_base.group_project_department_manager"/>
+                         </group>
+                    </page>
+                    <page string="Complete Building House Service" attrs="{'invisible':[('service_type', '!=', 'complete_building_house')]}">
+                         <group>
+                             <field name="service_type" readonly="1" force_save="1"/>
+                            <field name="requested_service_amount"  readonly="1" force_save="1"/>
+                            <field name="max_complete_building_house_amount"  readonly="1" force_save="1"/>
+                            <field name="has_money_for_payment_is_appearance" invisible="1"/>
+                            <field name="has_money_for_payment" attrs="{'invisible':[('has_money_for_payment_is_appearance', '=', False)]}" readonly="1" force_save="1"/>
+                         </group>
+                    </page>
+                </xpath>
+                <xpath expr="//header" position="inside">
+                    <button name="create_alternative_housing_request" class="btn-primary" string="Create Alternative Housing Request" type="object" attrs="{'invisible':['|',('service_type', '!=', 'home_restoration'),('is_family_need_evacuate','=',False)]}"/>
+                 </xpath>
+             </field>
+      </record>
+    </data>
+</odoo>

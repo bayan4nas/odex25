@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <!-- Inherit Form View to Modify it -->
+        <record id="unit_form_view_khawald_inherit_real_estate" model="ir.ui.view">
+            <field name="name">re.unit.real.estate.marketing</field>
+            <field name="model">re.unit</field>
+            <field name="inherit_id" ref="khawald_project.unit_form_view_khawald"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='action_draft']" position="before">
+                    <button name="action_unit_emptied" string="Emptied Done" states="handover" type="object"/>
+                </xpath>
+                <xpath expr="//page[@name='unit_electric']" position="after">
+                    <page string="Additional Info" name="additional_info">
+                        <group>
+                            <group>
+                                <field name="handover_to_client_date" readonly="1" force_save="1"/>
+                            </group>
+                            <group>
+                                <field name="emptied_date" readonly="1" force_save="1"/>
+                            </group>
+                        </group>
+                        <group string="Waiting List">
+                            <field name="waiting_ids" options="{'no_create': True, 'no_quick_create': True}">
+                                <tree editable="bottom">
+                                    <field name="partner_id"/>
+                                </tree>
+                                <form></form>
+                        </field>
+                        </group>
+                    </page>
+                </xpath>
+
+                <xpath expr="//page[@name='stamping_info']/group/group" position="after">
+                    <group string="New Stamping">
+                        <field name="stamping_new" attrs="{'readonly':[('state','!=','handover'),('unlock','=',True)], 'required':[('state', '=', 'handover')]}"/>
+                        <field name="stamping_date_new" attrs="{'readonly':[('state','!=','handover'),('unlock','=',True)], 'required':[('state', '=', 'handover')]}"/>
+                        <field name="stamping_attach_new" attrs="{'readonly':[('state','!=','handover'),('unlock','=',True)], 'required':[('state', '=', 'handover')]}"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Inherit Form View to Modify it --> <!-- edit -->
+        <!-- <record id="re_unit_inherit_contract_form_view" model="ir.ui.view">
+            <field name="name">re.unit.inherit.contract.form.view</field>
+            <field name="model">re.unit</field>
+            <field name="inherit_id" ref="property_management.contract_unit_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='get_contract']" position="replace">
+                    <button class="oe_stat_button" name="action_view_contract" type="object" icon="fa-files">
+                        <field string="Contracts" name="sale_contract_counts" widget="statinfo"/>
+                    </button>
+                </xpath>
+            </field>
+        </record> -->
+    </data>
+</odoo>

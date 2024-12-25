@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="project_invoice_form_view" model="ir.ui.view">
+        <field name="name">project.invoice.form</field>
+        <field name="model">project.invoice</field>
+        <field name="arch" type="xml">
+            <form string="Invoice Request" create="false">
+                <header>
+                    <button name="action_confirm" type="object" string="Confirm" class="btn btn-primary" states="draft" groups="project.group_project_manager"/>
+                    <button name="action_request" type="object" string="Request" class="btn btn-primary" states="confirm" groups="project.group_project_manager"/>
+                    <button name="create_invoice" type="object" string="Create Invoice" class="btn btn-primary" states="request"  groups="project_base.group_project_create_invoice"/>
+                    <button name="action_cancel" type="object" string="Cancel" class="btn btn-primary" states="confirm,request" groups="project.group_project_manager"/>
+                    <button name="action_set_to_draft" type="object" string="Set to Draft" class="btn btn-primary" states="cancel,request,confirm,done" groups="project.group_project_manager"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirm"/>
+                </header>
+                <sheet>
+                    <field name="payment_state" invisible="1" force_save="1"/>
+
+                    <widget name="web_ribbon" title="Paid" attrs="{'invisible': [('payment_state', '!=', 'paid'),]}"/>
+                    <widget name="web_ribbon" title="In Payment" attrs="{'invisible': [('payment_state', '!=', 'in_payment')]}"/>
+                    <widget name="web_ribbon" title="Partial" attrs="{'invisible': [('payment_state', '!=', 'partial'),]}"/>
+                    <widget name="web_ribbon" title="Reversed" bg_color="bg-danger" attrs="{'invisible': [('payment_state', '!=', 'reversed')]}"/>
+                    <widget name="web_ribbon" text="Invoicing App Legacy" bg_color="bg-info" attrs="{'invisible': [('payment_state', '!=', 'invoicing_legacy')]}" tooltip="This entry has been generated through the Invoicing app, before installing Accounting. It has been disabled by the 'Invoicing Switch Threshold Date' setting so that it does not impact your accounting."/>
+                    <group>
+                        <field name="invoice_type" widget="radio" options="{'horizontal': true}"/>
+                    </group>
+                    <group>
+                        <group>
+                            <!-- TODO depend on invoice method on setting -->
+                            <field name="name"/>
+                            <field name="phase_id" domain="[('project_id', '=', project_id)]" attrs="{'readonly':[('state', '!=', 'draft')]}"/>
+                            <field name ="partner_project_id"/>
+                            <field name="project_id" readonly="1" force_save="1"/>
+                            <!-- <field name="invoice_type" invisible="1"/> -->
+                            <field name="has_downpayment" invisible="1"/>
+                            <field name="sale_order_id" invisible="1"/>
+                            <field name="currency_id" invisible="1"/>
+                            <field name="project_type" invisible="1"/>
+                        </group>
+                        <group>
+                            <field name="plan_date" attrs="{'readonly':[('state', '!=', 'draft')]}" required="1"/>
+                            <field name="plan_payment_date" required="1"/>
+                            <field name="actual_date" readonly="1"/>
+                            <field name="actual_payment_date" readonly="1"/>
+                            <field name="invoice_id" readonly="1" attrs="{'invisible': [('invoice_id', '=', False)]}"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Invoice Lines" name="invoice_lines">
+                            <field name="project_invline_ids" attrs="{'readonly': [('state', '=', 'done')]}">
+                                <tree editable="bottom">
+                                    <field name="order_line_id" string="Contract Item" domain="[('order_id','=',parent.sale_order_id),('is_downpayment','=',False)]" attrs="{'column_invisible':[('parent.project_type', '!=', 'revenue')]}" invisible="1"/>
+                                    <field name="product_id" attrs="{'readonly': ['|', ('parent.state', '!=', 'draft'), ('parent.invoice_type', '=', 'project')],'column_invisible':[('parent.project_type', '=', 'internal')]}" force_save="1"/>
+                                    <field name="name"/>
+                                    <field name="account_id" invisible="1"/>
+                                    <field name="product_uom_qty" force_save="1"/>
+                                    <field name="qty_invoiced" decoration-info="(qty_invoiced)" decoration-bf="(qty_invoiced)" force_save="1" optional="hide"/>
+                                    <field name="product_uom" attrs="{'readonly': ['|', ('parent.state', '!=', 'draft'), ('parent.invoice_type', '=', 'project')]}" optional="hide" force_save="1"/>
+                                    <field name="price_unit"  force_save="1"/>
+                                    <field name="price_subtotal" force_save="1"/>
+                                    <field name="tax_id" widget="many2many_tags" options="{'no_create': True}" attrs="{'readonly': [ ('parent.state', '!=', 'draft')]}" force_save="1"/>
+                                    <field name="price_tax" force_save="1"/>
+
+                                    <field name="price_total" force_save="1"/>
+                                </tree>
+                            </field>
+                            <separator string="DowmPayment" attrs="{'invisible':[('has_downpayment', '!=', True)]}"/>
+                            <field name="project_downinv_ids" string="DowmPayment" attrs="{'readonly': [('state', '=', 'done')],'invisible':[('has_downpayment', '!=', True)]}">
+                                <tree editable="bottom">
+                                         <field name="order_line_id" string="Contract Item" domain="[('order_id','=',parent.sale_order_id),('is_downpayment','=',True)]" attrs="{'column_invisible':[('parent.invoice_type', '=', 'variation_order')]}"/>
+                                    <field name="product_id" required="1" attrs="{'readonly': ['|', ('parent.state', '!=', 'draft'), ('parent.invoice_type', '=', 'project')],'column_invisible':[('parent.invoice_type', '=', 'project')]}" force_save="1"/>
+                                    <field name="amount" attrs="{'column_invisible':[('parent.invoice_type', '=', 'variation_order')]}" force_save="1"/>
+                                    <field name="product_uom_qty" force_save="1"/>
+                                    <field name="qty_invoiced" decoration-info="(qty_invoiced)" decoration-bf="(qty_invoiced)" force_save="1" optional="show"/>
+                                    <field name="product_uom" attrs="{'readonly': ['|', ('parent.state', '!=', 'draft'), ('parent.invoice_type', '=', 'project')]}" optional="hide" force_save="1"/>
+                                    <field name="price_unit" attrs="{'readonly': ['|', ('parent.state', '!=', 'draft'), ('parent.invoice_type', '=', 'project')]}" force_save="1"/>
+                                    <!--                                     <field name="tax_id" widget="many2many_tags" options="{'no_create': True}" attrs="{'readonly': ['|', ('parent.state', '!=', 'draft'), ('parent.invoice_type', '=', 'project')]}" force_save="1"/>
+                                                                        <field name="price_tax"/>
+                                     -->
+                                    <field name="price_subtotal"/>
+                                    <!-- <field name="price_total"/> -->
+                                </tree>
+                            </field>
+
+                            <group name="note_group" col="6" class="mt-2 mt-md-0">
+                                <group colspan="4">
+                                </group>
+                                <group class="oe_subtotal_footer oe_right" colspan="2" name="sale_total">
+                                    <field name="amount" force_save="1"/>
+
+                                    <!--                                    <field name="amount_tax" widget="monetary" options="{'currency_field': 'currency_id'}"/>-->
+                                    <div class="oe_subtotal_footer_separator oe_inline o_td_label">
+                                        <label for="payment_amount"/>
+                                    </div>
+                                    <field name="payment_amount" nolabel="1" class="oe_subtotal_footer_separator" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+
+                                    <div class="oe_subtotal_footer_separator oe_inline o_td_label">
+                                        <label for="residual_amount"/>
+                                    </div>
+                                    <field name="residual_amount" nolabel="1" class="oe_subtotal_footer_separator" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                </group>
+                                <div class="oe_clear"/>
+                            </group>
+                        </page>
+                        <page string="Note">
+                            <field name="name" nolabel="1" attrs="{'required':[('phase_id', '=', False)]}" placeholder="Enter Description For invoice"/>
+                        </page>
+                        <page string="Settings Allowed Users" groups="project.group_project_manager">
+                            <group>
+                                <field name="allowed_internal_user_ids" widget="many2many_tags" groups="project.group_project_manager"/>
+                                <field name="allowed_portal_user_ids" widget="many2many_tags" options="{'no_create': True}" groups="project.group_project_manager" />
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                    <field name="name" widget="mail_followers"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="project_invoice_tree_view" model="ir.ui.view">
+        <field name="name">project.invoice.tree</field>
+        <field name="model">project.invoice</field>
+        <field name="arch" type="xml">
+            <tree string="Invoice Request" expand="1" decoration-danger="state != 'done' and plan_date &lt; current_date">
+                <field name="name" optional="show"/>
+                <field name="project_id" optional="show"/>
+                <field name="plan_date" width="100px" optional="show"/>
+                <field name="amount" sum="Total" width="100px"/>
+                <field name="payment_amount" sum="payment_amount" width="100px"/>
+                <field name="residual_amount" sum="residual_amount" width="100px"/>
+                <field name="actual_date" width="100px" optional="show"/>
+                <field name="plan_payment_date" width="100px" optional="show"/>
+                <field name="actual_payment_date" width="100px" optional="show"/>
+                <field name="payment_state" widget="badge" decoration-danger="payment_state == 'not_paid'" decoration-warning="payment_state in ('partial', 'in_payment')" decoration-success="payment_state in ('paid', 'reversed')" attrs="{'invisible': [('payment_state', 'in', ('invoicing_legacy'))]}"/>
+
+                <field name="state" widget="badge" optional="show"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_project_invoice_filter" model="ir.ui.view">
+        <field name="name">project.invoice.search</field>
+        <field name="model">project.invoice</field>
+        <field name="arch" type="xml">
+            <search string="Search Project Invoice">
+                <field name="plan_date"/>
+                <filter string="Date" name="plan_date" date="plan_date"/>
+                <separator/>
+                <group expand="0" string="Group By">
+                    <filter string="Project" name="project" domain="[]" context="{'group_by': 'project_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="project_view_order_form" model="ir.ui.view">
+        <field name="name">sale.order.form</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='%(sale.action_view_sale_advance_payment_inv)d'][1]" position="attributes">
+                <attribute name="attrs">{'invisible': ['|',('project_ids', '!=', []),('invoice_status', '!=', 'to invoice')]}
+                </attribute>
+            </xpath>
+            <xpath expr="//button[@name='%(sale.action_view_sale_advance_payment_inv)d'][2]" position="attributes">
+                <attribute name="attrs">{'invisible': ['|','|',('project_ids', '!=', []),('invoice_status', '!=',
+                    'no'),('state', '!=', 'sale')]}
+                </attribute>
+            </xpath>
+            <xpath expr="//button[@name='action_view_invoice']" position="before">
+                <button type="object" name="action_view_project_invoice" class="oe_stat_button" icon="fa-tasks" attrs="{'invisible': [('project_invoice_count', '=', 0)]}">
+                    <field name="project_invoice_count" widget="statinfo" string="Project Invoices"/>
+                </button>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="action_project_invoice" model="ir.actions.act_window">
+        <field name="name">Invoice Request</field>
+        <field name="res_model">project.invoice</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'search_default_project': 1}}</field>
+    </record>
+
+    <menuitem action="action_project_invoice" id="menu_project_invoice" name="Invoice Request" parent="project.menu_main_pm" sequence="9" groups="account.group_account_manager,project.group_project_manager,project_base.group_project_department_manager"/>
+</odoo>

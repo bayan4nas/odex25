@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.benefit</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="20"/>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[hasclass('settings')]" position="inside">
+                <div class="app_settings_block" data-string="Benefits" string="Benefits" data-key="odex_benefit">
+                    <h2>zkat alfert</h2>
+                    <div class="row mt16 o_settings_container">
+                        <div class="col-xs-12 col-md-6 o_setting_box">
+                            <div class="o_setting_right_pane">
+                                <label for="receive_zkat_bank_account_id"/>
+                                <div class="content-group">
+                                    <div class="mt16">
+                                        <field name="receive_zkat_bank_account_id" class="o_light_label"/>
+                                    </div>
+                                </div>
+                                <label for="receive_zkat_journal_id"/>
+                                <div class="content-group">
+                                    <div class="mt16">
+                                        <field name="receive_zkat_journal_id" class="o_light_label"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-md-6 o_setting_box">
+                            <div class="o_setting_right_pane">
+                                <div class="content-group">
+                                    <label for="receive_zkat_picking_type_id"/>
+                                    <div class="mt16">
+                                        <field name="receive_zkat_picking_type_id" class="o_light_label"/>
+                                    </div>
+                                </div>
+                                <div class="content-group">
+                                    <label for="zkat_picking_type_id"/>
+                                    <div class="mt16">
+                                        <field name="zkat_picking_type_id" class="o_light_label"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-md-6 o_setting_box">
+                        </div>
+                        <div class="col-xs-12 col-md-6 o_setting_box">
+                            <div class="o_setting_right_pane">
+                                <!--                                <label for="total_amount"/>-->
+                                <div class="content-group">
+                                    <div class="mt16">
+                                        <!--                                        <field name="total_amount" class="o_light_label" required="1"/>-->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <h2>الاضاحي</h2>
+                    <div class="row mt16 o_settings_container">
+                        <div class="col-xs-12 col-md-6 o_setting_box">
+                            <div class="o_setting_right_pane">
+                                <div class="content-group">
+                                    <div class="mt16">
+                                        <label for="receive_Adha_bank_account_id"/>
+                                        <field name="receive_Adha_bank_account_id" class="o_light_label"/>
+                                    </div>
+                                </div>
+                                <div class="content-group">
+                                    <div class="mt16">
+                                        <label for="receive_Adha_journal_id"/>
+                                        <field name="receive_Adha_journal_id" class="o_light_label"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-md-6 o_setting_box">
+                            <div class="o_setting_right_pane">
+                                <label for="receive_Adha_picking_type_id"/>
+                                <div class="content-group">
+                                    <div class="mt16">
+                                        <field name="receive_Adha_picking_type_id" class="o_light_label"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="Adha_picking_type_id"/>
+                                <div class="content-group">
+                                    <div class="mt16">
+                                        <field name="Adha_picking_type_id" class="o_light_label"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <h2>receive.appliances.furniture</h2>
+                    <div class="row mt16 o_settings_container">
+                        <div class="col-xs-12 col-md-6 o_setting_box">
+                            <div class="o_setting_right_pane">
+                                <div class="content-group">
+                                    <div class="mt16">
+                                        <label for="receive_af_picking_type_id"/>
+                                        <field name="receive_af_picking_type_id" class="o_light_label"/>
+                                    </div>
+                                </div>
+                                <div class="content-group">
+                                    <div class="mt16">
+                                        <label for="Af_picking_type_id"/>
+                                        <field name="Af_picking_type_id" class="o_light_label"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-md-6 o_setting_box">
+                            <div class="o_setting_right_pane">
+                                <!--                                <label for="benefit_bank_account_id"/>-->
+                                <div class="content-group">
+                                    <div class="mt16">
+                                        <!--                                        <field name="benefit_bank_account_id" class="o_light_label"/>-->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-md-6 o_setting_box">
+                            <div class="o_setting_right_pane">
+                                <!--                                <label for="benefit_journal_id"/>-->
+                                <div class="content-group">
+                                    <div class="mt16">
+                                        <!--                                        <field name="benefit_journal_id" class="o_light_label"/>-->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <h2>loans</h2>
+                    <div class="row mt16 o_settings_container">
+                        <div class="col-xs-12 col-md-6 o_setting_box">
+                            <div class="o_setting_right_pane">
+                                <div class="content-group">
+                                    <div class="mt16">
+                                        <label for="receive_loan_bank_account_id"/>
+                                        <field name="receive_loan_bank_account_id" class="o_light_label"/>
+                                    </div>
+                                </div>
+                                <div class="content-group">
+                                    <div class="mt16">
+                                        <label for="receive_loan_journal_id"/>
+                                        <field name="receive_loan_journal_id" class="o_light_label"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-md-6 o_setting_box">
+                            <div class="o_setting_right_pane">
+                                <label for="loan_bank_account_id"/>
+                                <div class="content-group">
+                                    <div class="mt16">
+                                        <field name="loan_bank_account_id" class="o_light_label"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="loan_journal_id"/>
+                                <div class="content-group">
+                                    <div class="mt16">
+                                        <field name="loan_journal_id" class="o_light_label"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>
+

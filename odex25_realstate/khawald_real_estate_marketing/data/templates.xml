@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<data>
+
+        <record id="template_sale_request_property" model="mail.template">
+            <field name="name">Property Sale Request</field>
+            <field name="model_id" ref="real_estate_marketing.model_re_sale"/>
+            <field name="subject">شركة الخوالد العقارية - بيع وحدة سكنية</field>
+            <field name="email_to">${object.partner_id.email}</field>
+            <field name="email_cc"></field>
+            <field name="body_html"><![CDATA[
+                <div dir="rtl" class="arabic_header">
+                مرحباً
+                     ${object.partner_id.name}
+                </div>
+                <div dir="rtl" class="arabic_content">
+                <br/>
+                <br/>قد تم تقييد أمر بيع وحدة سكنية حسب رغبتك وتجد إدناه موعد التسليم:
+                <br/> معلومات أمر البيع:
+                <br/> مرجع أمر البيع: ${object.name}
+                <br/>الوحدة السكنية: ${object.unit_id.name}
+                <br/>تاريخ التسليم للعميل: ${object.handover_to_client_date}
+                <br/>المبلغ: ${object.amount or '-'}
+                <br/>العقد: ${object.contract_id.name_seq or '-'}
+                <br/>
+                <br/>ولمزيد من المعلومات الرجاء الضغط علي الرابط إدناه.
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <div style="font-size:13px;font-family:&quot;Lucida Grande&quot;, Helvetica, Verdana, Arial, sans-serif;margin-top: 16px;">
+                    <a href="www.google.com"
+                       style="text-decoration-thickness:auto;text-decoration:none;color:rgb(0, 135, 132);background-color: rgb(135, 90, 123); color: rgb(255, 255, 255); padding: 5px 10px; font-size: 12px; line-height: 18px; display: inline-block; margin-bottom: 0px; text-align: center; vertical-align: middle; cursor: pointer; white-space: nowrap; background-image: none; border: 1px solid rgb(135, 90, 123); border-radius: 3px;"
+                       data-original-title="" title="">الرجاء الضغط علي الرابط إدناه
+                    </a>
+                </div>
+                <br/>
+                <br/>
+                مع خالص الود والتقدير<br/>
+                شركة الخوالد العقارية - قسم التسويق العقاري<br/>
+                </div>
+                ]]>
+            </field>
+        </record>
+
+        <record id="template_property_reservation" model="mail.template">
+            <field name="name">Property Reservation</field>
+            <field name="model_id" ref="khawald_real_estate_marketing.model_property_reservation"/>
+            <field name="subject">شركة الخوالد العقارية - حجز وحدة سكنية</field>
+            <field name="email_to">${object.partner_id.email}</field>
+            <field name="email_cc">${object.marketer_user_id.partner_id.email}</field>
+            <field name="body_html"><![CDATA[
+                <div dir="rtl" class="arabic_header">
+                مرحباً
+                     ${object.partner_id.name}
+                </div>
+                <div dir="rtl" class="arabic_content">
+                <br/>
+                <br/>قد تم حجز وحدة سكنية حسب رغبتك وتجد إدناه معلومات المسوق المسؤول عن الحجز ومعلومات الحجز:
+                <br/>أسم المسوق: ${object.marketer_user_id.partner_id.name}
+                <br/>رقم الجوال: ${object.marketer_user_id.partner_id.mobile}
+                <br/> معلومات الحجز:
+                <br/> مرجع الحجز: ${object.name}
+                <br/>الوحدة السكنية: ${object.unit_id.name}
+                <br/>تاريخ إنتهاء الحجز: ${object.end_date}
+                <br/>نوع الحجز: ${dict(object.fields_get(allfields=['reserve_type'])['reserve_type']['selection'])[object.reserve_type]}
+                <br/>مبلغ العربون: ${object.payment_amount or '-'}
+                <br/>ولمزيد من المعلومات الرجاء الضغط علي الرابط إدناه.
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <div style="font-size:13px;font-family:&quot;Lucida Grande&quot;, Helvetica, Verdana, Arial, sans-serif;margin-top: 16px;">
+                    <a href="www.google.com"
+                       style="text-decoration-thickness:auto;text-decoration:none;color:rgb(0, 135, 132);background-color: rgb(135, 90, 123); color: rgb(255, 255, 255); padding: 5px 10px; font-size: 12px; line-height: 18px; display: inline-block; margin-bottom: 0px; text-align: center; vertical-align: middle; cursor: pointer; white-space: nowrap; background-image: none; border: 1px solid rgb(135, 90, 123); border-radius: 3px;"
+                       data-original-title="" title="">الرجاء الضغط علي الرابط إدناه
+                    </a>
+                </div>
+                <br/>
+                <br/>
+                مع خالص الود والتقدير<br/>
+                شركة الخوالد العقارية - قسم التسويق العقاري<br/>
+                </div>
+                ]]>
+            </field>
+        </record>
+
+        <record id="template_client_requirement_register" model="mail.template">
+            <field name="name">Register Client Requirement</field>
+            <field name="model_id" ref="real_estate_marketing.model_re_clients_requirement"/>
+            <field name="subject">شركة الخوالد العقارية - طلبك قيد الإجراء</field>
+            <field name="email_to">${object.partner_id.email}</field>
+            <field name="email_cc">${object.marketer_user_id.partner_id.email}</field>
+            <field name="body_html"><![CDATA[
+                <div dir="rtl" class="arabic_header">
+                مرحباً
+                     ${object.partner_id.name}
+                </div>
+                <div dir="rtl" class="arabic_content">
+                <br/>
+                <br/>طلبك قيد الإجراء ، وتجد إدناه معلومات المسوق المسؤول عن طلبك:
+                <br/>أسم المسوق: ${object.marketer_user_id.partner_id.name}
+                <br/>رقم الجوال: ${object.marketer_user_id.partner_id.mobile}
+                <br/>ولمزيد من المعلومات الرجاء الضغط علي الرابط إدناه.
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <div style="font-size:13px;font-family:&quot;Lucida Grande&quot;, Helvetica, Verdana, Arial, sans-serif;margin-top: 16px;">
+                    <a href="www.google.com"
+                       style="text-decoration-thickness:auto;text-decoration:none;color:rgb(0, 135, 132);background-color: rgb(135, 90, 123); color: rgb(255, 255, 255); padding: 5px 10px; font-size: 12px; line-height: 18px; display: inline-block; margin-bottom: 0px; text-align: center; vertical-align: middle; cursor: pointer; white-space: nowrap; background-image: none; border: 1px solid rgb(135, 90, 123); border-radius: 3px;"
+                       data-original-title="" title="">الرجاء الضغط علي الرابط إدناه
+                    </a>
+                </div>
+                <br/>
+                <br/>
+                مع خالص الود والتقدير<br/>
+                شركة الخوالد العقارية - قسم خدمات العملاء<br/>
+                </div>
+                ]]>
+            </field>
+        </record>
+
+        <record id="template_client_requirement_closed" model="mail.template">
+            <field name="name">Closed Client Requirement</field>
+            <field name="model_id" ref="real_estate_marketing.model_re_clients_requirement"/>
+            <field name="subject">شركة الخوالد العقارية - تم إغلاق طلبك</field>
+            <field name="email_to">${object.partner_id.email}</field>
+            <field name="email_cc">${object.marketer_user_id.partner_id.email}</field>
+            <field name="body_html"><![CDATA[
+                <div dir="rtl" class="arabic_header">
+                مرحباً
+                     ${object.partner_id.name}
+                </div>
+                <div dir="rtl" class="arabic_content">
+                <br/>
+                <br/>طلبك تم إغلاقه ، وتجد إدناه معلومات المسوق المسؤول عن طلبك:
+                <br/>أسم المسوق: ${object.marketer_user_id.partner_id.name}
+                <br/>رقم الجوال: ${object.marketer_user_id.partner_id.mobile}
+                <br/>الرجاء الضغط علي الرابط ادناه لتقييم الخدمة.
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <div style="font-size:13px;font-family:&quot;Lucida Grande&quot;, Helvetica, Verdana, Arial, sans-serif;margin-top: 16px;">
+                    <a href="www.google.com"
+                       style="text-decoration-thickness:auto;text-decoration:none;color:rgb(0, 135, 132);background-color: rgb(135, 90, 123); color: rgb(255, 255, 255); padding: 5px 10px; font-size: 12px; line-height: 18px; display: inline-block; margin-bottom: 0px; text-align: center; vertical-align: middle; cursor: pointer; white-space: nowrap; background-image: none; border: 1px solid rgb(135, 90, 123); border-radius: 3px;"
+                       data-original-title="" title="">الرجاء الضغط علي الرابط إدناه
+                    </a>
+                </div>
+                <br/>
+                <br/>
+                <br/>مع خالص الود والتقدير
+                <br/>شركة الخوالد العقارية - قسم خدمات العملاء
+                </div>
+                ]]>
+            </field>
+        </record>
+</data>

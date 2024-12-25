@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <!-- Subcontractor Installment  -->
+        <record id="subcontractor_installment_form" model="ir.ui.view">
+            <field name="name">Subcontractor Installment</field>
+            <field name="model">subcontractor.installment</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <h1>
+                            <field name="name" required="1"/>
+                        </h1>
+                        <group col="4" colspan="2">
+                            <field name="project_id" readonly="1"/>
+                            <field name="subcontractor_id" readonly="1"/>
+                            <field name="delivery_date"/>
+                            <field name="subcontractor_work_id" readonly="1"/>
+                            <field name="work_item_id" readonly="1"/>
+                            <field name="contract_amount" readonly="1"/>
+                            <field name="total_installment" readonly="1"/>
+                            <field name="remain_amount" readonly="1"/>
+                        </group>
+                        <notebook>
+                            <page string="Installment Payment">
+                                <field name="installment_line_ids">
+                                    <tree editable="bottom" decoration-success="paid == True">
+                                        <field name="name" required="1" attrs="{'readonly':[('paid','=', True)]}"/>
+                                        <field name="type" required="1" attrs="{'readonly':[('paid','=', True)]}"/>
+                                        <field name="value" required="1" attrs="{'readonly':[('paid','=', True)]}"/>
+                                        <field name="amount" readonly="1"/>
+                                        <field name="penalty_after" required="1"
+                                               attrs="{'readonly':[('paid','=', True)]}"/>
+                                        <field name="penalty_amount" readonly="1"/>
+                                        <field name="penalty_percentage" required="1"
+                                               attrs="{'readonly':[('paid','=', True)]}"/>
+                                        <field name="penalty_percentage_limit" required="1"
+                                               attrs="{'readonly':[('paid','=', True)]}"/>
+                                        <field name="last_installment" attrs="{'readonly':[('paid','=', True)]}"/>
+                                        <field name="paid" readonly="1"/>
+                                        <field name="payment_id" invisible="1"/>
+                                        <button string="Create Payment" type="object"
+                                                name="create_payment"
+                                                attrs="{'invisible': [('payment_id', '!=', False)]}"
+                                                class="oe_highlight"
+                                        />
+                                    </tree>
+                                </field>
+
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+
+            </field>
+        </record>
+
+
+        <record id="view_subcontractor_work_line_installment_action" model="ir.actions.act_window">
+            <field name="name">Subcontractor</field>
+            <field name="res_model">subcontractor.installment</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="subcontractor_installment_form"/>
+            <field name="target">current</field>
+            <field name="context">{'default_subcontractor_work_id': [active_id]}</field>
+        </record>
+
+    </data>
+</odoo>

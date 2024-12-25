@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        
+        <record model="ir.ui.view" id="partner_view_property_cusotm">
+            <field name="name">partner.view.property</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='vat']" position="after">
+                    <field name="identification_type" attrs="{'invisible':[('company_type', '=', 'company')], 'required':[('company_type', '!=', 'company')]}"/>
+                    <field name="identification_number" attrs="{'invisible':[('company_type', '=', 'company')], 'required':[('company_type', '!=', 'company')]}"/>
+                    <field name="issuer" attrs="{'invisible':[('company_type', '=', 'company')], 'required':[('company_type', '!=', 'company')]}"/>
+                    <field name="identification_issue_date" attrs="{'invisible':[('company_type', '=', 'company')], 'required':[('company_type', '!=', 'company')]}"/>
+                    <field name="identification_expiry_date" attrs="{'invisible':[('company_type', '=', 'company')]}"/>
+                    <field name="copy_no" attrs="{'invisible':[('company_type', '=', 'company')], 'required':[('company_type', '!=', 'company')]}"/>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

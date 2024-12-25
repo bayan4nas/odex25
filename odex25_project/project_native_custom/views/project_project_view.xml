@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<openerp>
+    <data>
+        
+        <record id="edit_project_ganttaps_inherited" model="ir.ui.view">
+            <field name="name">project.project.ganttaps.edit.inherited</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project_native.edit_project_ganttaps_inherited"/>
+            <field name="arch" type="xml">
+                 <xpath expr="//notebook/page[2]" position="attributes">
+                    <attribute name="groups">project_native_custom.group_project_native_admin</attribute>
+               </xpath>
+            </field>
+        </record>
+
+    </data>
+</openerp>

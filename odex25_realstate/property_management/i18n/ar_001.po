@@ -1,0 +1,2368 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* property_management
+# 	* property_management_menu
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-10-22 12:13+0000\n"
+"PO-Revision-Date: 2024-10-22 15:13+0300\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ar\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=(n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
+"&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5);\n"
+"X-Generator: Poedit 3.5\n"
+
+#. module: property_management
+#: model:mail.template,body_html:property_management.email_template_due_next_week
+msgid ""
+"\n"
+"                \n"
+"                <p>Dear ${object.renter_id.name},</p>\n"
+"                <p>This is a reminder that your payment is due next week "
+"for the rental contract ${object.contract_id.name}.</p>\n"
+"                <p>Thank you.</p>\n"
+"                \n"
+"            "
+msgstr ""
+
+#. module: property_management
+#: model:mail.template,body_html:property_management.email_template_due_today
+msgid ""
+"\n"
+"                \n"
+"                <p>Dear ${object.renter_id.name},</p>\n"
+"                <p>This is a reminder that your payment is due today for "
+"the rental contract ${object.contract_id.name}.</p>\n"
+"                <p>Thank you.</p>\n"
+"                \n"
+"            "
+msgstr ""
+
+#. module: property_management
+#: model_terms:ir.ui.view,arch_db:property_management.property_kanban_view
+msgid "<b>Number of available units:</b>"
+msgstr "عدد الوحدات المتاحة:"
+
+#. module: property_management
+#: model_terms:ir.ui.view,arch_db:property_management.property_kanban_view
+msgid "<b>Number of rented units:</b>"
+msgstr "عدد الوحدات المؤجرة:"
+
+#. module: property_management
+#: model_terms:ir.ui.view,arch_db:property_management.property_kanban_view
+msgid "<b>Number of reserved units:</b>"
+msgstr "عدد الوحدات المحجوزة:"
+
+#. module: property_management
+#: model_terms:ir.ui.view,arch_db:property_management.property_kanban_view
+msgid "<b>Number of units:</b>"
+msgstr "عدد الوحدات:"
+
+#. module: property_management
+#: model_terms:ir.ui.view,arch_db:property_management.res_property_settings_view_form
+msgid "<span class=\"o_form_label\">Property Commission Settings</span>"
+msgstr "اعدادات العمولة"
+
+#. module: property_management
+#: model_terms:ir.ui.view,arch_db:property_management.rental_contract_form_view
+msgid "Accounting"
+msgstr "الحسابات"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__accrued_account_id
+msgid "Accrued Account"
+msgstr "تأمين لدى الغير"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_annual_raise__message_needaction
+#: model:ir.model.fields,field_description:property_management.field_end_of_rent__message_needaction
+#: model:ir.model.fields,field_description:property_management.field_property_management_maintenance__message_needaction
+#: model:ir.model.fields,field_description:property_management.field_rent_payment__message_needaction
+#: model:ir.model.fields,field_description:property_management.field_rent_type__message_needaction
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__message_needaction
+#: model:ir.model.fields,field_description:property_management.field_transfer_contract__message_needaction
+msgid "Action Needed"
+msgstr "إجراء مطلوب"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_internal_property__action_type
+#: model:ir.model.fields,field_description:property_management.field_re_clients_requirement__action_type
+#: model:ir.model.fields,field_description:property_management.field_re_unit__action_type
+msgid "Action Type"
+msgstr "نوع الأجراء"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_annual_raise__active
+#: model:ir.model.fields,field_description:property_management.field_rent_type__active
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__active
+msgid "Active"
+msgstr "نشط"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_annual_raise__activity_ids
+#: model:ir.model.fields,field_description:property_management.field_end_of_rent__activity_ids
+#: model:ir.model.fields,field_description:property_management.field_property_management_maintenance__activity_ids
+#: model:ir.model.fields,field_description:property_management.field_rent_payment__activity_ids
+#: model:ir.model.fields,field_description:property_management.field_rent_type__activity_ids
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__activity_ids
+#: model:ir.model.fields,field_description:property_management.field_transfer_contract__activity_ids
+msgid "Activities"
+msgstr "الأنشطة"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_annual_raise__activity_exception_decoration
+#: model:ir.model.fields,field_description:property_management.field_end_of_rent__activity_exception_decoration
+#: model:ir.model.fields,field_description:property_management.field_property_management_maintenance__activity_exception_decoration
+#: model:ir.model.fields,field_description:property_management.field_rent_payment__activity_exception_decoration
+#: model:ir.model.fields,field_description:property_management.field_rent_type__activity_exception_decoration
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__activity_exception_decoration
+#: model:ir.model.fields,field_description:property_management.field_transfer_contract__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr "زخرفة استثناء النشاط"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_annual_raise__activity_state
+#: model:ir.model.fields,field_description:property_management.field_end_of_rent__activity_state
+#: model:ir.model.fields,field_description:property_management.field_property_management_maintenance__activity_state
+#: model:ir.model.fields,field_description:property_management.field_rent_payment__activity_state
+#: model:ir.model.fields,field_description:property_management.field_rent_type__activity_state
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__activity_state
+#: model:ir.model.fields,field_description:property_management.field_transfer_contract__activity_state
+msgid "Activity State"
+msgstr "حالة النشاط"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_annual_raise__activity_type_icon
+#: model:ir.model.fields,field_description:property_management.field_end_of_rent__activity_type_icon
+#: model:ir.model.fields,field_description:property_management.field_property_management_maintenance__activity_type_icon
+#: model:ir.model.fields,field_description:property_management.field_rent_payment__activity_type_icon
+#: model:ir.model.fields,field_description:property_management.field_rent_type__activity_type_icon
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__activity_type_icon
+#: model:ir.model.fields,field_description:property_management.field_transfer_contract__activity_type_icon
+msgid "Activity Type Icon"
+msgstr "أيقونة نوع النشاط"
+
+#. module: property_management
+#: model:ir.model.fields.selection,name:property_management.selection__end_of_rent__contract_state__after
+msgid "After Contract Ending"
+msgstr "بعد نهاية العقد"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_rent_payment__amount
+msgid "Amount"
+msgstr "القيمة"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_rent_payment__amount_in_word
+msgid "Amount In Word"
+msgstr "المبلغ كتابة"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__annual_raise_ids
+msgid "Annual Raise"
+msgstr "الزيادة السنوية"
+
+#. module: property_management
+#: model_terms:ir.ui.view,arch_db:property_management.rental_contract_form_view
+msgid ""
+"Are you sure to renew the contract? That is mean you will renew this "
+"contract and create new draft one"
+msgstr ""
+"هل أنت متأكد من أنك تريد تجديد العقد سيتم إقفال العقد الحالي و إنشاء عقد "
+"جديد مسودة"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_annual_raise__message_attachment_count
+#: model:ir.model.fields,field_description:property_management.field_end_of_rent__message_attachment_count
+#: model:ir.model.fields,field_description:property_management.field_property_management_maintenance__message_attachment_count
+#: model:ir.model.fields,field_description:property_management.field_rent_payment__message_attachment_count
+#: model:ir.model.fields,field_description:property_management.field_rent_type__message_attachment_count
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__message_attachment_count
+#: model:ir.model.fields,field_description:property_management.field_transfer_contract__message_attachment_count
+msgid "Attachment Count"
+msgstr "عدد المرفقات"
+
+#. module: property_management
+#: model:ir.model.fields.selection,name:property_management.selection__rent_payment__payment_method__check
+msgid "Bank Check"
+msgstr "شيك بنكي"
+
+#. module: property_management
+#: model:ir.model.fields.selection,name:property_management.selection__end_of_rent__contract_state__before
+msgid "Before Contract Ending"
+msgstr "قبل نهاية العقد"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_end_of_rent__contract_state
+msgid "Before/After Contract Finishing"
+msgstr "قبل/بعد إنتهاء العقد"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__cal_rent_amount
+msgid "Calculated Rent Amount"
+msgstr "القيمة الإيجارية المحسوبة"
+
+#. module: property_management
+#: model:ir.model.fields.selection,name:property_management.selection__property_management_maintenance__state__cancel
+#: model_terms:ir.ui.view,arch_db:property_management.confirm_wizard_form
+#: model_terms:ir.ui.view,arch_db:property_management.end_of_rent_form_view
+#: model_terms:ir.ui.view,arch_db:property_management.property_management_maintenance_form
+#: model_terms:ir.ui.view,arch_db:property_management.rental_contract_form_view
+#: model_terms:ir.ui.view,arch_db:property_management.transfer_contract_form_view
+msgid "Cancel"
+msgstr "الغاء"
+
+#. module: property_management
+#: model:ir.model.fields.selection,name:property_management.selection__rent_payment__state__cancel
+msgid "Canceled"
+msgstr "ملغي"
+
+#. module: property_management
+#: model:ir.model.fields.selection,name:property_management.selection__end_of_rent__state__cancel
+#: model:ir.model.fields.selection,name:property_management.selection__rental_contract__state__cancel
+#: model:ir.model.fields.selection,name:property_management.selection__transfer_contract__state__cancel
+#: model_terms:ir.ui.view,arch_db:property_management.rent_payment_filter_view
+#: model_terms:ir.ui.view,arch_db:property_management.transfer_contract_search_view
+#: model_terms:ir.ui.view,arch_db:property_management.view_rental_contract_filter
+msgid "Cancelled"
+msgstr "ملغي"
+
+#. module: property_management
+#: code:addons/property_management/models/rent_payment.py:0
+#, python-format
+msgid "Cannot Cancel This Payment Because it Due"
+msgstr "لا يمكن إلغاء هذه الدفعة لانها مستحقة"
+
+#. module: property_management
+#: code:addons/property_management/models/rental_contract.py:0
+#, python-format
+msgid "Cannot Duplicate The Contractr"
+msgstr "لا يمكن إستنساخ العقد"
+
+#. module: property_management
+#: model:ir.model.fields.selection,name:property_management.selection__rent_payment__payment_method__cash
+msgid "Cash"
+msgstr "نقدا"
+
+#. module: property_management
+#: model_terms:ir.ui.view,arch_db:property_management.end_of_rent_form_view
+msgid "Check"
+msgstr "فحص"
+
+#. module: property_management
+#: model:ir.actions.server,name:property_management.ir_cron_check_due_payments_ir_actions_server
+#: model:ir.cron,cron_name:property_management.ir_cron_check_due_payments
+#: model:ir.cron,name:property_management.ir_cron_check_due_payments
+msgid "Check Due Payments"
+msgstr ""
+
+#. module: property_management
+#: model:ir.model.fields.selection,name:property_management.selection__end_of_rent__state__check
+msgid "Checked"
+msgstr "تم الفحص"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__city_id
+msgid "City"
+msgstr "المدينة"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__closed
+#: model:ir.model.fields.selection,name:property_management.selection__rental_contract__state__close
+msgid "Closed"
+msgstr "مغلق"
+
+#. module: property_management
+#: model_terms:ir.ui.view,arch_db:property_management.rent_payment_filter_view
+msgid "Collected From Company"
+msgstr "محصلة من الشركة"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_res_config_settings__collecting_company_id
+msgid "Collecting Company"
+msgstr "الشركة المديرة للعقار"
+
+#. module: property_management
+#: model_terms:ir.ui.view,arch_db:property_management.res_property_settings_view_form
+msgid "Collecting Company:"
+msgstr "الشركة المديرة للعقار"
+
+#. module: property_management_menu
+#: model:ir.actions.act_window,name:property_management_menu.not_owned_property_report_action
+#: model:ir.actions.act_window,name:property_management_menu.property_report_action
+msgid "Commercial Property"
+msgstr "العقارات التجارية"
+
+#. module: property_management_menu
+#: model:ir.ui.menu,name:property_management_menu.property_commercial_menu
+msgid "Commercial Property "
+msgstr "العقارات التجارية"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__commission_profit
+#: model_terms:ir.ui.view,arch_db:property_management.rental_contract_form_view
+msgid "Commission"
+msgstr "العمولة"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_res_config_settings__commission_account_id
+msgid "Commission Account"
+msgstr ""
+
+#. module: property_management
+#: model_terms:ir.ui.view,arch_db:property_management.res_property_settings_view_form
+msgid "Commission Account:"
+msgstr ""
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_rent_payment__commission_amount
+msgid "Commission Amount"
+msgstr "قيمة العمولة"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_res_config_settings__commission_percentage
+msgid "Commission Percentage"
+msgstr "نسبة العمولة"
+
+#. module: property_management
+#: model_terms:ir.ui.view,arch_db:property_management.res_property_settings_view_form
+msgid "Commission Percentage:"
+msgstr "نسبة العمولة"
+
+#. module: property_management
+#: model_terms:ir.ui.view,arch_db:property_management.res_property_settings_view_form
+msgid "Commission Settings."
+msgstr "عمولة التحصيل"
+
+#. module: property_management
+#: code:addons/property_management/models/rent_payment.py:0
+#, python-format
+msgid "Commission for selected payments"
+msgstr "عمولة التحصيل"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_end_of_rent__company_id
+#: model:ir.model.fields,field_description:property_management.field_property_management_maintenance__company_id
+#: model:ir.model.fields,field_description:property_management.field_rent_payment__company_id
+#: model:ir.model.fields,field_description:property_management.field_rent_type__company_id
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__company_id
+#: model:ir.model.fields,field_description:property_management.field_res_config_settings__company_id
+#: model:ir.model.fields,field_description:property_management.field_transfer_contract__company_id
+msgid "Company"
+msgstr "الفرع"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__company_profit
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__company_profit_val
+msgid "Company Profit"
+msgstr "ربح الشركة"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__company_profit_amount
+msgid "Company Profit Amount"
+msgstr "قيمة ربح الشركة"
+
+#. module: property_management
+#: model:ir.model,name:property_management.model_res_config_settings
+msgid "Config Settings"
+msgstr "ضبط الاعدادات"
+
+#. module: property_management_menu
+#: model:ir.ui.menu,name:property_management_menu.property_management_conf
+msgid "Configuration"
+msgstr "الإعدادت"
+
+#. module: property_management
+#: code:addons/property_management/models/rental_contract.py:0
+#: model_terms:ir.ui.view,arch_db:property_management.confirm_wizard_form
+#: model_terms:ir.ui.view,arch_db:property_management.rental_contract_form_view
+#: model_terms:ir.ui.view,arch_db:property_management.transfer_contract_form_view
+#, python-format
+msgid "Confirm"
+msgstr "مؤكد"
+
+#. module: property_management
+#: model:ir.model,name:property_management.model_confirm_wizard
+msgid "Confirm Wizard"
+msgstr "تأكيد"
+
+#. module: property_management
+#: model:ir.model.fields.selection,name:property_management.selection__rental_contract__state__confirm
+#: model:ir.model.fields.selection,name:property_management.selection__transfer_contract__state__confirm
+#: model_terms:ir.ui.view,arch_db:property_management.transfer_contract_search_view
+#: model_terms:ir.ui.view,arch_db:property_management.view_rental_contract_filter
+msgid "Confirmed"
+msgstr "تأكيد"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_annual_raise__contract_id
+#: model:ir.model.fields,field_description:property_management.field_end_of_rent__contract_id
+#: model:ir.model.fields,field_description:property_management.field_log_rental_contract__contract_id
+#: model:ir.model.fields,field_description:property_management.field_property_management_maintenance__contract_id
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__log_rental_contract_ids
+#: model_terms:ir.ui.view,arch_db:property_management.view_rental_contract_filter
+msgid "Contract"
+msgstr "عقد"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__date
+msgid "Contract Date"
+msgstr "تاريخ العقد"
+
+#. module: property_management
+#: model_terms:ir.ui.view,arch_db:property_management.rent_payment_form_view
+msgid "Contract Details"
+msgstr "تفاصيل العقد"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_transfer_contract__date_to
+msgid "Contract End Date"
+msgstr "تاريخ نهاية العقد"
+
+#. module: property_management
+#: model_terms:ir.ui.view,arch_db:property_management.transfer_contract_form_view
+msgid "Contract Info"
+msgstr "معلومات العقد"
+
+#. module: property_management
+#: model_terms:ir.ui.view,arch_db:property_management.rental_contract_form_view
+msgid "Contract Insurance"
+msgstr "التأمين"
+
+#. module: property_management
+#: model_terms:ir.ui.view,arch_db:property_management.rental_contract_form_view
+msgid "Contract Service"
+msgstr "الخدمات"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_transfer_contract__date_from
+msgid "Contract Start Date"
+msgstr "تاريخ بداية العقد"
+
+#. module: property_management
+#: model:ir.model,name:property_management.model_transfer_contract
+msgid "Contract Transfer"
+msgstr "نقل العقد"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_re_unit__contract_counts
+#: model_terms:ir.ui.view,arch_db:property_management.contract_unit_view
+msgid "Contracts"
+msgstr "العقود"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_end_rent_line__cost
+msgid "Cost"
+msgstr "التكلفة"
+
+#. module: property_management
+#: model:ir.actions.server,name:property_management.custom_invoice_action_server
+msgid "Create Commission Vendor Invoice"
+msgstr "انشاء فاتورة عمولة"
+
+#. module: property_management
+#: model:ir.actions.server,name:property_management.custom_create_invoice_action_server
+#: model_terms:ir.ui.view,arch_db:property_management.rent_payment_form_view
+msgid "Create Invoice"
+msgstr "إنشاء فاتورة"
+
+#. module: property_management
+#: model_terms:ir.ui.view,arch_db:property_management.view_client_requirements_form
+msgid "Create Rental Contract"
+msgstr ""
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_annual_raise__create_uid
+#: model:ir.model.fields,field_description:property_management.field_confirm_wizard__create_uid
+#: model:ir.model.fields,field_description:property_management.field_end_of_rent__create_uid
+#: model:ir.model.fields,field_description:property_management.field_end_rent_line__create_uid
+#: model:ir.model.fields,field_description:property_management.field_log_rental_contract__create_uid
+#: model:ir.model.fields,field_description:property_management.field_property_management_maintenance__create_uid
+#: model:ir.model.fields,field_description:property_management.field_rent_payment__create_uid
+#: model:ir.model.fields,field_description:property_management.field_rent_type__create_uid
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__create_uid
+#: model:ir.model.fields,field_description:property_management.field_rental_contract_template__create_uid
+#: model:ir.model.fields,field_description:property_management.field_transfer_contract__create_uid
+msgid "Created by"
+msgstr "أنشئ بواسطة"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_annual_raise__create_date
+#: model:ir.model.fields,field_description:property_management.field_confirm_wizard__create_date
+#: model:ir.model.fields,field_description:property_management.field_end_of_rent__create_date
+#: model:ir.model.fields,field_description:property_management.field_end_rent_line__create_date
+#: model:ir.model.fields,field_description:property_management.field_log_rental_contract__create_date
+#: model:ir.model.fields,field_description:property_management.field_property_management_maintenance__create_date
+#: model:ir.model.fields,field_description:property_management.field_rent_payment__create_date
+#: model:ir.model.fields,field_description:property_management.field_rent_type__create_date
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__create_date
+#: model:ir.model.fields,field_description:property_management.field_rental_contract_template__create_date
+#: model:ir.model.fields,field_description:property_management.field_transfer_contract__create_date
+msgid "Created on"
+msgstr "أنشئ في"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_transfer_contract__current_partner_id
+msgid "Current Renter"
+msgstr "المستأجر الحالي"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_rent_payment__partner_id
+msgid "Customer"
+msgstr "العميل"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_end_of_rent__end_line_ids
+#: model:ir.model.fields,field_description:property_management.field_property_management_maintenance__end_line_ids
+msgid "Damage Line"
+msgstr "الأضرار"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_end_of_rent__date
+#: model:ir.model.fields,field_description:property_management.field_property_management_maintenance__date
+msgid "Date"
+msgstr "التاريخ"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_log_rental_contract__date_end
+msgid "Date End"
+msgstr "تاريخ النهاية"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_log_rental_contract__date_start
+msgid "Date Start"
+msgstr "تاريخ البداية"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__debit_account_id
+msgid "Debit Account"
+msgstr "حساب المدين"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_end_rent_line__product_id
+#: model:ir.model.fields,field_description:property_management.field_property_management_maintenance__name
+#: model:ir.model.fields,field_description:property_management.field_rent_payment__name
+msgid "Description"
+msgstr "الوصف"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_annual_raise__display_name
+#: model:ir.model.fields,field_description:property_management.field_confirm_wizard__display_name
+#: model:ir.model.fields,field_description:property_management.field_end_of_rent__display_name
+#: model:ir.model.fields,field_description:property_management.field_end_rent_line__display_name
+#: model:ir.model.fields,field_description:property_management.field_log_rental_contract__display_name
+#: model:ir.model.fields,field_description:property_management.field_property_management_maintenance__display_name
+#: model:ir.model.fields,field_description:property_management.field_rent_payment__display_name
+#: model:ir.model.fields,field_description:property_management.field_rent_type__display_name
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__display_name
+#: model:ir.model.fields,field_description:property_management.field_rental_contract_template__display_name
+#: model:ir.model.fields,field_description:property_management.field_transfer_contract__display_name
+msgid "Display Name"
+msgstr "الاسم المعروض"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__district_id
+msgid "District"
+msgstr "الحي"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__change_price
+msgid "Do You want to change rent?"
+msgstr "هل تريد تغير الإيجار؟"
+
+#. module: property_management
+#: model_terms:ir.ui.view,arch_db:property_management.confirm_wizard_form
+msgid "Do you want to proceed?"
+msgstr "هل تريد الإكمال"
+
+#. module: property_management
+#: model:ir.model.fields.selection,name:property_management.selection__end_of_rent__state__done
+#: model:ir.model.fields.selection,name:property_management.selection__property_management_maintenance__state__done
+#: model_terms:ir.ui.view,arch_db:property_management.end_of_rent_form_view
+#: model_terms:ir.ui.view,arch_db:property_management.property_management_maintenance_form
+msgid "Done"
+msgstr "مكتمل"
+
+#. module: property_management
+#: model:ir.model.fields.selection,name:property_management.selection__end_of_rent__state__draft
+#: model:ir.model.fields.selection,name:property_management.selection__property_management_maintenance__state__draft
+#: model:ir.model.fields.selection,name:property_management.selection__rental_contract__state__draft
+#: model:ir.model.fields.selection,name:property_management.selection__transfer_contract__state__draft
+#: model_terms:ir.ui.view,arch_db:property_management.view_rental_contract_filter
+msgid "Draft"
+msgstr "مبدئي"
+
+#. module: property_management
+#: model:ir.model.fields.selection,name:property_management.selection__rent_payment__state__due
+#: model_terms:ir.ui.view,arch_db:property_management.rent_payment_filter_view
+msgid "Due"
+msgstr "مستحق"
+
+#. module: property_management
+#: model:ir.actions.server,name:property_management.custom_action_server
+#: model:ir.model.fields,field_description:property_management.field_annual_raise__due_date_raise
+#: model:ir.model.fields,field_description:property_management.field_rent_payment__due_date
+msgid "Due Date"
+msgstr "تحقق الاستحقاق"
+
+#. module: property_management
+#: code:addons/property_management/models/rent_payment.py:0
+#, python-format
+msgid "Due Date Rent"
+msgstr ""
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_end_of_rent__electric_amount
+msgid "Electric Amount"
+msgstr "قيمة الكهرباء"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_end_of_rent__electric_payment_no
+msgid "Electric Payment No"
+msgstr "رقم سند سداد الكهرباء"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_end_of_rent__electric_meter
+msgid "Electric Read"
+msgstr "قراءة العداد"
+
+#. module: property_management
+#: code:addons/property_management/models/rent_payment.py:0
+#: model:ir.model.fields,field_description:property_management.field_rent_payment__electricity_cost
+#: model_terms:ir.ui.view,arch_db:property_management.rental_contract_form_view
+#, python-format
+msgid "Electricity Cost"
+msgstr "قيمة خدمة الكهرباء"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__electricity_meter_no
+msgid "Electricity Meter No."
+msgstr "رقم عداد الكهرباء"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__electricity_cost
+msgid "Electricity cost"
+msgstr "قيمة خدمة الكهرباء"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_end_rent_line__end_rent_id
+msgid "End Contract"
+msgstr "نهاية العقد"
+
+#. module: property_management
+#: model:ir.model,name:property_management.model_end_rent_line
+msgid "End Of Rent Line"
+msgstr "سطور نهاية العقد"
+
+#. module: property_management
+#: model:ir.model.fields.selection,name:property_management.selection__property_management_maintenance__maintenance_type__end_contract
+msgid "End of contract"
+msgstr "نهاية العقد"
+
+#. module: property_management
+#: code:addons/property_management/models/end_rental_contract.py:0
+#, python-format
+msgid "End of contract maintenance cannot be created from here."
+msgstr "لايمكن إنشاء صيانة نهاية عقد من هنا"
+
+#. module: property_management_menu
+#: model:ir.actions.act_window,name:property_management_menu.rent_end_action
+msgid "End of rental contract"
+msgstr "نهاية العقود الإيجارية"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_end_of_rent__evacuation_date
+msgid "Evacuation date"
+msgstr "تاريخ الإخلاء"
+
+#. module: property_management
+#: model_terms:ir.ui.view,arch_db:property_management.rental_contract_form_view
+#: model_terms:ir.ui.view,arch_db:property_management.view_rental_contract_filter
+msgid "Expired"
+msgstr "منتهي"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__external_broker
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__external_broker_id
+msgid "External Broker"
+msgstr "وسيط خارجي"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__external_commission
+msgid "External Broker Commission"
+msgstr "عمولات الوسيط الخارجي"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__external_percent
+msgid "External Broker Percent"
+msgstr "نسبة عمولة الوسيط الخارجي"
+
+#. module: property_management
+#: model:ir.model.fields.selection,name:property_management.selection__rental_contract__commission_profit__number
+#: model:ir.model.fields.selection,name:property_management.selection__rental_contract__insurance__fixed
+#: model:ir.model.fields.selection,name:property_management.selection__rental_contract__service__fixed
+msgid "Fixed"
+msgstr "قيمة ثابتة"
+
+#. module: property_management
+#: model:ir.model.fields.selection,name:property_management.selection__annual_raise__raise_type__fixed
+#: model:ir.model.fields.selection,name:property_management.selection__rental_contract__company_profit__number
+msgid "Fixed amount"
+msgstr "قيمة ثابتة"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_annual_raise__message_follower_ids
+#: model:ir.model.fields,field_description:property_management.field_end_of_rent__message_follower_ids
+#: model:ir.model.fields,field_description:property_management.field_property_management_maintenance__message_follower_ids
+#: model:ir.model.fields,field_description:property_management.field_rent_payment__message_follower_ids
+#: model:ir.model.fields,field_description:property_management.field_rent_type__message_follower_ids
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__message_follower_ids
+#: model:ir.model.fields,field_description:property_management.field_transfer_contract__message_follower_ids
+msgid "Followers"
+msgstr "المتابعون"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_annual_raise__message_channel_ids
+#: model:ir.model.fields,field_description:property_management.field_end_of_rent__message_channel_ids
+#: model:ir.model.fields,field_description:property_management.field_property_management_maintenance__message_channel_ids
+#: model:ir.model.fields,field_description:property_management.field_rent_payment__message_channel_ids
+#: model:ir.model.fields,field_description:property_management.field_rent_type__message_channel_ids
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__message_channel_ids
+#: model:ir.model.fields,field_description:property_management.field_transfer_contract__message_channel_ids
+msgid "Followers (Channels)"
+msgstr "المتابعون (القنوات)"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_annual_raise__message_partner_ids
+#: model:ir.model.fields,field_description:property_management.field_end_of_rent__message_partner_ids
+#: model:ir.model.fields,field_description:property_management.field_property_management_maintenance__message_partner_ids
+#: model:ir.model.fields,field_description:property_management.field_rent_payment__message_partner_ids
+#: model:ir.model.fields,field_description:property_management.field_rent_type__message_partner_ids
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__message_partner_ids
+#: model:ir.model.fields,field_description:property_management.field_transfer_contract__message_partner_ids
+msgid "Followers (Partners)"
+msgstr "المتابعون (الشركاء)"
+
+#. module: property_management
+#: model:ir.model.fields,help:property_management.field_annual_raise__activity_type_icon
+#: model:ir.model.fields,help:property_management.field_end_of_rent__activity_type_icon
+#: model:ir.model.fields,help:property_management.field_property_management_maintenance__activity_type_icon
+#: model:ir.model.fields,help:property_management.field_rent_payment__activity_type_icon
+#: model:ir.model.fields,help:property_management.field_rent_type__activity_type_icon
+#: model:ir.model.fields,help:property_management.field_rental_contract__activity_type_icon
+#: model:ir.model.fields,help:property_management.field_transfer_contract__activity_type_icon
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr "رمز الخط الرائع ، على سبيل المثال FA- المهام"
+
+#. module: property_management
+#: model_terms:ir.ui.view,arch_db:property_management.rental_contract_form_view
+msgid "Generate Payment"
+msgstr "إنشاء دفعات"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__generated
+msgid "Generated"
+msgstr "تم الإنشاء"
+
+#. module: property_management
+#: model_terms:ir.ui.view,arch_db:property_management.property_maintenance_filter_view
+#: model_terms:ir.ui.view,arch_db:property_management.rent_end__filter_view
+#: model_terms:ir.ui.view,arch_db:property_management.rent_payment_filter_view
+#: model_terms:ir.ui.view,arch_db:property_management.view_rental_contract_filter
+msgid "Group By"
+msgstr "تجميع بي"
+
+#. module: property_management
+#: model_terms:ir.ui.view,arch_db:property_management.transfer_contract_search_view
+msgid "Group By..."
+msgstr "تجميع"
+
+#. module: property_management
+#: code:addons/property_management/models/end_rental_contract.py:0
+#: model:ir.model.fields,field_description:property_management.field_end_of_rent__hand_cost
+#: model:ir.model.fields,field_description:property_management.field_property_management_maintenance__hand_cost
+#, python-format
+msgid "Hand Cost"
+msgstr "تكلفة الأعمال اليدوية"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_annual_raise__id
+#: model:ir.model.fields,field_description:property_management.field_confirm_wizard__id
+#: model:ir.model.fields,field_description:property_management.field_end_of_rent__id
+#: model:ir.model.fields,field_description:property_management.field_end_rent_line__id
+#: model:ir.model.fields,field_description:property_management.field_log_rental_contract__id
+#: model:ir.model.fields,field_description:property_management.field_property_management_maintenance__id
+#: model:ir.model.fields,field_description:property_management.field_rent_payment__id
+#: model:ir.model.fields,field_description:property_management.field_rent_type__id
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__id
+#: model:ir.model.fields,field_description:property_management.field_rental_contract_template__id
+#: model:ir.model.fields,field_description:property_management.field_transfer_contract__id
+msgid "ID"
+msgstr "المُعرف"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_annual_raise__activity_exception_icon
+#: model:ir.model.fields,field_description:property_management.field_end_of_rent__activity_exception_icon
+#: model:ir.model.fields,field_description:property_management.field_property_management_maintenance__activity_exception_icon
+#: model:ir.model.fields,field_description:property_management.field_rent_payment__activity_exception_icon
+#: model:ir.model.fields,field_description:property_management.field_rent_type__activity_exception_icon
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__activity_exception_icon
+#: model:ir.model.fields,field_description:property_management.field_transfer_contract__activity_exception_icon
+msgid "Icon"
+msgstr "الأيقونة"
+
+#. module: property_management
+#: model:ir.model.fields,help:property_management.field_annual_raise__activity_exception_icon
+#: model:ir.model.fields,help:property_management.field_end_of_rent__activity_exception_icon
+#: model:ir.model.fields,help:property_management.field_property_management_maintenance__activity_exception_icon
+#: model:ir.model.fields,help:property_management.field_rent_payment__activity_exception_icon
+#: model:ir.model.fields,help:property_management.field_rent_type__activity_exception_icon
+#: model:ir.model.fields,help:property_management.field_rental_contract__activity_exception_icon
+#: model:ir.model.fields,help:property_management.field_transfer_contract__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr "الأيقونة للإشارة إلى استثناء النشاط"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__identification_expiry_date
+msgid "Identification Expiry Date"
+msgstr "تاريخ إنتهاء الهوية"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__identification_issue_date
+msgid "Identification Issue Date"
+msgstr "تاريخ إصدار الهوية"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__identification_number
+msgid "Identification NUmber"
+msgstr "رقم الهوية"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__identification_type
+msgid "Identification Type"
+msgstr "نوع الهوية"
+
+#. module: property_management
+#: model:ir.model.fields,help:property_management.field_annual_raise__message_needaction
+#: model:ir.model.fields,help:property_management.field_annual_raise__message_unread
+#: model:ir.model.fields,help:property_management.field_end_of_rent__message_needaction
+#: model:ir.model.fields,help:property_management.field_end_of_rent__message_unread
+#: model:ir.model.fields,help:property_management.field_property_management_maintenance__message_needaction
+#: model:ir.model.fields,help:property_management.field_property_management_maintenance__message_unread
+#: model:ir.model.fields,help:property_management.field_rent_payment__message_needaction
+#: model:ir.model.fields,help:property_management.field_rent_payment__message_unread
+#: model:ir.model.fields,help:property_management.field_rent_type__message_needaction
+#: model:ir.model.fields,help:property_management.field_rent_type__message_unread
+#: model:ir.model.fields,help:property_management.field_rental_contract__message_needaction
+#: model:ir.model.fields,help:property_management.field_rental_contract__message_unread
+#: model:ir.model.fields,help:property_management.field_transfer_contract__message_needaction
+#: model:ir.model.fields,help:property_management.field_transfer_contract__message_unread
+msgid "If checked, new messages require your attention."
+msgstr "إذا كان محددًا، فهناك رسائل جديدة تحتاج لرؤيتها."
+
+#. module: property_management
+#: model:ir.model.fields,help:property_management.field_annual_raise__message_has_error
+#: model:ir.model.fields,help:property_management.field_annual_raise__message_has_sms_error
+#: model:ir.model.fields,help:property_management.field_end_of_rent__message_has_error
+#: model:ir.model.fields,help:property_management.field_end_of_rent__message_has_sms_error
+#: model:ir.model.fields,help:property_management.field_property_management_maintenance__message_has_error
+#: model:ir.model.fields,help:property_management.field_property_management_maintenance__message_has_sms_error
+#: model:ir.model.fields,help:property_management.field_rent_payment__message_has_error
+#: model:ir.model.fields,help:property_management.field_rent_payment__message_has_sms_error
+#: model:ir.model.fields,help:property_management.field_rent_type__message_has_error
+#: model:ir.model.fields,help:property_management.field_rent_type__message_has_sms_error
+#: model:ir.model.fields,help:property_management.field_rental_contract__message_has_error
+#: model:ir.model.fields,help:property_management.field_rental_contract__message_has_sms_error
+#: model:ir.model.fields,help:property_management.field_transfer_contract__message_has_error
+#: model:ir.model.fields,help:property_management.field_transfer_contract__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr "إذا كان محددًا، فقد حدث خطأ في تسليم بعض الرسائل."
+
+#. module: property_management
+#: model_terms:ir.ui.view,arch_db:property_management.rental_contract_form_view
+msgid ""
+"If the meter price is not the same as the registered on record information"
+msgstr ""
+
+#. module: property_management
+#: code:addons/property_management/models/rental_contract.py:0
+#, python-format
+msgid "In rent type please make sure that the month number is more than 0"
+msgstr "في نوع السداد فضلا تأكد ان عدد الشهور أكثر من صفر"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__insurance
+msgid "Insurance"
+msgstr "التأمين"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_end_of_rent__insurance_amount
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__insurance_amount
+msgid "Insurance Amount"
+msgstr "قيمة التأمين"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__insurance_invoice_id
+msgid "Insurance Invoice"
+msgstr "فاتورة التأمين"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__insurance_paid
+msgid "Insurance Paid"
+msgstr "التأمين المسدد"
+
+#. module: property_management
+#: code:addons/property_management/models/end_rental_contract.py:0
+#, python-format
+msgid "Insurance Refund"
+msgstr "إسترداد التأمين"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__insurance_cost
+msgid "Insurance cost"
+msgstr "تكلفة التأمين"
+
+#. module: property_management
+#: code:addons/property_management/models/rental_contract.py:0
+#, python-format
+msgid "Insurance payment for "
+msgstr "دفعة تأمين لــ"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__check_insurance
+msgid "Insurance?"
+msgstr "تأمين؟"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__internal_broker
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__internal_broker_id
+msgid "Internal Broker"
+msgstr "وسيط داخلي"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__internal_commission
+msgid "Internal Broker Commission"
+msgstr "عمولة الوسيط الداخلي"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__internal_percent
+msgid "Internal Broker Percent"
+msgstr "نسبة الوسيط الداخلي"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_rent_payment__investor_id
+msgid "Investor"
+msgstr "المستثمر"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_end_of_rent__invoice_id
+#: model:ir.model.fields,field_description:property_management.field_property_management_maintenance__invoice_id
+#: model:ir.model.fields,field_description:property_management.field_rent_payment__invoice_id
+#: model:ir.model.fields.selection,name:property_management.selection__rent_payment__state__invoice
+#: model_terms:ir.ui.view,arch_db:property_management.rent_payment_form_view
+msgid "Invoice"
+msgstr "فاتورة"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_rent_payment__invoice_commission_id
+#: model_terms:ir.ui.view,arch_db:property_management.rent_payment_filter_view
+msgid "Invoice Commission"
+msgstr "فاتورة العمولة"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_property_management_maintenance__renter_invoice
+msgid "Invoice Renter ?"
+msgstr "فوترة المستأجر"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_annual_raise__message_is_follower
+#: model:ir.model.fields,field_description:property_management.field_end_of_rent__message_is_follower
+#: model:ir.model.fields,field_description:property_management.field_property_management_maintenance__message_is_follower
+#: model:ir.model.fields,field_description:property_management.field_rent_payment__message_is_follower
+#: model:ir.model.fields,field_description:property_management.field_rent_type__message_is_follower
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__message_is_follower
+#: model:ir.model.fields,field_description:property_management.field_transfer_contract__message_is_follower
+msgid "Is Follower"
+msgstr "متابع"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_rent_payment__collected_from_company
+msgid "Is Payment Collected from Company"
+msgstr "محصل من الشركة المديرة للعقار؟"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_benefits_representative__is_tenant
+#: model:ir.model.fields,field_description:property_management.field_external_benefits__is_tenant
+#: model:ir.model.fields,field_description:property_management.field_grant_benefit__is_tenant
+#: model:ir.model.fields,field_description:property_management.field_res_partner__is_tenant
+#: model:ir.model.fields,field_description:property_management.field_res_users__is_tenant
+msgid "Is Tenant?"
+msgstr "مستأجر؟"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__is_today_end_date
+msgid "Is Today End Date"
+msgstr ""
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__journal_id
+msgid "Journal"
+msgstr "القيد"
+
+#. module: property_management
+#: code:addons/property_management/models/rent_payment.py:0
+#, python-format
+msgid ""
+"Kindly, Contact Your Account Manager to set Income Account in contract "
+"account page"
+msgstr "فضلا قم بالتواصل مع مدير الحسابات و إسناد حساب الإيراد في العقد"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_annual_raise____last_update
+#: model:ir.model.fields,field_description:property_management.field_confirm_wizard____last_update
+#: model:ir.model.fields,field_description:property_management.field_end_of_rent____last_update
+#: model:ir.model.fields,field_description:property_management.field_end_rent_line____last_update
+#: model:ir.model.fields,field_description:property_management.field_log_rental_contract____last_update
+#: model:ir.model.fields,field_description:property_management.field_property_management_maintenance____last_update
+#: model:ir.model.fields,field_description:property_management.field_rent_payment____last_update
+#: model:ir.model.fields,field_description:property_management.field_rent_type____last_update
+#: model:ir.model.fields,field_description:property_management.field_rental_contract____last_update
+#: model:ir.model.fields,field_description:property_management.field_rental_contract_template____last_update
+#: model:ir.model.fields,field_description:property_management.field_transfer_contract____last_update
+msgid "Last Modified on"
+msgstr "آخر تعديل في"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_annual_raise__write_uid
+#: model:ir.model.fields,field_description:property_management.field_confirm_wizard__write_uid
+#: model:ir.model.fields,field_description:property_management.field_end_of_rent__write_uid
+#: model:ir.model.fields,field_description:property_management.field_end_rent_line__write_uid
+#: model:ir.model.fields,field_description:property_management.field_log_rental_contract__write_uid
+#: model:ir.model.fields,field_description:property_management.field_property_management_maintenance__write_uid
+#: model:ir.model.fields,field_description:property_management.field_rent_payment__write_uid
+#: model:ir.model.fields,field_description:property_management.field_rent_type__write_uid
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__write_uid
+#: model:ir.model.fields,field_description:property_management.field_rental_contract_template__write_uid
+#: model:ir.model.fields,field_description:property_management.field_transfer_contract__write_uid
+msgid "Last Updated by"
+msgstr "آخر تحديث بواسطة"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_annual_raise__write_date
+#: model:ir.model.fields,field_description:property_management.field_confirm_wizard__write_date
+#: model:ir.model.fields,field_description:property_management.field_end_of_rent__write_date
+#: model:ir.model.fields,field_description:property_management.field_end_rent_line__write_date
+#: model:ir.model.fields,field_description:property_management.field_log_rental_contract__write_date
+#: model:ir.model.fields,field_description:property_management.field_property_management_maintenance__write_date
+#: model:ir.model.fields,field_description:property_management.field_rent_payment__write_date
+#: model:ir.model.fields,field_description:property_management.field_rent_type__write_date
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__write_date
+#: model:ir.model.fields,field_description:property_management.field_rental_contract_template__write_date
+#: model:ir.model.fields,field_description:property_management.field_transfer_contract__write_date
+msgid "Last Updated on"
+msgstr "آخر تحديث في"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_log_rental_contract__leaser_id
+msgid "Leaser"
+msgstr "المستأجر"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_annual_raise__message_main_attachment_id
+#: model:ir.model.fields,field_description:property_management.field_end_of_rent__message_main_attachment_id
+#: model:ir.model.fields,field_description:property_management.field_property_management_maintenance__message_main_attachment_id
+#: model:ir.model.fields,field_description:property_management.field_rent_payment__message_main_attachment_id
+#: model:ir.model.fields,field_description:property_management.field_rent_type__message_main_attachment_id
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__message_main_attachment_id
+#: model:ir.model.fields,field_description:property_management.field_transfer_contract__message_main_attachment_id
+msgid "Main Attachment"
+msgstr "المرفق"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_end_of_rent__maintenance_id
+#: model:ir.model.fields,field_description:property_management.field_end_rent_line__maintenance_id
+msgid "Maintenance"
+msgstr "الصيانة"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_end_of_rent__maintenance_cost
+#: model:ir.model.fields,field_description:property_management.field_property_management_maintenance__maintenance_cost
+msgid "Maintenance Cost"
+msgstr "تكلفة الصيانة"
+
+#. module: property_management
+#: code:addons/property_management/models/end_rental_contract.py:0
+#, python-format
+msgid "Maintenance For"
+msgstr "صيانة لــ"
+
+#. module: property_management
+#: model_terms:ir.ui.view,arch_db:property_management.end_of_rent_form_view
+#: model_terms:ir.ui.view,arch_db:property_management.property_management_maintenance_form
+msgid "Maintenance Items"
+msgstr "عناصر الصيانة"
+
+#. module: property_management
+#: code:addons/property_management/models/end_rental_contract.py:0
+#, python-format
+msgid "Maintenance Order"
+msgstr "طلب الصيانة"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_property_management_maintenance__maintenance_type
+msgid "Maintenance Type"
+msgstr "نوع الصيانة"
+
+#. module: property_management
+#: code:addons/property_management/models/end_rental_contract.py:0
+#, python-format
+msgid "Maintenance for EOC to %s"
+msgstr "صيانة نهاية عقد  %s"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__management_type
+msgid "Management Type"
+msgstr "نوع الملك"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__market_type
+msgid "Market Type"
+msgstr "نوع العقار"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_confirm_wizard__message
+msgid "Message"
+msgstr "الرسالة"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_annual_raise__message_has_error
+#: model:ir.model.fields,field_description:property_management.field_end_of_rent__message_has_error
+#: model:ir.model.fields,field_description:property_management.field_property_management_maintenance__message_has_error
+#: model:ir.model.fields,field_description:property_management.field_rent_payment__message_has_error
+#: model:ir.model.fields,field_description:property_management.field_rent_type__message_has_error
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__message_has_error
+#: model:ir.model.fields,field_description:property_management.field_transfer_contract__message_has_error
+msgid "Message Delivery error"
+msgstr "خطأ في تسليم الرسائل"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_annual_raise__message_ids
+#: model:ir.model.fields,field_description:property_management.field_end_of_rent__message_ids
+#: model:ir.model.fields,field_description:property_management.field_property_management_maintenance__message_ids
+#: model:ir.model.fields,field_description:property_management.field_rent_payment__message_ids
+#: model:ir.model.fields,field_description:property_management.field_rent_type__message_ids
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__message_ids
+#: model:ir.model.fields,field_description:property_management.field_transfer_contract__message_ids
+msgid "Messages"
+msgstr "الرسائل"
+
+#. module: property_management
+#: code:addons/property_management/models/rental_contract.py:0
+#: model:ir.model.fields.selection,name:property_management.selection__annual_raise__raise_on__meter
+#: model:ir.model.fields.selection,name:property_management.selection__rental_contract__annual_raise_on_type__meter
+#, python-format
+msgid "Meter"
+msgstr "سعر المتر"
+
+#. module: property_management
+#: model_terms:ir.ui.view,arch_db:property_management.rental_contract_form_view
+msgid "Meter Price  & Rent amount"
+msgstr "سعر المتر و قيمة الإيجار"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_annual_raise__meter_price
+msgid "Meter price"
+msgstr "سعر المتر"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_annual_raise__meter_price_after_raise
+msgid "Meter price after raise"
+msgstr "سعر المتر بعد الزيادة"
+
+#. module: property_management
+#: model:ir.model.fields.selection,name:property_management.selection__rental_contract__rent_kind__month
+msgid "Month"
+msgstr "الشهر"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_rent_type__months
+msgid "Months Between Payment"
+msgstr "الشهور بين الدفعات"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_annual_raise__my_activity_date_deadline
+#: model:ir.model.fields,field_description:property_management.field_end_of_rent__my_activity_date_deadline
+#: model:ir.model.fields,field_description:property_management.field_property_management_maintenance__my_activity_date_deadline
+#: model:ir.model.fields,field_description:property_management.field_rent_payment__my_activity_date_deadline
+#: model:ir.model.fields,field_description:property_management.field_rent_type__my_activity_date_deadline
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__my_activity_date_deadline
+#: model:ir.model.fields,field_description:property_management.field_transfer_contract__my_activity_date_deadline
+msgid "My Activity Deadline"
+msgstr "نهاية الوقت المعين للنشاط"
+
+#. module: property_management
+#: model_terms:ir.ui.view,arch_db:property_management.view_rental_contract_filter
+msgid "My Contract"
+msgstr "عقودي"
+
+#. module: property_management
+#: model_terms:ir.ui.view,arch_db:property_management.rent_payment_filter_view
+msgid "NOT Invoice Commission"
+msgstr "عمولات غير مفوترة"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_annual_raise__name
+#: model:ir.model.fields,field_description:property_management.field_rent_type__name
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__name
+msgid "Name"
+msgstr "الأسم"
+
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_end_of_rent__name
+msgid "Reference Description"
+msgstr "وصف مرجعي"
+
+#. module: property_management
+#: code:addons/property_management/models/property_management_conf.py:0
+#: model:ir.model.constraint,message:property_management.constraint_rent_type_name_months
+#, python-format
+msgid "Name and months numbers must be unique."
+msgstr "طريقة السداد لا يمكن أن تتكر"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_end_of_rent__maintenance
+msgid "Need Maintenance ?"
+msgstr "يحتاج إلى صيانة"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__renew_contract_id
+msgid "New Contract"
+msgstr "العقد الجديد"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__new_price
+msgid "New Meter Price"
+msgstr "سعر المتر الجديد"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__new_rent_amount
+msgid "New Rent Amount"
+msgstr "قيمة الإيجار الجديدة"
+
+#. module: property_management
+#: model_terms:ir.ui.view,arch_db:property_management.transfer_contract_form_view
+msgid "New Renter Info & Finical Inof"
+msgstr "معلومات المستأجر الجديد"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_annual_raise__activity_date_deadline
+#: model:ir.model.fields,field_description:property_management.field_end_of_rent__activity_date_deadline
+#: model:ir.model.fields,field_description:property_management.field_property_management_maintenance__activity_date_deadline
+#: model:ir.model.fields,field_description:property_management.field_rent_payment__activity_date_deadline
+#: model:ir.model.fields,field_description:property_management.field_rent_type__activity_date_deadline
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__activity_date_deadline
+#: model:ir.model.fields,field_description:property_management.field_transfer_contract__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr "الموعد النهائي للنشاط التالي"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_annual_raise__activity_summary
+#: model:ir.model.fields,field_description:property_management.field_end_of_rent__activity_summary
+#: model:ir.model.fields,field_description:property_management.field_property_management_maintenance__activity_summary
+#: model:ir.model.fields,field_description:property_management.field_rent_payment__activity_summary
+#: model:ir.model.fields,field_description:property_management.field_rent_type__activity_summary
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__activity_summary
+#: model:ir.model.fields,field_description:property_management.field_transfer_contract__activity_summary
+msgid "Next Activity Summary"
+msgstr "ملخص النشاط التالي"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_annual_raise__activity_type_id
+#: model:ir.model.fields,field_description:property_management.field_end_of_rent__activity_type_id
+#: model:ir.model.fields,field_description:property_management.field_property_management_maintenance__activity_type_id
+#: model:ir.model.fields,field_description:property_management.field_rent_payment__activity_type_id
+#: model:ir.model.fields,field_description:property_management.field_rent_type__activity_type_id
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__activity_type_id
+#: model:ir.model.fields,field_description:property_management.field_transfer_contract__activity_type_id
+msgid "Next Activity Type"
+msgstr "نوع النشاط التالي"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_transfer_contract__name
+#: model_terms:ir.ui.view,arch_db:property_management.transfer_contract_form_view
+msgid "No."
+msgstr "رقم"
+
+#. module: property_management
+#: model:ir.model.fields.selection,name:property_management.selection__property_management_maintenance__maintenance_type__normal
+msgid "Normal"
+msgstr "عادي"
+
+#. module: property_management
+#: model_terms:ir.ui.view,arch_db:property_management.rent_payment_filter_view
+msgid "Not Canceled Payment"
+msgstr "الدفعات الغير ملغية"
+
+#. module: property_management
+#: model_terms:ir.ui.view,arch_db:property_management.view_rental_contract_filter
+msgid "Not Cancelled"
+msgstr "اللعقود الغير ملغية"
+
+#. module: property_management
+#: model:ir.model.fields.selection,name:property_management.selection__rent_payment__state__draft
+msgid "Not Due"
+msgstr "غير مستحق"
+
+#. module: property_management_menu
+#: model:ir.ui.menu,name:property_management_menu.not_owned_property_info_menu
+msgid "Not Owned Commercial Property"
+msgstr "العقارات التجارية الغير مملوكة"
+
+#. module: property_management_menu
+#: model:ir.ui.menu,name:property_management_menu.nto_owned_residential_property
+msgid "Not Owned Residential Property"
+msgstr "العقارات السكنية الغير مملوكة"
+
+#. module: property_management
+#: model_terms:ir.ui.view,arch_db:property_management.rent_payment_filter_view
+msgid "Not due"
+msgstr "غير مستحقة"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_end_of_rent__note
+#: model:ir.model.fields,field_description:property_management.field_end_rent_line__note
+#: model:ir.model.fields,field_description:property_management.field_property_management_maintenance__note
+#: model:ir.model.fields,field_description:property_management.field_rent_payment__note
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__note
+#: model_terms:ir.ui.view,arch_db:property_management.rental_contract_form_view
+msgid "Note"
+msgstr "ملاحظات"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_annual_raise__message_needaction_counter
+#: model:ir.model.fields,field_description:property_management.field_end_of_rent__message_needaction_counter
+#: model:ir.model.fields,field_description:property_management.field_property_management_maintenance__message_needaction_counter
+#: model:ir.model.fields,field_description:property_management.field_rent_payment__message_needaction_counter
+#: model:ir.model.fields,field_description:property_management.field_rent_type__message_needaction_counter
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__message_needaction_counter
+#: model:ir.model.fields,field_description:property_management.field_transfer_contract__message_needaction_counter
+msgid "Number of Actions"
+msgstr "عدد الإجراءات"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_annual_raise__year
+msgid "Number of Years"
+msgstr "السنة"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_annual_raise__message_has_error_counter
+#: model:ir.model.fields,field_description:property_management.field_end_of_rent__message_has_error_counter
+#: model:ir.model.fields,field_description:property_management.field_property_management_maintenance__message_has_error_counter
+#: model:ir.model.fields,field_description:property_management.field_rent_payment__message_has_error_counter
+#: model:ir.model.fields,field_description:property_management.field_rent_type__message_has_error_counter
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__message_has_error_counter
+#: model:ir.model.fields,field_description:property_management.field_transfer_contract__message_has_error_counter
+msgid "Number of errors"
+msgstr "عدد الاخطاء"
+
+#. module: property_management
+#: model:ir.model.fields,help:property_management.field_annual_raise__message_needaction_counter
+#: model:ir.model.fields,help:property_management.field_end_of_rent__message_needaction_counter
+#: model:ir.model.fields,help:property_management.field_property_management_maintenance__message_needaction_counter
+#: model:ir.model.fields,help:property_management.field_rent_payment__message_needaction_counter
+#: model:ir.model.fields,help:property_management.field_rent_type__message_needaction_counter
+#: model:ir.model.fields,help:property_management.field_rental_contract__message_needaction_counter
+#: model:ir.model.fields,help:property_management.field_transfer_contract__message_needaction_counter
+msgid "Number of messages which requires an action"
+msgstr "عدد الرسائل التي تتطلب إجراء"
+
+#. module: property_management
+#: model:ir.model.fields,help:property_management.field_annual_raise__message_has_error_counter
+#: model:ir.model.fields,help:property_management.field_end_of_rent__message_has_error_counter
+#: model:ir.model.fields,help:property_management.field_property_management_maintenance__message_has_error_counter
+#: model:ir.model.fields,help:property_management.field_rent_payment__message_has_error_counter
+#: model:ir.model.fields,help:property_management.field_rent_type__message_has_error_counter
+#: model:ir.model.fields,help:property_management.field_rental_contract__message_has_error_counter
+#: model:ir.model.fields,help:property_management.field_transfer_contract__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr "عدد الرسائل الحادث بها خطأ في التسليم"
+
+#. module: property_management
+#: model:ir.model.fields,help:property_management.field_annual_raise__message_unread_counter
+#: model:ir.model.fields,help:property_management.field_end_of_rent__message_unread_counter
+#: model:ir.model.fields,help:property_management.field_property_management_maintenance__message_unread_counter
+#: model:ir.model.fields,help:property_management.field_rent_payment__message_unread_counter
+#: model:ir.model.fields,help:property_management.field_rent_type__message_unread_counter
+#: model:ir.model.fields,help:property_management.field_rental_contract__message_unread_counter
+#: model:ir.model.fields,help:property_management.field_transfer_contract__message_unread_counter
+msgid "Number of unread messages"
+msgstr "عدد الرسائل الجديدة"
+
+#. module: property_management_menu
+#: model:ir.ui.menu,name:property_management_menu.owned_property_info_menu
+msgid "Owned Commercial Property"
+msgstr "العقارات التجارية المملوكة"
+
+#. module: property_management_menu
+#: model:ir.ui.menu,name:property_management_menu.owned_residential_property
+msgid "Owned Residential Property"
+msgstr "العقارات السكنية المملوكة"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_rent_payment__paid
+#: model:ir.model.fields.selection,name:property_management.selection__rent_payment__state__paid
+#: model_terms:ir.ui.view,arch_db:property_management.rent_payment_filter_view
+msgid "Paid"
+msgstr "مدفوع"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_rent_payment__paid_date
+msgid "Paid Date"
+msgstr "تاريخ السداد"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_property_management_maintenance__partner_id
+msgid "Partner"
+msgstr "العميل"
+
+#. module: property_management
+#: code:addons/property_management/models/rental_contract.py:0
+#, python-format
+msgid "Payment %s"
+msgstr "الدفعة %s"
+
+#. module: property_management
+#: model_terms:ir.ui.view,arch_db:property_management.rent_payment_form_view
+msgid "Payment Details"
+msgstr "تفاصيل الدفعة"
+
+#. module: property_management
+#: model:mail.template,subject:property_management.email_template_due_next_week
+msgid "Payment Due Next Week"
+msgstr "موعد استحقاق الدفعة الأسبوع القادم"
+
+#. module: property_management
+#: model:mail.template,subject:property_management.email_template_due_today
+msgid "Payment Due Today"
+msgstr "موعد استحقاق الدفعة اليوم"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_rent_payment__payment_method
+msgid "Payment Method"
+msgstr "طريقة السداد"
+
+#. module: property_management
+#: model:ir.model.fields.selection,name:property_management.selection__annual_raise__raise_type__percentage
+#: model:ir.model.fields.selection,name:property_management.selection__rental_contract__commission_profit__percentage
+#: model:ir.model.fields.selection,name:property_management.selection__rental_contract__company_profit__percentage
+#: model:ir.model.fields.selection,name:property_management.selection__rental_contract__insurance__percentage
+#: model:ir.model.fields.selection,name:property_management.selection__rental_contract__service__percentage
+msgid "Percentage"
+msgstr "نسبة"
+
+#. module: property_management
+#: code:addons/property_management/models/rent_payment.py:0
+#, python-format
+msgid "Please Chech the Due Date in rent"
+msgstr ""
+
+#. module: property_management
+#: code:addons/property_management/models/end_rental_contract.py:0
+#, python-format
+msgid "Please confirm end of rent first "
+msgstr "فضلا قم بتأكيد نهاية العقد أولا"
+
+#. module: property_management
+#: code:addons/property_management/models/client_requirement.py:0
+#, python-format
+msgid "Please first Register Your RequestThen You can Proceed"
+msgstr ""
+
+#. module: property_management
+#: code:addons/property_management/models/rental_contract.py:0
+#, python-format
+msgid "Please set the rent duration and start date"
+msgstr "فضلا قم بإعداد مدة العقد و تاريخ البداية"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__previous_contract_id
+msgid "Previous Contract"
+msgstr "العقد القديم"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__meter_price
+msgid "Price Per Meter"
+msgstr "السعر بالمتر"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_rent_payment__profit
+msgid "Profit"
+msgstr "الربح"
+
+#. module: property_management
+#: code:addons/property_management/wizards/confirm_box_property.py:0
+#, python-format
+msgid ""
+"Programming error: wizard action executed without active_id in context."
+msgstr ""
+
+#. module: property_management
+#: model:ir.model,name:property_management.model_internal_property
+#: model:ir.model.fields,field_description:property_management.field_end_of_rent__property_id
+#: model:ir.model.fields,field_description:property_management.field_property_management_maintenance__property_id
+#: model:ir.model.fields,field_description:property_management.field_rent_payment__property_id
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__property_id
+#: model:ir.model.fields,field_description:property_management.field_transfer_contract__property_id
+#: model:ir.model.fields.selection,name:property_management.selection__rental_contract__rent_method__property
+#: model_terms:ir.ui.view,arch_db:property_management.transfer_contract_search_view
+#: model_terms:ir.ui.view,arch_db:property_management.view_rental_contract_filter
+msgid "Property"
+msgstr "العقار"
+
+#. module: property_management
+#: model_terms:ir.ui.view,arch_db:property_management.rental_contract_form_view
+msgid "Property & Unit Information"
+msgstr "معلومات العقار و الوحدة"
+
+#. modules: property_management, property_management_menu
+#: model:ir.actions.act_window,name:property_management_menu.property_maintenance_action
+#: model:ir.model,name:property_management.model_property_management_maintenance
+#: model:ir.ui.menu,name:property_management_menu.property_maintenance_menu
+msgid "Property Maintenance"
+msgstr "صيانة العقار"
+
+#. modules: property_management, property_management_menu
+#: model:ir.module.category,name:property_management.module_category_property
+#: model:ir.ui.menu,name:property_management_menu.property_management_main_menu
+#: model:ir.ui.menu,name:property_management_menu.property_management_menu
+msgid "Property Management"
+msgstr "إدارة الممتلكات"
+
+#. module: property_management
+#: model:res.groups,name:property_management.group_property_manager
+msgid "Property Manager"
+msgstr ""
+
+#. module: property_management
+#: model_terms:ir.ui.view,arch_db:property_management.res_property_settings_view_form
+msgid "Property Settings"
+msgstr "اعدادات العقارات"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__property_state_id
+msgid "Property State"
+msgstr "حالة العقار"
+
+#. module: property_management
+#: model:ir.model,name:property_management.model_re_unit
+msgid "Property Unit"
+msgstr "وحدات العقار"
+
+#. module: property_management
+#: model:res.groups,name:property_management.group_property_user
+msgid "Property User"
+msgstr ""
+
+#. module: property_management
+#: code:addons/property_management/models/rental_contract.py:0
+#, python-format
+msgid "Property is already reserved or rented"
+msgstr "العقار محجوز أو مؤجر مسبقا"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_end_rent_line__qty
+msgid "Quantity"
+msgstr "الكمية"
+
+#. module: property_management
+#: model_terms:ir.ui.view,arch_db:property_management.property_management_maintenance_form
+msgid "RE-SET To Draft"
+msgstr ""
+
+#. module: property_management
+#: model_terms:ir.ui.view,arch_db:property_management.end_of_rent_form_view
+#: model_terms:ir.ui.view,arch_db:property_management.rental_contract_form_view
+msgid "RE-set To Draft"
+msgstr ""
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_annual_raise__raise_amount
+msgid "Raise Percentage"
+msgstr "نسبة الزيادة"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_annual_raise__raise_type
+msgid "Raise Type"
+msgstr "نوع الزيادة"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_annual_raise__raise_val
+msgid "Raise Value"
+msgstr "قيمة الزيادة"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_annual_raise__raise_on
+msgid "Raise on"
+msgstr "الزيادة بناء على"
+
+#. module: property_management
+#: code:addons/property_management/models/rent_payment.py:0
+#, python-format
+msgid "Reant Amount "
+msgstr "قيمة الإيجار"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_annual_raise__reason
+#: model:ir.model.fields,field_description:property_management.field_end_of_rent__reason
+#: model:ir.model.fields,field_description:property_management.field_property_management_maintenance__reason
+#: model:ir.model.fields,field_description:property_management.field_rent_payment__reason
+#: model:ir.model.fields,field_description:property_management.field_rent_type__reason
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__reason
+#: model:ir.model.fields,field_description:property_management.field_transfer_contract__reason
+msgid "Reason/Justification"
+msgstr "السببظ المبرر"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_end_of_rent__remain_amount
+msgid "Remain Insurance Amount"
+msgstr "قيمة التأمين المتبقية"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__renew_done
+msgid "Renew Completed"
+msgstr "تم إكتمال التجيد"
+
+#. module: property_management
+#: model_terms:ir.ui.view,arch_db:property_management.rental_contract_form_view
+msgid "Renew Contract"
+msgstr "تجديد العقد"
+
+#. module: property_management
+#: model:ir.model.fields.selection,name:property_management.selection__rental_contract__state__renewed
+msgid "Renewed"
+msgstr "مجدد"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__renewed
+msgid "Renewed Contract"
+msgstr "العقد المجدد"
+
+#. module: property_management
+#: code:addons/property_management/models/rental_contract.py:0
+#, python-format
+msgid ""
+"Renewing process cannot be completed please check the rent payment status"
+msgstr "لا يمكن إكمال عملية التجديد فضلا تأكد من حالة الدفعات"
+
+#. module: property_management
+#: model:ir.model.fields.selection,name:property_management.selection__internal_property__action_type__rent
+#: model:ir.model.fields.selection,name:property_management.selection__re_clients_requirement__action_type__rent
+#: model:ir.model.fields.selection,name:property_management.selection__re_unit__action_type__rent
+msgid "Rent"
+msgstr "ايجار"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_annual_raise__rent_amount
+#: model:ir.model.fields,field_description:property_management.field_end_of_rent__rent_amount
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__original_rent_amount
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__rent_amount
+#: model_terms:ir.ui.view,arch_db:property_management.rental_contract_form_view
+msgid "Rent Amount"
+msgstr "قيمة الإيجار"
+
+#. module: property_management
+#: model_terms:ir.ui.view,arch_db:property_management.rental_contract_form_view
+msgid "Rent Amount After Raise"
+msgstr "قيمة الإيجار بعد الزيادة"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_annual_raise__rent_amount_after_raise_temp
+msgid "Rent Amount After Raise Without Services Cost"
+msgstr "قيمة الإيجار بعد الزيادة"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_annual_raise__rent_amount_after_raise
+msgid "Rent Amount After Raise plus Services Cost"
+msgstr "قيمة الإيجار بعد الزيادة بالإضافة للخدمات"
+
+#. module: property_management
+#: model:ir.model,name:property_management.model_annual_raise
+msgid "Rent Annual Raise"
+msgstr "الزيادة السنوية"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__date_to
+msgid "Rent Date To"
+msgstr "إلى تاريخ"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__date_from
+msgid "Rent Date from"
+msgstr "من تاريخ"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__rent_duration
+#: model_terms:ir.ui.view,arch_db:property_management.rental_contract_form_view
+msgid "Rent Duration"
+msgstr "مدة الإيجار"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_property_management_maintenance__end_rent_id
+msgid "Rent End"
+msgstr "نهاية العقد"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__rent_kind
+msgid "Rent Kind"
+msgstr "نوع التأجير"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__rent_method
+msgid "Rent Method"
+msgstr "طريقة التأجير"
+
+#. modules: property_management, property_management_menu
+#: model:ir.actions.act_window,name:property_management_menu.rent_payment_action
+#: model:ir.model.fields,field_description:property_management.field_end_of_rent__rent_payment_ids
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__rent_payment_ids
+#: model:ir.ui.menu,name:property_management_menu.rent_payment_menu
+#: model_terms:ir.ui.view,arch_db:property_management.end_of_rent_form_view
+#: model_terms:ir.ui.view,arch_db:property_management.rental_contract_form_view
+msgid "Rent Payment"
+msgstr "دفعات الإيجار"
+
+#. modules: property_management, property_management_menu
+#: model:ir.actions.act_window,name:property_management_menu.rent_type_action
+#: model:ir.model,name:property_management.model_rent_type
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__rent_type
+#: model:ir.ui.menu,name:property_management_menu.property_type_menu
+msgid "Rent Type"
+msgstr "طريقة السداد"
+
+#. module: property_management
+#: code:addons/property_management/models/rental_contract.py:0
+#: model:ir.model.fields.selection,name:property_management.selection__annual_raise__raise_on__rent_amount
+#: model:ir.model.fields.selection,name:property_management.selection__rental_contract__annual_raise_on_type__rent_amount
+#, python-format
+msgid "Rent amount"
+msgstr "قيمة الدفعة"
+
+#. module: property_management
+#: model_terms:ir.ui.view,arch_db:property_management.view_rental_contract_filter
+msgid "Rent kind"
+msgstr "نوع السداد"
+
+#. module: property_management
+#: code:addons/property_management/models/rental_contract.py:0
+#, python-format
+msgid "Rent payment %s is not equal the rent total amount %s "
+msgstr "قيمة الدفعات %s لا تساوي قيمة الإيجار في العقد %s "
+
+#. modules: property_management, property_management_menu
+#: code:addons/property_management/models/rental_contract.py:0
+#: model:ir.actions.act_window,name:property_management_menu.open_view_rental_contract_action
+#: model:ir.actions.act_window,name:property_management_menu.rental_contract_action
+#: model:ir.model,name:property_management.model_rental_contract
+#: model:ir.model.fields,field_description:property_management.field_re_clients_requirement_property__rental_contract_id
+#: model:ir.model.fields,field_description:property_management.field_re_unit__contract_id
+#: model:ir.model.fields,field_description:property_management.field_rent_payment__contract_id
+#: model:ir.model.fields,field_description:property_management.field_transfer_contract__contract_id
+#: model:ir.ui.menu,name:property_management_menu.menu_property_rental_contract
+#: model:ir.ui.menu,name:property_management_menu.rental_contract_menu
+#: model_terms:ir.ui.view,arch_db:property_management.property_maintenance_filter_view
+#: model_terms:ir.ui.view,arch_db:property_management.rent_end__filter_view
+#: model_terms:ir.ui.view,arch_db:property_management.rent_payment_filter_view
+#: model_terms:ir.ui.view,arch_db:property_management.transfer_contract_search_view
+#, python-format
+msgid "Rental Contract"
+msgstr "العقود الإيجارية"
+
+#. modules: property_management, property_management_menu
+#: model:ir.model,name:property_management.model_end_of_rent
+#: model:ir.ui.menu,name:property_management_menu.rental_contract_end_menu
+msgid "Rental Contract End"
+msgstr "نهاية العقود الإيجارية"
+
+#. module: property_management
+#: model:ir.model,name:property_management.model_rent_payment
+msgid "Rental Contract Payment"
+msgstr "دفعات العقود الإيجارية"
+
+#. modules: property_management, property_management_menu
+#: model:ir.actions.act_window,name:property_management_menu.action_rental_contract_template
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__template_id
+#: model:ir.ui.menu,name:property_management_menu.rent_contract_template_menu
+#: model_terms:ir.ui.view,arch_db:property_management.rental_contract_form_view
+msgid "Rental Contract Template"
+msgstr "نموذج العقد"
+
+#. module: property_management
+#: model:ir.model,name:property_management.model_res_partner
+#: model:ir.model.fields,field_description:property_management.field_benefits_representative__is_renter
+#: model:ir.model.fields,field_description:property_management.field_external_benefits__is_renter
+#: model:ir.model.fields,field_description:property_management.field_grant_benefit__is_renter
+#: model:ir.model.fields,field_description:property_management.field_rent_payment__renter_id
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__partner_id
+#: model:ir.model.fields,field_description:property_management.field_res_partner__is_renter
+#: model:ir.model.fields,field_description:property_management.field_res_users__is_renter
+#: model:ir.model.fields,field_description:property_management.field_transfer_contract__partner_id
+#: model_terms:ir.ui.view,arch_db:property_management.rent_payment_filter_view
+#: model_terms:ir.ui.view,arch_db:property_management.rental_contract_form_view
+#: model_terms:ir.ui.view,arch_db:property_management.view_rental_contract_filter
+msgid "Renter"
+msgstr "المستأجر"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__renter_commission
+msgid "Renter Commission"
+msgstr "عمولات المستأجر"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__renter_percent
+msgid "Renter Commission Percent"
+msgstr "نسبة العمولة"
+
+#. module: property_management
+#: model_terms:ir.ui.view,arch_db:property_management.rental_contract_form_view
+msgid "Renter History"
+msgstr "المستأجرين السابقين"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__renter_value
+msgid "Renter Value"
+msgstr "قيمة العمولة"
+
+#. module: property_management_menu
+#: model:ir.ui.menu,name:property_management_menu.property_management_report_menu
+msgid "Report"
+msgstr "التقارير"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_property_management_maintenance__request_id
+msgid "Request Item"
+msgstr "طلب عنصر"
+
+#. module: property_management_menu
+#: model:ir.actions.act_window,name:property_management_menu.not_owned_residential_property_report_action
+#: model:ir.actions.act_window,name:property_management_menu.residential_property_report_action
+#: model:ir.ui.menu,name:property_management_menu.property_residential_menu
+msgid "Residential Property"
+msgstr "عقارات سكنية"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__residential_purpose_id
+msgid "Residential Purpose"
+msgstr "الغرض السكني"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_end_of_rent__user_id
+#: model:ir.model.fields,field_description:property_management.field_property_management_maintenance__user_id
+#: model:ir.model.fields,field_description:property_management.field_rent_payment__user_id
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__user_id
+msgid "Responsible"
+msgstr "المسؤول"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_annual_raise__activity_user_id
+#: model:ir.model.fields,field_description:property_management.field_end_of_rent__activity_user_id
+#: model:ir.model.fields,field_description:property_management.field_property_management_maintenance__activity_user_id
+#: model:ir.model.fields,field_description:property_management.field_rent_payment__activity_user_id
+#: model:ir.model.fields,field_description:property_management.field_rent_type__activity_user_id
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__activity_user_id
+#: model:ir.model.fields,field_description:property_management.field_transfer_contract__activity_user_id
+msgid "Responsible User"
+msgstr "المسؤول"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__revenue_account_id
+msgid "Revenue Account"
+msgstr "حساب الإيراد"
+
+#. module: property_management
+#: model:ir.model.fields.selection,name:property_management.selection__rental_contract__state__review
+#: model:ir.model.fields.selection,name:property_management.selection__transfer_contract__state__review
+#: model_terms:ir.ui.view,arch_db:property_management.rental_contract_form_view
+#: model_terms:ir.ui.view,arch_db:property_management.transfer_contract_form_view
+#: model_terms:ir.ui.view,arch_db:property_management.view_rental_contract_filter
+msgid "Review"
+msgstr "مراجعة"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_annual_raise__message_has_sms_error
+#: model:ir.model.fields,field_description:property_management.field_end_of_rent__message_has_sms_error
+#: model:ir.model.fields,field_description:property_management.field_property_management_maintenance__message_has_sms_error
+#: model:ir.model.fields,field_description:property_management.field_rent_payment__message_has_sms_error
+#: model:ir.model.fields,field_description:property_management.field_rent_type__message_has_sms_error
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__message_has_sms_error
+#: model:ir.model.fields,field_description:property_management.field_transfer_contract__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr "خطأ في تسليم الرسائل القصيرة"
+
+#. module: property_management
+#: code:addons/property_management/models/rent_payment.py:0
+#: model:ir.model.fields,field_description:property_management.field_rent_payment__sanitation_cost
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__sanitation_cost
+#: model_terms:ir.ui.view,arch_db:property_management.rental_contract_form_view
+#, python-format
+msgid "Sanitation Cost"
+msgstr "قيمة خدمة الصرف الصحي"
+
+#. module: property_management
+#: model_terms:ir.ui.view,arch_db:property_management.property_maintenance_filter_view
+#: model_terms:ir.ui.view,arch_db:property_management.rent_end__filter_view
+#: model_terms:ir.ui.view,arch_db:property_management.rent_payment_filter_view
+#: model_terms:ir.ui.view,arch_db:property_management.transfer_contract_search_view
+msgid "Search"
+msgstr "بحث"
+
+#. module: property_management
+#: model:ir.actions.server,name:property_management.ir_cron_send_payment_notifications_ir_actions_server
+#: model:ir.cron,cron_name:property_management.ir_cron_send_payment_notifications
+#: model:ir.cron,name:property_management.ir_cron_send_payment_notifications
+msgid "Send Payment Notifications"
+msgstr ""
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_rent_payment__code
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__seq
+msgid "Sequence"
+msgstr "متسلسل"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__service
+msgid "Other Service"
+msgstr "خدمات أخرى"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_end_of_rent__service_amount
+#: model_terms:ir.ui.view,arch_db:property_management.rental_contract_form_view
+msgid "Service Amount"
+msgstr "قيمة الخدمات"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_rent_payment__service_cost
+msgid "Service Cost"
+msgstr "قيمة الخدمات"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_rent_payment__service_note
+msgid "Service Note"
+msgstr "وصف الخدمة"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__is_services
+msgid "Services Exist?"
+msgstr "توجد خدمات؟"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__service_note
+msgid "Services Notes"
+msgstr "وصف الخدمة"
+
+#. module: property_management
+#: code:addons/property_management/models/rent_payment.py:0
+#, python-format
+msgid "Serviecs Cost"
+msgstr "قيمة الخدمات"
+
+#. module: property_management
+#: model_terms:ir.ui.view,arch_db:property_management.transfer_contract_form_view
+msgid "Set To Draft"
+msgstr "إعادة إلى مبدئي"
+
+#. module: property_management_menu
+#: model:ir.actions.act_window,name:property_management_menu.action_property_config_settings
+#: model:ir.ui.menu,name:property_management_menu.menu_property_general_settings
+msgid "Settings"
+msgstr "الإعدادات"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__space
+#: model_terms:ir.ui.view,arch_db:property_management.rental_contract_form_view
+msgid "Space"
+msgstr "المساحة"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_end_of_rent__state
+#: model:ir.model.fields,field_description:property_management.field_property_management_maintenance__state
+#: model:ir.model.fields,field_description:property_management.field_rent_payment__state
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__state
+#: model:ir.model.fields,field_description:property_management.field_transfer_contract__state
+#: model_terms:ir.ui.view,arch_db:property_management.rent_payment_filter_view
+#: model_terms:ir.ui.view,arch_db:property_management.transfer_contract_search_view
+#: model_terms:ir.ui.view,arch_db:property_management.view_rental_contract_filter
+msgid "Status"
+msgstr "الحالة"
+
+#. module: property_management
+#: model:ir.model.fields,help:property_management.field_annual_raise__activity_state
+#: model:ir.model.fields,help:property_management.field_end_of_rent__activity_state
+#: model:ir.model.fields,help:property_management.field_property_management_maintenance__activity_state
+#: model:ir.model.fields,help:property_management.field_rent_payment__activity_state
+#: model:ir.model.fields,help:property_management.field_rent_type__activity_state
+#: model:ir.model.fields,help:property_management.field_rental_contract__activity_state
+#: model:ir.model.fields,help:property_management.field_transfer_contract__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
+"الحالة على أساس الأنشطة\n"
+"المتأخرة: تاريخ الاستحقاق مر\n"
+"اليوم: تاريخ النشاط هو اليوم\n"
+"المخطط: الأنشطة المستقبلية."
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__street
+msgid "Street Name"
+msgstr "اسم الشارع"
+
+#. module: property_management
+#: model:ir.model.fields.selection,name:property_management.selection__rental_contract__state__submit
+#: model:ir.model.fields.selection,name:property_management.selection__transfer_contract__state__submit
+#: model_terms:ir.ui.view,arch_db:property_management.property_management_maintenance_form
+#: model_terms:ir.ui.view,arch_db:property_management.rental_contract_form_view
+#: model_terms:ir.ui.view,arch_db:property_management.transfer_contract_form_view
+#: model_terms:ir.ui.view,arch_db:property_management.transfer_contract_search_view
+msgid "Submit"
+msgstr "تقديم"
+
+#. module: property_management
+#: model:ir.model.fields.selection,name:property_management.selection__property_management_maintenance__state__submit
+msgid "Submitted"
+msgstr "تم التقديم"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_rent_payment__tax_id
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__tax_id
+msgid "Tax"
+msgstr "الضريبة"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_rent_payment__tax_amount
+#: model_terms:ir.ui.view,arch_db:property_management.rental_contract_form_view
+msgid "Tax Amount"
+msgstr "قيمة الضريبة"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__template
+#: model:ir.model.fields,field_description:property_management.field_rental_contract_template__template
+msgid "Template"
+msgstr "النموذج"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_rental_contract_template__name
+msgid "Template Name"
+msgstr "إسم النموذج"
+
+#. modules: property_management, property_management_menu
+#: model:ir.actions.act_window,name:property_management_menu.action_tenant
+#: model:ir.ui.menu,name:property_management_menu.menu_tenant
+#: model_terms:ir.ui.view,arch_db:property_management.view_partner_tenant_search
+msgid "Tenants"
+msgstr "المستأجرين"
+
+#. module: property_management
+#: code:addons/property_management/models/transfer_contract.py:0
+#, python-format
+msgid "The Current Renter is the same the new renter"
+msgstr "المستأجر الحالي هو نفس المستأجر الجديد"
+
+#. module: property_management
+#: model:ir.model.fields,help:property_management.field_res_config_settings__commission_account_id
+msgid "The account used to record commissions."
+msgstr ""
+
+#. module: property_management
+#: model:ir.model.fields,help:property_management.field_res_config_settings__commission_percentage
+msgid "The commission percentage."
+msgstr "نسبة العمولة"
+
+#. module: property_management
+#: model:ir.model.fields,help:property_management.field_res_config_settings__collecting_company_id
+msgid "The company responsible for collecting the commission."
+msgstr ""
+
+#. module: property_management
+#: code:addons/property_management/wizards/confirm_box_property.py:0
+#, python-format
+msgid ""
+"There are a previous rent payment record if you proceed this will be "
+"removed !!"
+msgstr "هنالك دفات سابقة إذا قررت الإستمرار سيتم إزالة الدفعات الحالية"
+
+#. module: property_management
+#: model_terms:ir.ui.view,arch_db:property_management.transfer_contract_search_view
+msgid "To review"
+msgstr "للمراجعة"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_end_rent_line__total
+msgid "Total"
+msgstr "الإجمالي"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_end_of_rent__total_amount
+#: model:ir.model.fields,field_description:property_management.field_property_management_maintenance__total_amount
+#: model:ir.model.fields,field_description:property_management.field_rent_payment__total_amount
+#: model_terms:ir.ui.view,arch_db:property_management.rent_payment_list_view
+#: model_terms:ir.ui.view,arch_db:property_management.rental_contract_form_view
+msgid "Total Amount"
+msgstr "القيمة الإجمالية"
+
+#. module: property_management
+#: model_terms:ir.ui.view,arch_db:property_management.rent_payment_list_view
+msgid "Total Commission"
+msgstr ""
+
+#. module: property_management
+#: model_terms:ir.ui.view,arch_db:property_management.rent_payment_list_view
+msgid "Total Service Cost"
+msgstr ""
+
+#. module: property_management
+#: model_terms:ir.ui.view,arch_db:property_management.rent_payment_list_view
+msgid "Total Water Cost"
+msgstr "تكلفة المياه"
+
+#. module: property_management
+#: model:ir.model.fields.selection,name:property_management.selection__rent_payment__payment_method__transfer
+msgid "Transfer"
+msgstr "تحويل"
+
+#. module: property_management_menu
+#: model:ir.ui.menu,name:property_management_menu.menu_transfer_contract
+msgid "Transfer Contract"
+msgstr "نقل العقود الإيجارية"
+
+#. module: property_management_menu
+#: model:ir.actions.act_window,name:property_management_menu.action_transfer_contract
+msgid "Transfer Contract Contract"
+msgstr "نقل العقود الإيجارية"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_transfer_contract__date
+msgid "Transfer Date"
+msgstr "تاريخ النقل"
+
+#. module: property_management
+#: code:addons/property_management/models/transfer_contract.py:0
+#, python-format
+msgid ""
+"Transfer Date should be greater than Start date and less Than End date of "
+"the contract"
+msgstr ""
+"تاريخ نقل العقد يجي أن يكون اكبر من تاريخ باية العقد و قبل تاريخ النهاية"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__property_type_id
+msgid "Type"
+msgstr "نوع العقار"
+
+#. module: property_management
+#: model:ir.model.fields,help:property_management.field_annual_raise__activity_exception_decoration
+#: model:ir.model.fields,help:property_management.field_end_of_rent__activity_exception_decoration
+#: model:ir.model.fields,help:property_management.field_property_management_maintenance__activity_exception_decoration
+#: model:ir.model.fields,help:property_management.field_rent_payment__activity_exception_decoration
+#: model:ir.model.fields,help:property_management.field_rent_type__activity_exception_decoration
+#: model:ir.model.fields,help:property_management.field_rental_contract__activity_exception_decoration
+#: model:ir.model.fields,help:property_management.field_transfer_contract__activity_exception_decoration
+msgid "Type of the exception activity on record."
+msgstr "نوع النشاط الاستثنائي المسجل."
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_transfer_contract__unit_ids
+#: model:ir.model.fields.selection,name:property_management.selection__rental_contract__rent_method__unit
+msgid "Unit"
+msgstr "الوحدة"
+
+#. module: property_management
+#: code:addons/property_management/models/rental_contract.py:0
+#, python-format
+msgid "Unit %s is not available"
+msgstr "الوحدة غير متاحة %s"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_end_of_rent__unit_ids
+#: model:ir.model.fields,field_description:property_management.field_property_management_maintenance__unit_ids
+#: model:ir.model.fields,field_description:property_management.field_rent_payment__unit_ids
+msgid "Unit/Units"
+msgstr "الوحدة/الوحدات"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__unit_ids
+msgid "Units"
+msgstr "الوحدات"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_annual_raise__message_unread
+#: model:ir.model.fields,field_description:property_management.field_end_of_rent__message_unread
+#: model:ir.model.fields,field_description:property_management.field_property_management_maintenance__message_unread
+#: model:ir.model.fields,field_description:property_management.field_rent_payment__message_unread
+#: model:ir.model.fields,field_description:property_management.field_rent_type__message_unread
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__message_unread
+#: model:ir.model.fields,field_description:property_management.field_transfer_contract__message_unread
+msgid "Unread Messages"
+msgstr "الرسائل الجديدة"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_annual_raise__message_unread_counter
+#: model:ir.model.fields,field_description:property_management.field_end_of_rent__message_unread_counter
+#: model:ir.model.fields,field_description:property_management.field_property_management_maintenance__message_unread_counter
+#: model:ir.model.fields,field_description:property_management.field_rent_payment__message_unread_counter
+#: model:ir.model.fields,field_description:property_management.field_rent_type__message_unread_counter
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__message_unread_counter
+#: model:ir.model.fields,field_description:property_management.field_transfer_contract__message_unread_counter
+msgid "Unread Messages Counter"
+msgstr "عدد الرسائل الجديدة"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_rent_payment__untaxed_amount
+#: model_terms:ir.ui.view,arch_db:property_management.rental_contract_form_view
+msgid "Untaxed Amount"
+msgstr "الإجمالي بدون ضريبة"
+
+#. module: property_management
+#: model_terms:ir.ui.view,arch_db:property_management.rent_payment_form_view
+msgid "Validate"
+msgstr "تحقق"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_property_management_maintenance__vendor_id
+msgid "Vendor"
+msgstr "المورد"
+
+#. module: property_management
+#: code:addons/property_management/models/rent_payment.py:0
+#, python-format
+msgid "Vendor or Account not configured properly in settings."
+msgstr ""
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_end_of_rent__water_amount
+#: model_terms:ir.ui.view,arch_db:property_management.rental_contract_form_view
+msgid "Water Amount"
+msgstr "تكلفة المياه"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_rent_payment__water_cost
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__water_cost
+msgid "Water Cost"
+msgstr "تكلفة المياه"
+
+#. module: property_management
+#: code:addons/property_management/models/rent_payment.py:0
+#, python-format
+msgid "Water Cost "
+msgstr "تكلفة المياه"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__water_meter_no
+msgid "Water Meter No."
+msgstr "رقم عداد المياه"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_annual_raise__website_message_ids
+#: model:ir.model.fields,field_description:property_management.field_end_of_rent__website_message_ids
+#: model:ir.model.fields,field_description:property_management.field_property_management_maintenance__website_message_ids
+#: model:ir.model.fields,field_description:property_management.field_rent_payment__website_message_ids
+#: model:ir.model.fields,field_description:property_management.field_rent_type__website_message_ids
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__website_message_ids
+#: model:ir.model.fields,field_description:property_management.field_transfer_contract__website_message_ids
+msgid "Website Messages"
+msgstr "رسائل الموقع"
+
+#. module: property_management
+#: model:ir.model.fields,help:property_management.field_annual_raise__website_message_ids
+#: model:ir.model.fields,help:property_management.field_end_of_rent__website_message_ids
+#: model:ir.model.fields,help:property_management.field_property_management_maintenance__website_message_ids
+#: model:ir.model.fields,help:property_management.field_rent_payment__website_message_ids
+#: model:ir.model.fields,help:property_management.field_rent_type__website_message_ids
+#: model:ir.model.fields,help:property_management.field_rental_contract__website_message_ids
+#: model:ir.model.fields,help:property_management.field_transfer_contract__website_message_ids
+msgid "Website communication history"
+msgstr "سجل تواصل الموقع"
+
+#. module: property_management
+#: model:ir.model.fields.selection,name:property_management.selection__rental_contract__rent_kind__year
+msgid "Year"
+msgstr "سنة"
+
+#. module: property_management
+#: code:addons/property_management/models/rent_payment.py:0
+#, python-format
+msgid "You Must Confirm Contract First"
+msgstr "يجب عليك تأكيد العقد أولا"
+
+#. module: property_management
+#: code:addons/property_management/models/transfer_contract.py:0
+#, python-format
+msgid "You can not delete record"
+msgstr "لا يمكنك حذف السجل"
+
+#. module: property_management
+#: code:addons/property_management/models/transfer_contract.py:0
+#, python-format
+msgid ""
+"You cannot do this operation, there are payment for the old renter must be "
+"paid"
+msgstr "لا يمكن إتمام العملية الحالية لوجود دفعات معلقة للمستأجر السابق"
+
+#. module: property_management
+#: code:addons/property_management/models/end_rental_contract.py:0
+#, python-format
+msgid "You have Payment in due state, kindly review them first."
+msgstr "لديك دفعات في حالة مستحقة, فضلا قم بمراجعة الدفعات أولا"
+
+#. module: property_management
+#: model:ir.model,name:property_management.model_re_clients_requirement
+msgid "clients requirement"
+msgstr "طلبات العملاء"
+
+#. module: property_management
+#: model:ir.model,name:property_management.model_re_clients_requirement_property
+msgid "clients requirement Property"
+msgstr "طلبات عقارات العملاء"
+
+#. module: property_management
+#: model:ir.model,name:property_management.model_log_rental_contract
+msgid "log.rental.contract"
+msgstr ""
+
+#. module: property_management
+#: model_terms:ir.ui.view,arch_db:property_management.property_maintenance_filter_view
+#: model_terms:ir.ui.view,arch_db:property_management.rent_end__filter_view
+#: model_terms:ir.ui.view,arch_db:property_management.rent_payment_filter_view
+msgid "property_id"
+msgstr "العقار"
+
+#. module: property_management
+#: model:ir.model,name:property_management.model_rental_contract_template
+msgid "rental.contract.template"
+msgstr ""
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__service_amount
+msgid "service amount"
+msgstr "قيمة الخدمات"
+
+#. module: property_management
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__service_cost
+msgid "service cost"
+msgstr "تكلفة الخدمات"
+
+#. module: property_management
+#: code:addons/property_management/models/rental_contract.py:0
+#: model:ir.model.fields,field_description:property_management.field_rental_contract__annual_raise_on_type
+#, python-format
+msgid "الزيادة علي"
+msgstr ""

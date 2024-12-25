@@ -1,0 +1,79 @@
+<odoo>
+    <data>
+        <record id="visits_form" model="ir.ui.view">
+            <field name="name">visit.location.form</field>
+            <field name="model">visit.location</field>
+            <field name="arch" type="xml">
+                <form string="Visits">
+                     <header>
+                         <button name="action_contact" string="Family Contact" type="object" class="oe_highlight" states="draft"/>
+                        <button name="action_schedule_a_visit" string="Schedule a visit" type="object" class="oe_highlight" states="contact"/>
+                        <button name="action_done" string="Done" type="object" class="oe_highlight" states="schedule_a_visit"/>
+                        <button name="action_cancel" string="Visit Cancel" type="object" states="contact,schedule_a_visit"/>
+                        <button name="action_close" string="Close" type="object" states="done"/>
+                        <button name="geo_localize" string="Map" type="object" class="oe_highlight" attrs="{'invisible':[('benefit_id', '=', False)]}"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,contact,schedule_a_visit,cancel,done,close"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+<!--                                <field name="benefit_type"/>-->
+                                <field name="name"/>
+                                <field name="benefit_id" attrs="{'readonly':[('state', 'in', ['close','cancel'])]}"/>
+<!--                                <field name="benefit_code"/>-->
+<!--                                <field name="family_id" attrs="{'invisible':[('benefit_type','=','benefit')]}"/>-->
+<!--                                <field name="selector"/>-->
+<!--                                <field name="researcher_id" attrs="{'invisible':[('selector','=','researcher_team')]}"/>-->
+                                <field name="researcher_team" attrs="{'readonly':[('state', 'in', ['close','cancel'])]}"/>
+                                <field name="researcher_ids" widget="many2many_tags" attrs="{'readonly':[('state', 'in', ['close','cancel'])]}" force_save="1"/>
+                                <field name="description" attrs="{'readonly':[('state', 'in', ['close','cancel'])]}"/>
+                                <field name="message" attrs="{'invisible':[('state', 'not in', ['draft', 'contact'])],'readonly':[('state', 'in', ['close','cancel'])]}"/>
+                                <field name="reason" attrs="{'invisible':[('state', 'not in', ['cancel'])],'readonly':[('state', 'in', ['close','cancel'])]}"/>
+                            </group>
+                            <group>
+                                <field name="visit_date" attrs="{'readonly':[('state', 'in', ['close','cancel'])]}"/>
+                                <field name="visit_objective" invisible="1" attrs="{'readonly':[('state', 'in', ['close','cancel'])]}"/>
+                                <field name="visit_types" attrs="{'readonly':[('state', 'in', ['close','cancel'])]}"/>
+                                <field name="contact_type" attrs="{'readonly':[('state', 'in', ['close','cancel'])]}"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+        <record id="visit_tree" model="ir.ui.view">
+            <field name="name">visit.location.tree</field>
+            <field name="model">visit.location</field>
+            <field name="arch" type="xml">
+                <tree string="Visits">
+                    <field name="benefit_id"/>
+                    <field name="researcher_team"/>
+                    <field name="visit_date"/>
+                    <field name="description"/>
+                    <field name="visit_objective" invisible="1"/>
+                    <field name="visit_types"/>
+                    <field name="contact_type"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="visit_search">
+            <field name="name">visit.location.search</field>
+            <field name="model">visit.location</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="benefit_id"/>
+                    <field name="benefit_code"/>
+<!--                    <field name="id_number"/>-->
+<!--                    <field name="email"/>-->
+<!--                    <field name="phone"/>-->
+                </search>
+            </field>
+        </record>
+
+    </data>
+</odoo>

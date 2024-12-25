@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <menuitem id="takaful_online_paycard_menu" name="Takaful Online Payments" parent="account.menu_finance"/>
+        <!-- <menuitem id="online_paycard_menu" name="Online Payments" action="takaful_core.takaful_account_move_list_action" parent="account.menu_finance"/> -->
+
+        <menuitem sequence="1" id="takaful_account_move_menu" name="Invoices" parent="takaful_online_paycard_menu" action="takaful_core.takaful_account_move_list_action"/>
+
+<!--        <menuitem sequence="2" id="takaful_bank_transfer_payment_menu" name="Bank Transfers" parent="takaful_online_paycard_menu" action="takaful_core.act_takaful_bank_transfer_view"/>-->
+
+    </data>
+</odoo>

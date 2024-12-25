@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="project_variation_order_form_view" model="ir.ui.view">
+        <field name="name">project.variation.order.form</field>
+        <field name="model">project.variation.order</field>
+        <field name="arch" type="xml">
+            <form string="Project Change Request" create="1" edit="1">
+                <header>
+                    <button name="action_confirm" string="Request" type="object"
+                            attrs="{'invisible':[('state','not in',['draft'])]}" class="oe_highlight"/>
+                            
+                    <button name="action_approve" string="Approve" type="object"
+                            attrs="{'invisible':[('state','not in',['confirm'])]}" class="oe_highlight"
+                            groups="project.group_project_manager"/>
+                    <button name="action_refuse" string="Refuse" type="object"
+                            attrs="{'invisible':[('state','not in',['confirm'])]}" class="oe_highlight"
+                            groups="project.group_project_manager"/>
+                            
+                    <button name="action_approve_pom" string="Approve" type="object"
+                            attrs="{'invisible':[('state','not in',['approve'])]}" class="oe_highlight"
+                            groups="project_base.group_project_department_manager"/>
+                    <button name="action_refuse" string="Refuse" type="object"
+                            attrs="{'invisible':[('state','not in',['approve'])]}" class="oe_highlight"
+                            groups="project_base.group_project_department_manager"/>
+                            
+                   <button name="action_approve_fin" string="Approve" type="object"
+                            attrs="{'invisible':[('state','not in',['fin_approve'])]}" class="oe_highlight"
+                            groups="account.group_account_manager"/>
+                    <button name="action_refuse" string="Refuse" type="object"
+                            attrs="{'invisible':[('state','not in',['fin_approve'])]}" class="oe_highlight"
+                            groups="account.group_account_manager"/>
+                            
+                    <button name="action_implement" string="Approve" type="object"
+                            attrs="{'invisible':[('state','not in',['owner_approve'])]}" class="oe_highlight"
+                            groups="project.group_project_user"/>
+                    <button name="action_refuse" string="Refuse" type="object"
+                            attrs="{'invisible':[('state','not in',['owner_approve'])]}" class="oe_highlight"
+                            groups="project.group_project_user"/>
+                            
+                    <button name="action_done" string="Done" type="object"
+                            attrs="{'invisible':[('state','not in',['implement'])]}" class="oe_highlight"
+                            groups="project.group_project_manager"/>
+                            
+                    <button name="action_vo_send" string="Send by Email" type="object" attrs="{'invisible':['|',('state','not in',['confirm']),('mark_vo_as_sent','=',True)]}"/>
+                    <button name="action_draft" string="Set to Draft" type="object"
+                            attrs="{'invisible':[('state','not in',['confirm','implement','refuse'])]}"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirm,approve,owner_approve,implement,done"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button class="oe_stat_button" type="object"
+                                name="action_view_previous" string="Previous Change Request" icon="fa-list-ol">
+                        </button>
+                    </div>
+                    <widget name="web_ribbon" title="Sent" bg_color="bg-info"
+                        attrs="{'invisible': [('mark_vo_as_sent', '!=', True)]}"/>
+                    <div class="oe_title">
+                        <h1 class="mt0" attrs="{'invisible':[('name', '=', '/')]}">
+                            <field name="name" attrs="{'readonly':True}"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="id" invisible="1"/>
+                            <field name="mark_vo_as_sent" invisible="1"/>
+                            <field name="project_id" required="1" attrs="{'readonly':[('state','not in',['draft'])]}" domain="[('status', '=', 'open')]"/>
+                            <field name="project_manager" force_save="1"/>
+                            <field name="project_owner" attrs="{'readonly':[('state','in',['done'])]}" />
+                        </group>
+                        <group>
+                            <field name="request_date" required="1" attrs="{'readonly':[('state','not in',['draft'])]}"/>
+                            <field name="company_id" attrs="{'readonly':True}" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                    <group>
+                    	<field name="description" attrs="{'readonly':[('state','not in',['draft'])]}"
+                                       placeholder="Enter Change Justifications"/>
+                    </group>
+                    <notebook>
+                        <page string="Change Domains">
+                               <group >
+                                
+		                        <group >
+		                            <field name="time" />
+		                            
+		                            <label for="start" string="Period" attrs="{'invisible': [('time','=',False)]}"/>
+						            <div name="dates" class="o_row">
+								        <field name="start" attrs="{'invisible':[('time','=',False)],'required':[('time','=',True)],'readonly':[('state','not in',['draft'])]}" force_save="1"/>
+								        <i class="fa fa-long-arrow-right mx-2 oe_edit_only" aria-label="Arrow icon" title="Arrow" attrs="{'invisible': [('time','=',False)]}"/>
+								        <i class="fa fa-long-arrow-right mx-2 oe_read_only" aria-label="Arrow icon" title="Arrow" attrs="{'invisible': [('time','=',False)]}"/>
+								         <field name="date" attrs="{'invisible':[('time','=',False)],'required':[('time','=',True)],'readonly':[('state','not in',['draft'])]}" force_save="1"/>
+		                              </div> 
+		                            <field name="new_date" attrs="{'invisible':[('time','=',False)],'required':[('time','=',True)],'readonly':[('state','not in',['draft'])]}" force_save="1"/>
+		                        </group>
+		                        <group >
+		                            <field name="budget" />
+		                            <field name="total_invoiced_amount" attrs="{'invisible':[('budget','=',False)],'required':[('budget','=',True)]}" force_save="1"/>
+		                            <field name="total_invoiced_payment" attrs="{'invisible':[('budget','=',False)]}" force_save="1"/>
+		                            <field name="residual_amount" attrs="{'invisible':[('budget','=',False)]}" force_save="1"/>
+		                            <field name="budget_amount" 
+		                                   attrs="{'invisible':[('budget','=',False)],'required':[('budget','=',True)],'readonly':[('state','not in',['draft','confirm','approve'])]}" />
+		                        </group>
+		                        <group >
+		                            <field name="scope" />
+		                        </group>
+		                        <group >
+		                            <field name="manager" />
+		                            <field name="new_project_manager" 
+		                                   attrs="{'invisible':[('manager','=',False)],'required':[('manager','=',True)],'readonly':[('state','not in',['draft','confirm','approve'])]}"/>
+		                        </group>
+		                        </group>
+		                        <group>
+                                	<field name="project_scope" 
+                                	       attrs="{'invisible':[('scope','=',False)],'required':[('scope','=',True)],'readonly':[('state','not in',['draft','confirm','approve'])]}"
+                                        placeholder="Enter Change Description" />
+                                </group>
+                        </page>
+                        <page string="Project Phases" attrs="{'invisible':['|',('state','not in',['implement','done']),('time','=',False)]}">
+                            <field name="project_phase_ids" nolabel="1"
+                               attrs="{'readonly':True}" force_save="1" context="{'default_project_id': project_id}" domain="[('project_id', '=', project_id)]">
+                            <tree>
+                                
+                                <field name="phase_id"/>
+                                <field name="start_date"/>
+                                <field name="end_date"/>
+                                <field name="weight" />
+			                    <field name="progress" widget="progressbar"/>
+			                    <field name="state"/>
+                                <button name="%(project_base.action_edit_project_phase)d" type="action"
+                                        icon="fa-refresh"
+                                        attrs="{'invisible':['|',('state','not in',['open','draft']),('parent.state','not in',['implement'])]}" context="{'edit':True,'open_from':'vo','vo_id':parent.id}"/>
+                            </tree>
+                        </field>
+                        </page>
+                        <page string="Tasks" attrs="{'invisible':['|',('state','not in',['implement','done']),('scope','=',False)]}">
+                            <field name="project_task_ids" nolabel="1"
+                                 context="{'default_project_id': project_id}"  domain="[('project_id', '=', project_id)]">
+                            
+                        </field>
+                        </page>
+                        <page name="invoice" string="Invoice" attrs="{'invisible':['|',('state','not in',['implement','done']),('budget','=',False)]}">
+                            <field name="project_invoice_ids" nolabel="1" context="{'default_project_id': project_id, 'default_invoice_type': 'variation_order', 'default_note': description}"  domain="[('project_id', '=', project_id)]">
+				              <tree decoration-info="invoice_type=='variation_order'">
+                            <field name="name" string="Description"/>
+                            <field name="phase_id"/>
+                            <field name="plan_date" required="1"/>
+                            <field name="project_id" invisible="1"/>
+                            <field name="invoice_type" invisible="1"/>
+                            <field name="amount" sum="Amount"/>
+                            <field name="actual_date"/>
+                            <field name="plan_payment_date"/>
+                            <field name="actual_payment_date"/>
+                            <field name="to_invoice" invisible="1"/>
+                            <field name="state"/>
+                        </tree>  
+                    </field>
+                        </page>
+<!--                        todo start  -->
+                        <page string="Settings Allowed Users" groups="project.group_project_manager">
+                            <group>
+                                <field name="allowed_internal_user_ids" widget="many2many_tags"  groups="project.group_project_manager"/>
+                                <field name="allowed_portal_user_ids" widget="many2many_tags" groups="project.group_project_manager" options="{'no_create': True}" />
+                            </group>
+                        </page>
+<!--                        todo end -->
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" groups="base.group_user"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="project_variation_order_tree" model="ir.ui.view">
+        <field name="name">project.variation.order.tree</field>
+        <field name="model">project.variation.order</field>
+        <field name="arch" type="xml">
+            <tree string="Project Change Request"  sample="1">
+                <field name="name" bold="1"/>
+                <field name="request_date"/>
+                <field name="project_id" />
+                <field name="project_manager"/>
+                <field name="activity_ids" widget="list_activity" />
+                <field name="time" />
+                <field name="budget" />
+                <field name="scope"  />
+                <field name="manager" />
+                <field name="state" widget="badge" decoration-info="state in ['draft','confirm']"
+                       decoration-success="state == 'done'"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_variation_order_search" model="ir.ui.view">
+        <field name="name">project.variation.order.search</field>
+        <field name="model">project.variation.order</field>
+        <field name="arch" type="xml">
+            <search string="Project Change Request">
+                <field name="name" string="Name"/>
+                <field string="Project" name="project_id"/>
+                <separator/>
+                <filter string="Project Schedule" name="time" domain="[('time', '=', True)]"/>
+                <filter string="Project Budget" name="budget" domain="[('budget', '=', True)]"/>
+                <filter string="Project Budget" name="scope" domain="[('scope', '=', True)]"/>
+                <filter string="Project Manager" name="manager" domain="[('manager', '=', True)]"/>
+                <separator/>
+                <group expand="0" string="Group By">
+                    <filter string="Project" name="project" domain="" context="{'group_by':'project_id'}"/>
+                    <filter string="Status" name="status" domain="" context="{'group_by':'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+
+    <record id="open_project_vo_form" model="ir.actions.act_window">
+        <field name="name">Project Change Request</field>
+        <field name="res_model">project.variation.order</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="project_variation_order_tree"/>
+        <field name="context">{}</field>
+    </record>
+
+
+    <menuitem action="open_project_vo_form" id="menu_project_variation_order" groups="project.group_project_manager,project_base.group_project_department_manager" name="Project Change Request"
+              parent="project.menu_main_pm" sequence="8"/>
+
+    <!-- Send-email Action -->
+    <record id="vo_send_email_action" model="ir.actions.server">
+        <field name="name">Send E-mail</field>
+        <field name="model_id" ref="project_variation_order.model_project_variation_order"/>
+        <field name="binding_model_id" ref="project_variation_order.model_project_variation_order"/>
+        <field name="binding_view_types">form</field>
+        <field name="state">code</field>
+        <field name="code">action = records.action_vo_send()</field>
+    </record>
+    <record id="view_edit_project_inherit_form" model="ir.ui.view">
+        <field name="name">project.project.view.inherit</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.edit_project"/>
+        <field name="arch" type="xml">
+               <div class="oe_button_box" position="inside">
+                        <button class="oe_stat_button" type="object" name="action_view_variation"  icon="fa-list-ol">
+                            <field string="Change Requests" name="variation_count" widget="statinfo"/>
+                        </button>
+
+                    </div>
+       </field>
+    </record>
+
+</odoo>

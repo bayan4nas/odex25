@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<odoo>
+    <record id="family_complaints_view_form" model="ir.ui.view">
+        <field name="name">family.complaints.view.form</field>
+        <field name="model">family.complaints</field>
+        <field name="arch" type="xml">
+            <form string="Family Complaints">
+                <header>
+                    <button name="action_receiving_complaint" type="object" string="Receiving the complaint" states="draft" class="oe_highlight"/>
+                    <button name="action_review_complaint" type="object" string="Review Complaint" states="receiving_complaint" class="oe_highlight"/>
+                    <button name="action_work_in_complaint" type="object" string="Work in complaint" states="review_complaint" class="oe_highlight"/>
+                    <button name="action_done" type="object" string="Complaint Done" states="work_in_complaint" class="oe_highlight"/>
+                    <button name="action_refuse" type="object" string="Refuse" states="review_complaint,work_in_complaint" class="oe_highlight"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="complaints_date"/>
+                            <field name="family_id"/>
+                            <field name="researcher_id"/>
+                            <field name="branch_custom_id"/>
+                        </group>
+                        <group>
+                            <field name="priority" widget="priority"/>
+                            <field name="complaints_reason"/>
+                            <field name="message"/>
+                            <field name="complaints_category_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                        </group>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                    <field name="activity_ids" />
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="family_complaints_view_tree" model="ir.ui.view">
+        <field name="name">family.complaints.view.tree</field>
+        <field name="model">family.complaints</field>
+        <field name="arch" type="xml">
+            <tree string="Family Complaints">
+                <field name="complaints_date"/>
+                <field name="family_id"/>
+                <field name="researcher_id"/>
+                <field name="branch_custom_id"/>
+                <field name="priority" widget="priority"/>
+                <field name="complaints_reason"/>
+                <field name="message"/>
+                <field name="complaints_category_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+            </tree>
+        </field>
+    </record>
+</odoo>

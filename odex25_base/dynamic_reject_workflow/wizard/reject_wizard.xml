@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="reject_wizard_view" model="ir.ui.view">
+            <field name="name">Reason Wizard</field>
+            <field name="model">all.reject.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Reason Wizard">
+                    <group>
+                        <field name="reason" required="1"/>
+                    </group>
+                    <footer>
+                        <button name="button_confirm"  string="Send"  type="object" class="btn-primary"/>
+                        <button special="cancel" string="Cancel" class="btn-default" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</odoo>

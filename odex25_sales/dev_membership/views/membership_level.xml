@@ -1,0 +1,45 @@
+<odoo>
+    <record id="view_membership_level_tree" model="ir.ui.view">
+        <field name="name">membership.level.tree</field>
+        <field name="model">membership.level</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom" string="Membership Level">
+                <field name="sequence" widget="handle"/>
+<!--                 <field name="level_no"/> -->
+                <field name="name"/>
+                <field name="years"/>
+                <field name="min"/>
+                <field name="max"/>
+                <field widget='color' name="color"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_membership_level_form" model="ir.ui.view">
+        <field name="name">membership.level.form</field>
+        <field name="model">membership.level</field>
+        <field name="arch" type="xml">
+            <form string="Membership Level">
+                <group>
+                    <field name="name"/>
+                    <field name="years"/>
+                    <field name="min"/>
+                    <field name="max"/>
+                    <field name="sequence" invisible="1"/>
+
+                    <field invisible="1" name="company_id"/>
+
+                    <field widget='color' name="color"/>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_membership_level" model="ir.actions.act_window">
+        <field name="name">Membership Levels</field>
+        <field name="res_model">membership.level</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_membership_level" sequence="7" name="Membership Levels" parent="menu_configuration_root" action="action_membership_level"/>
+</odoo>

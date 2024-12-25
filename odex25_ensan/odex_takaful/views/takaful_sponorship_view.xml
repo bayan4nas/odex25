@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+
+    <data noupdate="0">
+        <record id="sponsorship" model="product.product"> 
+              <field name="name">كفالة</field>
+              <field name="type">service</field>
+              <field name="default_code">sponsorship</field>
+             <!--  <field name="standard_price">0</field> -->
+              <field name="list_price">300.0</field>
+        </record>
+    </data>
+
+    <record id="grant_benefit_kafala_needs_tree" model="ir.ui.view">
+        <field name="name">grant.benefit.tree</field>
+        <field name="model">grant.benefit</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name" />
+                <field name="benefit_needs_percent"/>
+                <field name="benefit_needs_value"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="takaful_sponsorship_form" model="ir.ui.view">
+        <field name="name">takaful.sponsorship.form</field>
+        <field name="model">takaful.sponsorship</field>
+        <field name="arch"  type="xml">
+            <form string="Takaful Sponsorship">
+                <header>
+                    <button name="open_account_voucher" type="object"
+                    string="Sponsorship Accounting Voucher" class="oe_highlight" />
+                    <button name="create_new_sponsor" type="object"
+                    string="Create New Sponsor" class="oe_highlight" attrs="{'invisible': [('sponsor_or_donor_type','!=','new_sponsor')]}"/>
+                    <button name="process_sponsor_payments_scheduler" type="object"
+                    string="Test Action" class="oe_highlight" invisible="1"/>
+
+                    <button name="action_confirm_data" type="object"
+                            string="Confirm Data" class="oe_highlight"
+                            attrs="{'invisible': ['|', ('state','!=','draft'), ('id','=',False)]}"/>
+
+                   <button name="action_make_payement" type="object" string="Create Payment" class="oe_highlight"
+                    attrs="{'invisible': ['|',('has_delay','=',True),('state','in',['draft', 'wait_pay','closed','canceled'])]}"/>
+
+                    <button name="action_set_cancel" type="object"
+                            string="To Cancel" class="oe_highlight"
+                            attrs="{'invisible': [('state','in',['draft', 'canceled'])]}"/>
+
+                <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div name="oe_button_box" class="oe_button_box">
+                        <button name="action_open_sponsorship_payement" type="object" class="oe_stat_button" icon="fa-dollar">
+                            <field string="Payments" name="total_contribution" widget="statinfo"/>
+                        </button>
+                        <button name="action_open_voucher_payement" type="object" class="oe_stat_button" icon="fa-dollar">
+                            <field string="Voucher" name="total_voucher" widget="statinfo"/>
+                        </button>
+                    </div>
+
+                    <h1><field name="code" nolabel="1"/></h1>
+                    <group name="group_top">
+                        <group name="group_left">
+                          <field name="branch_custom_id"/>
+                          <field name="sponsor_or_donor_type"/>
+                          <field name="registered_type" attrs="{'invisible': [('sponsor_or_donor_type','!=','registered')]}"/>
+                          <field name="sponsor_name" attrs="{'invisible': [('sponsor_or_donor_type','!=','not_registered')]}"/>
+                          <field name="sponsor_title" attrs="{'invisible': [('sponsor_or_donor_type','!=','not_registered'),('sponsor_or_donor_type','!=','unknown')]}"/>
+                          <field name="sponsor_phone" attrs="{'invisible': [('sponsor_or_donor_type','!=','not_registered'),('sponsor_or_donor_type','!=','unknown')]}"/>
+                          <field name="sponsor_id" attrs="{'invisible': ['|',('sponsor_or_donor_type','!=','new_sponsor'),('sponsor_or_donor_type','!=','registered'),('registered_type','=','member')],'required':[('state','!=','draft')],'readonly':[('sponsor_or_donor_type','=','new_sponsor')]}" force_save="1"/>
+                          <field name="member_id" attrs="{'invisible': [('registered_type','!=','member')]}"/>
+<!--                          <field name="sponsorship_type"/>-->
+<!--                          <field name="benefit_type"/>-->
+<!--                          <field name="sponsorship_class"/>-->
+
+                          <field name="is_widow_orphan" invisible="1"/>
+
+<!--                          <field name="gender"/>-->
+<!--                          <field name="age_category_id"/>-->
+<!--                          <field name="education_status"/>-->
+<!--                          <field name="education_level"/>-->
+<!--                          <field name="payment_option"/>-->
+<!--                          <field name="payment_journal_id" required="1" />-->
+<!--                          <field name="payment_method"/>-->
+                          <field name="total_sponsorship_amount"/>
+                          <field name="has_delay" invisible="1"/>
+                          <field name="members_domain_ids" invisible="1"/>
+                       </group>
+
+                        <group name="group_right">
+                            <field name="sponsorship_creation_date" />
+                            <field name="sponsor_note" />
+<!--                            <div attrs="{'invisible': [('sponsorship_type', '!=', 'person')]}">-->
+
+<!--                                <label for="benefit_id" string="The Orphan" attrs="{'invisible': ['|',('sponsorship_type', '!=', 'person'), ('benefit_type', '!=', 'orphan')]}" style="font-weight: bold;"/>-->
+
+<!--                                <label for="benefit_id" string="The Widow" attrs="{'invisible': ['|',('sponsorship_type', '!=', 'person'), ('benefit_type', '!=', 'widow')]}" style="font-weight: bold;"/>-->
+
+<!--                            </div>-->
+
+<!--                            <field style="width: 290px; margin-right: 10px;" name="benefit_id" nolabel="1" attrs="{'invisible': ['|',('sponsorship_type', '!=', 'person'), ('benefit_type', '=', False)]}"/>-->
+
+<!--                            <div attrs="{'invisible': [('sponsorship_type', '!=', 'group')]}">-->
+
+                                <label for="benefit_count" string="Number Of Sponsorship Orphans and Widows" style="font-weight: bold;"/>
+
+<!--                                <label for="benefit_count" string="Number Of Sponsorship Widows" attrs="{'invisible': ['|',('sponsorship_type', '!=', 'group'), ('benefit_type', '!=', 'widow')]}" style="font-weight: bold;"/>-->
+
+<!--                            </div>-->
+
+                            <field style="width: 290px; margin-right: 10px;" name="benefit_count" nolabel="1"/>
+
+
+<!--                            <label for="min_needs_percent" string="Needs Percentage From" attrs="{'invisible': ['|',('sponsorship_type', '!=', 'group'), ('benefit_type', '=', False)]}"/>-->
+
+
+<!--                            <div class="oe_inline">-->
+
+<!--                                <field name="min_needs_percent" placeholder="Min Value" nolabel="1" attrs="{'invisible': ['|',('sponsorship_type', '!=', 'group'), ('benefit_type', '=', False)]}"/>-->
+
+
+<!--                                <field name="max_needs_percent" placeholder="Max Value" nolabel="1" attrs="{'invisible': ['|',('sponsorship_type', '!=', 'group'), ('benefit_type', '=', False)]}"/>-->
+
+<!--                            </div>-->
+<!--                            <field name="family_id"/>-->
+                            <field name="city_id"/>
+<!--                            <field name="sponsorship_duration" />-->
+<!--                            <field name="start_date" />-->
+<!--                            <field name="end_date" />-->
+<!--                            <field name="supporter_status" attrs="{'invisible': [('sponsorship_type', '!=', 'person')]}"/>-->
+                        </group>
+                    </group>
+
+                    <group>
+<!--                        <label for="contribution_value" />-->
+<!--                        <div>-->
+<!--                        <field name="contribution_value" class="oe_inline" style="margin-right:50px;" attrs="{'readonly': [('sponsorship_class', '=', 'fully')]}" force_save="1"/>-->
+<!--                        <span class="oe_inline text-muted"> Riyal</span>-->
+<!--                        </div>-->
+                        <field name="is_gift" invisible="1"/>
+                    </group>
+
+<!--                    <group>-->
+<!--                        <label for="load_amount" />-->
+<!--                        <div>-->
+<!--                        <field name="load_amount" class="oe_inline" style="margin-right:50px;" readonly="1" force_save="1"/>-->
+<!--                        <span class="oe_inline text-muted"> Riyal</span>-->
+<!--                        </div>-->
+<!--                    </group>-->
+                    <group>
+                        <field name="donate_for_another_person" widget="boolean_toggle"/>
+                    </group>
+
+                    <group string="Gifter Information" attrs="{'invisible': [('is_gift', '!=', 'yes')]}">
+                        <field name="gifter_id" readonly="1"/>
+                        <field name="gifter_name" readonly="1"/>
+                        <field name="gifter_mobile" readonly="1"/>
+                        <field name="gifter_message" readonly="1"/>
+                    </group>
+
+                    <group attrs="{'invisible': [('state', '!=', 'canceled')]}">
+                        <field name="cancel_reason_id" invisible="1"/>
+                        <field name="reason" readonly="1" attrs="{'invisible': [('state', '!=', 'canceled')]}" style="color: red;"/>
+                    </group>
+
+                    <group  string="Orphans and Widow List">
+                        <field name="benefit_ids" nolabel="1" domain="[('id', 'in', members_domain_ids)]" readonly="1" force_save="1"/>
+                    </group>
+<!--                    <group  string="Sponsored Orphans Names" attrs="{'invisible': [('is_widow_orphan', '=', False)]}" >-->
+<!--                        <field name="with_orphan_ids" readonly="1" widget="many2many" nolabel="1" attrs="{'invisible': [('is_widow_orphan', '=', False)]}"/>-->
+<!--                    </group>-->
+                    <group>
+                        <notebook>
+                            <page string="Another Sponsors" attrs="{'invisible':[('donate_for_another_person','=',False)]}">
+                              <field name="another_sponsors">
+                                    <tree editable="bottom">
+                                        <field name="sponsor_name"/>
+                                        <field name="sponsor_phone"/>
+                                        <field name="sponsor_id_number"/>
+                                        <field name="receive_messages" widget="boolean_toggle"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Donation Details">
+                              <field name="donations_details_lines">
+                                  <form string="Donation Details">
+                                      <group>
+                                          <group>
+                                              <field name="donation_type"/>
+                                              <field name="sponsorship_duration" attrs="{'invisible': [('donation_type','!=','sponsorship')]}"/>
+                                               <field name="payment_option" attrs="{'invisible': [('sponsorship_duration','!=','temporary')]}"/>
+                                              <field name="payment_month_count" attrs="{'invisible': [('payment_option','!=','month')]}"/>
+                                              <field name="start_date" attrs="{'invisible': [('payment_option', '!=', 'month')]}"/>
+                                              <field name="end_date" attrs="{'invisible': [('payment_option', '!=', 'month')]}"/>
+                                          </group>
+                                          <group>
+                                                <field name="donation_name"/>
+                                                <field name="donation_mechanism" attrs="{'invisible':[('donation_type','!=','donation')],'readonly': [('donation_type','=','sponsorship')]}" force_save="1"/>
+                                                <field name="fixed_value" invisible="1"/>
+                                                <field name="donation_amount" attrs="{'readonly':[('fixed_value','=',True)]}" force_save="1"/>
+                                                <field name="benefits_count" attrs="{'invisible':[('sponsorship_type','!=','group')]}"/>
+                                                <field name="total_donation_amount" attrs="{'invisible':[('sponsorship_type','!=','group')]}"/>
+                                          </group>
+                                      </group>
+                                          <group attrs="{'invisible': ['|',('donation_mechanism','!=','with_conditions'),('donation_type','=','waqf')]}">
+                                              <group>
+                                                  <h3> Benefit Details</h3>
+                                                  <field name="members_domain_ids" invisible="1"/>
+                                                  <field name="benefit_type" attrs="{'invisible': [('donation_mechanism','!=','with_conditions')]}"/>
+                                                  <field name="sponsorship_type" attrs="{'invisible': [('donation_mechanism','!=','with_conditions')]}"/>
+                                                  <field name="gender" attrs="{'invisible': [('donation_mechanism','!=','with_conditions')]}"/>
+                                                  <field name="age_category_id" attrs="{'invisible': [('donation_mechanism','!=','with_conditions')]}"/>
+                                                  <field name="education_status" attrs="{'invisible': [('donation_mechanism','!=','with_conditions')]}"/>
+                                                  <field name="education_level" attrs="{'invisible': [('donation_mechanism','!=','with_conditions')]}"/>
+                                              </group>
+                                              <group>
+                                                  <br/>
+                                                  <field name="benefit_id" attrs="{'invisible': [('sponsorship_type','!=','person')]}"/>
+                                                  <field name="family_id" attrs="{'invisible': [('sponsorship_type','!=','person')]}"/>
+                                              </group>
+                                          </group>
+                                         <group  string="Orphans List" attrs="{'invisible': ['|', ('sponsorship_type', '!=', 'group'), ('benefit_type', '!=', 'orphan')]}">
+                                            <field name="benefit_ids" nolabel="1" domain="[('id', 'in', members_domain_ids)]"/>
+                                        </group>
+                                        <group  string="Widows List" attrs="{'invisible': ['|', ('sponsorship_type', '!=', 'group'), ('benefit_type', '!=', 'widow')]}">
+                                            <field name="benefit_ids" nolabel="1" domain="[('id', 'in', members_domain_ids)]"/>
+                                        </group>
+                                        <group  string="Orphans and Widows List" attrs="{'invisible': ['|', ('sponsorship_type', '!=', 'group'), ('benefit_type', '!=', 'both')]}">
+                                            <field name="benefit_ids" nolabel="1" domain="[('id', 'in', members_domain_ids)]"/>
+                                        </group>
+                                  </form>
+                                    <tree>
+                                        <field name="donation_type"/>
+                                        <field name="donation_name"/>
+                                        <field name="donation_amount"/>
+                                        <field name="sponsorship_type" attrs="{'invisible': [('donation_mechanism','!=','with_conditions')]}"/>
+                                        <field name="benefit_id"/>
+                                        <field name="donation_mechanism" attrs="{'invisible': ['|',('donation_type','=','sponsorship'),('donation_type','=','waqf')]}"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Payment Details">
+                              <field name="payment_details_lines">
+                                  <form string="Donation Details">
+                                      <group>
+                                          <group>
+                                                <field name="payment_method"/>
+                                                <field name="direct_debit_start_date" attrs="{'invisible': [('payment_method','!=','direct_debit')]}"/>
+                                                <field name="name" attrs="{'invisible': [('payment_method','!=','card'),('payment_method','!=','debit_card')]}"/>
+                                                <field name="check_number" attrs="{'invisible': [('payment_method','!=','check')]}"/>
+                                                <field name="bank_id" attrs="{'invisible': ['|',('payment_method','=','cash'),('payment_method','=',False)]}"/>
+                                                <field name="charity_bank_id" attrs="{'invisible': [('payment_method','!=','bank_transfer'),('payment_method','!=','direct_debit')]}"/>
+                                                <label for="sponsor_account_number" attrs="{'invisible': [('payment_method','!=','bank_transfer'),('payment_method','!=','direct_debit')]}"/>
+                                                    <div class="o_row" attrs="{'invisible': [('payment_method','!=','bank_transfer'),('payment_method','!=','direct_debit')]}">
+                                                        <field name="sponsor_account_number" width="100%" />
+                                                        <field name="sa_iban"/>
+                                                    </div>
+
+                                                <field name="bank_transfer_amount" attrs="{'invisible': [('payment_method','!=','bank_transfer')]}"/>
+                                                <field name="direct_debit_amount" attrs="{'invisible': [('payment_method','!=','direct_debit')]}"/>
+                                                <field name="journal_id" attrs="{'invisible': [('payment_method','!=','cash'),('payment_method','!=','check')]}"/>
+                                               <field name="branch_custom_id" invisible="1"/>
+                                                <field name="points_of_sale" attrs="{'invisible': [('payment_method','!=','card'),('payment_method','!=','credit_card')]}"/>
+                                          </group>
+                                          <group>
+                                              <field name="direct_debit_end_date" attrs="{'invisible': [('payment_method','!=','direct_debit')]}"/>
+                                              <field name="donation_date"/>
+                                              <field name="charity_journal_id" attrs="{'invisible': [('payment_method','!=','card'),('payment_method','!=','credit_card')]}"/>
+                                              <field name="donation_amount" attrs="{'invisible': ['|',('payment_method','!=','bank_transfer'),('payment_method','!=','direct_debit')]}"/>
+                                              <field name="account_payment_method" attrs="{'invisible': [('payment_method','!=','card'),('payment_method','!=','credit_card')]}"/>
+                                              <field name="note"/>
+                                              <field name="payment_attachment" widget="many2many_attachment_preview" attrs="{'invisible': [('payment_method','!=','bank_transfer'),('payment_method','!=','direct_debit')]}"/>
+                                          </group>
+                                      </group>
+                                    </form>
+                                    <tree>
+                                        <field name="payment_method"/>
+                                        <field name="donation_amount"/>
+                                        <field name="donation_date"/>
+                                        <field name="note"/>
+<!--                                        <field name="journal_id"/>-->
+<!--                                        <field name="points_of_sale"/>-->
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </group>
+
+                </sheet>
+
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+
+            </form>
+        </field>
+    </record>
+
+    <record id="takaful_sponsorship_tree" model="ir.ui.view">
+        <field name="name">takaful.sponsorship.tree</field>
+        <field name="model">takaful.sponsorship</field>
+        <field name="arch"  type="xml">
+            <tree string="Sponsorship List" decoration-danger="has_delay==True">
+                <field name="has_delay" invisible="1"/>
+                <field name="sponsor_id"/>
+                <field name="sponsorship_duration"/> 
+                <field name="sponsorship_type"/>
+                <field name="benefit_type"/>
+                <field name="contribution_value"/>            
+                <field name="end_date"/>          
+                <field name="overdue_amount"/>          
+                <field name="state"/>          
+            </tree>
+        </field>
+    </record>
+
+    <!-- All actions -->
+    <record id="takaful_sponsorship_action" model="ir.actions.act_window">
+        <field name="name">The Sponsorship</field>
+        <field name="res_model">takaful.sponsorship</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!--print_report method is called from server action-->
+    <record id="action_makfuleen_report" model="ir.actions.server">
+        <field name="name">Makfuleen Report</field>
+        <field name="type">ir.actions.server</field>
+        <field name="model_id" ref="model_takaful_sponsorship"/>
+        <field name="state">code</field>
+        <field name="code">
+        action = model.print_makfuleen_report()
+        </field>
+    </record>
+
+</odoo>

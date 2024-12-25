@@ -1,0 +1,434 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <!-- Project State -->
+    <record id="khawald_project_state_form_view" model="ir.ui.view">
+        <field name="name">Project State</field>
+        <field name="model">project.state</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group col="2">
+                        <field name="name" required="1"/>
+                        <field name="parent_id" domain="[('id', '!=', active_id)]"
+                               options="{'no_create': True, 'no_quick_create': True}"/>
+                        <field name="dependency_id" domain="[('id', 'not in', [parent_id, active_id])]"
+                               options="{'no_create': True, 'no_quick_create': True}"/>
+                        <field name="project_type_ids" required="1" widget="many2many_tags"
+                               options="{'color_field': 'color'}" context="{'project_type_ids': project_type_ids}"/>
+                        <field name="default"/>
+                        <field name="total_tasks"/>
+                    </group>
+                    <notebook>
+                        <page string="Tasks">
+                            <field name="project_task_ids">
+                                <tree editable="bottom">
+                                    <field name="name"/>
+                                    <field name="description"/>
+                                    <field name="tasks_time"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="khawald_project_state_tree_view" model="ir.ui.view">
+        <field name="name">Project State</field>
+        <field name="model">project.state</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="parent_id"/>
+                <field name="name" string="Predecessors"/>
+                <field name="dependency_id"/>
+                <field name="project_type_ids" widget="many2many_tags"/>
+                <field name="total_tasks"/>
+                <field name="default"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_project_state_kanban">
+        <field name="name">project.state.kanban</field>
+        <field name="model">project.state</field>
+        <field name="arch" type="xml">
+            <kanban class="oe_background_grey o_kanban_dashboard o_project_kanban o_emphasize_colors" sample="1">
+                <field name="name"/>
+                <field name="parent_id"/>
+                <field name="dependency_id"/>
+                <field name="project_type_ids"/>
+                <field name="total_tasks"/>
+                <field name="default"/>
+                <field name="rating_active"/>
+                <field name="rating_percentage_satisfaction"/>
+                <field name="is_favorite"/>
+                <field name="color"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="#{kanban_color(record.color.raw_value)} oe_kanban_global_click o_has_icon">
+                            <div class="o_project_kanban_main">
+                                <div class="o_kanban_card_content">
+                                    <div class="o_kanban_primary_left">
+                                        <div class="o_primary">
+                                            <span>
+                                                <t t-esc="record.name.value"/>
+                                            </span>
+                                            <span t-if="record.parent_id.value">
+                                                <strong>
+                                                    <t t-esc="record.parent_id.value"/>
+                                                </strong>
+                                                <strong>
+                                                    <t t-esc="record.name.value"/>
+                                                </strong>
+                                                <strong>
+                                                    <t t-esc="record.dependency_id.value"/>
+                                                </strong>
+                                            </span>
+                                        </div>
+
+                                        <div t-if="record.rating_active.raw_value" class="mt8 text-primary"
+                                             title="Percentage of happy ratings over the past 30 days."
+                                             groups="project.group_project_rating">
+                                            <b>
+                                                <a name="action_view_all_rating" type="object"
+                                                   context="{'search_default_rating_last_30_days':1}">
+                                                    <t t-if="record.rating_percentage_satisfaction.value != -1">
+                                                        <i class="fa fa-smile-o" role="img"
+                                                           aria-label="Percentage of satisfaction"
+                                                           title="Percentage of satisfaction"/>
+                                                        <t t-esc="record.rating_percentage_satisfaction.value"/>%
+                                                    </t>
+                                                </a>
+                                            </b>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="o_kanban_card_manage_pane dropdown-menu"
+                                     groups="project.group_project_manager" role="menu">
+                                    <div class="o_kanban_card_manage_section o_kanban_manage_reports">
+
+                                        <div role="menuitem">
+                                            <a type="edit">Edit</a>
+                                        </div>
+                                    </div>
+                                    <div role="menuitem" aria-haspopup="true" class="o_no_padding_kanban_colorpicker">
+                                        <ul class="oe_kanban_colorpicker" data-field="color" role="popup"/>
+                                    </div>
+                                </div>
+                                <a class="o_kanban_manage_toggle_button o_left" href="#"
+                                   groups="project.group_project_manager">
+                                    <i class="fa fa-ellipsis-v" role="img" aria-label="Manage" title="Manage"/>
+                                </a>
+                                <span class="o_right">
+                                    <field name="is_favorite" widget="boolean_favorite" nolabel="1"/>
+                                </span>
+                            </div>
+
+                            <div class="o_project_kanban_boxes">
+                                <a class="o_project_kanban_box" name="action_view_tasks" type="object">
+                                    <div>
+                                        <span class="o_value">
+                                            <t t-esc="record.total_tasks.value"/>
+                                        </span>
+                                        <span class="o_label">Tasks:</span>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+
+    <record id="khawald_project_state_search_view" model="ir.ui.view">
+        <field name="name">project.state.search</field>
+        <field name="model">project.state</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="parent_id"/>
+                <field name="name"/>
+                <field name="dependency_id"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="khawald_project_state_action" model="ir.actions.act_window">
+        <field name="name">Project State</field>
+        <field name="res_model">project.state</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="view_id" ref="view_project_state_kanban"/>
+        <field name="search_view_id" ref="khawald_project_state_search_view"/>
+    </record>
+
+    <menuitem name="Project State" id="project_state_menu" parent="project.menu_project_config"
+              action="khawald_project_state_action" sequence="9"/>
+
+
+    <!-- Khawald Project Task -->
+    <record id="khawald_project_task_custom_form_view" model="ir.ui.view">
+        <field name="name">Project Task</field>
+        <field name="model">khawald.project.task</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" required="1"/>
+                            <field name="tasks_time" required="1"/>
+
+                        </group>
+                        <group>
+                            <field name="description"/>
+                            <field name="parent_id"/>
+                        </group>
+                    </group>
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="khawald_project_task_custom_tree_view" model="ir.ui.view">
+        <field name="name">Project Task list</field>
+        <field name="model">khawald.project.task</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="tasks_time"/>
+                <field name="description"/>
+                <field name="parent_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_khawald_task_kanban">
+        <field name="name">khawald.project.task.kanban</field>
+        <field name="model">khawald.project.task</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_small_column o_kanban_project_tasks"
+
+                    js_class="project_kanban" sample="1">
+                <field name="name"/>
+                <field name="tasks_time"/>
+                <field name="description"/>
+                <field name="parent_id"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class=" oe_kanban_global_click o_has_icon">
+                            <div class="oe_kanban_content">
+                                <div class="o_kanban_record_top">
+                                    <div class="o_kanban_record_headings">
+                                        <strong class="o_kanban_record_title">
+                                            <field name="name"/>
+                                        </strong>
+                                        <span>
+                                            <br/>
+
+                                        </span>
+                                        <br/>
+                                        <span>
+                                            <field name="name"/>
+                                            <field name="description"/>
+                                            <field name="parent_id"/>
+
+                                        </span>
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+                            <div class="oe_clear"></div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="khawald_project_task_custom_search_view" model="ir.ui.view">
+        <field name="name">khawald.project.task.search</field>
+        <field name="model">khawald.project.task</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="tasks_time"/>
+                <field name="description"/>
+                <field name="parent_id"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="khawald_project_task_custom_action" model="ir.actions.act_window">
+        <field name="name">Project Task</field>
+        <field name="res_model">khawald.project.task</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="view_id" ref="view_khawald_task_kanban"/>
+        <field name="search_view_id" ref="khawald_project_task_custom_search_view"/>
+    </record>
+
+    <menuitem name="Project Task" id="khawald_project_task_custom_menu" parent="project.menu_project_config"
+              action="khawald_project_task_custom_action" sequence="9"/>
+
+    <!-- Project Type -->
+    <record id="khawald_project_type_form_view" model="ir.ui.view">
+        <field name="name">Project Type</field>
+        <field name="model">project.type</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group col="2">
+                        <field name="name" required="1"/>
+                        <field name="color" widget="color_picker"/>
+                    </group>
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="khawald_project_type_tree_view" model="ir.ui.view">
+        <field name="name">Project Type</field>
+        <field name="model">project.type</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name" required="1"/>
+                <field name="color" widget="color_picker"/>
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="khawald_project_type_search_view" model="ir.ui.view">
+        <field name="name">project.type.search</field>
+        <field name="model">project.type</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="khawald_project_type_action" model="ir.actions.act_window">
+        <field name="name">Project Type</field>
+        <field name="res_model">project.type</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="khawald_project_type_tree_view"/>
+        <field name="search_view_id" ref="khawald_project_type_search_view"/>
+    </record>
+
+
+    <menuitem name="Project Type" id="project_type_menu" parent="project.menu_project_config"
+              action="khawald_project_type_action" sequence="9"/>
+
+
+    <!-- Project Advantage -->
+    <record id="khawald_project_advantage_form_view" model="ir.ui.view">
+        <field name="name">Project Advantage</field>
+        <field name="model">project.advantage</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group col="2">
+                        <field name="name" required="1"/>
+                        <field name="price" class="oe_inline" widget='monetary'
+                               options="{'currency_field': 'company_currency_id'}"/>
+                        <field name="company_currency_id" invisible="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="khawald_project_advantage_tree_view" model="ir.ui.view">
+        <field name="name">Project Advantage List</field>
+        <field name="model">project.advantage</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name" required="1"/>
+                <field name="price" widget='monetary'
+                       options="{'currency_field': 'company_currency_id'}"/>
+                <field name="company_currency_id" invisible="1"/>
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="khawald_project_advantage_search_view" model="ir.ui.view">
+        <field name="name">Project Advantage Search</field>
+        <field name="model">project.advantage</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="price"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="khawald_project_advantage_action" model="ir.actions.act_window">
+        <field name="name">Project Advantage</field>
+        <field name="res_model">project.advantage</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="khawald_project_advantage_tree_view"/>
+        <field name="search_view_id" ref="khawald_project_advantage_search_view"/>
+    </record>
+
+
+    <menuitem name="Project Advantage" id="project_advantage_menu" parent="project.menu_project_config"
+              action="khawald_project_advantage_action" sequence="9"/>
+
+
+    <!-- Project Expense -->
+    <record id="khawald_project_expense_form_view" model="ir.ui.view">
+        <field name="name">Project Expense</field>
+        <field name="model">project.expense.conf</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group col="2">
+                        <field name="name" required="1"/>
+                    </group>
+
+                </sheet>
+            </form>
+        </field>
+     </record>
+
+    <record id="khawald_project_expense_tree_view" model="ir.ui.view">
+        <field name="name">Project Expense</field>
+        <field name="model">project.expense.conf</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name" required="1"/>
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="khawald_project_expense_search_view" model="ir.ui.view">
+        <field name="name">project.expense.conf.search</field>
+        <field name="model">project.expense.conf</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="khawald_project_expense_action" model="ir.actions.act_window">
+        <field name="name">Project Expense</field>
+        <field name="res_model">project.expense.conf</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="khawald_project_expense_tree_view"/>
+        <field name="search_view_id" ref="khawald_project_expense_search_view"/>
+    </record>
+
+
+    <menuitem name="Project Expense" id="project_expense_menu" parent="project.menu_project_config"
+              action="khawald_project_expense_action" sequence="9"/>
+
+</odoo>

@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+
+        <record id="property_sketchs_form_view" model="ir.ui.view">
+            <field name="name">Property sketchs</field>
+            <field name="model">sketchs.sketchs</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group col="4" colspan="2">
+                            <field name="name" required="1"/>
+                            <field name="notes" required="1"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </sheet>
+                </form>
+
+            </field>
+        </record>
+        <record id="property_contents_form_view" model="ir.ui.view">
+            <field name="name">Property Contents</field>
+            <field name="model">property.contents</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="content_name" required="1"/>
+                        </group>
+                    </sheet>
+                </form>
+
+            </field>
+        </record>
+        <record id="property_contents_tree_view" model="ir.ui.view">
+            <field name="name">Property sketchs</field>
+            <field name="model">property.contents</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="content_name" required="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="property_sketchs_action" model="ir.actions.act_window">
+            <field name="name">Property sketchs</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">sketchs.sketchs</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="property_type_form_view" model="ir.ui.view">
+            <field name="name">Property Type</field>
+            <field name="model">internal.property.type</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-archive">
+                                <field name="active" widget="toggle_button"/>
+                                <span class="o_stat_text" attrs="{'invisible': [('active', '=', False)]}">Restore</span>
+                                <span class="o_stat_text" attrs="{'invisible': [('active', '=', True)]}">Archive</span>
+                            </button>
+
+                        </div>
+                        <group col="6" colspan="2">
+                            <field name="market_type" invisible="1" required="0"/>
+                            <field name="name" required="1"/>
+                            <field name="is_waqf" required="1"/>
+                            <field name="is_land" invisible="1"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </sheet>
+                </form>
+
+            </field>
+        </record>
+
+        <record id="property_face_form_view" model="ir.ui.view">
+            <field name="name">Property Face</field>
+            <field name="model">property.faces</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-archive">
+                                <field name="active" widget="toggle_button"/>
+                                <span class="o_stat_text" attrs="{'invisible': [('active', '=', False)]}">Restore</span>
+                                <span class="o_stat_text" attrs="{'invisible': [('active', '=', True)]}">Archive</span>
+                            </button>
+                        </div>
+                        <group>
+                            <field name="name" required="1"/>
+                        </group>
+                    </sheet>
+                </form>
+
+            </field>
+        </record>
+
+
+        <record id="property_state_form_view" model="ir.ui.view">
+            <field name="name">Property State</field>
+            <field name="model">re.property.state</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-archive">
+                                <field name="active" widget="toggle_button"/>
+                                <span class="o_stat_text" attrs="{'invisible': [('active', '=', False)]}">Restore</span>
+                                <span class="o_stat_text" attrs="{'invisible': [('active', '=', True)]}">Archive</span>
+                            </button>
+                        </div>
+                        <group>
+                            <field name="name" required="1"/>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="unit_type_form_view" model="ir.ui.view">
+            <field name="name">Unit Type</field>
+            <field name="model">unit.type</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-archive">
+                                <field name="active" widget="toggle_button"/>
+                                <span class="o_stat_text" attrs="{'invisible': [('active', '=', False)]}">Restore</span>
+                                <span class="o_stat_text" attrs="{'invisible': [('active', '=', True)]}">Archive</span>
+                            </button>
+                        </div>
+                        <group>
+                            <field name="name" required="1"/>
+                        </group>
+                        <group>
+                            <field name="mezzanine"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="property_type_action" model="ir.actions.act_window">
+            <field name="name">Property Type</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">internal.property.type</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="property_face_action" model="ir.actions.act_window">
+            <field name="name">Property Face</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">property.faces</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+        <record id="property_state_action" model="ir.actions.act_window">
+            <field name="name">Property State</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">re.property.state</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="unit_type_action" model="ir.actions.act_window">
+            <field name="name">Unit Type</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">unit.type</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="property_contents_action" model="ir.actions.act_window">
+            <field name="name">Property Contents</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">property.contents</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+        <menuitem name="Property State" id="property_state_menu" parent="configuration_main_menu"
+                  action="property_state_action" sequence="1"/>
+
+        <menuitem name="Property Type" id="property_type_menu" parent="configuration_main_menu"
+                  action="property_type_action" sequence="2"/>
+
+        <menuitem name="Property Sketchs" id="property_sketchs_menu" parent="configuration_main_menu"
+                  action="property_sketchs_action" sequence="9"/>
+
+        <menuitem name="Property Contents" id="property_contents_menu" parent="configuration_main_menu"
+                  action="property_contents_action" sequence="9"/>
+
+        <menuitem name="Property Face" id="property_face_menu" parent="configuration_main_menu"
+                  action="property_face_action" sequence="3"/>
+
+        <menuitem name="Unit Type" id="unit_type_menu" parent="configuration_main_menu"
+                  action="unit_type_action" sequence="4"/>
+
+
+        <menuitem name="City" id="city_menu" parent="configuration_main_menu"
+                  action="country_city.city_action" sequence="7"/>
+
+        <menuitem name="District" id="district_menu" parent="configuration_main_menu"
+                  action="country_city.district_action" sequence="8"/>
+
+
+    </data>
+</odoo>

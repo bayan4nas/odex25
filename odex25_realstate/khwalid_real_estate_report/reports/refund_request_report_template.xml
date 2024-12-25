@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <template id="report_refund_deposit">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="khwalid_real_estate_report.refund_request_report"/>
+            </t>
+        </t>
+    </template>
+
+    <template id="report_cancel_sale">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t  t-call="khwalid_real_estate_report.refund_request_report"/>
+            </t>
+        </t>
+    </template>
+
+    <template id="refund_request_report">
+        <t t-call="web.html_container">
+            <t  t-foreach="docs" t-as="doc">
+                <div class="page">
+                    <t t-call="web.external_layout">
+                        <h2 class="text-center">Refund Request</h2> <br/>
+
+                        <p>Unit Details: </p>
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th style="text-align: center; background-color:#e6e5e5;"><strong>Project Name</strong></th>
+                                    <th style="text-align: center; background-color:#e6e5e5;"><strong>Property No.</strong></th>
+                                    <th style="text-align: center; background-color:#e6e5e5;"><strong>Unit No.</strong></th>
+                                    <th style="text-align: center; background-color:#e6e5e5;"><strong>Sale Price</strong></th>
+                                    <th style="text-align: center; background-color:#e6e5e5;"><strong>Return Type</strong></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <td style="text-align: center;"> <t t-esc="doc.unit_id.project_id.name"/> </td>
+                                <td style="text-align: center;"> <t t-esc="doc.unit_id.property_id.name"/> </td>
+                                <td style="text-align: center;"> <t t-esc="doc.unit_id.name"/> </td>
+                                <td style="text-align: center;"> 
+                                    <t t-if="doc._name == 'property.reservation.payment' " t-esc="'%.2f'% doc.reservation_id.total_price"/>
+                                    <t t-if="doc._name == 're.sale' " t-esc="'%.2f'% doc.amount"/>
+                                </td>
+                                <td t-if="doc._name == 'property.reservation.payment' " style="text-align: center;"> Deposit </td>
+                                <td t-if="doc._name == 're.sale' " style="text-align: center;"> Cancellation of the sale. </td>
+                            </tbody>
+                        </table>
+
+                        <p>Customer Details: </p>
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th style="text-align: center; background-color:#e6e5e5;"><strong>Customer Name</strong></th>
+                                    <th style="text-align: center; background-color:#e6e5e5;"><strong>Mobile</strong></th>
+                                    <th style="text-align: center; background-color:#e6e5e5;"><strong>Return Amount</strong></th>
+                                    <th style="text-align: center; background-color:#e6e5e5;"><strong>Voucher No.</strong></th>
+                                    <th style="text-align: center; background-color:#e6e5e5;"><strong>Cheque Receipt Date</strong></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <td style="text-align: center;"> <t t-esc="doc.partner_id.name"/> </td>
+                                <td style="text-align: center;"> <t t-esc="doc.partner_id.mobile"/> </td>
+                                <td style="text-align: center;"> 
+                                    <t t-if="doc._name == 'property.reservation.payment' " t-esc="'%.2f'% doc.return_amount"/> 
+                                    <t t-if="doc._name == 're.sale' " t-esc="'%.2f'% doc.amount"/>
+                                </td>
+                                <td style="text-align: center;"> <t t-esc="doc.move_id.name"/> </td>
+                                <td style="text-align: center;"> 
+                                    <t t-if="doc._name == 'property.reservation.payment' " t-esc="doc.request_date"/> 
+                                    <t t-if="doc._name == 're.sale' " t-esc="doc.reservation_id.request_date"/> 
+                                </td>
+                            </tbody>
+                        </table>
+
+                        <span>Justifications for the refund request:</span>
+                        <ul style="list-style-type:square;">
+                            <li> The apartment has been emptied. </li>
+                            <li> Pay the first payment to the bank. </li>
+                            <li> Cancellation of the residential unit reservation with the consent of both parties. </li>
+                            <li> Cancellation of the sale of the housing unit with the consent of both parties. </li>
+                        </ul>
+
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th colspan="6" style="text-align: center; background-color:#e6e5e5;"><strong>Reason for requesting refund</strong></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <td colspan="6"></td>
+                            </tbody>
+                        </table>
+                        <br/><br/><br/><br/>
+                        <p style="text-align: left;"> Sales Manager: </p>
+                    </t>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <report
+        id ="action_refund_request_pdf"
+        model ="property.reservation.payment"
+        string ="Refund Request"
+        report_type ="qweb-pdf"
+        name ="khwalid_real_estate_report.report_refund_deposit"
+        file ="khwalid_real_estate_report.report_refund_deposit"
+        />
+
+    <report
+        id ="action_cancel_sale_pdf"
+        model ="re.sale"
+        string ="Cancel Sale Request Unit"
+        report_type ="qweb-pdf"
+        name ="khwalid_real_estate_report.report_cancel_sale"
+        file ="khwalid_real_estate_report.report_cancel_sale"
+        />
+
+</odoo>

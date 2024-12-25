@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--tree-->
+    <record id="view_dev_membership_tree" model="ir.ui.view">
+        <field name="name">view.dev.membership.tree</field>
+        <field name="model">dev.membership</field>
+        <field name="arch" type="xml">
+            <tree string="Dev Membership Tree View">
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="membrship_level" optional="hide"/>
+                <field optional="hide" name="id_no"/>
+                <field optional="hide" name="phone"/>
+                <field optional="hide" name="email"/>
+                <field name="product_id"/>
+                <field name="membership_fees"/>
+                <field name="date"/>
+                <field name="activity_ids" widget="list_activity"/>
+                <field name="from_date"/>
+                <field name="to_date"/>
+                <field name="state" widget="badge" decoration-success="state in ['active', 'confirm']"
+                       decoration-danger="state == 'expire'" decoration-warning="state == 'draft'"/>
+                <field name="payment_state" widget="badge" decoration-success="payment_state in ['paid','in_payment']"/>
+            </tree>
+        </field>
+    </record>
+
+    <!--form-->
+    <record id="view_dev_membership_form" model="ir.ui.view">
+        <field name="name">view.dev.membership.form</field>
+        <field name="model">dev.membership</field>
+        <field name="arch" type="xml">
+            <form string="Dev Membership Form View">
+                <header>
+                    <button name='create_membership_invoice' type="object" string='Create Invoice' class="oe_highlight"
+                            attrs="{'invisible':['|','|',('is_free','=',True),
+                            ('state','!=','confirm'),('invoice_id','!=',False)]}"/>
+                    <button name="action_active_membership" type="object" string="Active" class="oe_highlight"
+                            attrs="{'invisible': ([('state', '!=', 'confirm')])}"/>
+                    <button name="action_confirm_membership" type="object" string="Confirm" class="oe_highlight"
+                            attrs="{'invisible': ([('state', '!=', 'draft')])}"/>
+                    <button name="action_set_to_draft" type="object" string="Set To Draft"
+                            attrs="{'invisible': ([('state', 'not in', ['confirm'])])}"/>
+                    <button string="Send by Mail" name="membership_send_by_mail" type="object" class="oe_highlight"
+                            attrs="{'invisible': ([('state', 'not in', ['confirm', 'draft'])])}"/>
+                    <button string="Renew Membership" name="%(dev_membership.action_renew_membership)d" type="action"
+                            class="oe_highlight"
+                            attrs="{'invisible':['|',('membership_id','!=',False),('state','not in',['expire','active','cancel'])]}"/>
+                    <button name="%(dev_membership.membership_request_cancel_wizard_action)d" type="action" string="Cancel"
+                            attrs="{'invisible': ([('state', 'not in', ['active'])])}"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirm,active"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="view_membership" type="object"
+                                class="oe_stat_button"
+                                icon="fa-vcard-o" attrs="{'invisible' : [('membership_id', '=', False)]}">
+                            <div class="o_stat_info">
+                                <span class="o_stat_text">Membership</span>
+                            </div>
+                        </button>
+                        <button name="view_invoice" type="object"
+                                class="oe_stat_button"
+                                icon="fa-pencil-square-o" attrs="{'invisible' : [('invoice_id', '=', False)]}">
+                            <div class="o_stat_info">
+                                <span class="o_stat_text">Invoice</span>
+                            </div>
+                        </button>
+                    </div>
+                    <h2>
+                        <field  readonly="1" name="name"/>
+                    </h2>
+                    <group>
+                        <group>
+                            <field name="partner_id" attrs="{'readonly': ([('state', '!=', 'draft')])}"/>
+                            <field name="membrship_level"/>
+
+                            <field name="id_no"/>
+                            <field invisible='1' name="is_free"/>
+                            <field name="phone"/>
+                            <field name="email"/>
+                            <field name="product_id"
+                                   context="{'form_view_ref': 'dev_membership.form_membership_product'}"
+                                   attrs="{'readonly': ([('state', '!=', 'draft')])}"/>
+                            <field  attrs="{'readonly': ([('state', '!=', 'draft')])}" name="membership_fees"/>
+                            <field name="invoice_id"  readonly="1" attrs="{'invisible': ([('invoice_id', '=', False)])}"/>
+
+                        </group>
+                        <group>
+                            <field name="date" attrs="{'readonly': ([('state', '!=', 'draft')])}"/>
+                            <field attrs="{'invisible': ([('state', '!=', 'cancel')])}" name="request_date"
+                                   style="width: 48%; padding:3px; font-size:13px;" readonly="1" force_save="1"/>
+                            <label for="from_date" string="Membership Date"/>
+                            <div class="address_format">
+                                <field name="from_date" style="width: 48%; font-size:13px;"
+                                       attrs="{'readonly': ([('state', '!=', 'draft')])}"/>
+                                -
+                                <field name="to_date"
+                                       style="width: 48%; padding:3px; font-size:13px;" readonly="1" force_save="1"/>
+
+                            </div>
+                            <label for="duration" string="Membership Duration"/>
+                            <div class="address_format">
+                                <field name="duration"  attrs="{'readonly': ([('state', '!=', 'draft')])}" style="width: 48%; font-size:13px;"/>
+                                <field name="interval"  attrs="{'readonly': ([('state', '!=', 'draft')])}"
+                                       style="width: 48%; padding:3px; font-size:13px;"/>
+
+                            </div>
+                            <field name="user_id" />
+                            <field name="company_id" attrs="{'readonly': ([('state', '!=', 'draft')])}"/>
+                            <field name="membership_id" invisible="1"/>
+                        </group>
+                    </group>
+                    <div>
+                        <h3>
+                            <label for="description"/>
+                        </h3>
+                        <field name="description" attrs="{'readonly': ([('state', '!=', 'draft')])}"/>
+                        <group attrs="{'invisible': ([('state', '!=', 'cancel')])}">
+                            <group string="Membership Cancellation Reasones">
+                                <field readonly='1' name="cancel_reasone"/>
+                            </group>
+                        </group>
+                    </div>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids" />
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!--kanban-->
+    <record id="view_dev_membership_kanban" model="ir.ui.view">
+        <field name="name">view.dev.membership.kanban</field>
+        <field name="model">dev.membership</field>
+        <field name="arch" type="xml">
+            <kanban class="o_dev_membership_kanban">
+                <field name="id"/>
+                <field name="name"/>
+                <field name="partner_id" />
+                <field name="company_id"/>
+                <field name="from_date"/>
+                <field name="to_date"/>
+                <field name="state"/>
+                <field name="membrship_level"/>
+                <field name="activity_ids" widget="list_activity" optional="show"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click">
+                            <div class="oe_kanban_details">
+                                <div class="o_kanban_record_top">
+                                    <div class="o_kanban_record_headings">
+                                        <div class="card-header" style="text:center; margin-bottom:10px">
+                                            <h6>
+                                                <field name="name"/>
+                                            </h6>
+                                        </div>
+                                        <strong class="o_kanban_record_title">
+                                            <field name="product_id"/>
+                                            Membership
+                                        </strong>
+                                        <div name="from_date">
+                                            <field name="from_date"/>
+                                            -
+                                            <field name="to_date"/>
+                                        </div>
+                                        <div t-if="record.partner_id.value">
+                                            <t t-esc="record.partner_id.value"/>
+                                        </div>
+                                        <div t-if="record.company_id.value">
+                                            <t t-esc="record.company_id.value"/>
+                                        </div>
+                                        <div class="oe_kanban_bottom_right">
+                                            <h5>
+                                                <field name="state" widget="label_selection"
+                                                       options="{'classes': {'draft': 'warning', 'expire': 'danger', 'confirm': 'success', 'active' : 'success'}}"/>
+                                            <field name="membrship_level" widget="label_selection"
+                                                       options="{'classes': {'draft': 'warning', 'expire': 'danger', 'confirm': 'success', 'active' : 'success'}}"/>
+                                            </h5>
+                                        </div>
+                                        <div class="o_kanban_record_bottom">
+                                            <div class="oe_kanban_bottom_left text-muted">
+                                                <span>
+                                                    <t t-esc="record.to_date.value"/>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <field name="activity_ids" widget="kanban_activity"/>
+                                        <br/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- search view  -->
+    <record id="view_dev_membership_search" model="ir.ui.view">
+        <field name="name">search.dev.membership</field>
+        <field name="model">dev.membership</field>
+        <field name="arch" type="xml">
+            <search string="SES">
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="product_id"/>
+                <group expand="0" string="Group by" colspan="16">
+                    <filter name="partner_id" string="Partner" context="{'group_by':'partner_id'}"/>
+                    <filter name="product_id" string="Product" context="{'group_by':'product_id'}"/>
+                    <filter name="company_id" string="Company" context="{'group_by':'company_id'}"/>
+                    <filter name="state_group" string="State" context="{'group_by':'state'}"/>
+                </group>
+                <filter name="state" string="Active" domain="[('state', '=', 'active')]"/>
+                <filter name="state_expire" string="Expire" domain="[('state', '=', 'expire')]"/>
+            </search>
+        </field>
+    </record>
+    <!--    add activity -->
+    <record id="view_dev_membership_activity" model="ir.ui.view">
+        <field name="name">activity.dev.membership</field>
+        <field name="model">dev.membership</field>
+        <field name="arch" type="xml">
+            <activity string="Memberships">
+                <field name="id"/>
+                <templates>
+                    <div t-name="activity-box">
+                        <img t-att-src="activity_image('dev.membership', 'image_128', record.id.raw_value)" role="img"
+                             t-att-title="record.id.value" t-att-alt="record.id.value"/>
+                        <div>
+                            <field name="name" display="full"/>
+                            <field name="partner_id" muted="1" display="full"/>
+                        </div>
+                    </div>
+                </templates>
+            </activity>
+        </field>
+    </record>
+    <!--    end -->
+
+    <!--All Membership Action-->
+    <record id="action_dev_membership" model="ir.actions.act_window">
+        <field name="name">Memberships</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">dev.membership</field>
+        <field name="view_mode">kanban,tree,activity,form</field>
+    </record>
+
+    <!-- Active Membership-->
+    <record id="action_active_membership" model="ir.actions.act_window">
+        <field name="name">Active Memberships</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">dev.membership</field>
+        <field name="view_mode">kanban,tree,activity,form</field>
+        <field name="domain">[('state', '=', 'active')]</field>
+    </record>
+
+    <!-- Expire Membership-->
+    <record id="action_expire_membership" model="ir.actions.act_window">
+        <field name="name">Expire Memberships</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">dev.membership</field>
+        <field name="view_mode">kanban,tree,activity,form</field>
+        <field name="domain">[('state', 'in', ['cancel','expire'])]</field>
+    </record>
+
+    <menuitem name="Memberships"
+              id="menu_membership1"
+              parent="menu_membership_root"
+              action="action_dev_membership"
+              sequence="1"/>
+
+    <menuitem name="Active Memberships"
+              id="menu_active_membership"
+              parent="menu_membership_root"
+              action="action_active_membership"
+              sequence="3"/>
+
+    <menuitem name="Expire Memberships"
+              id="menu_expire_membership"
+              parent="menu_membership_root"
+              action="action_expire_membership"
+              sequence="4"/>
+
+</odoo>

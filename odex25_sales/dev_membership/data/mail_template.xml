@@ -1,0 +1,104 @@
+<?xml version="1.0" ?>
+<odoo>
+     <record id="mt_dev_membership_created" model="mail.message.subtype">
+            <field name="name">Membership Created</field>
+            <field name="sequence">20</field>
+            <field name="res_model">dev.membership</field>
+
+        </record>
+        
+        
+    <record id="template_membership" model="mail.template">
+        <field name="name">membership.email.template</field>
+        <field name="subject">Membership Detail</field>
+        <field name="email_from">${(object.company_id and object.company_id.email  or '') | safe}</field>
+        <field name="partner_to">${object.partner_id.id}</field>
+        <field name="model_id" ref="dev_membership.model_dev_membership"/>
+        <field name="report_template" ref="dev_membership.menu_print_membership"/>
+        <field name="report_name">${(object.name)}_Membership</field>
+        <field name="auto_delete" eval="True"/>
+        <field name="body_html" type="html">
+            <div style="font-family:Arial,Helvetica,sans-serif;font-size:14px;">
+                <h3>Hello ${object.partner_id.name},</h3>
+                <p>Your <b>${object.product_id.name}</b> membership of amount <b>${object.membership_fees}</b> have
+                    activated on <b>${object.from_date}</b> - <b>${object.to_date}</b> .
+                </p>
+                <br/>
+                <br/>
+                <br/>
+                <p>Regards,</p>
+                <p>${object.company_id.name}</p>
+            </div>
+        </field>
+    </record>
+
+    <record id="dev_membership_expire_reminder_mail_template" model="mail.template">
+        <field name="name">Membership Expire Reminder</field>
+        <field name="email_from">${(object.company_id.email  or '') | safe}</field>
+        <field name="email_to">${(object.partner_id.email  or '') | safe}</field>
+        <field name="subject">Membership Expire Reminder</field>
+        <field name="model_id" ref="dev_membership.model_dev_membership"/>
+        <field name="auto_delete" eval="True"/>
+        <field name="body_html"><![CDATA[
+               	<p>Hello ${object.partner_id.name}.</p>
+               	<p>Hope you doing well!</p>
+               	<p>It's gentle reminder that your membership is about to expire on ${object.datetime_convert()}.</p>
+                ]]></field>
+    </record>
+<!--    todo start -->
+    <record id="dev_membership_expire_second_reminder_mail_template" model="mail.template">
+        <field name="name">Membership Expire Second Reminder</field>
+        <field name="email_from">${(object.company_id.email  or '') | safe}</field>
+        <field name="email_to">${(object.partner_id.email  or '') | safe}</field>
+        <field name="subject">Membership Second Expire Reminder</field>
+        <field name="model_id" ref="dev_membership.model_dev_membership"/>
+        <field name="auto_delete" eval="True"/>
+        <field name="body_html"><![CDATA[
+               	<p>Hello ${object.partner_id.name}.</p>
+               	<p>Hope you doing well!</p>
+               	<p>It's gentle reminder that your membership is about to expire on ${object.datetime_convert()}.</p>
+                ]]></field>
+    </record>
+
+    <record id="dev_cancel_membership_expire" model="mail.template">
+        <field name="name">Membership Cancel Notify</field>
+        <field name="email_from">${(object.company_id.email  or '') | safe}</field>
+        <field name="email_to">${(object.partner_id.email  or '') | safe}</field>
+        <field name="subject">Membership Second Expire Reminder</field>
+        <field name="model_id" ref="dev_membership.model_dev_membership"/>
+        <field name="auto_delete" eval="True"/>
+        <field name="body_html"><![CDATA[
+               	<p>Hello ${object.partner_id.name}.</p>
+               	<p>Hope you doing well!</p>
+               	<p>It's gentle reminder that your membership is about to Cancelled on ${object.datetime_convert()}.</p>
+                ]]></field>
+    </record>
+    <record id="dev_cancel_membership_expire2" model="mail.template">
+        <field name="name">Membership Cancel Notify</field>
+        <field name="email_from">${(object.company_id.email  or '') | safe}</field>
+        <field name="email_to">${(object.user_id.email  or '') | safe}</field>
+        <field name="subject">Membership Second Expire Reminder</field>
+        <field name="model_id" ref="dev_membership.model_dev_membership"/>
+        <field name="auto_delete" eval="True"/>
+        <field name="body_html"><![CDATA[
+               	<p>Hello ${object.user_id.name}.</p>
+               	<p>Hope you doing well!</p>
+               	<p>It's gentle reminder that your membership is about to Cancelled on ${object.datetime_convert()}.</p>
+                ]]></field>
+    </record>
+<!-- todo end -->
+    <record id="dev_membership_expired_mail_template" model="mail.template">
+        <field name="name">Membership Expired Mail</field>
+        <field name="email_from">${(object.company_id.email  or '') | safe}</field>
+        <field name="email_to">${(object.partner_id.email  or '') | safe}</field>
+        <field name="subject">Your membership ${(object.name)} Expired</field>
+        <field name="model_id" ref="dev_membership.model_dev_membership"/>
+        <field name="auto_delete" eval="True"/>
+        <field name="body_html"><![CDATA[
+               	<p>Hello ${object.partner_id.name},</p>
+               	<p>Hope you doing well!</p>
+               	<p>Your membership <b>${(object.name)}</b> was expired on <b>${object.datetime_convert()}</b> date.</p>
+                ]]></field>
+    </record>
+
+</odoo>

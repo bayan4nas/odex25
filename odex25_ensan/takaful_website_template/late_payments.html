@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home Page | الصفحة الرئيسية </title>
+
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/datatables.min.css" />
+    <link rel="stylesheet" href="css/fontawesome-all.min.css" />
+    <link rel="stylesheet" href="css/style.css" />
+
+
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <img src="imgs/logo.png" alt="logo" />
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">الرئيسية <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            عن الجمعية
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="#">Action</a>
+                            <a class="dropdown-item" href="#">Another action</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">Something else here</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            تواصل معنا
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="#">Action</a>
+                            <a class="dropdown-item" href="#">Another action</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">Something else here</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            المتجر
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="#">Action</a>
+                            <a class="dropdown-item" href="#">Another action</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">Something else here</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            الحكومة
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="#">Action</a>
+                            <a class="dropdown-item" href="#">Another action</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">Something else here</a>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">الكفالات</a>
+                    </li>
+                </ul>
+                <div class="nav_actions d-flex align-items-center">
+                    <div class="search">
+                        <span>
+                            <img src="imgs/search.png" alt="search" />
+                        </span>
+                    </div>
+                    <div class="login logged_user">
+                        <div class="dropdown">
+                            <button class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">
+                                <img src="imgs/logged_user.png" alt="logged_user">
+                                <span>بلال عبدالرحمن</span>
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" href="#">
+                                    <img src="imgs/settings-svgrepo-com.png" alt="setting">
+                                    <span> الاعدادات </span>
+                                </a>
+                                <a class="dropdown-item" href="#">
+                                    <img src="imgs/Icon material-notifications-active.png" alt="notifications">
+                                    <span> الاشعارات  </span>
+                                </a>
+                                <a class="dropdown-item" href="#"> 
+                                    <img src="imgs/XMLID_857_.png" alt="setting">
+                                    <span>  سجل الإهداءات   </span>    
+                                </a>
+                                <a class="dropdown-item" href="payments.html"> 
+                                    <img src="imgs/money-report-svgrepo-com.png" alt="money">
+                                    <span>  السجل المالي     </span>    
+                                </a>
+                                <a class="dropdown-item" href="#"> 
+                                    <img src="imgs/logout-svgrepo-com.png" alt="setting">
+                                    <span>  تسجيل الخروج    </span>    
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <span class="separator">
+                        <img src="imgs/separator.png" alt="">
+                    </span>
+                    <div class="cart">
+                        <a href="#">
+                            <img src="imgs/shopping-cart.png" alt="cart" />
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <section class="guarantees padding_top">
+        <div class="container">
+            <h2 class="heading">السجل المالي </h2>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#"> السجل المالي </a></li>
+                    <li class="breadcrumb-item active" aria-current="page"> مدفوعات </li>
+                </ol>
+            </nav>
+            <div class="guarantee_header">
+                <div class="departments d-flex">
+
+                    <a href="payments.html" class="box ">
+                        <div class="img">
+                            <img src="imgs/payments.png" alt="payments">
+                        </div>
+                        <h5 class="description text-center"> مدفوعات </h5>
+                    </a>
+                    <a href="late_payments.html" class="box active">
+                        <div class="img">
+                            <img src="imgs/late_payments.png" alt="late_payments">
+                        </div>
+                        <h5 class="description text-center"> متأخرات </h5>
+                    </a>
+                </div>
+            </div>
+
+            <section class="my_data sadad  late_payments_data">
+                <table id="table_id" class="display w-100">
+                    <thead>
+                        <tr>
+                            <th>الرقم</th>
+                            <th>الاسم</th>
+                            <th>رقم الكفالة </th>
+                            <th>نوع المستفيد </th>
+                            <th>تاريخ بدء لكفالة </th>
+                            <th> قيمة الكفالة   </th>
+                            <th> مدة التأخير  </th>
+                            <th style="padding:24px ;"> </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="expired">
+                            <td>4</td>
+                            <td>أحمد عبد الله محمد</td>
+                            <td>2564830</td>
+                            <td>يتيم </td>
+                            <td>22/10/2022</td>
+                            <td>350 ر.س </td>
+                            <td>20 يوم  </td>
+                            <td class="expired_td">
+                                <div class="d-flex align-items-center justify-content-center">
+                                    <a href="#" class="sadad_link m-0 payment_sadad d-block w-100">    سداد </a>
+                                    <a  href="#" class="sadad_link payment_cancel d-block w-100">    الغاء </a>
+                                </div>
+                            </td>
+
+                        </tr>
+                        
+                        <tr class="expired">
+                            <td>4</td>
+                            <td>أحمد عبد الله محمد</td>
+                            <td>2564830</td>
+                            <td>يتيم </td>
+                            <td>22/10/2022</td>
+                            <td>350 ر.س </td>
+                            <td>20 يوم  </td>
+                            <td class="expired_td">
+                                <div class="d-flex align-items-center justify-content-center">
+                                    <a href="#" class="sadad_link m-0 payment_sadad d-block w-100">    سداد </a>
+                                    <a  href="#" class="sadad_link payment_cancel d-block w-100">    الغاء </a>
+                                </div>
+                            </td>
+
+                        </tr>
+                        <tr class="expired">
+                            <td>4</td>
+                            <td>أحمد عبد الله محمد</td>
+                            <td>2564830</td>
+                            <td>يتيم </td>
+                            <td>22/10/2022</td>
+                            <td>350 ر.س </td>
+                            <td>20 يوم  </td>
+                            <td class="expired_td">
+                                <div class="d-flex align-items-center justify-content-center">
+                                    <a href="#" class="sadad_link m-0 payment_sadad d-block w-100">    سداد </a>
+                                    <a  href="#" class="sadad_link payment_cancel d-block w-100">    الغاء </a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="expired">
+                            <td>4</td>
+                            <td>أحمد عبد الله محمد</td>
+                            <td>2564830</td>
+                            <td>يتيم </td>
+                            <td>22/10/2022</td>
+                            <td>350 ر.س </td>
+                            <td>20 يوم  </td>
+                            <td class="expired_td">
+                                <div class="d-flex align-items-center justify-content-center">
+                                    <a href="#" class="sadad_link m-0 payment_sadad d-block w-100">    سداد </a>
+                                    <a  href="#" class="sadad_link payment_cancel d-block w-100">    الغاء </a>
+                                </div>
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+                </table>
+            </section>
+        </div>
+    </section>
+
+    <!-- Modal -->
+    <div class="modal kafala_modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title heading" id="exampleModalLongTitle">إنشاء كفالة جماعية</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <img src="imgs/close.png" alt="close" />
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="">
+                        <div class="row">
+                            <div class="form-group col-lg-6">
+                                <label for="myCity" class=" control-label"> نوع المكفولين </label>
+                                <select id="myCity" class="custom-select">
+                                    <option selected="">ايتام</option>
+                                    <option value="1">ارامل </option>
+                                </select>
+                            </div>
+
+                            <div class="form-group col-lg-6">
+                                <label for="myCity" class=" control-label"> نسبة الاحتياج </label>
+                                <select id="myCity" class="custom-select">
+                                    <option selected="">95%</option>
+                                    <option value="1">80% </option>
+                                </select>
+                            </div>
+
+                            <div class="form-group col-lg-6">
+                                <label for="myCity" class=" control-label"> الاعمار </label>
+                                <select id="myCity" class="custom-select">
+                                    <option selected="">اكثر من خمس سنوات </option>
+                                    <option value="1">متزوج </option>
+                                </select>
+                            </div>
+                            <div class="form-group col-lg-6">
+                                <label for="myCity" class=" control-label"> اختر المكفولين </label>
+                                <select id="myCity" class="custom-select">
+                                    <option selected="">احمد حسن </option>
+                                    <option value="1">محمد ابراهيم </option>
+                                </select>
+                            </div>
+
+                            <div class="form-group col-lg-6">
+                                <label for="work" class="control-label">عدد المكفولين </label>
+                                <div class="">
+                                    <input type="text" class="form-control" id="work" name="work"
+                                        placeholder="كما موضح في بطاقة الهوية">
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-6">
+                                <label for="myCity" class=" control-label"> فترة الكفالة </label>
+                                <select id="myCity" class="custom-select">
+                                    <option selected="">اعزب</option>
+                                    <option value="1">متزوج </option>
+                                </select>
+                            </div>
+
+                            <div class="form-group col-lg-6">
+                                <label for="myCity" class=" control-label"> مدة الكفالة </label>
+                                <select id="myCity" class="custom-select">
+                                    <option selected="">سنوات</option>
+                                    <option value="1"> شهور </option>
+                                </select>
+                            </div>
+
+                            <div class="form-group col-lg-6">
+                                <label for="month_number" class="control-label">عدد الشهور </label>
+                                <div class="">
+                                    <input type="text" value="4" class="form-control" id="month_number"
+                                        name="month_number">
+                                </div>
+                            </div>
+
+                            <div class="form-group col-lg-6">
+                                <label for="years_number" class="control-label">عدد السنوات </label>
+                                <div class="">
+                                    <input type="text" value="5" class="form-control" id="years_number"
+                                        name="years_number">
+                                </div>
+                            </div>
+
+                            <div class="form-group col-lg-6">
+                                <label for="myCity" class=" control-label"> نوع الكفالة </label>
+                                <select id="myCity" class="custom-select">
+                                    <option selected="">جزئية </option>
+                                    <option value="1"> شهور </option>
+                                </select>
+                            </div>
+
+                            <div class="form-group col-lg-6">
+                                <label for="kafala_amount" class="control-label"> قيمة التحمل للمكفول الواحد </label>
+                                <div class="">
+                                    <input type="text" value="5 ر.س" class="form-control" id="kafala_amount"
+                                        name="kafala_amount">
+                                </div>
+                            </div>
+
+                            <div class="form-group col-lg-6">
+                                <label for="myCity" class=" control-label"> خيارات الدفع </label>
+                                <select id="myCity" class="custom-select">
+                                    <option selected="">شهري </option>
+                                    <option value="1"> سنوي </option>
+                                </select>
+                            </div>
+
+                            <div class="form-group col-lg-12">
+                                <label for="kafala_total" class="control-label"> إجمالي قيمة الكفالة </label>
+                                <div class="">
+                                    <input type="text" value="1200 ر.س" class="form-control" id="kafala_total"
+                                        name="kafala_total">
+                                </div>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary">تأكيد انشاء كفاله جماعية</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/datatables.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#table_id').DataTable({
+                responsive: true,
+                language: {
+                    'paginate': {
+                        'previous': '<img src="imgs/prev.png" alt="prev" />',
+                        'next': '<img src="imgs/next.png" alt="next" />'
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

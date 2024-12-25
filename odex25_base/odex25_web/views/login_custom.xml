@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="custom_login_inherit" inherit_id="web.login">
+        <xpath expr="//div[@class='form-group field-login']/label[@for='login']" position="replace">
+            <label for="login">Username</label>
+        </xpath>
+
+        <xpath expr="//div[@class='form-group field-login']/input[@name='login']" position="attributes">
+            <attribute name="placeholder">Username</attribute>
+        </xpath>
+    </template>
+</odoo>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Project -->
+        <menuitem action="custom_open_view_project_all"
+              id="project.menu_projects"
+              name="Projects"
+              parent="project.menu_main_pm"
+              sequence="1"/>
+
+
+            <!-- #####  Estimated Qty #####-->
+        <menuitem id="project_estimated_quantities"
+                  name="Project Estimated Quantities"
+                  parent="project.menu_main_pm"
+                  sequence="2"/>
+
+        <menuitem id="project_estimated_quantities_menu"
+                  parent="project_estimated_quantities"
+                  sequence="1"
+                  action="view_project_estimated_quantities_action"/>
+
+        <menuitem id="work_item_menu"
+                  parent="project_estimated_quantities"
+                  sequence="5"
+                  action="view_work_item_action"/>
+
+
+    <!-- #####  Installment #####-->
+        <menuitem id="project_installment"
+                  name="Project Installment"
+                  parent="project.menu_main_pm"
+                  sequence="3"/>
+
+</odoo>

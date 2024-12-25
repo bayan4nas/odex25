@@ -1,0 +1,15 @@
+{
+    'name': 'Odex Benefit Project',
+    'category': 'Grant Managment',
+    'summary': '<Integration between services and projects',
+    'version': '1.0',
+    'sequence': 4,
+    'website': 'http://exp-sa.com',
+    'license': 'GPL-3',
+    'author': 'Expert Ltd',
+    'depends': ['odex_benefit','project_base'],
+    'data': ['views/services_settings_inherit.xml',
+             'views/project_project_inherit.xml',
+             'views/service_request_inherit.xml',
+             ],
+}

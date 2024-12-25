@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Inherit Account Voucher for sale receipt form -->
+    <record id="account_svoucher_inherit" model="ir.ui.view">
+        <field name="name">account.voucher.form.inherit</field>
+        <field name="model">account.voucher</field>
+        <field name="inherit_id" ref="account_voucher.view_sale_receipt_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='state']" position="attributes">
+                <attribute name="statusbar_visible">draft,posted</attribute>
+            </xpath>
+            <xpath expr="//field[@name='tax_ids']" position="attributes">
+                <attribute name="string">Tax Custom</attribute>
+                <attribute name="domain">[('projects_percentage','=',True)]</attribute>
+            </xpath>
+            <xpath expr="//field[@name='tax_amount']" position="attributes">
+                <attribute name="string">Tax Amount Custom</attribute>
+            </xpath>
+            <xpath expr="//button[@name='proforma_voucher']" position="replace">
+                <button name="action_cancel_draft" string="Accountant" type="object" class="oe_highlight" groups="odex_takaful_custom.group_accountant"/>
+            </xpath>
+            <xpath expr="//button[@name='cancel_voucher'][1]" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//button[@name='cancel_voucher'][2]" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+<!--            <xpath expr="//field[@name='line_ids']//tree//field[@name='tax_ids']" position="after">-->
+<!--                    <field name="tax_ids_custom" widget="many2many_tags"/>-->
+<!--            </xpath>-->
+            <xpath expr="//header/field[@name='state']" position="before">
+<!--                <button name="proforma_action" string="financial manager" type="object" class="oe_highlight" groups="odex_takaful_custom.group_financial_dep_manager"/>-->
+                <button name="proforma_voucher" string="Review" type="object" class="oe_highlight" groups="odex_takaful_custom.group_cashier"/>
+<!--                <button name="board_representative_action" string="Representative Action" type="object" class="oe_highlight" groups="odex_takaful_custom.group_board_representative"/>-->
+<!--                <button name="action_done" type="object" string="Done" class="oe_highlight"/>-->
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Inherit Account Voucher for purchase receipt form -->
+    <record id="account_pvoucher_inherit" model="ir.ui.view">
+        <field name="name">account.voucher.form.inherit</field>
+        <field name="model">account.voucher</field>
+        <field name="inherit_id" ref="account_voucher.view_purchase_receipt_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='state']" position="attributes">
+                <attribute name="statusbar_visible">draft,proforma,posted,board representative,done</attribute>
+            </xpath>
+            <xpath expr="//button[@name='proforma_voucher']" position="replace">
+                <button name="action_cancel_draft" string="Accountant" type="object" class="oe_highlight" groups="odex_takaful_custom.group_accountant" states="draft,proforma"/>
+            </xpath>
+            <xpath expr="//button[@name='cancel_voucher'][1]" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//button[@name='cancel_voucher'][2]" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <xpath expr="//header/field[@name='state']" position="before">
+                <button name="proforma_action" string="financial manager" type="object" class="oe_highlight" groups="odex_takaful_custom.group_financial_dep_manager" states="draft"/>
+                <button name="proforma_voucher" string="Cashier" type="object" class="oe_highlight" groups="odex_takaful_custom.group_cashier" states="proforma"/>
+                <button name="board_representative_action" string="Representative Action" type="object" class="oe_highlight" groups="odex_takaful_custom.group_board_representative" states="posted"/>
+                <button name="action_done" type="object" string="Done" class="oe_highlight" states="board representative"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

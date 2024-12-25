@@ -1,0 +1,744 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Project Project -->
+    <record id="view_edit_project_inherit_form" model="ir.ui.view">
+        <field name="name">project.project.view.inherit</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.edit_project"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button class="btn btn-primary" type="object" name="create_invoice" string="Create Invoice" attrs="{'invisible':['|', '|', ('sale_order_id', '=', False), ('state', '!=', 'done'),('to_invoice', '=', False)]}" />
+            </xpath>
+
+            <xpath expr="//sheet" position="before">
+                <div class="alert alert-danger" role="alert" style="margin-bottom:0px;" attrs="{'invisible':['|',('status', 'not in', ('close')),('close_reason', '=', False)]}">
+                    <field name="close_reason" attrs="{'readonly': True}" />
+                </div>
+            </xpath>
+            <div class="oe_button_box" position="inside">
+                <!-- TODO : open if use sub-project 
+                <button class="d-none d-md-inline oe_stat_button" type="object" name="action_view_subproject" icon="fa-code-fork" attrs="{'invisible': [('sub_project_id', '=', [])]}" string="Sub-Projects">
+                    <field name="sub_project_id" attrs="{'invisible': True}"/>
+                </button>-->
+                <button type="object" name="action_project_invoice" icon="fa-edit" context="{'default_project_id':active_id}">
+                    <div class="o_form_field o_stat_info">
+                        <span class="o_stat_value">
+                            <field name="total_invoiced_amount" />
+                        </span>
+                        <span class="o_stat_text">Invoices</span>
+                    </div>
+                </button>
+                <button class="d-none d-md-inline oe_stat_button" type="object" name="action_view_expense" icon="fa-dollar" string="Expenses">
+                </button>
+                <button class="d-none d-md-inline oe_stat_button" type="object" name="action_view_purchase" icon="fa-credit-card" string="Purchase">
+                </button>
+            </div>
+
+            <!-- Project status -->
+            <xpath expr="//widget[@name='web_ribbon']" position="before">
+                <widget name="web_ribbon" title="Running" bg_color="bg-info" attrs="{'invisible': [('status', '!=', 'open')]}" />
+                <widget name="web_ribbon" title="Hold" bg_color="bg-danger" attrs="{'invisible': [('status', '!=', 'hold')]}" />
+                <widget name="web_ribbon" title="Closed" attrs="{'invisible': [('status', '!=', 'close')]}" />
+            </xpath>
+
+            <xpath expr="//button[@name='%(portal.portal_share_action)d']" position="attributes">
+                <attribute name="attrs">{'invisible':True}</attribute>
+            </xpath>
+            <xpath expr="//header" position="inside">
+                <button name="action_confirm" string="Confirm" type="object" attrs="{'invisible':[('state','not in',['draft'])]}" class="oe_highlight" groups="project_base.group_project_department_manager" />
+                <button name="action_done" string="Done" type="object" attrs="{'invisible':[('state','not in',['confirm'])]}" class="oe_highlight" groups="project.group_project_manager" />
+                <button name="action_draft" string="Set to Draft" type="object" icon="fa-rotate-right" attrs="{'invisible':[('state','in',['draft'])]}" groups="project.group_project_manager" />
+
+
+                <button name="action_open" string="Open" type="object" attrs="{'invisible':['|',('state','not in',['done']),('status','in',['open','hold','pending','close'])]}" groups="project.group_project_manager" class="btn-info" icon="fa-caret-right" />
+                <button name="action_reopen" string="Re Open" type="object" attrs="{'invisible':['|',('state','not in',['done']),('status','not in',['hold','pending','close'])]}" groups="project.group_project_manager" class="btn-info" icon="fa-rotate-right" />
+                <button name="%(project_base.action_project_hold)d" string="Hold" type="action" attrs="{'invisible':[('status','not in',['open'])]}" groups="project.group_project_manager" class="btn-danger" icon="fa-pause" />
+                <button name="action_close" string="Close" type="object" attrs="{'invisible':[('status','not in',['open'])]}" groups="project.group_project_manager" class="btn-success" icon="fa-power-off" />
+                <field name="state" widget="statusbar" statusbar_visible="draft,confirm,approve,review,done" />
+
+            </xpath>
+            <xpath expr="//div[hasclass('oe_title')]" position="replace">
+                <div class="oe_title">
+                    <h1>
+                        <field name="name" placeholder="Project Name" attrs="{'readonly':[('state','not in',['draft','confirm'])],'required':True}" />
+                    </h1>
+                    <div name="options_active">
+                        <div>
+                            <label for="project_no" class="oe_inline" string="Project #:" />
+                            <field name="project_no" attrs="{'readonly':True}" />
+                        </div>
+                    </div>
+                </div>
+                <group>
+                    <group>
+                        <field name="to_invoice" invisible="1" />
+                        <field name="status" attrs="{'invisible':[('active','=',True)],'readonly':True}" />
+                        <field name="category_id" options="{'no_create': True}" attrs="{'readonly':[('state','not in',['draft','confirm'])],'required':[('state','not in',['draft'])]}" />
+                        <field name="partner_id" string="Partner" attrs="{'readonly':[('state','not in',['draft','confirm'])],'required':True}" />
+
+                        <field name="consultant_id" attrs="{'readonly':[('state','not in',['draft','confirm'])]}" />
+                        <field name="beneficiary_id" attrs="{'readonly':[('state','not in',['draft','confirm'])]}" />
+                        <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}" />
+
+                    </group>
+                    <group>
+                        <field name="department_id" attrs="{'readonly':[('state','not in',['draft','confirm'])]}" />
+                        <field name="department_execute_id"/>
+                        <field name="user_id" widget="many2one_avatar_user" attrs="{'readonly':[('state','not in',['draft'])],'required':True}" />
+                        <label for="start" string="Period" />
+                        <div name="dates" class="o_row">
+                            <field name="start" attrs="{'readonly':[('state','not in',['draft','confirm'])],'required':[('state','not in',['draft'])]}" />
+                            <i class="fa fa-long-arrow-right mx-2 oe_edit_only" aria-label="Arrow icon" title="Arrow" />
+                            <i class="fa fa-long-arrow-right mx-2 oe_read_only" aria-label="Arrow icon" title="Arrow" attrs="{'invisible': [('start', '=', False), ('date', '=', False)]}" />
+                            <field name="date" attrs="{'readonly':[('state','not in',['draft','confirm'])],'required':[('state','not in',['draft'])]}" />
+                        </div>
+                        <field name="launch_date" invisible="1"/>
+                        <field name="progress" widget="progressbar" />
+                    </group>
+                </group>
+            </xpath>
+            <xpath expr="//page[@name='settings']" position="attributes">
+                <attribute name="groups">project_base.group_project_department_manager</attribute>
+            </xpath>
+            <xpath expr="//page[@name='settings']/group/group/field[@name='user_id']" position="replace" />
+
+            <xpath expr="//page[@name='settings']/group/group/field[@name='partner_id']" position="replace" />
+
+            <xpath expr="//page[@name='settings']/group/group/field[@name='partner_phone']" position="attributes">
+                <attribute name="attrs">{'invisible':True}</attribute>
+            </xpath>
+            <xpath expr="//page[@name='settings']/group/group/field[@name='partner_email']" position="attributes">
+                <attribute name="attrs">{'invisible':True}</attribute>
+            </xpath>
+            <xpath expr="//page[@name='settings']/group/group/div[@name='alias_def']" position="attributes">
+                <attribute name="attrs">{'invisible':True}</attribute>
+            </xpath>
+            <xpath expr="//page[@name='settings']/group/group/field[@name='alias_contact']" position="attributes">
+                <attribute name="attrs">{'invisible':True}</attribute>
+            </xpath>
+
+
+            <xpath expr="//div[@id='rating_settings']" position="attributes">
+                <attribute name="attrs">{'invisible':True}</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='active']" position="after">
+
+                <field name="resource_calendar_id" attrs="{'readonly':[('state','not in','draft')]}" />
+                <field name="type" attrs="{'readonly':[('state','not in','draft')]}" />
+
+                <field name="invoice_method" attrs="{'required':True,'readonly':[('state','not in',['draft'])]}" widget="radio" />
+                <label for="invoice_period" attrs="{'invisible':[('invoice_method','!=','per_period')]}" />
+                <div class="oe_inline" style="display: inline;" attrs="{'invisible':[('invoice_method','!=','per_period'),],'required': [('invoice_method','=','per_period')],'readonly':[('state','not in',['draft'])]}">
+                    <field name="invoice_period" class="oe_inline" />
+                    <span class="oe_inline">Days</span>
+                </div>
+                <field name="man_hours" />
+                <field name="type_ids" widget="many2many_tags" />
+            </xpath>
+            <xpath expr="//field[@name='description']" position="attributes">
+                <attribute name="attrs">{'readonly':[('state','not in',['draft','confirm'])]}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='company_id']" position="attributes">
+                <attribute name="attrs">{'readonly':True}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='analytic_account_id']" position="attributes">
+                <attribute name="attrs">{'readonly':[('state','not in',['draft','confirm'])]}</attribute>
+            </xpath>
+
+
+            <xpath expr="//page[@name='description_page']" position="before">
+                <page name="project_phase" attrs="{'invisible':[('state','in',['draft'])]}" string="Project Phases">
+                    <field name="project_phase_ids" nolabel="1" attrs="{'readonly':[('state','not in',['confirm'])]}">
+                        <tree>
+
+                            <field name="phase_id" attrs="{'required':True,'readonly':[('state','not in',['draft'])]}" />
+                            <field name="start_date" attrs="{'required':True,'readonly':[('state','not in',['draft'])]}" />
+                            <field name="end_date" attrs="{'required':True,'readonly':[('state','not in',['draft'])]}" />
+                            <field name="weight" />
+                            <field name="progress" widget="progressbar" />
+                            <field name="estimated_hours" attrs="{'required':True,'readonly':[('state','not in',['draft'])],'column_invisible': [('parent.man_hours', '=', False)]}" widget="float_time" sum="estimated_hours" />
+                            <field name="state" />
+                            <button name="action_confirm" string="Open" type="object" class="btn-info" icon="fa-caret-right" attrs="{'invisible':[('state','not in',['draft'])]}" />
+                            <button name="action_close" string="Close" type="object" class="btn-success" icon="fa-power-off" attrs="{'invisible':[('state','not in',['open'])]}" />
+                            <button name="action_reopen" string="Re Open" type="object" class="btn-info" icon="fa-rotate-right" attrs="{'invisible':[('state','not in',['close'])]}" />
+                            <field name="task_count" />
+                            <button class="d-none d-md-inline oe_stat_button" type="object" name="action_project_phase_task" icon="fa-tasks">
+                                <field name="task_ids" attrs="{'invisible': True}" />
+                            </button>
+                        </tree>
+                    </field>
+                </page>
+            </xpath>
+            <xpath expr="//page[@name='description_page']" position="after">
+
+                <page name="team" string="Project Team">
+                    <field name="project_team_ids" nolabel="1">
+                        <tree editable="top">
+                            <field name="employee_id" required="1" />
+                            <field name="department_id" optional="hide" />
+                            <field name="job_id" optional="hide" />
+                            <field name="project_job" force_save="1" required="1" />
+                            <field name="project_id" invisible="1" />
+                        </tree>
+                    </field>
+                </page>
+                <page name="invoice" string="Invoicing" attrs="{'invisible':['|',('state','in',['draft']),('type','=','internal')]}">
+                    <group>
+                        <group>
+                            <field name="contract_number" attrs="{'readonly':[('state','not in',['draft','confirm'])],'required':False}" />
+                            <field name="signature_date" attrs="{'readonly':[('state','not in',['draft','confirm'])]}" />
+                        </group>
+                        <group>
+                            <field name="contract_value_untaxed" attrs="{'readonly':[('state','not in',['draft','confirm'])],'required':[('state','not in',['draft','done'])]}" />
+                            <field name="tax_amount" attrs="{'readonly':[('state','not in',['draft','confirm'])],'required':[('state','not in',['draft','done'])]}" />
+                            <field name="contract_value" attrs="{'readonly':[('state','not in',['draft','confirm'])],'required':[('state','not in',['draft','done'])]}" />
+                            <field name="consultant_cost" attrs="{'readonly':[('state','not in',['draft','confirm'])],'required':[('state','not in',['draft','done'])]}" />
+                        </group>
+                    </group>
+                    <field name="invoice_ids" nolabel="1">
+                        <tree decoration-info="invoice_type=='variation_order'">
+                            <field name="name" string="Description" />
+                            <field name="phase_id" />
+                            <field name="plan_date" required="1" />
+                            <field name="project_id" invisible="1" />
+                            <field name="invoice_type" invisible="1" />
+                            <field name="amount" sum="Amount" />
+                            <field name="actual_date" />
+                            <field name="plan_payment_date" />
+                            <field name="actual_payment_date" />
+                            <field name="to_invoice" invisible="1" />
+                            <field name="invoice_type" />
+                            <field name="payment_state" widget="badge" decoration-danger="payment_state == 'not_paid'" decoration-warning="payment_state in ('partial', 'in_payment')" decoration-success="payment_state in ('paid', 'reversed')" attrs="{'invisible': [('payment_state', 'in', ('invoicing_legacy'))]}"/>
+                            <field name="state" />
+                            <!-- <button name="action_confirm" type="object" icon="fa-check" attrs="{'invisible':[('state','not in',['draft'])]}" />
+                            <button name="action_get_invoice" type="object" string="Details" icon="fa-list" /> -->
+                        </tree>
+                    </field>
+
+                    <group name="note_group" col="6" class="mt-2 mt-md-0">
+                        <group colspan="4">
+                        </group>
+                        <group class="oe_subtotal_footer oe_right" colspan="2" name="project_total">
+                            <field name="total_invoiced_amount" widget="monetary" force_save="1" />
+
+                            <div class="oe_subtotal_footer_separator oe_inline o_td_label">
+                                <label for="total_invoiced_payment" />
+                            </div>
+                            <field name="total_invoiced_payment" force_save="1"  nolabel="1" class="oe_subtotal_footer_separator" widget="monetary" options="{'currency_field': 'currency_id'}" />
+
+                            <div class="oe_subtotal_footer_separator oe_inline o_td_label">
+                                <label for="residual_amount" />
+                            </div>
+                            <field name="residual_amount" force_save="1"  nolabel="1" class="oe_subtotal_footer_separator" widget="monetary" options="{'currency_field': 'currency_id'}" />
+                        </group>
+                        <div class="oe_clear" />
+                    </group>
+
+                </page>
+                <page name="location" attrs="{'invisible':[('state','=','draft')]}" string="Location">
+                    <group>
+                        <group>
+                            <span class="o_form_label o_td_label" name="address_name">
+                                <b>Address</b>
+                            </span>
+                            <div class="o_address_format">
+                                <field name="street" placeholder="Street..." class="o_address_street" attrs="{'readonly':[('state','not in',['draft','confirm'])]}" />
+                                <field name="street2" placeholder="Street 2..." class="o_address_street" attrs="{'readonly':[('state','not in',['draft','confirm'])]}" />
+                                <field name="city" placeholder="City" class="o_address_city" attrs="{'readonly':[('state','not in',['draft','confirm'])]}" />
+                                <field name="state_id" class="o_address_state" placeholder="Region" options="{'no_open': True, 'no_quick_create': True}" attrs="{'readonly':[('state','not in',['draft','confirm'])]}" context="{'country_id': country_id, 'default_country_id': country_id, 'zip': zip}" />
+                                <field name="zip" placeholder="ZIP" class="o_address_zip" attrs="{'readonly':[('state','not in',['draft','confirm'])]}" />
+                                <field name="country_id" placeholder="Country" class="o_address_country" options="{&quot;no_open&quot;: True, &quot;no_create&quot;: True}" attrs="{'readonly':[('state','not in',['draft','confirm'])]}" />
+                            </div>
+                        </group>
+                    </group>
+                </page>
+
+                <page name="lesson_learned"  attrs="{'invisible':[('state','not in',['done'])]}" string="Lesson Learned">
+                    <field name="lessons_learned" />
+                </page>
+            </xpath>
+            <xpath expr="//field[@name='message_follower_ids']" position="after">
+                <field name="message_ids" />
+            </xpath>
+            <xpath expr="//field[@name='privacy_visibility']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='allowed_internal_user_ids']" position="attributes">
+                <attribute name="attrs">{}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='allowed_portal_user_ids']" position="attributes">
+                <attribute name="attrs">{}</attribute>
+            </xpath>
+            
+        </field>
+    </record>
+    <!-- Inherit Project Search -->
+    <record id="view_project_project_filter_inherit" model="ir.ui.view">
+        <field name="name">project.project.select</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.view_project_project_filter" />
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='Manager']" position="before">
+                <filter string="Project Category" name="Category" context="{'group_by': 'category_id'}" />
+                <filter string="Status" name="Status" context="{'group_by': 'status'}" />
+            </xpath>
+            <xpath expr="//field[@name='partner_id']" position="replace">
+                <field name="partner_id" string="Partner" filter_domain="[('partner_id', 'child_of', self)]" />
+            </xpath>
+            <xpath expr="//filter[@name='Partner']" position="replace">
+                <filter string="Partner" name="Partner" context="{'group_by': 'partner_id'}" />
+            </xpath>
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="project_no" string="Project Number" />
+            </xpath>
+            <xpath expr="//filter[@name='followed_by_me']" position="replace">
+                <filter string="Open" name="open" domain="[('status','=','open')]" />
+                <filter string="Hold" name="hold" domain="[('status','=','hold')]" />
+                <filter string="Closed" name="closed" domain="[('status','=','closed')]" />
+                <searchpanel>
+                    <field name="category_id" string="Categories" enable_counters="1" />
+                </searchpanel>
+            </xpath>
+
+        </field>
+    </record>
+    <!-- Inherit Form Kanban -->
+    <record id="quick_create_task_inherit_form" model="ir.ui.view">
+        <field name="name">project.project.view.inherit</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.quick_create_task_form" />
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="phase_id" options="{'no_open': True,'no_create': True}"/>
+                <field name="weight"/>
+            </xpath>
+
+        </field>
+    </record>
+    <record id="view_project_new_calendar" model="ir.ui.view">
+        <field name="name">Project</field>
+        <field name="model">project.project</field>
+        <field name="arch" type="xml">
+            <calendar string="Projects" date_start="start" date_stop="date" mode="year" quick_add="False" color="category_id">
+                <field name="name"/>
+                <field name="category_id" filters="1" invisible="1" color="color"/>
+            </calendar>
+        </field>
+    </record>
+    <!-- Project New kanban -->
+    <record model="ir.ui.view" id="view_new_project_kanban">
+        <field name="name">project.project.kanban</field>
+        <field name="model">project.project</field>
+        <field name="arch" type="xml">
+            <kanban string="Project Overview" class="o_emphasize_colors o_kanban_dashboard o_slide_kanban o_slide_channel_kanban" sample="1">
+                <field name="name" />
+                <field name="project_no" />
+                <field name="partner_id" />
+                <field name="color" />
+                <field name="is_favorite" />
+                <field name="analytic_account_id" />
+                <field name="start" />
+                <field name="date" />
+                <field name="doc_count" />
+                <field name="status" />
+                <field name="state" />
+                <field name="progress" />
+                <templates>
+
+                    <t t-name="kanban-box">
+
+                        <div t-attf-class="oe_kanban_color_#{kanban_getcolor(record.color.raw_value)} oe_kanban_card oe_kanban_global_click">
+                            <div class="o_kanban_card_header">
+
+
+                                <div class="o_kanban_card_header_title mb16">
+                                    <div class="o_primary">
+                                        <a type="edit" class="me-auto">
+                                            <field name="is_favorite" widget="boolean_favorite" nolabel="1" force_save="1" />
+                                            <span> . </span>
+                                            <span>
+                                                <field name="name" class="o_primary" />
+                                            </span>
+                                            <br />
+                                            <span>
+                                                <field name="project_no" class="o_primary" />
+                                            </span>
+                                        </a>
+                                        <br />
+                                        <span class="o_text_overflow text-muted" t-if="record.partner_id.value">
+                                            <span class="fa fa-user mr-2" aria-label="Partner" title="Partner"></span>
+                                            <t t-esc="record.partner_id.value" />
+                                        </span>
+                                    </div>
+                                    <div t-if="record.date.raw_value or record.start.raw_value" class="text-muted o_row">
+                                        <span class="fa fa-clock-o mr-2" title="Dates"></span>
+                                        <field name="start" />
+                                        <i t-if="record.date.raw_value and record.start.raw_value" class="fa fa-long-arrow-right mx-2 oe_read_only" aria-label="Arrow icon" title="Arrow" />
+                                        <field name="date" />
+                                    </div>
+                                    <div t-if="record.tag_ids" class="w-75">
+                                        <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}" />
+                                    </div>
+                                    <field name="status" widget="badge" decoration-success="status == 'close'" decoration-info="status == 'open'" decoration-danger="status in ['hold','pending']" />
+                                </div>
+                                <div class="container o_kanban_card_manage_pane dropdown-menu" role="menu" groups="base.group_user">
+                                    <div class="row">
+                                        <div class="col-6 o_kanban_card_manage_section o_kanban_manage_view">
+                                            <div role="menuitem" class="o_kanban_card_manage_title">
+                                                <span>View</span>
+                                            </div>
+                                            <div role="menuitem">
+                                                <a name="action_view_tasks" type="object">Tasks</a>
+                                            </div>
+                                            <div role="menuitem" t-if="record.doc_count.raw_value">
+                                                <a name="attachment_tree_view" type="object">
+                                                    Documents</a>
+                                            </div>
+                                        </div>
+                                        <div class="col-6 o_kanban_card_manage_section o_kanban_manage_reporting" groups="project.group_project_manager">
+                                            <div role="menuitem" class="o_kanban_card_manage_title">
+                                                <span>Reporting</span>
+                                            </div>
+                                            <div role="menuitem">
+                                                <a name="%(project_base.report_project_detail)d" type="action">Project
+                                                    Charter
+                                                </a>
+                                            </div>
+                                            <div role="menuitem">
+                                                <a name="action_view_tasks_analysis" type="object">Tasks
+                                                    Analysis
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="o_kanban_card_manage_settings row" groups="project.group_project_manager">
+                                        <div role="menuitem" aria-haspopup="true" class="col-8">
+                                            <ul class="oe_kanban_colorpicker" data-field="color" role="popup" />
+                                        </div>
+                                        <div role="menuitem" class="col-4">
+                                            <a class="dropdown-item" role="menuitem" type="edit" name="action_view_kanban_project">Edit
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a class="o_kanban_manage_toggle_button o_dropdown_kanban" href="#" groups="base.group_user">
+                                    <i class="fa fa-ellipsis-v" role="img" aria-label="Manage" title="Manage" />
+                                </a>
+
+                            </div>
+
+                            <div class="container o_kanban_card_content mt1">
+
+                                <div class="row mb16">
+                                    <div class="col-4 o_kanban_primary_left">
+                                        <button class="btn btn-primary" name="action_creat_tasks" type="object">Task</button>
+                                    </div>
+                                    <div class="col-4 ">
+
+                                        <div class="d-flex" name="info_avg_rating" t-if="record.no_of_invoices.raw_value">
+                                            <a name="action_project_invoice" type="object" class="me-auto"> Invoices<field name="no_of_invoices" />
+                                            </a>
+                                        </div>
+                                        <div class="d-flex" name="info_paid" t-if="record.no_of_invoices.raw_value">
+                                            <a name="action_paid_invoice" type="object" class="me-auto"> Paid<field name="no_of_paid_invoices" />
+                                            </a>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-4 o_kanban_primary_right">
+
+                                        <div class="d-flex" name="info_avg_invoiced" t-if="record.no_of_invoices.raw_value">
+                                            <span>
+                                                <field name="total_invoiced_amount" />
+                                            </span>
+                                        </div>
+                                        <div class="d-flex" name="info_total_paid" t-if="record.no_of_invoices.raw_value">
+                                            <span>
+                                                <field name="total_invoiced_payment" />
+                                            </span>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="row mt3 o_kanban_card_attendees_buttons">
+                                    <div class="col-3 border-end">
+                                        <a name="action_view_new_tasks" type="object" class="d-flex flex-column align-items-center">
+                                            <field name="task_count_new" class="fw-bold" />
+                                            <span class="text-muted">New</span>
+                                        </a>
+                                    </div>
+                                    <div class="col-3 border-end">
+                                        <a name="action_view_inprogress_tasks" type="object" class="d-flex flex-column align-items-center">
+                                            <field name="task_count_inprogress" class="fw-bold" />
+                                            <span class="text-muted">In progress</span>
+                                        </a>
+                                    </div>
+                                    <div class="col-3 border-end">
+                                        <a name="action_view_finished_tasks" type="object" class="d-flex flex-column align-items-center">
+                                            <field name="task_count_finished" class="fw-bold" />
+                                            <span class="text-muted">Finished</span>
+                                        </a>
+                                    </div>
+                                    <div class="col-3">
+                                        <a name="action_view_tasks" type="object" class="d-flex flex-column align-items-center">
+                                            <field name="task_count_all" class="fw-bold" />
+                                            <span class="text-muted">All</span>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="o_kanban_record_bottom mt-3">
+                                    <div class="oe_kanban_bottom_left">
+                                        <field name="progress" widget="progressbar" />
+                                    </div>
+                                    <div class="oe_kanban_bottom_right">
+                                        <field name="user_id" widget="many2one_avatar_user" />
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="act_project_project_2_project_task_finished" model="ir.actions.act_window">
+        <field name="name">Tasks</field>
+        <field name="res_model">project.task</field>
+        <field name="view_mode">kanban,tree,form,calendar,pivot,graph,activity</field>
+        <field name="domain">[('project_id', '=', active_id),('stage_id.is_closed', '=', True)]</field>
+        <field name="context">{
+            'pivot_row_groupby': ['user_id'],
+            'default_project_id': active_id,
+            }</field>
+        <field name="search_view_id" ref="project.view_task_search_form" />
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No tasks found. Let's create one!
+            </p>
+            <p> To get things done, use activities and status on tasks.<br />
+ Chat in real time or
+                by email to collaborate efficiently. </p>
+        </field>
+    </record>
+
+    <record id="act_project_project_2_project_task_inprogress" model="ir.actions.act_window">
+        <field name="name">Tasks</field>
+        <field name="res_model">project.task</field>
+        <field name="view_mode">kanban,tree,form,calendar,pivot,graph,activity</field>
+        <field name="domain">[('project_id', '=', active_id),('stage_id.is_closed', '=', False),
+            ('stage_id.fold', '=', False), ('stage_id.sequence', '!=', 0)]</field>
+        <field name="context">{
+            'pivot_row_groupby': ['user_id'],
+            'default_project_id': active_id,
+            }</field>
+        <field name="search_view_id" ref="project.view_task_search_form" />
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No tasks found. Let's create one!
+            </p>
+            <p> To get things done, use activities and status on tasks.<br />
+ Chat in real time or
+                by email to collaborate efficiently. </p>
+        </field>
+    </record>
+
+    <record id="act_project_project_2_project_task_new" model="ir.actions.act_window">
+        <field name="name">Tasks</field>
+        <field name="res_model">project.task</field>
+        <field name="view_mode">kanban,tree,form,calendar,pivot,graph,activity</field>
+        <field name="domain">[('project_id', '=', active_id),('stage_id.sequence', '=', 0)]</field>
+        <field name="context">{
+            'pivot_row_groupby': ['user_id'],
+            'default_project_id': active_id,
+            }</field>
+        <field name="search_view_id" ref="project.view_task_search_form" />
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No tasks found. Let's create one!
+            </p>
+            <p> To get things done, use activities and status on tasks.<br />
+ Chat in real time or
+                by email to collaborate efficiently. </p>
+        </field>
+    </record>
+    <record id="create_tast_proj" model="ir.actions.act_window">
+        <field name="res_model">project.task</field>
+        <field name="name">Project's tasks</field>
+        <field name="view_mode">form,tree,calendar,graph,kanban</field>
+        <field name="domain">[('project_id', '=', active_id)]</field>
+        <field name="context">{'project_id':active_id,'default_project_id': active_id}</field>
+    </record>
+
+    <record id="project.open_view_project_all" model="ir.actions.act_window">
+        <field name="view_mode">kanban,tree,form,graph</field>
+        <field name="view_id" ref="project_base.view_new_project_kanban" />
+    </record>
+
+    <record id="project.open_view_project_all_config" model="ir.actions.act_window">
+        <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('project.view_project')}),
+                (0, 0, {'view_mode': 'kanban', 'view_id': ref('project_base.view_new_project_kanban')})]" />
+    </record>
+
+
+    <record id="view_project_inherit" model="ir.ui.view">
+        <field name="name">project.project.tree</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.view_project" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="before">
+                <field name="project_no" />
+            </xpath>
+            <xpath expr="//field[@name='company_id']" position="after">
+                <field name="progress" widget="progressbar" />
+                <field name="state" widget="badge" decoration-success="state == 'done'" decoration-info="state == 'draft'" optional="show" />
+                <field name="status" widget="badge" decoration-success="status == 'close'" decoration-info="status == 'open'" decoration-danger="status == 'hold'" optional="show" />
+            </xpath>
+            <xpath expr="//field[@name='user_id']" position="before">
+                <field name="start" />
+                <field name="date" />
+                <field name="launch_date" optional="hide"/>
+            </xpath>
+            <xpath expr="//field[@name='partner_id']" position="replace">
+                <field name="partner_id" optional="show" string="Partner" />
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_edit_project_sale_timesheet" model="ir.ui.view">
+        <field name="name">project.project.view.inherit</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="sale_timesheet.project_project_view_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//div[@id='allow_billable_container']" position="attributes">
+                <attribute name="attrs">{'invisible':True}</attribute>
+            </xpath>
+            <xpath expr="//page[@name='billing_employee_rate']" position="attributes">
+                <attribute name="attrs">{'invisible':True}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='sale_order_id']" position="attributes">
+                <attribute name="context">{'no_create': True, 'no_edit': True, 'delete': False}</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_project_kanban_inherit">
+        <field name="name">project.project.kanban</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.view_project_kanban" />
+        <field name="arch" type="xml">
+            <xpath expr="//div[hasclass('o_primary')]" position="inside">
+                <div class="row">
+                    <div class="col-12">
+                        <span class="float-right">
+                            <field name="status" widget="label_selection" options="{'classes': {'open': 'default', 'pending': 'danger','hold': 'danger','close':'success'}}" />
+                        </span>
+                    </div>
+                </div>
+            </xpath>
+            <xpath expr="//div[hasclass('o_project_kanban_boxes')]/a[@name='action_view_tasks']" position="replace">
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Project Category -->
+    <record id="project_category_form_view" model="ir.ui.view">
+        <field name="name">project.category.form</field>
+        <field name="model">project.category</field>
+        <field name="arch" type="xml">
+            <form string="Project Category">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" required="1" />
+                            <field name="company_id" groups="base.group_multi_company" readonly="1" />
+                            <field name="account_id"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="project_category_tree" model="ir.ui.view">
+        <field name="name">project.category.tree</field>
+        <field name="model">project.category</field>
+        <field name="arch" type="xml">
+            <tree string="Project Category">
+                <field name="name" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="open_project_category_form" model="ir.actions.act_window">
+        <field name="name">Project Category</field>
+        <field name="res_model">project.category</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="project_category_tree" />
+    </record>
+
+    <menuitem action="open_project_category_form" id="menu_project_category" name="Category" parent="project.menu_project_config" sequence="4" groups="project_base.group_project_department_manager" />
+
+    <!-- Project Hold Reason -->
+    <record id="project_hold_reason_form_view" model="ir.ui.view">
+        <field name="name">project.hold.reason.form</field>
+        <field name="model">project.hold.reason</field>
+        <field name="arch" type="xml">
+            <form string="Project Hold Reason">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" required="1" />
+                            <field name="company_id" groups="base.group_multi_company" readonly="1" />
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="project_hold_reason_tree_view" model="ir.ui.view">
+        <field name="name">project.hold.reason.tree</field>
+        <field name="model">project.hold.reason</field>
+        <field name="arch" type="xml">
+            <tree string="Project Hold Reason">
+                <field name="name" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="open_project_hold_reason_form" model="ir.actions.act_window">
+        <field name="name">Project Hold Reason</field>
+        <field name="res_model">project.hold.reason</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="project_hold_reason_tree_view" />
+    </record>
+
+
+    <menuitem action="open_project_hold_reason_form" id="menu_hold_reason" name="Hold Reason" parent="project.menu_project_config" sequence="5" groups="project_base.group_project_department_manager"/>
+
+
+    <!-- TODO: Create Sub-project Action 
+    <record id="sub-project_project_action" model="ir.actions.server">
+        <field name="name">Create Sub-Project</field>
+        <field name="model_id" ref="project.model_project_project"/>
+        <field name="binding_model_id" ref="project.model_project_project"/>
+        <field name="binding_view_types">form</field>
+        <field name="state">code</field>
+        <field name="code">action = records.create_sub_project()</field>
+    </record> -->
+
+
+    <delete model="ir.ui.menu" id="project.menu_project_report_task_analysis" />
+    <!-- TODO Move to timesheet module -->
+    <!-- <delete model="ir.ui.menu" id="sale_timesheet.menu_project_profitability_analysis"/> -->
+    <delete model="ir.ui.menu" id="project.project_menu_config_activity_type" />
+
+</odoo>

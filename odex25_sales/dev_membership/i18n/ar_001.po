@@ -1,0 +1,1432 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* dev_membership
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-08-19 09:22+0000\n"
+"PO-Revision-Date: 2024-08-19 09:22+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: dev_membership
+#: model:mail.template,body_html:dev_membership.dev_membership_expired_mail_template
+msgid ""
+"\n"
+"               \t<p>Hello ${object.partner_id.name},</p>\n"
+"               \t<p>Hope you doing well!</p>\n"
+"               \t<p>Your membership <b>${(object.name)}</b> was expired on <b>${object.datetime_convert()}</b> date.</p>\n"
+"                "
+msgstr ""
+"\n"
+"               \t<p>مرحبا ${object.partner_id.name},</p>\n"
+"               \t<p>آمل أنك تبلي حسنا!</p>\n"
+"               \t<p>عضويتك <b>${(object.name)}</b> لقد انتهت في <b>${object.datetime_convert()}</b> date.</p>\n"
+"     "
+
+#. module: dev_membership
+#: model:mail.template,body_html:dev_membership.dev_cancel_membership_expire
+msgid ""
+"\n"
+"               \t<p>Hello ${object.partner_id.name}.</p>\n"
+"               \t<p>Hope you doing well!</p>\n"
+"               \t<p>It's gentle reminder that your membership is about to Cancelled on ${object.datetime_convert()}.</p>\n"
+"                "
+msgstr ""
+
+#. module: dev_membership
+#: model:mail.template,body_html:dev_membership.dev_membership_expire_reminder_mail_template
+#: model:mail.template,body_html:dev_membership.dev_membership_expire_second_reminder_mail_template
+msgid ""
+"\n"
+"               \t<p>Hello ${object.partner_id.name}.</p>\n"
+"               \t<p>Hope you doing well!</p>\n"
+"               \t<p>It's gentle reminder that your membership is about to expire on ${object.datetime_convert()}.</p>\n"
+"                "
+msgstr ""
+
+#. module: dev_membership
+#: model:mail.template,body_html:dev_membership.dev_cancel_membership_expire2
+msgid ""
+"\n"
+"               \t<p>Hello ${object.user_id.name}.</p>\n"
+"               \t<p>Hope you doing well!</p>\n"
+"               \t<p>It's gentle reminder that your membership is about to Cancelled on ${object.datetime_convert()}.</p>\n"
+"                "
+msgstr ""
+
+#. module: dev_membership
+#: model:mail.template,report_name:dev_membership.template_membership
+msgid "${(object.name)}_Membership"
+msgstr ""
+
+#. module: dev_membership
+#: model_terms:ir.ui.view,arch_db:dev_membership.main_membership_card
+msgid "<b>Description</b>"
+msgstr "<b>الوصف</b>"
+
+#. module: dev_membership
+#: model_terms:ir.ui.view,arch_db:dev_membership.main_membership_card
+msgid "<b>Fees</b>"
+msgstr "<b>رسوم الاشتراك</b>"
+
+#. module: dev_membership
+#: model_terms:ir.ui.view,arch_db:dev_membership.main_membership_card
+msgid "<b>From</b>"
+msgstr "<b>من</b>"
+
+#. module: dev_membership
+#: model_terms:ir.ui.view,arch_db:dev_membership.main_membership_card
+msgid "<b>Member</b>"
+msgstr "<b>العضو</b>"
+
+#. module: dev_membership
+#: model_terms:ir.ui.view,arch_db:dev_membership.main_membership_card
+msgid "<b>Membership</b>"
+msgstr "<b>العضوية</b>"
+
+#. module: dev_membership
+#: model_terms:ir.ui.view,arch_db:dev_membership.main_membership_card
+msgid "<b>To</b>"
+msgstr "<b>إلي</b>"
+
+#. module: dev_membership
+#: model:mail.template,body_html:dev_membership.template_membership
+msgid ""
+"<div style=\"font-family:Arial,Helvetica,sans-serif;font-size:14px;\">\n"
+"                <h3>Hello ${object.partner_id.name},</h3>\n"
+"                <p>Your <b>${object.product_id.name}</b> membership of amount <b>${object.membership_fees}</b> have\n"
+"                    activated on <b>${object.from_date}</b> - <b>${object.to_date}</b> .\n"
+"                </p>\n"
+"                <br/>\n"
+"                <br/>\n"
+"                <br/>\n"
+"                <p>Regards,</p>\n"
+"                <p>${object.company_id.name}</p>\n"
+"            </div>\n"
+"        "
+msgstr ""
+"<div style=\"font-family:Arial,Helvetica,sans-serif;font-size:14px;\">\n"
+"                <h3>مرحبا ${object.partner_id.name},</h3>\n"
+"                <p>Your <b>${object.product_id.name}</b> رسوم الاشتراك <b>${object.membership_fees}</b> تم تفعيلها <b>${object.from_date}</b> - <b>${object.to_date}</b> . </p>\n"
+"                <br/>\n"
+"                <br/>\n"
+"                <br/>\n"
+"                <p>تحياتي,</p>\n"
+"                <p>${object.company_id.name}</p>\n"
+"            </div>\n"
+"        "
+
+#. module: dev_membership
+#: model_terms:ir.ui.view,arch_db:dev_membership.res_dev_membership_config_settings_view_form
+msgid ""
+"<span class=\"o_form_label\">Membership Auto Cancellation\".\n"
+"                                </span>"
+msgstr "إلغاء تلقائي للعضويات المنتهية بعد تجاوز المدة المحدده وعدم التجديد"
+
+#. module: dev_membership
+#: model_terms:ir.ui.view,arch_db:dev_membership.res_dev_membership_config_settings_view_form
+msgid "<span class=\"o_form_label\">Membership Expire First Reminder</span>"
+msgstr "تذكير انتهاء العضوية الأول"
+
+#. module: dev_membership
+#: model_terms:ir.ui.view,arch_db:dev_membership.res_dev_membership_config_settings_view_form
+msgid "<span class=\"o_form_label\">Membership Expire Second Reminder</span>"
+msgstr "تذكير انتهاء العضوية الثاني"
+
+#. module: dev_membership
+#: model_terms:ir.ui.view,arch_db:dev_membership.res_dev_membership_config_settings_view_form
+msgid "<span class=\"o_form_label\">Membership Registration Evaluation</span>"
+msgstr "تقييم تسجيل العضوية"
+
+#. module: dev_membership
+#: model_terms:ir.ui.view,arch_db:dev_membership.res_dev_membership_config_settings_view_form
+msgid "<span class=\"o_form_label\">Membership Renewal Evaluation</span>"
+msgstr "تقييم تجديد العضوية"
+
+#. module: dev_membership
+#: model_terms:ir.ui.view,arch_db:dev_membership.view_dev_membership_form
+msgid "<span class=\"o_stat_text\">Invoice</span>"
+msgstr "<span class=\"o_stat_text\">الفاتورة</span>"
+
+#. module: dev_membership
+#: model_terms:ir.ui.view,arch_db:dev_membership.form_membership_product
+#: model_terms:ir.ui.view,arch_db:dev_membership.view_dev_membership_form
+#: model_terms:ir.ui.view,arch_db:dev_membership.view_res_partner_memeber_form
+msgid "<span class=\"o_stat_text\">Membership</span>"
+msgstr "<span class=\"o_stat_text\">العضوية</span>"
+
+#. module: dev_membership
+#: model:ir.model.fields,field_description:dev_membership.field_dev_membership__message_needaction
+#: model:ir.model.fields,field_description:dev_membership.field_membership_cancellation_request__message_needaction
+msgid "Action Needed"
+msgstr ""
+
+#. module: dev_membership
+#: model:ir.model.fields.selection,name:dev_membership.selection__dev_membership__state__active
+#: model_terms:ir.ui.view,arch_db:dev_membership.view_dev_membership_form
+#: model_terms:ir.ui.view,arch_db:dev_membership.view_dev_membership_search
+msgid "Active"
+msgstr "نشط"
+
+#. module: dev_membership
+#: model:ir.actions.act_window,name:dev_membership.action_active_membership
+#: model:ir.ui.menu,name:dev_membership.menu_active_membership
+msgid "Active Memberships"
+msgstr "العضويات النشطة"
+
+#. module: dev_membership
+#: model:ir.model.fields,field_description:dev_membership.field_dev_membership__activity_ids
+#: model:ir.model.fields,field_description:dev_membership.field_membership_cancellation_request__activity_ids
+msgid "Activities"
+msgstr ""
+
+#. module: dev_membership
+#: model:ir.model.fields,field_description:dev_membership.field_dev_membership__activity_exception_decoration
+#: model:ir.model.fields,field_description:dev_membership.field_membership_cancellation_request__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr ""
+
+#. module: dev_membership
+#: model:ir.model.fields,field_description:dev_membership.field_dev_membership__activity_state
+#: model:ir.model.fields,field_description:dev_membership.field_membership_cancellation_request__activity_state
+msgid "Activity State"
+msgstr ""
+
+#. module: dev_membership
+#: model:ir.model.fields,field_description:dev_membership.field_dev_membership__activity_type_icon
+#: model:ir.model.fields,field_description:dev_membership.field_membership_cancellation_request__activity_type_icon
+msgid "Activity Type Icon"
+msgstr ""
+
+#. module: dev_membership
+#: model:ir.model.fields,field_description:dev_membership.field_product_product__age
+#: model:ir.model.fields,field_description:dev_membership.field_product_template__age
+#: model:ir.model.fields,field_description:dev_membership.field_res_partner__age
+#: model:ir.model.fields,field_description:dev_membership.field_res_users__age
+msgid "Age"
+msgstr "العمر"
+
+#. module: dev_membership
+#: model_terms:ir.ui.view,arch_db:dev_membership.view_membership_cancellation_request_form
+msgid "Approve"
+msgstr "موافقة"
+
+#. module: dev_membership
+#: model:ir.model.fields.selection,name:dev_membership.selection__membership_cancellation_request__state__approved
+msgid "Approved"
+msgstr "مقبول"
+
+#. module: dev_membership
+#: model_terms:ir.ui.view,arch_db:dev_membership.view_search_res_partner
+msgid "Archived"
+msgstr "مؤرشف"
+
+#. module: dev_membership
+#: model:ir.model.fields,field_description:dev_membership.field_dev_membership__message_attachment_count
+#: model:ir.model.fields,field_description:dev_membership.field_membership_cancellation_request__message_attachment_count
+msgid "Attachment Count"
+msgstr ""
+
+#. module: dev_membership
+#: model:ir.model.fields,field_description:dev_membership.field_cancellation_reason__attachment_ids
+#: model:ir.model.fields,field_description:dev_membership.field_dev_membership__attachment_ids
+#: model:ir.model.fields,field_description:dev_membership.field_membership_cancellation_request__attachment_ids
+#: model:ir.model.fields,field_description:dev_membership.field_membership_level__attachment_ids
+msgid "Attachments"
+msgstr ""
+
+#. module: dev_membership
+#: model:ir.actions.server,name:dev_membership.cron_membership_auto_expire_ir_actions_server
+#: model:ir.cron,cron_name:dev_membership.cron_membership_auto_expire
+#: model:ir.cron,name:dev_membership.cron_membership_auto_expire
+msgid "Auto Expire Membership"
+msgstr ""
+
+#. module: dev_membership
+#: model:ir.model.fields,field_description:dev_membership.field_res_partner__birth_date
+#: model:ir.model.fields,field_description:dev_membership.field_res_users__birth_date
+msgid "Birth Date"
+msgstr "تاريخ الميلاد"
+
+#. module: dev_membership
+#: model_terms:ir.ui.view,arch_db:dev_membership.view_search_res_partner
+msgid "Branch"
+msgstr "الفرع"
+
+#. module: dev_membership
+#: model:ir.model.fields.selection,name:dev_membership.selection__dev_membership__state__cancel
+#: model_terms:ir.ui.view,arch_db:dev_membership.view_dev_membership_form
+#: model_terms:ir.ui.view,arch_db:dev_membership.view_renew_membership_form
+msgid "Cancel"
+msgstr "الغاء"
+
+#. module: dev_membership
+#: model_terms:ir.ui.view,arch_db:dev_membership.membership_cancel_wizard_view_form
+msgid "Cancel Membership"
+msgstr "إلغاء العضوية"
+
+#. module: dev_membership
+#: model:ir.actions.act_window,name:dev_membership.membership_request_cancel_wizard_action
+#: model:ir.model.fields,field_description:dev_membership.field_dev_membership__cancel_reasone
+#: model:ir.model.fields,field_description:dev_membership.field_membership_request_cancel_wizard__reason_id
+#: model_terms:ir.ui.view,arch_db:dev_membership.membership_cancel_wizard_view_form
+msgid "Cancel Membership Reason"
+msgstr "سبب إلغاء العضوية"
+
+#. module: dev_membership
+#: model:ir.actions.act_window,name:dev_membership.action_dev_membership_config_refuse_resone
+msgid "Cancell Resone"
+msgstr "سبب الإلغاء"
+
+#. module: dev_membership
+#: model:ir.ui.menu,name:dev_membership.menu_dev_membership_general_reasons
+msgid "Cancell Resones"
+msgstr "أسباب الإلغاء"
+
+#. module: dev_membership
+#: model:ir.model,name:dev_membership.model_cancellation_reason
+#: model:ir.model.fields,field_description:dev_membership.field_membership_cancellation_request__cancel_reason
+#: model:ir.model.fields,field_description:dev_membership.field_res_config_settings__cancellation_reason
+msgid "Cancellation Reason"
+msgstr "سبب الإلغاء"
+
+#. module: dev_membership
+#: model:ir.model.fields,field_description:dev_membership.field_cancellation_reason__company_id
+#: model:ir.model.fields,field_description:dev_membership.field_dev_membership__company_id
+#: model:ir.model.fields,field_description:dev_membership.field_membership_level__company_id
+#: model:ir.model.fields,field_description:dev_membership.field_product_product__company_id
+#: model:ir.model.fields,field_description:dev_membership.field_product_template__company_id
+#: model_terms:ir.ui.view,arch_db:dev_membership.view_dev_membership_search
+msgid "Company"
+msgstr "المؤسسة"
+
+#. module: dev_membership
+#: model:ir.model,name:dev_membership.model_res_config_settings
+msgid "Config Settings"
+msgstr "ضبط الاعدادات"
+
+#. module: dev_membership
+#: model:ir.ui.menu,name:dev_membership.menu_configuration_root
+msgid "Configuration"
+msgstr "الاعدادات"
+
+#. module: dev_membership
+#: model:ir.model.fields.selection,name:dev_membership.selection__dev_membership__state__confirm
+#: model_terms:ir.ui.view,arch_db:dev_membership.view_dev_membership_form
+msgid "Confirm"
+msgstr "تاكيد"
+
+#. module: dev_membership
+#: model:ir.ui.menu,name:dev_membership.menu_partner_title_contact
+msgid "Contact Titles"
+msgstr "ألقاب الاتصال"
+
+#. module: dev_membership
+#: model_terms:ir.ui.view,arch_db:dev_membership.view_dev_membership_form
+msgid "Create Invoice"
+msgstr "انشاء فاتورة"
+
+#. module: dev_membership
+#: model:ir.model.fields,field_description:dev_membership.field_cancellation_reason__create_uid
+#: model:ir.model.fields,field_description:dev_membership.field_dev_membership__create_uid
+#: model:ir.model.fields,field_description:dev_membership.field_membership_cancellation_request__create_uid
+#: model:ir.model.fields,field_description:dev_membership.field_membership_level__create_uid
+#: model:ir.model.fields,field_description:dev_membership.field_membership_request_cancel_wizard__create_uid
+#: model:ir.model.fields,field_description:dev_membership.field_renew_membership__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: dev_membership
+#: model:ir.model.fields,field_description:dev_membership.field_cancellation_reason__create_date
+#: model:ir.model.fields,field_description:dev_membership.field_dev_membership__create_date
+#: model:ir.model.fields,field_description:dev_membership.field_membership_cancellation_request__create_date
+#: model:ir.model.fields,field_description:dev_membership.field_membership_level__create_date
+#: model:ir.model.fields,field_description:dev_membership.field_membership_request_cancel_wizard__create_date
+#: model:ir.model.fields,field_description:dev_membership.field_renew_membership__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: dev_membership
+#: model:ir.model.fields.selection,name:dev_membership.selection__product_template__interval__days
+#: model:ir.model.fields.selection,name:dev_membership.selection__renew_membership__interval__days
+#: model:ir.model.fields.selection,name:dev_membership.selection__res_config_settings__interval__days
+msgid "Days"
+msgstr "ايام"
+
+#. module: dev_membership
+#: model:ir.model.fields,field_description:dev_membership.field_res_config_settings__days_before
+msgid "Days Before First Reminder"
+msgstr ""
+
+#. module: dev_membership
+#: model:ir.model.fields,field_description:dev_membership.field_res_config_settings__days_before_second
+msgid "Days Before Second Reminder"
+msgstr "أيام قبل التذكير الثاني"
+
+#. module: dev_membership
+#: model:ir.model.fields,help:dev_membership.field_cancellation_reason__sequence
+#: model:ir.model.fields,help:dev_membership.field_membership_level__sequence
+#: model:ir.model.fields,help:dev_membership.field_product_product__sequence_no
+#: model:ir.model.fields,help:dev_membership.field_product_template__sequence_no
+msgid "Define the display order"
+msgstr ""
+
+#. module: dev_membership
+#: model:ir.model.fields,field_description:dev_membership.field_dev_membership__description
+msgid "Description"
+msgstr "الوصف"
+
+#. module: dev_membership
+#: model:ir.model,name:dev_membership.model_dev_membership
+msgid "Dev Membership"
+msgstr "العضوية"
+
+#. module: dev_membership
+#: model_terms:ir.ui.view,arch_db:dev_membership.view_dev_membership_form
+msgid "Dev Membership Form View"
+msgstr "العضويات"
+
+#. module: dev_membership
+#: model_terms:ir.ui.view,arch_db:dev_membership.view_dev_membership_tree
+msgid "Dev Membership Tree View"
+msgstr "العضويات"
+
+#. module: dev_membership
+#: model:ir.model.fields,field_description:dev_membership.field_cancellation_reason__display_name
+#: model:ir.model.fields,field_description:dev_membership.field_dev_membership__display_name
+#: model:ir.model.fields,field_description:dev_membership.field_membership_cancellation_request__display_name
+#: model:ir.model.fields,field_description:dev_membership.field_membership_level__display_name
+#: model:ir.model.fields,field_description:dev_membership.field_membership_request_cancel_wizard__display_name
+#: model:ir.model.fields,field_description:dev_membership.field_renew_membership__display_name
+#: model:ir.model.fields,field_description:dev_membership.field_report_dev_membership_membership_card__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: dev_membership
+#: model:ir.model.fields.selection,name:dev_membership.selection__dev_membership__state__draft
+#: model:ir.model.fields.selection,name:dev_membership.selection__membership_cancellation_request__state__draft
+msgid "Draft"
+msgstr "مسودة"
+
+#. module: dev_membership
+#: model:ir.model.fields,field_description:dev_membership.field_dev_membership__duration
+#: model:ir.model.fields,field_description:dev_membership.field_product_product__duration
+#: model:ir.model.fields,field_description:dev_membership.field_product_template__duration
+#: model:ir.model.fields,field_description:dev_membership.field_renew_membership__duration
+msgid "Duration"
+msgstr "الفترة"
+
+#. module: dev_membership
+#: code:addons/dev_membership/models/dev_membership.py:0
+#, python-format
+msgid ""
+"Duration cannot be less than the default value in Setting of membrship type."
+msgstr "لا يمكن أن تكون المدة أقل من القيمة الافتراضية في إعداد نوع العضوية."
+
+#. module: dev_membership
+#: model:ir.model.fields,field_description:dev_membership.field_dev_membership__email
+msgid "Email"
+msgstr "البريد الالكتروني"
+
+#. module: dev_membership
+#: model:ir.model.fields,field_description:dev_membership.field_res_partner__employer
+#: model:ir.model.fields,field_description:dev_membership.field_res_users__employer
+msgid "Employer"
+msgstr "جهة العمل"
+
+#. module: dev_membership
+#: model:ir.model.fields,field_description:dev_membership.field_res_config_settings__membership_registration_evaluation
+msgid "Evaluate Membership Registration"
+msgstr "تقييم تسجيل العضوية"
+
+#. module: dev_membership
+#: model:ir.model.fields,field_description:dev_membership.field_res_config_settings__membership_renewal_evaluation
+msgid "Evaluate Membership Renewal"
+msgstr "تقييم تجديد العضوية"
+
+#. module: dev_membership
+#: model:ir.model.fields,field_description:dev_membership.field_res_config_settings__registration_evaluation_form
+#: model:ir.model.fields,field_description:dev_membership.field_res_config_settings__renewal_evaluation_form
+msgid "Evaluation Form"
+msgstr ""
+
+#. module: dev_membership
+#: model:ir.model.fields.selection,name:dev_membership.selection__dev_membership__state__expire
+#: model_terms:ir.ui.view,arch_db:dev_membership.view_dev_membership_search
+msgid "Expire"
+msgstr "منتهي"
+
+#. module: dev_membership
+#: model:ir.model.fields,field_description:dev_membership.field_renew_membership__membership_id
+#: model:ir.model.fields,field_description:dev_membership.field_res_partner__is_membership_expire
+#: model:ir.model.fields,field_description:dev_membership.field_res_users__is_membership_expire
+msgid "Expire Membership"
+msgstr "انتهاء العضوية"
+
+#. module: dev_membership
+#: model:ir.actions.act_window,name:dev_membership.action_expire_membership
+#: model:ir.ui.menu,name:dev_membership.menu_expire_membership
+msgid "Expire Memberships"
+msgstr "العضويات المنتهية"
+
+#. module: dev_membership
+#: model_terms:ir.ui.view,arch_db:dev_membership.res_dev_membership_config_settings_view_form
+msgid "Expire membership send reminder mail before days."
+msgstr "إرسال بريد تذكير بانتهاء العضوية قبل عدد الأيام"
+
+#. module: dev_membership
+#: model_terms:ir.ui.view,arch_db:dev_membership.res_dev_membership_config_settings_view_form
+msgid "Expire membership send second reminder mail before days."
+msgstr "إرسال تذكير ثاني قبل انتهاء العضوية بعدد الأيام."
+
+#. module: dev_membership
+#: model_terms:ir.ui.view,arch_db:dev_membership.view_search_res_partner
+msgid "Expired Membership"
+msgstr "العضوية المنتهية"
+
+#. module: dev_membership
+#: model:ir.model.fields.selection,name:dev_membership.selection__product_template__gender__female
+#: model:ir.model.fields.selection,name:dev_membership.selection__res_partner__gender__female
+msgid "Female"
+msgstr "أنثى"
+
+#. module: dev_membership
+#: model:ir.model.fields,field_description:dev_membership.field_dev_membership__message_follower_ids
+#: model:ir.model.fields,field_description:dev_membership.field_membership_cancellation_request__message_follower_ids
+msgid "Followers"
+msgstr ""
+
+#. module: dev_membership
+#: model:ir.model.fields,field_description:dev_membership.field_dev_membership__message_channel_ids
+#: model:ir.model.fields,field_description:dev_membership.field_membership_cancellation_request__message_channel_ids
+msgid "Followers (Channels)"
+msgstr ""
+
+#. module: dev_membership
+#: model:ir.model.fields,field_description:dev_membership.field_dev_membership__message_partner_ids
+#: model:ir.model.fields,field_description:dev_membership.field_membership_cancellation_request__message_partner_ids
+msgid "Followers (Partners)"
+msgstr ""
+
+#. module: dev_membership
+#: model:ir.model.fields,help:dev_membership.field_dev_membership__activity_type_icon
+#: model:ir.model.fields,help:dev_membership.field_membership_cancellation_request__activity_type_icon
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr ""
+
+#. module: dev_membership
+#: model:ir.model.fields,field_description:dev_membership.field_product_product__gender
+#: model:ir.model.fields,field_description:dev_membership.field_product_template__gender
+#: model:ir.model.fields,field_description:dev_membership.field_res_partner__gender
+msgid "Gender"
+msgstr "الجنس"
+
+#. module: dev_membership
+#: model_terms:ir.ui.view,arch_db:dev_membership.view_search_res_partner
+msgid "Group By"
+msgstr ""
+
+#. module: dev_membership
+#: model_terms:ir.ui.view,arch_db:dev_membership.view_dev_membership_search
+msgid "Group by"
+msgstr ""
+
+#. module: dev_membership
+#: model:ir.model.fields,field_description:dev_membership.field_cancellation_reason__id
+#: model:ir.model.fields,field_description:dev_membership.field_dev_membership__id
+#: model:ir.model.fields,field_description:dev_membership.field_membership_cancellation_request__id
+#: model:ir.model.fields,field_description:dev_membership.field_membership_level__id
+#: model:ir.model.fields,field_description:dev_membership.field_membership_request_cancel_wizard__id
+#: model:ir.model.fields,field_description:dev_membership.field_renew_membership__id
+#: model:ir.model.fields,field_description:dev_membership.field_report_dev_membership_membership_card__id
+msgid "ID"
+msgstr ""
+
+#. module: dev_membership
+#: model:ir.model.fields,field_description:dev_membership.field_dev_membership__activity_exception_icon
+#: model:ir.model.fields,field_description:dev_membership.field_membership_cancellation_request__activity_exception_icon
+msgid "Icon"
+msgstr ""
+
+#. module: dev_membership
+#: model:ir.model.fields,help:dev_membership.field_dev_membership__activity_exception_icon
+#: model:ir.model.fields,help:dev_membership.field_membership_cancellation_request__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr ""
+
+#. module: dev_membership
+#: model:ir.model.fields,field_description:dev_membership.field_dev_membership__id_no
+msgid "Identification Number"
+msgstr "رقم الهوية"
+
+#. module: dev_membership
+#: model:ir.model.fields,help:dev_membership.field_dev_membership__message_needaction
+#: model:ir.model.fields,help:dev_membership.field_dev_membership__message_unread
+#: model:ir.model.fields,help:dev_membership.field_membership_cancellation_request__message_needaction
+#: model:ir.model.fields,help:dev_membership.field_membership_cancellation_request__message_unread
+msgid "If checked, new messages require your attention."
+msgstr ""
+
+#. module: dev_membership
+#: model:ir.model.fields,help:dev_membership.field_dev_membership__message_has_error
+#: model:ir.model.fields,help:dev_membership.field_dev_membership__message_has_sms_error
+#: model:ir.model.fields,help:dev_membership.field_membership_cancellation_request__message_has_error
+#: model:ir.model.fields,help:dev_membership.field_membership_cancellation_request__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr ""
+
+#. module: dev_membership
+#: model_terms:ir.ui.view,arch_db:dev_membership.membership_cancel_wizard_view_form
+msgid "Ignore"
+msgstr "تجاهل"
+
+#. module: dev_membership
+#: model:ir.model.fields,field_description:dev_membership.field_dev_membership__interval
+#: model:ir.model.fields,field_description:dev_membership.field_product_product__interval
+#: model:ir.model.fields,field_description:dev_membership.field_product_template__interval
+#: model:ir.model.fields,field_description:dev_membership.field_renew_membership__interval
+#: model:ir.model.fields,field_description:dev_membership.field_res_config_settings__interval
+msgid "Interval"
+msgstr "الفترة"
+
+#. module: dev_membership
+#: model:ir.model.fields,field_description:dev_membership.field_dev_membership__invoice_id
+msgid "Invoice"
+msgstr "الفاتورة"
+
+#. module: dev_membership
+#: model:ir.model.fields,field_description:dev_membership.field_dev_membership__message_is_follower
+#: model:ir.model.fields,field_description:dev_membership.field_membership_cancellation_request__message_is_follower
+msgid "Is Follower"
+msgstr ""
+
+#. module: dev_membership
+#: model:ir.model.fields,field_description:dev_membership.field_dev_membership__is_free
+#: model:ir.model.fields,field_description:dev_membership.field_product_product__is_free
+#: model:ir.model.fields,field_description:dev_membership.field_product_template__is_free
+msgid "Is Free"
+msgstr "مجاني"
+
+#. module: dev_membership
+#: model:ir.model.fields,field_description:dev_membership.field_res_partner__is_member
+#: model:ir.model.fields,field_description:dev_membership.field_res_users__is_member
+msgid "Is Member"
+msgstr "عضو"
+
+#. module: dev_membership
+#: model:ir.model.fields,field_description:dev_membership.field_product_product__is_membership
+#: model:ir.model.fields,field_description:dev_membership.field_product_template__is_membership
+msgid "Is Membership"
+msgstr "عضوية"
+
+#. module: dev_membership
+#: model:ir.model.fields,field_description:dev_membership.field_renew_membership__from_date
+#: model:ir.model.fields,field_description:dev_membership.field_res_partner__join_date
+#: model:ir.model.fields,field_description:dev_membership.field_res_users__join_date
+msgid "Join Date"
+msgstr "تاريخ الانضمام"
+
+#. module: dev_membership
+#: model:ir.model.fields,field_description:dev_membership.field_product_product__join_period
+#: model:ir.model.fields,field_description:dev_membership.field_product_template__join_period
+msgid "Join Period"
+msgstr "فترة الانضمام"
+
+#. module: dev_membership
+#: model:ir.model.fields,field_description:dev_membership.field_cancellation_reason____last_update
+#: model:ir.model.fields,field_description:dev_membership.field_dev_membership____last_update
+#: model:ir.model.fields,field_description:dev_membership.field_membership_cancellation_request____last_update
+#: model:ir.model.fields,field_description:dev_membership.field_membership_level____last_update
+#: model:ir.model.fields,field_description:dev_membership.field_membership_request_cancel_wizard____last_update
+#: model:ir.model.fields,field_description:dev_membership.field_renew_membership____last_update
+#: model:ir.model.fields,field_description:dev_membership.field_report_dev_membership_membership_card____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: dev_membership
+#: model:ir.model.fields,field_description:dev_membership.field_cancellation_reason__write_uid
+#: model:ir.model.fields,field_description:dev_membership.field_dev_membership__write_uid
+#: model:ir.model.fields,field_description:dev_membership.field_membership_cancellation_request__write_uid
+#: model:ir.model.fields,field_description:dev_membership.field_membership_level__write_uid
+#: model:ir.model.fields,field_description:dev_membership.field_membership_request_cancel_wizard__write_uid
+#: model:ir.model.fields,field_description:dev_membership.field_renew_membership__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: dev_membership
+#: model:ir.model.fields,field_description:dev_membership.field_cancellation_reason__write_date
+#: model:ir.model.fields,field_description:dev_membership.field_dev_membership__write_date
+#: model:ir.model.fields,field_description:dev_membership.field_membership_cancellation_request__write_date
+#: model:ir.model.fields,field_description:dev_membership.field_membership_level__write_date
+#: model:ir.model.fields,field_description:dev_membership.field_membership_request_cancel_wizard__write_date
+#: model:ir.model.fields,field_description:dev_membership.field_renew_membership__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: dev_membership
+#: model:ir.model.fields,field_description:dev_membership.field_dev_membership__message_main_attachment_id
+#: model:ir.model.fields,field_description:dev_membership.field_membership_cancellation_request__message_main_attachment_id
+msgid "Main Attachment"
+msgstr ""
+
+#. module: dev_membership
+#: model:ir.model.fields.selection,name:dev_membership.selection__product_template__gender__male
+#: model:ir.model.fields.selection,name:dev_membership.selection__res_partner__gender__male
+msgid "Male"
+msgstr "ذكر"
+
+#. module: dev_membership
+#: model:res.groups,name:dev_membership.group_membership_manager
+msgid "Manager"
+msgstr ""
+
+#. module: dev_membership
+#: model:ir.model.fields,field_description:dev_membership.field_membership_level__max
+msgid "Maximum"
+msgstr "الحد الاعلي"
+
+#. module: dev_membership
+#: model:ir.actions.act_window,name:dev_membership.action_members
+#: model:ir.model.fields,field_description:dev_membership.field_membership_cancellation_request__member_id
+msgid "Member"
+msgstr "العضو"
+
+#. module: dev_membership
+#: model:ir.ui.menu,name:dev_membership.menu_members
+#: model_terms:ir.ui.view,arch_db:dev_membership.view_res_partner_member_tree
+msgid "Members"
+msgstr "اﻷعضاء"
+
+#. module: dev_membership
+#: model:ir.model.fields,field_description:dev_membership.field_membership_cancellation_request__membership_id
+#: model:ir.model.fields,field_description:dev_membership.field_renew_membership__product_id
+#: model:ir.model.fields,field_description:dev_membership.field_res_partner__active_membership_id
+#: model:ir.model.fields,field_description:dev_membership.field_res_users__active_membership_id
+#: model:ir.module.category,name:dev_membership.membership_category
+#: model:ir.ui.menu,name:dev_membership.menu_membership_main
+#: model:ir.ui.menu,name:dev_membership.menu_membership_root
+#: model_terms:ir.ui.view,arch_db:dev_membership.view_dev_membership_kanban
+#: model_terms:ir.ui.view,arch_db:dev_membership.view_renew_membership_form
+msgid "Membership"
+msgstr "العضوية"
+
+#. module: dev_membership
+#: code:addons/dev_membership/models/dev_membership.py:0
+#, python-format
+msgid "Membership  %s  is Cancelled"
+msgstr "تم إلغاء العضوية %s"
+
+#. module: dev_membership
+#: model_terms:ir.ui.view,arch_db:dev_membership.res_dev_membership_config_settings_view_form
+msgid "Membership Auto Cancellation\"."
+msgstr "إلغاء تلقائي للعضويات المنتهية بعد تجاوز المدة المحدده وعدم التجديد"
+
+#. module: dev_membership
+#: model:ir.model.fields,field_description:dev_membership.field_product_product__membership_benefits
+#: model:ir.model.fields,field_description:dev_membership.field_product_template__membership_benefits
+msgid "Membership Benefits"
+msgstr "مميزات العضوية "
+
+#. module: dev_membership
+#: model:ir.model.fields,field_description:dev_membership.field_dev_membership__request_date
+msgid "Membership Cancell Request Date"
+msgstr "تاريخ طلب إلغاء العضوية"
+
+#. module: dev_membership
+#: code:addons/dev_membership/models/dev_membership.py:0
+#: model_terms:ir.ui.view,arch_db:dev_membership.res_dev_membership_config_settings_view_form
+#, python-format
+msgid "Membership Cancellation"
+msgstr "إلغاء العضوية"
+
+#. module: dev_membership
+#: model_terms:ir.ui.view,arch_db:dev_membership.view_dev_membership_form
+msgid "Membership Cancellation Reasones"
+msgstr ""
+
+#. module: dev_membership
+#: model:ir.model,name:dev_membership.model_membership_cancellation_request
+#: model_terms:ir.ui.view,arch_db:dev_membership.view_membership_cancellation_request_form
+msgid "Membership Cancellation Request"
+msgstr ""
+
+#. module: dev_membership
+#: model:ir.actions.act_window,name:dev_membership.action_membership_cancellation_request
+#: model:ir.ui.menu,name:dev_membership.menu_membership_cancellation_request
+#: model_terms:ir.ui.view,arch_db:dev_membership.view_membership_cancellation_request_tree
+msgid "Membership Cancellation Requests"
+msgstr "طلبات إلغاء العضوية"
+
+#. module: dev_membership
+#: code:addons/dev_membership/models/res_partner.py:0
+#, python-format
+msgid "Membership Cancelled"
+msgstr "تم إلغاء العضوية"
+
+#. module: dev_membership
+#: model:ir.model.fields,field_description:dev_membership.field_membership_level__color
+msgid "Membership Card Color"
+msgstr "لون بطاقة العضوية"
+
+#. module: dev_membership
+#: model:ir.model.fields,field_description:dev_membership.field_product_product__membership_count
+#: model:ir.model.fields,field_description:dev_membership.field_product_template__membership_count
+#: model:ir.model.fields,field_description:dev_membership.field_res_partner__membership_count
+#: model:ir.model.fields,field_description:dev_membership.field_res_users__membership_count
+msgid "Membership Count"
+msgstr ""
+
+#. module: dev_membership
+#: model_terms:ir.ui.view,arch_db:dev_membership.view_dev_membership_form
+msgid "Membership Date"
+msgstr "تاريخ العضوية"
+
+#. module: dev_membership
+#: model:mail.template,subject:dev_membership.template_membership
+msgid "Membership Detail"
+msgstr "تفاصيل العضوية"
+
+#. module: dev_membership
+#: model_terms:ir.ui.view,arch_db:dev_membership.form_membership_product
+#: model_terms:ir.ui.view,arch_db:dev_membership.view_dev_membership_form
+msgid "Membership Duration"
+msgstr "فترة العضوية"
+
+#. module: dev_membership
+#: model_terms:ir.ui.view,arch_db:dev_membership.res_dev_membership_config_settings_view_form
+msgid "Membership Experience Evaluation"
+msgstr "تقييم تجربة العضوية"
+
+#. module: dev_membership
+#: code:addons/dev_membership/models/res_partner.py:0
+#, python-format
+msgid "Membership Expire"
+msgstr ""
+
+#. module: dev_membership
+#: model:mail.template,subject:dev_membership.dev_membership_expire_reminder_mail_template
+msgid "Membership Expire Reminder"
+msgstr ""
+
+#. module: dev_membership
+#: model_terms:ir.ui.view,arch_db:dev_membership.res_dev_membership_config_settings_view_form
+msgid "Membership Expiry Reminders"
+msgstr "تذكير انتهاء العضوية"
+
+#. module: dev_membership
+#: model:ir.model.fields,field_description:dev_membership.field_dev_membership__membership_fees
+#: model:ir.model.fields,field_description:dev_membership.field_renew_membership__membership_fees
+msgid "Membership Fees"
+msgstr "رسوم الاشتراك"
+
+#. module: dev_membership
+#: model:ir.model.fields,field_description:dev_membership.field_dev_membership__from_date
+msgid "Membership From Date"
+msgstr "تاريخ اﻷنضمام"
+
+#. module: dev_membership
+#: code:addons/dev_membership/models/dev_membership.py:0
+#, python-format
+msgid ""
+"Membership Invoice is not paid.\n"
+"Please pay the membership invoice and activate the membership."
+msgstr ""
+
+#. module: dev_membership
+#: model:ir.model,name:dev_membership.model_membership_level
+#: model_terms:ir.ui.view,arch_db:dev_membership.view_membership_level_form
+#: model_terms:ir.ui.view,arch_db:dev_membership.view_membership_level_tree
+msgid "Membership Level"
+msgstr "مستوى العضوية"
+
+#. module: dev_membership
+#: model:ir.actions.act_window,name:dev_membership.action_membership_level
+#: model:ir.ui.menu,name:dev_membership.menu_membership_level
+msgid "Membership Levels"
+msgstr "مستويات العضوية"
+
+#. module: dev_membership
+#: model:ir.model.fields,field_description:dev_membership.field_res_partner__membrship_no
+#: model:ir.model.fields,field_description:dev_membership.field_res_users__membrship_no
+msgid "Membership Number"
+msgstr "رقم العضوية"
+
+#. module: dev_membership
+#: code:addons/dev_membership/models/res_partner.py:0
+#, python-format
+msgid "Membership Paid"
+msgstr ""
+
+#. module: dev_membership
+#: model:ir.actions.server,name:dev_membership.cron_cancel_dev_membership_reminder_ir_actions_server
+#: model:ir.cron,cron_name:dev_membership.cron_cancel_dev_membership_reminder
+#: model:ir.cron,name:dev_membership.cron_cancel_dev_membership_reminder
+msgid "Membership Partner Cancel Notify"
+msgstr ""
+
+#. module: dev_membership
+#: model:ir.actions.act_window,name:dev_membership.action_membership_pro
+#: model:ir.model.fields,field_description:dev_membership.field_dev_membership__product_id
+#: model:ir.ui.menu,name:dev_membership.menu_membership
+msgid "Membership Product"
+msgstr "انواع العضوية"
+
+#. module: dev_membership
+#: model_terms:ir.ui.view,arch_db:dev_membership.form_membership_product
+msgid "Membership Product Form View"
+msgstr ""
+
+#. module: dev_membership
+#: model_terms:ir.ui.view,arch_db:dev_membership.tree_membership_product
+msgid "Membership Product Tree View"
+msgstr ""
+
+#. module: dev_membership
+#: model_terms:ir.ui.view,arch_db:dev_membership.main_membership_card
+msgid "Membership Receipt"
+msgstr "ايصال عضوية"
+
+#. module: dev_membership
+#: model_terms:ir.ui.view,arch_db:dev_membership.res_dev_membership_config_settings_view_form
+msgid "Membership Registration Evaluation."
+msgstr "تقييم تسجيل العضوية"
+
+#. module: dev_membership
+#: model:ir.actions.server,name:dev_membership.cron_dev_membership_reminder_ir_actions_server
+#: model:ir.cron,cron_name:dev_membership.cron_dev_membership_reminder
+#: model:ir.cron,name:dev_membership.cron_dev_membership_reminder
+msgid "Membership Reminder"
+msgstr ""
+
+#. module: dev_membership
+#: model_terms:ir.ui.view,arch_db:dev_membership.res_dev_membership_config_settings_view_form
+msgid "Membership Renewal Evaluation."
+msgstr "تقييم تجديد العضوية"
+
+#. module: dev_membership
+#: model:ir.model,name:dev_membership.model_report_dev_membership_membership_card
+msgid "Membership Report"
+msgstr "تقرير العضوية"
+
+#. module: dev_membership
+#: model:ir.actions.server,name:dev_membership.cron_dev_membership_seacond_reminder_ir_actions_server
+#: model:ir.cron,cron_name:dev_membership.cron_dev_membership_seacond_reminder
+#: model:ir.cron,name:dev_membership.cron_dev_membership_seacond_reminder
+msgid "Membership Secand Reminder"
+msgstr "تذكير ثاني بانتهاءالعضوية"
+
+#. module: dev_membership
+#: model:mail.template,subject:dev_membership.dev_cancel_membership_expire
+#: model:mail.template,subject:dev_membership.dev_cancel_membership_expire2
+#: model:mail.template,subject:dev_membership.dev_membership_expire_second_reminder_mail_template
+msgid "Membership Second Expire Reminder"
+msgstr "تذكير ثاني بانتهاء العضوية"
+
+#. module: dev_membership
+#: model:ir.model.fields,field_description:dev_membership.field_res_partner__memebership_status
+#: model:ir.model.fields,field_description:dev_membership.field_res_users__memebership_status
+msgid "Membership Status"
+msgstr "حالة العضوية"
+
+#. module: dev_membership
+#: model_terms:ir.ui.view,arch_db:dev_membership.form_membership_product
+msgid "Membership Terms"
+msgstr "شروط العضوية"
+
+#. module: dev_membership
+#: model:ir.model.fields,field_description:dev_membership.field_dev_membership__to_date
+msgid "Membership To Date"
+msgstr "تاريخ نهاية العضوية"
+
+#. module: dev_membership
+#: model:ir.model.fields,field_description:dev_membership.field_membership_cancellation_request__membership_type_id
+#: model:ir.model.fields,field_description:dev_membership.field_res_partner__product_id
+#: model:ir.model.fields,field_description:dev_membership.field_res_users__product_id
+#: model_terms:ir.ui.view,arch_db:dev_membership.view_search_res_partner
+msgid "Membership Type"
+msgstr "نوع العضوية"
+
+#. module: dev_membership
+#: model:ir.actions.server,name:dev_membership.cron_cancel2_dev_membership_reminder_ir_actions_server
+#: model:ir.cron,cron_name:dev_membership.cron_cancel2_dev_membership_reminder
+#: model:ir.cron,name:dev_membership.cron_cancel2_dev_membership_reminder
+msgid "Membership User Cancel Notify"
+msgstr "إخطار المستخدم إلغاء  العضوية"
+
+#. module: dev_membership
+#: code:addons/dev_membership/models/res_partner.py:0
+#, python-format
+msgid "Membership Waiting"
+msgstr "العضوية قيد الانتظار"
+
+#. module: dev_membership
+#: code:addons/dev_membership/models/res_partner.py:0
+#, python-format
+msgid "Membership Waiting for Invoice"
+msgstr "العضوية في انتظار الفاتورة"
+
+#. module: dev_membership
+#: code:addons/dev_membership/models/res_partner.py:0
+#, python-format
+msgid "Membership Waiting for Payment"
+msgstr "العضوية في انتظار الدفع"
+
+#. module: dev_membership
+#: code:addons/dev_membership/models/dev_membership.py:0
+#: code:addons/dev_membership/wizard/renew_membership.py:0
+#: code:addons/dev_membership/wizard/renew_membership.py:0
+#: code:addons/dev_membership/wizard/renew_membership.py:0
+#, python-format
+msgid ""
+"Membership fees cannot be less than the default value in Setting of "
+"membrship type."
+msgstr ""
+"لا يمكن أن تكون رسوم العضوية أقل من القيمة الافتراضية في إعداد نوع العضوية."
+
+#. module: dev_membership
+#: code:addons/dev_membership/models/dev_membership.py:0
+#, python-format
+msgid "Membership is only  %s allowed"
+msgstr ""
+
+#. module: dev_membership
+#: model:ir.model,name:dev_membership.model_membership_request_cancel_wizard
+msgid "Membership refuse Reason wizard"
+msgstr "سبب رفض العضوية"
+
+#. module: dev_membership
+#: model:ir.actions.act_window,name:dev_membership.action_dev_membership
+#: model:ir.ui.menu,name:dev_membership.menu_membership1
+#: model_terms:ir.ui.view,arch_db:dev_membership.view_dev_membership_activity
+msgid "Memberships"
+msgstr "العضويات"
+
+#. module: dev_membership
+#: model:ir.model.fields,field_description:dev_membership.field_dev_membership__membrship_level
+#: model:ir.model.fields,field_description:dev_membership.field_res_partner__membrship_level
+#: model:ir.model.fields,field_description:dev_membership.field_res_users__membrship_level
+msgid "Membrship level"
+msgstr "مستوى العضوية"
+
+#. module: dev_membership
+#: model_terms:ir.ui.view,arch_db:dev_membership.view_res_partner_memeber_form
+msgid "Memebership"
+msgstr "العضوية"
+
+#. module: dev_membership
+#: model:ir.model.fields,field_description:dev_membership.field_res_partner__memebership_end_date
+#: model:ir.model.fields,field_description:dev_membership.field_res_users__memebership_end_date
+msgid "Memebership End Date"
+msgstr "تاريخ نهاية العضوية"
+
+#. module: dev_membership
+#: model:ir.model.fields,field_description:dev_membership.field_dev_membership__message_has_error
+#: model:ir.model.fields,field_description:dev_membership.field_membership_cancellation_request__message_has_error
+msgid "Message Delivery error"
+msgstr ""
+
+#. module: dev_membership
+#: model:ir.model.fields,field_description:dev_membership.field_dev_membership__message_ids
+#: model:ir.model.fields,field_description:dev_membership.field_membership_cancellation_request__message_ids
+msgid "Messages"
+msgstr ""
+
+#. module: dev_membership
+#: model:ir.model.fields,field_description:dev_membership.field_membership_level__min
+msgid "Minimum"
+msgstr "الحد الأدنى"
+
+#. module: dev_membership
+#: model:ir.model.fields.selection,name:dev_membership.selection__product_template__interval__month
+#: model:ir.model.fields.selection,name:dev_membership.selection__renew_membership__interval__month
+#: model:ir.model.fields.selection,name:dev_membership.selection__res_config_settings__interval__month
+msgid "Month"
+msgstr "شهر"
+
+#. module: dev_membership
+#: model:ir.model.fields,field_description:dev_membership.field_dev_membership__my_activity_date_deadline
+#: model:ir.model.fields,field_description:dev_membership.field_membership_cancellation_request__my_activity_date_deadline
+msgid "My Activity Deadline"
+msgstr ""
+
+#. module: dev_membership
+#: model:ir.model.fields,field_description:dev_membership.field_membership_level__years
+msgid "NO Of Years Subscription."
+msgstr "عدد سنوات الاشتراك"
+
+#. module: dev_membership
+#: model:ir.model.fields,field_description:dev_membership.field_dev_membership__name
+#: model:ir.model.fields,field_description:dev_membership.field_membership_level__name
+#: model_terms:ir.ui.view,arch_db:dev_membership.view_res_partner_member_tree
+msgid "Name"
+msgstr "الاسم"
+
+#. module: dev_membership
+#: model:ir.model.fields,field_description:dev_membership.field_product_product__nationality_ids
+#: model:ir.model.fields,field_description:dev_membership.field_product_template__nationality_ids
+#: model:ir.model.fields,field_description:dev_membership.field_res_partner__nationality_id
+#: model:ir.model.fields,field_description:dev_membership.field_res_users__nationality_id
+msgid "Nationality"
+msgstr "الجنسية"
+
+#. module: dev_membership
+#: code:addons/dev_membership/models/dev_membership.py:0
+#, python-format
+msgid "New"
+msgstr ""
+
+#. module: dev_membership
+#: model:ir.model.fields,field_description:dev_membership.field_dev_membership__activity_date_deadline
+#: model:ir.model.fields,field_description:dev_membership.field_membership_cancellation_request__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr ""
+
+#. module: dev_membership
+#: model:ir.model.fields,field_description:dev_membership.field_dev_membership__activity_summary
+#: model:ir.model.fields,field_description:dev_membership.field_membership_cancellation_request__activity_summary
+msgid "Next Activity Summary"
+msgstr ""
+
+#. module: dev_membership
+#: model:ir.model.fields,field_description:dev_membership.field_dev_membership__activity_type_id
+#: model:ir.model.fields,field_description:dev_membership.field_membership_cancellation_request__activity_type_id
+msgid "Next Activity Type"
+msgstr ""
+
+#. module: dev_membership
+#: code:addons/dev_membership/models/res_partner.py:0
+#, python-format
+msgid "No Membership"
+msgstr ""
+
+#. module: dev_membership
+#: model_terms:ir.ui.view,arch_db:dev_membership.form_membership_product
+msgid "Nomination for Membership"
+msgstr " الترشيح للعضوية"
+
+#. module: dev_membership
+#: model:ir.model.fields,field_description:dev_membership.field_product_product__nominee
+#: model:ir.model.fields,field_description:dev_membership.field_product_template__nominee
+msgid "Nominee"
+msgstr "الترشيح لعضوية مجلس الادارة"
+
+#. module: dev_membership
+#: model:ir.model.fields,field_description:dev_membership.field_cancellation_reason__reasone_no
+#: model:ir.model.fields,field_description:dev_membership.field_membership_level__level_no
+#: model:ir.model.fields,field_description:dev_membership.field_product_product__type_no
+#: model:ir.model.fields,field_description:dev_membership.field_product_template__type_no
+msgid "Number"
+msgstr ""
+
+#. module: dev_membership
+#: model:ir.model.fields,field_description:dev_membership.field_dev_membership__message_needaction_counter
+#: model:ir.model.fields,field_description:dev_membership.field_membership_cancellation_request__message_needaction_counter
+msgid "Number of Actions"
+msgstr ""
+
+#. module: dev_membership
+#: model:ir.model.fields,field_description:dev_membership.field_dev_membership__message_has_error_counter
+#: model:ir.model.fields,field_description:dev_membership.field_membership_cancellation_request__message_has_error_counter
+msgid "Number of errors"
+msgstr ""
+
+#. module: dev_membership
+#: model:ir.model.fields,help:dev_membership.field_dev_membership__message_needaction_counter
+#: model:ir.model.fields,help:dev_membership.field_membership_cancellation_request__message_needaction_counter
+msgid "Number of messages which requires an action"
+msgstr ""
+
+#. module: dev_membership
+#: model:ir.model.fields,help:dev_membership.field_dev_membership__message_has_error_counter
+#: model:ir.model.fields,help:dev_membership.field_membership_cancellation_request__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr ""
+
+#. module: dev_membership
+#: model:ir.model.fields,help:dev_membership.field_dev_membership__message_unread_counter
+#: model:ir.model.fields,help:dev_membership.field_membership_cancellation_request__message_unread_counter
+msgid "Number of unread messages"
+msgstr ""
+
+#. module: dev_membership
+#: model:ir.model.fields,field_description:dev_membership.field_dev_membership__partner_id
+#: model_terms:ir.ui.view,arch_db:dev_membership.view_dev_membership_search
+msgid "Partner"
+msgstr "العضو"
+
+#. module: dev_membership
+#: model:ir.model.fields,field_description:dev_membership.field_dev_membership__payment_state
+msgid "Payment State"
+msgstr ""
+
+#. module: dev_membership
+#: model:ir.model.fields,field_description:dev_membership.field_res_config_settings__post_expiry_period
+msgid "Period After Expiry"
+msgstr ""
+
+#. module: dev_membership
+#: model:ir.model.fields,field_description:dev_membership.field_dev_membership__phone
+msgid "Phone"
+msgstr "الهاتف"
+
+#. module: dev_membership
+#: code:addons/dev_membership/models/dev_membership.py:0
+#, python-format
+msgid "Please Create Membership Invoice"
+msgstr ""
+
+#. module: dev_membership
+#: model_terms:ir.ui.view,arch_db:dev_membership.form_membership_product
+msgid "Price"
+msgstr "رسوم الاشتراك"
+
+#. module: dev_membership
+#: model:ir.actions.report,name:dev_membership.menu_print_membership
+msgid "Print Membership"
+msgstr "طباعة العضوية"
+
+#. module: dev_membership
+#: model:ir.model,name:dev_membership.model_product_product
+#: model_terms:ir.ui.view,arch_db:dev_membership.view_dev_membership_search
+msgid "Product"
+msgstr "المنتج"
+
+#. module: dev_membership
+#: model:ir.model,name:dev_membership.model_product_template
+msgid "Product Template"
+msgstr "قالب المنتج"
+
+#. module: dev_membership
+#: model:ir.model.fields,field_description:dev_membership.field_dev_membership__reason
+#: model:ir.model.fields,field_description:dev_membership.field_membership_cancellation_request__reason
+msgid "Reason/Justification"
+msgstr "الاسباب/ المبررات"
+
+#. module: dev_membership
+#: model:ir.model.fields,field_description:dev_membership.field_cancellation_reason__name
+msgid "Reasone of Cancellation"
+msgstr "سبب الإلغاء"
+
+#. module: dev_membership
+#: model_terms:ir.ui.view,arch_db:dev_membership.view_membership_cancellation_request_form
+msgid "Reject"
+msgstr "رفض"
+
+#. module: dev_membership
+#: model:ir.model.fields.selection,name:dev_membership.selection__membership_cancellation_request__state__rejected
+msgid "Rejected"
+msgstr "مرفوض"
+
+#. module: dev_membership
+#: model_terms:ir.ui.view,arch_db:dev_membership.view_renew_membership_form
+msgid "Renew"
+msgstr "تجديد"
+
+#. module: dev_membership
+#: model:ir.actions.act_window,name:dev_membership.action_renew_membership
+#: model:ir.model,name:dev_membership.model_renew_membership
+#: model:ir.model.fields,field_description:dev_membership.field_dev_membership__membership_id
+#: model_terms:ir.ui.view,arch_db:dev_membership.view_dev_membership_form
+msgid "Renew Membership"
+msgstr "تجديد العضوية"
+
+#. module: dev_membership
+#: model:ir.model,name:dev_membership.model_res_partner
+msgid "Renter"
+msgstr ""
+
+#. module: dev_membership
+#: model:ir.model.fields,field_description:dev_membership.field_membership_request_cancel_wizard__request_id
+msgid "Request"
+msgstr ""
+
+#. module: dev_membership
+#: model:ir.model.fields,field_description:dev_membership.field_dev_membership__date
+#: model:ir.model.fields,field_description:dev_membership.field_membership_cancellation_request__request_date
+msgid "Request Date"
+msgstr "تاريخ الطلب"
+
+#. module: dev_membership
+#: code:addons/dev_membership/models/membership_cancel_request.py:0
+#, python-format
+msgid "Requests can only be deleted if they are in the draft state."
+msgstr "مكن حذف الطلبات فقط إذا كانت في حالة المسودة."
+
+#. module: dev_membership
+#: model_terms:ir.ui.view,arch_db:dev_membership.view_search_res_partner
+msgid "Res Partner Search"
+msgstr ""
+
+#. module: dev_membership
+#: model:ir.model.fields,field_description:dev_membership.field_dev_membership__activity_user_id
+#: model:ir.model.fields,field_description:dev_membership.field_membership_cancellation_request__activity_user_id
+msgid "Responsible User"
+msgstr "المسؤول"
+
+#. module: dev_membership
+#: model:ir.model.fields,field_description:dev_membership.field_dev_membership__user_id
+msgid "Resposible"
+msgstr "المسؤول"
+
+#. module: dev_membership
+#: model_terms:ir.ui.view,arch_db:dev_membership.view_dev_membership_search
+msgid "SES"
+msgstr ""
+
+#. module: dev_membership
+#: model:ir.model.fields,field_description:dev_membership.field_dev_membership__message_has_sms_error
+#: model:ir.model.fields,field_description:dev_membership.field_membership_cancellation_request__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr ""
+
+#. module: dev_membership
+#: model_terms:ir.ui.view,arch_db:dev_membership.view_dev_membership_form
+msgid "Send by Mail"
+msgstr "ارسال بريد إلكتروني"
+
+#. module: dev_membership
+#: model:ir.model.fields,field_description:dev_membership.field_cancellation_reason__sequence
+#: model:ir.model.fields,field_description:dev_membership.field_membership_level__sequence
+#: model:ir.model.fields,field_description:dev_membership.field_product_product__sequence_no
+#: model:ir.model.fields,field_description:dev_membership.field_product_template__sequence_no
+msgid "Sequence"
+msgstr ""
+
+#. module: dev_membership
+#: model_terms:ir.ui.view,arch_db:dev_membership.view_dev_membership_form
+msgid "Set To Draft"
+msgstr "ارجاع لمسودة"
+
+#. module: dev_membership
+#: model:ir.actions.act_window,name:dev_membership.action_dev_membership_config_settings
+#: model:ir.ui.menu,name:dev_membership.menu_dev_membership_general_settings
+msgid "Settings"
+msgstr "الاعدادات"
+
+#. module: dev_membership
+#: model:ir.model.fields,field_description:dev_membership.field_dev_membership__state
+#: model_terms:ir.ui.view,arch_db:dev_membership.view_dev_membership_search
+msgid "State"
+msgstr "الحالة"
+
+#. module: dev_membership
+#: model:ir.model.fields,field_description:dev_membership.field_membership_cancellation_request__state
+msgid "Status"
+msgstr "الحالة"
+
+#. module: dev_membership
+#: model:ir.model.fields,help:dev_membership.field_dev_membership__activity_state
+#: model:ir.model.fields,help:dev_membership.field_membership_cancellation_request__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
+
+#. module: dev_membership
+#: model_terms:ir.ui.view,arch_db:dev_membership.form_membership_product
+msgid "Taxes"
+msgstr "الضرائب"
+
+#. module: dev_membership
+#: code:addons/dev_membership/models/dev_membership.py:0
+#, python-format
+msgid "The member must be at least %s years old."
+msgstr ""
+
+#. module: dev_membership
+#: code:addons/dev_membership/models/dev_membership.py:0
+#, python-format
+msgid "The member's nationality does not meet the membership requirements"
+msgstr "جنسية العضو لا تفي بمتطلبات العضوية"
+
+#. module: dev_membership
+#: model_terms:ir.ui.view,arch_db:dev_membership.view_res_partner_memeber_form
+msgid "Title"
+msgstr ""
+
+#. module: dev_membership
+#: model:ir.model.fields,help:dev_membership.field_dev_membership__activity_exception_decoration
+#: model:ir.model.fields,help:dev_membership.field_membership_cancellation_request__activity_exception_decoration
+msgid "Type of the exception activity on record."
+msgstr ""
+
+#. module: dev_membership
+#: model:ir.model.fields,field_description:dev_membership.field_dev_membership__message_unread
+#: model:ir.model.fields,field_description:dev_membership.field_membership_cancellation_request__message_unread
+msgid "Unread Messages"
+msgstr ""
+
+#. module: dev_membership
+#: model:ir.model.fields,field_description:dev_membership.field_dev_membership__message_unread_counter
+#: model:ir.model.fields,field_description:dev_membership.field_membership_cancellation_request__message_unread_counter
+msgid "Unread Messages Counter"
+msgstr ""
+
+#. module: dev_membership
+#: model:ir.model.fields,field_description:dev_membership.field_membership_request_cancel_wizard__user_id
+#: model:res.groups,name:dev_membership.group_membership_user
+msgid "User"
+msgstr ""
+
+#. module: dev_membership
+#: model:ir.model.fields,field_description:dev_membership.field_dev_membership__website_message_ids
+#: model:ir.model.fields,field_description:dev_membership.field_membership_cancellation_request__website_message_ids
+msgid "Website Messages"
+msgstr ""
+
+#. module: dev_membership
+#: model:ir.model.fields,help:dev_membership.field_dev_membership__website_message_ids
+#: model:ir.model.fields,help:dev_membership.field_membership_cancellation_request__website_message_ids
+msgid "Website communication history"
+msgstr ""
+
+#. module: dev_membership
+#: model:ir.model.fields.selection,name:dev_membership.selection__product_template__interval__year
+#: model:ir.model.fields.selection,name:dev_membership.selection__renew_membership__interval__year
+msgid "Year"
+msgstr "سنة"
+
+#. module: dev_membership
+#: code:addons/dev_membership/models/dev_membership.py:0
+#, python-format
+msgid "You already have a membership from '%s' to '%s' !!!!"
+msgstr ""
+
+#. module: dev_membership
+#: model:mail.template,subject:dev_membership.dev_membership_expired_mail_template
+msgid "Your membership ${(object.name)} Expired"
+msgstr ""
+
+#. module: dev_membership
+#: model_terms:ir.ui.view,arch_db:dev_membership.dev_res_partner_member_kanban_view
+msgid "at"
+msgstr "في"
+
+#. module: dev_membership
+#: model_terms:ir.ui.view,arch_db:dev_membership.cancell_view_tree
+msgid "cancell_tree"
+msgstr ""
+
+#. module: dev_membership
+#: model_terms:ir.ui.view,arch_db:dev_membership.view_res_partner_memeber_form
+msgid "e.g. Brandon Freeman"
+msgstr ""
+
+#. module: dev_membership
+#: model_terms:ir.ui.view,arch_db:dev_membership.view_res_partner_memeber_form
+msgid "e.g. Lumber Inc"
+msgstr ""
+
+#. module: dev_membership
+#: model_terms:ir.actions.act_window,help:dev_membership.action_dev_membership
+msgid "إنشاء مستند جديد من النوع مستند"
+msgstr ""

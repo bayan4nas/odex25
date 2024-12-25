@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_dev_membership_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res.dev.membership.config.settings</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[hasclass('settings')]" position="inside">
+                <div class="app_settings_block" data-string="Membership Setting" data-key="dev_membership">
+                    <h2>Membership Expiry Reminders</h2>
+                    <div class="row mt16 o_settings_container" name="dev_membership_setting_container">
+                        <div class="col-12 col-lg-6 o_setting_box" id="late_fine">
+                            <div class="o_setting_left_pane"/>
+                            <div class="o_setting_right_pane">
+                                <span class="o_form_label">Membership Expire First Reminder</span>
+                                <div class="text-muted">
+                                    Expire membership send reminder mail before days.
+                                </div>
+                                <div class="text-muted content-group mt16">
+                                    <field name="days_before" class="text-left oe_inline"/>
+                                    <field name="interval" readonly="1"
+                                           style="width: 48%; padding:3px; font-size:13px;"/>
+                                </div>
+                            </div>
+                        </div>
+                        <!--                    todo start -->
+                        <!-- Second Reminder -->
+                        <div class="col-12 col-lg-6 o_setting_box" id="late_fine_second">
+                            <div class="o_setting_left_pane"/>
+                            <div class="o_setting_right_pane">
+                                <span class="o_form_label">Membership Expire Second Reminder</span>
+                                <div class="text-muted">
+                                    Expire membership send second reminder mail before days.
+                                </div>
+                                <div class="text-muted content-group mt16">
+                                    <field name="days_before_second" class="text-left oe_inline"/>
+                                    <field name="interval" readonly="1"
+                                           style="width: 48%; padding:3px; font-size:13px;"/>
+                                </div>
+                            </div>
+                        </div>
+                        <!--                    todo end -->
+                    </div>
+                    <h2>Membership Experience Evaluation</h2>
+                    <div class="row mt16 o_settings_container" name="dev_membership_setting_container">
+                        <div class="col-12 col-lg-6 o_setting_box" id="late_reg">
+                            <div class="o_setting_left_pane"/>
+                            <div class="o_setting_right_pane">
+                                <span class="o_form_label">Membership Registration Evaluation</span>
+                                <div class="text-muted">
+                                    Membership Registration Evaluation.
+                                </div>
+                                <div class="text-muted content-group mt16">
+                                    <field name="membership_registration_evaluation" class="text-left oe_inline"/>
+                                    <field attrs="{'invisible': [('membership_registration_evaluation', '=', False)]}"
+                                           name="registration_evaluation_form" class="text-left oe_inline"/>
+                                </div>
+                            </div>
+                        </div>
+                        <!--                    todo start -->
+                        <!-- Second Reminder -->
+                        <div class="col-12 col-lg-6 o_setting_box" id="late_mem">
+                            <div class="o_setting_left_pane"/>
+                            <div class="o_setting_right_pane">
+                                <span class="o_form_label">Membership Renewal Evaluation</span>
+                                <div class="text-muted">
+                                    Membership Renewal Evaluation.
+                                </div>
+                                <div class="text-muted content-group mt16">
+                                    <field name="membership_renewal_evaluation" class="text-left oe_inline"/>
+                                    <field attrs="{'invisible': [('membership_renewal_evaluation', '=', False)]}"
+                                           name="renewal_evaluation_form" class="text-left oe_inline"/>
+                                </div>
+                            </div>
+                        </div>
+                        <!--                    todo end -->
+                    </div>
+                    <h2>Membership Cancellation</h2>
+                    <div class="row mt16 o_settings_container" name="dev_membership_setting_container">
+                        <div class="col-12 col-lg-6 o_setting_box" id="late_cancellfine">
+                            <div class="o_setting_left_pane"/>
+                            <div class="o_setting_right_pane">
+                                <span class="o_form_label">Membership Auto Cancellation".
+                                </span>
+                                <div class="text-muted">
+                                    Membership Auto Cancellation".
+                                </div>
+                                <div class="text-muted content-group mt16">
+                                    <field name="post_expiry_period"/>
+                                    <field name="interval" readonly="1"
+                                           style="width: 48%; padding:3px; font-size:13px;"/>
+                                </div>
+                                <div class="text-muted content-group mt16">
+                                    <field name="cancellation_reason"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+    <!--Action-->
+    <record id="action_dev_membership_config_settings" model="ir.actions.act_window">
+        <field name="name">Settings</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">res.config.settings</field>
+        <field name="view_id" ref="res_dev_membership_config_settings_view_form"/>
+        <field name="view_mode">form</field>
+        <field name="target">inline</field>
+        <field name="context">{'module' : 'dev_membership', 'bin_size': False}</field>
+    </record>
+    <record id="cancell_view_tree" model="ir.ui.view">
+        <field name="name">cancell_view_tree</field>
+        <field name="model">cancellation.reason</field>
+        <field name="arch" type="xml">
+            <tree editable='top' string="cancell_tree">
+                <field name="sequence" widget="handle"/>
+<!--                 <field name="reasone_no"/> -->
+                <field name="name"/>
+             <field invisible="1" name="company_id"/>
+
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_dev_membership_config_refuse_resone" model="ir.actions.act_window">
+        <field name="name">Cancell Resone</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">cancellation.reason</field>
+        <field name="view_mode">tree</field>
+    </record>
+
+    <!--Menu-->
+    <menuitem id="menu_dev_membership_general_settings"
+              name="Settings"
+              parent="menu_configuration_root"
+              sequence="0" 
+              action="action_dev_membership_config_settings"/>
+
+    <menuitem id="menu_dev_membership_general_reasons"
+              name="Cancell Resones"
+              parent="menu_configuration_root"
+              sequence="3"
+              action="action_dev_membership_config_refuse_resone"/>
+
+</odoo>

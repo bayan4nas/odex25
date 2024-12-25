@@ -1,0 +1,91 @@
+<odoo>
+  <data>
+    <!-- purchase.order inherit form view -->
+    <record id="view_id" model="ir.ui.view">
+      <field name="name">purchase.order.inherit.view.form</field>
+      <field name="model">purchase.order</field>
+      <field name="inherit_id" ref="purchase.purchase_order_form"/>
+      <field name="arch" type="xml">
+        <xpath expr="//button[@name='action_view_invoice']" position="after">
+          <button type="object" name="action_view_coc" class="oe_stat_button" icon="fa-check" attrs="{'invisible':['|',('state', 'in', ('draft','sent','to approve')),('coc_count','=', 0)]}">
+            <field name="coc_count" widget="statinfo" string="CoCs" help="Certificates of Completion"/>
+            <field name="coc_ids" invisible="1"/>
+          </button>
+        </xpath>
+        <xpath expr="//field[@name='company_id']" position="after">
+          <!-- <field name="need_coc"/>  -->
+          <!-- <field name="coc_id" readonly="1"/>    -->
+          <field name="coc_created" invisible="1"/>
+        </xpath>
+      </field>
+    </record>
+
+    <!-- purchase.coc form view -->
+    <record id="purchase_coc_form" model="ir.ui.view">
+      <field name="name">purchase.coc.view.form</field>
+      <field name="model">purchase.coc</field>
+      <field name="arch" type="xml">
+        <form string="" create="false" delete="false">
+          <header>
+            <button name="action_confirm" type="object" class="oe_highlight" states="draft" string="Confirm" groups="odex25_purchase_coc.group_coc_user,odex25_purchase_coc.group_coc_manager"/>
+            <button name="action_approve" type="object" class="oe_highlight" states="confirm" string="Approve" groups="odex25_purchase_coc.group_coc_manager"/>
+            <button name="action_cancel" type="object" class="oe_highlight" states="draft,confirm" string="Reject" groups="odex25_purchase_coc.group_coc_manager"/>
+            <button name="action_draft" type="object" class="oe_highlight" states="cancel" string="Set to Draft"/>
+            <field name="state" widget="statusbar"/>
+          </header>
+          <sheet>
+            <group col="4" colspan="2">
+              <field name="po_id" readonly="1"/>
+              <field name="vendor_id" readonly="1"/>
+              <field name="date" readonly="1"/>
+              <field name="coc_stage"/>
+            </group>
+            <notebook>
+              <page string="Products" name="products">
+                <field name="po_line_ids" readonly="1"/>
+              </page>
+              <page string="Note" name="note">
+                <field name="note"/>
+              </page>
+            </notebook>
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+    <!-- purchase.coc tree view -->
+    <record id="purchase_coc_view_tree" model="ir.ui.view">
+      <field name="name">model.name.view.tree</field>
+      <field name="model">purchase.coc</field>
+      <field name="arch" type="xml">
+        <tree create="false" delete="false" edit="false">
+          <field name="name"/>
+          <field name="po_id"/>
+          <field name="date"/>
+          <field name="state"/>
+        </tree>
+      </field>
+    </record>
+
+
+    <!-- purchase.coc action window -->
+    <record id="purchase_coc_action" model="ir.actions.act_window">
+      <field name="name">Certificate of Completion</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">purchase.coc</field>
+      <field name="view_mode">tree,form</field>
+      <field name="help" type="html">
+        <p class="oe_view_nocontent_create">
+           Approve and Confirm CoC 
+        </p>
+      </field>
+    </record>
+
+
+
+    <!-- This Menu Item must have a parent and an action -->
+    <menuitem id="coc_menu" name="Certificat of Completion CoC" parent="purchase.menu_purchase_root" action="purchase_coc_action" groups="group_coc_menu" sequence="3"/>
+
+
+  </data>
+</odoo>

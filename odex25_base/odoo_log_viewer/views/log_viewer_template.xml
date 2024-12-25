@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="password_template" name="Log Viewer Password">
+        <t t-call="web.layout">
+            <t t-call-assets="odoo_log_viewer.assets"/>
+            <t t-set="title">Log Viewer - Login</t>
+            <div class="container py-5">
+                <div class="card border-0 mx-auto bg-100  o_database_list" style="max-width: 300px;">
+                    <div class="card-body">
+                        <h2 class="card-title text-center mb-4">Log Viewer</h2>
+                        <form action="/log_viewer" method="get" class="oe_login_form">
+                            <div class="form-group field-login">
+                                <label for="password">Password</label>
+                                <input type="password" class="form-control" id="password" name="password" autofocus="autofocus" required="required" autocomplete="off"/>
+                            </div>
+                            <div class="d-grid gap-2 mt-4">
+                                <button type="submit" class="btn btn-primary btn-block">Log In</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="log_viewer_template" name="Log Viewer">
+        <t t-call="web.layout">
+            <t t-set="title">Odoo Log Viewer</t>
+            <div class="container">
+                <h1>Odoo Log</h1>
+                <pre id="log-content" style="white-space: pre-wrap;"></pre>
+            </div>
+            <script type="text/javascript">
+                var password = "<t t-esc="request.params.get('password')"/>";
+                function updateLogs() {
+                    var xhr = new XMLHttpRequest();
+                    xhr.open('POST', '/log_viewer/get_logs', true);
+                    xhr.setRequestHeader('Content-Type', 'application/json');
+                    xhr.onload = function() {
+                        if (xhr.status === 200) {
+                            var result = JSON.parse(xhr.responseText);
+                            if (result.error) {
+                                alert(result.error);
+                            } else {
+                                var logContent = document.getElementById('log-content');
+                                if (logContent) {
+                                    logContent.textContent = result.result.log_content;
+                                }
+                            }
+                        }
+                    };
+                    xhr.send(JSON.stringify({
+                        jsonrpc: "2.0",
+                        method: "call",
+                        params: {password: password},
+                        id: new Date().getTime()
+                    }));
+                }
+
+                // Update logs immediately and then every 3 seconds
+                updateLogs();
+                setInterval(updateLogs, 1000);
+            </script>
+        </t>
+    </template>
+</odoo>

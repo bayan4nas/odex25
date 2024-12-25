@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_users_view_form" model="ir.ui.view">
+        <field name="name">res.users.form.odex25_sign.inherit</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form"/>
+        <field name="priority">140</field>
+        <field name="arch" type="xml">
+            <group name="messaging" position="after">
+                <group string="Digital Signatures" name="sign">
+                    <field name="sign_signature" widget="signature" options="{'full_name': 'display_name', 'size': ['',200]}"/>
+                    <field name="sign_initials" widget="signature" options="{'size': [200,'']}"/>
+                </group>
+            </group>
+        </field>
+    </record>
+    <record id="inherited_res_users_preferences_form2" model="ir.ui.view">
+        <field name="name">inherited.res.users.preferences2.form</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form_simple_modif" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='signature']" position="after">
+                <label for="sign_signature" string="Signature" class="oe_edit_only"/>
+                <h2>
+                    <field name="sign_signature" widget="signature" options="{'full_name': 'display_name', 'size': ['',200]}"/>
+                </h2>
+            </xpath>
+        </field>
+    </record>
+</odoo>

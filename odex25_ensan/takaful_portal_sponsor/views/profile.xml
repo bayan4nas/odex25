@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="sponsor_profile">
+        <t t-set="title">  الملف الشخصي  </t>
+        <t t-call="website.layout">
+            <div class="benifits_wrapper">
+                <div class="container">
+                    <h2 class="heading"> الاعدادات </h2>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="#"> الاعدادات </a>
+                            </li>
+                            <li class="breadcrumb-item active" aria-current="page">
+                                الملف الشخصي 
+                            </li>
+                        </ol>
+                    </nav>
+                    <div class="user_reg_form notification_wrapper">
+                        <div class="form_wrapper">
+                            <div class="">
+                                <div class="">
+                                    <form class="form-horizontal sponsor_profile_form user_data_form" action="" method="POST"
+                                        id="myform">
+                                        <input type="hidden" name="csrf_token"
+                                            t-att-value="request.csrf_token()" />
+                                        <!-- first step data -->
+                                        <div class="row">
+                                            <div class="attach_img">
+                                                <img id="user_profile_img" src="/takaful_portal_sponsor/static/img/avatar.png" alt="avatar"/>
+                                                <div class="wraper">
+                                                    <input type="file" />
+                                                    <div class="img_upload">
+                                                        <img src="/takaful_portal_sponsor/static/img/attach_img.png" alt="attach_img"/>
+                                                        <span>ارفق صورة </span>
+                                                    </div> 
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-lg-6">
+                                                <label for="name" class="control-label">الإسم</label>
+                                                <div class="">
+                                                    <input type="text" class="form-control"
+                                                        id="name" name="name"
+                                                        placeholder="كما موضح في بطاقة الهوية" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-lg-6">
+                                                <label for="id_number" class="control-label">
+                                                    رقم الهوية 
+                                                </label>
+                                                <div class="">
+                                                    <input type="text" class="form-control"
+                                                        id="id_number" name="id_number" placeholder="كما موضح في بطاقة الهوية" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-lg-6 col-md-6">
+                                                <label for="mobile">رقم الجوال</label>
+                                                <div class="input-group mb-3">
+                                                    <!-- <div class="input-group-prepend">
+                                                        <span class="input-group-text" id="basic-addon3">+966</span>
+                                                    </div> -->
+                                                    <input type="text" class="form-control" id="mobile" name="mobile"/>
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-lg-6">
+                                                <label for="identity_date" class=" control-label">
+                                                البريد الالكتروني </label>
+                                                <div class="">
+                                                    <input type="email" class="form-control"
+                                                        id="email" name="email" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-lg-6">
+                                                <label for="city_id" class=" control-label"> المدينة </label>
+                                                <select id="city_id" name="city_id"
+                                                    class="custom-select">
+                                                </select>
+                                            </div>
+
+                                            <div class="form-group col-lg-6">
+                                                <label for="company_type" class=" control-label">
+                                                نوع الحساب </label>
+                                                <div class="">
+                                                    <input type="text" class="form-control"
+                                                        id="company_type" name="company_type" />
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 col-md-6">
+                                                <div class="form-group">
+                                                    <label for="gender">الجنس</label>
+                                                    <div class="gender d-flex">
+                                                        <div class="mail d-flex align-items-center">
+                                                            <input type="radio" class="d-inline-block w-auto" id="gender-male" name="gender" value="male"/>
+                                                            <label class="mb-0"> ذكر </label>
+                                                        </div>
+                                                        <div class="femail d-flex align-items-center">
+                                                            <input type="radio" class="d-inline-block w-auto" id="gender-female" name="gender" value="female"/>
+                                                            <label class="mb-0"> انثى </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-lg-6">
+                                                <label for="bank_entity_name" class=" control-label"> 
+                                                    اسم صاحب الحساب 
+                                                </label>
+                                                <div class="">
+                                                    <input type="text" class="form-control" id="bank_entity_name"
+                                                        name="bank_entity_name" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-lg-12">
+                                                <label for="account_number" class=" control-label">
+                                                    رقم الحساب البنكي
+                                                </label>
+                                                <div class="">
+                                                    <input type="text" class="form-control"
+                                                        id="account_number"
+                                                        name="account_number" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-lg-6">
+                                                <label for="iban" class=" control-label"> رقم الايبان </label>
+                                                <div class="">
+                                                    <input type="text" class="form-control"
+                                                        id="iban"
+                                                        name="iban" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-lg-6">
+                                                <label for="bank_id" class=" control-label"> اسم
+                                                    البنك </label>
+                                                <div class="">
+                                                    <select id="bank_id" name="bank_id"
+                                                        class="custom-select">
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="alert alert-danger error_res"></div>
+                                        <div class="alert alert-success success_res"></div>
+                                        <button class="main_link" type="sumbit"> حفظ التعديلات  </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <script src="/takaful_portal_sponsor/static/js/profile.js"></script>
+        </t>
+
+    </template>
+
+
+</odoo>

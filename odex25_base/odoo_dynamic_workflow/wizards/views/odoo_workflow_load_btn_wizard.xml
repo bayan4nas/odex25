@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--##########################################################-->
+<!--###                 Disclaimer                         ###-->
+<!--##########################################################-->
+<!--### Lately, I started to get very busy after I         ###-->
+<!--### started my new position and I couldn't keep up     ###-->
+<!--### with clients demands & requests for customizations ###-->
+<!--### & upgrades, so I decided to publish this module    ###-->
+<!--### for community free of charge. Building on that,    ###-->
+<!--### I expect respect from whoever gets his/her hands   ###-->
+<!--### on my code, not to copy nor rebrand the module &   ###-->
+<!--### sell it under their names.                         ###-->
+<!--##########################################################-->
+
+<odoo>
+    <data>
+        <!--  Load Buttons Wizard -->
+        <record id="view_form_odoo_workflow_load_btn_wizard" model="ir.ui.view">
+            <field name="name">odoo.workflow.load.btn.wizard.form</field>
+            <field name="model">odoo.workflow.load.btn.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Model Buttons">
+                    <separator string="Model Buttons to Load"/>
+                    <span string="Choose buttons you want to load from model existing buttons."/>
+                    <br/>
+                    <field name="node_id" invisible="1"/>
+                    <field name="model_id" invisible="1"/>
+                    <field name="button_ids" nolable="1" widget="many2many_checkboxes" domain="[('model_id','=',model_id)]"/>
+                    <footer>
+                        <button name="btn_load" string="Load" type="object" class="oe_highlight"/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

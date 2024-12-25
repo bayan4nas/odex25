@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <!-- ##### Work Item ##### -->
+        <record id="view_work_item_form" model="ir.ui.view">
+            <field name="name">Work Item</field>
+            <field name="model">work.item</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name" required="1"/>
+                            </group>
+                            <group>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_work_item_tree" model="ir.ui.view">
+            <field name="name">Work Item</field>
+            <field name="model">work.item</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_view_work_item_search" model="ir.ui.view">
+            <field name="name">Work Item</field>
+            <field name="model">work.item</field>
+            <field name="arch" type="xml">
+                <search string="Search">
+                    <field name="name"/>
+                    <group expand="0" string="Group By..." colspan="12" col="10">
+                        <filter string="Name" name="work_item" icon="terp-go-today" domain="[]"
+                                context="{'group_by':'name'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="view_work_item_action" model="ir.actions.act_window">
+            <field name="name">Work Item</field>
+            <field name="res_model">work.item</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+    </data>
+</odoo>

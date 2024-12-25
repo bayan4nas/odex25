@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="unit_form_view_khawald" model="ir.ui.view">
+        <field name="name">Unit Khawald</field>
+        <field name="model">re.unit</field>
+        <field name="inherit_id" ref="real_estate.unit_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="attributes">
+                <attribute name="attrs">{'readonly':[('project_id','!=',False)]}</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='seq']" position="attributes">
+                <attribute name="required">0</attribute>
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='unit_type_id']" position="before">
+                <field name="project_id" readonly="1"/>
+            </xpath>
+
+            <!-- <xpath expr="//field[@name='action_type']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath> -->
+
+            <xpath expr="//field[@name='mezzanine']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='management_type']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <xpath expr="//page[@name='unit_price']" position="replace"/>
+
+            
+            <xpath expr="//page[@name='prop_info']" position="after">
+                <page name="advantage_price" string="Advantage and Price">
+                    <group name="price">
+                        <field name="meter_price" attrs="{'readonly':[('state','!=','draft'),('unlock','=',True)]}"
+                               required="1"/>
+                        <field name="external_price"
+                               attrs="{'readonly':[('state','!=','draft'),('unlock','=',True)]}"/>
+
+                        <field name="change_price"
+                               attrs="{'readonly':[('state','!=','draft'),('unlock','=',True)]}"/>
+                        <field name="new_price"
+                               attrs="{'readonly':[('state','!=','draft'),('unlock','=',True)], 'invisible':[('change_price', '=', False)]}"/>
+                        <field name="rent_price" readonly="1"/>
+                    </group>
+                    <label for="advantage_ids" string="Advantages"/>
+                    <div>
+                        <field name="advantage_ids" options="{'no_create': True, 'no_quick_create': True}">
+                            <tree>
+                                <field name="name"/>
+                                <field name="price" options="{'currency_field': 'company_currency_id'}"
+                                       readonly="1"/>
+                            </tree>
+                        </field>
+                    </div>
+
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="project_unit_filter_view" model="ir.ui.view">
+        <field name="name">Unit Filter</field>
+        <field name="model">re.unit</field>
+        <field name="inherit_id" ref="real_estate.unit_filter_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='space']" position="after">
+                <field name="rent_price"/>
+                <field name="advantage_ids"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

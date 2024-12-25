@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="paied_record">
+        <t t-set="title"> المدفوعات </t>
+        <t t-call="website.layout">
+            <section class="guarantees financial padding_top">
+                <div class="container">
+                    <h2 class="heading">السجل المالي </h2>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="#"> السجل المالي </a>
+                            </li>
+                            <li class="breadcrumb-item active" aria-current="page"> مدفوعات </li>
+                        </ol>
+                    </nav>
+                    <div class="guarantee_header">
+                        <div class="departments d-flex">
+
+                            <a href="/paied_record" class="box active">
+                                <div class="img">
+                                    <img src="/takaful_portal_sponsor/static/img/payments.png"
+                                        alt="payments" />
+                                </div>
+                                <h5 class="description text-center"> مدفوعات </h5>
+                            </a>
+                            <a href="/delayed_record" class="box">
+                                <div class="img">
+                                    <img src="/takaful_portal_sponsor/static/img/late_payments.png"
+                                        alt="late_payments" />
+                                </div>
+                                <h5 class="description text-center"> متأخرات </h5>
+                            </a>
+                        </div>
+                    </div>
+                    <section class="my_data sadad  payments_data">
+                        <table id="table_id" class="display payments_table w-100">
+                            <thead>
+                                <tr>
+                                    <th>الرقم</th>
+                                    <th>الاسم</th>
+                                    <th> الوصف </th>
+                                    <th>التاريخ </th>
+                                    <th> قيمة الكفالة </th>
+                                    <th style="padding:24px ;"> </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+                        </table>
+                        <div>
+                            <button id="payments_prev" disabled="disabled">
+                                <img src="/takaful_portal_benefit/static/img/prev.png" />
+                            </button>
+                            <button id="payments_next" disabled="disabled">
+                                <img src="/takaful_portal_benefit/static/img/next.png" />
+                            </button>
+                        </div>
+                        <div class="empty_payments"></div>
+                    </section>
+                </div>
+            </section>
+            <script src="/takaful_portal_sponsor/static/js/financial_record.js"></script>
+
+        </t>
+    </template>
+
+    <template id="delayed_record">
+        <t t-set="title"> المتأخرات </t>
+        <t t-call="website.layout">
+            <section class="guarantees padding_top">
+                <div class="container">
+                    <h2 class="heading">السجل المالي </h2>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="#"> السجل المالي </a>
+                            </li>
+                            <li class="breadcrumb-item active" aria-current="page"> المتأخرات </li>
+                        </ol>
+                    </nav>
+                    <div class="guarantee_header">
+                        <div class="departments d-flex">
+
+                            <a href="/paied_record" class="box ">
+                                <div class="img">
+                                    <img src="/takaful_portal_sponsor/static/img/payments.png"
+                                        alt="payments" />
+                                </div>
+                                <h5 class="description text-center"> مدفوعات </h5>
+                            </a>
+                            <a href="/delayed_record" class="box active">
+                                <div class="img">
+                                    <img src="/takaful_portal_sponsor/static/img/late_payments.png"
+                                        alt="late_payments" />
+                                </div>
+                                <h5 class="description text-center"> متأخرات </h5>
+                            </a>
+                        </div>
+                    </div>
+
+                    <section class="my_data sadad  late_payments_data">
+                        <table id="table_id" class="display arreas_table w-100">
+                            <thead>
+                                <tr>
+                                    <th>الرقم</th>
+                                    <th>رقم الكفالة </th>
+                                    <th>تاريخ بدء لكفالة </th>
+                                    <th> قيمة الكفالة </th>
+                                    <th> مدة التأخير </th>
+                                    <th style="padding:24px ;"> </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            
+                            </tbody>
+                        </table>
+                        <div class="empty_arreas"></div>
+                        <div>
+                            <button id="payments_prev" disabled="disabled">
+                                <img src="/takaful_portal_benefit/static/img/next.png" />
+                            </button>
+                            <button id="payments_next" disabled="disabled">
+                                <img src="/takaful_portal_benefit/static/img/prev.png" />
+                            </button>
+                        </div>
+                    </section>
+                </div>
+            </section>
+            <script src="/takaful_portal_sponsor/static/js/financial_record.js"></script>
+
+        </t>
+    </template>
+
+</odoo>

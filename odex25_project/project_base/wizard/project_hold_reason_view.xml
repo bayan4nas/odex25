@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_project_hold_wizard" model="ir.ui.view">
+        <field name="name">Reason for the Project Hold</field>
+        <field name="model">project.hold.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Reason for the Project Hold">
+                <p class="oe_grey">
+                    Choose the reason for the project hold.
+                </p>
+                <group>
+                    <field name="reason_id"/>
+                </group>
+                <group>
+                    <field name="reason" nolabel="1"/>
+                </group>
+                <footer>
+                    <button
+                        name="hold_project"
+                        string="Hold"
+                        type="object"
+                        class="oe_highlight"
+                    />
+                    or
+                    <button string="Cancel" class="oe_link" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_project_hold" model="ir.actions.act_window">
+        <field name="name">Reason for Project Hold</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">project.hold.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_project_hold_wizard" />
+        <field name="target">new</field>
+    </record>
+</odoo>

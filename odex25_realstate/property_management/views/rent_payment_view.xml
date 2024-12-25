@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+
+        <record id="rent_payment_form_view" model="ir.ui.view">
+            <field name="name">Rent Payment</field>
+            <field name="model">rent.payment</field>
+            <field name="arch" type="xml">
+                <form create="false">
+                    <header>
+                        <button name="action_validate" string="Validate"
+                                states="draft"
+                                type="object"/>
+                        <button name="action_invoice" string="Create Invoice"
+                                states="due"
+                                type="object"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+
+                        <h1>
+                            <field name="code" readonly="1"/>
+                        </h1>
+                        <group>
+                            <group string="Contract Details">
+                                <field name="contract_id" readonly="1"/>
+                                <field name="renter_id"/>
+                                <field name="property_id" readonly="1"/>
+                                <field name="unit_ids" widget="many2many_tags" readonly="1"/>
+                                <field name="due_date" readonly="1"/>
+                                <field name="paid_date" readonly="1"/>
+                                <field name="user_id" readonly="1"/>
+                                <field name="company_id" readonly="1"/>
+                            </group>
+                            <group string="Payment Details">
+                                <field name="name" readonly="1"/>
+                                <field name="amount" readonly="1"/>
+                                <field name="electricity_cost" readonly="1"/>
+                                <field name="sanitation_cost" readonly="1"/>
+                                <field name="water_cost" readonly="1"/>
+                                <field name="service_cost" readonly="1"/>
+                                <field name="service_note" readonly="1"/>
+                                <field name="profit" invisible="1"/>
+                                <field name="untaxed_amount" readonly="1" invisible="0"/>
+                                <field name="tax_id" readonly="1"/>
+                                <field name="tax_amount" readonly="1"/>
+                                <field name="total_amount" readonly="1"/>
+                                <field name="commission_amount" readonly="1"/>
+                                <field name="collected_from_company"/>
+                                <field name="amount_in_word" readonly="1"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Invoice" name="invoices">
+                                <group>
+                                    <field name="invoice_id"/>
+                                    <field name="invoice_commission_id"/>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="rent_payment_list_view" model="ir.ui.view">
+            <field name="name">Rent Payment List</field>
+            <field name="model">rent.payment</field>
+            <field name="arch" type="xml">
+                <tree create="false" decoration-warning="state == 'due'" decoration-info="state == 'invoice'"
+                      decoration-danger="state == 'cancel'" decoration-muted="state == 'canceled'"
+                      decoration-success="state == 'paid'">
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="contract_id"/>
+                    <field name="renter_id"/>
+                    <field name="property_id"/>
+                    <field name="unit_ids" widget="many2many_tags"/>
+                    <field name="due_date"/>
+                    <field name="paid_date"/>
+                    <field name="amount" sum="Total Amount"/>
+                    <field name="commission_amount" sum="Total Commission"/>
+                    <field name="water_cost" sum="Total Water Cost"/>
+                    <field name="service_cost" sum="Total Service Cost"/>
+                    <field name="service_note"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="rent_payment_filter_view" model="ir.ui.view">
+            <field name="name">rent payment filter</field>
+            <field name="model">rent.payment</field>
+            <field name="arch" type="xml">
+                <search string="Search">
+                    <field name="code"/>
+                    <field name="name"/>
+                    <field name="contract_id"/>
+                    <field name="partner_id"/>
+                    <field name="invoice_commission_id"/>
+                    <field name="property_id"/>
+                    <field name="due_date"/>
+                    <field name="state"/>
+                    <filter string="Due" name="due_payment" domain="[('state','=','due')]"/>
+                    <filter string="Not due" name="not_due_payment" domain="[('state','=','draft')]"/>
+                    <filter string="Paid" name="paid_payment" domain="[('state','=','paid')]"/>
+                    <filter string="Cancelled" name="cancel_payment" domain="[('state','=','cancel')]"/>
+                    <filter string="Collected From Company" name="collected_from_company"
+                            domain="[('collected_from_company','=',True)]"/>
+                    <filter string="Invoice Commission" name="invoice_commission_id"
+                            domain="[('collected_from_company','=',True),('invoice_commission_id','!=',False)]"/>
+                    <filter string="NOT Invoice Commission " name="no_invoice_commission_id"
+                            domain="[('collected_from_company','=',True),('invoice_commission_id','=',False)]"/>
+
+                    <separator/>
+                    <filter name="payment_state" string="Not Canceled Payment" domain="[('state','!=','cancel')]"/>
+                    <separator/>
+
+                    <group expand="0" string="Group By">
+                        <filter string="Status" name="state" domain="[]" context="{'group_by': 'state'}"/>
+                        <filter string="Collected From Company" name="collected_from_company" domain="[]"
+                                context="{'group_by': 'collected_from_company'}"/>
+                        <filter string="Renter" name="partner_id" domain="[]" context="{'group_by': 'partner_id'}"/>
+                        <filter name="group_contract_id" string="Rental Contract" domain="[]"
+                                context="{'group_by':'contract_id'}"/>
+                        <filter name="property_group" string="property_id" domain="[]"
+                                context="{'group_by':'property_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+
+    </data>
+</odoo>

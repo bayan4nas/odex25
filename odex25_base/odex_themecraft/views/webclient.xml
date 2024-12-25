@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+	<template id="assets_backend" name="OODEX BACKEND THEME" inherit_id="web.assets_backend">
+		<xpath expr="//link[last()]" position="after">
+			<link rel="stylesheet" type="text/scss" href="/odex_themecraft/static/src/scss/variables.scss"/>
+			<link rel="stylesheet" type="text/scss" href="/odex_themecraft/static/src/scss/fonts.scss"/>
+			<link rel="stylesheet" type="text/scss" href="/odex_themecraft/static/src/scss/web_theme.scss"/>
+			<link rel="stylesheet" type="text/scss" href="/odex_themecraft/static/src/scss/rtl.scss"/>
+			<link rel="stylesheet" type="text/scss" href="/odex_themecraft/static/src/scss/filter.scss"/>
+		</xpath>
+		<xpath expr="script[last()]" position="after">
+			<script type="text/javascript" src="/odex_themecraft/static/src/js/customize_user_menu.js"></script>
+		</xpath>
+	</template>
+	
+</odoo>

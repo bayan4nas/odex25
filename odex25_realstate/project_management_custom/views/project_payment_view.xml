@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+        <!-- Project Payment -->
+        <record id="project_payment_request_view_forms" model="ir.ui.view">
+            <field name="name">project.payment.request.form.view</field>
+            <field name="model">project.payment.request</field>
+            <field name="arch" type="xml">
+                <form create="false"  delete="false" string="Project Payment">
+                    <header>
+                        <button name="submit" type="object" string="Submit" states="draft" groups="project.group_project_user"
+                                class="oe_highlight"/>
+                        <button name="expect_penalty" attrs="{'invisible':['|','|',('type', '!=', 'subcontractor'),('penalty_amount','=', 0.0),('state', '!=', 'submit')]}" type="object" string="Penalty Escape"
+                                groups="project.group_project_manager"
+                                class="oe_highlight"/>
+                        <button name="approve" type="object" string="Approve" states="submit"
+                                groups="project.group_project_manager"
+                                class="oe_highlight"/>
+                        <button name="cancel" type="object" string="Cancel" states="draft,submit" groups="project.group_project_user"
+                                class="oe_highlight"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,submit,approve" attrs="{'invisible': [('state', '=', 'cancel')]}"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="sequence" readonly="1"/>
+                                <field name="date" readonly="1"/>
+                                <field name="type" readonly="1"/>
+                                <field name="partner_id" readonly="1"/>
+                                <field name="eng_office_installment_id" attrs="{'invisible':[('eng_office_installment_id','=', False)]}" readonly="1" />
+                                <field name="subcontractor_line_id" attrs="{'invisible':[('subcontractor_line_id','=', False)]}" readonly="1" />
+                            </group>
+                            <group>
+                                <field name="name" readonly="1"/>
+                                <field name="project_id" readonly="1"/>
+                                <field name="delivery_date" required="1"/>
+                                <field name="amount" readonly="1"/>
+                                <field name="penalty_amount" attrs="{'invisible':[('penalty_amount','=', 0.0)]}" readonly="1"/>
+                                <field name="account_move_id" readonly="1" />
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" groups="base.group_user"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="project_payment_request_view_tree" model="ir.ui.view">
+            <field name="name">project.payment.request.tree.view</field>
+            <field name="model">project.payment.request</field>
+            <field name="arch" type="xml">
+                <tree create="false" edit="false" delete="false" string="Project Payment">
+                    <field name="sequence"/>
+                    <field name="name"/>
+                    <field name="project_id"/>
+                    <field name="type"/>
+                    <field name="partner_id"/>
+                    <field name="delivery_date"/>
+                    <field name="amount"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="project_payment_request_view_select" model="ir.ui.view">
+            <field name="name">project.payment.request.search.view</field>
+            <field name="model">project.payment.request</field>
+            <field name="arch" type="xml">
+                    <search string="Search Project Payment">
+                        <field name="partner_id" />
+                        <field name="project_id" />
+                        <group expand="0" string="Group By...">
+                            <filter string="Partner" name="partner_id"  domain="[]"
+                                    context="{'group_by':'partner_id'}"/>
+                            <filter string="Project" name="project_id" domain="[]"
+                                    context="{'group_by':'project_id'}"/>
+                            <filter string="Type" domain="[]" name="payment_type" context="{'group_by':'type'}"/>
+                            <filter string="State" domain="[]" name="state" context="{'group_by':'state'}"/>
+                        </group>
+                    </search>
+                </field>
+        </record>
+
+
+        <record model="ir.actions.act_window" id="action_projects_payments_custom">
+            <field name="name">Projects Payments</field>
+            <field name="res_model">project.payment.request</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="project_payment_request_view_tree"/>
+        </record>
+
+
+        <menuitem action="action_projects_payments_custom"
+              id="custom_project_payment_menu"
+              name="Projects Payments"
+              parent="project_installment"
+              sequence="5"/>
+
+
+
+</odoo>

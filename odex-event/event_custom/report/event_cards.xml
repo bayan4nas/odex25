@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <report
+        id="hr_event_print_card1"
+        string="Print male Organizer card"
+        model="event.event"
+        report_type="qweb-pdf"
+        name="event_custom.print_event_card1"
+        file="event_custom.print_event_card1"
+        print_report_name="'Print card - %s' % (object.name).replace('/', '')"
+    />
+
+    <report
+        id="hr_event_print_card2"
+        string="Print female Organizer card"
+        model="event.event"
+        report_type="qweb-pdf"
+        name="event_custom.print_event_card2"
+        file="event_custom.print_event_card2"
+        print_report_name="'Print card - %s' % (object.name).replace('/', '')"
+    />
+
+    <report
+        id="hr_event_print_card3"
+        string="Print male volunteer card"
+        model="event.event"
+        report_type="qweb-pdf"
+        name="event_custom.print_event_card3"
+        file="event_custom.print_event_card3"
+        print_report_name="'Print card - %s' % (object.name).replace('/', '')"
+    />
+
+    <report
+        id="hr_event_print_card4"
+        string="Print female volunteer card"
+        model="event.event"
+        report_type="qweb-pdf"
+        name="event_custom.print_event_card4"
+        file="event_custom.print_event_card4"
+        print_report_name="'Print card - %s' % (object.name).replace('/', '')"
+    />
+
+    <template id="print_event_card1">
+        <t t-call="web.basic_layout">
+            <div class="page">
+                <t t-foreach="docs" t-as="o">
+                    <div class="col-sm-6">
+                        <table style="width:243pt; height:153pt; border: 1pt solid black; border-collapse:separate; border-radius:8pt; margin:5pt">
+                            <tr style="height:30%;" align="center">
+                                <td>
+                                    <table>
+                                        <td>
+                                            <tr>
+                                                <td align="center" valign="center">
+                                                    <img t-if="o.company_id and o.company_id.logo" t-att-src="'data:image/png;base64,%s' % to_text(o.company_id.logo)" style="max-height:45pt;max-width:90%" alt="Company Logo"/>
+                                                </td>
+                                                <!-- <td align="center" valign="center">
+                                                    <img t-if="o.company_id and o.company_id.logo" t-att-src="'data:image/png;base64,%s' % to_text(o.company_id.logo)" style="max-height:45pt;max-width:90%" alt="Company Logo"/>
+                                                </td> -->
+                                                 <td align="center" valign="center">
+                                                    <img t-if="o.image" t-att-src="'data:image/png;base64,%s' % to_text(o.image)" style="max-height:85pt;max-width:90%" alt="Event Image"/>
+                                                </td>
+                                            </tr>
+                                        </td>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr style="height:60%" align="center">
+                                <td valign="center">
+                                    <table>
+                                        <tr><th><div style="font-size:15pt; margin-bottom:0pt;margin-top:0pt;" valign="center">منظم</div></th></tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr style="height:10%" align="center">
+                                <td>
+                                    <table>
+                                        <tr><td>
+                                        <t t-foreach="o.sponsor_ids" t-as="sponsor">
+                                          <t t-if="sponsor.partner_id.image">
+                                            <!-- <span t-field="sponsor.partner_id.image"/> -->
+                                            <img t-att-src="'data:image/png;base64,%s' % to_text(sponsor.partner_id.image)" style="max-height:30pt;max-width:200pt" alt="sponsor Image"/>
+                                          </t>
+                                        </t>
+                                    </td>
+                                </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </t>
+            </div>
+        </t>
+    </template>
+
+    <template id="print_event_card2">
+        <t t-call="web.basic_layout">
+            <div class="page">
+                <t t-foreach="docs" t-as="o">
+                    <div class="col-sm-6">
+                        <table style="width:243pt; height:153pt; border: 1pt solid black; border-collapse:separate; border-radius:8pt; margin:5pt">
+                            <tr style="height:30%;" align="center">
+                                <td>
+                                    <table>
+                                        <td>
+                                            <tr>
+                                                <td align="center" valign="center">
+                                                    <img t-if="o.company_id and o.company_id.logo" t-att-src="'data:image/png;base64,%s' % to_text(o.company_id.logo)" style="max-height:45pt;max-width:90%" alt="Company Logo"/>
+                                                </td>
+                                                <!-- <td align="center" valign="center">
+                                                    <img t-if="o.company_id and o.company_id.logo" t-att-src="'data:image/png;base64,%s' % to_text(o.company_id.logo)" style="max-height:45pt;max-width:90%" alt="Company Logo"/>
+                                                </td> -->
+                                                 <td align="center" valign="center">
+                                                    <img t-if="o.image" t-att-src="'data:image/png;base64,%s' % to_text(o.image)" style="max-height:85pt;max-width:90%" alt="Event Image"/>
+                                                </td>
+                                            </tr>
+                                        </td>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr style="height:60%" align="center">
+                                <td valign="center">
+                                    <table>
+                                        <tr><th><div style="font-size:15pt; margin-bottom:0pt;margin-top:0pt;" valign="center">منظمة</div></th></tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr style="height:10%" align="center">
+                                <td>
+                                    <table>
+                                        <tr><td>
+                                        <t t-foreach="o.sponsor_ids" t-as="sponsor">
+                                          <t t-if="sponsor.partner_id.image">
+                                            <!-- <span t-field="sponsor.partner_id.image"/> -->
+                                            <img t-att-src="'data:image/png;base64,%s' % to_text(sponsor.partner_id.image)" style="max-height:30pt;max-width:200pt" alt="sponsor Image"/>
+                                          </t>
+                                        </t>
+                                    </td>
+                                </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </t>
+            </div>
+        </t>
+    </template>
+
+    <template id="print_event_card3">
+        <t t-call="web.basic_layout">
+            <div class="page">
+                <t t-foreach="docs" t-as="o">
+                    <div class="col-sm-6">
+                        <table style="width:243pt; height:153pt; border: 1pt solid black; border-collapse:separate; border-radius:8pt; margin:5pt">
+                            <tr style="height:30%;" align="center">
+                                <td>
+                                    <table>
+                                        <td>
+                                            <tr>
+                                                <td align="center" valign="center">
+                                                    <img t-if="o.company_id and o.company_id.logo" t-att-src="'data:image/png;base64,%s' % to_text(o.company_id.logo)" style="max-height:45pt;max-width:90%" alt="Company Logo"/>
+                                                </td>
+                                                <!-- <td align="center" valign="center">
+                                                    <img t-if="o.company_id and o.company_id.logo" t-att-src="'data:image/png;base64,%s' % to_text(o.company_id.logo)" style="max-height:45pt;max-width:90%" alt="Company Logo"/>
+                                                </td> -->
+                                                 <td align="center" valign="center">
+                                                    <img t-if="o.image" t-att-src="'data:image/png;base64,%s' % to_text(o.image)" style="max-height:85pt;max-width:90%" alt="Event Image"/>
+                                                </td>
+                                            </tr>
+                                        </td>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr style="height:60%" align="center">
+                                <td valign="center">
+                                    <table>
+                                        <tr><th><div style="font-size:15pt; margin-bottom:0pt;margin-top:0pt;" valign="center">متطوع</div></th></tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr style="height:10%" align="center">
+                                <td>
+                                    <table>
+                                        <tr><td>
+                                        <t t-foreach="o.sponsor_ids" t-as="sponsor">
+                                          <t t-if="sponsor.partner_id.image">
+                                            <!-- <span t-field="sponsor.partner_id.image"/> -->
+                                            <img t-att-src="'data:image/png;base64,%s' % to_text(sponsor.partner_id.image)" style="max-height:30pt;max-width:200pt" alt="sponsor Image"/>
+                                          </t>
+                                        </t>
+                                    </td>
+                                </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </t>
+            </div>
+        </t>
+    </template>
+
+    <template id="print_event_card4">
+        <t t-call="web.basic_layout">
+            <div class="page">
+                <t t-foreach="docs" t-as="o">
+                    <div class="col-sm-6">
+                        <table style="width:243pt; height:153pt; border: 1pt solid black; border-collapse:separate; border-radius:8pt; margin:5pt">
+                            <tr style="height:30%;" align="center">
+                                <td>
+                                    <table>
+                                        <td>
+                                            <tr>
+                                                <td align="center" valign="center">
+                                                    <img t-if="o.company_id and o.company_id.logo" t-att-src="'data:image/png;base64,%s' % to_text(o.company_id.logo)" style="max-height:45pt;max-width:90%" alt="Company Logo"/>
+                                                </td>
+                                                <!-- <td align="center" valign="center">
+                                                    <img t-if="o.company_id and o.company_id.logo" t-att-src="'data:image/png;base64,%s' % to_text(o.company_id.logo)" style="max-height:45pt;max-width:90%" alt="Company Logo"/>
+                                                </td> -->
+                                                 <td align="center" valign="center">
+                                                    <img t-if="o.image" t-att-src="'data:image/png;base64,%s' % to_text(o.image)" style="max-height:85pt;max-width:90%" alt="Event Image"/>
+                                                </td>
+                                            </tr>
+                                        </td>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr style="height:60%" align="center">
+                                <td valign="center">
+                                    <table>
+                                        <tr><th><div style="font-size:15pt; margin-bottom:0pt;margin-top:0pt;" valign="center">متطوعة</div></th></tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr style="height:10%" align="center">
+                                <td>
+                                    <table>
+                                        <tr><td>
+                                        <t t-foreach="o.sponsor_ids" t-as="sponsor">
+                                          <t t-if="sponsor.partner_id.image">
+                                            <!-- <span t-field="sponsor.partner_id.image"/> -->
+                                            <img t-att-src="'data:image/png;base64,%s' % to_text(sponsor.partner_id.image)" style="max-height:30pt;max-width:200pt" alt="sponsor Image"/>
+                                          </t>
+                                        </t>
+                                    </td>
+                                </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </t>
+            </div>
+        </t>
+    </template>
+
+</odoo>

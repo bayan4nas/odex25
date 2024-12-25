@@ -1,0 +1,724 @@
+<odoo>
+    <data>
+        <template id="profile" name=" profile ">
+            <t t-set="title"> الملف الشخصي </t>
+            <t t-call="website.layout">
+                <div class="profile_wrapper">
+                    <div class="container">
+                        <h2 class="heading"> الملف الشخصي </h2>
+                        <ul class="nav profile_header nav-tabs" role="tablist">
+                            <li class="nav-item active">
+                                <a class="active" data-toggle="tab" href="#general_info"> البيانات
+                                    العامة </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#main_info" data-toggle="tab"> البيانات الأساسية </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#attached_files" data-toggle="tab"> الملفات المرفقة </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#benefits_data" data-toggle="tab"> بيانات المعالين </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#pays_data" data-toggle="tab"> المدفوعات </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#expenses" data-toggle="tab"> المصروفات </a>
+                            </li>
+
+                        </ul>
+                        <!-- Tab panes -->
+                        <div class="tab-content">
+                            <div id="general_info" class="tab-pane active">
+                                <div id="enableInputs" class="enableInputs">
+                                    <i class="fa fa-edit"></i>
+                                    <span>تعديل</span>
+                                </div>
+                                <form id="main_data_form" class="general_data_form">
+                                    <div class="row">
+                                        <div class="form-group col-lg-6">
+                                            <label for="name" class=" control-label"> الإسم </label>
+                                            <div class="">
+                                                <input type="text" class="form-control"
+                                                    name="name" id="name" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-lg-6">
+                                            <label for="id_number" class=" control-label"> رقم
+                                                الهوية </label>
+                                            <div class="">
+                                                <input type="text" class="form-control"
+                                                    id="id_number"
+                                                    name="id_number" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-lg-6">
+                                            <label for="id_expiry" class=" control-label"> تاريخ
+                                                انتهاء الهوية</label>
+                                            <div class="">
+                                                <input type="text" class="form-control"
+                                                    id="id_expiry"
+                                                    name="id_expiry" />
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6">
+                                            <div class="form-group">
+                                                <label for="gender"> الجنس </label>
+                                                <div class="gender d-flex">
+                                                    <div class="mail d-flex align-items-center">
+                                                        <input type="radio"
+                                                            class="d-inline-block w-auto"
+                                                            id="gender-male" name="gender"
+                                                            value="male" />
+                                                        <label class="mb-0"> ذكر </label>
+                                                    </div>
+                                                    <div class="femail d-flex align-items-center">
+                                                        <input type="radio"
+                                                            class="d-inline-block w-auto"
+                                                            id="gender-female" name="gender"
+                                                            value="female" />
+                                                        <label class="mb-0"> انثى </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group col-lg-6">
+                                            <label for="marital_status" class=" control-label">
+                                                الحالة
+                                                الاجتماعية </label>
+                                            <div class="">
+                                                <select name="marital_status" id="marital_status"
+                                                    class="custom-select">
+                                                    <option value="single" selected="selected">
+                                                        عازب/ة</option>
+                                                    <option value="married">متزوج/ة</option>
+                                                    <option value="widower">أرمل/ة</option>
+                                                    <option value="divorced">مطلق/ة</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-lg-6">
+                                            <label for="birth_date" class=" control-label"> تاريخ
+                                                الميلاد </label>
+                                            <div class="">
+                                                <input type="text" class="form-control"
+                                                    id="birth_date"
+                                                    name="birth_date" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-lg-6">
+                                            <label for="family" class=" control-label"> العائلة </label>
+                                            <div class="">
+                                                <input type="text" class="form-control" id="family"
+                                                    name="family" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-lg-6">
+                                            <label for="bank_name" class=" control-label"> اسم البنك </label>
+                                            <div class="">
+                                                <select name="bank_id" id="bank_id"
+                                                    class="custom-select">
+
+                                                </select>
+
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-lg-12"
+                                            style="margin-bottom:2rem ;">
+                                            <label for="iban" class=" control-label"> رقم الايبان </label>
+                                            <div class="">
+                                                <input type="text" class="form-control" id="iban"
+                                                    name="iban" />
+                                            </div>
+                                        </div>
+                                        <div class="response_msg"> </div>
+                                        <div class="col-lg-12">
+                                            <button class="main_link main_data_btn"> حفظ البيانات </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div id="main_info" class="tab-pane fade">
+                                <div id="mainInfo" class="enableInputs">
+                                    <i class="fa fa-edit"></i>
+                                    <span>تعديل</span>
+                                </div>
+                                <form action="" id="main_info_form" class="main_data_form">
+                                    <div class="row">
+                                        <div class="form-group col-lg-6">
+                                            <label for="email" class=" control-label"> البريد
+                                                الإلكتروني </label>
+                                            <div class="">
+                                                <input type="text" class="form-control" id="email"
+                                                    name="email" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-lg-6">
+                                            <label for="phone" class=" control-label">رقم الجوال </label>
+                                            <div class="">
+                                                <input type="text" class="form-control" id="phone"
+                                                    name="phone" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-lg-6">
+                                            <label for="country_id" class=" control-label"> الدولة </label>
+                                            <div class="">
+                                                <input type="text" class="form-control"
+                                                    id="country_id"
+                                                    name="country_id" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-lg-6">
+                                            <label for="city_id" class=" control-label"> المدينة </label>
+                                            <div class="">
+                                                <input type="text" class="form-control" id="city_id"
+                                                    name="city_id" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-lg-6">
+                                            <label for="street" class=" control-label"> الشارع </label>
+                                            <div class="">
+                                                <input type="text" class="form-control" id="street"
+                                                    name="street" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-lg-6">
+                                            <label for="location" class=" control-label"> العنوان </label>
+                                            <div class="">
+                                                <input type="text" class="form-control"
+                                                    id="location"
+                                                    name="location" />
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <button class="main_link mainInfo_Btn"> حفظ البيانات </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div id="attached_files" class="tab-pane fade">
+                                <form action="" id="attachments_form" class="main_data_form">
+                                    <div id="attachEdit" class="enableInputs">
+                                        <i class="fa fa-edit"></i>
+                                        <span>تعديل</span>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group col-lg-6">
+                                            <label for="" class=" control-label"> إرفاق مستند الهوية</label>
+                                            <div class="attach_wrapper">
+                                                <input type="file" class="form-control" id="id_file"
+                                                    name="" />
+                                                <input type="text" id="id_file_preview" />
+                                                <img
+                                                    src="/takaful_portal_benefit/static/img/attatch.png"
+                                                    alt="attach" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-lg-6">
+                                            <label for="" class=" control-label"> إرفاق مستند
+                                                الايبان </label>
+                                            <div class="attach_wrapper">
+                                                <input type="file" class="form-control"
+                                                    id="iban_file"
+                                                    name="" />
+                                                <input type="text" id="iban_file_preview" />
+                                                <img
+                                                    src="/takaful_portal_benefit/static/img/attatch.png"
+                                                    alt="attach" />
+                                            </div>
+                                        </div>
+                                        <!-- <div class="form-group col-lg-6">
+                                            <label for="" class=" control-label"> إرفاق مستند رقم
+                                                العائلة </label>
+                                            <div class="attach_wrapper">
+                                                <input type="file" class="form-control" id=""
+                                                    name="" />
+                                                <input type="text" />
+                                                <img
+                                                    src="/takaful_portal_benefit/static/img/attatch.png"
+                                                    alt="attach" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-lg-6">
+                                            <label for="" class=" control-label">إرفاق مستند اثبات
+                                                الحالة </label>
+                                            <div class="attach_wrapper">
+                                                <input type="file" class="form-control" id=""
+                                                    name="" />
+                                                <input type="text" />
+                                                <img
+                                                    src="/takaful_portal_benefit/static/img/attatch.png"
+                                                    alt="attach" />
+                                            </div>
+                                        </div> -->
+                                        <div class="col-lg-12">
+                                            <button class="main_link attach_btn"> حفظ البيانات </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div id="benefits_data" class="tab-pane fade">
+                                <span class="add_bnf" data-toggle="modal" data-target="#add_benefit">
+                                    <img
+                                        src="/takaful_portal_benefit/static/img/Icon awesome-plus.png"
+                                        alt="plus" class="ml-2" /> أضف معال جديد </span>
+                                <section class="">
+                                    <table id="table_id" class="display w-100 followers_tbl">
+                                        <thead>
+                                            <tr>
+                                                <th>الرقم</th>
+                                                <th>اسم المعال</th>
+                                                <th>الجنس</th>
+                                                <th>العلاقة </th>
+                                                <th> تاريخ الميلاد </th>
+                                                <th> رقم الهوية </th>
+                                                <th> ملف اثبات الهوية </th>
+                                                <th style="padding:24px ;"> حذف </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </section>
+                            </div>
+                            <div id="pays_data" class="tab-pane fade">
+                                <section class="">
+                                    <table id="table_id" class="display w-100">
+                                        <thead>
+                                            <tr>
+                                                <th>الاسم </th>
+                                                <th>القيمة </th>
+                                                <th>الحالة </th>
+                                                <th class="date_cell">التاريخ</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        
+                                        </tbody>
+                                    </table>
+                                </section>
+                            </div>
+                            <div id="expenses" class="tab-pane fade">
+                                <span class="add_bnf" data-toggle="modal" data-target="#add_expense">
+                                    <img
+                                        src="/takaful_portal_benefit/static/img/Icon awesome-plus.png"
+                                        alt="plus" class="ml-2" /> أضف مصروف جديد </span>
+                                <section class="">
+                                    <table id="table_id" class="display w-100 expenses_table">
+                                        <thead>
+                                            <tr>
+                                                <th>الرقم</th>
+                                                <th>الاسم</th>
+                                                <th> المصروفات </th>
+                                                <th> نوع الرسوم </th>
+                                                <th>المبلغ </th>
+                                                <th> الدواء </th>
+                                                <th> المرض </th>
+                                                <th> المواصلات</th>
+                                                <th> الدين</th>
+                                                <th> سبب الدين</th>
+                                                <th> شرح الجائحة</th>
+                                                <th> الحالة </th>
+                                                <th style="padding:24px ;"> المرفقات </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </section>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <!-- add benefit modal  -->
+                <div class="modal fade kafala_modal " id="add_benefit" tabindex="-1" role="dialog"
+                    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title heading" id="exampleModalLongTitle"> إضافه
+                                    معال جديد </h5>
+                                <button type="button" class="close" data-dismiss="modal"
+                                    aria-label="Close">
+                                    <span aria-hidden="true">
+                                        <i class="fa fa-times"></i>
+                                    </span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="add_support" action="/benefit/create_support"
+                                    method="post">
+                                    <div class="row">
+                                        <input type="hidden" name="csrf_token"
+                                            t-att-value="request.csrf_token()" />
+                                        <div class="form-group col-lg-12">
+                                            <label for="name" class="myName control-label"> الاسم </label>
+                                            <div class="">
+                                                <input type="text" class="form-control"
+                                                    id="name" name="name" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-lg-12">
+                                            <label for="relation" class="myName control-label">
+                                                العلاقة</label>
+                                            <div class="">
+                                                <select name="relation" id="relation"
+                                                    class="custom-select">
+                                                    <option selected="selected" value="father">أب</option>
+                                                    <option value="mother">أم </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6">
+                                            <div class="form-group">
+                                                <label for="gender">الجنس</label>
+                                                <div class="gender d-flex">
+                                                    <div class="mail d-flex align-items-center">
+                                                        <input type="radio"
+                                                            class="d-inline-block w-auto"
+                                                            id="gender-male" name="gender"
+                                                            value="male" />
+                                                        <label class="mb-0"> ذكر </label>
+                                                    </div>
+                                                    <div class="femail d-flex align-items-center">
+                                                        <input type="radio"
+                                                            class="d-inline-block w-auto"
+                                                            id="gender-female" name="gender"
+                                                            value="female" />
+                                                        <label class="mb-0"> انثى </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-lg-12">
+                                            <label for="birth_date" class="myName control-label">
+                                                تاريخ الميلاد </label>
+                                            <div class="pick_date position-relative">
+                                                <input type="text" class="form-control"
+                                                    id="birth" name="birth" />
+                                                <input class="date_input" type="date"
+                                                    name="birth_date" id="birth_date" />
+                                                <img
+                                                    src="/takaful_portal_benefit/static/img/Icon awesome-calendar-alt.png"
+                                                    alt="calender" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-lg-12">
+                                            <label for="id_number" class="myName control-label"> رقم
+                                                الهوية </label>
+                                            <div class="">
+                                                <input type="text" class="form-control"
+                                                    id="id_number" name="id_number" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-lg-6">
+                                            <label for="id_number_attach"
+                                                class="myName control-label">
+                                                ارفاق الهوية </label>
+                                            <div class="">
+                                                <input type="file" class="form-control"
+                                                    id="id_number_attach"
+                                                    accept="application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint,
+                                                    text/plain, application/pdf, image/*"
+                                                    required="required"
+                                                    name="id_number_attach" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-lg-6">
+                                            <label for="father_name" class="myName control-label">
+                                                اسم الأب </label>
+                                            <div class="">
+                                                <input type="text" class="form-control"
+                                                    id="father_name" name="father_name" />
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group col-lg-6">
+                                            <label for="father_id_number"
+                                                class="myName control-label">رقم
+                                                هوية الأب </label>
+                                            <div class="">
+                                                <input type="text" class="form-control"
+                                                    id="father_id_number" name="father_id_number" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-lg-6">
+                                            <label for="mother_name" class="myName control-label">
+                                                اسم الأم </label>
+                                            <div class="">
+                                                <input type="text" class="form-control"
+                                                    id="mother_name" name="mother_name" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-lg-6">
+                                            <label for="mother_id_number"
+                                                class="myName control-label">رقم
+                                                هوية الأم </label>
+                                            <div class="">
+                                                <input type="text" class="form-control"
+                                                    id="mother_id_number" name="mother_id_number" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-lg-6">
+                                            <label for="father_is_life" class=" control-label"> حالة
+                                                الأب </label>
+                                            <select id="father_is_life" name="father_is_life"
+                                                class="custom-select">
+                                                <option selected="selected" value="true">على قيد
+                                                    الحياة </option>
+
+                                                <option value="false">متوفي</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-lg-6">
+                                            <label for="mother_is_life" class=" control-label"> حالة
+                                                الأم </label>
+                                            <select id="mother_is_life" name="mother_is_life"
+                                                class="custom-select">
+                                                <option selected="selected" value="true">على قيد
+                                                    الحياة </option>
+                                                <option value="false">متوفية</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="new_support"></div>
+                                    <button type="submit" class="btn btn-primary"> اضافة </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- add expense modal  -->
+                <div class="modal fade kafala_modal " id="add_expense" tabindex="-1" role="dialog"
+                    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title heading" id="exampleModalLongTitle"> إضافه
+                                    مصروف جديد </h5>
+                                <button type="button" class="close" data-dismiss="modal"
+                                    aria-label="Close">
+                                    <span aria-hidden="true">
+                                        <i class="fa fa-times"></i>
+                                    </span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="expenses_form">
+                                    <div class="row">
+                                        <div class="form-group general_expenses col-lg-6">
+                                            <label for="name" class=" control-label"> الاسم
+                                            </label>
+                                            <div class="name">
+                                                <input type="text" name="name" id="name" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group general_expenses col-lg-6">
+                                            <label for="expenses_type" class="control-label">
+                                                نوع المصروف </label>
+                                            <div class="d-flex add_wrapper ">
+                                                <select style="margin-inline-end:8px"
+                                                    name="expenses_type" id="expenses_type"
+                                                    class="custom-select">
+                                                    <option selected="selected" value="governmental">
+                                                        مصروفات حكومية </option>
+                                                    <option value="medical"> مصروفات علاجية </option>
+                                                    <option value="transportation"> مصروفات
+                                                        المواصلات </option>
+                                                    <option value="debts"> مصروفات الديون </option>
+                                                    <option value="pandemics"> مصروفات الجوائح </option>
+                                                    <option value="living"> مصروفات المعيشة </option>
+                                                    <option value="educational"> مصروفات التعليم </option>
+                                                    <option value="clothing"> مصروفات الملابس </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group general_expenses col-lg-6">
+                                            <label for="expenses_fees_type"> نوع الرسوم </label>
+                                            <div class="">
+                                                <select style="margin-inline-end:8px"
+                                                    name="expenses_fees_type"
+                                                    id="expenses_fees_type"
+                                                    class="custom-select">
+                                                    <option value="fixed"> ثابتة </option>
+                                                    <option value="dynamic"> متغيرة </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group general_expenses col-lg-6">
+                                            <label for="amount" class=" control-label"> قيمة
+                                                الرسوم </label>
+                                            <div class="fees_value">
+                                                <input type="number" name="amount" id="amount" />
+                                            </div>
+                                        </div>
+                                        <!-- medical expenses part  -->
+                                        <div class="form-group medical_expenses col-lg-6">
+                                            <label for="medicine_type" class="control-label">
+                                                نوع الدواء </label>
+                                            <select name="medicine_type" id="medicine_type"
+                                                class="custom-select">
+                                                <option selected="selected" value="">
+                                                    لايوجد</option>
+                                                <option value="pills">
+
+                                                    حبوب</option>
+                                                <option value="drink">شراب </option>
+                                                <option value="inhalation">استنشاق </option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group medical_expenses col-lg-6">
+                                            <label for="diseases_type" class="control-label">
+                                                نوع المرض </label>
+                                            <div class="">
+                                                <select name="diseases_type" id="diseases_type"
+                                                    class="custom-select">
+                                                    <option selected="selected" value="">
+                                                        لايوجد</option>
+                                                    <option value="chronic">
+                                                        مزمن</option>
+                                                    <option value="psycho">نفسي </option>
+                                                    <option value="organic">عضوي </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <!-- transport expenses part  -->
+                                        <div class="form-group transport_expenses col-lg-6">
+                                            <label for="trans_type">نوع التنقلات</label>
+                                            <div class="">
+                                                <select name="trans_type" id="trans_type"
+                                                    class="custom-select">
+                                                    <option selected="selected" value="">
+                                                        لايوجد </option>
+                                                    <option value="general">
+                                                        عامة</option>
+                                                    <option value="especially">خاصة </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <!-- debt expenses part -->
+                                        <div class="form-group debt_expenses col-lg-6">
+                                            <label for="debt_reason" class="control-label"> سبب
+                                                الدين </label>
+                                            <input type="text" name="debt_reason" id="debt_reason" />
+                                        </div>
+                                        <div class="form-group debt_expenses col-lg-6">
+                                            <label for="debt_type" class="control-label"> نوع
+                                                الدين </label>
+                                            <div class="">
+                                                <select id="debt_type" name="debt_type"
+                                                    class="custom-select">
+                                                    <option selected="selected" value="">
+                                                        لايوجد</option>
+                                                    <option value="necessary">
+                                                        ضروري </option>
+                                                    <option value="need">احتياج </option>
+                                                    <option value="improve"> تحسين </option>
+                                                    <option value="case"> حالة أم لا </option>
+                                                    <option value="Installed">مثبت أم لا </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group debt_expenses col-lg-6">
+                                            <label for="attach" class=" control-label">إرفاق
+                                                مستند اثبات الدين</label>
+                                            <div class="attach_wrapper">
+                                                <input type="file" class="form-control"
+                                                    id="attach" name="attach" />
+                                                <input type="text" class="form-control" />
+                                                <img
+                                                    src="/takaful_portal_benefit/static/img/attatch.png"
+                                                    alt="attach" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group debt_expenses col-lg-12">
+                                            <label for="debt_description" class="control-label">
+                                                شرح الدين </label>
+                                            <input type="text" name="debt_description"
+                                                id="debt_description" />
+                                        </div>
+                                        <!-- pandemics expenses part   -->
+                                        <div class="form-group pandemics_expenses col-lg-6">
+                                            <label for="pandemics_type">نوع الجائحة </label>
+                                            <div class="">
+                                                <input type="text" name="pandemics_type"
+                                                    id="pandemics_type" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group pandemics_expenses col-lg-6">
+                                            <label for="pandemics_explain" class="control-label">شرح
+                                                الجائحة </label>
+                                            <div class="">
+                                                <input type="text" name="pandemics_explain"
+                                                    id="pandemics_explain" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group pandemics_expenses col-lg-6">
+                                            <label for="pandemics_attach" class=" control-label">
+                                                إرفاق
+                                                مستند اثبات الجائحة</label>
+                                            <div class="attach_wrapper">
+                                                <input type="file" class="form-control"
+                                                    id="pandemics_attach" name="pandemics_attach" />
+                                                <input type="text" class="form-control" />
+                                                <img
+                                                    src="/takaful_portal_benefit/static/img/attatch.png"
+                                                    alt="attach" />
+                                            </div>
+                                        </div>
+
+                                        <!-- Living expenses part  -->
+                                        <div class="form-group living_expenses col-lg-6">
+                                            <label for=""> هل له طعام او لباس خاص ؟</label>
+                                            <div class="gender d-flex">
+                                                <div class="mail d-flex align-items-center">
+                                                    <input class="d-inline-block w-auto"
+                                                        type="radio" checked="checked"
+                                                        name="have_special_food"
+                                                        value="true" id="mail" />
+                                                    <label class="mb-0"> نعم </label>
+                                                </div>
+                                                <div class="femail d-flex align-items-center">
+                                                    <input class="d-inline-block w-auto"
+                                                        type="radio" name="have_special_food"
+                                                        value="false" id="femail"
+                                                    />
+                                                    <label class="mb-0"> لا </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- learning expense part  -->
+                                        <div class="form-group learning_expense col-lg-6">
+                                            <label for="education_expenses_duration"
+                                                class="control-label"> مدة تكرار
+                                                المصروف </label>
+                                            <div class="">
+                                                <select name="education_expenses_duration"
+                                                    id="education_expenses_duration"
+                                                    class="custom-select">
+                                                    <option selected="selected" value="">
+                                                        لايوجد</option>
+                                                    <option value="month">
+                                                        شهري</option>
+
+                                                    <option value="year">سنوي </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="main_link"> تأكيد</button>
+                                    <div class="add_expense_feedback"></div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <script src="/takaful_portal_benefit/static/js/zakat_fitr.js"></script>
+                <script src="/takaful_portal_benefit/static/js/profile.js"></script>
+            </t>
+        </template>
+    </data>
+</odoo>

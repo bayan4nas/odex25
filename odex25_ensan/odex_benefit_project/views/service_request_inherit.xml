@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+      <record id="service_request_inherit_view_form" model="ir.ui.view">
+            <field name="name">service.request.form</field>
+            <field name="model">service.request</field>
+            <field name="inherit_id" ref="odex_benefit.service_request_form"/>
+             <field name="arch" type="xml">
+                <xpath expr="//field[@name='requested_service_amount']" position="after">
+                    <field name="rent_period" attrs="{'invisible': [('service_type', '!=', 'alternative_housing')],'required':[('service_type', '=','alternative_housing')]}"/>
+                    <field name="project_create" invisible="1"/>
+                    <field name="project_id" readonly="1" attrs="{'invisible': ['|',('state','!=','accounting_approve'),('project_create', '=',False)]}"/>
+                </xpath>
+             </field>
+      </record>
+    </data>
+</odoo>

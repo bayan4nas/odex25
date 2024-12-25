@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_sale_order_form_inherit_event_profit" model="ir.ui.view">
+        <field name="name">sale.order.form.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form" />
+        <field name="arch" type="xml">
+
+            <field name="partner_id" position="attributes">
+                <attribute name="options">{'no_create_edit': True,'no_create':True}</attribute>
+                <!-- <attribute name="domain">[('partner_type','=','cash'),'&amp;',('partner_type','=','postpaid'),('state','=','approved')]</attribute> -->
+            </field>
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="journal_id" required="1" domain="[('type', '=', 'sale')]" groups="partner_type.group_partner_type"/>
+                <field name="partner_type" force_save="1" readonly="1" invisible="1"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

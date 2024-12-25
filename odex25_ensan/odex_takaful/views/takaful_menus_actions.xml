@@ -1,0 +1,104 @@
+<?xml version="1.0"?>
+<odoo>
+    <menuitem id="takaful_kufula_app_top_menu" sequence="15" name="Kafalat System" web_icon="odex_takaful,static/description/icon.png" groups="odex_takaful.group_kufula_viewer"/>
+
+    <!-- Main Kafalat-->
+    <menuitem id="kafalat_main_menu" parent="takaful_kufula_app_top_menu"
+        sequence="10" name="Kafalat"/>
+
+    <menuitem id="takaful_sponsorship_app_menu" parent="kafalat_main_menu"
+     name="Sponsorships" action="takaful_sponsorship_action" sequence="1"/>
+
+    <menuitem id="takaful_sponsorship_payment_menu" name="Sponsorship Payment"
+        parent="kafalat_main_menu" action="takaful_sponsorship_payment_action" sequence="2" />
+
+    <menuitem id="sponsorship_cancellation_menu" name="Sponsorship Cancellation"
+        parent="kafalat_main_menu" action="sponsorship_cancellation_action" sequence="3" />
+
+    <menuitem id="takaful_contribution_app_menu" name="The Financial Contributions" 
+    parent="kafalat_main_menu" action="takaful_financial_contribution_action" sequence="4"/>
+
+    <menuitem id="takaful_push_notification_menu" name="Notifications Messages"
+        parent="kafalat_main_menu" action="takaful_push_notification_action" sequence="5" />
+
+    <!-- Main Kafileen-->
+    <menuitem id="kafileen_main_menu" parent="takaful_kufula_app_top_menu"
+        sequence="12" name="Kafileen"/>
+
+    <menuitem id="takaful_sponsor_menu" parent="kafileen_main_menu"
+     name="Sponsors Record" action="takaful_sponsor_action" sequence="1"/>
+
+    <menuitem id="takaful_sponsor_operation_menu" name="Operations Records" parent="kafileen_main_menu" action="takaful_sponsor_operation_action" sequence="2"/>
+    
+    <!-- Main Online Payments
+    <menuitem id="account_takaful_core_online_paycard_menu" name="Online Payments"
+                  parent="takaful_kufula_app_top_menu" sequence="15"/>
+
+    <menuitem sequence="1" id="account_takaful_core_account_move_menu" name="Online Invoices"
+              parent="account_takaful_core_online_paycard_menu" action="takaful_core.takaful_account_move_list_action"/>
+
+    <menuitem sequence="2" id="account_takaful_core_bank_transfer_menu" name="Bank Transfers" parent="account_takaful_core_online_paycard_menu" action="takaful_core.act_takaful_bank_transfer_view"/>
+  -->
+
+    <!-- Main Beneficiaries -->
+    <menuitem id="takaful_benefit_operation_menu" name="Beneficiaries" parent="takaful_kufula_app_top_menu" sequence="20"/>
+
+    <menuitem id="benefit_grant_due_invoice_menu" name="Due Payments" parent="takaful_benefit_operation_menu" action="benefit_grant_due_invoice_action" sequence="1"/>
+
+    <menuitem id="benefit_month_payment_menu" name="Monthly Payments"
+      parent="takaful_benefit_operation_menu" action="benefit_month_payment_action" sequence="2"/>
+                  
+    <menuitem id="benefit_month_payment_line_menu" name="Beneficiaries Payments"
+      parent="takaful_benefit_operation_menu" action="benefit_month_payment_line_action" sequence="3"/>
+
+    <menuitem id="sponsorship_benefit_arrears_menu" name="Beneficiaries Arrears" parent="takaful_benefit_operation_menu" action="sponsorship_benefit_arrears_action" sequence="4"/>
+
+    <!-- Main Reports -->
+    <menuitem id="sponsor_report_menu" parent="takaful_kufula_app_top_menu"
+        name="Reports" sequence="40" />
+
+    <menuitem id="active_sponsor_report_menu" parent="sponsor_report_menu" sequence="10" name="Active Sponsors Report" action="action_active_sponsor_report"/>
+
+    <menuitem id="makfuleen_report_menu" parent="sponsor_report_menu" sequence="15" name="Makfuleen Report" action="makfuleen_wizard_report_action"/>
+
+    <menuitem id="payment_overdue_report_menu" parent="sponsor_report_menu" sequence="20" name="Kafalat Overdue Report" action="kafalat_payment_wizard_report_action"/>
+
+    <menuitem id="canceled_kafalat_report_menu" parent="sponsor_report_menu" sequence="25" name="Canceled Kafalat Report" action="kafalat_cancel_wizard_report_action"/>
+
+    <menuitem id="benefit_payment_sponsorship_menu_report"
+          name="Benefits Payments"
+          parent="sponsor_report_menu"
+          action="sponsor_report_menu_action"
+          sequence="30"
+    />
+
+    <menuitem id="benefit_month_payment_sponsorship_menu_report"
+          name="Benefits Month Payments"
+          parent="sponsor_report_menu"
+          action="benefit_month_report_action"
+          sequence="35"
+    />
+
+    <!-- Main Settings -->
+    <menuitem id="sponsor_setting_menu" parent="takaful_kufula_app_top_menu"
+        name="The Settings" sequence="50" />
+
+    <menuitem id="base_takaful_notification_menu"
+        name="Notifications"
+        parent="odex_takaful.sponsor_setting_menu"
+        action="odex_takaful_base.takaful_notification_action"
+        sequence="1"/>
+
+    <menuitem id="sponsorship_stop_reason_menu"
+              name="Reasons To Stop"
+              parent="odex_takaful.sponsor_setting_menu"
+              action="odex_takaful.action_config_sponsorship_stop"
+              sequence="2"/>
+
+    <menuitem id="takaful_message_template_menu"
+              name="Messages Templates"
+              parent="odex_takaful.sponsor_setting_menu"
+              action="odex_takaful.takaful_message_template_action"
+              sequence="3"/>
+    
+</odoo>

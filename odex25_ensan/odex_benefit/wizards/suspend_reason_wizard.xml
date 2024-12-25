@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_suspend_reason_wizard_form" model="ir.ui.view">
+            <field name="name">suspend.reason.wizard.form</field>
+            <field name="model">suspend.reason.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                            <field name="suspend_reason"/>
+                            <field name="suspend_description"/>
+                        </group>
+                        <group>
+                            <field name="suspend_type"/>
+                            <field name="suspend_attachment"/>
+                        </group>
+                        </group>
+                        <footer>
+                            <button name="action_submit" type="object" string="Submit" class="oe_highlight"/>
+                            or
+                            <button special="cancel" string="Cancel"/>
+                        </footer>
+                    </sheet>
+                </form>
+
+            </field>
+        </record>
+        <record id="view_suspend_member_reason_wizard_form" model="ir.ui.view">
+            <field name="name">suspend.reason.wizard.form</field>
+            <field name="model">suspend.reason.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                            <field name="suspend_reason"/>
+                            <field name="suspend_description"/>
+                        </group>
+                        <group>
+                            <field name="suspend_type"/>
+                            <field name="suspend_attachment"/>
+                        </group>
+                        </group>
+                        <footer>
+                            <button name="action_member_submit" type="object" string="Submit" class="oe_highlight"/>
+                            or
+                            <button special="cancel" string="Cancel"/>
+                        </footer>
+                    </sheet>
+                </form>
+
+            </field>
+        </record>
+    </data>
+</odoo>

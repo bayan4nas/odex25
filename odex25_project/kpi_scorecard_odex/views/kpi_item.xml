@@ -1,0 +1,253 @@
+<?xml version="1.0"?>
+<odoo>
+
+
+    <record id="kpi_item_view_form" model="ir.ui.view">
+        <field name="name">kpi.item.form.inherit</field>
+        <field name="model">kpi.item</field>
+        <field name="inherit_id" ref="kpi_scorecard.kpi_item_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="replace">
+
+                <form>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" placeholder="KPI"/>
+                            </h1>
+
+                        </div>
+                        <group>
+                            <group>
+                                <field name="category_id" string="Operational Goal"/>
+                                <field name="kpi_domain"/>
+                                <field name="program_id" attrs="{'invisible': [('kpi_domain', '!=', 'program')]}"/>
+                                <field name="kpi_owner_id"/>
+                                <field name="company_id" options="{'no_create_edit': 1, 'no_quick_create': 1}"
+                                       groups="base.group_multi_company"/>
+                            </group>
+                            <group>
+                                <field name="code"/>
+                                <field name="kpi_type"/>
+                                <field name="kpi_type_region"/>
+                            </group>
+                        </group>
+                        <group>
+                            <field name="description"
+                                   placholder="notes... would be shown as explanation title on scorecard target line"/>
+                        </group>
+                        <group col="4">
+                            <field name="internal_bench_ids" invisible="1"/>
+                            <field name="external_bench_ids" widget="many2many_tags" invisible="1"/>
+                        </group>
+                        <notebook>
+                            <page string="Settings">
+
+                                <group>
+                                    <group>
+                                        <field name="automated_weight"/>
+                                        <field name="weight" attrs="{'readonly': [('automated_weight', '=', True)]}"/>
+                                        <field name="data_source"/>
+                                        <field name="measurement_periodic"/>
+                                        <field name="measurement_method"/>
+                                        <field name="kpi_period"/>
+                                        <field name="sequence"/>
+                                    </group>
+                                    <group>
+                                        <field name="result_type"/>
+                                        <field name="result_appearance"/>
+                                        <field name="result_preffix"
+                                               attrs="{'invisible': [('result_appearance', '=', 'monetory')]}"/>
+                                        <field name="result_suffix"
+                                               attrs="{'invisible': [('result_appearance', '=', 'monetory')]}"/>
+                                        <field name="currency_id"
+                                               attrs="{'invisible': [('result_appearance', '!=', 'monetory')]}"/>
+                                        <field name="result_rounding"/>
+                                    </group>
+                                </group>
+                            </page>
+                            <page string="kpiFormula">
+                                <h2 class="oe_read_only pull-right text-warning"
+                                    attrs="{'invisible': [('formula_warning', '=', False)]}">
+                                    <field name="formula_warning"/>
+                                </h2>
+                                <field name="formula" widget="kpiFormulaWidget"/>
+                            </page>
+                            <page string="KPI Targets">
+                                <field name="line_ids">
+                                    <tree editable="bottom">
+                                        <field name="period_id" domain="[('state','=','open')]"/>
+                                        <field name="planed_value"/>
+                                        <field name="target_value"/>
+                                        <button name="action_assign_target_values" type="object" icon="fa-list"
+                                                width="0.1" role="img" title="Assign Partners Target"/>
+
+                                        <field name="pillar_categ_id" invisible="1"/>
+                                        <field name="strategic_category_id" invisible="1"/>
+
+                                    </tree>
+                                </field>
+                            </page>
+
+                            <page string="Security">
+                                <group string="Read Rights">
+                                    <field name="user_ids" widget="many2many_tags"
+                                           options="{'no_create_edit': 1, 'no_quick_create': 1}"/>
+                                    <field name="user_group_ids" widget="many2many_tags"
+                                           options="{'no_create_edit': 1, 'no_quick_create': 1}"/>
+                                    <field name="access_user_ids" widget="many2many_tags" invisible="1"/>
+                                </group>
+                                <group string="Edit Rights">
+                                    <field name="edit_user_ids" widget="many2many_tags"
+                                           options="{'no_create_edit': 1, 'no_quick_create': 1}"/>
+                                    <field name="edit_user_group_ids" widget="many2many_tags"
+                                           options="{'no_create_edit': 1, 'no_quick_create': 1}"/>
+                                    <field name="edit_access_user_ids" widget="many2many_tags" invisible="1"/>
+                                </group>
+                            </page>
+                            <page string="Technical" invisible="1">
+                                <group>
+                                    <field name="active"/>
+                                    <field name="all_parent_ids" widget="many2many_tags"/>
+                                </group>
+                                <group string="Measurements">
+                                    <field name="measures_ids" widget="many2many_tags"/>
+                                    <field name="constant_ids" widget="many2many_tags"/>
+                                    <field name="kpi_ids" widget="many2many_tags"/>
+                                </group>
+                            </page>
+                            <page string="Help" attrs="{'invisible': [('help_notes', '=', False)]}">
+                                <field name="kpi_help_dummy" invisible="1"/>
+                                <field name="help_notes"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+
+            </xpath>
+        </field>
+    </record>
+
+
+    <record id="kpi_item_view_tree" model="ir.ui.view">
+        <field name="name">kpi.item.tree.inherit</field>
+        <field name="model">kpi.item</field>
+        <field name="inherit_id" ref="kpi_scorecard.kpi_item_view_tree"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='name']" position="before">
+                <field name="code"/>
+            </xpath>
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="category_id" string="Operational Goal"/>
+                <field name="kpi_owner_id" optional="hide"/>
+                <field name="kpi_domain" optional="hide"/>
+                <field name="kpi_type" optional="show"/>
+                <field name="kpi_type_region" optional="hide"/>
+                <field name="data_source" optional="hide"/>
+                <field name="measurement_periodic" optional="hide"/>
+                <field name="measurement_method" optional="show"/>
+                <field name="result_appearance" optional="show"/>
+                <field name="weight" sum="Weight"/>
+            </xpath>
+            <xpath expr="//field[@name='formula_warning']" position="replace">
+                <field name="formula_warning" invisible="1"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="kpi_item_view_search" model="ir.ui.view">
+        <field name="name">kpi.item.search.inherit</field>
+        <field name="model">kpi.item</field>
+        <field name="inherit_id" ref="kpi_scorecard.kpi_item_view_search"/>
+        <field name="arch" type="xml">
+            <search position="inside">
+                <searchpanel>
+                    <field name="category_id" string="Operational Goal" icon="fa-building" enable_counters="1"/>
+                    <field name="kpi_type" icon="fa-building" enable_counters="1"/>
+                    <field name="kpi_type_region" icon="fa-building" enable_counters="1"/>
+                </searchpanel>
+            </search>
+        </field>
+    </record>
+
+    <record id="kpi_item_view_kanban" model="ir.ui.view">
+        <field name="name">kpi.item.kanban</field>
+        <field name="model">kpi.item</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile">
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_content oe_kanban_global_click">
+                            <div class="row">
+                                <div class="col-12">
+                                    <strong>
+                                        <field name="name"/>
+                                    </strong>
+                                </div>
+
+                            </div>
+                            <div class="oe_kanban_bottom_right mt-1">
+                                <field name="code"/>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="kpi_scorecard.kpi_item_action" model="ir.actions.act_window">
+        <field name="view_mode">tree,kanban,form</field>
+    </record>
+
+    <record id="kpi_period_view_form" model="ir.ui.view">
+        <field name="name">kpi.period.form.inherit</field>
+        <field name="model">kpi.period</field>
+        <field name="inherit_id" ref="kpi_scorecard.kpi_period_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='target_value']" position="before">
+                <field name="planed_value"/>
+
+            </xpath>
+        </field>
+    </record>
+    <record id="view_partner_target_tree" model="ir.ui.view">
+    <field name="name">partner.target.tree</field>
+    <field name="model">partner.target</field>
+    <field name="arch" type="xml">
+        <tree editable="bottom" create="1" delete="1">
+            <field name="kbi_line_id" readonly="1" string="Period"/>
+            <field name="partner_id" string="Partner" required="1"/>
+            <field name="planned_value" string="Planned Value"/>
+        </tree>
+    </field>
+</record>
+        <record id="partner_target_view_tree" model="ir.ui.view">
+            <field name="name">partner.target.tree.view</field>
+        <field name="model">partner.target</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom" decoration-danger="(actual_value &lt; planned_value)" >
+                    <field name="partner_id"/>
+                    <field name="planned_value" string="Benchmark"/>
+                    <field name="target_value"/>
+                    <field name="actual_value"/>
+
+
+                </tree>
+            </field>
+        </record>
+
+<record id="scorecard_line_tree_action" model="ir.actions.act_window">
+            <field name="name">Partners Targets</field>
+            <field name="res_model">partner.target</field>
+            <field name="view_mode">tree</field>
+            <field name="target">current</field>
+                  <field name="view_ids" eval="[(5, 0, 0),
+        (0, 0, {'view_mode': 'tree', 'view_id': ref('partner_target_view_tree')})]"/>
+
+        </record>
+
+
+
+</odoo>

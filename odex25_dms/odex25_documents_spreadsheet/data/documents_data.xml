@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        
+        <record id="dms_storage" model="dms.storage">
+            <field name="name">Spreadsheet</field>
+            
+        </record>
+
+        <record id="documents_spreadsheet_folder" model="dms.directory">
+            <field name="name">Spreadsheet</field>
+            <field name="description" type="html">
+                <center>
+                    <p>Default workspace of <strong>new spreadsheets</strong></p>
+                </center>
+            </field>
+            <field name="is_root_directory" eval="True"/>
+            <field name="storage_id" ref="dms_storage" />
+        </record>
+    </data>
+</odoo>

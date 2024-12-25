@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.ui.view" id="purchase_request_form">
+        <field name="name">purchase.request.inherit.form</field>
+        <field name="model">purchase.request</field>
+        <field name="inherit_id" ref="purchase_requisition_custom.purchase_request_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='action_submit']" position="after">
+                <button name="initial_engagement"
+                        type="object" string="Initial Engagement" states="wait_for_send" class="oe_highlight"/>
+
+                <button name="action_skip_budget" type="object" string="Skip Budget" attrs="{'invisible':[('state','not in',('wait_for_send'))]}"
+                            groups="purchase_requisition_custom.group_skip_purchase_budget"/>
+
+            </xpath>
+            <xpath expr="//button[@name='action_refuse']" position="attributes">
+                <attribute name="states">direct_manager,wait_for_send</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='date']" position="after">
+                <field name="initial_engagement_activate" invisible="1"/>
+            </xpath>
+            <xpath expr="//field[@name='state']" position="replace">
+                <field name="state" invisible="1"/>
+                <field name="state_a" widget="statusbar"
+                       statusbar_visible="draft,direct_manager,wait_for_send,initial,waiting,done"
+                       attrs="{'invisible': [('initial_engagement_activate', '=', False)]}"/>
+                <field name="state_b" widget="statusbar" statusbar_visible="draft,direct_manager,waiting,done"
+                       attrs="{'invisible': [('initial_engagement_activate', '=', True)]}"/>
+            </xpath>
+            <field name="state" widget="statusbar"/>
+            <xpath expr="//field[@name='line_ids']/tree" position="inside">
+                <field name="expected_price"
+                       attrs="{'column_invisible': [('parent.initial_engagement_activate', '!=', True)]}"/>
+                <field name="line_total"
+                       attrs="{'column_invisible': [('parent.initial_engagement_activate', '!=', True)]}"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

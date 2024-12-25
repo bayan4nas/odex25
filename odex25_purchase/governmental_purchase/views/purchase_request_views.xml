@@ -1,0 +1,201 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <record id="purchase_request_form" model="ir.ui.view">
+        <field name="name">purchase.request.view.form</field>
+        <field name="model">purchase.request</field>
+        <field name="inherit_id" ref="purchase_requisition_custom.purchase_request_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="replace">
+                <header>
+                    <button name="action_dm_confirm" groups="purchase_requisition_custom.create_purchase_request"
+                            type="object" string="Send" states="draft" class="oe_highlight"/>
+
+                    <button name="action_confirm" groups="purchase_requisition_custom.group_direct_manger" type="object"
+                            string="Submit" states="dm" class="oe_highlight"/>
+                    <button name="%(purchase_requisition_custom.purchase_request_cancel_wizard_action)d" string="Refuse"
+                            states="dm" type="action" groups="purchase_requisition_custom.group_direct_manger"/>
+
+                    <button name="approve_department" type="object" string="Approve"
+                            groups="purchase_requisition_custom.group_department_approve" states="direct_manager"
+                            class="oe_highlight"/>
+                    <button name="%(purchase_requisition_custom.purchase_request_cancel_wizard_action)d" string="Refuse"
+                            states="direct_manager" type="action"
+                            groups="purchase_requisition_custom.group_department_approve"/>
+
+<!--                     <button type="object" name="action_budget" string="First Budget Check" class="oe_highlight"
+                            states="send_budget" groups="purchase_requisition_custom.group_department_approve"/> -->
+
+
+                    <button name="action_pc_confirm"
+                            groups="governmental_purchase.executive_director_of_purchase_and_contract" type="object"
+                            string="Approve" states="ceo_purchase" class="oe_highlight"/>
+                    <button name="%(purchase_requisition_custom.purchase_request_cancel_wizard_action)d" string="Refuse"
+                            states="ceo_purchase" type="action"
+                            groups="governmental_purchase.executive_director_of_purchase_and_contract"/>
+
+                    <button name="approve_executive_vice"
+                            groups="governmental_purchase.group_executive_vice_approve" type="object"
+                            string="Approve" states="executive_vice" class="oe_highlight"/>
+                    <button name="%(purchase_requisition_custom.purchase_request_cancel_wizard_action)d" string="Refuse"
+                            states="executive_vice" type="action"
+                            groups="governmental_purchase.group_executive_vice_approve"/>
+
+                    <button type="object" name="action_general_supervisor_approve" class="oe_highlight"
+                            groups="governmental_purchase.group_ceo_of_corporate_resources" string="Approve"
+                            attrs="{'invisible':[('state', '!=', 'general_supervisor')]}"/>
+                    <button name="%(purchase_requisition_custom.purchase_request_cancel_wizard_action)d" string="Refuse"
+                            states="general_supervisor" groups="governmental_purchase.group_ceo_of_corporate_resources"
+                            type="action"/>
+                    <button name="create_requisition"
+                            groups="purchase.group_purchase_user,purchase.group_purchase_manager" type="object"
+                            string="Create Requisition" class="oe_highlight" attrs="{'invisible' : ['|',('purchase_create' , '=' , True),
+                                                ('state' , 'not in' , ['waiting'])]}"/>
+                    <button name="create_purchase_order2"
+                            groups="purchase.group_purchase_user,purchase.group_purchase_manager" type="object"
+                            string="Create Purchase Order" class="oe_highlight" attrs="{'invisible' : ['|',('purchase_create' , '=' , True),
+                                                                    ('state' , 'not in' , ['waiting'])]}"/>
+
+                    <!--                    <button name="action_done" type="object" string="Done" class="oe_stat_button"-->
+                    <!--                            groups="purchase.group_purchase_manager" states="waiting"/>-->
+
+                    <button name="action_draft" type="object" string="Reset To Draft" class="oe_highlight"
+                            attrs="{'invisible' : [('state','not in' , ['refuse'])]}"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,dm,direct_manager,send_budget,wait_budget,ceo_purchase,executive_vice,general_supervisor,waiting,done,refuse"/>
+                </header>
+            </xpath>
+<!--             <xpath expr="//page[last()]" position="after">
+                <page string="For technical management use" name="technical_use"
+                      attrs="{'invisible':[('state' , 'in' , 'draft,dm')]}">
+                    <group string="For technical management use" name="technical_use">
+                        <group> -->
+<!--                             <field name="available" attrs="{'readonly':[('state' , '!=' , 'direct_manager')]}"/>
+                            <field name="unavailable" attrs="{'readonly':[('state' , '!=' , 'direct_manager')]}"/> -->
+<!--                             <field name="specifications_conform"
+                                   attrs="{'readonly':[('state' , '!=' , 'direct_manager')]}"/>
+                            <field name="specifications_not_conform"
+                                   attrs="{'readonly':[('state' , '!=' , 'direct_manager')]}"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath> -->
+            <xpath expr="//notebook" position="inside">
+<!--                 <page string="Departments Use" name="dep_use" attrs="{'invisible':[('state' , 'in' , 'draft')]}">
+                    <group>
+                        <group string="Requesting ِAdministration">
+                            <field name="planned_for" attrs="{'readonly':[('state' , '!=' , 'dm')]}"/>
+                            <field name="emergency" attrs="{'readonly':[('state' , '!=' , 'dm')]}"/>
+                        </group>
+                        <group name="attachment_booklet_uploade">
+                            <div class="row mb4">
+                                <div class="col-12">
+                                    <button string="download Booklet" name="download_url" type="object"
+                                            class="oe_highlight" attrs="{'readonly':[('state' , '!=' , 'dm')]}"/>
+                                </div>
+                            </div>
+                            <div class="row mb4">
+                                <div class="col-12">
+                                    <label for="attachment_booklet_uploade"/>
+                                    <field name="attachment_booklet_uploade" widget="binary"
+                                           attrs="{'readonly':[('state' , '!=' , 'dm')]}"/>
+                                </div>
+                            </div>
+                        </group>
+                    </group>
+                </page> -->
+                <page string="Departments Use Base info" name="base_info_dep_use">
+                    <group>
+                        <group string="Delivery Info" name="DeliveryInfo">
+                            <field name="tender_name" required="1"
+                                   attrs="{'readonly':[('state' , '!=' , 'draft')]}"/>
+                            <field name="purpose_of_tender" required="1"
+                                   attrs="{'readonly':[('state' , '!=' , 'draft')]}"/>
+                            <field name="other_details" invisible="1" attrs="{'readonly':[('state' , '!=' , 'draft')]}"/>
+                            <field name="is_delivered" required="1" widget="radio" options="{'horizontal': true}"/>
+                            <field name="samples_delivery_address"
+                                   attrs="{'readonly':[('state' , '!=' , 'draft')],'invisible':[('is_delivered' , '!=' , 'yes')],'required':[('is_delivered' , '=' , 'yes')]}"/>
+                            <field name="delivery_building"
+                                   attrs="{'readonly':[('state' , '!=' , 'draft')],'invisible':[('is_delivered' , '!=' , 'yes')],'required':[('is_delivered' , '=' , 'yes')]}"/>
+                            <field name="delivery_floor"
+                                   attrs="{'readonly':[('state' , '!=' , 'draft')],'invisible':[('is_delivered' , '!=' , 'yes')],'required':[('is_delivered' , '=' , 'yes')]}"/>
+                            <field name="delivery_unit"
+                                   attrs="{'readonly':[('state' , '!=' , 'draft')],'invisible':[('is_delivered' , '!=' , 'yes')],'required':[('is_delivered' , '=' , 'yes')]}"/>
+                            <field name="date_time"
+                                   attrs="{'readonly':[('state' , '!=' , 'draft')],'invisible':[('is_delivered' , '!=' , 'yes')],'required':[('is_delivered' , '=' , 'yes')]}"/>
+                        </group>
+                        <group name="Info">
+<!--                            <field name="activities" required="1" widget="many2many_tags"-->
+<!--                                   options="{'no_create': True}" attrs="{'readonly':[('state' , '!=' , 'draft')]}"/>-->
+                            <field name="project_duration" required="1"
+                                   attrs="{'readonly':[('state' , '!=' , 'draft')]}"/>
+                            <field name="activity_description" style="white-space: normal;word-break: break-word;"
+                                   attrs="{'readonly':[('state' , '!=' , 'draft')]}"/>
+                            <field name="competion_description" required="1"
+                                   style="white-space: normal;word-break: break-word;"
+                                   attrs="{'readonly':[('state' , '!=' , 'draft')]}"/>
+                            <field name="list_documentaries" required="1"
+                                   style="white-space: normal;word-break: break-word;"
+                                   attrs="{'readonly':[('state' , '!=' , 'draft')]}"/>
+                            <field name="attachment_scope_project" required="1" widget="binary"
+                                   attrs="{'readonly':[('state' , '!=' , 'draft')]}"/>
+                            <field name="program_action" attrs="{'readonly':[('state' , '!=' , 'draft')]}"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="Project Location">
+                            <group>
+                                <field name="work_location_state"/>
+                                <field name="work_location_city"/>
+                            </group>
+                            <group>
+                                <field name="work_location_district"/>
+                                <field name="work_location_GPS"/>
+                            </group>
+                        </group>
+                    </group>
+                </page>
+
+                <page name="procurement_use" string="Procurement use">
+                    <group>
+                        <group>
+                            <field name="type_id"
+                                   attrs="{'required':[('state','=','waiting')],'readonly':[('state','!=','waiting')]}"/>
+                            <field name="document_cost"
+                                   attrs="{'required':[('state','=','waiting')],'readonly':[('state','!=','waiting')]}"/>
+                            <field name="body_technical"
+                                   attrs="{'required':[('state','=','waiting')],'readonly':[('state','!=','waiting')]}"/>
+                            <field name="is_competition_divisible" widget="radio" options="{'horizontal': true}"
+                                   attrs="{'required':[('state','=','waiting')],'readonly':[('state','!=','waiting')]}"/>
+                            <field name="classify_des"
+                                   attrs="{'invisible':[('is_competition_divisible','!=','yes')],'required':[('is_competition_divisible','=','yes')],'readonly':[('state','!=','waiting')]}"/>
+
+                        </group>
+                        <group>
+                            <field name="pre_qualification" widget="radio" options="{'horizontal': true}"
+                                   attrs="{'required':[('state','=','waiting')],'readonly':[('state','!=','waiting')]}"/>
+                            <field name="initial_guarantee_percentage"
+                                   attrs="{'required':[('state','=','waiting')],'readonly':[('state','!=','waiting')]}"/>
+                            <field name="applying_address"
+                                   attrs="{'required':[('state','=','waiting')],'readonly':[('state','!=','waiting')]}"/>
+                            <field name="alternative_offer_allowed" widget="radio" options="{'horizontal': true}"
+                                   attrs="{'required':[('state','=','waiting')],'readonly':[('state','!=','waiting')]}"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+            <xpath expr="//field[@name='purchase_purpose']" position="after">
+                <field name="type_id"
+                       options="{'no_create': True}"/>
+            </xpath>
+
+
+        </field>
+    </record>
+    <menuitem id="purchase_request_root_menu" name="Employee Requests" parent="purchase.menu_purchase_root" sequence="4"
+              groups="purchase_requisition_custom.view_purchase_request"/>
+    <!-- Purchase requests -->
+    <menuitem id="purchase_requisition_custom.purchase_request_menu" name="Purchase Request"
+              parent="purchase_request_root_menu" sequence="4"
+              groups="purchase_requisition_custom.view_purchase_request"/>
+
+</odoo>

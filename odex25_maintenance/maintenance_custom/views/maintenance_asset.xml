@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Inherit Form View to Modify it -->
+        <record id="equipment_order_form_inherit" model="ir.ui.view">
+            <field name="name">equipment.order.form.inherit</field>
+            <field name="model">maintenance.request</field>
+            <field name="inherit_id" ref="maintenance_custom.hr_equipment_order_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='email_cc']" position="before">
+
+                    <label for="asset_id" invisible="0"/>
+                    <div invisible="0">
+                        <field name="asset_id"
+                               class="oe_inline"/>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+        <record id="asset_maintenance_order_form_inherit" model="ir.ui.view">
+            <field name="name">asset.maintenance.order.form.inherit</field>
+            <field name="model">maintenance.request</field>
+            <field name="inherit_id" ref="maintenance.hr_equipment_request_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='company_id']" position="after">
+                    <field name="asset_id"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+      <record id="services_settings_inherit_view_form" model="ir.ui.view">
+            <field name="name">services.settings.form</field>
+            <field name="model">services.settings</field>
+            <field name="inherit_id" ref="odex_benefit.services_settings_form"/>
+             <field name="arch" type="xml">
+                <xpath expr="//field[@name='accountant_id']" position="after">
+                    <field name="category_id" attrs="{'invisible': ['|',('is_main_service','=',True),('project_create', '=', False)]}"/>
+                </xpath>
+                <xpath expr="//field[@name='is_this_service_for_student']" position="after">
+                    <field name="project_create" attrs="{'invisible':[('is_main_service','=',True)]}"/>
+                </xpath>
+             </field>
+      </record>
+    </data>
+</odoo>

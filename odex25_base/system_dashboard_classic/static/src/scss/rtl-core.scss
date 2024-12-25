@@ -1,0 +1,65 @@
+$color_1: #8a8a8a;
+$color_2: #06211a;
+$color_3: #ffffff;
+$background-color_1: transparent;
+
+.o_rtl {
+	.profile-container {
+		.pp-info-section {
+			border: none;
+			border-right: 1px solid #9f9f9f;
+			padding: 10px;
+		}
+	}
+	.module-box {
+		.module-box-container {
+			.module-body {
+				padding: 10px 15px 10px 10px;
+				a {
+					background-color: $background-color_1;
+					&:hover {
+						text-decoration: none;
+					}
+					h3 {
+						margin: 0;
+						transition: all .3s ease-in-out;
+						color: $color_1;
+						font-size: 16px;
+						text-align: center;
+						padding-top: 5px;
+					}
+				}
+				h2 {
+					text-align: center;
+					font-size: 26px;
+					color: $color_2;
+					margin-top: 5px;
+				}
+				.module-icon {
+					text-align: center;
+					height: 80px;
+					width: 80px;
+					line-height: 80px;
+					border-radius: 50%;
+					position: absolute;
+					top: -40px;
+					right: -20px;
+					box-shadow: 0 3px 5px -1px rgba(0, 0, 0, .2), 0 6px 10px 0 rgba(0, 0, 0, .14), 0 1px 18px 0 rgba(0, 0, 0, .12) !important;
+					i {
+						font-size: 45px;
+						color: $color_3;
+					}
+				}
+				.module-icon.red {
+					background: #ee451f;
+				}
+				.module-icon.green {
+					background: #14bf1f;
+				}
+				.module-icon.yellow {
+					background: #f9d700;
+				}
+			}
+		}
+	}
+}

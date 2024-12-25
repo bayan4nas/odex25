@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <record id="confirm_wizard_form" model="ir.ui.view" >
+            <field name="name">Confirm Wizard</field>
+            <field name="model">confirm.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <center>
+                        <h1>
+                            <p>Do you want to proceed?</p>
+                            <field name="message" readonly="1" />
+                        </h1>
+                    </center>
+                    <footer>
+                        <button class="oe_highlight" type="object" name="action_confirm" string="Confirm" />
+                        <button class="oe_highlight" type="object" name="action_cancel" string="Cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+
+    </data>
+</odoo>

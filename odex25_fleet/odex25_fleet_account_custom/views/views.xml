@@ -1,0 +1,143 @@
+<!--<?xml version="1.0" encoding="utf-8" ?>-->
+<!--<odoo>-->
+<!--    &lt;!&ndash; inherit fleet vehicle fuel &ndash;&gt;-->
+<!--    <record id="fleet_vehicle_fuel_inherit" model="ir.ui.view">-->
+<!--        <field name="name">fleet.vehicle.log.fuel.inherit</field>-->
+<!--        <field name="model">fleet.vehicle.log.fuel</field>-->
+<!--        <field name="inherit_id" ref="odex_fleet.odex_fleet_vehicle_log_fuel_view_form"/>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <xpath expr="//field[@name='vehicle_id']" position="before">-->
+<!--                <field name="integration_with_accounting" invisible="1"></field>-->
+<!--            </xpath>-->
+<!--             <xpath expr="//field[@name='account_id']" position="attributes">-->
+<!--                <attribute name="attrs">{'required': [('integration_with_accounting', '!=', False)]}</attribute>-->
+<!--                 <attribute name="attrs">{'invisible': [('integration_with_accounting', '=', False)]}</attribute>-->
+<!--             </xpath>-->
+<!--            <xpath expr="//field[@name='tax_id']" position="attributes">-->
+<!--                 <attribute name="required">0</attribute>-->
+<!--                <attribute name="attrs">{'invisible': [('integration_with_accounting', '=', False)]}</attribute>-->
+<!--            </xpath>-->
+<!--            <xpath expr="//field[@name='invoice_id']" position="attributes">-->
+<!--                <attribute name="attrs">{'required': [('integration_with_accounting', '!=', False)]}</attribute>-->
+<!--                 <attribute name="attrs">{'invisible': [('integration_with_accounting', '=', False)]}</attribute>-->
+<!--            </xpath>-->
+<!--            <xpath expr="//field[@name='inv_ref']" position="attributes">-->
+<!--                <attribute name="attrs">{'required': [('integration_with_accounting', '=', True)]}</attribute>-->
+<!--                 <attribute name="attrs">{'invisible': [('integration_with_accounting', '=', False)]}</attribute>-->
+<!--            </xpath>-->
+<!--            <xpath expr="//button[@name='create_invoice']" position="attributes">-->
+<!--                 <attribute name="groups">odex25_fleet_account_custom.integration_with_account</attribute>-->
+<!--            </xpath>-->
+<!--            <xpath expr="//field[@name='state']" position="attributes">-->
+<!--                 <attribute name="invisible">1</attribute>-->
+<!--            </xpath>-->
+<!--            <xpath expr="//field[@name='state']" position="after">-->
+<!--                <field name="state_a" widget="statusbar" statusbar_visible="draft,confirm,approve,refused,cancel" attrs="{'invisible': [('integration_with_accounting','!=', False)]}"/>-->
+<!--                <field name="state_b" widget="statusbar" statusbar_visible="draft,confirm,approve,invoiced,refused,cancel" attrs="{'invisible': [('integration_with_accounting','!=', True)]}"/>-->
+<!--            </xpath>-->
+<!--        </field>-->
+<!--    </record>-->
+
+<!--     <record id="fleet_maintenance_inherit" model="ir.ui.view">-->
+<!--        <field name="name">fleet.maintenance.inherit</field>-->
+<!--        <field name="model">fleet.maintenance</field>-->
+<!--        <field name="inherit_id" ref="odex_fleet.fleet_request_maintenance_view_form"/>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <xpath expr="//field[@name='vehicle_id']" position="before">-->
+<!--                <field name="integration_with_accounting" invisible="1"></field>-->
+<!--            </xpath>-->
+<!--            <xpath expr="//button[@name='action_paid']" position="attributes">-->
+<!--                <attribute name="groups">odex25_fleet_account_custom.integration_with_account</attribute>-->
+<!--            </xpath>-->
+<!--            <xpath expr="//field[@name='state']" position="attributes">-->
+<!--                 <attribute name="invisible">1</attribute>-->
+<!--            </xpath>-->
+<!--            <xpath expr="//field[@name='state']" position="after">-->
+<!--                <field name="state_a" widget="statusbar" statusbar_visible="draft,confirm,approve,refused,cancel" attrs="{'invisible': [('integration_with_accounting','!=', False)]}"/>-->
+<!--                <field name="state_b" widget="statusbar" statusbar_visible="draft,confirm,approve,paid,refused,cancel" attrs="{'invisible': [('integration_with_accounting','!=', True)]}"/>-->
+<!--            </xpath>-->
+<!--        </field>-->
+<!--     </record>-->
+
+<!--     <record id="fleet_vehicle_services_inherit" model="ir.ui.view">-->
+<!--        <field name="name">fleet.vehicle.log.services.inherit</field>-->
+<!--        <field name="model">fleet.vehicle.log.services</field>-->
+<!--        <field name="inherit_id" ref="fleet.fleet_vehicle_log_services_view_form"/>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <xpath expr="//field[@name='vehicle_id']" position="before">-->
+<!--                <field name="integration_with_accounting" invisible="1"></field>-->
+<!--            </xpath>-->
+<!--            <xpath expr="//button[@name='create_invoice']" position="attributes">-->
+<!--                <attribute name="groups">odex25_fleet_account_custom.integration_with_account</attribute>-->
+<!--            </xpath>-->
+<!--            <xpath expr="//field[@name='account_id']" position="attributes">-->
+<!--                 <attribute name="attrs">{'invisible': [('integration_with_accounting', '=', False)]}-->
+<!--                 </attribute>-->
+<!--             </xpath>-->
+<!--            <xpath expr="//field[@name='invoice_id']" position="attributes">-->
+<!--                 <attribute name="attrs">{'invisible': [('integration_with_accounting', '=', False)]}-->
+<!--                 </attribute>-->
+<!--            </xpath>-->
+<!--            <xpath expr="//field[@name='status']" position="attributes">-->
+<!--                 <attribute name="invisible">1</attribute>-->
+<!--            </xpath>-->
+<!--            <xpath expr="//field[@name='status']" position="after">-->
+<!--                <field name="status_a" widget="statusbar" statusbar_visible="draft,confirm,approve,refused,cancel" attrs="{'invisible': [('integration_with_accounting','!=', False)]}"/>-->
+<!--                <field name="status_b" widget="statusbar" statusbar_visible="draft,confirm,approve,invoiced,refused,cancel" attrs="{'invisible': [('integration_with_accounting','!=', True)]}"/>-->
+<!--            </xpath>-->
+<!--        </field>-->
+<!--     </record>-->
+
+<!--    <record id="fleet_form_renew_inherit" model="ir.ui.view">-->
+<!--        <field name="name">form.renew.inherit</field>-->
+<!--        <field name="model">form.renew</field>-->
+<!--        <field name="inherit_id" ref="odex_fleet.fleet_form_renew_view_form"/>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <xpath expr="//field[@name='vehicle_id']" position="before">-->
+<!--                <field name="integration_with_accounting" invisible="1"></field>-->
+<!--            </xpath>-->
+<!--             <xpath expr="//field[@name='account_id']" position="attributes">-->
+<!--                 <attribute name="attrs">{'invisible': [('integration_with_accounting', '=', False)]}-->
+<!--                 </attribute>-->
+<!--             </xpath>-->
+<!--            <xpath expr="//field[@name='tax_id']" position="attributes">-->
+<!--                 <attribute name="attrs">{'invisible': [('integration_with_accounting', '=', False)]}-->
+<!--                 </attribute>-->
+<!--            </xpath>-->
+<!--            <xpath expr="//field[@name='invoice_id']" position="attributes">-->
+<!--                 <attribute name="attrs">{'invisible': [('integration_with_accounting', '=', False)]}-->
+<!--                 </attribute>-->
+<!--            </xpath>-->
+<!--        </field>-->
+<!--    </record>-->
+
+<!--    <record id="res_config_settings_inherit" model="ir.ui.view">-->
+<!--        <field name="name">res.config.settings.inherit</field>-->
+<!--        <field name="model">res.config.settings</field>-->
+<!--        <field name="inherit_id" ref="fleet.res_config_settings_view_form"/>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <xpath expr="//div[@id='end_contract_setting']" position="after">-->
+<!--                <h2>Integration With Accounting</h2>-->
+<!--                <div class="row mt16 o_settings_container" name="integration_configuration">-->
+<!--                    <div id="integration_configuration"-->
+<!--                         class="col-12 col-lg-6 o_setting_box"-->
+<!--                         title="Integration With Accounting">-->
+<!--                        <div class="o_setting_right_pane">-->
+<!--                            <label for="integration_with_accounting_configuration"/>-->
+<!--                            <div class="content-group">-->
+<!--                                <div class="mt16">-->
+<!--                                    <field name="integration_with_accounting_configuration"-->
+<!--                                           class="o_light_label" />-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </xpath>-->
+<!--        </field>-->
+<!--    </record>-->
+
+<!--     <record model="ir.ui.menu" id="odex_fleet.fleet_account_config">-->
+<!--            <field name="groups_id" eval="[(6,0,[ref('odex25_fleet_account_custom.integration_with_account')])]" />-->
+<!--     </record>-->
+<!--</odoo>-->

@@ -1,0 +1,151 @@
+@font-face {
+    font-family: "Changa-Bold";
+    src: url("../fonts/changa/ArbFONTS-Changa-Bold.ttf");
+    font-weight: bold;
+}
+
+@font-face {
+    font-family: "Changa-Regular";
+    src: url("../fonts/changa/ArbFONTS-Changa-Regular.ttf");
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: "Changa-Medium";
+    src: url("../fonts/changa/ArbFONTS-Changa-Medium.ttf");
+    font-weight: 500;
+}
+
+@font-face {
+    font-family: "Changa-SemiBold";
+    src: url("../fonts/changa/ArbFONTS-Changa-SemiBold.ttf");
+    font-weight: 600;
+}
+
+$reg: "Changa-Regular";
+$medium: "Changa-Medium";
+$semiBold: "Changa-SemiBold";
+$bold: "Changa-Bold";
+$mainColor: #355692;
+$darkBlue: #091C3F;
+
+/*profile_wrapper*/
+
+.profile_wrapper {
+    padding: 32px 0;
+
+    .profile_header {
+        overflow: auto;
+        border: none;
+        padding: 24px 0;
+        display: flex;
+        flex-wrap: wrap;
+
+        .nav-item {
+            margin: 0;
+            display: inline-flex;
+
+            @media(max-width:991px) {
+                margin-bottom: 16px;
+            }
+        }
+        a {
+            background-color: #fff;
+            border-radius: 16px;
+            box-shadow: 0 3px 6px rgba($color: #000000, $alpha: .16);
+            color: #AAB0BB;
+            font-family: $medium;
+            line-height: 30px;
+            margin-inline-end: 8px;
+            padding: 8px 16px;
+            text-decoration: none !important;
+        }
+
+        .nav-item.active a{
+            background-color: $mainColor;
+            color: #fff;
+        }
+    }
+
+    .tab-content {
+        .tab-pane {
+            background-color: #fff;
+            padding: 24px 40px 64px 40px;
+            border-radius: 16px;
+
+            @media(max-width:575px) {
+                padding: 24px 15px 24px 15px;
+            }
+
+            form {
+                width: 700px;
+                max-width: 100%;
+            }
+        }
+        #benefits_data, #expenses {
+            background-color: transparent;
+            padding: 0;
+            position: relative;
+            .add_bnf {
+                padding: 6px 32px;
+                background-color: $mainColor;
+                display: inline-block;
+                border-radius: 4px;
+                color: #fff;
+                position: absolute;
+                left: 0;
+                top: -67px;
+                line-height: 30px;
+            }
+        }
+    }
+}
+
+table.dataTable td.dataTables_empty{
+    display: none !important;
+}
+.date_cell {
+    width: 60%;
+
+    @media(max-width:991px) {
+        width: auto;
+    }
+}
+
+.pick_date {
+    img {
+        position: absolute;
+        left: 15px;
+        top: 9px;
+        height: 20px;
+    }
+
+    .date_input {
+        position: absolute;
+        top: 0;
+        z-index: 10;
+        display: flex;
+        flex-direction: row-reverse;
+        text-align: right;
+        opacity: 0;
+    }
+}
+
+
+.add_expense_feedback{
+    margin-top: 16px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.enableInputs{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: $mainColor;
+    color: #fff;
+    border-radius: 6px;
+    padding: 6px 16px;
+    gap: 8px;
+    margin-bottom: 24px;
+}

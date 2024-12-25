@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Phase Search -->
+    <record id="view_phase_search_form" model="ir.ui.view">
+        <field name="name">project.phase.search.form</field>
+        <field name="model">project.phase</field>
+        <field name="arch" type="xml">
+            <search string="Phase">
+                <field name="name" string="Stage"/>
+                <field name="project_id"/>
+                <separator/>
+                <filter string="Draft" name="draft" domain="[('state', 'in', ['draft'])]"/>
+                <filter string="Open" name="open" domain="[('state', 'in', ['open'])]"/>
+                <filter string="Closed" name="close" domain="[('state', '=', 'close')]"/>
+                <separator/>
+                <filter string="Start Date" name="group_date_start" context="{'group_by': 'start_date'}"/>
+                <filter string="End Date" name="group_date_end" context="{'group_by': 'end_date'}"/>
+                <group expand="0" string="Group By">
+                    <filter string="Project" name="project" context="{'group_by': 'project_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Project Phase -->
+    <record id="project_phase_form_view" model="ir.ui.view">
+        <field name="name">project.phase.form</field>
+        <field name="model">project.phase</field>
+        <field name="arch" type="xml">
+            <form string="Project Phases" create="0" edit="1">
+                <header>
+                    <button name="action_confirm" string="Confirm" type="object" attrs="{'invisible':[('state','not in',['draft'])]}" class="oe_highlight" groups="project.group_project_manager"/>
+                    <button name="action_close" string="Close" type="object" attrs="{'invisible':[('state','not in',['open'])]}" class="oe_highlight" groups="project.group_project_manager"/>
+                    <button name="action_reopen" string="Reopen" type="object" attrs="{'invisible':[('state','not in',['close'])]}" groups="project.group_project_manager"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,open,close"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box" groups="base.group_user">
+                        <button class="oe_stat_button" name="action_project_phase_task" string='Tasks' type="object" icon="fa-tasks">
+                        </button>
+                        <button class="oe_stat_button" name="action_view_project_invoice" string='Invoices' type="object" icon="fa-edit"/>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="name" attrs="{'readonly':[('state','not in',['draft'])]}"  invisible="1"/>
+                            <field name="phase_id" attrs="{'readonly':[('state','not in',['draft'])]}" required="1"/>
+                            <field name="project_id" attrs="{'readonly':[('state','not in',['draft'])]}" required="1"/>
+                            <field name="weight" attrs="{'readonly':[('state','not in',['draft'])]}" />
+                            <field name="estimated_hours" attrs="{'readonly':[('state','not in',['draft'])]}" required="1" />
+                        </group>    
+                        <group>
+                            <field name="start_date" attrs="{'readonly':[('state','not in',['draft'])]}" required="1"/>
+                            <field name="end_date" attrs="{'readonly':[('state','not in',['draft'])]}" required="1"/>
+                            <field name="allowed_internal_user_ids" widget="many2many_tags" groups="project.group_project_manager" />
+                            <field name="allowed_portal_user_ids" widget="many2many_tags" groups="project.group_project_manager" options="{'no_create': True}" />
+                        </group>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" groups="base.group_user"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="project_phase_tree" model="ir.ui.view">
+        <field name="name">project.phase.tree</field>
+        <field name="model">project.phase</field>
+        <field name="arch" type="xml">
+            <tree string="Project Phases" create="0" edit="0" expand="1" decoration-danger="state != 'close' and end_date &lt; current_date">
+                <field name="name"/>
+                <field name="project_id"/>
+                <field name="start_date"/>
+                <field name="end_date"/>
+                <field name="estimated_hours"  widget="float_time" invisible="1"/>
+                <field name="weight" />
+                <field name="progress" widget="progressbar"/>
+                <field name="state" />
+                <field name="task_count" />
+                <button class="d-none d-md-inline oe_stat_button" type="object" name="action_project_phase_task" icon="fa-tasks">
+                    <field name="task_ids" attrs="{'invisible': True}"/>
+                </button>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_project_phase_kanban" model="ir.ui.view">
+        <field name="name">project.phase.kanban</field>
+        <field name="model">project.phase</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile" sample="1">
+                <field name="name"/>
+                <field name="notes"/>
+                <field name="start_date"/>
+                <field name="end_date"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_content">
+                            <div t-attf-class="oe_kanban_card oe_kanban_global_click">
+                                <div class="o_kanban_record_top mb8">
+                                    <div class="o_kanban_record_headings ml-1">
+                                        <strong class="o_kanban_record_title">
+                                            <t t-esc="record.name.value"/>
+                                        </strong>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="o_kanban_record_bottom" t-if="!selection_mode">
+                                <div class="oe_kanban_bottom_left">
+                                    <t t-esc="record.end_date.value and record.end_date.value.split(' ')[0] or False"/>
+                                </div>
+                                <div class="oe_kanban_bottom_right">
+                                    <t t-esc="record.end_date.value and record.end_date.value.split(' ')[0] or False"/>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="open_project_phase_form" model="ir.actions.act_window">
+        <field name="name">Project Phases</field>
+        <field name="res_model">project.phase</field>
+        <field name="view_mode">tree,form,kanban</field>
+        <field name="view_id" ref="project_phase_tree"/>
+        <field name="context">{'search_default_project': 1}</field>
+    </record>
+
+    <menuitem action="open_project_phase_form" id="menu_project_phase" groups="project.group_project_manager,project_base.group_project_department_manager" name="Phases" parent="project.menu_main_pm" sequence="3"/>
+
+    <!-- Project Hold Reason -->
+    <record id="project_phase_type_form_view" model="ir.ui.view">
+        <field name="name">project.phase.type.form</field>
+        <field name="model">project.phase.type</field>
+        <field name="arch" type="xml">
+            <form string="Project Phase Type">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" required="1"/>
+                            <field name="company_id" groups="base.group_multi_company" readonly="1"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="project_phase_type_tree_view" model="ir.ui.view">
+        <field name="name">project.phase.type.tree</field>
+        <field name="model">project.phase.type</field>
+        <field name="arch" type="xml">
+            <tree string="Project Phase Type">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="open_project_phase_type_form" model="ir.actions.act_window">
+        <field name="name">Project Phase Type</field>
+        <field name="res_model">project.phase.type</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="project_phase_type_tree_view"/>
+    </record>
+</odoo>

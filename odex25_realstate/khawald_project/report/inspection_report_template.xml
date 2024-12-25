@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+
+        <template id="inspection_report_template">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="web.external_layout">
+                        <div class="page">
+                            <body>
+                                <table dir="rtl" class="table table-bordered"
+                                       style="border: 2px solid;width: 100%;">
+                                    <tbody style="border: 2px solid;">
+                                        <tr>
+                                            <td colspan="12" height="50"
+                                                style="text-align: center;border: 2px solid; background-color:#636e72 !important;font-weight:bold;">طلب فحص أعمال
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="12" height="50"
+                                                style="text-align: center;border: 2px solid; background-color:#636e72 !important;font-weight:bold;">
+                                                Inspection Request
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="4" style="border: 2px solid;white-space: pre;">اسم المبنى/Building Name</td>
+                                            <td colspan="8" style="border: 2px solid;white-space: pre;">اسم المشروع/Project Name: <t t-esc="o.name"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2" style="text-align: center;border: 2px solid;">تاريخ الطلب/Request Date</td>
+                                            <td colspan="2" style="text-align: center;border: 2px solid;">رقم الطلب/Request No</td>
+                                            <td colspan="8" style="border: 2px solid;white-space: pre !important;">إسم المقاول/Contractor</td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2" style="text-align: center;border: 2px solid;"></td>
+                                            <td colspan="2" style="text-align: center;border: 2px solid;"></td>
+                                            <td colspan="6" style="text-align: center;border: 2px solid;"></td>
+                                            <td colspan="2" style="text-align: center;border: 2px solid;">الأعمال المطلوب فحصها</td>
+                                        </tr>
+                                        <tr>
+                                             <td colspan="4"
+                                                style="text-align: center;border: 2px solid; background-color:#636e72 !important;font-weight:bold;">نوع الأعمال/Type of work</td>
+                                            <td rowspan="2" colspan="6" style="border: 2px solid;white-space: pre;"></td>
+                                            <td rowspan="2" colspan="2" style="text-align: center;border: 2px solid;">التفاصيل</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="border: 2px solid;">
+                                                <p>ميكانيكا</p>
+                                                <p>Mech.</p>
+                                            </td>
+                                            <td style="border: 2px solid;">
+                                                <p>كهرباء</p>
+                                                <p>Elc.</p>
+                                            </td>
+                                            <td style="border: 2px solid;">
+                                                <p>تشطيبات</p>
+                                                <p>Finishing</p>
+                                            </td>
+                                            <td style="border: 2px solid;">
+                                                <p>اعتيادي</p>
+                                                <p>Civil.</p>
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+                                            <td colspan="4" style="border: 2px solid;">التوقيع/signature </td>
+                                            <td colspan="6"
+                                                style="border: 2px solid; white-space: pre !important;">الأسم/Name
+                                            </td>
+                                            <td colspan="4"
+                                                style="border: 2px solid; white-space: pre !important;">المهندس
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2" style="border: 2px solid;">
+                                                <p>ميكانيكا</p>
+                                                <p>Mech.</p>
+                                            </td>
+                                            <td colspan="2" style="border: 2px solid;">
+                                                <p>تكيف</p>
+                                                <p>AC</p>
+                                            </td>
+                                            <td colspan="2" style="border: 2px solid;">
+                                                <p>كهرباء</p>
+                                                <p>Elc.</p>
+                                            </td>
+                                            <td colspan="2" style="border: 2px solid;">
+                                                <p>صحي</p>
+                                                <p>Plumb</p>
+                                            </td>
+                                            <td colspan="2" style="border: 2px solid;">
+                                                <p>اعتيادي</p>
+                                                <p>Civil.</p>
+                                            </td>
+                                            <td colspan="2" rowspan="3" style="border: 2px solid;white-space: pre;">البند السابق</td>
+
+                                        </tr>
+                                        <tr>
+                                            <td style="border: 2px solid;">تم</td>
+                                            <td style="border: 2px solid;">لم يتم</td>
+                                            <td style="border: 2px solid;">تم</td>
+                                            <td style="border: 2px solid;">لم يتم</td>
+                                            <td style="border: 2px solid;">تم</td>
+                                            <td style="border: 2px solid;">لم يتم</td>
+                                            <td style="border: 2px solid;">تم</td>
+                                            <td style="border: 2px solid;">لم يتم</td>
+                                            <td style="border: 2px solid;">تم</td>
+                                            <td style="border: 2px solid;">لم يتم</td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2" style="border: 2px solid;"></td>
+                                            <td colspan="2" style="border: 2px solid;"></td>
+                                            <td colspan="2" style="border: 2px solid;"></td>
+                                            <td colspan="2" style="border: 2px solid;"></td>
+                                            <td colspan="2" style="border: 2px solid;"></td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="12"
+                                                style="text-align: center;border: 2px solid; background-color:#636e72 !important;font-weight:bold;">نتائج الفحص/Inspector
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="4" style="border: 2px solid;white-space: pre;">مقبول/Approve</td>
+                                            <td colspan="4" style="border: 2px solid;white-space: pre;">مقبول بملاحظات/Approved As Noted</td>
+                                            <td colspan="4" style="border: 2px solid;white-space: pre;">مرفوض/Rejected</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="border: 2px solid;white-space: pre;" colspan="12">
+                                                <p style="word-wrap: break-word !important;">الملاحظات/Notes</p>
+                                                
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2" style="border: 2px solid;">
+                                                <p>المشرف</p>
+                                                <p>Supervision</p>
+                                            </td>
+                                            <td colspan="4" style="border: 2px solid;">
+                                                <p style="white-space: pre;">الأسم/name</p>
+                                                <p style="white-space: pre;">التوقيع/signature</p>
+                                                <p style="white-space: pre;">التاريخ/Date</p>
+                                            </td>
+                                            <td colspan="2" style="border: 2px solid;">
+                                                <p>مدير المشروع</p>
+                                                <p>Project Manager</p>
+                                            </td>
+                                            <td colspan="4" style="border: 2px solid;">
+                                                <p style="white-space: pre;">الأسم/name</p>
+                                                <p style="white-space: pre;">التوقيع/signature</p>
+                                                <p style="white-space: pre;">التاريخ/Date</p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="12"
+                                                style="text-align: center;border: 2px solid; background-color:#636e72 !important;font-weight:bold;">التحقق من إنتهاء الملاحظات/Verification
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="4" style="border: 2px solid;">
+                                                <p>تاريخ التحقق/verification date</p>
+                                                <p>مهندس الإشراف/Supervisor</p>
+                                                <p>التوقيع/Signature</p>
+                                            </td>
+                                            <td colspan="3" style="border: 2px solid;">
+                                                <p></p>
+                                                <p></p>
+                                                <p></p>
+                                            </td>
+                                            <td colspan="3" style="border: 2px solid;">
+                                                <p>Done تم Not Done لم يتم</p>
+                                                <p>مدير المشروع/Project Manager</p>
+                                                <p>التاريخ/Date</p>
+                                            </td>
+                                            <td style="border: 2px solid;">
+                                                <p></p>
+                                                <p></p>
+                                                <p></p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="3">
+                                                <p>استلام المقاول</p>
+                                                <p>Contractor</p>
+                                            </td>
+                                            <td colspan="3">
+                                                الأسم:
+                                            </td>
+                                            <td colspan="3">
+                                                التوقيع:
+                                            </td>
+                                            <td colspan="3">
+                                                التاريخ:
+                                            </td>
+                                        </tr>
+
+
+                                    </tbody>
+                                </table>
+                            </body>
+
+
+                            <style type="text/css">
+
+
+                                body {
+
+                                font-style: normal;
+                                font-weight: 60px;
+                                bottom: 10px;
+                                top: 1px;
+                                font-size: 130%;
+
+                                }
+
+                            </style>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+
+
+    </data>
+</odoo>

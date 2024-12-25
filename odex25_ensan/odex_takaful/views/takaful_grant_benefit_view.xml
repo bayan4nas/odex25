@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+
+<!--    <record id="benefit_invoice_form_inherit_view" model="ir.ui.view">-->
+<!--        <field name="name">benefit.invoice.form.inherit.view</field>-->
+<!--        <field name="model">account.move</field>-->
+<!--        <field name="inherit_id" ref="account.view_move_form" />-->
+<!--        <field name="arch" type="xml">-->
+<!--            <xpath expr="/form/sheet/notebook/page[2]/field[@name='line_ids']" position="after">-->
+<!--                <field name="benefit_invoice_ids" />-->
+<!--            </xpath>-->
+<!--        </field>-->
+<!--    </record>-->
+
+<!--    <record id="takaful_grant_benefit_form" model="ir.ui.view">-->
+<!--        <field name="name">takaful.grant.benefit.form</field>-->
+<!--        <field name="model">grant.benefit</field>-->
+<!--        <field name="inherit_id" ref="odex_benefit.grant_benefit_form" />-->
+<!--        <field name="arch" type="xml">-->
+<!--            <xpath expr="/form/sheet/notebook/page[9]" position="before">-->
+<!--                <page string="Sponsorships">-->
+<!--                    <group name="sponsorship_needs_info">-->
+<!--                        <field name="is_active_sponsorship" />-->
+<!--                    </group>-->
+<!--                    <group col="4">-->
+<!--                        <field name="benefit_needs_value" />-->
+<!--                        <field name="benefit_needs_percent" />-->
+<!--                        <field name="benefit_arrears_value" />-->
+<!--                    </group>-->
+<!--                    <group>-->
+<!--                        <field name="has_kafala_delay" />-->
+<!--                        <field name="overdue_kafalat_amount" />-->
+<!--                        <field name="sponsorship_ids" />-->
+<!--                    </group>-->
+<!--                    &lt;!&ndash;                            <page string="Sponsorships" name="sponsorships_info_page">&ndash;&gt;-->
+<!--                    &lt;!&ndash;                                <group>&ndash;&gt;-->
+<!--                    &lt;!&ndash;                                    <field name="sponsorship_payment_ids">&ndash;&gt;-->
+<!--                    &lt;!&ndash;                                        <tree editable="bottom">&ndash;&gt;-->
+<!--                    &lt;!&ndash;                                            <field name="benefit_id" invisible="1"/>&ndash;&gt;-->
+<!--                    &lt;!&ndash;                                            <field name="partner_id"/>&ndash;&gt;-->
+<!--                    &lt;!&ndash;                                            <field name="operation_code"/>&ndash;&gt;-->
+<!--                    &lt;!&ndash;                                            <field name="due_date"/>&ndash;&gt;-->
+<!--                    &lt;!&ndash;                                            <field name="amount"/>&ndash;&gt;-->
+<!--                    &lt;!&ndash;                                            <field name="status"/>&ndash;&gt;-->
+<!--                    &lt;!&ndash;                                            <field name="recieve_date"/>&ndash;&gt;-->
+<!--                    &lt;!&ndash;                                        </tree>&ndash;&gt;-->
+<!--                    &lt;!&ndash;                                    </field>&ndash;&gt;-->
+<!--                    &lt;!&ndash;                                </group>&ndash;&gt;-->
+<!--                    &lt;!&ndash;                            </page>&ndash;&gt;-->
+<!--                </page>-->
+<!--            </xpath>-->
+<!--        </field>-->
+<!--    </record>-->
+
+    <!-- New Added -->
+    <!-- Beneficiaries Invoice Form View -->
+    <record model="ir.ui.view" id="benefit_grant_due_invoice_form">
+        <field name="name">grant.benefit.invoice.form</field>
+        <field name="model">grant.benefit.invoice</field>
+        <field name="arch" type="xml">
+            <form string="Due Payment" create="false" edit="false" delete="false" duplicate="false">
+                <sheet>
+                    <group>
+                        <field name="operation_code" readonly="1" />
+                        <field name="operation_type" readonly="1" />
+                        <field name="partner_id" readonly="1" />
+                        <field name="operation_invoice_id" readonly="1" />
+                        <field name="due_date" />
+
+                        <field name="journal_id" readonly="1" />
+                        <field name="paid_amount" readonly="1" />
+                        <field name="payment_date" readonly="1" />
+                        <field name="benefit_target" readonly="1" />
+                        <field name="note" readonly="1" />
+
+                        <field name="is_recorded" readonly="1" />
+                        <field name="due_code" />
+
+                        <field name="benefit_ids" readonly="1">
+                            <tree>
+                                <field name="name" />
+                                <field name="gender" />
+                                <field name="city_id" />
+                                <field name="phone" />
+                                <field name="email" />
+                            </tree>
+                        </field>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Beneficiaries Invoice Tree View -->
+    <record model="ir.ui.view" id="benefit_grant_due_invoice_tree">
+        <field name="name">grant.benefit.invoice.tree</field>
+        <field name="model">grant.benefit.invoice</field>
+        <field name="arch" type="xml">
+            <tree string="Due Payments List" create="false" edit="false" delete="false"
+                duplicate="false"
+                decoration-danger="is_recorded==False">
+                <field name="operation_type" />
+                <field name="operation_code" />
+                <field name="benefit_type" />
+                <field name="benefit_target" />
+                <field name="benefit_ids" widget="many2many_tags" />
+                <field name="partner_id" />
+                <field name="due_date" />
+                <field name="payment_date" />
+                <field name="paid_amount" />
+                <field name="is_recorded" />
+            </tree>
+        </field>
+    </record>
+
+    <!-- Beneficiaries Invoice Search View -->
+    <record model="ir.ui.view" id="benefit_grant_due_invoice_search">
+        <field name="name">grant.benefit.invoice.search</field>
+        <field name="model">grant.benefit.invoice</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="operation_type" />
+                <field name="operation_code" />
+                <field name="benefit_type" />
+                <field name="benefit_target" />
+                <field name="benefit_ids" />
+                <field name="partner_id" />
+                <field name="due_date" />
+                <field name="payment_date" />
+                <field name="is_recorded" />
+            </search>
+        </field>
+    </record>
+
+    <!-- Beneficiaries Invoice Window Action -->
+    <record model="ir.actions.act_window" id="benefit_grant_due_invoice_action">
+        <field name="name">Beneficiaries Due Payments</field>
+        <field name="res_model">grant.benefit.invoice</field>
+<!--        <field name="view_type">form</field>-->
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">No Due Payments for Beneficiaries
+            </p>
+        </field>
+    </record>
+
+    <!-- Sponsorships Arrears for Benefits -->
+    <record model="ir.ui.view" id="sponsorship_benefit_arrears_form">
+        <field name="name">sponsorship.benefit.arrears.form</field>
+        <field name="model">sponsorship.benefit.arrears</field>
+        <field name="arch" type="xml">
+            <form string="Sponsorships Arrears" delete="false">
+                <sheet>
+                    <group>
+                        <field name="is_paid" invisible="1" />
+                        <field name="sponsorship_id" invisible="1" />
+                        <field name="code" readonly="1" />
+                        <field name="sponsor_id" readonly="1" />
+                        <field name="benefit_id" required="1" />
+                        <field name="benefit_type" readonly="1" />
+
+                        <field name="month_amount" readonly="1" />
+                        <field name="arrears_month_number" readonly="1" />
+                        <field name="arrears_total" readonly="1" />
+                        <field name="date" readonly="1" />
+
+                    </group>
+
+                    <group string="Payment Information">
+                        <field name="arrears_amount" readonly="1" />
+                        <field name="paid_amount" readonly="1" />
+                        <field name="invoice_ids" widget="one2many" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sponsorship_benefit_arrears_tree">
+        <field name="name">sponsorship.benefit.arrears.tree</field>
+        <field name="model">sponsorship.benefit.arrears</field>
+        <field name="arch" type="xml">
+            <tree string="Sponsorships Arrears List" decoration-danger="is_paid==False"
+                decoration-success="is_paid==True">
+                <field name="is_paid" invisible="1" />
+                <field name="code" />
+                <field name="sponsor_id" />
+                <field name="benefit_id" />
+                <field name="benefit_type" />
+                <field name="date" />
+                <field name="arrears_month_number" />
+                <field name="arrears_total" />
+                <field name="arrears_amount" />
+                <field name="paid_amount" />
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sponsorship_benefit_arrears_search">
+        <field name="name">sponsorship.benefit.arrears.search</field>
+        <field name="model">sponsorship.benefit.arrears</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="code" />
+                <field name="sponsor_id" />
+                <field name="benefit_id" />
+                <field name="benefit_type" />
+                <field name="date" />
+                <field name="arrears_month_number" />
+                <field name="arrears_total" />
+                <field name="arrears_amount" />
+                <field name="paid_amount" />
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="sponsorship_benefit_arrears_action">
+        <field name="name">Sponsorships Arrears</field>
+        <field name="res_model">sponsorship.benefit.arrears</field>
+<!--        <field name="view_type">form</field>-->
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">No Any Sponsorships Arrears
+            </p>
+        </field>
+    </record>
+
+</odoo>

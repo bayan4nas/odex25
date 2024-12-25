@@ -1,0 +1,493 @@
+<odoo>
+    <data>
+        <record id="property_form_view" model="ir.ui.view">
+            <field name="name">internal.property</field>
+            <field name="model">internal.property</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="action_register" string="Register" states="draft" type="object"/>
+                        <button name="action_approve" string="Approve" states="register" type="object"/>
+                        <button name="action_draft" string="Set To Draft" states="approve,register" type="object"/>
+
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <field name="unlock" invisible="1"/>
+                        <div class="oe_button_box" name="button_box">
+
+
+                            <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-archive">
+                                <field name="active" widget="toggle_button"/>
+                                <span class="o_stat_text" attrs="{'invisible': [('active', '=', False)]}">Restore</span>
+                                <span class="o_stat_text" attrs="{'invisible': [('active', '=', True)]}">Archive</span>
+                            </button>
+                            <button class="oe_stat_button" type="object" name="action_toggle_is_locked"
+                                    icon="fa-lock">
+                                <field name="unlock" widget="toggle_button"/>
+                                <span class="o_stat_text" attrs="{'invisible': [('unlock', '=', False)]}">Unlock</span>
+                                <span class="o_stat_text" attrs="{'invisible': [('unlock', '=', True)]}">Lock</span>
+                            </button>
+
+                            <button class="oe_stat_button" name="get_unit" type="object" icon="fa-home">
+                                <field string="Units" name="unit_counts" widget="statinfo"/>
+                            </button>
+
+                            <button class="oe_stat_button" string="Documents" name="get_attachments" type="object"
+                                    icon="fa-file-text-o"/>
+                            <button name="action_view_maintenance" type="object" class="oe_stat_button"
+                                    icon="fa-wrench">
+                                <field name="maintenance_count" widget="statinfo" string="Maintenance"/>
+                            </button>
+                            <button width="200" class="oe_stat_button" name="get_contract"
+                                    type="object"
+                                    icon="fa-files" attrs="{'invisible':[('state','=','draft')]}">
+                                <field string="Contracts" name="contract_counts" widget="statinfo"/>
+                            </button>
+
+                        </div>
+                        <h4>
+                            <field name="seq" readonly="1"/>
+                        </h4>
+                        <field name="logo" widget="image" class="oe_avatar"/>
+                        <div class="oe_title">
+                            <label class="oe_edit_only" for="name" string="Property Name"/>
+                            <h1>
+                                <field name="name" required="1"
+                                       attrs="{'readonly':[('state','!=','draft'),('unlock','=',True)]}"
+                                       placeholder="Property Name"/>
+                            </h1>
+                        </div>
+                        <group attrs="{'readonly':[('state','=','approve')]}" name="p_info" string="Property Info">
+                            <group attrs="{'readonly':[('state','=','approve')]}">
+                                <field name="property_state_id" required="1"
+                                       attrs="{'readonly':[('state','!=','draft'),('unlock','=',True)]}"/>
+
+                                <field attrs="{'readonly':[('state','=','approve'),('unlock','=',True)]}"
+                                       name="management_type" required="1"/>
+                                <field name="owner_id"
+                                       attrs="{'invisible':[('management_type', '!=', 'include'),], 'required':[('management_type','=','include')],'readonly':[('unlock','=',True)]}"/>
+                                <field attrs="{'readonly':[('state','=','approve'),('unlock','=',True)]}"
+                                       name="action_type" required="1"/>
+
+                            </group>
+                            <group attrs="{'readonly':[('state','=','approve')]}">
+                                <field name="account_analy_id"
+                                       attrs="{'readonly':[('state','!=','draft'),('unlock','=',True)]}"/>
+                                <field name="market_type"
+                                       attrs="{'readonly':[('state','!=','draft'),('unlock','=',True)]}"/>
+                                <field name="property_type_id" required="1"
+                                       attrs="{'readonly':[('state','!=','draft'),('unlock','=',True)]}"/>
+                                <field attrs="{'readonly':[('state','=','approve'),('unlock','=',True)]}"
+                                       name="company_profit" invisible="1"/>
+                                <field attrs="{'readonly':[('state','=','approve'),('unlock','=',True)]}"
+                                       name="company_profit_amount" invisible="1"/>
+                            </group>
+
+                        </group>
+                        <group attrs="{'readonly':[('state','=','approve')]}" name="other_info" colspan="2" col="4">
+                            <field attrs="{'readonly':[('state','=','approve'),('unlock','=',True)]}"
+                                   name="branch_manager_id" required="1"/>
+                            <field name="company_id" groups="base.group_multi_company"
+                                   attrs="{'readonly':[('state','!=','draft'),('unlock','=',True)]}"/>
+                        </group>
+
+                        <notebook>
+                            <page attrs="{'readonly':[('state','=','approve')]}" name="location_info"
+                                  string="Property Face &amp; Location">
+                                <group attrs="{'readonly':[('state','=','approve')]}">
+                                    <group attrs="{'readonly':[('state','=','approve')]}" col="4" colspan="2">
+                                        <field name="city_id" required="1"
+                                               attrs="{'readonly':[('state','!=','draft'),('unlock','=',True)]}"/>
+                                        <field name="district_id" required="1" domain="[('city_id','=',city_id)]"
+                                               attrs="{'readonly':[('state','!=','draft'),('unlock','=',True)]}"/>
+                                        <field name="street" required="1"
+                                               attrs="{'readonly':[('state','!=','draft'),('unlock','=',True)]}"/>
+
+                                        <field name="location" required="1" widget="url"
+                                               attrs="{'readonly':[('state','!=','draft'),('unlock','=',True)]}"/>
+
+                                        <field name="property_no" required="1"
+                                               attrs="{'readonly':[('state','!=','draft'),('unlock','=',True)]}"/>
+                                        <field name="property_face_ids" widget="many2many_tags"
+                                               attrs="{'readonly':[('state','!=','draft'),('unlock','=',True)]}"/>
+                                    </group>
+                                    <group attrs="{'readonly':[('state','=','approve')]}" string="Building Length">
+                                        <field name="north"
+                                               attrs="{'readonly':[('state','!=','draft'),('unlock','=',True)]}"/>
+                                        <field name="south"
+                                               attrs="{'readonly':[('state','!=','draft'),('unlock','=',True)]}"/>
+                                        <field name="east"
+                                               attrs="{'readonly':[('state','!=','draft'),('unlock','=',True)]}"/>
+                                        <field name="west"
+                                               attrs="{'readonly':[('state','!=','draft'),('unlock','=',True)]}"/>
+                                    </group>
+                                    <group attrs="{'readonly':[('state','=','approve')]}"
+                                           string="Building Street Position">
+                                        <field name="north_street"
+                                               attrs="{'readonly':[('state','!=','draft'),('unlock','=',True)]}"/>
+                                        <field name="south_street"
+                                               attrs="{'readonly':[('state','!=','draft'),('unlock','=',True)]}"/>
+                                        <field name="east_street"
+                                               attrs="{'readonly':[('state','!=','draft'),('unlock','=',True)]}"/>
+                                        <field name="west_street"
+                                               attrs="{'readonly':[('state','!=','draft'),('unlock','=',True)]}"/>
+
+                                    </group>
+                                </group>
+                                <group attrs="{'readonly':[('state','=','approve')]}" string="Note">
+                                    <field attrs="{'readonly':[('state','=','approve'),('unlock','=',True)]}"
+                                           name="note"/>
+                                </group>
+                            </page>
+                            <page attrs="{'readonly':[('state','=','approve')]}" name="regis_info"
+                                  string="Registration Info">
+                                <group attrs="{'readonly':[('state','=','approve')]}">
+                                    <group attrs="{'readonly':[('state','=','approve')]}" col="4" colspan="2">
+                                        <field name="user_id" readonly="1"/>
+                                        <field name="marketer_id"
+                                               attrs="{'readonly':[('state','!=','draft'),('unlock','=',True)]}"/>
+                                        <field name="block_no" required="0"
+                                               attrs="{'readonly':[('state','!=','draft'),('unlock','=',True)]}"/>
+                                        <field name="licence_no" required="0"
+                                               attrs="{'readonly':[('state','!=','draft'),('unlock','=',True)]}"/>
+                                        <field name="plate_no"
+                                               attrs="{'readonly':[('state','!=','draft'),('unlock','=',True)]}"/>
+                                        <field name="plot_no"
+                                               attrs="{'readonly':[('state','!=','draft'),('unlock','=',True)]}"/>
+                                        <field name="planned_no"
+                                               attrs="{'readonly':[('state','!=','draft'),('unlock','=',True)]}"/>
+                                        <field name="planned_id"
+                                               attrs="{'readonly':[('state','!=','draft'),('unlock','=',True)]}"/>
+
+                                        <field name="faseh"
+                                               attrs="{'readonly':[('state','!=','draft'),('unlock','=',True)]}"/>
+                                        <field name="proceedings"
+                                               attrs="{'readonly':[('state','!=','draft'),('unlock','=',True)]}"/>
+                                        <field name="Areal_decision"
+                                               attrs="{'readonly':[('state','!=','draft'),('unlock','=',True)]}"/>
+                                        <field name="offered"
+                                               attrs="{'readonly':[('state','!=','draft'),('unlock','=',True)]}"/>
+                                    </group>
+                                    <group attrs="{'readonly':[('state','=','approve')]}" colspan="2" col="4">
+                                        <field name="water_count"
+                                               attrs="{'readonly':[('state','!=','draft'),('unlock','=',True)]}"/>
+                                        <field name="water_serial"
+                                               attrs="{'readonly':[('state','!=','draft'),('unlock','=',True)]}"/>
+                                        <field name="water_subscription"
+                                               attrs="{'readonly':[('state','!=','draft'),('unlock','=',True)]}"/>
+                                        <field name="water_account"
+                                               attrs="{'readonly':[('state','!=','draft'),('unlock','=',True)]}"/>
+                                    </group>
+                                    <group string="Second Water Meter"
+                                           attrs="{'invisible':['|',('water_count','=','1'),('water_count','=',False)],'readonly':[('state','=','approve')]}">
+                                        <field name="water_serial2"
+                                               attrs="{'readonly':[('state','!=','draft'),('unlock','=',True)]}"/>
+                                        <field name="water_subscription2"
+                                               attrs="{'readonly':[('state','!=','draft'),('unlock','=',True)]}"/>
+                                        <field name="water_account2"
+                                               attrs="{'readonly':[('state','!=','draft'),('unlock','=',True)]}"/>
+
+                                    </group>
+                                    <group string="Third Water Meter"
+                                           attrs="{'invisible':['|','|',('water_count','=','1'),('water_count','=','2'),('water_count','=',False)],'readonly':[('state','=','approve')]}">
+                                        <field name="water_serial3"
+                                               attrs="{'readonly':[('state','!=','draft'),('unlock','=',True)]}"/>
+                                        <field name="water_subscription3"
+                                               attrs="{'readonly':[('state','!=','draft'),('unlock','=',True)]}"/>
+                                        <field name="water_account3"
+                                               attrs="{'readonly':[('state','!=','draft'),('unlock','=',True)]}"/>
+
+                                    </group>
+                                    <group attrs="{'readonly':[('state','=','approve')]}" colspan="2" col="4"
+                                           string="First Stamping">
+                                        <field name="stamping_count" required="1"
+                                               attrs="{'readonly':[('state','!=','draft'),('unlock','=',True)]}"/>
+                                        <field name="stamping_state"
+                                               attrs="{'readonly':[('state','!=','draft'),('unlock','=',True)]}"
+                                               string="Stamping State"/>
+                                        <field name="stamping" required="1"
+                                               attrs="{'readonly':[('state','!=','draft'),('unlock','=',True)]}"/>
+                                        <field name="stamping_date" required="1"
+                                               attrs="{'readonly':[('state','!=','draft'),('unlock','=',True)]}"/>
+                                        <field name="stamping_attach"
+                                               attrs="{'readonly':[('state','!=','draft'),('unlock','=',True)]}"/>
+                                    </group>
+                                    <group string="Second Stamping"
+                                           attrs="{'invisible':['|',('stamping_count','=','1'),('stamping_count','=',False)],'readonly':[('state','=','approve')]}">
+                                        <field name="stamping_2"
+                                               attrs="{'readonly':[('state','!=','draft'),('unlock','=',True)]}"/>
+                                        <field name="stamping_date_2"
+                                               attrs="{'readonly':[('state','!=','draft'),('unlock','=',True)]}"/>
+                                        <field name="stamping_attach_2"
+                                               attrs="{'readonly':[('state','!=','draft'),('unlock','=',True)]}"/>
+                                        <field name="stamping_state_2"
+                                               attrs="{'readonly':[('state','!=','draft'),('unlock','=',True)]}"/>
+
+                                    </group>
+                                    <group string="Third stamping"
+                                           attrs="{'invisible':['|','|',('stamping_count','=','1'),('stamping_count','=','2'),('stamping_count','=',False)],'readonly':[('state','=','approve')]}">
+                                        <field name="stamping_3"
+                                               attrs="{'readonly':[('state','!=','draft'),('unlock','=',True)]}"/>
+                                        <field name="stamping_date_3"
+                                               attrs="{'readonly':[('state','!=','draft'),('unlock','=',True)]}"/>
+                                        <field name="stamping_attach_3"
+                                               attrs="{'readonly':[('state','!=','draft'),('unlock','=',True)]}"/>
+                                        <field name="stamping_state_3"
+                                               attrs="{'readonly':[('state','!=','draft'),('unlock','=',True)]}"/>
+
+                                    </group>
+                                </group>
+                            </page>
+                            <page attrs="{'readonly':[('state','=','approve')]}" name="other" string="Other Info">
+                                <group attrs="{'readonly':[('state','=','approve')]}" col="4" colspan="2">
+
+                                    <field name="suitability_for_residence"
+                                           attrs="{'readonly':[('state','!=','draft'),('unlock','=',True)]}"/>
+                                    <field name="is_new"
+                                           attrs="{'readonly':[('state','!=','draft'),('unlock','=',True)]}"/>
+
+                                </group>
+                                <group attrs="{'readonly':[('state','=','approve')]}" colspan="2" col="4">
+                                    <field name="property_age"
+                                           attrs="{'readonly':[('state','!=','draft'),('unlock','=',True)]}"/>
+
+                                    <field name="appendices"
+                                           attrs="{'readonly':[('state','!=','draft'),('unlock','=',True)]}"/>
+
+                                    <field name="separated"
+                                           attrs="{'readonly':[('state','!=','draft'),('unlock','=',True)]}"/>
+
+                                    <field name="internal_staircase"
+                                           attrs="{'readonly':[('state','!=','draft'),('unlock','=',True)]}"/>
+
+                                    <field name="shops_no"
+                                           attrs="{'readonly':[('state','!=','draft'),('unlock','=',True)]}"/>
+
+                                    <field name="tree_no"
+                                           attrs="{'readonly':[('state','!=','draft'),('unlock','=',True)]}"/>
+
+                                    <field name="apartment_no"
+                                           attrs="{'readonly':[('state','!=','draft'),('unlock','=',True)]}"/>
+
+                                    <field name="buildings_no"
+                                           attrs="{'readonly':[('state','!=','draft'),('unlock','=',True)]}"/>
+
+                                    <field name="well_no"
+                                           attrs="{'readonly':[('state','!=','draft'),('unlock','=',True)]}"/>
+
+                                    <field name="rent_status"
+                                           attrs="{'readonly':[('state','!=','draft'),('unlock','=',True)]}"/>
+                                </group>
+                            </page>
+                            <page attrs="{'readonly':[('state','=','approve')]}" name="info_floor" string="Floor Info">
+                                <group attrs="{'readonly':[('state','=','approve')]}">
+                                    <group attrs="{'readonly':[('state','=','approve')]}">
+                                        <field name="floors_count" required="1"
+                                               attrs="{'readonly':[('state','!=','draft'),('unlock','=',True)]}"/>
+
+                                    </group>
+                                    <group attrs="{'readonly':[('state','=','approve')]}">
+                                        <field name="is_unit_count_fixed"/>
+                                        <field name="unit_floor_count" required="1"
+                                               attrs="{'readonly': [('state', '!=', 'draft'), ('unlock', '=', True)],'invisible': [('is_unit_count_fixed', '=', False)]}"/>
+                                    </group>
+                                    <field attrs="{'readonly':[('state','=','approve')]}" name="floor_ids">
+                                        <tree editable="bottom">
+                                            <field name="role_id"/>
+                                            <field name="no_of_house" sum="Total House"/>
+                                            <field name="no_of_shop" sum="Total Shop"/>
+                                            <field name="no_of_other_unit" sum="Total Other Units"/>
+                                            <field name="description"/>
+                                            <field name="total" readonly="1" sum="Total"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                            </page>
+                            <page attrs="{'readonly':[('state','=','approve')]}" name="unit_info" string="Unit Info">
+                                <group attrs="{'readonly':[('state','=','approve')]}">
+                                    <group attrs="{'readonly':[('state','=','approve')]}">
+                                        <field name="no_units" readonly="1"
+                                               attrs="{'readonly':[('state','!=','draft'),('unlock','=',True)]}"/>
+                                        <field name="no_rented_units"/>
+                                        <field name="no_available_units"/>
+                                        <field name="no_reserved_units"/>
+                                        <field name="property_unit_space"/>
+                                        <field name="uexternal_space"/>
+                                        <field name="uspace"/>
+                                    </group>
+                                    <group attrs="{'readonly':[('state','=','approve')]}">
+                                        <field name="room_no" readonly="1"/>
+                                        <field name="hall_no" readonly="1"/>
+                                        <field name="kitchen_no" readonly="1"/>
+                                        <field name="bathroom_no" readonly="1"/>
+                                    </group>
+                                </group>
+                                <field attrs="{'readonly':[('state','=','approve')]}" name="unit_ids">
+                                    <tree>
+                                        <field name="seq" readonly="1"/>
+                                        <field name="name" readonly="1"/>
+                                        <field name="unit_type_id" readonly="1"/>
+                                        <field name="action_type" readonly="1"/>
+                                        <field name="space" readonly="1"/>
+                                        <field name="state" readonly="1"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page attrs="{'readonly':[('state','=','approve')]}" name="prices" string="Prices">
+                                <group attrs="{'readonly':[('state','=','approve')]}" col="4" colspan="2">
+                                    <field name="property_space" required="1"
+                                           attrs="{'readonly':[('state','!=','draft'),('unlock','=',True)]}"/>
+                                </group>
+                                <group attrs="{'readonly':[('state','=','approve')]}" col="4" colspan="2">
+                                    <field attrs="{'readonly':[('state','=','approve')]}" name="pur_price"/>
+                                    <field name="meter_price" required="1"
+                                           attrs="{'readonly':[('state','!=','draft'),('unlock','=',True)]}"/>
+                                    <field attrs="{'readonly':[('state','=','approve')]}" name="rent_price"/>
+                                    <field attrs="{'readonly':[('state','=','approve')]}" name="pur_meter_price"/>
+                                    <field attrs="{'readonly':[('state','=','approve')]}" name="curr_price"/>
+                                </group>
+                            </page>
+
+
+                        </notebook>
+
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="property_kanban_view" model="ir.ui.view">
+            <field name="name">property.kanban</field>
+            <field name="model">internal.property</field>
+            <field name="priority">10</field>
+            <field name="arch" type="xml">
+                <kanban class="o_hr_employee_kanban">
+                    <field name="id"/>
+                    <field name="name"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div style="width:350px !important;"
+                                 class="oe_kanban_global_click o_kanban_record_has_image_fill o_hr_kanban_record">
+                                <!-- Medium property's picture -->
+                                <div class="o_kanban_image_fill_left d-none d-md-block"
+                                     t-attf-style="background-image: url(#{kanban_image('res.property', 'logo', record.id.raw_value)})"
+                                     role="img"/>
+                                <!-- property's picture optimized for mobile -->
+                                <div class="o_kanban_image d-md-none rounded-circle"
+                                     t-attf-style="background-image: url(#{kanban_image('res.property', 'logo', record.id.raw_value)})"
+                                     role="img"/>
+
+                                <div class="o_project_kanban_main">
+                                    <div class="o_kanban_card_content">
+                                        <div class="o_kanban_primary_left">
+                                            <strong class="o_kanban_record_title">
+                                                <field name="name"/>
+                                            </strong>
+                                            <span t-if="record.no_units.raw_value" class="o_kanban_record_subtitle">
+                                                <b>Number of units:</b>
+                                                <field name="no_units"/>
+                                            </span>
+                                            <span t-if="record.no_rented_units.raw_value"
+                                                  class="o_kanban_record_subtitle">
+                                                <b>Number of rented units:</b>
+                                                <field name="no_rented_units"/>
+                                            </span>
+                                            <span t-if="record.no_available_units.raw_value"
+                                                  class="o_kanban_record_subtitle">
+                                                <b>Number of available units:</b>
+                                                <field name="no_available_units"/>
+                                            </span>
+                                            <span t-if="record.no_reserved_units.raw_value"
+                                                  class="o_kanban_record_subtitle">
+                                                <b>Number of reserved units:</b>
+                                                <field name="no_reserved_units"/>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <ul>
+                                        <li t-if="record.city_id.raw_value">
+                                            <field name="city_id"/>
+                                        </li>
+                                        <li t-if="record.district_id.raw_value">
+                                            <field name="district_id"/>
+                                        </li>
+                                        <li t-if="record.street.raw_value">
+                                            <field name="street"/>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+
+            </field>
+        </record>
+
+
+        <record id="property_list_view" model="ir.ui.view">
+            <field name="name">Property List</field>
+            <field name="model">internal.property</field>
+            <field name="arch" type="xml">
+                <tree decoration-danger="state in ['draft', 'register']"
+                      decoration-info="state == 'approve'"
+                      decoration-warning="state == 'reserve'" decoration-success="state == 'rent'">
+                    <field name="name"/>
+                    <field name="city_id"/>
+                    <field name="no_units"/>
+                    <field name="market_type"/>
+                    <field name="property_state_id"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_property_filter" model="ir.ui.view">
+            <field name="name">Property Filter</field>
+            <field name="model">internal.property</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name" string="Property"/>
+                    <field name="seq"/>
+                    <field name="city_id"/>
+                    <field name="district_id"/>
+                    <separator/>
+                    <filter string="My Property" name="my_reports" domain="[('user_id', '=', uid)]"/>
+                    <separator/>
+                    <filter domain="[('state', '=', 'draft')]" string="Draft" name="draft" help="Property in Draft"/>
+                    <filter domain="[('state', '=', 'register')]" string="Registered" name="registered"
+                            help="Confirmed Property"/>
+                    <filter domain="[('state', '=', 'approve')]" string="Approved" name="approve"
+                            help="Approved Property"/>
+                    <filter domain="[('state', '=', 'reserved')]" string="Reserved" name="Reserved"
+                            help="Reserved Property"/>
+                    <filter domain="[('state', '=', 'rented')]" string="Rented" name="rent"/>
+                    <separator/>
+                    <group expand="0" string="Group By">
+                        <filter string="Status" name="state" domain="[]" context="{'group_by': 'state'}"/>
+                        <filter string="City" name="city_id" domain="[]" context="{'group_by': 'city_id'}"/>
+                        <filter string="District" name="district_id" domain="[]" context="{'group_by': 'district_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+
+        <record id="property_action" model="ir.actions.act_window">
+            <field name="name">Property</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">internal.property</field>
+            <field name="view_mode">kanban,tree,form</field>
+        </record>
+
+
+        <menuitem name="Real Estates" id="property_info_menu" parent="real_estate_menu"
+                  action="property_action" sequence="1"/>
+    </data>
+</odoo>

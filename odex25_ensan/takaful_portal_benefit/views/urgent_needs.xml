@@ -1,0 +1,86 @@
+<odoo>
+    <data>
+        <template id="urgent_needs" name=" urgent needs ">
+            <t t-set="title">الاحتياجات الطارئة </t>
+            <t t-call="website.layout">
+                <div class="profile_wrapper">
+                    <div class="container">
+                        <h2 class="heading"> الاحتياجات الطارئة </h2>
+                        <div class="tab-content">
+                            <div id="general_info" class="tab-pane active">
+                                <form id="urgent_needs_form" action="" class="general_data_form urgent_needs_form">
+                                    <div class="row">
+                                        <div class="form-group col-lg-6">
+                                            <label for="need_status" class=" control-label">
+                                                حالة الاحتياج
+                                            </label>
+                                            <select id="need_status" name="need_status"
+                                                class="custom-select">
+                                                <option selected="selected" value="urgent"> طارئة </option>
+                                                <option value="not_urgent"> غير طارئة </option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-lg-6">
+                                            <label for="need_category" class=" control-label">
+                                                تصنيف الاحتياج
+                                            </label>
+                                            <select id="need_category" name="need_category"
+                                                class="custom-select">
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-lg-6">
+                                            <label for="need_type_ids" class=" control-label">
+                                                نوع الاحتياج
+                                            </label>
+                                            <select id="need_type_ids" name="need_type_ids"
+                                                class="custom-select">
+                                                
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-lg-6">
+                                            <label for="f_amount" class=" control-label"> المبلغ
+                                                المستهدف </label>
+                                            <div class="">
+                                                <input type="text" class="form-control"
+                                                    id="f_amount" name="f_amount" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-lg-12">
+                                            <label for="need_attach" class=" control-label">
+
+                                                ارفاق الاحتياج
+                                            </label>
+                                            <div class="attach_wrapper">
+                                                <input type="file" class="form-control"
+                                                    id="need_attach"
+                                                    name="need_attach" />
+                                                <input type="text" />
+                                                <img
+                                                    src="/takaful_portal_benefit/static/img/attatch.png"
+                                                    alt="attach" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-lg-12">
+                                            <label for="description" class=" control-label">شرح
+                                                الحالة الطارئة </label>
+                                            <div class="">
+                                                <textarea class="form-control"
+                                                    id="description" name="description"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <button type="submit" class="main_link"> ارسال طلب   </button>
+                                        </div>
+                                    </div>
+                                </form>
+                                <div class="new_donor"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- <script src="/takaful_portal_benefit/static/js/urgent_needs.js"></script> -->
+
+            </t>
+        </template>
+    </data>
+</odoo>

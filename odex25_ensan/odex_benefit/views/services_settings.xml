@@ -1,0 +1,249 @@
+<odoo>
+    <data>
+        <record id="services_settings_form" model="ir.ui.view">
+            <field name="name">services.settings.form</field>
+            <field name="model">services.settings</field>
+            <field name="arch" type="xml">
+                <form string="Services Settings">
+                    <sheet>
+                        <group>
+                             <group>
+                                <field name="service_name"/>
+                                <field name="parent_service" attrs="{'invisible':[('is_main_service','=',True)]}"/>
+                                <field name="service_type" attrs="{'invisible':[('is_main_service','=',True)]}"/>
+                                  <field name="account_id" attrs="{'invisible':['|',('is_main_service','=',True),('service_type','=','electrical_devices')]}"/>
+                                <field name="accountant_id" attrs="{'invisible':[('is_main_service','=',True)]}"/>
+                                <field name="service_producer_id" attrs="{'invisible':['|',('is_main_service','=',True),('is_service_producer','=',False)]}"/>
+                            </group>
+                            <group>
+                                <field name="is_main_service"/>
+                                <field name="is_service_producer" attrs="{'invisible':[('is_main_service','=',True)]}"/>
+                                 <field name="is_this_service_for_student" attrs="{'invisible':[('is_main_service','=',True)]}"/>
+                            </group>
+                        </group>
+                            <notebook>
+                                <page string="Services Attachments Settings">
+                                    <field name="attachment_lines" widget="one2many_list">
+                                        <tree editable="bottom">
+                                            <field name="name"/>
+                                            <field name="notes"/>
+                                            <field name="service_type" invisible="1"/>
+                                        </tree>
+                                    </field>
+                                </page>
+                                <page string="Family Rent Service Settings" attrs="{'invisible':[('service_type','!=','rent')]}">
+                                    <field name="rent_lines" widget="one2many_list">
+                                        <tree  editable="bottom">
+                                            <field name="benefit_category_id"/>
+                                            <field name="benefit_count"/>
+                                            <field name="estimated_rent_branches"/>
+                                            <field name="estimated_rent_governorate"/>
+<!--                                            <field name="is_shared_housing"/>-->
+                                            <field name="discount_rate_shared_housing"/>
+                                        </tree>
+                                    </field>
+                                </page>
+                                <page string="Benefit Rent Service Settings" attrs="{'invisible':[('service_type','!=','rent')]}">
+                                    <group>
+                                        <field name="max_amount_for_student"/>
+                                        <field name="raise_amount_for_orphan"/>
+                                    </group>
+                                </page>
+                                 <page string="Home Restoration Service Settings" attrs="{'invisible':[('service_type','!=','home_restoration')]}">
+                                    <field name="home_restoration_lines" widget="one2many_list">
+                                        <tree  editable="bottom">
+                                            <field name="benefit_category_id"/>
+                                            <field name="max_amount"/>
+                                        </tree>
+                                    </field>
+                                </page>
+                                 <page string="Alternative Housing Settings" attrs="{'invisible':[('service_type','!=','alternative_housing')]}">
+                                   <group>
+                                        <field name="rent_amount_for_alternative_housing"/>
+                                        <field name="rent_period"/>
+                                    </group>
+                                </page>
+                                <page string="Home Maintenance Service Settings" attrs="{'invisible':[('service_type','!=','home_maintenance')]}">
+                                    <field name="home_maintenance_lines" widget="one2many_list">
+                                        <tree  editable="bottom">
+                                            <field name="maintenance_name"/>
+                                        </tree>
+                                    </field>
+                                    <group>
+                                        <field name="benefit_category_ids" widget="many2many_tags"/>
+                                        <field name="max_maintenance_amount"/>
+                                    </group>
+                                </page>
+                                 <page string="Complete Building House Settings" attrs="{'invisible':[('service_type','!=','complete_building_house')]}">
+                                     <group>
+                                        <field name="benefit_category_ids" widget="many2many_tags"/>
+                                        <field name="max_complete_building_house_amount"/>
+                                     </group>
+                                </page>
+                                <page string="Electrical Devices Settings" attrs="{'invisible':[('service_type','!=','electrical_devices')]}">
+                                    <group>
+                                        <field name="benefit_category_ids" widget="many2many_tags"/>
+                                    </group>
+                                     <field name="electrical_devices_lines" widget="one2many_list">
+                                        <tree editable="bottom">
+                                            <field name="min_count_member"/>
+                                            <field name="max_count_member"/>
+                                            <field name="device_name"/>
+                                            <field name="allowed_quantity"/>
+                                            <field name="account_id"/>
+                                        </tree>
+                                    </field>
+                                </page>
+                                <page string="Home furnishing Settings" attrs="{'invisible':[('service_type','!=','home_furnishing')]}">
+                                    <group>
+                                        <field name="benefit_category_ids" widget="many2many_tags"/>
+                                        <field name="max_furnishing_amount"/>
+                                        <field name="max_furnishing_amount_if_exception"/>
+                                    </group>
+                                     <field name="home_furnishing_lines" widget="one2many_list">
+                                        <tree editable="bottom">
+                                            <field name="name"/>
+                                            <field name="max_furnishing_amount"/>
+                                        </tree>
+                                    </field>
+                                </page>
+                                <page string="Electricity bill Settings" attrs="{'invisible':[('service_type','!=','electricity_bill')]}">
+                                    <field name="electricity_bill_lines" widget="one2many_list">
+                                        <tree  editable="bottom">
+                                            <field name="benefit_category_id"/>
+                                            <field name="min_count_member"/>
+                                            <field name="max_count_member"/>
+                                            <field name="max_amount_for_electricity_bill"/>
+                                        </tree>
+                                    </field>
+                                </page>
+                                <page string="Water bill Settings" attrs="{'invisible':[('service_type','!=','water_bill')]}">
+                                    <field name="water_bill_lines" widget="one2many_list">
+                                        <tree  editable="bottom">
+                                            <field name="benefit_category_id"/>
+                                            <field name="min_count_member"/>
+                                            <field name="max_count_member"/>
+                                            <field name="max_amount_for_water_bill"/>
+                                        </tree>
+                                    </field>
+                                </page>
+                                <page string="Buy Car Settings" attrs="{'invisible':[('service_type','!=','buy_car')]}">
+                                    <group>
+                                        <field name="benefit_category_ids" widget="many2many_tags"/>
+                                        <field name="max_buy_car_amount"/>
+                                        <field name="min_count_member"/>
+                                    </group>
+                                </page>
+                                <page string="Recruiting Driver Settings" attrs="{'invisible':[('service_type','!=','recruiting_driver')]}">
+                                    <group>
+                                        <field name="benefit_category_ids" widget="many2many_tags"/>
+                                        <field name="max_recruiting_driver_amount"/>
+                                    </group>
+                                </page>
+                                <page string="Transportation Insurance Settings" attrs="{'invisible':[('service_type','!=','transportation_insurance')]}">
+                                    <group>
+                                        <field name="benefit_category_ids" widget="many2many_tags"/>
+                                        <field name="max_government_transportation_amount"/>
+                                        <field name="max_universities_training_institutes_transportation_amount"/>
+                                        <field name="max_hospitals_transportation_amount"/>
+                                        <field name="max_programs_transportation_amount"/>
+                                    </group>
+                                </page>
+                                <page string="Debits Settings" attrs="{'invisible':[('service_type','!=','debits')]}">
+                                    <group>
+                                        <field name="benefit_category_ids" widget="many2many_tags"/>
+                                        <field name="max_debits_amount"/>
+                                    </group>
+                                </page>
+                                <page string="Health Care Settings" attrs="{'invisible':[('service_type','!=','health_care')]}">
+                                    <group>
+                                        <field name="benefit_category_ids" widget="many2many_tags"/>
+                                        <field name="max_health_care_amount"/>
+                                    </group>
+                                </page>
+                                <page string="Providing Medicines Medical Devices And Needs The Disabled Settings" attrs="{'invisible':[('service_type','!=','providing_medicines_medical_devices_and_needs_the_disabled')]}">
+                                    <group>
+                                        <field name="benefit_category_ids" widget="many2many_tags"/>
+                                    </group>
+                                </page>
+                                <page string="Recruiting Domestic Worker Or Nurse Settings" attrs="{'invisible':[('service_type','!=','recruiting_domestic_worker_or_nurse')]}">
+                                    <group>
+                                        <field name="benefit_category_ids" widget="many2many_tags"/>
+                                        <field name="max_recruiting_domestic_worker_or_nurse_amount"/>
+                                    </group>
+                                </page>
+                                <page string="Marriage Settings" attrs="{'invisible':[('service_type','!=','marriage')]}">
+                                    <group>
+                                        <field name="benefit_category_ids" widget="many2many_tags"/>
+                                        <field name="member_max_age"/>
+                                        <field name="member_max_payroll"/>
+                                        <field name="fatherless_member_amount"/>
+                                        <field name="orphan_member_amount"/>
+                                    </group>
+                                </page>
+                                <page string="Eid Gift Settings" attrs="{'invisible':[('service_type','!=','eid_gift')]}">
+                                    <group>
+                                        <field name="benefit_category_ids" widget="many2many_tags"/>
+                                        <field name="eid_gift_max_age"/>
+                                        <field name="eid_gift_member_amount"/>
+                                    </group>
+                                </page>
+                                 <page string="Winter Clothing Settings" attrs="{'invisible':[('service_type','!=','winter_clothing')]}">
+                                    <group>
+                                        <field name="benefit_category_ids" widget="many2many_tags"/>
+                                        <field name="winter_clothing_member_amount"/>
+                                    </group>
+                                </page>
+                                <page string="Ramadan Basket Settings" attrs="{'invisible':[('service_type','!=','ramadan_basket')]}">
+                                    <group>
+                                        <field name="benefit_category_ids" widget="many2many_tags"/>
+                                        <field name="ramadan_basket_member_amount"/>
+                                    </group>
+                                </page>
+                                <page string="Natural disasters Settings" attrs="{'invisible':[('service_type','!=','natural_disasters')]}">
+                                    <group>
+                                        <field name="benefit_category_ids" widget="many2many_tags"/>
+                                        <field name="natural_disasters_max_amount"/>
+                                    </group>
+                                </page>
+                                <page string="Legal arguments Settings" attrs="{'invisible':[('service_type','!=','legal_arguments')]}">
+                                    <group>
+                                        <field name="benefit_category_ids" widget="many2many_tags"/>
+                                        <field name="legal_arguments_max_amount"/>
+                                    </group>
+                                </page>
+                                <page string="Buy Home Settings" attrs="{'invisible':[('service_type','!=','buy_home')]}">
+                                    <group>
+                                        <field name="benefit_category_ids" widget="many2many_tags"/>
+                                        <field name="buy_home_max_total_amount"/>
+                                        <field name="home_age"/>
+                                    </group>
+                                    <field name="buy_home_lines" widget="one2many_list">
+                                        <tree  editable="bottom">
+                                            <field name="min_count_member"/>
+                                            <field name="max_count_member"/>
+                                            <field name="amount_for_buy_home"/>
+                                        </tree>
+                                    </field>
+                                </page>
+                            </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="services_settings_tree" model="ir.ui.view">
+            <field name="name">services.settings.tree</field>
+            <field name="model">services.settings</field>
+            <field name="arch" type="xml">
+                <tree string="Services Settings">
+                    <field name="service_name"/>
+                    <field name="parent_service"/>
+                    <field name="is_main_service"/>
+                    <field name="service_type"/>
+                    <field name="max_amount_for_student"/>
+                    <field name="raise_amount_for_orphan"/>
+                </tree>
+            </field>
+        </record>
+    </data>
+</odoo>

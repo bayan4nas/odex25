@@ -1,0 +1,278 @@
+<?xml version="1.0"?>
+
+<odoo>
+
+     <record id="takaful_sponsor_tree" model="ir.ui.view">
+        <field name="name">takaful.sponsor.tree</field>
+        <field name="model">takaful.sponsor</field>
+        <field name="arch"  type="xml">
+            <tree string="Sponsors List" decoration-danger="active==False">
+                <field name="name"/>
+                <field name="company_type"/>
+                <field name="mobile" /> 
+                <field name="id_number" /> 
+                <field name="city_id" />
+                <field name="account_number"/>
+                <field name="bank_id"/>       
+                <field name="state" invisible="1" />             
+                <field name="active" invisible="1" />             
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="change_status_search">
+        <field name="name">Active/Inactive Search</field>
+        <field name="model">takaful.sponsor</field>
+        <field name="arch" type="xml">
+          <search>
+            <field name="name"/>
+            <filter string="Inactive" name="inactive" domain="[('active', '=', False)]"/>
+          </search>
+        </field>
+    </record>
+
+    <record id="view_takaful_sponsor_form" model="ir.ui.view">
+        <field name="name">takaful.sponsor.form</field>
+        <field name="model">takaful.sponsor</field>
+        <field name="arch"  type="xml">
+            <form string="The sponsor">
+                <sheet>
+                    <separator string="Inactive" style="color: red;" attrs="{'invisible': [('active', '=', True)]}"/>
+
+                    <field name="active" invisible="1"/>
+
+                    <div name="oe_button_box" class="oe_button_box">
+
+<!--                        <button class="oe_stat_button" name="_compute_contribution_count" type="action"-->
+<!--                            icon="fa-money">-->
+<!--                            <field string="Contributions" name="contribution_count" widget="statinfo"/>-->
+<!--                        </button>-->
+
+                        <button class="oe_stat_button" type="object" name="view_sponsorship_action" icon="fa-dollar">
+                            <field string="Kafalat" name="kafalat_count" widget="statinfo"/>
+                        </button>
+
+<!--                        <button class="oe_stat_button" name="_compute_gift_count" type="action" icon="fa-gift">-->
+<!--                            <field string="Gifts" name="gift_count" widget="statinfo"/>-->
+<!--                        </button>-->
+
+                        <button name="action_open_sponsor_operation" type="object" class="oe_stat_button" icon="fa-history">
+                            <field string=" Operations Records" name="operation_count" widget="statinfo"/>
+                        </button>
+
+                    </div>
+
+                    <div class="oe_inline">
+                        <field name="company_type" no_label="1" widget='radio' options="{'horizontal': true}" required="1"/>
+<!--                        <field name="image" class="oe_avatar" widget="image"/>-->
+                    </div>
+
+                    <div class="oe_title" style="margin:10px;">
+                        <h1>
+                          <field name="name" placeholder="Name" attrs="{'readonly': [('company_type', '=', 'person')]}"/>
+                        </h1>
+
+                        <div class="oe_edit_only" attrs="{'invisible': [('company_type', '!=', 'person')]}">
+                            <h2>
+                                <field placeholder="Title" name="sponsor_title" class="oe_inline"/>
+                                <field placeholder="First Name" name="first_name" class="oe_inline"/>
+                                <field placeholder="Second Name" name="second_name" class="oe_inline"/>
+                                <field placeholder="Third Name" name="middle_name" class="oe_inline"/>
+                                <field placeholder="Family Name" name="family_name" class="oe_inline"/>
+                            </h2>
+                        </div>
+
+                    </div>
+
+                    <group name="group_top">
+                        <group name="group_left">
+                          <field name="mobile" required="1"/>
+
+                          <field name="id_number" attrs="{'invisible': [('company_type', '!=', 'person')]}" required="1"/>
+                          <field name="gender" attrs="{'invisible': [('company_type', '!=', 'person')]}"/>
+
+                          <field name="street" attrs="{'invisible': [('company_type', '=', 'person')]}"/>
+                          <field name="zip" attrs="{'invisible': [('company_type', '=', 'person')]}"/>
+
+                          <field name="email"/>
+                          <field name="user_id" options="{'no_create': True, 'no_create_edit':True}" />
+                       </group>
+
+                       <group name="group_right">
+                            <field name="city_id" />
+                            <field name="branch_custom_id"/>
+                            <field name="district_id"/>
+                            <label for="account_number" string="Bank Account"/>
+                            <div class="o_address_format">
+                                <field name="account_number" placeholder="Account Number" class="o_address_street"/>
+                                <field name="iban" placeholder="IBAN Number" class="o_address_street"/>
+                                <field name="bank_id" placeholder="Bank Name" class="o_address_country"/>
+                                <field name="bank_entity_name" placeholder="Bank Entity Name" class="o_address_street"/>
+                            </div>
+                        </group>
+
+                        <field name="state" invisible="1" />
+
+                    </group>
+
+                    <notebook>
+                        <page string="Settings">
+
+                            <group name="first_group">
+                                <group string="Monthly Notifications">
+                                    <field name="notify_by_app" widget="boolean_toggle"/>
+                                    <field name="notify_by_sms" widget="boolean_toggle"/>
+
+                                    <label for="notify_month_day" />
+                                    <div>
+                                    <field name="notify_month_day" class="oe_inline"  placeholder="Enter the Day"/>
+                                    <span class="oe_inline text-muted"> From Every month</span>
+                                    </div>
+
+                                </group>
+
+                                <group string="Paying Notifications">
+                                    <field name="notify_for_pay" widget="boolean_toggle"/>
+                                    <field name="notify_pay_by_app" widget="boolean_toggle"/>
+                                    <field name="notify_pay_by_sms" widget="boolean_toggle"/>
+                                </group>
+                            </group>
+
+                            <group name="second_group">
+                                <group string="My Certificates">
+                                    <field name="name_in_certificate" widget="boolean_toggle"/>
+                                    <field name="type_in_certificate" widget="boolean_toggle"/>
+                                    <field name="duration_in_certificate" widget="boolean_toggle"/>
+                                </group>
+
+                                <group string="Sponsorship Cancellation">
+                                    <label for="wait_cancel_day" />
+                                    <div>
+                                    <field name="wait_cancel_day" class="oe_inline"  placeholder="In Days"/>
+                                    <span class="oe_inline text-muted"> Day</span>
+                                    </div>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- All actions -->
+    <record id="takaful_sponsor_action" model="ir.actions.act_window">
+        <field name="name">The Sponsor</field>
+        <field name="res_model">takaful.sponsor</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'default_company_type': 'person'}</field>
+    </record>
+
+    <record id="active_sponsor_report_pivot_view" model="ir.ui.view">
+        <field name="name">active.sponsors.count.pivot</field>
+        <field name="model">takaful.sponsor</field>  
+        <field name="arch" type="xml">      
+            <pivot string="Active Sponsors Count" disable_linking="True">   
+                <field name="active_counts" type="col"/>
+            </pivot>   
+        </field>
+    </record>
+
+    <record id="action_active_sponsor_report" model="ir.actions.server">
+        <field name="name">Active Sponsors Count</field>
+        <field name="type">ir.actions.server</field>
+        <field name="model_id" ref="model_takaful_sponsor"/>
+        <field name="state">code</field>
+        <field name="code">
+        action = model.show_active_sponsor_report_report()
+        </field>
+    </record>
+
+    <!-- Unarchive Sponsor --> 
+    <record id="activate_sponsor_multi" model="ir.actions.server">
+        <field name="name">Make Active</field>
+        <field name="binding_model_id" ref="model_takaful_sponsor" />
+        <field name="model_id" ref="model_takaful_sponsor" />
+        <field name='groups_id' eval="[(4, ref('odex_takaful.group_can_activate_sponsor'))]"/>
+        <field name="state">code</field>
+        <field name="code">records.on_activate_sponsor_multi()</field>
+    </record>
+
+    <!-- Sponsor Operation Views -->
+    <record model="ir.ui.view" id="takaful_sponsor_operation_form">
+        <field name="name">takaful.sponsor.operation.form</field>
+        <field name="model">takaful.sponsor.operation</field>
+        <field name="arch" type="xml">
+            <form string="Sponsor Operations" delete="false">
+                <sheet>
+                    <group>
+                        <field name="origin_id" invisible="1"/>
+                        <field name="sponsor_id" readonly="1"/>
+                        <field name="name" readonly="1"/>
+                        <field name="operation_type" readonly="1"/>
+                        <field name="title" readonly="1"/>
+                        <field name="benefit_id" attrs="{'invisible': [('benefit_ids','=', False)]}"/>
+                        <field name="benefit_ids" attrs="{'invisible': [('benefit_id','!=', False)]}"/>
+                        <field name="benefit_type" readonly="1"/>
+                        
+                        <field name="month" invisible="1"/>
+                        <field name="period_code" invisible="1"/>
+                        <field name="amount" readonly="1"/>
+                        <field name="date" invisible="1"/>
+                        <field name="operation_on" readonly="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="takaful_sponsor_operation_tree">
+        <field name="name">takaful.sponsor.operation.tree</field>
+        <field name="model">takaful.sponsor.operation</field>
+        <field name="arch" type="xml">
+            <tree string="Sponsor Operations List">
+                <field name="name"/>
+                <field name="title"/>
+                <field name="operation_type"/>
+                <field name="sponsor_id"/>
+                <field name="benefit_type"/>
+                <field name="amount"/>
+                <field name="date"/>
+                <field name="operation_on"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="takaful_sponsor_operation_search">
+        <field name="name">takaful.sponsor.operation.search</field>
+        <field name="model">takaful.sponsor.operation</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="title"/>
+                <field name="operation_type"/>
+                <field name="sponsor_id"/>
+                <field name="benefit_type"/>
+                <field name="amount"/>
+                <field name="date"/>
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="takaful_sponsor_operation_action">
+        <field name="name">Sponsor Operation</field>
+        <field name="res_model">takaful.sponsor.operation</field>
+<!--        <field name="view_type">form</field>-->
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">No Any Sponsor Operations
+            </p>
+        </field>
+    </record>
+
+</odoo>

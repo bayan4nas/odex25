@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="generate_reports_view_tree" model="ir.ui.view">
+            <field name="name">generate_reports_view_tree</field>
+            <field name="model">generate.reports.log</field>
+            <field name="arch" type="xml">
+                <tree string="generate_reports_tree">
+                    <field name="name"/>
+                    <field name="datetime"/>
+                    <field name="user_id"/>
+                </tree>
+            </field>
+        </record>
+        <record id="generate_reports_log_view_form" model="ir.ui.view">
+            <field name="name">generate_reports_log_view_form</field>
+            <field name="model">generate.reports.log</field>
+            <field name="arch" type="xml">
+                <form string="generate_reports_log_form">
+                    <sheet>
+                        <group>
+                            <field name="name" required="1" readonly="1"/>
+                            <field name="datetime" readonly="1"/>
+                            <field name="attach" readonly="1"/>
+                            <field name="user_id" readonly="1"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="generate_reports_view_form" model="ir.ui.view">
+            <field name="name">generate_reports_view_form</field>
+            <field name="model">generate.reports</field>
+            <field name="arch" type="xml">
+                <form string="generate_reports_form">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="current_user" readonly="1"/>
+                                <field name="date" readonly="1"/>
+
+                                <!--                                <field name="date_from"/>-->
+                                <!--                                <field name="date_to"/>-->
+                            </group>
+                            <group>
+                                <field name="service_to"/>
+                                <field name="service_category"
+                                       attrs="{'invisible':[('service_to','!=','family')]}"/>
+                                <field name="house_service_category"
+                                       attrs="{'invisible':[('service_to','!=','house')]}"/>
+                                <field name="benefit_service_category"
+                                       attrs="{'invisible':[('service_to','!=','benefit')]}"/>
+                                <field name="seasonal_service_type"
+                                       attrs="{'invisible':['|',('service_to','!=','family'),('service_category','not in',['seasonal'])]}"/>
+                                <field name="service_type"
+                                       attrs="{'invisible':['|',('service_to','==','house'),('benefit_service_category','not in',['In-kind'])]}"/>
+                                <field name="qualification_type"
+                                       attrs="{'invisible':[('benefit_service_category','!=','qualification')]}"/>
+                                <field name="teaching_type"
+                                       attrs="{'invisible':[('benefit_service_category','!=','teaching')]}"/>
+                                <field name="housing_financial_type"
+                                       attrs="{'invisible':['|',('service_to','!=','house'),('house_service_category','!=','financial')]}"/>
+                            </group>
+                        </group>
+                        <h3>المرشحات</h3>
+                        <group>
+                            <group>
+                                <field name="age_from" attrs="{'invisible':[('service_to','!=','benefit')]}"/>
+                                <field name="age_to" attrs="{'invisible':[('service_to','!=','benefit')]}"/>
+                                <field name="family_id" widget="many2many_tags"
+                                       attrs="{'invisible':[('service_to','=','benefit')]}"/>
+                                <field name="benefit_id" widget="many2many_tags"
+                                       attrs="{'invisible':[('service_to','=','family')]}"/>
+                                <field name="description"/>
+                            </group>
+                            <group>
+                                <field name="percentage"
+                                />
+                                <field name="max_rent"
+                                       attrs="{'invisible':[('service_to','!=','house'),('service_category','!=','financial')]}"/>
+                                <field name="housing_id" widget="many2many_tags"
+                                       attrs="{'invisible':[('service_to','!=','house')]}"/>
+                                <field name="specialization_id"
+                                       attrs="{'invisible':[('benefit_service_category','!=','teaching')]}"/>
+                                <field name="product_id"/>
+                                <field name="behavior_id"
+                                       attrs="{'invisible':[('qualification_type','!=','behavior')]}"/>
+                                <field name="fat" attrs="{'invisible':[('qualification_type','!=','fat')]}"/>
+                            </group>
+                            <field name="benefit_f_needs_percent"
+                                   attrs="{'invisible':[('benefit_service_category','!=','financial')]}">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="family_id"/>
+                                    <field name="benefit_needs_value"/>
+                                    <field name="benefit_needs_percent"/>
+                                </tree>
+                            </field>
+                            <field name="appliances_furniture_need"
+                                   attrs="{'invisible':['|',('service_to','!=','house'),('house_service_category','!=','In-kind')]}">
+                                <tree>
+                                    <field name="ap_id" invisible="1"/>
+                                    <field name="name"/>
+                                    <field name="housing_id"/>
+                                    <field name="benefit_id"/>
+                                    <field name="room_id"/>
+                                    <field name="percentage"/>
+                                    <field name="status"/>
+                                </tree>
+                            </field>
+                            <field name="housing_rent_ids"
+                                   attrs="{'invisible':[('housing_financial_type','==',False)]}">
+                                <tree>
+                                    <field name="housing_id"/>
+                                    <field name="amount"/>
+                                </tree>
+                            </field>
+                            <field name="benefits_need_ids"
+                                   attrs="{'invisible':[('benefit_service_category','!=','In-kind')]}">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="benefit_need_type"/>
+                                    <field name="date"/>
+                                    <field name="benefit_type"/>
+                                    <field name="need_status"/>
+                                    <field name="target_amount"/>
+                                    <field name="completion_ratio"/>
+                                    <field name="benefit_ids" widget="many2many_tags"/>
+                                </tree>
+                            </field>
+                        </group>
+                        <group>
+                            <field name="family_need_ids" attrs="{'invisible':[('service_category','!=','financial')]}">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="benefits_total" string="Benefits Total of Family"/>
+                                    <field name="responsible_benefit_id"/>
+                                    <field name="is_producer" widget="boolean_toggle"/>
+                                    <field name="total_income"/>
+                                    <field name="total_expenses"/>
+                                </tree>
+                            </field>
+                            <field name="benefit_qualification_ids"
+                                   attrs="{'invisible':[('qualification_type','=',False)]}">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="gender"/>
+                                    <field name="age"/>
+                                    <field name="p_weight"/>
+                                    <field name="benefit_behavior_ids" widget="many2many_tags"/>
+                                </tree>
+                            </field>
+                            <field name="housing_room_ids"
+                                   attrs="{'invisible':['|',('service_to','!=','house'),('house_service_category','!=','fittings')]}">
+                                <tree decoration-danger="is_accept==False">
+                                    <field name="housing_id"/>
+                                    <field name="room_id"/>
+                                    <field name="rooms_categories_id"/>
+                                    <field name="benefit_id"/>
+                                    <field name="age"/>
+                                    <field name="gender"/>
+                                    <field name="is_accept" invisible="1"/>
+                                </tree>
+                            </field>
+                            <field name="benefit_teaching_ids"
+                                   attrs="{'invisible':[('benefit_service_category','!=','teaching')]}">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="family_id"/>
+                                    <field name="is_quran_memorize"/>
+                                    <field name="specialization_ids"/>
+                                </tree>
+                            </field>
+                            <field name="housing_need_car_ids"
+                                   attrs="{'invisible':[('house_service_category','!=','car_need')]}">
+                                <tree>
+                                    <field name="name"/>
+                                </tree>
+                            </field>
+                            <field name="benefit_ids"
+                                   attrs="{'invisible':[('seasonal_service_type','!=','zkat')]}">
+                                <tree default_order="family_id" decoration-danger="is_zakat_fitr==False"
+                                      decoration-success="is_zakat_fitr==True">
+                                    <field name="name"/>
+                                    <field name="family_id"/>
+                                    <field name="is_zakat_fitr" invisible="1"/>
+                                </tree>
+                            </field>
+                            <field name="benefit_omra_ids"
+                                   attrs="{'invisible':[('benefit_service_category','!=','omra')]}">
+                                <tree default_order="family_id" decoration-info="amra_date!=False">
+                                    <field name="name"/>
+                                    <field name="gender"/>
+                                    <field name="age"/>
+                                    <field name="family_id"/>
+                                    <field name="amra_date"/>
+                                </tree>
+                            </field>
+                            <field name="black_list"
+                                   attrs="{'invisible':[('seasonal_service_type','!=','zkat')]}">
+                                <tree default_order="family_id" decoration-danger="is_zakat_fitr==False"
+                                      decoration-success="is_zakat_fitr==True">
+                                    <field name="name"/>
+                                    <field name="family_id"/>
+                                    <field name="is_zakat_fitr" invisible="1"/>
+                                </tree>
+                            </field>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <!--                        <button name="get_result" string="get_result" type="object" class="oe_highlight"/>-->
+                        <button name="create_club" string="Create A Club" type="object" class="oe_highlight"
+                                attrs="{'invisible':[('qualification_type','=',False)]}"/>
+                        <button name="get_need" string="needs" type="object" class="oe_highlight"/>
+                        <button name="print_report" string="Print PDF" type="object" class="oe_highlight"/>
+                        <button name="rest" string="rest" type="object"/>
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</odoo>

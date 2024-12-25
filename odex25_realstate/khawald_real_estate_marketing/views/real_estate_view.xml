@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <!-- Inherit Form View to Modify it -->
+        <record id="re_unit_down_payment_inherit" model="ir.ui.view">
+            <field name="name">re.unit.inherit.downpayment</field>
+            <field name="model">re.unit</field>
+            <field name="inherit_id" ref="real_estate.unit_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='action_toggle_is_locked']" position="after">
+                    <button name="%(property_reservation_payment_action)d" type="action"
+                                    class="oe_stat_button"
+                                    icon="fa-dollar">
+                                Down Payments
+                        </button>
+                </xpath>
+
+            </field>
+        </record>
+    </data>
+</odoo>

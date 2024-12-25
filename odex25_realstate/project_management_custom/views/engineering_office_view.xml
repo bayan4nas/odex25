@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Engineering Office -->
+
+    <record id="view_engineering_office_partner" model="ir.actions.act_window">
+        <field name="name">Engineering Office</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('is_engineering_office','=',True)]</field>
+        <field name="context">{'search_default_is_engineering_office': True,
+            'default_is_engineering_office': True}
+        </field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Click to create a Engineering Office.
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="engineering_office" name="Engineering Office" parent="project_installment"
+              action="view_engineering_office_partner" sequence="1"/>
+
+
+    <!-- ##### Engineering Office Line #####-->
+    <record id="view_engineering_office_line_form" model="ir.ui.view">
+        <field name="name">Engineer Office Installment</field>
+        <field name="model">engineering.office.line</field>
+        <field name="arch" type="xml">
+            <form create="false">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="project_id" readonly="1"/>
+                            <field name="engineering_office_id" readonly="1"
+                                   domain="[('is_engineering_office','=',True)]"/>
+                        </group>
+                        <group>
+                            <field name="name"/>
+                            <field name="percent"/>
+                            <h5>-</h5>
+                            <field name="due_date" required="1"/>
+                            <field name="paid" readonly="1"/>
+                            <field name="paid_date" readonly="1"/>
+                            <field name="amount"/>
+                        </group>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_engineering_office_line_tree" model="ir.ui.view">
+        <field name="name">Engineer Office Installment</field>
+        <field name="model">engineering.office.line</field>
+        <field name="arch" type="xml">
+            <tree create="false" sample="1">
+                <field name="project_id"/>
+                <field name="engineering_office_id"/>
+                <field name="name" optional="show"/>
+                <field name="percent" sum="Percentage"/>
+                <field name="due_date" required="1"/>
+                <field name="amount" sum="Amount"/>
+                <field name="paid"/>
+                <field name="paid_date"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_engineering_office_line_search" model="ir.ui.view">
+        <field name="name">engineering.office.line.select</field>
+        <field name="model">engineering.office.line</field>
+        <field name="arch" type="xml">
+            <search string="Search Engineer Office/Project">
+                <field name="name"/>
+                <filter name="engineering_office_id"/>
+                <filter name="project_id"/>
+                <group expand="0" string="Group By...">
+                    <filter string="Engineering Office Name" name="engineering_office_id" domain="[]"
+                            context="{'group_by':'engineering_office_id'}"/>
+                    <filter string="Project" name="project_id" domain="[]"
+                            context="{'group_by':'project_id'}"/>
+                    <filter string="Item" domain="[]" name="description" context="{'group_by':'name'}"/>
+                    <filter string="Paid Date" domain="[]" name="paid_date" context="{'group_by':'paid_date'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+
+    <record id="view_engineering_office_line_action" model="ir.actions.act_window">
+        <field name="name">Engineer Office Installment</field>
+        <field name="res_model">engineering.office.line</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_engineering_office_line_tree"/>
+        <field name="search_view_id" ref="view_engineering_office_line_search"/>
+        <field name="context">{'search_default_engineering_office_id': 1,'search_default_project_id':1}</field>
+        <field name="domain">[('display_type', '=', False)]</field>
+
+    </record>
+
+
+    <menuitem id="engineering_office_installment" name="Engineer Office Installment" parent="project_installment"
+              action="view_engineering_office_line_action" sequence="2"/>
+
+
+</odoo>
+
+

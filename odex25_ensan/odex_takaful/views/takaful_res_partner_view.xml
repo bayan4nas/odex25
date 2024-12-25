@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+
+    <record id="view_partner_property_form" model="ir.ui.view">
+        <field name="name">account.sponsorship.payment.res.partner.form</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="account.view_partner_property_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="view_sponsorship_payment_action" class="oe_stat_button" string="Sponsorship Payment" type="object" icon="fa-dollar" attrs="{'invisible': [('is_partner_sponsor', '=', False)]}">
+                    <field name="is_partner_sponsor" invisible="1" />
+                </button>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

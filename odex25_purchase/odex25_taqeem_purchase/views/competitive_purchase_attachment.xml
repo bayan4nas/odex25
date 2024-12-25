@@ -1,0 +1,39 @@
+<odoo>
+    <record model="ir.ui.view" id="competitive_purchase_attachment_form_view">
+        <field name="name">competitive.purchase.attachment.form.view</field>
+        <field name="model">competitive.purchase.attachment</field>
+        <field name="arch" type="xml">
+            <form string="Application brochure">
+                <sheet>
+                    <group>
+                        <field name="attachment_scop"/>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="competitive_purchase_attachment_tree_view">
+        <field name="name">competitive.purchase.attachment.tree.view</field>
+        <field name="model">competitive.purchase.attachment</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="attachment_scop"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_competitive_purchase_attachment" model="ir.actions.act_window">
+        <field name="name">Application brochure</field>
+        <field name="res_model">competitive.purchase.attachment</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem parent="purchase.menu_purchase_config"  name='Application brochure' id="menu_action_competitive_purchase_attachment"
+              action="action_competitive_purchase_attachment"/>/>
+
+</odoo>

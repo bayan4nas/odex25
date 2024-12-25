@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <!-- odoo role view -->
+        <record id="role_view_form" model="ir.ui.view">
+            <field name="name">role_view_form</field>
+            <field name="model">property.role</field>
+            <field name="arch" type="xml">
+                <form string="role_form">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="role_view_tree" model="ir.ui.view">
+            <field name="name">role_view_tree</field>
+            <field name="model">property.role</field>
+            <field name="arch" type="xml">
+                <tree string="_tree">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+        <record id="role_action" model="ir.actions.act_window">
+            <field name="name">role.action.view</field>
+            <field name="res_model">property.role</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <!-- This Menu Item must have a parent and an action -->
+        <!--        end -->
+        <menuitem name="Real Estate" id="real_estate_main_menu"
+                  web_icon="real_estate,static/description/icon.png"/>
+
+        <menuitem name="Real Estate &amp; Units" id="real_estate_menu"
+                  parent="real_estate_main_menu" sequence="4"/>
+
+        <menuitem name="Configuration" id="configuration_main_menu"
+                  parent="real_estate_main_menu" sequence="4"/>
+        <menuitem id="role_menu" name="Roles" parent="configuration_main_menu" action="role_action" sequence="4"/>
+
+
+
+    </data>
+</odoo>

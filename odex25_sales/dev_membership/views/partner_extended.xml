@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_res_partner_member_tree" model="ir.ui.view">
+        <field name="name">view.dev.res.partner.member.tree</field>
+        <field name="model">res.partner</field>
+        <field eval="8" name="priority"/>
+        <field name="arch" type="xml">
+            <tree string="Members" sample="1" multi_edit="1">
+                 <field invisible="1" name="active_membership_id"/>
+                <field name="membrship_no" optional="hide"/>
+                <field name="title" optional="hide"/>
+                <field name="display_name" string="Name"/>
+                <field name="membrship_level" optional="hide"/>
+                <field name="phone" class="o_force_ltr" optional="show"/>
+                <field name="email" optional="show"/>
+                <field name="identification_number" optional="show"/>
+                <field name="company_id" groups="base.group_multi_company" readonly="1"/>
+                <field name="join_date" optional="show"/>
+
+                <field name="memebership_end_date" optional="show"/>
+
+                <field name="product_id" optional="show"/>
+                <field name="category_id" widget="many2many_tags" optional="show"/>
+                <field name="activity_ids" widget="list_activity" optional="show"/>
+            </tree>
+        </field>
+    </record>
+
+
+    <record model="ir.ui.view" id="dev_res_partner_member_kanban_view">
+        <field name="name">dev.res.partner.member.kanban</field>
+        <field name="model">res.partner</field>
+        <field name="priority">20</field>
+        <field name="arch" type="xml">
+            <kanban class="o_res_partner_kanban" sample="1">
+                <field name="id"/>
+                <field name="color"/>
+                <field name="display_name"/>
+                <field name="title"/>
+                <field name="email"/>
+                <field name="parent_id"/>
+                <field name="is_company"/>
+                <field name="function"/>
+                <field name="phone"/>
+                <field name="street"/>
+                <field name="street2"/>
+                <field name="zip"/>
+                <field name="city"/>
+                <field name="country_id"/>
+                <field name="mobile"/>
+                <field name="state_id"/>
+                <field name="join_date"/>
+                <field name="memebership_end_date"/>
+                <field name="membrship_level"/>
+                <field name="membrship_no"/>
+
+                <field name="category_id" widget="many2many_tags"/>
+
+                <field name="image_128"/>
+                <field name="type"/>
+                <field name="active_membership_id"/>
+                <field name="is_membership_expire"/>
+                <field name="membership_count"/>
+                <field name="memebership_status"/>
+
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click o_kanban_record_has_image_fill o_res_partner_kanban">
+                            <t t-if="!record.is_company.raw_value">
+                                <t t-if="record.type.raw_value === 'delivery'" t-set="placeholder"
+                                   t-value="'/base/static/img/truck.png'"/>
+                                <t t-elif="record.type.raw_value === 'invoice'" t-set="placeholder"
+                                   t-value="'/base/static/img/money.png'"/>
+                                <t t-else="" t-set="placeholder" t-value="'/base/static/img/avatar_grey.png'"/>
+                                <div class="o_kanban_image_fill_left d-none d-md-block"
+                                     t-attf-style="background-image:url('#{kanban_image('res.partner', 'image_128', record.id.raw_value,  placeholder)}')">
+                                    <img class="o_kanban_image_inner_pic" t-if="record.parent_id.raw_value"
+                                         t-att-alt="record.parent_id.value"
+                                         t-att-src="kanban_image('res.partner', 'image_128', record.parent_id.raw_value)"/>
+                                </div>
+                                <div class="o_kanban_image d-md-none"
+                                     t-attf-style="background-image:url('#{kanban_image('res.partner', 'image_128', record.id.raw_value,  placeholder)}')">
+                                    <img class="o_kanban_image_inner_pic" t-if="record.parent_id.raw_value"
+                                         t-att-alt="record.parent_id.value"
+                                         t-att-src="kanban_image('res.partner', 'image_128', record.parent_id.raw_value)"/>
+                                </div>
+                            </t>
+                            <t t-else="">
+                                <t t-set="placeholder" t-value="'/base/static/img/company_image.png'"/>
+                                <div class="o_kanban_image_fill_left o_kanban_image_full"
+                                     t-attf-style="background-image: url(#{kanban_image('res.partner', 'image_128', record.id.raw_value, placeholder)})"
+                                     role="img"/>
+                            </t>
+                            <div class="oe_kanban_details d-flex flex-column">
+                                <strong class="o_kanban_record_title oe_partner_heading">
+                                    <field name="title"/>
+                                    <field name="display_name"/>
+                                </strong>
+                                <div class="o_kanban_tags_section oe_kanban_partner_categories"/>
+                                <ul>
+                                    <li t-if="record.parent_id.raw_value and !record.function.raw_value">
+                                        <field name="parent_id"/>
+                                    </li>
+
+                                    <li t-if="!record.parent_id.raw_value and record.function.raw_value">
+                                        <field name="function"/>
+                                    </li>
+                                    <li t-if="record.parent_id.raw_value and record.function.raw_value">
+                                        <field name="function"/>
+                                        at
+                                        <field name="parent_id"/>
+                                    </li>
+                                    <li t-if="record.city.raw_value or record.country_id.raw_value">
+                                        <t t-if="record.city.raw_value">
+                                            <field name="city"/>
+                                            <t t-if="record.country_id.raw_value">,</t>
+                                        </t>
+                                        <t t-if="record.country_id.raw_value">
+                                            <field name="country_id"/>
+                                        </t>
+                                    </li>
+                                    <li t-if="record.email.raw_value" class="o_text_overflow">
+                                        <field name="email"/>
+                                    </li>
+                                </ul>
+                                <span>
+                                    <b style="color:#7C7BAD">
+                                        <field name="memebership_status"/>
+                                    </b>
+                                    <br/>
+                                    <b style="color:#7C7BAD">
+                                        <field name="membrship_level"/>
+                                    </b>
+                                    <br/>
+                                    <b style="color:#7C7BAD">
+                                        <field name="membrship_no"/>
+                                    </b>
+                                </span>
+                                <div class="o_row">
+                                    <span class="oe_kanban_partner_links"/>
+                                </div>
+                                <field name="category_id" widget="many2many_tags" options="{'color_field': 'color'}"/>
+
+                                <!--                            -->
+                                <div class="o_kanban_record_bottom">
+                                    <div class="oe_kanban_bottom_left text-muted">
+                                        <span>
+                                            <t t-esc="record.memebership_end_date.value"/>
+                                        </span>
+                                    </div>
+                                </div>
+                                <field name="activity_ids" widget="kanban_activity"/>
+                                <br/>
+                                <!--                            -->
+                            </div>
+
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+    <!-- Inherit Form View to Modify it -->
+
+
+    <!--form-->
+    <record id="view_res_partner_memeber_form" model="ir.ui.view">
+        <field name="name">view.res.partner.member.form</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='sales_purchases']" position="attributes">
+                <attribute name="groups">dev_membership.sale_purchase_tab</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='title']" position="replace"></xpath>
+
+
+            <xpath expr="//div/h1" position="replace">
+                <h1 class="o_addressformat">
+                    <div class="o_address_row" style="display: flex; justify-content: flex-start; align-items: center;">
+                        <!-- Title Field -->
+                        <div attrs="{'invisible': [('company_type', '=', 'company')]}"
+                             style="flex: 0 0 auto; margin-right: 10px;">
+                            <field widget="selection" name="title" placeholder="Title"
+                                   options="{'no_quick_create': True}"
+                                   attrs="{'invisible': [('company_type', '=', 'company')]}"/>
+                        </div>
+                        <!-- Separator -->
+                        <div attrs="{'invisible': ['|',('company_type', '=', 'company'),('title', '=',False)]}"
+                             style="flex: 0 0 auto; margin: 0 10px;">
+                            /
+                        </div>
+                        <!-- Name Field -->
+                        <div style="flex: 0 0 auto;">
+                            <field name="name" default_focus="1" placeholder="e.g. Lumber Inc"
+                                   attrs="{'required': [('type', '=', 'contact'), ('is_company', '=', True)],
+                               'invisible': [('is_company','=', False)]}"/>
+                            <field name="name" default_focus="1" placeholder="e.g. Brandon Freeman"
+                                   attrs="{'required': [('type', '=', 'contact'), ('is_company', '=', False)],
+                               'invisible': [('is_company','=', True)]}"/>
+                        </div>
+                    </div>
+                </h1>
+            </xpath>
+
+            <xpath expr="//page" position="after">
+                <page groups="dev_membership.group_membership_user" name="memebership" string='Memebership'>
+                    <group>
+                        <group name="memeber">
+                             <field invisible="1" name="active_membership_id"/>
+                            <field name="is_member"/>
+                            <field name="product_id"/>
+                            <field name="membrship_level"/>
+                            <field name="membrship_no" readonly="1"/>
+
+                        </group>
+                        <group name="other">
+                            <field name="join_date"/>
+                            <field name="memebership_end_date"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+            <xpath expr="//field[@name='function']" position="after">
+                <field name="employer"/>
+            </xpath>
+            <xpath expr="//field[@name='function']" position="attributes">
+                <attribute name="attrs">{'required':[('is_member','=',True)]}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='company_type']" position="attributes">
+                <attribute name="attrs">{'invisible':[('is_member','=',True)]}</attribute>
+            </xpath>
+
+            
+
+            <xpath expr="//field[@name='vat']" position="attributes">
+                <attribute name="attrs">{'invisible':[('company_type','!=','company')]}</attribute>
+
+            </xpath>
+            <xpath expr="//field[@name='website']" position="attributes">
+                <attribute name="attrs">{'invisible':[('company_type','!=','company')]}</attribute>
+
+            </xpath>
+
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button groups="dev_membership.group_membership_user" name="view_membership" type="object"
+                        class="oe_stat_button"
+                        icon="fa-vcard-o" attrs="{'invisible' : [('membership_count', '=', 0)]}">
+                    <div class="o_stat_info">
+                        <field name="membership_count" class="o_stat_value"/>
+                        <span class="o_stat_text">Membership</span>
+                    </div>
+                </button>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="partner_extend_info_personal" model="ir.ui.view">
+        <field name="name">partner.personal.info.inherit</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="partner_custom.partner_view_property_cusotm"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='identifcation_info']" position="after">
+                <group>
+                    <field name="gender" attrs="{'required':[('is_member','=',True)]}"/>
+                    <field name="nationality_id"/>
+                    <field attrs="{'required':[('is_member','=',True)]}" name="birth_date"/>
+                    <field name="age"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <!--    search -->
+    <record id="view_search_res_partner" model="ir.ui.view">
+        <field name="name">res.partner.search</field>
+        <field name="model">res.partner</field>
+        <field name="arch" type="xml">
+            <search string="Res Partner Search">
+                <field name="name"/>
+                <field name="phone"/>
+                <field name="category_id"/>
+                <field name="identification_number"/>
+                <filter string="Archived" name="archived" domain="[('active', '=', False)]"/>
+                <filter string="Expired Membership" name="membership_end_date"
+                        domain="[('is_membership_expire', '=', True)]"/>
+                 <filter string="Active Membership" name="active_membership_id"
+                        domain="[('is_membership_expire', '=', False)]"/>
+                <group string="Group By">
+                    <filter string="Membership Type" name="product_id" context="{'group_by': 'product_id'}"/>
+                    <!-- filter string="Branch" name="branch_id" context="{'group_by': 'branch_id'}"/ -->
+                </group>
+            </search>
+        </field>
+    </record>
+    <!--end -->
+    <!--Action-->
+    <record id="action_members" model="ir.actions.act_window">
+        <field name="name">Member</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">res.partner</field>
+        <field name="domain">[('is_member', '=', True)]</field>
+        <field name="context">{'default_is_member' : 1,'search_default_active_membership_id':1}</field>
+        <field name="view_mode">kanban,tree,activity,form</field>
+        <field name="search_view_id" ref="dev_membership.view_search_res_partner"/>
+
+        <field name="view_ids" eval="[(5,0,0),
+         (0,0,{'sequence' : 3, 'view_mode': 'kanban' , 'view_id' : ref('dev_membership.dev_res_partner_member_kanban_view')}),
+         (0,0,{'sequence' : 3, 'view_mode': 'tree' , 'view_id' : ref('dev_membership.view_res_partner_member_tree')})]"/>
+    </record>
+
+    <!--Menus-->
+    <menuitem name="Members"
+              id="menu_members"
+              parent="menu_membership_main"
+              action="action_members"
+              sequence="2"/>
+</odoo>

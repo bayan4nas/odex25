@@ -1,0 +1,323 @@
+<odoo>
+    <data>
+        <!--Service Request-->
+        <record id="service_request_form" model="ir.ui.view">
+            <field name="name">service.request.form</field>
+            <field name="model">service.request</field>
+            <field name="arch" type="xml">
+                <form string="Service Request">
+                    <header>
+                        <button name="action_for_researcher" type="object" states="draft"
+                                string="Researcher Accept" class="oe_highlight"/>
+                        <button name="action_send_request" type="object" states="researcher"
+                                string="Send Request" class="oe_highlight"/>
+                        <button name="action_first_approve" type="object"
+                                string="Request First Approve" class="oe_highlight"
+                                confirm="Are you sure you want to first approve  ?"
+                                states="send_request" groups="odex_benefit.group_benefit_woman_commitee,odex_benefit.group_benefit_manager"/>
+                        <button name="action_second_approve" type="object"
+                                string="Request Second Approve" class="oe_highlight"
+                                confirm="Are you sure you want to second approve  ?"
+                                states="first_approve" groups="odex_benefit.group_benefit_branch_manager,odex_benefit.group_benefit_manager"/>
+                        <button name="action_accounting_approve" type="object"
+                                string="Accounting Approve" class="oe_highlight"
+                                confirm="Are you sure you want to approve  ?"
+                                states="second_approve" groups="odex_benefit.group_benefit_accounting_accept"/>
+                        <button name="action_accounting_first_refuse" type="object"
+                                string="Accounting First Refuse" class="oe_highlight"
+                                confirm="Are you sure you want to first refuse  ?"
+                                states="second_approve" groups="odex_benefit.group_benefit_accounting_accept"/>
+                        <button name="action_send_request_to_supplier" type="object"
+                                string="Send Request To Supplier" class="oe_highlight"
+                                confirm="Are you sure you want to send request to supplier ?"
+                                groups="odex_benefit.group_benefit_accounting_accept" attrs="{'invisible': ['|',('service_type','!=','electrical_devices'),('state_b','!=','accounting_approve')]}" />
+                        <button name="action_family_received_device" type="object"
+                                string="Family Received Device" class="oe_highlight"
+                                groups="odex_benefit.group_benefit_accounting_accept" attrs="{'invisible': ['|',('service_type','!=','electrical_devices'),('state_b','!=','send_request_to_supplier')]}" />
+                        <button name="action_refuse" type="object"
+                                string="Refuse" class="oe_highlight"
+                                confirm="Are you sure you want to refuse request  ?"
+                                states="first_approve,second_approve,draft,send_request,accounting_approve"/>
+                       <field name="state" widget="statusbar" invisible="1"/>
+                        <field name="state_a" widget="statusbar" statusbar_visible="draft,researcher,send_request,first_approve,second_approve,accounting_approve,refused" attrs="{'invisible': [('service_type','=','electrical_devices')]}"/>
+                        <field name="state_b" widget="statusbar" statusbar_visible="draft,researcher,send_request,first_approve,second_approve,accounting_approve,send_request_to_supplier,family_received_device,refused" attrs="{'invisible': [('service_type','!=','electrical_devices')]}" groups="odex_benefit.group_benefit_accounting_accept"/>
+                        </header>
+                        <sheet>
+                            <field name="is_payment_order_done" invisible="1"/>
+                            <widget name="web_ribbon" title="Payment Order Done" bg_color="bg-success"
+                            attrs="{'invisible': [('is_payment_order_done', '=', False)]}"/>
+                            <group>
+                                 <div class="oe_title">
+                                        <h1>
+                                            <field name="name" readonly="1"/>
+                                        </h1>
+                                </div>
+                                <group>
+                                    <field name="date" attrs="{'readonly':[('state','not in',['draft','researcher','send_request'])]}" required="1"/>
+                                    <field name="benefit_type" attrs="{'readonly':[('state','not in',['draft','researcher','send_request'])]}" required="1"/>
+                                    <field name="family_id" attrs="{'readonly':[('state','not in',['draft','researcher','send_request'])]}" required="1"/>
+                                    <field name="family_category" force_save="1"/>
+                                    <field name="benefit_member_count" force_save="1"/>
+                                    <field name="eid_gift_benefit_count" attrs="{'invisible':['|',('service_type','!=','eid_gift'),('benefit_type','!=','family')]}"/>
+                                    <field name="branch_custom_id" force_save="1"/>
+                                    <field name="member_id" attrs="{'invisible':[('benefit_type','!=','member')],'readonly':[('state','not in',['draft','researcher','send_request'])],'required':[('benefit_type','=','member')]}"/>
+                                    <field name="member_age" attrs="{'invisible':[('benefit_type','!=','member')]}"/>
+                                    <field name="account_id" attrs="{'invisible':[('service_type','=','electrical_devices')]}"/>
+                                    <field name="device_account_id" attrs="{'invisible':[('service_type','!=','electrical_devices')]}"/>
+                                    <field name="accountant_id" attrs="{'invisible':[('state','in',['draft','researcher','send_request','first_approve','second_approve'])]}"/>
+                                    <field name="payment_order_id" readonly="1" groups="odex_benefit.group_benefit_accounting_accept" attrs="{'invisible':[('service_type','=','electrical_devices')]}"/>
+                                    <field name="vendor_bill" readonly="1" attrs="{'invisible':[('service_type','!=','electrical_devices')]}"/>
+                                    <field name="is_service_producer" invisible="1"/>
+                                    <field name="service_producer_id" attrs="{'invisible':[('is_service_producer','=',False)],'readonly':[('state','not in',['draft','researcher','send_request'])]}"/>
+                                </group>
+                                <group>
+                                    <field name="need_status" attrs="{'readonly':[('state','not in',['draft','researcher','send_request'])]}"/>
+                                    <field name="main_service_category" attrs="{'readonly':[('state','not in',['draft','researcher','send_request'])]}" required="1"/>
+                                    <field name="sub_service_category" attrs="{'readonly':[('state','not in',['draft','researcher','send_request'])]}" required="1"/>
+                                    <field name="service_cat" attrs="{'readonly':[('state','not in',['draft','researcher','send_request'])]}" required="1"/>
+                                    <field name="requested_service_amount" attrs="{'readonly': ['|', '|', '|', '|', '|', '|',
+                                    '&amp;',('state', 'not in', ['draft', 'researcher', 'send_request']),('service_type', '!=', 'electrical_devices'),
+                                    '&amp;',('state', 'not in', ['draft', 'researcher', 'send_request', 'first_approve', 'second_approve', 'accounting_approve']),
+                                    ('service_type', '=', 'electrical_devices'),
+                                    ('service_type', '=', 'home_furnishing'),
+                                    ('service_type', '=', 'marriage'),
+                                    ('service_type', '=', 'eid_gift'),
+                                    ('service_type', '=', 'winter_clothing'),
+                                    ('service_type', '=', 'ramadan_basket')]}" force_save="1" required="1" />
+                                    <field name="amount_for_buy_home_for_member_count" attrs="{'invisible':[('service_type','!=','buy_home')]}"/>
+                                    <field name="home_age" attrs="{'invisible':[('service_type','!=','buy_home')]}"/>
+                                    <field name="max_electricity_bill_amount" readonly="1" force_save="1"  attrs="{'invisible':[('service_type','!=','electricity_bill')]}"/>
+                                    <field name="max_water_bill_amount" readonly="1" force_save="1"  attrs="{'invisible':[('service_type','!=','water_bill')]}"/>
+                                    <field name="aid_amount" invisible="1"/>
+                                    <field name="description" attrs="{'readonly':[('state','not in',['draft','researcher','send_request'])]}"/>
+                                    <field name="service_attach" attrs="{'readonly':[('state','not in',['draft','researcher','send_request'])]}" widget="many2many_attachment_preview"/>
+                                    <field name="has_marriage_course" attrs="{'readonly':[('state','not in',['draft','researcher','send_request'])],'invisible':[('service_type','!=','marriage')],'required':[('service_type','=','marriage')]}"/>
+                                    <field name="service_type" invisible="1"/>
+                                </group>
+                            </group>
+                            <notebook>
+                                 <page string="Services Attachments Settings">
+                                    <field name="attachment_lines" widget="one2many_list">
+                                        <tree editable="bottom" delete="0">
+                                            <field name="name"/>
+                                            <field name="service_attach" widget="many2many_attachment_preview"/>
+                                            <field name="notes"/>
+                                            <field name="service_type" invisible="1"/>
+                                        </tree>
+                                    </field>
+                                </page>
+                                <page string="Rent Information" attrs="{'invisible':[('service_type', '!=', 'rent'),'|',('service_type', '!=', 'alternative_housing'),('providing_alternative_housing_based_rent','=',False)]}">
+                                <form>
+                                    <sheet>
+                                        <group>
+                                            <group  attrs="{'invisible':[('service_type', '=', 'alternative_housing')]}">
+                                                <separator string="Rent Contract Information" colspan="2"/>
+                                                <br/>
+                                                <field name="rent_payment_date_exception" widget="boolean_toggle"/>
+                                                <field name="rent_payment_date" attrs="{'required':[('service_type','=','rent'),('new_rent_contract','=',False)]}"/>
+                                                <field name="rent_contract_number" attrs="{'invisible':[('benefit_type','!=','family')]}" force_save="1"/>
+                                                <field name="rent_start_date" attrs="{'invisible':[('benefit_type','!=','family')]}" force_save="1"/>
+                                                <field name="rent_end_date" attrs="{'invisible':[('benefit_type','!=','family')]}" force_save="1"/>
+                                                <label for="start" string="Period" />
+                                                <div name="dates" class="o_row">
+                                                    <field name="start" attrs="{'readonly':[('state','not in',['draft','researcher','send_request'])]}"/>
+                                                    <i class="fa fa-long-arrow-right mx-2 oe_edit_only" aria-label="Arrow icon" title="Arrow" />
+                                                    <i class="fa fa-long-arrow-right mx-2 oe_read_only" aria-label="Arrow icon" title="Arrow" attrs="{'invisible': [('start', '=', False), ('end', '=', False)]}" />
+                                                    <field name="end" attrs="{'readonly':[('state','not in',['draft','researcher','send_request'])]}" />
+                                                </div>
+                                                <field name="rent_amount" attrs="{'invisible':[('benefit_type','!=','family')]}" force_save="1"/>
+                                                <field name="rent_amount_payment" attrs="{'invisible':[('benefit_type','!=','family')]}" force_save="1"/>
+                                                <field name="payment_type" attrs="{'invisible':[('benefit_type','!=','family')]}" force_save="1"/>
+                                               <field name="rent_attachment" widget="many2many_attachment_preview" attrs="{'invisible':[('benefit_type','!=','family')]}" force_save="1"/>
+                                               <field name="member_rent_contract_number" attrs="{'invisible':[('benefit_type','!=','member')]}" force_save="1"/>
+                                               <field name="member_rent_start_date" attrs="{'invisible':[('benefit_type','!=','member')]}" force_save="1"/>
+                                               <field name="member_rent_end_date" attrs="{'invisible':[('benefit_type','!=','member')]}" force_save="1"/>
+                                               <field name="member_rent_attachment" widget="many2many_attachment_preview" attrs="{'invisible':[('benefit_type','!=','member')]}" force_save="1"/>
+                                               <field name="new_rent_contract" widget="boolean_toggle" attrs="{'invisible':[('benefit_type','!=','family')]}"/>
+<!--                                               <field name="is_alternative_housing" widget="boolean_toggle"/>-->
+                                            </group>
+                                            <group attrs="{'invisible':[('benefit_type','!=','family')]}">
+                                                <separator string="Rent Amounts" colspan="2"/>
+                                                <br/>
+                                                <field name="estimated_rent_amount"/>
+                                                <field name="estimated_rent_amount_payment"/>
+                                                <field name="paid_rent_amount"/>
+                                                <field name="added_amount_if_mother_dead" attrs="{'invisible':[('service_type','=','alternative_housing')]}"/>
+                                            </group>
+                                        </group>
+                                        <group attrs="{'invisible':[('new_rent_contract','=',False),'|',('service_type', '!=', 'alternative_housing'),('providing_alternative_housing_based_rent','=',False)]}">
+                                            <group>
+                                                <separator string="New Rent Contract Information" colspan="2"/>
+                                                <br/>
+                                                <field name="new_rent_payment_date_exception" widget="boolean_toggle"/>
+                                                <field name="new_rent_payment_date" attrs="{'required':[('service_type','=','rent'),('new_rent_contract','=',True)]}"/>
+                                                <field name="new_rent_contract_number" attrs="{'invisible':[('benefit_type','!=','family')]}"/>
+                                                <field name="new_rent_start_date" attrs="{'invisible':[('benefit_type','!=','family')]}"/>
+                                                <field name="new_rent_end_date" attrs="{'invisible':[('benefit_type','!=','family')]}"/>
+                                                 <label for="new_start" string="Period" attrs="{'invisible':[('benefit_type','!=','family')]}"/>
+                                                <div name="dates" class="o_row" attrs="{'invisible':[('benefit_type','!=','family')]}">
+                                                    <field name="new_start" attrs="{'readonly':[('state','not in',['draft','researcher','send_request'])]}"/>
+                                                    <i class="fa fa-long-arrow-right mx-2 oe_edit_only" aria-label="Arrow icon" title="Arrow" />
+                                                    <i class="fa fa-long-arrow-right mx-2 oe_read_only" aria-label="Arrow icon" title="Arrow" attrs="{'invisible': [('new_start', '=', False), ('new_end', '=', False)]}" />
+                                                    <field name="new_end" attrs="{'readonly':[('state','not in',['draft','researcher','send_request'])]}" />
+                                                </div>
+                                                <field name="new_rent_amount" attrs="{'invisible':[('benefit_type','!=','family')]}"/>
+                                                <field name="new_rent_amount_payment" attrs="{'invisible':[('benefit_type','!=','family')]}"/>
+                                                <field name="new_payment_type" attrs="{'invisible':[('benefit_type','!=','family')]}"/>
+                                               <field name="new_rent_attachment" widget="many2many_attachment_preview" attrs="{'invisible':[('benefit_type','!=','family')]}"/>
+                                            </group>
+                                            <group>
+                                            </group>
+                                        </group>
+                                    </sheet>
+                                </form>
+                            </page>
+                             <page string="Maintenance Service" attrs="{'invisible':[('service_type', '!=', 'home_maintenance')]}">
+                                   <field name="maintenance_items_ids" widget="one2many_list">
+                                        <tree editable="bottom">
+                                            <field name="maintenance_items_id"/>
+                                        </tree>
+                                    </field>
+                             </page>
+                            <page string="Home Restoration Service" attrs="{'invisible':[('service_type', '!=', 'home_restoration')]}">
+                                 <group>
+                                    <field name="restoration_max_amount"/>
+                                    <field name="has_money_field_is_appearance" invisible="1"/>
+                                    <field name="has_money_to_pay_first_payment" attrs="{'invisible':[('has_money_field_is_appearance', '=', False)],'required':[('has_money_field_is_appearance', '=', True)]}"/>
+                                 </group>
+                             </page>
+                            <page string="Complete Building House" attrs="{'invisible':[('service_type', '!=', 'complete_building_house')]}">
+                                 <group>
+                                    <field name="max_complete_building_house_amount"/>
+                                    <field name="has_money_for_payment" attrs="{'invisible':[('has_money_for_payment_is_appearance', '=', False)],'required':[('has_money_for_payment_is_appearance', '=', True)]}"/>
+                                    <field name="has_money_for_payment_is_appearance" invisible="1"/>
+                                 </group>
+                            </page>
+                            <page string="Alternative Housing Service" attrs="{'invisible':[('service_type', '!=', 'alternative_housing')]}">
+                                 <group>
+                                    <field name="providing_alternative_housing_based_rent"/>
+                                    <field name="rent_for_alternative_housing"/>
+                                 </group>
+                             </page>
+                            <page string="Electrical Devices Service" attrs="{'invisible':[('service_type', '!=', 'electrical_devices')]}">
+                                 <group>
+                                    <field name="device_id" attrs="{'required':[('service_type', '=', 'electrical_devices')]}"/>
+                                    <field name="requested_quantity" attrs="{'required':[('service_type', '=', 'electrical_devices')]}"/>
+                                    <field name="exception_or_steal" widget="boolean_toggle"/>
+                                 </group>
+                             </page>
+                            <page string="Home Furnishing Service" attrs="{'invisible':[('service_type', '!=', 'home_furnishing')]}">
+                                <group>
+                                    <field name="home_furnishing_exception"/>
+                                 </group>
+                                <field name="furnishing_items_ids" widget="one2many_list">
+                                        <tree editable="bottom">
+                                            <field name="home_furnishing_items"/>
+                                            <field name="furnishing_cost"/>
+<!--                                            <field name="max_furnishing_cost"/>-->
+                                            <field name="price_first"/>
+                                            <field name="price_first_attach" widget="many2many_attachment_preview"/>
+                                            <field name="price_second"/>
+                                            <field name="price_second_attach" widget="many2many_attachment_preview"/>
+                                        </tree>
+                                </field>
+                             </page>
+                            <page string="Transportation Insurance Service" attrs="{'invisible':[('service_type', '!=', 'transportation_insurance')]}">
+                                <group>
+                                    <field name="service_reason"/>
+                                    <field name="max_government_transportation_amount" attrs="{'invisible':[('service_reason', '!=', 'government_transportation')]}" readonly="1" force_save="1"/>
+                                    <field name="max_universities_training_institutes_transportation_amount" attrs="{'invisible':[('service_reason', '!=', 'universities_training_institutes_transportation')]}" readonly="1" force_save="1"/>
+                                    <field name="max_hospitals_transportation_amount" attrs="{'invisible':[('service_reason', '!=', 'hospitals_transportation')]}" readonly="1" force_save="1"/>
+                                    <field name="max_programs_transportation_amount" attrs="{'invisible':[('service_reason', '!=', 'programs_transportation')]}" readonly="1" force_save="1"/>
+                                    <field name="requests_counts"/>
+                                 </group>
+                             </page>
+                            <page string="Marriage Service" attrs="{'invisible':[('service_type','!=','marriage')]}">
+                                    <group>
+                                        <field name="member_age"/>
+                                        <field name="member_payroll"/>
+                                    </group>
+                                </page>
+                            </notebook>
+                        </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="activity_ids" />
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="service_request_tree">
+            <field name="name">service.request.tree</field>
+            <field name="model">service.request</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="family_id"/>
+                      <field name="need_status"/>
+                    <field name="main_service_category"/>
+                    <field name="sub_service_category"/>
+                    <field name="service_cat"/>
+                    <field name="payment_order_id" groups="odex_benefit.group_benefit_accounting_accept"/>
+                    <field name="vendor_bill" groups="odex_benefit.group_benefit_accounting_accept"/>
+                    <field name="state" widget="badge" decoration-success="state in ['second_approve']" decoration-muted="state == 'draft'"
+                       decoration-danger="state in ['refused']" decoration-info="state in ['first_approve','send_request']" decoration-warning="state in ['researcher']"/>
+                </tree>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="service_request_search">
+            <field name="name">service.request.search</field>
+            <field name="model">service.request</field>
+            <field name="arch" type="xml">
+                <search>
+                    <group string="Group By">
+                    <filter string="Branch" name="branch_custom_id" context="{'group_by': 'branch_custom_id'}"/>
+                    <filter string="Main Service" name="main_service_category" context="{'group_by': 'main_service_category'}"/>
+                    <filter string="Sub Service Category" name="sub_service_category" context="{'group_by': 'sub_service_category'}"/>
+                    <filter string="Service Cat" name="service_cat" context="{'group_by': 'service_cat'}"/>
+                    </group>
+                    <separator/>
+                       <filter string="Draft" name="draft"  domain="[('state','=','draft')]"/>
+                    <separator/>
+                    <separator/>
+                        <filter string="Send Request" name="send_request" domain="[('state', '=', 'send_request')]"/>
+                    <separator/>
+                    <separator/>
+                        <filter string="Request First Approve" name="first_approve" domain="[('state', '=', 'first_approve')]"/>
+                    <separator/>
+                    <separator/>
+                        <filter string="Request Second Approve" name="second_approve" domain="[('state', '=', 'second_approve')]"/>
+                    <separator/>
+                    <separator/>
+                        <filter string="Accounting Approve" name="accounting_approve" domain="[('state', '=', 'accounting_approve')]"/>
+                    <separator/>
+                    <separator/>
+                        <filter string="Refused" name="refused" domain="[('state', '=', 'refused')]"/>
+                    <separator/>
+                    <separator/>
+                        <filter string="Payment Order Done" name="payment_order_done" domain="[('payment_order_id', '!=', False)]"/>
+                    <separator/>
+                    <separator/>
+                        <filter string="Need Payment Order" name="payment_order_done" domain="[('payment_order_id', '=', False),('state','=','accounting_approve')]"/>
+                    <separator/>
+                    <separator/>
+                        <filter string="Need Vendor Bill" name="need_vendor_bill" domain="[('vendor_bill', '=', False),('state','=','family_received_device')]"/>
+                    <separator/>
+                    <separator/>
+                        <filter string="Vendor Bill Done" name="need_vendor_bill" domain="[('vendor_bill', '!=', False),('state','=','family_received_device')]"/>
+                    <separator/>
+                     <separator/>
+                        <filter string="Send Request To Supplier" name="send_request_to_supplier" domain="[('state','=','send_request_to_supplier')]"/>
+                    <separator/>
+                    <separator/>
+                        <filter string="Family Received Device" name="family_received_device" domain="[('state','=','family_received_device')]"/>
+                    <separator/>
+                    <searchpanel>
+                    <field name="service_cat" string="Categories" enable_counters="1" />
+                </searchpanel>
+                </search>
+            </field>
+        </record>
+    </data>
+</odoo>

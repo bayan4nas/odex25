@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Copyright (C) 2018 DevIntelle Consulting Service Pvt.Ltd (<http://www.devintellecs.com>).
+
+For Module Support : devintelle@gmail.com  or Skype : devintelle
+ -->
+<odoo>
+    <template id="main_membership_card">
+        <t t-call="web.external_layout">
+            <style>
+     
+            </style>
+            <div>
+                <div style="text-align:center;">
+                    <h2>Membership Receipt</h2>
+                </div>
+                <hr/>
+                <div class="table">
+                    <table width="100%">
+                        <tr>
+                            <td style="border:None; padding:4px;"><b>Membership</b></td>
+                            <td style="border:None;padding:4px;">:</td>
+                            <td style="border:None;padding:4px;">
+                                <span t-field="o.name" /> -
+                               <b> <span t-field="o.product_id" /></b>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="border:None;padding:4px;"><b>Member</b></td>
+                            <td style="border:None;padding:4px;">:</td>
+                            <td style="border:None;padding:4px;">
+                                <span t-field="o.partner_id" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="border:None;padding:4px;"><b>Fees</b></td>
+                            <td style="border:None;padding:4px;">:</td>
+                            <td style="border:None;padding:4px;">
+                                <span t-field="o.membership_fees"
+                                t-options='{"widget": "monetary", "display_currency": o.company_id.currency_id}'/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="border:None;padding:4px;"><b>From</b></td>
+                            <td style="border:None;padding:4px;">:</td>
+                            <td style="border:None;padding:4px;">
+                                <span t-esc="get_date(o.from_date)"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="border:None;padding:4px;"><b>To</b></td>
+                            <td style="border:None;padding:4px;">:</td>
+                            <td style="border:None;padding:4px;">
+                                <span t-esc="get_date(o.to_date)"  />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="border:None;padding:4px;"><b>Description</b></td>
+                            <td style="border:None;padding:4px;">:</td>
+                            <td style="border:None;padding:4px;">
+                                <span t-esc="o.description"  />
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="membership_card">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="dev_membership.main_membership_card"/>
+            </t>
+        </t>
+    </template>
+</odoo>

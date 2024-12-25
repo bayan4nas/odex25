@@ -1,0 +1,218 @@
+<odoo>
+    <template id="spare_part_report">
+        <t t-call="web.html_container">
+        <t t-call="web.external_layout">
+            <style> 
+                body{
+                    margin: 0;
+                    width: 100%;
+                    }
+                .date_tb{
+                    display: table;
+                }
+
+                .date_th{
+                    display: table;
+                }
+                .date_tb div{
+                    display: table-cell;
+                    border-color: #888888;
+                    border: 1px solid #dee2e6;
+                    padding: 10px;
+                    min-width:30px;
+                }
+                .date_th{
+                    background-color: #dee2e6;
+                }
+                .box{
+                    padding-left: 10px;
+                    padding-right: 10px;
+                    border: 1px solid black;
+                    text-align: center;
+                    margin-top:10px;
+                    width: 150px;
+                    height: 100px;
+                    min-width: 150px;
+                    min-height: 100px;
+                    max-width: 150px;
+                    max-height: 100px;
+                    color:white;
+                    font-weight:bold;
+                }
+                .box-title{
+                    margin: 10px;
+                }
+
+                .box-content{
+                    margin: 15px;
+                }
+                
+                
+
+                .main-box-container, date_th{
+                    margin:30px;
+                }
+
+                .box-container{
+                    
+                }
+                .main-box-container .left{
+                    float: left;
+                    margin-top:10px;
+                }
+
+                .main-box-container .right{
+                    margin-left:300px;
+               }
+               .main-box-container .row{
+                   display: table;
+                   border-spacing: 20px;
+               }
+
+               .main-box-container .row .box{
+                   display: table-cell;
+               }
+               
+                .data_tb{
+                    text-align:center;
+                }
+                .data_tb th, #filters_tb th{
+                    background-color: #dee2e6;
+                }
+
+                .data_tb td , .data_tb th{
+                    border-color: #888888;
+                    border: 1px solid black;
+                    padding: 10px;
+                    min-width:100px;
+                    
+                }
+
+                #filters_tb, #filters_tb th,  #filters_tb td{
+                    border: 1px solid black;
+                    text-align : center;
+                    padding : 15px;
+                }
+
+                #filters_tb th, #filters_tb td{
+                    min-width: 150px;
+                    max-width: 150px;
+                }
+
+                .zooba{
+                    background-color:#66CDAA;
+                    
+                }
+
+                .over{
+                    background-color:#DC143C;
+                }
+
+                .high{
+                    background-color:red;
+                }
+                .open{
+                    background-color:#FFD700;
+                }
+                .closed{
+                    background-color:#228B22 ;
+                }
+                .total_work_order{
+                    background-color:#87CEFA ;
+                }
+                .plan{
+                    background-color:#6495ED ;
+                }
+                .hours{
+                    background-color:#1E90FF ;
+                }
+                .cost{
+                    background-color:#663399 ;
+                }
+                .downtime{
+                    background-color:#9370DB ;
+                }
+                .loss{
+                    background-color:#4B0082 ;
+                }
+            </style>
+                <center>
+                <table id="filters_tb">
+                    <tr>
+                        <th>Date From</th>
+                        <th>Date To</th>
+                        <th>Spare Part</th>
+                        <th>Category</th>
+                        <th>Equipment</th>
+                    </tr>
+                    <tr>
+                        <td><span t-esc="time_from" /></td>
+                        <td><span t-esc="time_to" /> </td>
+                        <td><span t-esc="filters.get('spare_id', 'ALL')" /></td>
+                        <td><span t-esc="filters.get('spare_categ_id', 'ALL')" /></td>
+                        <td><span t-esc="filters.get('equipment_id', 'ALL')" /></td>
+                    </tr>
+                </table>
+                
+                <div class="main-box-container">
+                    <div class="row">
+                        <div class="box zooba">
+                            <div class="box-title">TOTAL EQUIPMENT</div>
+                            <div class="box-content"><span t-esc="total['total_equipment']" /></div>
+                        </div>
+                        <div class="box total_work_order">
+                            <div class="box-title">TOTAL WORK ORDERS</div>
+                            <div class="box-content"><span t-esc="total['total_orders']" /></div>
+                        </div>
+                        <div class="box high">
+                            <div class="box-title">HIGH PRIORITY</div>
+                            <div class="box-content"><span t-esc="total['total_high']" /></div>
+                        </div>
+                       <div class="box downtime">
+                            <div class="box-title">TOTAL DOWNTIME</div>
+                            <div class="box-content"><span t-esc="total['total_downtime']" />  H</div>
+                        </div>
+                        <div class="box loss">
+                            <div class="box-title">TOTAL LOSSES</div>
+                            <div class="box-content"><span t-esc="total['total_loss']" /> </div>
+                        </div>
+                        <div class="box cost">
+                            <div class="box-title">Repair COST</div>
+                            <div class="box-content"><span t-esc="total['total_cost']" /> SDG</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <table class="data_tb">
+                    <tr>
+                        <th>NO</th>
+                        <th>PART</th>
+                        <th>S/N</th>
+                        <th>CATEGORY</th>
+                        <th>CONSUMPTION</th>
+                        <th>STOCK</th>
+                        <th>NO. OF WORK ORDER</th>
+                        <th>Down-Time</th>
+                        <th>LOSSES</th>
+                        <th>COST</th>
+                    </tr>
+                    <t t-foreach="docs" t-as="o">
+                    <tr>
+                        <td><span t-esc="o_index+1"/></td>
+                        <td><span t-esc="o['name']"/></td>
+                        <td><span t-esc="o['sn']"/></td>
+                        <td><span t-esc="o['category']"/></td>
+                        <td><span t-esc="o['consume']"/></td>
+                        <td><span t-esc="o['stock']"/></td>
+                        <td><span t-esc="o['order_count']"/></td>
+                        <td><span t-esc="o['down_time']"/></td>
+                        <td><span t-esc="o['loss']"/></td>
+                        <td><span t-esc="o['cost']"/></td>
+                    </tr>
+                    </t>
+                </table>
+                </center>
+            </t>
+        </t>
+    </template>
+</odoo>

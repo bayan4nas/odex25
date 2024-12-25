@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+
+        <!-- Inherit Form View to Modify it -->
+        <record id="view_re_sales_form_inherit" model="ir.ui.view">
+            <field name="name">re.sale.inherit.view</field>
+            <field name="model">re.sale</field>
+            <field name="inherit_id" ref="real_estate_marketing.view_re_sales_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form//sheet/group[1]" position="before">
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_show_installment" class="oe_stat_button" type="object" icon="fa-list" attrs="{'invisible': [('contract_total_amount','=',0)]}">
+                            <field string="Installments" name="installment_count" widget="statinfo"/>
+                        </button>
+                        <button name="action_show_invoices" type="object" icon="fa-list" class="oe_stat_button">
+                            <field string="Invoices" name="invoice_count" widget="statinfo"/>
+                        </button>
+                        <button name="action_show_payment" type="object" icon="fa-list" class="oe_stat_button">
+                            <field string="Payment" name="payment_count" widget="statinfo"/>
+                        </button>
+                    </div>
+                </xpath>
+                <xpath expr="//field[@name='partner_id']" position="after">
+                    <field name="handover_to_client_date" attrs="{'readonly':[('state', '!=', 'register')],'required':[('state', '=', 'register')]}"/>
+                    <field name="contract_total_amount" invisible="1"/>
+                </xpath>
+                <xpath expr="//page[@name='payment_info']" position="replace">
+                    <page name="contract_info" string="Contract Information">
+                        <group string="Contract Information">
+                            <field name="contract_id" force_save="1" readonly="1"/>
+                        </group>
+                    </page>
+                </xpath>
+
+            </field>
+        </record>
+
+        <record id="property_sales_from_reservation_action" model="ir.actions.act_window">
+            <field name="name">Property Sales</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">re.sale</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('reservation_id','=', active_id)]</field>
+        </record>
+
+    </data>
+</odoo>

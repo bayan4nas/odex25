@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+            <!-- Partner -->
+        <record id="view_partner_property_form" model="ir.ui.view">
+            <field name="name">partner.form</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="account.view_partner_property_form"/>
+            <field name="arch" type="xml">
+                <page name="accounting" position="after">
+                    <page string="Project Configuration" name="real_estate_project_config">
+                        <group>
+                            <group name="project_config">
+                                <field name="is_engineering_office"/>
+                                <field name="is_subcontractor"/>
+                            </group>
+                        </group>
+                    </page>
+                </page>
+            </field>
+        </record>
+
+</odoo>

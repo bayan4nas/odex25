@@ -1,0 +1,94 @@
+<odoo>
+    <data>
+        <record id="sponsorship_close_reason_tree" model="ir.ui.view">
+            <field name="name">Sponsorship Stop Reason Tree</field>
+            <field name="model">sponsorship.reason.stop</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom">
+                    <field name="sequence" widget="handle"/>
+                    <field name="name" colspan="3"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_config_sponsorship_stop" model="ir.actions.act_window">
+            <field name="name">Sponsorship Stop Reason</field>
+            <field name="res_model">sponsorship.reason.stop</field>
+            <field name="view_mode">tree</field>
+        </record>
+
+        <record model="ir.ui.view" id="sponsorship_cancellation_form">
+            <field name="name">sponsorship.cancellation.form</field>
+            <field name="model">sponsorship.cancellation</field>
+            <field name="arch" type="xml">
+                <form string="Sponsorship Cancellation" delete="false">
+                    <header>
+                       
+                        <button name="do_cancel_action" type="object" string="Cancel" class="oe_highlight" attrs="{'invisible': [('state', '=', 'cancel')]}"/>
+                       
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <field name="sponsorship_id" invisible="1"/>
+                            <field name="code" readonly="1"/>
+                            <field name="sponsor_id" readonly="1"/>
+                            <field name="reason_id" required="1"/>
+                            
+                            <field name="create_date" readonly="1"/>
+                            <field name="cancel_type"/>
+                            <field name="note"/>
+
+                            <field name="cancel_user_id"/>
+                            <field name="confirm_user_id" attrs="{'invisible': [('state', '!=', 'cancel')]}"/>
+                            <field name="confirm_date" attrs="{'invisible': [('state', '!=', 'cancel')]}"/>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="sponsorship_cancellation_tree">
+            <field name="name">sponsorship.cancellation.tree</field>
+            <field name="model">sponsorship.cancellation</field>
+            <field name="arch" type="xml">
+                <tree string="Sponsorships Cancellations List" decoration-warning="state=='draft'" decoration-danger="state=='cancel'">
+                    <field name="sponsor_id"/>
+                    <field name="code"/>
+                    <field name="reason_id"/>
+                    <field name="cancel_type"/>
+                    <field name="note"/>
+                    <field name="state"/>
+                    <field name="confirm_date"/>
+                </tree>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="sponsorship_cancellation_search">
+            <field name="name">sponsorship.cancellation.search</field>
+            <field name="model">sponsorship.cancellation</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="sponsor_id"/>
+                    <field name="code"/>
+                    <field name="reason_id"/>
+                    <field name="cancel_type"/>
+                    <field name="state"/>
+                </search>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="sponsorship_cancellation_action">
+            <field name="name">Sponsorship Cancellation</field>
+            <field name="res_model">sponsorship.cancellation</field>
+<!--            <field name="view_type">form</field>-->
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Create the Sponsorship Cancellation
+                </p>
+            </field>
+        </record>
+
+    </data>
+</odoo>

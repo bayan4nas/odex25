@@ -1,0 +1,114 @@
+.attach_img {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  margin-bottom: 40px;
+}
+.attach_img #user_profile_img {
+  width: 112px;
+  height: 112px;
+}
+.attach_img .wraper {
+  position: absolute;
+  width: 130px;
+  right: 45%;
+  transform: translate(95%, -50%);
+  top: 50%;
+}
+.attach_img .wraper input {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  z-index: 10;
+}
+.attach_img .wraper .img_upload {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row-reverse;
+}
+
+.input-group-text {
+  z-index: 10;
+}
+
+/* kafalaty */
+#benefits-type,
+#benefit-type {
+  background: transparent;
+  border: none;
+  outline: none !important;
+  color: #355692;
+}
+
+#sponsorship_cancelation .modal-body p {
+  font-weight: 600;
+  font-size: 18px;
+  margin-bottom: 24px;
+}
+@media (max-width: 575px) {
+  #sponsorship_cancelation .modal-body p {
+    font-size: 15px;
+  }
+}
+#sponsorship_cancelation .modal-footer {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+#sponsorship_cancelation .modal-footer .btn-outline-danger {
+  margin: 0 !important;
+  background-color: transparent !important;
+  border: 1px solid #DC3A08 !important;
+  color: #DC3A08 !important;
+}
+
+.success_res,
+.error_res {
+  display: none;
+}
+
+.notification_wrapper {
+  font-family: "Changa-Regular";
+}
+
+/* Hide the default dropdown arrow */
+select#benefit_ids {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  padding-right: 25px;
+  /* Add space for the custom arrow */
+  background: transparent;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  line-height: 1.5;
+  padding: 8px;
+  width: 200px;
+}
+
+/* Custom dropdown arrow */
+select#benefit_ids::after {
+  content: "";
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 6px 5px 0 5px;
+  border-color: #999 transparent transparent transparent;
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+/* Style when the select element is focused */
+select#benefit_ids:focus {
+  outline: none;
+  border-color: #999;
+  box-shadow: 0 0 0 1px #999;
+}/*# sourceMappingURL=main.css.map */

@@ -1,0 +1,341 @@
+<odoo>
+    <data>
+        <!-- Governmental fees -->
+        <record model="ir.ui.view" id="gv_fees_line_tree">
+            <field name="name">gv.fees.line.tree</field>
+            <field name="model">gv.fees.line</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="g_fees_type"/>
+                    <field name="fees_type"/>
+                    <field name="fees_amount"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+        <record id="gv_fees_line_form" model="ir.ui.view">
+            <field name="name">gv.fees.line.form</field>
+            <field name="model">gv.fees.line</field>
+            <field name="arch" type="xml">
+                <form string="Governmental fees">
+                    <header>
+                        <button name="action_accepted" type="object"
+                                string="Accept" class="oe_highlight"
+                                confirm="Are you sure you want to accept  ?"
+                                states="draft"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="benefit_id" invisible="1"/>
+                                <field name="g_fees_type"/>
+                                <!--                                <field name="is_accreditation"/>-->
+                            </group>
+                            <group>
+                                <field name="fees_type"/>
+                                <field name="fees_amount"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <!-- medical expenses -->
+        <record model="ir.ui.view" id="medical_line_tree">
+            <field name="name">medical.line.tree</field>
+            <field name="model">medical.line</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="medical_expenses_type"/>
+                    <field name="medicine_type"/>
+                    <field name="medical_expenses_amount"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+        <record id="medical_line_form" model="ir.ui.view">
+            <field name="name">medical.line.form</field>
+            <field name="model">medical.line</field>
+            <field name="arch" type="xml">
+                <form string="medical expenses">
+                    <header>
+                        <button name="action_accepted" type="object"
+                                string="Accept" class="oe_highlight"
+                                confirm="Are you sure you want to accept  ?"
+                                states="draft"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="benefit_id" invisible="1"/>
+                                <field name="medical_expenses_type"/>
+                                <!--                                <field name="is_accreditation"/>-->
+                            </group>
+                            <group>
+                                <field name="medicine_type"/>
+                                <field name="diseases_type"/>
+                                <field name="medical_expenses_amount"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <!-- Transportation expenses -->
+        <record model="ir.ui.view" id="trans_line_tree">
+            <field name="name">trans.line.tree</field>
+            <field name="model">trans.line</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="expense_type"/>
+                    <field name="state"/>
+                    <field name="trans_type"/>
+                </tree>
+            </field>
+        </record>
+        <record id="trans_line_form" model="ir.ui.view">
+            <field name="name">trans.line.form</field>
+            <field name="model">trans.line</field>
+            <field name="arch" type="xml">
+                <form string="Transportation expenses">
+                    <header>
+                        <button name="action_accepted" type="object"
+                                string="Accept" class="oe_highlight"
+                                confirm="Are you sure you want to accept  ?"
+                                states="draft"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="benefit_id" invisible="1"/>
+                                <field name="expense_type"/>
+                                <!--                                <field name="is_accreditation"/>-->
+                            </group>
+                            <group>
+                                <field name="trans_type"/>
+                                <field name="amount"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <!-- Clothing expenses -->
+        <record model="ir.ui.view" id="clothing_expenses_tree">
+            <field name="name">clothing.expenses.tree</field>
+            <field name="model">clothing.expenses</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="expense_type"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+        <record id="clothing_expenses_form" model="ir.ui.view">
+            <field name="name">clothing.line.form</field>
+            <field name="model">clothing.expenses</field>
+            <field name="arch" type="xml">
+                <form string="Clothing expenses">
+                    <header>
+                        <button name="action_accepted" type="object"
+                                string="Accept" class="oe_highlight"
+                                confirm="Are you sure you want to accept  ?"
+                                states="draft"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="benefit_id" invisible="1"/>
+                                <field name="expense_type"/>
+                                <!--                                <field name="is_accreditation"/>-->
+                            </group>
+                            <group>
+                                <field name="amount"/>
+                                <field name="clothing_expense_type"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <!--  Educational Expenses -->
+        <record model="ir.ui.view" id="educational_expenses_tree">
+            <field name="name">educational.expenses.tree</field>
+            <field name="model">educational.expenses</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="expense_type"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+        <record id="educational_expenses_form" model="ir.ui.view">
+            <field name="name">educational.expenses.form</field>
+            <field name="model">educational.expenses</field>
+            <field name="arch" type="xml">
+                <form string="Educational Expenses">
+                    <header>
+                        <button name="action_accepted" type="object"
+                                string="Accept" class="oe_highlight"
+                                confirm="Are you sure you want to accept  ?"
+                                states="draft"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="benefit_id" invisible="1"/>
+                                <field name="expense_type"/>
+                                <!--                                <field name="is_accreditation"/>-->
+                            </group>
+                            <group>
+                                <field name="amount"/>
+                                <field name="educational_expense_type"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <!-- Living Expenses-->
+        <record model="ir.ui.view" id="living_line_tree">
+            <field name="name">living.expenses.tree</field>
+            <field name="model">living.expenses</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="expense_type"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+        <record id="living_line_form" model="ir.ui.view">
+            <field name="name">living.expenses.form</field>
+            <field name="model">living.expenses</field>
+            <field name="arch" type="xml">
+                <form string="Living Expenses">
+                    <header>
+                        <button name="action_accepted" type="object"
+                                string="Accept" class="oe_highlight"
+                                confirm="Are you sure you want to accept  ?"
+                                states="draft"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="benefit_id" invisible="1"/>
+                                <field name="expense_type"/>
+                                <!--                                <field name="is_accreditation"/>-->
+                            </group>
+                            <group>
+                                <field name="amount"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <!-- Pandemics Line -->
+        <record model="ir.ui.view" id="pandemics_line_tree">
+            <field name="name">pandemics.line.tree</field>
+            <field name="model">pandemics.line</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="expense_type"/>
+                    <field name="state"/>
+                    <!--                    <field name="pandemics_type"/>-->
+                </tree>
+            </field>
+        </record>
+        <record id="pandemics_line_form" model="ir.ui.view">
+            <field name="name">pandemics.line.form</field>
+            <field name="model">pandemics.line</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <header>
+                        <button name="action_accepted" type="object"
+                                string="Accept" class="oe_highlight"
+                                confirm="Are you sure you want to accept  ?"
+                                states="draft"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="benefit_id" invisible="1"/>
+                                <field name="expense_type"/>
+                                <!--                                <field name="is_accreditation"/>-->
+                            </group>
+                            <group>
+                                <field name="pandemics_explain"/>
+                                <field name="amount"/>
+                                <field name="pandemics_attach"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <!-- Debts -->
+        <record model="ir.ui.view" id="debts_line_tree">
+            <field name="name">debts.line.tree</field>
+            <field name="model">debts.line</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="expense_type"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+        <record id="debts_line_form" model="ir.ui.view">
+            <field name="name">debts.line.form</field>
+            <field name="model">debts.line</field>
+            <field name="arch" type="xml">
+                <form string="Debts">
+                    <header>
+                        <button name="action_accepted" type="object"
+                                string="Accept" class="oe_highlight"
+                                confirm="Are you sure you want to accept  ?"
+                                states="draft"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="benefit_id" invisible="1"/>
+                                <field name="expense_type"/>
+                                <!--                                <field name="is_accreditation"/>-->
+                            </group>
+                            <group>
+                                <field name="debt_type"/>
+                                <field name="amount"/>
+                                <field name="debt_reason"/>
+                                <field name="debt_attach"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

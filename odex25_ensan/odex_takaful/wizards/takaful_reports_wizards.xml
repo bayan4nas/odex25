@@ -1,0 +1,83 @@
+<?xml version="1.0"?>
+<odoo>
+    <record id="makfuleen_wizard_report_form" model="ir.ui.view">
+        <field name="name">Makfuleen Report Wizard</field>
+        <field name="model">takaful.wizard.report.makfuleen</field>
+        <field name="arch" type="xml">
+            <form string="Print The Report">
+                <group class="oe_title" col="2">
+                    <field name="sponsor_id" required="1"/>
+                </group>
+
+                <footer>
+                    <button name="create_makfuleen_wizard_report" string="Confirm" type="object" class="alert-success"/>
+                    <button string="Cancel" class="alert-danger" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="makfuleen_wizard_report_action" model="ir.actions.act_window">
+        <field name="name">Makfuleen Report Wizard Window</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">takaful.wizard.report.makfuleen</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="makfuleen_wizard_report_form"/>
+        <field name="target">new</field>
+    </record>
+
+    <!-- For Overdue -->
+    <record id="kafalat_payment_wizard_report_form" model="ir.ui.view">
+        <field name="name">Kafalat Payment Report Wizard</field>
+        <field name="model">takaful.wizard.report.kafalat.payment</field>
+        <field name="arch" type="xml">
+            <form string="Print The Report">
+                <group class="oe_title" col="2">
+                    <field name="sponsor_id" required="1"/>
+                </group>
+
+                <footer>
+                    <button name="create_kafalat_payment_wizard_report" string="Confirm" type="object" class="alert-success"/>
+                    <button string="Cancel" class="alert-danger" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="kafalat_payment_wizard_report_action" model="ir.actions.act_window">
+        <field name="name">Kafalat Payment Report Wizard Window</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">takaful.wizard.report.kafalat.payment</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="kafalat_payment_wizard_report_form"/>
+        <field name="target">new</field>
+    </record>
+
+    <!-- For Cancel Report -->
+    <record id="kafalat_cancel_wizard_report_form" model="ir.ui.view">
+        <field name="name">Canceled Kafalat Report Wizard</field>
+        <field name="model">takaful.wizard.report.kafalat.cancel</field>
+        <field name="arch" type="xml">
+            <form string="Print The Report">
+                <group col="4">
+                    <field name="from_date" required="1"/>
+                    <field name="to_date" required="1"/>
+                </group>
+
+                <footer>
+                    <button name="create_kafalat_cancel_wizard_report" string="Confirm" type="object" class="alert-success"/>
+                    <button string="Cancel" class="alert-danger" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="kafalat_cancel_wizard_report_action" model="ir.actions.act_window">
+        <field name="name">Canceled Kafalat Report Wizard Window</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">takaful.wizard.report.kafalat.cancel</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="kafalat_cancel_wizard_report_form"/>
+        <field name="target">new</field>
+    </record>
+</odoo>

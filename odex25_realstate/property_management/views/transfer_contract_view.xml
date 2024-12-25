@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record id="transfer_contract_form_view" model="ir.ui.view">
+        <field name="name">transfer contract form</field>
+        <field name="model">transfer.contract</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_submit" string="Submit" type="object" states="draft"
+                    />
+
+                    <button name="action_review" string="Review" type="object" states="submit"
+                    />
+
+                    <button name="action_confirm" string="Confirm" type="object" states="review"
+                    />
+
+
+                    <button name="action_reset" groups="property_management.group_property_manager"
+                            string="Set To Draft" type="object" states="submit,review,cancel"
+                    />
+
+                    <button name="action_cancel" groups="property_management.group_property_manager" string="Cancel"
+                            type="object" states="submit,review,draft"
+                    />
+
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <h1>
+                        <field name="name" placeholder="No." readonly="1"/>
+                    </h1>
+
+                    <group>
+                        <group string="Contract Info">
+                            <field name="contract_id" domain="[('state','=', 'confirm')]" required="1"
+                                   attrs="{'readonly':[('state','!=','draft')]}"/>
+                            <field name="date_from" readonly="1" attrs="{'readonly':[('state','!=','draft')]}"/>
+                            <field name="date_to" readonly="1" attrs="{'readonly':[('state','!=','draft')]}"/>
+                            <field name="date" required="1" attrs="{'readonly':[('state','!=','draft')]}"/>
+                            <field name="property_id" readonly="1" attrs="{'readonly':[('state','!=','draft')]}"/>
+                            <field name="current_partner_id" readonly="1"
+                                   attrs="{'readonly':[('state','!=','draft')]}"/>
+                            <field name="unit_ids" widget="many2many_tags" readonly="1"
+                                   attrs="{'readonly':[('state','!=','draft')]}"/>
+                            <field name="company_id" readonly="1" attrs="{'readonly':[('state','!=','draft')]}"/>
+
+                        </group>
+                        <group string="New Renter Info &amp; Finical Inof">
+                            <field name="partner_id" required="1" attrs="{'readonly':[('state','!=','draft')]}"/>
+                        </group>
+                    </group>
+
+
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Transfer Contract list view -->
+    <record id="transfer_contract_list_view" model="ir.ui.view">
+        <field name="name">transfer contract lis</field>
+        <field name="model">transfer.contract</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="date"/>
+                <field name="partner_id"/>
+                <field name="current_partner_id"/>
+                <field name="contract_id"/>
+                <field name="property_id"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="transfer_contract_search_view" model="ir.ui.view">
+        <field name="name">Transfer Contract Search</field>
+        <field name="model">transfer.contract</field>
+        <field name="arch" type="xml">
+            <search string="Search">
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="current_partner_id"/>
+                <field name="contract_id"/>
+
+                <filter string="Confirmed" name="confirm" domain="[('state','=','confirm')]"/>
+                <filter string="To review" name="review" domain="[('state','=','review')]"/>
+                <filter string="Submit" name="submit" domain="[('state','=','submit')]"/>
+                <filter string="Cancelled" name="cancel" domain="[('state','=','cancel')]"/>
+
+                <separator/>
+                <group expand="0" string="Group By..." colspan="12" col="10">
+                    <filter name="state" string="Status" domain="[]" context="{'group_by':'state'}"/>
+
+                    <filter name="group_contract_id" string="Rental Contract" domain="[]"
+                            context="{'group_by':'contract_id'}"/>
+
+                    <filter name="property_group" string="Property" domain="[]"
+                            context="{'group_by':'property_id'}"/>
+
+                </group>
+            </search>
+        </field>
+    </record>
+
+
+</odoo>

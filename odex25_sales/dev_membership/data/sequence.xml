@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+<!-- membership no -->
+        
+	 <record id="seq_membership_partner" model="ir.sequence">
+		<field name="name">Membership Number</field>
+		<field name="code">membership.no.sequence</field>
+		<field name="implementation">standard</field>
+	    <field name="company_id" eval="False"/>
+	 </record>
+
+    <record id="seq_dev_membership" model="ir.sequence">
+        <field name="name">seq.dev.membership</field>
+        <field name="code">seq.dev.membership</field>
+        <field name="prefix">MEM/%(year)s/</field>
+        <field name="padding">4</field>
+        <field name="company_id" eval="False"/>
+    </record>
+    
+    <record id="cron_dev_membership_reminder" model="ir.cron">
+        <field name="name">Membership Reminder</field>
+        <field name="user_id" ref="base.user_admin"/>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="numbercall">-1</field>
+        <field name="doall" eval="False"/>
+        <field name="model_id" ref="model_dev_membership"/>
+        <field name="state">code</field>
+        <field name="code">model.membership_reminder_email_cron()</field>
+    </record>
+
+    <record id="cron_cancel2_dev_membership_reminder" model="ir.cron">
+        <field name="name">Membership User/Partner Cancel Notify</field>
+        <field name="user_id" ref="base.user_admin"/>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="numbercall">-1</field>
+        <field name="doall" eval="False"/>
+        <field name="model_id" ref="model_dev_membership"/>
+        <field name="state">code</field>
+        <field name="code">model.cancell2_membership_reminder_email_cron()</field>
+    </record>
+
+<!-- todo start -->
+    <record id="cron_dev_membership_seacond_reminder" model="ir.cron">
+        <field name="name">Membership Secand Reminder</field>
+        <field name="user_id" ref="base.user_admin"/>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="numbercall">-1</field>
+        <field name="doall" eval="False"/>
+        <field name="model_id" ref="model_dev_membership"/>
+        <field name="state">code</field>
+        <field name="code">model.membership_secand_reminder_email_cron()</field>
+    </record>
+
+    <!--    todo end -->
+    <record id="cron_membership_auto_expire" model="ir.cron">
+        <field name="name">Auto Expire Membership</field>
+        <field name="user_id" ref="base.user_admin"/>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="numbercall">-1</field>
+        <field name="doall" eval="False"/>
+        <field name="model_id" ref="model_dev_membership"/>
+        <field name="state">code</field>
+        <field name="code">model.membership_auto_expire()</field>
+    </record>
+    <template id="mail_message_lead_enrich_no_email">
+        <p>Lead Enrichment based on email address</p>
+        <div style="background-color:#ffffff;padding:15px;">
+            <span>Enrichment could not be done as no email address was provided.</span>
+        </div>
+    </template>
+</odoo>

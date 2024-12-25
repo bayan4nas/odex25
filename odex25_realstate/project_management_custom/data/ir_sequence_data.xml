@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+
+        <record id="sequence_project_seq" model="ir.sequence">
+            <field name="name">Project</field>
+            <field name="code">project.project</field>
+            <field name="prefix">PJ:%(y)s/%(month)s/</field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+            <field name="number_increment" eval="1"/>
+        </record>
+
+
+        <record id="sequence_project_eng_office_payment_seq" model="ir.sequence">
+            <field name="name">Project Eng office Payment</field>
+            <field name="code">project.payment.request.eng</field>
+            <field name="prefix">EPA/%(range_year)s/</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+            <field name="number_increment" eval="1"/>
+        </record>
+
+        <record id="sequence_project_subcontractor_payment_seq" model="ir.sequence">
+            <field name="name">Project SubContractor Payment</field>
+            <field name="code">project.payment.request.subcontract</field>
+            <field name="prefix">SPA/%(range_year)s/</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+            <field name="number_increment" eval="1"/>
+        </record>
+
+
+    </data>
+</odoo>

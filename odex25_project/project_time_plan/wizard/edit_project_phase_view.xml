@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_edit_project_phase_wizard" model="ir.ui.view">
+        <field name="name">Edit Project Phase</field>
+        <field name="model">edit.project.phase</field>
+        <field name="inherit_id" ref="project_base.view_edit_project_phase_wizard"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='estimated_hours']" position="replace">
+                <field name="plan_by" invisible="1"/>
+                 <field name="estimated_hours" string="Allocated By Hour" attrs="{'invisible': [('plan_by', '=', 'man_days')]}"/>
+                 <field name="estimated_days" string="Allocated By Day" attrs="{'invisible': [('plan_by', '=', 'man_hours')]}"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

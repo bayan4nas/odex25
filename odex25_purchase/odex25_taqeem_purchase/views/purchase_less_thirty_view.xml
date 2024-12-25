@@ -1,0 +1,169 @@
+<odoo>
+    <record id="purchase_request_less_thirty" model="ir.ui.view">
+        <field name="name">purchase.request.less.thirty</field>
+        <field name="model">purchase.request</field>
+        <field name="inherit_id" ref="governmental_purchase.purchase_request_form"/>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='type_id']" position="attributes">
+                <attribute name="attrs">{'readonly':[('state', '!=','draft')]}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='by_purchase']" position="attributes">
+                <attribute name="attrs">{'readonly':[('state', '!=','draft')]}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='partner_id']" position="attributes">
+                <attribute name="attrs">{'readonly':[('state', '!=','draft')]}</attribute>
+            </xpath>
+<!--             <xpath expr="//field[@name='is_analytic']" position="attributes">
+                <attribute name="attrs">{'readonly':[('state', '!=','draft')]}</attribute>
+            </xpath> -->
+            <xpath expr="//field[@name='state']" position="replace">
+                <field name="state" widget="statusbar"
+                       statusbar_visible="draft,dm,direct_manager,send_budget,wait_budget,budget_approve,waiting"/>
+            </xpath>
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="purchase_type" invisible="1"/>
+                <field name="check_chief_executive" invisible="1"/>
+                <field name="chief_executive_officer" invisible="1"/>
+<!--                <field name="remain_budget" invisible="0"/>-->
+            </xpath>
+            <xpath expr="//button[@name='action_confirm']" position="replace">
+                <button name="action_confirm" groups="purchase_requisition_custom.group_direct_manger" type="object"
+                        string="Submit" class="oe_highlight"
+                        attrs="{'invisible': ['|',('check_chief_executive','=',False),('state','!=', 'dm')]}"/>
+
+            </xpath>
+            <xpath expr="//button[@name='action_pc_confirm']" position="replace">
+                <button name="action_pc_confirm"
+                        groups="governmental_purchase.executive_director_of_purchase_and_contract" type="object"
+                        string="Approve" states="budget_approve" class="oe_highlight"/>
+
+                <button name="%(purchase_requisition_custom.purchase_request_cancel_wizard_action)d" string="Refuse"
+
+                        states="budget_approve" type="action"
+                        groups="governmental_purchase.executive_director_of_purchase_and_contract"/>
+            </xpath>
+            <!--            <xpath expr="//button[@name='%(purchase_requisition_custom.purchase_request_cancel_wizard_action)d']"-->
+            <!--                   position="replace">-->
+            <!--                <button name="%(purchase_requisition_custom.purchase_request_cancel_wizard_action)d" string="Refuse"-->
+            <!--                        type="action" groups="purchase_requisition_custom.group_direct_manger"/>-->
+
+            <!--            </xpath>-->
+<!--             <xpath expr="//field[@name='line_ids']//field[@name='sum_total']" position="attributes">
+                <attribute name="readonly">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='line_ids']//field[@name='sum_total']" position="after">
+                <field name="remain" attrs="{'column_invisible': [('parent.state', '!=', 'dm')]}"/>
+            </xpath> -->
+<!--             <xpath expr="//page[@name='base_info_dep_use']" position="replace"/> -->
+            <xpath expr="//page[@name='purchase_request_info']" position="after">
+                <page string="Order Base info" name="base_info_order"
+                >
+                    <group>
+                        <group string="Delivery Info" name="DeliveryInfo">
+                            <field name="tender_name" required="1"
+                                   attrs="{'readonly':[('state' , '!=' , 'draft')]}"/>
+                            <field name="purpose_of_tender" required="1"
+                                   attrs="{'readonly':[('state' , '!=' , 'draft')]}"/>
+                            <field name="other_details" invisible="1"  attrs="{'readonly':[('state' , '!=' , 'draft')]}"/>
+                            <field name="is_delivered" required="1" widget="radio" options="{'horizontal': true}"
+                                   attrs="{'readonly':[('state' , '!=' , 'draft')]}"/>
+                            <field name="delivery_type"
+                                   attrs="{'invisible':[('is_delivered' , '!=' , 'yes')],'readonly':[('state' , '!=' , 'draft')]}"/>
+
+                        </group>
+
+                        <group name="Info">
+                            <field name="project_duration" required="1"
+                                   attrs="{'readonly':[('state' , '!=' , 'draft')]}"/>
+                            <field name="project_start_date" required="1"
+                                   attrs="{'readonly':[('state' , '!=' , 'draft')]}"/>
+                            <field name="work_service_imp" widget="radio"
+                                   attrs="{'readonly':[('state' , '!=' , 'draft')]}"/>
+                            <field name="business_place" attrs="{'readonly':[('state' , '!=' , 'draft')]}"/>
+                            <field name="attachment_scope_project" attrs="{'readonly':[('state' , '!=' , 'draft')]}"/>
+                            <field name="quality_spec" widget="radio"
+                                   attrs="{'readonly':[('state' , '!=' , 'draft')]}"/>
+                            <field name="quality_notes"
+                                   attrs="{'invisible':[('quality_spec' , '!=' , 'yes')],'required':[('quality_spec' , '=' , 'yes')],'readonly':[('state' , '!=' , 'draft')]}"/>
+                            <field name="material_spec" widget="radio"
+                                   attrs="{'readonly':[('state' , '!=' , 'draft')]}"/>
+                            <field name="material_notes"
+                                   attrs="{'invisible':[('material_spec' , '!=' , 'yes')],'readonly':[('state' , '!=' , 'draft')],'required':[('material_spec' , '=' , 'yes')]}"/>
+                            <field name="special_condition" attrs="{'readonly':[('state' , '!=' , 'draft')]}"/>
+                        </group>
+                    </group>
+                    <group string="Delivered sample address"
+                           attrs="{'invisible':['|',('delivery_type' , '!=' , 'manual'),('is_delivered' , '!=' , 'yes')]}">
+                        <group>
+                            <field name="delivery_building"
+                                   attrs="{'readonly':[('state' , '!=' , 'draft')]}"/>
+                            <field name="delivery_floor"
+                                   attrs="{'readonly':[('state' , '!=' , 'draft')]}"/>
+                        </group>
+                        <group>
+                            <field name="room"
+                                   attrs="{'readonly':[('state' , '!=' , 'draft')]}"/>
+                            <field name="date_time"
+                                   attrs="{'readonly':[('state' , '!=' , 'draft')]}"/>
+                        </group>
+
+
+                    </group>
+                </page>
+
+            </xpath>
+            <xpath expr="//page[@name='base_info_order']" position="after">
+                <page string="Suggested Supplier" name="selected_supplier"
+                      attrs="{'readonly':[('state' , '!=' , 'draft')]}">
+                    <field name="selected_supplier_id">
+                        <tree editable="bottom">
+                            <field name="supplier_id" required="1"/>
+                            <field name="supplier_email"/>
+                            <field name="supplier_phone"/>
+                        </tree>
+                    </field>
+                </page>
+            </xpath>
+<!--             <xpath expr="//page[@name='dep_use']" position="replace"/> -->
+<!--             <xpath expr="//page[@name='technical_use']" position="replace"/> -->
+            <xpath expr="//page[@name='procurement_use']" position="replace"/>
+<!--             <xpath expr="//page[@name='note']" position="replace"/> -->
+        </field>
+    </record>
+
+    <record id="action_purchase_request_less_thirty" model="ir.actions.act_window">
+        <field name="name">Purchase less than thirty</field>
+        <field name="res_model">purchase.request</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+              (0, 0, {'view_mode': 'tree'}),
+            (0, 0, {'view_mode': 'form', 'view_id': ref('purchase_request_less_thirty')})]"/>
+        <field name="domain">[('purchase_type', '=', 'less_thirty')]</field>
+        <field name="context">{'default_purchase_type': 'less_thirty'}</field>
+    </record>
+    <!--    add seq -->
+    <record model="ir.sequence" id="purchase_seq30_sequence">
+        <field name="name">purchase request 30 Sequence</field>
+        <field name="code">purchase.seq30.sequence</field>
+        <field name="prefix">PR30 %(year)s/%(month)s/</field>
+        <field name="padding">5</field>
+        <field name="company_id" eval="False"/>
+        <field name="number_increment" eval="1"/>
+    </record>
+    <record model="ir.sequence" id="purchase_com_sequence">
+        <field name="name">purchase com Sequence</field>
+        <field name="code">purchase.com.sequence</field>
+        <field name="prefix">PRCOMP %(year)s/%(month)s/</field>
+        <field name="padding">5</field>
+        <field name="company_id" eval="False"/>
+        <field name="number_increment" eval="1"/>
+    </record>
+<!--    end -->
+
+    <menuitem id="purchase_request_less_thirty_menu" name="Purchase Request Less Thirty"
+              parent="purchase_requisition_custom.purchase_request_menu"
+              action="action_purchase_request_less_thirty"/>
+
+
+</odoo>

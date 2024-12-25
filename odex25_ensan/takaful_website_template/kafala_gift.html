@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home Page | الصفحة الرئيسية </title>
+
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/datatables.min.css" />
+    <link rel="stylesheet" href="css/fontawesome-all.min.css" />
+    <link rel="stylesheet" href="css/style.css" />
+
+
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <img src="imgs/logo.png" alt="logo" />
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">الرئيسية <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            عن الجمعية
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="#">Action</a>
+                            <a class="dropdown-item" href="#">Another action</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">Something else here</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            تواصل معنا
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="#">Action</a>
+                            <a class="dropdown-item" href="#">Another action</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">Something else here</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            المتجر
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="#">Action</a>
+                            <a class="dropdown-item" href="#">Another action</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">Something else here</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            الحكومة
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="#">Action</a>
+                            <a class="dropdown-item" href="#">Another action</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">Something else here</a>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">الكفالات</a>
+                    </li>
+                </ul>
+                <div class="nav_actions d-flex align-items-center">
+                    <div class="search">
+                        <span>
+                            <img src="imgs/search.png" alt="search" />
+                        </span>
+                    </div>
+                    <div class="login">
+                        <img src="imgs/user.png" alt="user" />
+                        <a href="#"> تسجيل الدخول </a>
+                    </div>
+                    <span class="separator">
+                        <img src="imgs/separator.png" alt="">
+                    </span>
+                    <div class="cart">
+                        <a href="#">
+                            <img src="imgs/shopping-cart.png" alt="cart" />
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <section class="guarantees padding_top">
+        <div class="container">
+            <h2 class="heading">بوابة الكافل</h2>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">بوابة الكافل</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">كفالاتي</li>
+                </ol>
+            </nav>
+            <div class="guarantee_header">
+                <div class="departments d-flex">
+                    <a href="my_guarantees.html" class="box">
+                        <div class="img">
+                            <img src="imgs/Gurantees/kafalaty.png" alt="Kafalaty">
+                        </div>
+                        <h5 class="description text-center"> كفالاتي </h5>
+                    </a>
+                    <a href="sadad.html" class="box">
+                        <div class="img">
+                            <img src="imgs/Gurantees/cashback.png" alt="Kafalaty">
+                        </div>
+                        <h5 class="description text-center"> سداد الكفالات </h5>
+                    </a>
+                    <a href="need_kafala.html" class="box">
+                        <div class="img">
+                            <img src="imgs/Gurantees/cash1.png" alt="Kafalaty">
+                        </div>
+                        <h5 class="description text-center"> بحاجة الى كفاله</h5>
+                    </a>
+                    <a href="#" class="box" data-toggle="modal" data-target="#exampleModalCenter">
+                        <div class="img">
+                            <img src="imgs/Gurantees/kafala_gama3ya.png" alt="Kafalaty">
+                        </div>
+                        <h5 class="description text-center"> إنشاء كفالة جماعية </h5>
+                    </a>
+                    <a href="orphan_needs.html" class="box">
+                        <div class="img">
+                            <img src="imgs/Gurantees/yateem.png" alt="yateem" />
+                        </div>
+                        <h5 class="description text-center"> احتياجات ايتام وارامل </h5>
+                    </a>
+                    <a href="kafala_gift.html" class="box active">
+                        <div class="img">
+                            <img src="imgs/Gurantees/gift.png" alt="Kafalaty">
+                        </div>
+                        <h5 class="description text-center">إهداء مالي</h5>
+                    </a>
+                    <a href="general_needs.html" class="box">
+                        <div class="img">
+                            <img src="imgs/Gurantees/trend.png" alt="Kafalaty">
+                        </div>
+                        <h5 class="description text-center"> إحتياجات عامة </h5>
+                    </a>
+                    <a href="cancel_kafala.html" class="box">
+                        <div class="img">
+                            <img src="imgs/Gurantees/cancel.png" alt="Kafalaty">
+                        </div>
+                        <h5 class="description text-center"> إلغاء الكفالة </h5>
+                    </a>
+                </div>
+            </div>
+
+            <section class="my_data">
+                <table id="table_id" class="display w-100">
+                    <thead>
+                        <tr>
+                            <th>الرقم</th>
+                            <th>الاسم</th>
+                            <th>الجنس</th>
+                            <th>السن</th>
+                            <th>المدينة</th>
+                            <th>نوع المستفيد </th>
+                            <th>نسبة الاحتياج</th>
+                            <th> احتياجات طارئة </th>
+                            <th>متأخرات مالية </th>
+                            <th style="padding: 24px"> </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>2</td>
+                            <td>أحمد عبد الله محمد</td>
+                            <td>ذكر</td>
+                            <td>26</td>
+                            <td>الرياض</td>
+                            <td>يتيم </td>
+                            <td>95%</td>
+                            <td>500 ر.س</td>
+                            <td>100 ر.س</td>
+                            <td class="active_td">
+                                <div class="d-flex align-items-center justify-content-center">
+                                    <a href="#" class="sadad_link m-0"> ساهم الان</a>
+                                </div>
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>أحمد عبد الله محمد</td>
+                            <td>ذكر</td>
+                            <td>26</td>
+                            <td>الرياض</td>
+                            <td>يتيم </td>
+                            <td>95%</td>
+                            <td>500 ر.س</td>
+                            <td>100 ر.س</td>
+                            <td class="active_td">
+                                <div class="d-flex align-items-center justify-content-center">
+                                    <a href="#" class="sadad_link m-0"> ساهم الان</a>
+                                </div>
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>أحمد عبد الله محمد</td>
+                            <td>ذكر</td>
+                            <td>26</td>
+                            <td>الرياض</td>
+                            <td>يتيم </td>
+                            <td>95%</td>
+                            <td>500 ر.س</td>
+                            <td>100 ر.س</td>
+                            <td class="active_td">
+                                <div class="d-flex align-items-center justify-content-center">
+                                    <a href="#" class="sadad_link m-0"> ساهم الان</a>
+                                </div>
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>أحمد عبد الله محمد</td>
+                            <td>ذكر</td>
+                            <td>26</td>
+                            <td>الرياض</td>
+                            <td>يتيم </td>
+                            <td>95%</td>
+                            <td>500 ر.س</td>
+                            <td>100 ر.س</td>
+                            <td class="active_td">
+                                <div class="d-flex align-items-center justify-content-center">
+                                    <a href="#" class="sadad_link m-0"> ساهم الان</a>
+                                </div>
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>أحمد عبد الله محمد</td>
+                            <td>ذكر</td>
+                            <td>26</td>
+                            <td>الرياض</td>
+                            <td>يتيم </td>
+                            <td>95%</td>
+                            <td>500 ر.س</td>
+                            <td>100 ر.س</td>
+                            <td class="active_td">
+                                <div class="d-flex align-items-center justify-content-center">
+                                    <a href="#" class="sadad_link m-0"> ساهم الان</a>
+                                </div>
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>أحمد عبد الله محمد</td>
+                            <td>ذكر</td>
+                            <td>26</td>
+                            <td>الرياض</td>
+                            <td>يتيم </td>
+                            <td>95%</td>
+                            <td>500 ر.س</td>
+                            <td>100 ر.س</td>
+                            <td class="active_td">
+                                <div class="d-flex align-items-center justify-content-center">
+                                    <a href="#" class="sadad_link m-0"> ساهم الان</a>
+                                </div>
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+                </table>
+            </section>
+        </div>
+    </section>
+
+    <!-- Modal -->
+    <div class="modal kafala_modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title heading" id="exampleModalLongTitle">إنشاء كفالة جماعية</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <img src="imgs/close.png" alt="close" />
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="">
+                        <div class="row">
+                            <div class="form-group col-lg-6">
+                                <label for="myCity" class=" control-label"> نوع المكفولين </label>
+                                <select id="myCity" class="custom-select">
+                                    <option selected="">ايتام</option>
+                                    <option value="1">ارامل </option>
+                                </select>
+                            </div>
+
+                            <div class="form-group col-lg-6">
+                                <label for="myCity" class=" control-label"> نسبة الاحتياج </label>
+                                <select id="myCity" class="custom-select">
+                                    <option selected="">95%</option>
+                                    <option value="1">80% </option>
+                                </select>
+                            </div>
+
+                            <div class="form-group col-lg-6">
+                                <label for="myCity" class=" control-label"> الاعمار </label>
+                                <select id="myCity" class="custom-select">
+                                    <option selected="">اكثر من خمس سنوات </option>
+                                    <option value="1">متزوج </option>
+                                </select>
+                            </div>
+                            <div class="form-group col-lg-6">
+                                <label for="myCity" class=" control-label"> اختر المكفولين </label>
+                                <select id="myCity" class="custom-select">
+                                    <option selected="">احمد حسن </option>
+                                    <option value="1">محمد ابراهيم </option>
+                                </select>
+                            </div>
+
+                            <div class="form-group col-lg-6">
+                                <label for="work" class="control-label">عدد المكفولين </label>
+                                <div class="">
+                                    <input type="text" class="form-control" id="work" name="work"
+                                        placeholder="كما موضح في بطاقة الهوية">
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-6">
+                                <label for="myCity" class=" control-label"> فترة الكفالة </label>
+                                <select id="myCity" class="custom-select">
+                                    <option selected="">اعزب</option>
+                                    <option value="1">متزوج </option>
+                                </select>
+                            </div>
+
+                            <div class="form-group col-lg-6">
+                                <label for="myCity" class=" control-label"> مدة الكفالة </label>
+                                <select id="myCity" class="custom-select">
+                                    <option selected="">سنوات</option>
+                                    <option value="1"> شهور </option>
+                                </select>
+                            </div>
+
+                            <div class="form-group col-lg-6">
+                                <label for="month_number" class="control-label">عدد الشهور </label>
+                                <div class="">
+                                    <input type="text" value="4" class="form-control" id="month_number"
+                                        name="month_number">
+                                </div>
+                            </div>
+
+                            <div class="form-group col-lg-6">
+                                <label for="years_number" class="control-label">عدد السنوات </label>
+                                <div class="">
+                                    <input type="text" value="5" class="form-control" id="years_number"
+                                        name="years_number">
+                                </div>
+                            </div>
+
+                            <div class="form-group col-lg-6">
+                                <label for="myCity" class=" control-label"> نوع الكفالة </label>
+                                <select id="myCity" class="custom-select">
+                                    <option selected="">جزئية </option>
+                                    <option value="1"> شهور </option>
+                                </select>
+                            </div>
+
+                            <div class="form-group col-lg-6">
+                                <label for="kafala_amount" class="control-label"> قيمة التحمل للمكفول الواحد </label>
+                                <div class="">
+                                    <input type="text" value="5 ر.س" class="form-control" id="kafala_amount"
+                                        name="kafala_amount">
+                                </div>
+                            </div>
+
+                            <div class="form-group col-lg-6">
+                                <label for="myCity" class=" control-label"> خيارات الدفع </label>
+                                <select id="myCity" class="custom-select">
+                                    <option selected="">شهري </option>
+                                    <option value="1"> سنوي </option>
+                                </select>
+                            </div>
+
+                            <div class="form-group col-lg-12">
+                                <label for="kafala_total" class="control-label"> إجمالي قيمة الكفالة </label>
+                                <div class="">
+                                    <input type="text" value="1200 ر.س" class="form-control" id="kafala_total"
+                                        name="kafala_total">
+                                </div>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary">تأكيد انشاء كفاله جماعية</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/datatables.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#table_id').DataTable({
+                responsive: true,
+                language: {
+                    'paginate': {
+                        'previous': '<img src="imgs/prev.png" alt="prev" />',
+                        'next': '<img src="imgs/next.png" alt="next" />'
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

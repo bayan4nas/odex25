@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<odoo>
+    <data noupdate="0">
+        <record id="event_subscription" model="mail.template">
+            <field name="name">Event: Change in Tracks</field>
+            <field name="model_id" ref="event.model_event_registration"/>
+            <field name="email_from">${(object.event_id.organizer_id.email or object.event_id.user_id.email or '')|safe}</field>
+            <field name="email_to" >${object.partner_id.email or object.email|safe}</field>
+            <field name="lang">${object.partner_id.lang}</field>
+            <field name="reply_to" eval="False"/>
+            <field name="subject">Some event Tracks has been changed : ${object.event_id.name}</field>
+            <field name="body_html"><![CDATA[
+<div style="background:#F3F5F6;color:#515166;padding:25px 0px;font-family:Arial,Helvetica,sans-serif;font-size:14px;">
+% set date_begin = format_tz(object.event_id.date_begin, tz='UTC', format='%Y%m%dT%H%M%SZ')
+% set date_end = format_tz(object.event_id.date_end, tz='UTC', format='%Y%m%dT%H%M%SZ')
+    <table style="width:600px;margin:5px auto;">
+        <tbody>
+            <tr>
+                <td>
+                    <a href="/">
+                        <img src="/logo" alt="${object.company_id.name}" style="vertical-align:baseline;max-width:100px;" />
+                    </a>
+                </td>
+                <td>
+
+                <p>Details of the event Track changes</p>
+<ul>
+% for line in object.event_id.event_mail_ids:
+% if line.interval_type == 'after_change_tracks':
+% for rec in line.mail_track_ids:
+% if not rec.mail_sent:
+
+<li>
+    Track ${rec.track_id.name} changed From ${rec.change_date_from} To ${rec.change_date_to}
+    </li>
+% endif
+% endfor
+% endif
+% endfor
+</ul>
+</td>
+
+                <td style="text-align:right;vertical-align:middle;">
+                    % if 'website_url' in object.website_url and object.event_id.website_url:
+                        <a href="${object.event_id.website_url}" style="background-color: #1abc9c; padding: 12px; font-weight: 12px; text-decoration: none; color: #fff; border-radius: 5px; font-size:16px;">View Event</a>
+                    % endif
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+            ]]></field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,107 @@
+<odoo>
+    <data>
+        <template id="food_basket" name="zakat adahy">
+            <t t-set="title"> زكاة الاضاحي </t>
+            <t t-call="website.layout">
+                <div class="profile_wrapper">
+                    <div class="container">
+                        <h2 class="heading"> زكاة الاضاحي </h2>
+                        <div class="zakat_wrapper">
+                            <div class="row food_basket_row">
+                            
+                            </div>
+                            <div class="zakat_fitr_feedback"></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- add donation_modal   -->
+                <div class="modal fade  food_basket_modal" id="donation_modal" tabindex="-1"
+                    role="dialog"
+                    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title heading" id="exampleModalLongTitle">تبرع
+                                    بزكاتك </h5>
+                                <button type="button" class="close" data-dismiss="modal"
+                                    aria-label="Close">
+                                    <span aria-hidden="true">
+                                        <i class="fa fa-times"></i>
+                                    </span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form action="" id="food_basket_form">
+                                    <div class="row">
+                                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()" />
+                                        <div class="form-group col-lg-12">
+                                            <label for="motherIdentity" class="myName control-label">
+                                                الاسم  </label>
+                                            <div class="">
+                                                <input type="text" class="form-control"
+                                                    id="name"
+                                                    name="name" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-lg-12">
+                                            <label for="phone_number" class="myName control-label">
+                                                رقم الجوال </label>
+                                            <div class="">
+                                                <input type="text"  class="form-control"
+                                                    id="phone_number"
+                                                    name="phone_number" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-lg-12">
+                                            <label for="donation_type" class=" control-label"> نوع
+                                                التبرع </label>
+                                            <select id="donation_type" name="donation_type"
+                                                class="custom-select">
+                                                <option value="cash" selected="selected">نقدي</option>
+                                                <option value="material">كمي  </option>
+                                                <option value="both">كلاهما </option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group price_amount col-lg-12">
+                                            <label for="amount" class="myName control-label">
+                                                المبلغ </label>
+                                            <div class="">
+                                                <input type="text" class="form-control"
+                                                    id="amount"
+                                                    name="amount" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group price_quantity col-lg-12">
+                                            <label for="quantity" class="myName control-label">
+                                                الكمية </label>
+                                            <div class="">
+                                                <input type="text"  class="form-control"
+                                                    id="qty"
+                                                    name="qty" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group payment_method col-lg-12">
+                                            <label for="payment_method" class=" control-label"> طريقة
+                                                الدفع </label>
+                                            <select id="payment_method" class="custom-select">
+                                                <option selected="selected"> مدى  </option>
+                                                <option value="1">أبل باي  </option>
+                                            </select>
+                                        </div>
+                                        <div class="new_donor col-lg-12"></div>
+                                        <input type="hidden" id="basket_id_holder_input" />
+                                    </div>
+                                    <button type="submit" class="btn cash_btn main_link btn-primary"> تأكيد الدفع </button>
+                                    <button type="submit" class="btn material_btn main_link btn-primary"> تأكيد الكميات  </button>
+
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <!-- <script src="/takaful_portal_benefit/static/js/food_basket.js"></script> -->
+            </t>
+        </template>
+    </data>
+</odoo>

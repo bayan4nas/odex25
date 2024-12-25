@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="all_notifications">
+        <t t-set="title"> الاشعارات </t>
+        <t t-call="website.layout">
+            <div class="benifits_wrapper">
+                <div class="container">
+                    <h2 class="heading"> الاشعارات </h2>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item active" aria-current="page"> الاشعارات </li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+            <div class="notifications">
+                <div class="container">
+                    <div class="wrapper">
+                        <div class="notif_header">
+                            <a class="active" href="/notifications"> الكل </a>
+                            <a class="active" data-read="yes" href="/notifications?is_read=yes">
+                                المقروءة </a>
+                        </div>
+                        <div class="noti_content">
+                            <!-- switch -->
+                            <div class="toggle">
+                                <label class="switch">
+                                    <input id="unread_toggler" type="checkbox" />
+                                    <a href="/notifications?is_read=no" class="toggler round"></a>
+                                </label>
+                                <span class="span">اظهار الغير مقروءة فقط</span>
+                            </div>
+                            <div class="all_notifs">
+                                <div class="wrapper">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <button id="notif-prev" disabled="disabled">
+                    <img src="/takaful_portal_benefit/static/img/next.png" />
+                </button>
+                <button id="notif-next" disabled="disabled">
+                    <img src="/takaful_portal_benefit/static/img/prev.png" />
+
+                </button>
+            </div>
+
+            <script src="/takaful_portal_sponsor/static/js/notifications.js"></script>
+        </t>
+    </template>
+
+    <template id="notifications_details">
+        <t t-set="title"> تفاصيل الاشعار </t>
+        <t t-call="website.layout">
+            <div class="benifits_wrapper">
+                <div class="container">
+                    <h2 class="heading"> الاشعارات </h2>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="#"> الاشعارات </a>
+                            </li>
+                            <li class="breadcrumb-item active" aria-current="page">تفاصيل الاشعار</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+
+            <div class="notifications details">
+                <div class="container">
+                    <div class="wrapper">
+
+
+                    </div>
+                </div>
+            </div>
+            <link rel="stylesheet" href="/takaful_portal_sponsor/static/css/notifications.css" />
+            <script src="/takaful_portal_sponsor/static/js/notifiactions_details.js"></script>
+        </t>
+    </template>
+</odoo>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="membership_cancel_wizard_view_form" model="ir.ui.view">
+        <field name="name">membership.request.cancel.wizard.form</field>
+        <field name="model">membership.request.cancel.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Cancel Membership Reason">
+                <separator string="Cancel Membership Reason"/>
+               <group>
+                   <field name="reason_id"/>
+
+               </group>
+                <footer>
+                    <button string='Cancel Membership' name="request_cancel_reason" type="object" class="oe_highlight"/>
+                    <button string="Ignore" class="oe_link" special="cancel"/>
+                </footer>
+
+           </form>
+        </field>
+    </record>
+
+    <record id="membership_request_cancel_wizard_action" model="ir.actions.act_window">
+        <field name="name">Cancel Membership Reason</field>
+        <field name="res_model">membership.request.cancel.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="membership_cancel_wizard_view_form"/>
+        <field name="target">new</field>
+    </record>
+</odoo>

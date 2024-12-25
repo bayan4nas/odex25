@@ -1,0 +1,527 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="need_kafala_details">
+        <t t-set="title"> بحاجة الى كفالة </t>
+        <t t-call="website.layout">
+            <section class="my_details padding_top">
+                <div class="container">
+                    <h2 class="heading">بحاجة الى كفالة </h2>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="#"> الكفالات</a>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a href="#">ايتام بانتظار كفاله </a>
+                            </li>
+                            <li class="breadcrumb-item need_sponsorship_name active"
+                                aria-current="page"> </li>
+                        </ol>
+                    </nav>
+                    <section class="makfoul_data">
+                        <div class="row">
+                            <div class="col-lg-9  need_sponsorship_details">
+
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="actions">
+                                    <a href="#"
+                                        class="d-flex align-items-center justify-content-center "
+                                        data-toggle="modal" data-target="#SingleKafala">
+                                        <img
+                                            src="/takaful_portal_sponsor/static/img/Icon awesome-plus.png"
+                                            alt="add" />
+                                        <span> إنشاء كفالة </span>
+                                    </a>
+                                    <a href="#"
+                                        class="d-flex operation_type align-items-center justify-content-center "
+                                        data-toggle="modal" data-target="#gift_modal"
+                                        id="gift_link"
+                                    >
+                                        <img src="/takaful_portal_sponsor/static/img/gift_1.png"
+                                            alt="gift" />
+                                        <span>إهداء مالي</span>
+                                    </a>
+
+                                    <a href="#"
+                                        data-toggle="modal" data-target="#contribution_modal"
+                                        class="d-flex operation_type align-items-center justify-content-center "
+                                        id="contribution_link"
+                                    >
+                                        <img src="/takaful_portal_sponsor/static/img/helping.png"
+                                            alt="helping" />
+                                        <span> ساهم في الاحتياجات </span>
+                                    </a>
+
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </section>
+
+            <!-- Single Kafala Modal  -->
+
+            <div class="modal kafala_modal single_kafala fade" id="SingleKafala" tabindex="-1"
+                role="dialog"
+                aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title heading" id="exampleModalLongTitle">إنشاء كفالة </h5>
+                            <button type="button" class="close" data-dismiss="modal"
+                                aria-label="Close">
+                                <img src="/takaful_portal_sponsor/static/img/close.png"
+                                    alt="close" />
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="single_sponsorship_form" action="">
+                                <input type="hidden" name="csrf_token"
+                                    t-att-value="request.csrf_token()" />
+                                <input type="hidden" id="benefit_type_sponsorship"
+                                    name="benefit_type" />
+                                <input type="hidden" id="benefit_id_sponsorship" name="benefit_id" />
+                                <input style="display:none" class="" type="radio"
+                                    name="is_group"
+                                    value="no" id="is_group" />
+                                <div class="row">
+                                    <div class="form-group col-lg-12">
+                                        <label for="name" class="control-label"> اسم المكفول </label>
+                                        <div class="">
+                                            <input type="text" class="form-control"
+                                                id="name"
+                                                name="name"
+                                                placeholder="أحمد بلال" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-lg-6">
+                                        <label for="number" class="control-label"> رقم المكفول </label>
+                                        <div class="">
+                                            <input type="text" class="form-control"
+                                                id="number"
+                                                name="number"
+                                                placeholder="12020" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-lg-6">
+                                        <label for="benefit_type" class=" control-label"> نوع
+                                            المكفول </label>
+                                        <div class="">
+                                            <input type="text" class="form-control"
+                                                id="benefit_type"
+                                                name="benefit_type"
+                                                placeholder="يتيم" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-lg-6">
+                                        <label for="month_amount" class=" control-label">
+                                            الاحتياج الشهري
+                                        </label>
+                                        <div class="">
+                                            <input type="text" class="form-control"
+                                                id="month_amount"
+                                                name="month_amount"
+                                                />
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-lg-6">
+                                        <label for="name"> هل تريد اهداء الكفاله لاحد ؟ </label>
+                                        <div class="gender d-flex">
+                                            <div class="mail d-flex align-items-center">
+                                                <input class="d-inline-block w-auto" type="radio"
+                                                    name="is_gift"
+                                                    value="yes" />
+                                                <label class="mb-0"> نعم </label>
+                                            </div>
+                                            <div class="femail d-flex align-items-center">
+                                                <input class="d-inline-block w-auto" checked="cecked" type="radio"
+                                                    name="is_gift" value="no"
+                                                />
+                                                <label class="mb-0"> لا </label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-lg-6">
+                                        <label for="sponsorship_duration" class=" control-label">
+                                            فترة الكفالة </label>
+                                        <select id="sponsorship_duration"
+                                            name="sponsorship_duration" class="custom-select">
+                                            <option selected="selected" value="permanent"> دائمة </option>
+                                            <option value=" temporary "> مؤقتة </option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-lg-6">
+                                        <label for="sponsorship_class" class=" control-label"> نوع
+                                            الكفالة </label>
+                                        <select id="sponsorship_class" name="sponsorship_class"
+                                            class="custom-select">
+                                            <option selected="selected" value="fully"> كلية </option>
+                                            <option value="partial"> جزئية </option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group months_num col-lg-6">
+                                        <label for="months_number" class="control-label">عدد الشهور </label>
+                                        <div class="">
+                                            <input type="text" class="form-control"
+                                                id="months_number"
+                                                name="months_number" placeholder="4" />
+                                        </div>
+                                    </div>
+                                    <!-- <div class="form-group col-lg-6">
+                                        <label for="yrs" class="control-label">عدد السنوات </label>
+                                        <div class="">
+                                            <input type="text" class="form-control" id="yrs"
+                                                name="yrs" placeholder="4" />
+                                        </div>
+                                    </div> -->
+                                    <div class="form-group gifter_data col-lg-6">
+                                        <label for="phNumber" class="control-label"> رقم جوال المهدى
+                                            اليه </label>
+                                        <div class="">
+                                            <input type="number" class="form-control" id="phNumber"
+                                                name="phNumber"
+                                                placeholder="4012322" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group gifter_data col-lg-6">
+                                        <label for="name">هل الشخص المهدى الية كافل ؟ </label>
+                                        <div class="gender d-flex">
+                                            <div class="mail d-flex align-items-center">
+                                                <input class="d-inline-block w-auto" type="radio"
+                                                    checked="checked"
+                                                    name="gender"
+                                                    value="mail" id="mail" />
+                                                <label class="mb-0"> نعم </label>
+                                            </div>
+                                            <div class="femail d-flex align-items-center">
+                                                <input class="d-inline-block w-auto" type="radio"
+                                                    name="gender" value="femail"
+                                                    id="femail" />
+                                                <label class="mb-0"> لا </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group gifter_data col-lg-6">
+                                        <label class=" control-label"> اختر المهدى الية </label>
+                                        <select class="custom-select">
+                                            <option selected="">سالم محمد حسن </option>
+                                            <option value="1">عبد الحميد الدسوقي </option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group gifter_data col-lg-12">
+                                        <label for="month_number" class="control-label"> اسم الشخص
+                                            المهدى </label>
+                                        <div class="">
+                                            <input type="text" value="سالم محمد حسن "
+                                                class="form-control" id="month_number"
+                                                name="month_number" />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group gifter_data col-lg-12">
+                                        <label for="month_number" class="control-label"> رسالة للشخص
+                                            المهدى الية </label>
+                                        <div class="">
+                                            <textarea type="text" value="سالم محمد حسن "
+                                                class="form-control" id="month_number"
+                                                name="month_number"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="form-group widow_type col-lg-6">
+                                        <label for=""> هل تريد كفالة ايتام الارملة ايضا </label>
+                                        <div class="gender d-flex">
+                                            <div class="mail d-flex align-items-center">
+                                                <input class="d-inline-block w-auto" type="radio"
+                                                    checked="checked"
+                                                    name="with_orphan"
+                                                    value="yes" id="mail" />
+                                                <label class="mb-0"> نعم </label>
+                                            </div>
+                                            <div class="femail d-flex align-items-center">
+                                                <input class="d-inline-block w-auto" type="radio"
+                                                    name="with_orphan" value="no"
+                                                    id="femail" />
+                                                <label class="mb-0"> لا </label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group isOrphan widow_type col-lg-6">
+                                        <label for="orphan_ids" class=" control-label"> اختر الأيتام </label>
+                                        <select id="orphan_ids" multiple="multiple" name="orphan_ids" class="custom-select">
+                                            <option selected="" value=""> -- اختر الايتام --   </option>
+                                        </select>
+                                    </div>
+                                    <!-- <div class="form-group widow_type col-lg-6">
+                                        <label for="kafala_amount" class="control-label"> قيمة
+                                            الكفالة للارملة </label>
+                                        <div class="">
+                                            <input type="text" class="form-control"
+                                                id="kafala_amount"
+                                                name="kafala_amount" />
+                                        </div>
+                                    </div> -->
+
+                                    <div class="form-group isOrphan widow_type col-lg-6">
+                                        <label for="orphan_value" class="control-label"> قيمة
+                                            الكفالة لكل يتيم </label>
+                                        <div class="">
+                                            <input type="text" class="form-control"
+                                                id="orphan_value"
+                                                name="orphan_value" />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-lg-6">
+                                        <label for="payment_option" class=" control-label"> خيارات
+                                            الدفع </label>
+                                        <select id="payment_option" name="payment_option"
+                                            class="custom-select">
+                                            <option selected="selected" value="month">شهري </option>
+                                            <option value="once"> مرة واحدة </option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group months_num col-lg-12">
+                                        <label for="kafala_total" class="control-label"> إجمالي قيمة
+                                            الكفالة </label>
+                                        <div class="">
+                                            <input type="number" class="form-control"
+                                                id="kafala_total"
+                                                name="kafala_total" />
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <button type="submit" class="btn main_link btn-primary">تأكيد انشاء كفاله </button>
+                            </form>
+                        </div>
+                        <div class="sponsorship_creation_feedback"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gift modal  -->
+
+            <div class="modal kafala_modal gift_modal fade" id="gift_modal"
+                tabindex="-1"
+                role="dialog"
+                aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title heading" id="exampleModalLongTitle">
+                                إهداء مالي
+                            </h5>
+                            <button type="button" class="close" data-dismiss="modal"
+                                aria-label="Close">
+                                <img src="/takaful_portal_sponsor/static/img/close.png"
+                                    alt="close" />
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="gifter_form" action="">
+                                <input type="hidden" name="csrf_token"
+                                    t-att-value="request.csrf_token()" />
+                                <input type="hidden" name="benefit_id" id="benefit_id" />
+                                <input type="hidden" value="gift" name="operation_type"
+                                    id="operation_type" />
+                                <div class="row">
+                                    <div class="form-group col-lg-12">
+                                        <label for="name" class="control-label"> اسم المستفيد </label>
+                                        <div class="">
+                                            <input type="text" class="form-control"
+                                                id="name"
+                                                name="name"
+                                                placeholder="أحمد بلال" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-lg-6">
+                                        <label for="work" class="control-label"> رقم المستفيد </label>
+                                        <div class="">
+                                            <input type="text" class="form-control"
+                                                id="work"
+                                                name="work"
+                                                placeholder="12020" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-lg-6">
+                                        <label for="myCity" class=" control-label"> نوع
+                                            المستفيد </label>
+                                        <div class="">
+                                            <input type="text" class="form-control"
+                                                id="benefit_type"
+                                                name="benefit_type"
+                                                placeholder="يتيم" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-lg-6">
+                                        <label for="amount" class=" control-label">
+                                            المبلغ
+                                        </label>
+                                        <div class="">
+                                            <input type="text" class="form-control"
+                                                id="amount"
+                                                name="amount"
+                                                placeholder="300 ر.س" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-lg-6">
+                                        <label for="pay_months" class=" control-label">
+                                            عدد الشهور
+                                        </label>
+                                        <div class="">
+                                            <input type="text" class="form-control"
+                                                id="pay_months"
+                                                name="pay_months"
+                                                placeholder="300 ر.س" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-lg-12">
+                                        <label for="message"> هل تريد ارسال رسالة ؟ </label>
+                                        <div class="">
+                                            <textarea type="text"
+                                                class="form-control" id="message"
+                                                name="message"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-lg-6">
+                                        <label for="payment_option" class=" control-label"> طريقة
+                                            الدفع </label>
+                                        <select id="payment_option" name="payment_option"
+                                            class="custom-select">
+                                            <option selected="" value="month">أبل باي </option>
+                                            <option value="once "> بايبال </option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-lg-6">
+                                        <select id="payment_option" name="payment_option"
+                                            class="custom-select">
+                                            <option selected="" value="month"> </option>
+                                            <option value="once "> بايبال </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary">تأكيد انشاء كفاله </button>
+
+                            </form>
+                        </div>
+
+                        <div class="gitf_feedback"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- contribution modal  -->
+            <div class="modal kafala_modal contribution_modal fade" id="contribution_modal"
+                tabindex="-1"
+                role="dialog"
+                aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title heading" id="exampleModalLongTitle">
+                                ساهم في الاحتياجات
+                            </h5>
+                            <button type="button" class="close" data-dismiss="modal"
+                                aria-label="Close">
+                                <img src="/takaful_portal_sponsor/static/img/close.png"
+                                    alt="close" />
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="contribution_form" action="">
+                                <input type="hidden" value="contribution" name="operation_type"
+                                    id="contribution_type" />
+                                <input type="hidden" name="benefit_id" id="benefit_id_contribution" />
+                                <input type="hidden" name="need_id" id="need_id" value="6" />
+                                <input type="hidden" name="csrf_token"
+                                    t-att-value="request.csrf_token()" />
+                                <div class="row">
+                                    <div class="form-group col-lg-12">
+                                        <label for="name" class="control-label"> اسم المستفيد </label>
+                                        <div class="">
+                                            <input type="text" class="form-control"
+                                                id="name"
+                                                name="name"
+                                                placeholder="أحمد بلال" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-lg-6">
+                                        <label for="number" class="control-label"> رقم المستفيد </label>
+                                        <div class="">
+                                            <input type="text" class="form-control"
+                                                id="number"
+                                                name="number"
+                                                placeholder="12020" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-lg-6">
+                                        <label for="benefit_type" class=" control-label"> نوع
+                                            المستفيد </label>
+                                        <div class="">
+                                            <input type="text" class="form-control"
+                                                id="benefit_type"
+                                                name="benefit_type"
+                                                placeholder="يتيم" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-lg-6">
+                                        <label for="amount" class=" control-label">
+                                            المبلغ
+                                        </label>
+                                        <div class="">
+                                            <input type="text" class="form-control"
+                                                id="amount"
+                                                name="amount"
+                                                placeholder="300 ر.س" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-lg-6">
+                                        <label for="need_status" class=" control-label">
+                                            حالة الإحتياج
+                                        </label>
+                                        <div class="">
+                                            <input type="text" class="form-control"
+                                                id="need_status"
+                                                name="need_status"
+                                                value="طارئة" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-lg-12">
+                                        <label for="message"> هل تريد ارسال رسالة ؟ </label>
+                                        <div class="">
+                                            <textarea type="text"
+                                                class="form-control" id="message"
+                                                name="message"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-lg-6">
+                                        <label for="payment_option" class=" control-label"> طريقة
+                                            الدفع </label>
+                                        <select id="payment_option" name="payment_option"
+                                            class="custom-select">
+                                            <option selected="" value="month">أبل باي </option>
+                                            <option value="once "> بايبال </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn main_link btn-primary">تأكيد انشاء كفاله </button>
+
+                            </form>
+                        </div>
+
+                        <div class="gitf_feedback"></div>
+                    </div>
+                </div>
+            </div>
+            <script src="/takaful_portal_sponsor/static/js/sponsorship_needs_details.js"></script>
+            <script src="/takaful_portal_sponsor/static/js/sponsorship_gift.js"></script>
+            <script src="/takaful_portal_sponsor/static/js/sponsorship_contribution.js"></script>
+            <script src="/takaful_portal_sponsor/static/js/sponsorship_creation.js"></script>
+
+        </t>
+    </template>
+</odoo>

@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Project Tasks from inherite-->
+    <record id="view_task_tree2_inherited" model="ir.ui.view">
+        <field name="name">project.task.tree</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="hr_timesheet.view_task_tree2_inherited" />
+        <field name="arch" type="xml">
+            <field name="progress" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+            <field name="total_hours_spent" position="after">
+                <field name="weight" widget="" class="mr-3" required="1" />
+                <field name="task_progress" widget="progressbar" class="mr-3" required="1" />
+            </field>
+        </field>
+    </record>
+
+    <!-- Project Tasks from inherite-->
+    <record id="view_task_form2" model="ir.ui.view">
+        <field name="name">project.task.form</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_form2" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="weight" widget="" class="mr-3" required="1" />
+
+                <field name="task_progress" widget="progressbar" options="{'max_value': 'maximum_rate', 'editable': True}" readonly="0" class="mr-3"/>
+            </xpath>
+            <xpath expr="//field[@name='parent_id']" position="attributes">
+                <attribute name="domain">[('project_id','=',project_id),('phase_id','=',phase_id)]</attribute>
+                <attribute name="attrs">{'invisible' : [('allow_subtasks', '=', False)]}</attribute>
+                <attribute name="force_save">1</attribute>
+            </xpath>
+            <xpath expr="//h1[hasclass('justify-content-between')]" position="replace">
+                <h1 class="d-flex flex-row">
+                    <field name="priority" widget="priority" class="mr-3"/>
+                    <field name="name" class="o_task_name text-truncate" placeholder="Task Title..." default_focus="1"/>
+                </h1>
+            </xpath>
+            <xpath expr="//field[@name='project_id']" position="after">
+                <field name="phase_id" required="1" string="Stage" domain="[('project_id','=',project_id)]"/>
+            </xpath>
+            <xpath expr="//field[@name='user_id']" position="after">
+                <field name="user_ids" widget="many2many_tags"/>
+            </xpath>
+
+            <xpath expr="//notebook" position="inside">
+                <page string="Settings Allowed Users" groups="project.group_project_manager">
+                    <group>
+                        <field name="allowed_internal_user_ids" widget="many2many_tags"  groups="project.group_project_manager"/>
+                        <field name="allowed_portal_user_ids" widget="many2many_tags" groups="project.group_project_manager" options="{'no_create': True}" />
+                    </group>
+                </page>
+            </xpath>
+
+        </field>
+    </record>
+
+    <!-- Project Task tree Inherit-->
+    <record id="view_task_tree" model="ir.ui.view">
+        <field name="name">project.task.tree</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_tree2" />
+        <field name="arch" type="xml">
+            <xpath expr="//tree" position="attributes">
+                <attribute name="expand">1</attribute>
+            </xpath>
+            <field name="project_id" position="after">
+                <field name="phase_id" string="Stage"/>
+            </field>
+            <field name="partner_id" position="replace"/>
+            <field name="kanban_state" position="replace"/>
+            <field name="user_id" position="attributes">
+                <attribute name="string">Responsible</attribute>
+            </field>
+            <field name="stage_id" position="attributes">
+                <attribute name="string">State</attribute>
+                <attribute name="optional">hide</attribute>
+            </field>
+            <field name="company_id" position="attributes">
+                <attribute name="optional">hide</attribute>
+            </field>
+        </field>
+    </record>
+
+
+
+
+    <!-- Project Task calendar inherit-->
+    <record id="view_task_calendar_inherited" model="ir.ui.view">
+        <field name="name">calendar2.inherited</field>
+        <field name="model">project.task</field>
+        <field eval="2" name="priority"/>
+        <field name="inherit_id" ref="project.view_task_calendar" />
+        <field name="arch" type="xml">
+            <field name="user_id" position="attributes">
+                <attribute name="string">Responsible</attribute>
+            </field>
+            <field name="stage_id" position="attributes">
+                <attribute name="string">State</attribute>
+            </field>
+        </field>
+    </record>
+
+    <!-- Project Task search view Inherit-->
+    <record id="view_task_search_form" model="ir.ui.view">
+        <field name="name">project.task.filter</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_search_form" />
+        <field name="arch" type="xml">
+            <field name="project_id" position="after">
+                <field name="phase_id" />
+            </field>
+            <filter name="project" position="after">
+                <filter string="Stage" name="group_phase_id" icon="terp-folder-violet" domain="[]" context="{'group_by':'phase_id'}" />
+                <filter string="State" name="state" context="{'group_by': 'stage_id'}" />
+                <separator/>
+            </filter>
+            <filter name="message_needaction" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </filter>
+            <filter name="my_followed_tasks" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </filter>
+            <filter name="late" position="replace">
+                <filter string="Late Tasks" name="late" domain="[('date_end', '&lt;', context_today().strftime('%Y-%m-%d')) , ('is_closed','=',False)]" />
+            </filter>
+            <filter name="group_create_date" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </filter>
+            <filter name="stage" position="replace">
+            </filter>
+        </field>
+    </record>
+
+    <!-- Task Gragh-->
+    <record id="view_project_task_graph" model="ir.ui.view">
+        <field name="name">project.task.pivot</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_project_task_graph" />
+        <field name="arch" type="xml">
+            <field name="stage_id" position="replace">
+                <field name="phase_id"/>
+            </field>
+        </field>
+    </record>
+
+    <!-- inherit action to remove default filter-->
+    <record id="project.action_view_all_task" model="ir.actions.act_window">
+        <field name="context">{'all_task':0,'search_default_project':1}</field>
+    </record>
+    <!-- Inherit Form View to Modify it -->
+    <record id="project_task_type_inherit" model="ir.ui.view">
+        <field name="name">project.task.type.inherit</field>
+        <field name="model">project.task.type</field>
+        <field name="inherit_id" ref="project.task_type_edit"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='sequence']" position="after">
+                <field name="is_default"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+<!--################# workflow.mobile ####################### -->
+
+
+
+         <!--record id="workflow_mobile_attenance" model="workflow.mobile">
+            <field name="name">الحضور والانصراف</field>
+            <field name="model_id"></field>
+            <field name="view_id"></field>
+            <field name="mobile_id">2</field>
+
+          </record-->
+
+       <record id="workflow_mobile_timesheet" model="workflow.mobile">
+            <field name="name">الجداول الزمنية</field>
+            <field name="model_id" ref="hr_timesheet_sheet.model_hr_timesheet_sheet" />
+            <field name="view_id" ref="hr_timesheet_sheet.hr_timesheet_sheet_form"/>
+            <field name="mobile_id">2</field>
+
+          </record>
+
+         <record id="workflow_mobile_holiday" model="workflow.mobile">
+            <field name="name">الإجازات</field>
+            <field name="model_id" ref="hr_holidays_community.model_hr_holidays" />
+            <field name="view_id" ref="hr_holidays_public.hr_holidays_ext_form_view"/>
+            <field name="mobile_id">3</field>
+
+          </record>
+
+         <record id="workflow_mobile_permission" model="workflow.mobile">
+            <field name="name">الإستئذانات</field>
+            <field name="model_id" ref="employee_requests.model_hr_personal_permission" />
+            <field name="view_id" ref="employee_requests.employee_personal_permission_form_view"/>
+            <field name="mobile_id">4</field>
+
+          </record>
+
+         <record id="workflow_mobile_loan" model="workflow.mobile">
+            <field name="name">السلف</field>
+            <field name="model_id" ref="hr_loans_salary_advance.model_hr_loan_salary_advance" />
+            <field name="view_id" ref="hr_loans_salary_advance.employee_loan_salary_form_view"/>
+            <field name="mobile_id">5</field>
+
+          </record>
+
+         <record id="workflow_mobile_overtime" model="workflow.mobile">
+            <field name="name">العمل الإضافي</field>
+            <field name="model_id" ref="employee_requests.model_employee_overtime_request" />
+            <field name="view_id" ref="employee_requests.employee_overtime_request_form_view"/>
+            <field name="mobile_id">6</field>
+
+          </record>
+    </data>
+</odoo>
