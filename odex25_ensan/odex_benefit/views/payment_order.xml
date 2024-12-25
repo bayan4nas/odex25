@@ -1,0 +1,118 @@
+<odoo>
+    <data>
+        <record id="payment_orders_form" model="ir.ui.view">
+            <field name="name">payment.orders.form</field>
+            <field name="model">payment.orders</field>
+            <field name="arch" type="xml">
+                <form string="Payment Orders">
+                    <header>
+                        <button name="action_accountant_approve" type="object" states="draft"
+                                string="Accountant Approve" class="oe_highlight" groups="odex_benefit.group_benefit_accountant_accept"/>
+                        <button name="action_department_manager_approve" type="object" states="accountant_approve"
+                                string="Department Manager Approve" class="oe_highlight" groups="odex25_account_payment_fix.group_depart_manager"/>
+                        <button name="action_accounting_approve" type="object" states="department_manager_approve"
+                                string="Accounting Approve" class="oe_highlight" groups="odex25_account_payment_fix.group_accounting_manager"/>
+                        <button name="action_general_manager_approve" type="object" states="accounting_approve"
+                                string="General Manager Approve" class="oe_highlight" groups="odex25_account_payment_fix.group_general_manager"/>
+                        <button name="action_refuse" type="object" states="draft,accountant_approve,department_manager_approve,accounting_approve"
+                                string="Refuse" class="oe_highlight"/>
+
+                       <field name="state" widget="statusbar"/>
+                        </header>
+                        <sheet>
+                         <div class="oe_button_box" name="button_box" attrs="{'invisible': [('state','!=','general_manager_approve')]}">
+                            <button icon="fa-usd" name="action_open_related_move_records" type="object">
+                                <field name="total_moves" string="Moves" widget="statinfo"/>
+                            </button>
+                         </div>
+                        <group>
+                            <div class="oe_title">
+                                <h1>
+                                    <field name="name" readonly="1"/>
+                                </h1>
+                            </div>
+                             <group>
+                                <field name="payment_order_date"/>
+                                <field name="accountant_id"/>
+                            </group>
+                            <group>
+                                 <field name="payment_order_description"/>
+                                 <field name="ref_num"/>
+                            </group>
+                        </group>
+                            <notebook>
+                                 <page string="Services Requests">
+                                    <field name="service_requests_ids" widget="one2many_list" readonly="1">
+                                        <tree  editable="bottom">
+                                            <field name="family_id"/>
+                                            <field name="member_id"/>
+                                            <field name="branch_custom_id"/>
+                                            <field name="account_id"/>
+                                            <field name="name" string="Service Number"/>
+                                            <field name="description" string="Service Description"/>
+                                            <field name="aid_amount" string="Service Amount"/>
+                                        </tree>
+                                    </field>
+                                </page>
+                            </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="activity_ids" />
+                        <field name="message_ids" widget="mail_thread"/>
+                   </div>
+                </form>
+            </field>
+        </record>
+        <record id="payment_orders_tree" model="ir.ui.view">
+            <field name="name">payment.orders.tree</field>
+            <field name="model">payment.orders</field>
+            <field name="arch" type="xml">
+                <tree string="Payment Orders">
+                   <field name="name" readonly="1"/>
+                    <field name="payment_order_date"/>
+                    <field name="accountant_id"/>
+                    <field name="payment_order_description"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="view_payment_ordres_search">
+            <field name="name">payment.orders</field>
+            <field name="model">payment.orders</field>
+            <field name="arch" type="xml">
+                <search>
+                    <separator/>
+                       <filter string="Draft" name="draft"  domain="[('state','=','draft')]"/>
+                    <separator/>
+                        <separator/>
+                        <filter string="Accountant Approve" name="accountant_approve" domain="[('state', '=', 'accountant_approve')]"/>
+                    <separator/>
+                    <separator/>
+                        <filter string="Depart Manager Approve" name="depart_manager_approve" domain="[('state', '=', 'department_manager_approve')]"/>
+                    <separator/>
+                     <separator/>
+                        <filter string="Accounting Approve" name="accounting_approve" domain="[('state', '=', 'accounting_approve')]"/>
+                    <separator/>
+                     <separator/>
+                        <filter string="General Manager Approve" name="general_manager_approve" domain="[('state', '=', 'general_manager_approve')]"/>
+                    <separator/>
+                    <separator/>
+                        <filter string="Refused" name="refused" domain="[('state', '=', 'refused')]"/>
+                    <separator/>
+                </search>
+            </field>
+    </record>
+         <!-- Action -->
+        <record id="action_payment_orders" model="ir.actions.act_window">
+            <field name="name">Payment Orders</field>
+            <field name="res_model">payment.orders</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="payment_orders_tree"/>
+        </record>
+
+        <!-- Menu Item -->
+        <menuitem id="menu_payment_orders" name="Payment Orders" parent="account.menu_finance_payables"
+                  action="action_payment_orders" sequence="10"/>
+    </data>
+</odoo>

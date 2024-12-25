@@ -1,0 +1,13 @@
+<odoo>
+  <!-- Inherit Form View to fleet Modify it -->
+  <record id="fleet_form_extend" model="ir.ui.view">
+      <field name="name">fleet.form.inherit0</field>
+      <field name="model">fleet.vehicle</field>
+      <field name="inherit_id" ref="fleet.fleet_vehicle_view_form"/>
+      <field name="arch" type="xml">
+      <xpath expr="//field[@name='vin_sn']" position="after">
+        <field name="employee_maintenance_id"/>
+      </xpath>
+      </field>
+  </record>
+</odoo>

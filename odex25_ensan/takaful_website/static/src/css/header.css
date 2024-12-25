@@ -1,0 +1,195 @@
+/* GLOBAL */
+
+body {
+    background-color: #f5f5f5;
+}
+
+*:not(.fa),
+*:not(.fab),
+*:not(.fas) {
+    font-family: "IBM", sans-serif !important;
+}
+
+
+/* NAVBAR */
+
+.navbar {
+    padding: 20px 0;
+    background: #0000004d !important;
+    border: none;
+    border-radius: 0;
+    margin: 0;
+}
+
+.navbar ul {}
+
+.navbar ul:not(.dropdown-menu)>li>a {
+    color: #fff !important;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.navbar-default .navbar-nav>a:hover {
+    background-color: transparent;
+}
+
+.navbar-default .navbar-nav li.dropdown>a::after {
+    content: "\F0140";
+    font-family: "Material Design Icons";
+    margin-right: 2px;
+}
+
+.navbar-default .navbar-nav>.active>a {
+    background: transparent;
+    box-shadow: none;
+}
+
+.navbar-default .navbar-nav>.active>a,
+.navbar-default .navbar-nav>.active>a:focus,
+.navbar-default .navbar-nav>.active>a:hover {
+    background-color: transparent;
+}
+
+.navbar-default .navbar-nav>li>a:focus,
+.navbar-default .navbar-nav>li>a:hover {
+    background-color: transparent;
+}
+
+.navbar-default .navbar-nav>.open>a,
+.navbar-default .navbar-nav>.open>a:focus,
+.navbar-default .navbar-nav>.open>a:hover {
+    background-color: transparent;
+}
+
+.navbar-collapse.collapse {
+    display: flex!important;
+    align-items: center;
+    justify-content: end;
+    padding: 0;
+}
+
+.dropdown-menu>li>a {
+    padding-bottom: 5px!important;
+    padding-top: 5px!important;
+    font-size: 16px;
+    transition: all .3s ease-in-out;
+    font-weight: 500;
+}
+
+.dropdown-menu>li>a:hover {
+    color: #355692;
+    background-color: #eaf1ff;
+}
+
+.rtl .dropdown-menu>li>a {
+    padding-right: 20px!important;
+    padding-left: 3px!important;
+}
+
+.navbar-collapse.collapse ul.nav:first-child {
+    margin-right: 0;
+    margin-left: 10px;
+}
+
+.rtl .navbar-collapse.collapse ul.nav:first-child {
+    margin-right: 10px;
+    margin-left: 0;
+}
+
+.navbar-nav>li>.dropdown-menu {
+    border-radius: 4px;
+    min-width: 220px;
+    padding: 10px 0;
+}
+
+
+/* ul.nav:first-child li {
+    padding: 10px 15px;
+} */
+
+.navbar-nav.navbar-right:last-child {
+    display: flex;
+    align-items: center;
+}
+
+header a.navbar-brand.logo img {
+    height: 70px;
+    margin-top: 0;
+}
+
+.search-button {
+    height: 35px;
+    width: 35px;
+    background-color: rgba(255, 255, 255, 0.373);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 20px;
+    line-height: 0;
+    margin: 15px;
+}
+
+.navbar.navbar-static-top {
+    border-bottom: 1px solid #7a7a7a;
+    background: #0000004d;
+}
+
+.navbar.navbar-static-top ul.nav>li.divider {
+    height: 30px;
+}
+
+#my_cart a i {
+    font-size: 24px;
+}
+
+#my_cart a sup.my_cart_quantity {
+    position: absolute;
+}
+
+
+/*  */
+
+.d-flex {
+    display: -webkit-box!important;
+    display: -ms-flexbox!important;
+    display: flex!important;
+}
+
+.flex-wrap {
+    -ms-flex-wrap: wrap!important;
+    flex-wrap: wrap!important;
+}
+
+.align-items-center {
+    -webkit-box-align: center!important;
+    -ms-flex-align: center!important;
+    align-items: center!important;
+}
+
+.flex-column {
+    -webkit-box-orient: vertical!important;
+    -webkit-box-direction: normal!important;
+    -ms-flex-direction: column!important;
+    flex-direction: column!important;
+}
+
+li[data-target="menu"] {
+    display: none;
+}
+
+.mb-4,
+.my-4 {
+    margin-bottom: 1.5rem!important;
+}
+
+.rtl .navbar-nav.navbar-right:last-child {
+    margin-right: auto;
+    margin-left: 0;
+}
+
+.rtl div.collapse ul.navbar-nav:nth-child(2) {
+    margin-right: 30px;
+    margin-left: 0;
+}

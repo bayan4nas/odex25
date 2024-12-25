@@ -1,0 +1,86 @@
+<odoo>
+    <data noupdate="0">
+        <record id="financial_gift" model="product.product"> 
+              <field name="name">هدية مالية</field>
+              <field name="type">service</field>
+             <!--  <field name="standard_price">0</field> -->
+              <field name="list_price">300.0</field>
+              <field name="default_code">financial_gift</field>
+        </record>
+    </data>
+
+    <data>
+
+        <!-- Form View -->
+        <record model="ir.ui.view" id="takaful_contribution_form">
+            <field name="name">takaful.contribution.form</field>
+            <field name="model">takaful.contribution</field>
+            <field name="arch" type="xml">
+                <form string="The Financial Contribution" duplicate="false">
+                    <header>
+<!--                        <button name="action_confirm_gift" type="object"-->
+<!--                                string="Confirm Gift" class="oe_highlight"-->
+<!--                                attrs="{'invisible': [('operation_type','!=','gift'),('is_confirmed','=', False)]}"/>-->
+                    </header>
+                    <sheet>
+                        <group>
+                            <field name="is_confirmed" invisible='1'/>
+                            <field name="name"/>
+                            <field name="sponsor_id"/>
+                            <field name="benefit_id" attrs="{'invisible': [('benefit_ids','=', False)]}"/>
+                            <field name="benefit_ids" attrs="{'invisible': [('benefit_id','!=', False)]}"/>
+                            <field name="operation_type"/>
+                            <field name="amount"/>
+                            <field name="note"/>
+                            <field name="date"/>
+                            <field name="entry_id" invisible='1'/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Tree View -->
+        <record model="ir.ui.view" id="takaful_contribution_tree">
+            <field name="name">takaful.contribution.tree</field>
+            <field name="model">takaful.contribution</field>
+            <field name="arch" type="xml">
+                <tree string="Financial Contributions List" duplicate="false">
+                    <field name="name"/>
+                    <field name="sponsor_id"/>
+                    <field name="operation_type"/>
+                    <field name="amount"/>
+                    <field name="date"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Search View -->
+        <record model="ir.ui.view" id="takaful_contribution_search">
+            <field name="name">takaful.contribution.search</field>
+            <field name="model">takaful.contribution</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <field name="sponsor_id"/>
+                    <field name="operation_type"/>
+                    <field name="amount"/>
+                    <field name="date"/>
+                </search>
+            </field>
+        </record>
+
+        <!-- Windows Action -->
+        <record model="ir.actions.act_window" id="takaful_financial_contribution_action">
+            <field name="name">Financial Contributions</field>
+            <field name="res_model">takaful.contribution</field>
+<!--            <field name="view_type">form</field>-->
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">No Any Financial Contribution!
+                </p>
+            </field>
+        </record>
+
+    </data>
+</odoo>

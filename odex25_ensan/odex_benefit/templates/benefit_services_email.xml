@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!--Zkat message-->
+        <record id="zkat_email" model="mail.template">
+            <field name="name">اشعار توزيع الزكاة</field>
+            <field name="model_id" ref="odex_benefit.model_grant_benefit"/>
+            <field name="email_from">
+                <![CDATA[${user.company_id.name} <${(user.company_id.email or user.partner_id.email or 'noreply@localhost')|safe}>]]></field>
+            <field name="email_to">${object.email|safe}</field>
+            <field name="subject"><![CDATA[ إشعار توزيع الزكاة ]]></field>
+            <field name="body_html">
+                <![CDATA[
+                    <div style="text-align: right;direction:rtl">
+                         <p style="font-size: 16px;text-align: right">
+                            السلام عليكم ورحمة الله.
+
+                        </p>
+                        <p style="font-size: 16px;text-align: right">
+                         مرحبا بكم شركائنا في العمل الخيري ${object.name} المحترمين
+
+
+                        </p>
+                        <p style="font-size: 16px;text-align: right">
+                         ${object.name} سوف يتم توزيع الزكاة في يوم
+
+                        </p><br/>
+                        <p style="font-size: 16px;text-align: right">
+<!--                        <a href="${object.get_url()}">${user.company_id.name}.</a>-->
+
+
+                        </p>
+
+                    </div>
+                ]]>
+            </field>
+        </record>
+        <!--food Surplus-->
+        <record id="food_surplus_email" model="mail.template">
+            <field name="name">اشعار توزيع فائض الطعام</field>
+            <field name="model_id" ref="odex_benefit.model_grant_benefit"/>
+            <field name="email_from">
+                <![CDATA[${user.company_id.name} <${(user.company_id.email or user.partner_id.email or 'noreply@localhost')|safe}>]]></field>
+            <field name="email_to">${object.email|safe}</field>
+            <field name="subject"><![CDATA[ إشعار توزيع الزكاة ]]></field>
+            <field name="body_html">
+                <![CDATA[
+                    <div style="text-align: right;direction:rtl">
+                         <p style="font-size: 16px;text-align: right">
+                            السلام عليكم ورحمة الله.
+
+                        </p>
+                        <p style="font-size: 16px;text-align: right">
+                         مرحبا بكم شركائنا في العمل الخيري ${object.name} المحترمين
+
+
+                        </p>
+                        <p style="font-size: 16px;text-align: right">
+                         ${object.name} سوف يتم توزيع الزكاة في يوم
+
+                        </p><br/>
+                        <p style="font-size: 16px;text-align: right">
+<!--                        <a href="${object.get_url()}">${user.company_id.name}.</a>-->
+
+
+                        </p>
+
+                    </div>
+                ]]>
+            </field>
+        </record>
+        <!--Appliances Furniture-->
+        <record id="appliances_furniture_email" model="mail.template">
+            <field name="name">اشعار تسليم الاجهزة</field>
+            <field name="model_id" ref="odex_benefit.model_grant_benefit"/>
+            <field name="email_from">
+                <![CDATA[${user.company_id.name} <${(user.company_id.email or user.partner_id.email or 'noreply@localhost')|safe}>]]></field>
+            <field name="email_to">${object.email|safe}</field>
+            <field name="subject"><![CDATA[ إشعار توزيع الزكاة ]]></field>
+            <field name="body_html">
+                <![CDATA[
+                    <div style="text-align: right;direction:rtl">
+                         <p style="font-size: 16px;text-align: right">
+                            السلام عليكم ورحمة الله.
+
+                        </p>
+                        <p style="font-size: 16px;text-align: right">
+                         مرحبا بكم شركائنا في العمل الخيري ${object.name} المحترمين
+
+
+                        </p>
+                        <p style="font-size: 16px;text-align: right">
+                         ${object.name} سوف يتم توزيع الزكاة في يوم
+
+                        </p><br/>
+                        <p style="font-size: 16px;text-align: right">
+<!--                        <a href="${object.get_url()}">${user.company_id.name}.</a>-->
+
+
+                        </p>
+
+                    </div>
+                ]]>
+            </field>
+        </record>
+        <!--LOANS-->
+        <record id="loans_email" model="mail.template">
+            <field name="name">اشعار توزيع فائض الطعام</field>
+            <field name="model_id" ref="odex_benefit.model_grant_benefit"/>
+            <field name="email_from">
+                <![CDATA[${user.company_id.name} <${(user.company_id.email or user.partner_id.email or 'noreply@localhost')|safe}>]]></field>
+            <field name="email_to">${object.email|safe}</field>
+            <field name="subject"><![CDATA[ إشعار توزيع الزكاة ]]></field>
+            <field name="body_html">
+                <![CDATA[
+                    <div style="text-align: right;direction:rtl">
+                         <p style="font-size: 16px;text-align: right">
+                            السلام عليكم ورحمة الله.
+
+                        </p>
+                        <p style="font-size: 16px;text-align: right">
+                         مرحبا بكم شركائنا في العمل الخيري ${object.name} المحترمين
+
+
+                        </p>
+                        <p style="font-size: 16px;text-align: right">
+                         ${object.name} سوف يتم توزيع الزكاة في يوم
+
+                        </p><br/>
+                        <p style="font-size: 16px;text-align: right">
+<!--                        <a href="${object.get_url()}">${user.company_id.name}.</a>-->
+
+
+                        </p>
+
+                    </div>
+                ]]>
+            </field>
+        </record>
+
+    </data>
+</odoo>

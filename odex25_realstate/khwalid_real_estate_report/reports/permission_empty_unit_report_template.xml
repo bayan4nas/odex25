@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <template id="permission_empty_unit_report">
+        <t t-call="web.html_container">
+            <t  t-foreach="docs" t-as="doc">
+                <div class="page">
+                    <t t-call="web.external_layout">
+                        <h2 class="text-center">Permission to Empty a Residential Unit</h2> <br/>
+
+                        <table class="table table-bordered">
+                            <tr>
+                                <td style="background-color:#e6e5e5;"> Project </td>
+                                <td colspan="2"> <t t-esc="doc.unit_id.project_id.name"/> </td>
+
+                                <td style="background-color:#e6e5e5;"> Unit </td>
+                                <td colspan="2"> <t t-esc="doc.unit_id.name"/> </td>
+                            </tr>
+
+                            <tr>
+                                <td style="background-color:#e6e5e5;"> Owner </td>
+                                <td colspan="2"> <t t-esc="doc.unit_id.project_id.owner_id.name"/> </td>
+
+                                <td style="background-color:#e6e5e5;"> Customer </td>
+                                <td colspan="2"> <t t-esc="doc.partner_id.name"/> </td>
+                            </tr>
+
+                            <tr>
+                                <th style="text-align: center; background-color:#e6e5e5;"><strong>Identification Number</strong></th>
+                                <th style="text-align: center; background-color:#e6e5e5;" colspan="2"><strong>Mobile</strong></th>
+                                <th style="text-align: center; background-color:#e6e5e5;"><strong>Identification Number</strong></th>
+                                <th style="text-align: center; background-color:#e6e5e5;" colspan="2"><strong>Mobile</strong></th>
+                            </tr>
+                            <tbody>
+                                <td style="text-align: center;"> <t t-esc="doc.unit_id.project_id.owner_id.identification_number"/> </td>
+                                <td style="text-align: center;" colspan="2"> <t t-esc="doc.unit_id.project_id.owner_id.mobile"/> </td>
+                                <td style="text-align: center;"> <t t-esc="doc.partner_id.identification_number"/> </td>
+                                <td style="text-align: center;" colspan="2"> <t t-esc="doc.partner_id.mobile"/> </td>
+                            </tbody>
+
+                            <tr>
+                                <td style="background-color:#e6e5e5;"> Instrument No. </td>
+                                <td colspan="2"> <t t-esc="doc.unit_id.stamping"/>  </td>
+
+                                <td style="background-color:#e6e5e5;"> Instrument Date </td>
+                                <td colspan="2"> <t t-esc="doc.unit_id.stamping_date"/> </td>
+                            </tr>
+
+                            <tr>
+                                <td style="background-color:#e6e5e5;"> Apartment Amount </td>
+                                <td><t t-esc="'%.2f'% doc.amount"/></td>
+
+                                <td style="background-color:#e6e5e5;"> Tax Amount </td>
+                                <td>  </td>
+
+                                <td style="background-color:#e6e5e5;"> Tax Invoice Number </td>
+                                <td>  </td>
+                            </tr>
+
+                        </table>
+
+                        <table class="table table-bordered">
+                            <tr>
+                                <th style="text-align: center; background-color:#e6e5e5;"><strong>Cheque</strong></th>
+                                <th style="text-align: center; background-color:#e6e5e5;"><strong>Payment Type</strong></th>
+                                <th style="text-align: center; background-color:#e6e5e5;"><strong>Amount</strong></th>
+                            </tr>
+                            <tbody>
+                                <tr>
+                                    <td style="text-align: center; background-color:#e6e5e5;"> Cheque 1 </td>
+                                    <td style="text-align: center;"> Deposit </td>
+                                    <td style="text-align: center;">
+                                        <t t-if="doc.reservation_id.reserve_type == 'with' "> Exist </t> 
+                                        <t t-if="doc.reservation_id.reserve_type != 'with' "> Not Exist </t> 
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: center; background-color:#e6e5e5;"> Cheque 2 </td>
+                                    <td style="text-align: center;"> Apartment Amount </td>
+                                    <td style="text-align: center;"><t t-esc="'%.2f'% doc.amount"/></td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: center; background-color:#e6e5e5;"> Cheque 3 </td>
+                                    <td style="text-align: center;"> Tax </td>
+                                    <td style="text-align: center;"> 
+                                        <t t-if="doc.reservation_id.tax_exemption == 'yes' "> Exist (Tax Exemption) </t> 
+                                        <t t-if="doc.reservation_id.tax_exemption == 'no' "> Not Exist (Tax Exemption) </t> 
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <table class="table table-bordered">
+                            <tr>
+                                <td colspan="4" style="text-align: center; background-color: #e6e5e5;"> Verification Items </td>
+                            </tr>
+
+                            <tr>
+                                <td width="5%"> </td>
+                                <td> Signing and matching the sales contract </td>
+                                
+                                <td width="5%"> </td>
+                                <td> A copy of the financing contract </td>
+                            </tr>
+
+                            <tr>
+                                <td width="5%"> </td>
+                                <td> A copy of the housing unit cheque </td>
+
+                                <td width="5%"> </td>
+                                <td> Cheque Deposit Origin </td>
+                            </tr>
+
+                            <tr>
+                                <td width="5%"> </td>
+                                <td> Tax exemption certificate </td>
+
+                                <td width="5%"> </td>
+                                <td> A copy of the tax cheque </td>
+                            </tr>
+
+                            <tr>
+                                <td width="5%"> </td>
+                                <td> Tax Invoice </td>
+
+                                <td width="5%"> </td>
+                                <td> </td>
+                            </tr>
+                        </table>
+
+                        <br/>
+                        <br/>
+                        <table class="table table-bordered">
+
+                            <tr>
+                                <td style="background-color: #e6e5e5;"> Instrument No. New </td>
+                                <td width="20%"> <t t-esc="doc.unit_id.stamping_new"/> </td>
+
+                                <td width="5%"></td>
+                                <td> The new instrument file has been uploaded to the drive</td>
+                            </tr>
+
+                            <tr>
+                                <td style="background-color: #e6e5e5;"> Instrument Date New </td>
+                                <td width="20%"><t t-esc="doc.unit_id.stamping_date_new"/></td>
+
+                                <td width="5%"></td>
+                                <td> All original files have been returned to the accountant</td>
+                            </tr>
+
+                        </table>
+
+                        <table class="table table-bordered">
+
+                            <tr>
+                                <td width="25%" style="background-color: #e6e5e5;"> Sales Employee </td>
+                                <td width="25%"> </td>
+
+                                <td width="25%" style="background-color: #e6e5e5;"> Signature </td>
+                                <td width="25%"> </td>
+                            </tr>
+
+                            <tr>
+                                <td style="background-color: #e6e5e5;"> Agent Empty </td>
+                                <td> </td>
+
+                                <td style="background-color: #e6e5e5;"> Signature </td>
+                                <td> </td>
+                            </tr>
+
+                        </table>
+
+                    </t>
+                </div>
+            </t>
+        </t>
+    </template>
+    <report
+        id ="action_permission_empty_unit"
+        model ="re.sale"
+        string ="Permission to Empty Unit"
+        report_type ="qweb-pdf"
+        name ="khwalid_real_estate_report.permission_empty_unit_report"
+        file ="khwalid_real_estate_report.permission_empty_unit_report"
+        />
+
+</odoo>

@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record id="end_of_rent_form_view" model="ir.ui.view">
+            <field name="name">End Of Rent</field>
+            <field name="model">end.of.rent</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="action_check" string="Check"
+                                states="draft"
+                                type="object"/>
+                        <button name="action_done" string="Done"
+                                states="check"
+                                groups="property_management.group_property_manager"
+                                type="object"/>
+                        <button name="action_cancel" string="Cancel"
+                                states="draft"
+                                type="object"
+                                groups="property_management.group_property_manager"/>
+                        <button name="action_draft" string="RE-set To Draft"
+                                states="check,cancel"
+                                type="object"
+                                groups="property_management.group_property_manager"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <h1>
+                            <field name="name" attrs="{'readonly':[('state','!=','draft')]}" required="1"/>
+                        </h1>
+                        <group>
+                            <group>
+                                <field name="date" attrs="{'readonly':[('state','!=','draft')]}" required="1"/>
+                                <field name="contract_state" attrs="{'readonly':[('state','!=','draft')]}"
+                                       required="1"/>
+                                <field name="contract_id" domain="[('state', '=', 'confirm')]"
+                                       attrs="{'readonly':[('state','!=','draft')]}" required="1"/>
+                                <field name="property_id" attrs="{'readonly':[('state','!=','draft')]}" readonly="1"/>
+                                <field name="unit_ids" widget="many2many_tags" readonly="1"/>
+                                <field name="evacuation_date" attrs="{'readonly':[('state','!=','draft')]}"
+                                       required="1"/>
+                                <field name="user_id" readonly="1"/>
+                            </group>
+                            <group>
+                                <field name="rent_amount" readonly="1"/>
+                                <field name="service_amount" readonly="1"/>
+                                <field name="water_amount" readonly="1"/>
+                                <field name="insurance_amount" readonly="1"/>
+                                <field name="company_id" readonly="1"/>
+
+                            </group>
+                        </group>
+
+                        <group>
+                            <group>
+                                <field name="maintenance" attrs="{'readonly':[('state','!=','draft')]}" required="1"/>
+                                <field name="maintenance_cost" attrs="{'invisible':[('maintenance','=', False)]}"
+                                       readonly="1"/>
+                                <field name="hand_cost"
+                                       attrs="{'invisible':[('maintenance','=', False)],'readonly':[('state','!=','draft')]}"
+                                       required="1"/>
+                                <field name="total_amount" attrs="{'invisible':[('maintenance','=', False)]}"
+                                       readonly="1"/>
+                                <field name="remain_amount" attrs="{'invisible':[('maintenance','=', False)]}"
+                                       readonly="1"/>
+                                <field name="maintenance_id" attrs="{'invisible':[('maintenance','=', False)]}"
+                                       readonly="1"/>
+                            </group>
+                            <group>
+                                <field name="electric_meter" readonly="0"/>
+                                <field name="electric_amount" readonly="0"/>
+                                <field name="electric_payment_no" readonly="0"/>
+                            </group>
+                        </group>
+                        <group>
+                            <field name="invoice_id" readonly="1" attrs="{'invisible':[('invoice_id', '=', False)]}"/>
+                        </group>
+                        <notebook>
+                            <page string="Rent Payment" name="payment">
+                                <field name="rent_payment_ids" readonly="1">
+                                    <tree create="false">
+                                        <field name="code" readonly="1"/>
+                                        <field name="name" readonly="1"/>
+                                        <field name="due_date" readonly="1"/>
+                                        <field name="amount" readonly="1"/>
+                                        <field name="water_cost" readonly="1"/>
+                                        <field name="service_cost" readonly="1"/>
+                                        <field name="total_amount" readonly="1"/>
+                                        <field name="paid" readonly="1"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Maintenance Items" attrs="{'invisible':[('maintenance','=', False)]}"
+                                  name="end_line">
+                                <field name="end_line_ids"
+                                       attrs="{'invisible':[('maintenance','=', False)],'readonly':[('state','!=','draft')]}">
+                                    <tree editable="bottom">
+                                        <field name="product_id" required="1"/>
+                                        <field name="qty" required="1"/>
+                                        <field name="cost" required="1"/>
+                                        <field name="total" readonly="1"/>
+                                        <field name="note"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="rent_end_list_view" model="ir.ui.view">
+            <field name="name">End of rental contract list</field>
+            <field name="model">end.of.rent</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="date"/>
+                    <field name="contract_id"/>
+                    <field name="property_id"/>
+                    <field name="maintenance"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="rent_end__filter_view" model="ir.ui.view">
+            <field name="name">End of rental contract filter</field>
+            <field name="model">end.of.rent</field>
+            <field name="arch" type="xml">
+                <search string="Search">
+                    <field name="name"/>
+                    <field name="contract_id"/>
+                    <field name="property_id"/>
+                    <field name="date"/>
+
+                    <group expand="0" string="Group By">
+                        <filter name="group_contract_id" string="Rental Contract" domain="[]"
+                                context="{'group_by':'contract_id'}"/>
+                        <filter name="property_group" string="property_id" domain="[]"
+                                context="{'group_by':'property_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+
+        <!-- ################################# Maintenance Part #####################################################  -->
+        <record id="property_management_maintenance_form" model="ir.ui.view">
+            <field name="name">Property Maintenance</field>
+            <field name="model">property.management.maintenance</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="action_submit" string="Submit"
+                                states="draft"
+                                type="object"/>
+                        <button name="action_done" string="Done"
+                                states="submit"
+                                groups="property_management.group_property_manager"
+                                type="object"/>
+
+                        <button name="action_cancel" string="Cancel"
+                                groups="property_management.group_property_manager"
+                                states="draft,submit"
+                                type="object"/>
+
+                        <button name="action_rest_draft" string="RE-SET To Draft"
+                                groups="property_management.group_property_manager"
+                                states="submit"
+                                type="object"/>
+
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <h1>
+                            <field name="name" attrs="{'readonly':[('state','!=','draft')]}" required="1"/>
+                        </h1>
+                        <group>
+                            <group>
+                                <field name="date" attrs="{'readonly':[('state','!=','draft')]}" required="1"/>
+                                <field name="maintenance_type" attrs="{'readonly':[('state','!=','draft')]}"
+                                       required="1"/>
+                                <field name="renter_invoice"
+                                       attrs="{'readonly':[('maintenance_type', '=', 'end_contract')]}"/>
+                                <field name="partner_id"
+                                       attrs="{'invisible':[('renter_invoice', '=', False)],'required':[('renter_invoice', '=', True)], 'readonly':[('state','!=','draft')]}"
+                                />
+                                <field name="contract_id" domain="[('partner_id', '=', partner_id)]"
+                                       attrs="{'required':[('renter_invoice', '=', True)], 'readonly':[('state','!=','draft')]}"/>
+
+                                <field name="property_id" required="1" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                <field name="unit_ids" domain="[('property_id', '=', property_id)]"
+                                       attrs="{'readonly':[('state','!=','draft')]}"
+                                       widget="many2many_tags"/>
+                            </group>
+                            <group>
+                                <field name="vendor_id" attrs="{'invisible':[('renter_invoice', '=', True)],
+                                'required':[('renter_invoice', '=', False)], 'readonly':[('state','!=','draft')]}"/>
+                                <field name="maintenance_cost" invisible="0" readonly="1"/>
+                                <field name="hand_cost" invisible="0" readonly="0"/>
+                                <field name="total_amount" readonly="1"/>
+                                <field name="company_id" readonly="1"/>
+                                <field name="user_id" readonly="1"/>
+                                <field name="invoice_id" readonly="1"
+                                       attrs="{'invisible':[('invoice_id', '=',False)]}"/>
+                                <field name="request_id"
+                                       context="{'form_view_ref': 'request_from_warehouse.view_order_form_inhert_request'}"
+                                       readonly="1" attrs="{'invisible':[('request_id', '=',False)]}"/>
+                            </group>
+                        </group>
+                        <group>
+                            <field name="note" attrs="{'readonly':[('state','!=','draft')]}"/>
+                        </group>
+
+                        <notebook>
+                            <page string="Maintenance Items"
+                                  name="end_line">
+                                <field name="end_line_ids"
+                                       attrs="{'readonly':[('state','!=','draft')]}">
+                                    <tree editable="bottom">
+                                        <field name="product_id" required="1"/>
+                                        <field name="qty" required="1"/>
+                                        <field name="cost" required="1"/>
+                                        <field name="total" readonly="1"/>
+                                        <field name="note"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="property_maintenance_list_view" model="ir.ui.view">
+            <field name="name">Property Maintenance</field>
+            <field name="model">property.management.maintenance</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="date"/>
+                    <field name="contract_id"/>
+                    <field name="property_id"/>
+                    <field name="unit_ids" widget="many2many_tags"/>
+                    <field name="total_amount"/>
+
+                </tree>
+            </field>
+        </record>
+
+        <record id="property_maintenance_filter_view" model="ir.ui.view">
+            <field name="name">Property Maintenance filter</field>
+            <field name="model">property.management.maintenance</field>
+            <field name="arch" type="xml">
+                <search string="Search">
+                    <field name="name"/>
+                    <field name="contract_id"/>
+                    <field name="property_id"/>
+                    <field name="date"/>
+
+                    <group expand="0" string="Group By">
+                        <filter name="group_contract_id" string="Rental Contract" domain="[]"
+                                context="{'group_by':'contract_id'}"/>
+                        <filter name="property_group" string="property_id" domain="[]"
+                                context="{'group_by':'property_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+
+    </data>
+</odoo>

@@ -1,0 +1,78 @@
+<?xml version="1.0"?>
+<odoo>
+    <record id="view_base_dashboard_form" model="ir.ui.view">
+        <field name="name">Base Dashboard</field>
+        <field name="model">base.dashbord</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="model_id" options="{'no_create_edit': True}" required="1"/>
+
+                        <field name="name"/>
+                        <field name="card_image" widget="image" style="width: 100px; height: 100px;"/>
+                        <field name="model_name" invisible="1" />
+                        <field name="form_view_id" options="{'no_create_edit': True}" domain="[('type','=','form'),('model','=',model_name)]" />
+                        <field name="list_view_id" options="{'no_create_edit': True}" domain="[('type','=','tree'),('model','=',model_name)]" />
+                        <field name="action_id" options="{'no_create_edit': True}" domain="[('res_model','=',model_name)]" required="1" />
+                        <field name="is_self_service"/>
+                        <field name="sequence"/>
+                        <field name="action_domain" invisible="1" />
+                        <field name="action_context" invisible="1"/>
+                        <field name="is_button" invisible="1"/>
+                        <field name="is_stage" invisible="1"/>
+                        <field name="is_double" invisible="1"/>
+                        <field name="is_state" invisible="1"/>
+
+                    </group>
+
+                    <notebook>
+
+                        <page name="Apply TO" string="Apply TO">
+                            <button name="compute_selection" string="Load Model State" type="object" class="oe_highlight" attrs="{'invisible': [('is_button', '=', True)]}"/>
+                            <button name="update_selection"  string="Updtae Model State" type="object" class="oe_highlight" attrs="{'invisible': [('is_button', '=', False)]}"/>
+                            <field name="line_ids" attrs="{'invisible': [('is_button', '=', False)]}" context="{'default_model_name':model_name,'default_model_id':model_id}">
+                                <tree editable="bottom">
+                                    <field name="sequence" widget="handle" />
+                                    <field name="group_ids" widget="many2many_tags" options="{'no_quick_create': True}" required ="1" />
+                                    <field name="model_name" invisible="1"/>
+                                    <field name="model_id" invisible="1"/>
+                                    <field name="state_id"  attrs="{'column_invisible': [('parent.is_state', '=',False ),('parent.is_double', '=',False )]}" options="{'no_create': True, 'no_create_edit':True}"   domain="[('model_id', '=', model_id)]" />
+                                    <field name="stage_id" attrs="{'column_invisible': [('parent.is_stage', '=',False)]}" options="{'no_create': True, 'no_create_edit':True}"  domain="[('model_id', '=', model_id)]"/>
+                                </tree>
+                                <!-- ,('parent.model_name', '!=','hr.holidays')  required = "[('parent.is_stage', '=',True )]" required ="[('parent.is_stage', '=',False )]-->
+
+                            </field>
+                        </page>
+
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_base_dashboard_tree" model="ir.ui.view">
+        <field name="name">Base Dashboard</field>
+        <field name="model">base.dashbord</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="model_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="base_dashboard_action" model="ir.actions.act_window">
+        <field name="name">Base Dashboard</field>
+        <field name="res_model">base.dashbord</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="context">{}</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="base_dashboard_root" parent="system_dashboard_classic_menu" name="Configrutions" 
+              groups="system_dashboard_classic.system_board_group_configurations" sequence="-7"/>
+
+    <menuitem id="base_dashboard" parent="base_dashboard_root" name="Base Dashboard" action="base_dashboard_action"
+              groups="system_dashboard_classic.system_board_group_configurations" sequence="-7" />
+
+</odoo>

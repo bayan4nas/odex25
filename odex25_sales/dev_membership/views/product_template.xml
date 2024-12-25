@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--tree-->
+    <record id="tree_membership_product" model="ir.ui.view">
+        <field name="name">tree.membership.product</field>
+        <field name="model">product.template</field>
+        <field name="arch" type="xml">
+            <tree string="Membership Product Tree View">
+                 <field name="sequence_no" widget="handle"/>
+<!--                 <field name="type_no"/> -->
+                <field name="name"/>
+                <field name="default_code"/>
+                <field name="duration"/>
+                <field name="interval"/>
+                <field name="list_price"/>
+            </tree>
+        </field>
+    </record>
+
+    <!--field-->
+    <record id="form_membership_product" model="ir.ui.view">
+        <field name="name">view.membership.product.form</field>
+        <field name="model">product.template</field>
+        <field name="arch" type="xml">
+            <form string="Membership Product Form View">
+                <sheet>
+                     <div class="oe_button_box" name="button_box">
+                     <button name="view_membership" type="object"
+                                class="oe_stat_button"
+                                icon="fa-vcard-o" attrs="{'invisible' : [('membership_count', '=', 0)]}">
+                            <div class="o_stat_info">
+                                <field name="membership_count" class="o_stat_value"/>
+                                <span class="o_stat_text">Membership</span>
+                            </div>
+                        </button>
+                     </div>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1 class="o_row">
+                            <field name="name"/>
+                        </h1>
+                    </div>
+                    <div>
+                        <h3>
+                            <field name="is_membership" invisible="1"/>
+                            <label for="is_membership" invisible="1"/>
+                        </h3>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="default_code"/>
+                            <field name="categ_id"/>
+                            <field name="sequence_no" invisible="1"/>
+
+                            <field name="active"/>
+                           <field invisible="1" name="company_id"/>
+                        </group>
+                        <group>
+                            <label for="duration" string="Membership Duration"/>
+                            <div class="address_format">
+                                <field name="duration" style="width: 49%; font-size:14px;" required="1"/>
+                                <field name="interval"
+                                       style="width: 49%; height:10%; padding-left:3px; font-size:14px;" required="1"/>
+                            </div>
+                            <field name="is_free"/>
+                            <field attrs="{'invisible': [('is_free', '=', True)],'required':[(('is_free', '=', False))]}" name="list_price" string="Price"/>
+                            <field name="property_account_income_id"/>
+                            <field name="taxes_id" widget="many2many_tags" string="Taxes"/>
+                        </group>
+                    </group>
+                    <div>
+                        <h3>
+                            <label for="description"/>
+                        </h3>
+                        <field name="description"/>
+
+                        <h3>
+                            <label for="membership_benefits"/>
+                        </h3>
+                        <field name="membership_benefits"/>
+                        <h3>
+                            Membership Terms
+                        </h3>
+                        <field name="description_sale"/>
+                    </div>
+                    <group>
+                        <group string="Membership Terms">
+                            <field widget="many2many_tags" name="nationality_ids"/>
+                            <field name="gender"/>
+                            <field name="age"/>
+                            <field name="max_age"/>
+                        </group>
+                        <group string="Nomination for Membership">
+                            <field name="nominee"/>
+                            <field name="join_period" attrs="{'invisible': [('nominee', '=', False)]}"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_membership_pro" model="ir.actions.act_window">
+        <field name="name">Membership Product</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">product.template</field>
+        <field name="context">{'default_is_membership' : 1}</field>
+        <field name="domain">[('is_membership', '=', 1)]</field>
+        <field name="view_ids" eval="[(5,0,0),
+         (0,0,{'sequence' : 3, 'view_mode': 'tree' , 'view_id' : ref('dev_membership.tree_membership_product')}),
+         (0,0,{'sequence' : 5, 'view_mode': 'form' , 'view_id' : ref('dev_membership.form_membership_product') })]"/>
+    </record>
+
+    <menuitem name="Membership Product"
+              id="menu_membership"
+              parent="menu_configuration_root"
+              action="action_membership_pro"
+              sequence="2"/>
+</odoo>

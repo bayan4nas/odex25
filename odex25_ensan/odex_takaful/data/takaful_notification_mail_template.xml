@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo noupdate="0">
+
+    <record id="push_notification_email_template" model="mail.template">
+        <field name="name">Notification Email</field>
+        <field name="email_from">${ctx.get('email_from')} or ''}</field>
+        <field name="email_to">${ctx.get('email_to')}</field>
+        <field name="subject">${ctx.get('company_name')} - ${ctx.get('title')}</field>
+        <field name="partner_to">False</field>
+        
+        <field name="model_id" ref="odex_takaful.model_takaful_push_notification"/>
+        <field name="auto_delete" eval="True"></field>
+<!--        <field name="user_signature" eval="False"></field>-->
+        <field name="lang">ar_001</field>
+        <field name="body_html"><![CDATA[
+    <p>
+        Dear ${ctx.get('partner_name')},
+    </p>
+    
+    <p> 
+        <strong>${ctx.get('body')}</strong>
+    </p>
+
+    <p>
+        Thank you,
+    </p>
+
+    <p>
+        From ${ctx.get('company_name')}.
+    </p>
+    ]]></field>
+    </record>
+
+</odoo>

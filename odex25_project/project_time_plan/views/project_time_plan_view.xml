@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Project Phase -->
+    <record id="project_time_plan_form_view" model="ir.ui.view">
+        <field name="name">project.time.plan.form</field>
+        <field name="model">project.time.plan</field>
+        <field name="arch" type="xml">
+            <form string="Project Time Plan" create="1" edit="1">
+                <header>
+                    <button name="action_confirm" string="Confirm" type="object"
+                            attrs="{'invisible':[('state','not in',['draft'])]}" class="oe_highlight"/>
+                    <button name="action_draft" string="Set to Draft" type="object"
+                            attrs="{'invisible':[('state','not in',['confirm'])]}"/>
+                    <button name="action_draft" string="Open" type="object"
+                            attrs="{'invisible':[('state','not in',['close'])]}"/>
+
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirm"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button class="oe_stat_button" type="object"
+                                name="action_view_time_plan" string="Time Plan" icon="fa-bar-chart">
+                        </button>
+                    </div>
+                    <group>
+                        <group>
+                            <!-- <field name="name" required="1"/> -->
+                            <field name="project_id" required="1" attrs="{'readonly':True}"/>
+                        </group>
+                        <group>
+                            <field name="plan_by_departments" invisible="1"/>
+                            <field name="department_id" readonly="1"
+                                   attrs="{'invisible': [('plan_by_departments', '=', False)]}"/>
+                            <field name="phase_id" required="1" attrs="{'readonly':True}"/>
+                            <field name="start_date"/>
+                            <field name="end_date"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="origin_plan" required="1" widget="float_time" style="width:25%;"/>
+                            <field name="time_plan" required="1" readonly="1"
+                                   attrs="{'invisible': [('plan_by_departments', '=', False)]}" widget="float_time"
+                                   style="width:25%;"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="time_plan_ids" widget="many2many_tags" invisible="1" force_save="1"/>
+                        <field name="project_status" invisible="1"/>
+                    </group>
+                    <notebook>
+                    <page string="Summary">
+                        <div class="alert alert-danger" role="alert" style="margin-bottom:0px;"
+                             attrs="{'invisible':[('project_status', 'in', ('open'))]}">
+                            <p>Project must be in Open Status in order to enter Time Plan</p>
+                        </div>
+                        <group name="plan" class="hr_timesheet_sheet_summary">
+                            <field
+                                    name="line_ids"
+                                    nolabel="1"
+                                    widget="x2many_2d_matrix"
+                                    field_x_axis="time_plan_id"
+                                    field_y_axis="department_id"
+                                    field_value="time_plan"
+                                    attrs="{'readonly':['|',('state','not in',['draft']),('project_status','not in',['open'])]}">
+                                <tree limit="1000000">
+                                    <field name="time_plan" widget="float_time"  attrs="{'invisible': [('plan_by_departments', '=', False)]}"/>
+                                    <field name="plan_id"/>
+                                    <field name="time_plan_id"/>
+                                    <field name="project_id"/>
+                                    <field name="plan_by_departments" invisible="1"/>
+                                    <field name="department_id" attrs="{'invisible': [('plan_by_departments', '=', False)]}"/>
+                                    <!--                                        <field name="timesheet_lines" />-->
+                                    <!-- <field name="total_consumed_hours"/> -->
+                                </tree>
+                            </field>
+                        </group>
+                    </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" groups="base.group_user"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="project_time_plan_tree" model="ir.ui.view">
+        <field name="name">project.time.plan.tree</field>
+        <field name="model">project.time.plan</field>
+        <field name="arch" type="xml">
+            <tree string="Project Phase" create="0" edit="1" expand="1">
+                <field name="project_id" optional="show"/>
+                 <field name="plan_by_departments" invisible="1"/>
+                <field name="department_id" optional="show"  attrs="{'invisible': [('plan_by_departments', '=', False)]}"/>
+                <field name="phase_id" optional="show"/>
+                <field name="start_date"/>
+                <field name="end_date"/>
+                <field name="origin_plan" widget="float_time"/>
+                <field name="time_plan" widget="float_time"/>
+                <field name="state" widget="badge" decoration-info="state in ['draft']"
+                       decoration-success="state in ['close','confirm']"/>
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="project_time_plan_tree_project" model="ir.ui.view">
+        <field name="name">project.time.plan.tree</field>
+        <field name="model">project.time.plan</field>
+        <field name="priority">2000</field>
+        <field name="arch" type="xml">
+            <tree string="Time Plan" create="1" editable="top">
+                <!-- <field name="name" readonly="1"/> -->
+                <!-- <field name="project_id" readonly="1"/> -->
+                <field name="phase_id" readonly="1"/>
+                <field name="department_id" readonly="1"/>
+                <field name="time_plan" widget="float_time" sum="time_plan"/>
+                <!-- <button name="action_confirm" string="Confirm" type="object"  icon="fa-check" attrs="{'invisible':[('state','not in',['draft'])]}"/>
+                <button name="action_draft" type="object" icon="fa-refresh" attrs="{'invisible':[('state','not in',['confirm'])]}"/>
+                <field name="state" widget="badge" decoration-info="state in ['draft','confirm']" decoration-success="state == 'close'"/> -->
+            </tree>
+        </field>
+    </record>
+
+     <record id="view_time_plan_search" model="ir.ui.view">
+        <field name="name">project.time.plan.search</field>
+        <field name="model">project.time.plan</field>
+        <field name="arch" type="xml">
+            <search string="Time Plan">
+                <!-- <field name="name" filter_domain="['|', ('name','ilike',self), ('stage_id','=like',str(self)+'%')]" string="Name"/> -->
+                <field string="Project" name="project_id"/>
+                <field string="Department" name="department_id"/>
+                <separator/>
+                <filter string="Open" name="open" domain="[('state', 'in', ['draft','confirm'])]"/>
+                <filter string="Closed" name="close" domain="[('state', '=', 'close')]"/>
+                <separator/>
+                <group expand="0" string="Group By">
+                    <filter string="Project" name="project" domain="" context="{'group_by':'project_id'}"/>
+                    <filter string="Department" name="department" domain="" context="{'group_by':'department_id'}"/>
+                    <filter string="Status" name="status" domain="" context="{'group_by':'state'}"/>
+                    <filter string="Stages" name="stage" domain="" context="{'group_by':'phase_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+
+    <record id="open_project_time_plan_tree" model="ir.actions.act_window">
+        <field name="name">All Project Time Plan</field>
+        <field name="res_model">project.time.plan</field>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="project_time_plan_tree_project"/>
+        <field name="context">{'search_default_project': 1}</field>
+    </record>
+
+
+    <record id="open_project_time_plan_form" model="ir.actions.act_window">
+        <field name="name">Project Time Plan</field>
+        <field name="res_model">project.time.plan</field>
+        <field name="view_mode">tree,form,kanban</field>
+        <field name="view_id" ref="project_time_plan_tree"/>
+        <field name="context">{'search_default_project': 1}</field>
+    </record>
+
+
+    <menuitem action="open_project_time_plan_form" id="menu_project_time_plan_root" name="Time Plan"
+              parent="project.menu_main_pm" sequence="4"/>
+
+</odoo>

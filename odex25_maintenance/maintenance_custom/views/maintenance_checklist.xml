@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Inherit Form View to Modify it -->
+        <record id="equipment_request_form_checklist" model="ir.ui.view">
+            <field name="name">equipment.request.form.checklist</field>
+            <field name="model">maintenance.request</field>
+            <field name="inherit_id" ref="maintenance.hr_equipment_request_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='assets_info']" position="after">
+                    <page string="Checklist" name="checklist_info">
+                        <field name="checklist_lines">
+                            <tree string="Checklist For Inspection" editable="bottom">
+                                <field name="name"/>
+                                <field name="description"/>
+                            </tree>
+                        </field>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

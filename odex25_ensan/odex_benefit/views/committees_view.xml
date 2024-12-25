@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="committees_tree_view" model="ir.ui.view">
+            <field name="name">committees.line.tree</field>
+            <field name="model">committees.line</field>
+            <field name="arch" type="xml">
+                <tree string="committees">
+                    <field name="name"/>
+                    <!--                    <field name="employee_id"/>-->
+                    <!--                    <field name="benefit_ids" string="Assign files"/>-->
+                    <!--                    <field name="type" invisible="1"/>-->
+                </tree>
+            </field>
+        </record>
+        <record id="committees_view_form" model="ir.ui.view">
+            <field name="name">committees_view_form</field>
+            <field name="model">committees.line</field>
+            <field name="arch" type="xml">
+                <form string="committees_form">
+                    <sheet>
+                            <group>
+                                <field name="name"/>
+                                <field name="type" invisible="1"/>
+                                <field name="employee_id"/>
+                                <field name="branch_custom_id"/>
+                            </group>
+                            <group>
+                                <field name="benefit_ids" string="Assign files"/>
+                            </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</odoo>

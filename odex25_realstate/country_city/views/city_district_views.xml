@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+
+        <!-- city -->
+        <record id="city_form_view" model="ir.ui.view">
+            <field name="name">City</field>
+            <field name="model">re.city</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-archive">
+                                <field name="active" widget="toggle_button"/>
+                                <span class="o_stat_text" attrs="{'invisible': [('active', '=', False)]}">Restore</span>
+                                <span class="o_stat_text" attrs="{'invisible': [('active', '=', True)]}">Archive</span>
+                            </button>
+                        </div>
+                        <group col="4" colspan="2">
+                            <field name="name" required="1"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                        <notebook>
+                            <page string="District">
+                                <field name="district_ids" readonly="1">
+                                    <tree>
+                                        <field name="name" required="1"/>
+                                    </tree>
+                                    <form>
+                                        <sheet>
+                                            <div class="oe_button_box" name="button_box">
+                                                <button class="oe_stat_button" type="object" name="toggle_active"
+                                                        icon="fa-archive">
+                                                    <field name="active"/>
+                                                </button>
+                                            </div>
+                                            <group colspan="2" col="4">
+                                                <field name="name" required="1"/>
+                                                <field name="city_id" required="1"/>
+                                                <field name="company_id" groups="base.group_multi_company"/>
+                                            </group>
+                                        </sheet>
+                                    </form>
+                                </field>
+
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="city_action" model="ir.actions.act_window">
+            <field name="name">City</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">re.city</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+        <!-- District -->
+        <record id="district_form_view" model="ir.ui.view">
+            <field name="name">District</field>
+            <field name="model">district</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-archive">
+                                <field name="active" widget="toggle_button"/>
+                                <span class="o_stat_text" attrs="{'invisible': [('active', '=', False)]}">Restore</span>
+                                <span class="o_stat_text" attrs="{'invisible': [('active', '=', True)]}">Archive</span>
+                            </button>
+                        </div>
+                        <group col="4" colspan="2">
+                            <field name="name" required="1"/>
+                            <field name="city_id" required="1"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="district_list_view" model="ir.ui.view">
+            <field name="name">District List</field>
+            <field name="model">district</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name" required="1"/>
+                    <field name="city_id" required="1"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="district_action" model="ir.actions.act_window">
+            <field name="name">District</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">district</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+    </data>
+</odoo>

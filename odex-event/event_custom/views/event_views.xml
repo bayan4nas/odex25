@@ -1,0 +1,208 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+
+        <record model="ir.ui.view" id="view_event_mail_form">
+            <field name="name">event.mail.form</field>
+            <field name="model">event.mail</field>
+            <field name="inherit_id" ref="event.view_event_mail_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//sheet/notebook" position="inside">
+                    <page string="Track Changes Mails">
+                        <field name="mail_track_ids">
+                            <tree string="Track Changes Mails" editable="bottom">
+                                <field name="track_id"/>
+                                <field name="change_date_from"/>
+                                <field name="change_date_to"/>
+                                <field name="mail_sent"/>
+                            </tree>
+                        </field>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_event_track_location">
+            <field name="name">event.track.location_inherit</field>
+            <field name="model">event.track.location</field>
+            <field name="inherit_id" ref="website_event_track.view_event_location_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="location_url"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_sponsor_type">
+            <field name="name">sponsor_type_inherit</field>
+            <field name="model">event.sponsor.type</field>
+            <field name="inherit_id" ref="website_event_track.event_sponsor_type_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="sponsor_cost"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_sponsor_type_list">
+            <field name="name">sponsor_type_list_inherit</field>
+            <field name="model">event.sponsor.type</field>
+            <field name="inherit_id" ref="website_event_track.event_sponsor_type_view_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="sponsor_cost"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_event_form">
+            <field name="name">event.event.form</field>
+            <field name="model">event.event</field>
+            <field name="inherit_id" ref="event.view_event_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@name='button_box']" position="inside">
+                    <button  type="object" name="action_open_files"
+                        class="oe_stat_button" icon="fa-file-text-o" >
+                        <field string="Files" name="count_files" widget="statinfo"/>
+                    </button>
+                     <button  type="object" name="action_open_mail"
+                        class="oe_stat_button" icon="fa-envelope" >
+                        <field string="Mails" name="count_mails" widget="statinfo"/>
+                    </button>
+                </xpath>
+                <xpath expr="//div[@name='button_box']" position="after">
+                    <field name="image" widget='image' class="oe_avatar"/>
+                </xpath>
+                <xpath expr="//field[@name='event_type_id']" position="after">
+                    <field name="directory_id"/>
+                    <field name="project_id"/>
+                    <field name="benefit_club_id"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_event_search">
+            <field name="name">event.event.search</field>
+            <field name="model">event.event</field>
+            <field name="inherit_id" ref="event.view_event_search"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='event_type_id']" position="after">
+                    <field name="organizer_id"/>
+                    <field name="project_id"/>
+                </xpath>
+<!--                <xpath expr="//filter[@name='confirm']" position="after">-->
+<!--                    <filter string="Done" name="done" domain="[('state','=','done')]"/>-->
+<!--                    <filter string="Cancelled" name="cancel" domain="[('state','=','cancel')]"/>-->
+<!--                </xpath>-->
+                <xpath expr="//filter[@name='upcoming']" position="after">
+                    <filter string="This Month" name="this_month" domain="[('date_begin', '&gt;=', context_today().strftime('%Y-%m-01'))]"/>
+                    <filter string="Last Month" name="last_month" domain="['&amp;', ('date_begin', '&gt;=', (context_today() - relativedelta(months=1)).strftime('%Y-%m-01')), ('date_begin', '&lt;', context_today().strftime('%Y-%m-01'))]"/>
+
+                    <filter string="This Year" name="thisyear" domain="['|', ('date_begin', '=', False), '&amp;',('date_begin','&lt;=', time.strftime('%Y-12-31')),('date_begin','&gt;=',time.strftime('%Y-01-01'))]"/>
+                    <filter name="lastyear" string="Last Year" domain="['&amp;',('date_begin', '&gt;=', (context_today()-relativedelta(years=1)).strftime('%Y-01-01')), ('date_begin', '&lt;=', context_today().strftime('%Y-01-01')),]"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_event_track_search">
+            <field name="name">event.track.search</field>
+            <field name="model">event.track</field>
+            <field name="inherit_id" ref="website_event_track.view_event_track_search"/>
+            <field name="arch" type="xml">
+                <xpath expr="//filter[@name='activities_upcoming_all']" position="after">
+                    <separator/>
+                    <filter string="This Month" name="this_month" domain="[('date', '&gt;=', context_today().strftime('%Y-%m-01'))]"/>
+                    <filter string="Last Month" name="last_month" domain="['&amp;', ('date', '&gt;=', (context_today() - relativedelta(months=1)).strftime('%Y-%m-01')), ('date', '&lt;', context_today().strftime('%Y-%m-01'))]"/>
+
+                    <filter string="This Year" name="thisyear" domain="['|', ('date', '=', False), '&amp;',('date','&lt;=', time.strftime('%Y-12-31')),('date','&gt;=',time.strftime('%Y-01-01'))]"/>
+                    <filter name="lastyear" string="Last Year" domain="['&amp;',('date', '&gt;=', (context_today()-relativedelta(years=1)).strftime('%Y-01-01')), ('date', '&lt;=', context_today().strftime('%Y-01-01')),]"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="event_event_view_pivot" model="ir.ui.view" >
+            <field name="name">event.event.view.pivot</field>
+            <field name="model">event.event</field>
+            <field name="inherit_id" ref="event.event_event_view_pivot"/>
+            <field name="arch" type="xml">
+                <xpath expr="//pivot" position="attributes">
+                    <attribute name="display_quantity" eval="true"/>
+                </xpath>
+
+                <xpath expr="//field[@name='name']" position="before">
+                    <field name="event_type_id" type="row"/>
+                </xpath>
+                <xpath expr="//field[@name='seats_reserved']" position="before">
+                    <field name="seats_unconfirmed" type="measure"/>
+                </xpath>
+                <xpath expr="//field[@name='seats_reserved']" position="after">
+                    <field name="seats_used" type="measure"/>
+                     <field name="sponsor_count" type="measure"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="event_track_view_pivot" model="ir.ui.view" >
+            <field name="name">event.track.view.pivot</field>
+            <field name="model">event.track</field>
+            <field name="arch" type="xml">
+                <pivot string="Track" disable_linking="True">
+                    <field name="event_id" type="row"/>
+                    <field name="name" type="row"/>
+                </pivot>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_event_track_view">
+           <field name="name">Events track</field>
+           <field name="type">ir.actions.act_window</field>
+           <field name="res_model">event.track</field>
+<!--           <field name="view_type">form</field>-->
+           <field name="view_mode">pivot</field>
+           <field name="search_view_id" ref="website_event_track.view_event_track_search"/>
+        </record>
+
+        <record model="ir.ui.view" id="view_event_sponsor_search">
+            <field name="name">website_event_track.view_event_sponsor_search.search</field>
+            <field name="model">event.sponsor</field>
+            <field name="inherit_id" ref="website_event_track.event_sponsor_view_search"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='event_id']" position="after">
+                    <separator/>
+                    <filter string="This Month" name="this_month" domain="[('date', '&gt;=', context_today().strftime('%Y-%m-01'))]"/>
+                    <filter string="Last Month" name="last_month" domain="['&amp;', ('date', '&gt;=', (context_today() - relativedelta(months=1)).strftime('%Y-%m-01')), ('date', '&lt;', context_today().strftime('%Y-%m-01'))]"/>
+
+                    <filter string="This Year" name="thisyear" domain="['|', ('date', '=', False), '&amp;',('date','&lt;=', time.strftime('%Y-12-31')),('date','&gt;=',time.strftime('%Y-01-01'))]"/>
+                    <filter name="lastyear" string="Last Year" domain="['&amp;',('date', '&gt;=', (context_today()-relativedelta(years=1)).strftime('%Y-01-01')), ('date', '&lt;=', context_today().strftime('%Y-01-01')),]"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="event_sponsor_view_pivot" model="ir.ui.view" >
+            <field name="name">event.sponsor.view.pivot</field>
+            <field name="model">event.sponsor</field>
+            <field name="arch" type="xml">
+                <pivot string="Sponsor" disable_linking="True">
+                    <field name="partner_id" type="row"/>
+                    <field name="sponsor_type_id" type="row"/>
+                    <field name="event_type_id" type="row"/>
+                    <field name="event_id" type="row"/>
+                </pivot>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_event_sponsor_view">
+           <field name="name">Events sponsor</field>
+           <field name="type">ir.actions.act_window</field>
+           <field name="res_model">event.sponsor</field>
+<!--           <field name="view_type">form</field>-->
+           <field name="view_mode">pivot</field>
+        </record>
+
+        <menuitem name="Events Tracks" id="menu_event_track" action="action_event_track_view" parent="event.menu_reporting_events"/>
+
+        <menuitem name="Events Sponsor" id="menu_event_sponsor" action="action_event_sponsor_view" parent="event.menu_reporting_events"/>
+
+
+    </data>
+</odoo>

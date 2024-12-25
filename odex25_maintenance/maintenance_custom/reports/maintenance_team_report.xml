@@ -1,0 +1,210 @@
+<odoo>
+    <template id="maintenance_team_report">
+        <t t-call="web.html_container">
+        <t t-call="web.external_layout">
+            <style> 
+                body{
+                    margin: 0;
+                    width: 100%;
+                    }
+                .date_tb{
+                    display: table;
+                }
+
+                .date_th{
+                    display: table;
+                }
+                .date_tb div{
+                    display: table-cell;
+                    border-color: #888888;
+                    border: 1px solid #dee2e6;
+                    padding: 10px;
+                    min-width:30px;
+                }
+                .date_th{
+                    background-color: #dee2e6;
+                }
+                .box{
+                    padding-left: 10px;
+                    padding-right: 10px;
+                    border: 1px solid black;
+                    text-align: center;
+                    margin-top:10px;
+                    width: 150px;
+                    height: 100px;
+                    min-width: 150px;
+                    min-height: 100px;
+                    max-width: 150px;
+                    max-height: 100px;
+                    color:white;
+                    font-weight:bold;
+                }
+                .box-title{
+                    margin: 10px;
+                }
+
+                .box-content{
+                    margin: 15px;
+                }
+                
+                
+
+                .main-box-container, date_th{
+                    margin:30px;
+                }
+
+                .box-container{
+                    
+                }
+                .main-box-container .left{
+                    float: left;
+                    margin-top:10px;
+                }
+
+                .main-box-container .right{
+                    margin-left:300px;
+               }
+               .main-box-container .row{
+                   display: table;
+                   border-spacing: 20px;
+               }
+
+               .main-box-container .row .box{
+                   display: table-cell;
+               }
+               
+                .data_tb{
+                    text-align:center;
+                }
+                .data_tb th, #filters_tb th{
+                    background-color: #dee2e6;
+                }
+
+                .data_tb td , .data_tb th{
+                    border-color: #888888;
+                    border: 1px solid black;
+                    padding: 10px;
+                    min-width:30px;
+                    
+                }
+
+                #filters_tb, #filters_tb th,  #filters_tb td{
+                    border: 1px solid black;
+                    text-align : center;
+                    padding : 15px;
+                }
+
+                #filters_tb th, #filters_tb td{
+                    min-width: 150px;
+                    max-width: 150px;
+                }
+
+                .zooba{
+                    background-color:#66CDAA;
+                    
+                }
+
+                .over{
+                    background-color:#DC143C;
+                }
+
+                .high{
+                    background-color:red;
+                }
+                .open{
+                    background-color:#FFD700;
+                }
+                .closed{
+                    background-color:#228B22 ;
+                }
+                .total_work_order{
+                    background-color:#87CEFA ;
+                }
+                .plan{
+                    background-color:#6495ED ;
+                }
+                .hours{
+                    background-color:#1E90FF ;
+                }
+                .cost{
+                    background-color:#663399 ;
+                }
+                .downtime{
+                    background-color:#9370DB ;
+                }
+                .loss{
+                    background-color:#4B0082 ;
+                }
+            </style>
+            
+                <center>
+                <table id="filters_tb">
+                    <tr>
+                        <th>Date From</th>
+                        <th>Date To</th>
+                        <th>Departments</th>
+                    </tr>
+                    <tr>
+                        <td><span t-esc="time_from" /></td>
+                        <td><span t-esc="time_to" /> </td>
+                        <td><span t-esc="filters.get('department_id', 'ALL')" /></td>
+                    </tr>
+                </table>
+                
+                <div class="main-box-container">
+                    <div class="row">
+                        <div class="box zooba">
+                            <div class="box-title">TOTAL Tasks</div>
+                            <br />
+                            <div class="box-content"><span t-esc="total['total_orders']" /></div>
+                        </div>
+                        <div class="box open">
+                            <div class="box-title">OPEN ORDERS</div>
+                            <div class="box-content"><span t-esc="total['total_open']" /></div>
+                        </div>
+                        <!--div class="box closed">
+                            <div class="box-title">DONE ON TIME</div>
+                            <div class="box-content">22</div>
+                        </div-->
+                        <div class="box over">
+                            <div class="box-title">OVER DUE TASKS</div>
+                            <div class="box-content"><span t-esc="total['over_due_percentage']" />%</div>
+                        </div>
+                        <div class="box cost">
+                            <div class="box-title">WORKING HOURS</div>
+                            <div class="box-content"><span t-esc="total['total_working_hours']" /> H</div>
+                        </div> 
+                    </div>
+                </div>
+                
+                <table class="data_tb">
+                    <tr>
+                        <th>NO</th>
+                        <th>NAME</th>
+                        <th>POSITION</th>
+                        <th>DEPARMENT</th>
+                        <th>OPENNED TASKS</th>
+                        <th>CLOSED TASKS</th>
+                        <th>ON-TIME</th>
+                        <th>OVERDUE</th>
+                        <th>WORKING HOURS</th>
+                    </tr>
+                    <t t-foreach="docs" t-as="o">
+                    <tr>
+                        <td><span t-esc="o_index+1"/></td>
+                        <td><span t-esc="o['name']"/></td>
+                        <td><span t-esc="o['job']"/></td>
+                        <td><span t-esc="o['department']"/></td>
+                        <td><span t-esc="o['opened']"/></td>
+                        <td><span t-esc="o['closed']"/></td>
+                        <td><span t-esc="o['on_time']"/></td>
+                        <td><span t-esc="o['over_due']"/></td>
+                        <td><span t-esc="o['work_hours']"/></td>
+                    </tr>
+                    </t>
+                </table>
+                </center>
+            </t>
+        </t>
+    </template>
+</odoo>

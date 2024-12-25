@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record id="property_form_view_khawald" model="ir.ui.view">
+        <field name="name">Property Khawald</field>
+        <field name="model">internal.property</field>
+        <field name="inherit_id" ref="real_estate.property_form_view"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='name']" position="attributes">
+                <attribute name="attrs">{'readonly':[('project_id','!=',False)]}</attribute>
+            </xpath>
+
+            <xpath expr="//group[@name='p_info']" position="before">
+                <group>
+                    <group>
+                        <field name="project_id" readonly="1"/>
+                        <field name="marketer_id" attrs="{'readonly':[('state','!=','draft'),('unlock','=',True)]}"
+                               required="1"/>
+                        <field name="action_type" required="1"/>
+                    </group>
+                    <group>
+                        <field name="market_type" required="1"
+                               attrs="{'readonly':[('state','!=','draft'),('unlock','=',True)]}"/>
+                        <field name="property_type_id" domain="[('market_type', '=', market_type)]" required="1"
+                               attrs="{'readonly':[('state','!=','draft'),('unlock','=',True)]}"/>
+                        <field name="floors_count" readonly="1"/>
+                        <field name="no_units" readonly="1"/>
+
+                    </group>
+                </group>
+
+            </xpath>
+
+            <xpath expr="//group[@name='p_info']" position="replace"/>
+            
+            <xpath expr="//field[@name='branch_manager_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <xpath expr="//page[@name='regis_info']" position="replace"/>
+            <xpath expr="//page[@name='location_info']/group/group[2]" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//page[@name='location_info']/group/group[3]" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//page[@name='other']" position="replace"/>
+            <xpath expr="//field[@name='unit_ids']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='property_space']" position="after">
+                <field name="advantage_price" readonly="1"/>
+            </xpath>
+
+            <xpath expr="//field[@name='meter_price']" position="after">
+                <field name="total_price" readonly="1"/>    
+            </xpath>
+
+            <xpath expr="//notebook/page[@name='prices']" position="before">
+                <page name="advantage_unit" string="Advantage and Unit">
+                    <label for="advantage_ids" string="Advantages"/>
+                    <field name="advantage_ids" options="{'no_create': True, 'no_quick_create': True}">
+                        <tree>
+                            <field name="name"/>
+                            <field name="price" options="{'currency_field': 'company_currency_id'}"
+                                   readonly="1"/>
+                        </tree>
+                    </field>
+                </page>
+            </xpath>
+
+            <xpath expr="//notebook/page[@name='prices']" position="after">
+                <page name="service" string="Services">
+                    <group>
+                        <group>
+                            <field name="electric_service"
+                                   attrs="{'readonly':[('state','!=','draft'),('unlock','=',True)]}"/>
+                            <field name="water_service"
+                                   attrs="{'readonly':[('state','!=','draft'),('unlock','=',True)]}"/>
+                        </group>
+                        <group>
+                            <field name="stamp_service"
+                                   attrs="{'readonly':[('state','!=','draft'),('unlock','=',True)]}"/>
+                            <field name="building_service"
+                                   attrs="{'readonly':[('state','!=','draft'),('unlock','=',True)]}"/>
+                        </group>
+                    </group>
+                </page>
+                <page name="stamping_info" string="Stamping">
+                    <group>
+                        <group>
+                            <field name="stamping" required="1" attrs="{'readonly':[('state','!=','draft'),('unlock','=',True)]}"/>
+                            <field name="stamping_date" required="1" attrs="{'readonly':[('state','!=','draft'),('unlock','=',True)]}"/>
+                            <field name="stamping_attach" attrs="{'readonly':[('state','!=','draft'),('unlock','=',True)]}"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+
+            <xpath expr="//field[@name='pur_price']" position="replace"/>
+            <xpath expr="//field[@name='rent_price']" position="replace"/>
+            <xpath expr="//field[@name='pur_meter_price']" position="replace"/>
+            <xpath expr="//field[@name='curr_price']" position="replace"/>
+
+        </field>
+    </record>
+
+    <record id="property_list_view" model="ir.ui.view">
+        <field name="name">Property List</field>
+        <field name="model">internal.property</field>
+        <field name="inherit_id" ref="real_estate.property_list_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='property_state_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,25 @@
+<odoo>
+  <data>
+       <!-- actions opening views on models -->
+      <record model="ir.actions.act_window" id="emp_services_action">
+        <field name="name">Empowerment Services</field>
+        <field name="res_model">emp.service.types</field>
+        <field name="view_mode">tree,form</field>
+      </record>
+
+    <!-- empowerment requests list view -->
+    <record model="ir.ui.view" id="emp_services_list">
+      <field name="name">Empowerment Services list</field>
+      <field name="model">emp.service.types</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+        </tree>
+      </field>
+    </record>
+
+    <menuitem id="configuration_menu_root" name="Configuration" sequence="100" parent="odex_empowerment.empowerment_menu_root"/>
+      <menuitem name="Empowerment Services" id="emp_services_menu" parent="odex_empowerment.configuration_menu_root" action = "emp_services_action"/>
+
+  </data>
+</odoo>

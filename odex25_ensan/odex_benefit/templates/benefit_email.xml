@@ -1,0 +1,428 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!--create message done-->
+        <record id="create_benefit_email" model="mail.template">
+            <field name="name">رسالة  التسجيل</field>
+            <field name="model_id" ref="odex_benefit.model_grant_benefit"/>
+            <field name="email_from">
+                <![CDATA[${user.company_id.name} <${(user.company_id.email or user.partner_id.email or 'noreply@localhost')|safe}>]]></field>
+            <field name="email_to">${object.email|safe}</field>
+            <field name="subject"><![CDATA[ اشعار باستلام طلب التسجيل ]]></field>
+            <field name="body_html">
+                <![CDATA[
+                    <div style="text-align: right;direction:rtl">
+                        <p style="font-size: 16px;text-align: right">
+                            السلام عليكم ورحمة الله.
+
+                        </p>
+                        <p style="font-size: 16px;text-align: right">
+                        مرحبا بكم شركائنا  ${object.name} المحترمين
+
+                        </p>
+                        <p style="font-size: 16px;text-align: right">
+                        تم تسجيلكم بنجاح بإنتظار تدقيق الطلب من قبل الموظف المختص وسيتم إشعاركم بعد تفعيل  التسجيل .
+                        </p><br/>
+                        <p style="font-size: 16px;text-align: right">
+<!--                        <a href="${object.get_url()}">${user.company_id.name}.</a>-->
+                        </p>
+
+                    </div>
+                ]]>
+            </field>
+        </record>
+
+        <!--Approve Message done-->
+        <record id="approval_benefit_email" model="mail.template">
+            <field name="name">رسالة  تفيد بتدقيق طلب التسجيل والتفعيل </field>
+            <field name="model_id" ref="odex_benefit.model_grant_benefit"/>
+            <field name="email_from">
+                <![CDATA[${user.company_id.name} <${(user.company_id.email or user.partner_id.email or 'noreply@localhost')|safe}>]]></field>
+            <field name="email_to">${object.email|safe}</field>
+            <field name="subject"><![CDATA[ اشعار بتفعيل الحساب ]]></field>
+            <field name="body_html">
+                <![CDATA[
+                    <div style="text-align: right;direction:rtl">
+                         <p style="font-size: 16px;text-align: right">
+                            السلام عليكم ورحمة الله.
+
+                        </p>
+                        <p style="font-size: 16px;text-align: right">
+                        مرحبا بكم شركائنا ${object.name} المحترمين
+                        </p>
+                        <p style="font-size: 16px;text-align: right">
+                            تم تفعيل تسجيلكم بنجاح ويمكنكم الآن تسجيل الدخول عبر البوابة .
+
+                        </p><br/>
+
+                        <p style="font-size: 16px;text-align: right">
+<!-- <a href="${object.get_url()}">${user.company_id.name}.</a>-->
+
+
+                        </p>
+
+                    </div>
+                ]]>
+            </field>
+        </record>
+
+        <!--first refusal message done-->
+        <record id="first_refusal_benefit_email" model="mail.template">
+            <field name="name">رسالة تفيد بتدقيق طلب التسجيل وعدم التفعيل</field>
+            <field name="model_id" ref="odex_benefit.model_grant_benefit"/>
+            <field name="email_from">
+                <![CDATA[${user.company_id.name} <${(user.company_id.email or user.partner_id.email or 'noreply@localhost')|safe}>]]></field>
+            <field name="email_to">${object.email|safe}</field>
+            <field name="subject"><![CDATA[ اشعار بعدم تفعيل الحساب ]]></field>
+            <field name="body_html">
+                <![CDATA[
+                    <div style="text-align: right;direction:rtl">
+                         <p style="font-size: 16px;text-align: right">
+                            السلام عليكم ورحمة الله.
+
+                        </p>
+                        <p style="font-size: 16px;text-align: right">
+                         مرحبا بكم شركائنا ${object.name} المحترمين
+                        </p>
+                       <p style="font-size: 16px;text-align: right">
+                        نأسف لعدم تفعيل طلب التسجيل الخاص بكم حيث تبين بعد تدقيق طلب التسجيل من قبل الموظف المختص وجود الأخطاء والنواقص التالية:
+                         <br/>
+                         ${object.first_refusal_reason}
+                        </p><br/>
+
+                        <p style="font-size: 16px;text-align: right">
+                            ويمكنكم رفع الطلب مجددا بعد اكمال النواقص المذكورة آنفا .
+
+                        </p><br/>
+                        <p style="font-size: 16px;text-align: right">
+                            شكرا لتفهمكم .
+                        </p><br/>
+                        <p style="font-size: 16px;text-align: right">
+<!-- <a href="${object.get_url()}">${user.company_id.name}.</a>-->
+                        </p>
+                    </div>
+                ]]>
+            </field>
+        </record>
+
+        <!--reject message done-->
+        <record id="reject_entity_email" model="mail.template">
+            <field name="name">رسالة الرفض النهائي للطلب التسجيل  </field>
+            <field name="model_id" ref="odex_benefit.model_grant_benefit"/>
+            <field name="email_from">
+                <![CDATA[${user.company_id.name} <${(user.company_id.email or user.partner_id.email or 'noreply@localhost')|safe}>]]></field>
+            <field name="email_to">${object.email|safe}</field>
+            <field name="subject"><![CDATA[ اشعار بحذف طلب التسجيل ]]></field>
+            <field name="body_html">
+                <![CDATA[
+                    <div style="text-align: right;direction:rtl">
+                        <p style="font-size: 16px;text-align: right">
+                            السلام عليكم ورحمة الله.
+
+                        </p>
+                        <p style="font-size: 16px;text-align: right">
+                         مرحبا بكم شركائنا  ${object.name} المحترمين
+                        </p>
+                        <p style="font-size: 16px;text-align: right">
+                        نحيطكم علما بحذف طلب تسجيلكم لدينا وذلك للأسباب التالية:
+                          <br/>
+                          ${object.final_refusal_reason}.
+                        </p><br/>
+                        <p style="font-size: 16px;text-align: right">
+                            ويمكنكم طلب التسجيل مرة أخرى عند انتهاء هذه الاسباب  .
+                        </p><br/>
+                        <p style="font-size: 16px;text-align: right">
+<!-- <a href="${object.get_url()}">${user.company_id.name}.</a>-->
+                        </p>
+                    </div>
+                ]]>
+            </field>
+        </record>
+        <record id="unlink_entity_email" model="mail.template">
+            <field name="name">رسالة حذف للطلب التسجيل</field>
+            <field name="model_id" ref="odex_benefit.model_grant_benefit"/>
+            <field name="email_from">
+                <![CDATA[${user.company_id.name} <${(user.company_id.email or user.partner_id.email or 'noreply@localhost')|safe}>]]></field>
+            <field name="email_to">${object.email|safe}</field>
+            <field name="subject"><![CDATA[ اشعار بحذف طلب التسجيل ]]></field>
+            <field name="body_html">
+                <![CDATA[
+                    <div style="text-align: right;direction:rtl">
+                        <p style="font-size: 16px;text-align: right">
+                            السلام عليكم ورحمة الله.
+
+                        </p>
+                        <p style="font-size: 16px;text-align: right">
+                         مرحبا بكم شركائنا  ${object.name} المحترمين
+
+                        </p>
+                        <p style="font-size: 16px;text-align: right">
+                        نحيطكم علما بحذف طلب تسجيلكم لدينا
+                        </p><br/>
+                        <p style="font-size: 16px;text-align: right">
+                            ويمكنكم طلب التسجيل مرة أخرى.
+
+                        </p><br/>
+                        <p style="font-size: 16px;text-align: right">
+<!-- <a href="${object.get_url()}">${user.company_id.name}.</a>-->
+
+
+                        </p>
+
+                    </div>
+                ]]>
+            </field>
+        </record>
+        <!--black list message done-->
+        <record id="black_list_entity_email" model="mail.template">
+            <field name="name">رسالة القائمة السوداء</field>
+            <field name="model_id" ref="odex_benefit.model_grant_benefit"/>
+            <field name="email_from">
+                <![CDATA[${user.company_id.name} <${(user.company_id.email or user.partner_id.email or 'noreply@localhost')|safe}>]]></field>
+            <field name="email_to">${object.email|safe}</field>
+            <field name="subject"><![CDATA[ اشعار بإدراجكم في القائمة السوداء ]]></field>
+            <field name="body_html">
+                <![CDATA[
+                    <div style="text-align: right;direction:rtl">
+                        <p style="font-size: 16px;text-align: right">
+                            السلام عليكم ورحمة الله.
+
+                        </p>
+                        <p style="font-size: 16px;text-align: right">
+                         مرحبا بكم شركائنا ${object.name} المحترمين
+
+
+                        </p>
+                        <p style="font-size: 16px;text-align: right">
+                        يؤسفنا ان نحيطكم علما بإدراجكم بالقائمة السوداء وذلك للأسباب التالية:
+                         <br/>
+                         ${object.black_list_reason}.
+                        </p><br/>
+                        <p style="font-size: 16px;text-align: right">
+                            في حال وجود أي ملاحظات أو استفسارات ، الرجاء التواصل معنا وشكرا .
+
+                        </p><br/>
+                        <p style="font-size: 16px;text-align: right">
+<!-- <a href="${object.get_url()}">${user.company_id.name}.</a>-->
+
+
+                        </p>
+
+                    </div>
+                ]]>
+            </field>
+        </record>
+
+        <!--remove from black message-->
+        <record id="black_list_remove_benefit_email" model="mail.template">
+            <field name="name">رسالة رفع من القائمة السوداء</field>
+            <field name="model_id" ref="odex_benefit.model_grant_benefit"/>
+            <field name="email_from">
+                <![CDATA[${user.company_id.name} <${(user.company_id.email or user.partner_id.email or 'noreply@localhost')|safe}>]]></field>
+            <field name="email_to">${object.email|safe}</field>
+            <field name="subject"><![CDATA[ إشعار بالإزالة من القائمة السوداء ]]></field>
+            <field name="body_html">
+                <![CDATA[
+                    <div style="text-align: right;direction:rtl">
+                        <p style="font-size: 16px;text-align: right">
+                            السلام عليكم ورحمة الله.
+
+                        </p>
+                        <p style="font-size: 16px;text-align: right">
+                         مرحبا بكم شركائنا  ${object.name} المحترمين
+
+
+                        </p>
+                        <p style="font-size: 16px;text-align: right">
+                        يسعدنا أن نحيطكم علما بأنه قد تم إزالتكم من القائمة السوداء.
+
+                        </p><br/>
+                        <p style="font-size: 16px;text-align: right">
+                            يمكنكم تسجيل الدخول على حسابكم وشكرا .
+
+                        </p><br/>
+                        <p style="font-size: 16px;text-align: right">
+<!-- <a href="${object.get_url()}">${user.company_id.name}.</a>-->
+
+
+                        </p>
+
+                    </div>
+                ]]>
+            </field>
+        </record>
+
+        <!--Open Edition message-->
+        <record id="edit_benefit_email" model="mail.template">
+            <field name="name">رسالة فتح تعديل البيانات</field>
+            <field name="model_id" ref="odex_benefit.model_grant_benefit"/>
+            <field name="email_from">
+                <![CDATA[${user.company_id.name} <${(user.company_id.email or user.partner_id.email or 'noreply@localhost')|safe}>]]></field>
+            <field name="email_to">${object.email|safe}</field>
+            <field name="subject"><![CDATA[ إشعار بفتح تعديل البيانات ]]></field>
+            <field name="body_html">
+                <![CDATA[
+                    <div style="text-align: right;direction:rtl">
+                         <p style="font-size: 16px;text-align: right">
+                            السلام عليكم ورحمة الله.
+
+                        </p>
+                        <p style="font-size: 16px;text-align: right">
+                         مرحبا بكم شركائنا في العمل الخيري ${object.name} المحترمين
+
+
+                        </p>
+                        <p style="font-size: 16px;text-align: right">
+                        بناءا على طلبكم لقد تم فتح تعديل البيانات لكم لتعديل على حسابكم.
+
+                        </p><br/>
+                        <p style="font-size: 16px;text-align: right">
+<!-- <a href="${object.get_url()}">${user.company_id.name}.</a>-->
+
+
+                        </p>
+
+                    </div>
+                ]]>
+            </field>
+        </record>
+
+        <!--first refusal message-->
+        <record id="first_refusal_edit_entity_email" model="mail.template">
+            <field name="name">رسالة الرفض المبدئي</field>
+            <field name="model_id" ref="odex_benefit.model_grant_benefit"/>
+            <field name="email_from">
+                <![CDATA[${user.company_id.name} <${(user.company_id.email or user.partner_id.email or 'noreply@localhost')|safe}>]]></field>
+            <field name="email_to">${object.email|safe}</field>
+            <field name="subject"><![CDATA[ اشعار بعدم تفعيل الحساب ]]></field>
+            <field name="body_html">
+                <![CDATA[
+                    <div style="text-align: right;direction:rtl">
+                        <p style="font-size: 16px;text-align: right">
+                            السلام عليكم ورحمة الله.
+
+                        </p>
+                        <p style="font-size: 16px;text-align: right">
+                         مرحبا بكم شركائنا في العمل الخيري ${object.name} المحترمين
+
+
+                        </p>
+                        <p style="font-size: 16px;text-align: right">
+                        نأسف لعدم تفعيل طلب التسجيل الخاص بكم حيث تبين بعد تدقيق طلب التسجيل من قبل الموظف المختص وجود الأخطاء والنواقص التالية :
+                        </p><br/>
+                        <p style="font-size: 16px;text-align: right">
+                        ${object.first_refusal_reason}
+                        </p><br/>
+
+
+                        <p style="font-size: 16px;text-align: right">
+                            ويمكنكم رفع الطلب مجددا بعد اكمال النواقص المذكورة آنفا .
+                            </p><br/>
+                        <p style="font-size: 16px;text-align: right">
+شكرا لتفهمكم .
+                        </p><br/>
+
+
+
+
+                        <p style="font-size: 16px;text-align: right">
+<!-- <a href="${object.get_url()}">${user.company_id.name}.</a>-->
+
+
+                        </p>
+
+                    </div>
+                ]]>
+            </field>
+        </record>
+
+        <record id="reset_entity_email_username" model="mail.template">
+            <field name="name">رسالة استعادة اسم المستخدم</field>
+            <field name="model_id" ref="base.model_res_users"/>
+            <field name="email_from">
+                <![CDATA[${user.company_id.name} <${(user.company_id.email or user.partner_id.email or 'noreply@localhost')|safe}>]]></field>
+            <field name="email_to">${object.partner_id.email|safe}</field>
+            <field name="subject"><![CDATA[ رسالة استعادة اسم المستخدم ]]></field>
+            <field name="body_html">
+                <![CDATA[
+                    <div style="text-align: right;direction:rtl">
+                         <p style="font-size: 16px;text-align: right">
+                            السلام عليكم ورحمة الله.
+
+                        </p>
+                        <p style="font-size: 16px;text-align: right">
+                         مرحبا بكم شركائنا في العمل الخيري ${object.partner_id.name} المحترمين
+
+
+                        </p>
+                        <p style="font-size: 16px;text-align: right">
+                        اسم المستخدم الخاص بكم هو :  ${object.login|safe}
+
+                        </p><br/>
+                        <p style="font-size: 16px;text-align: right">
+                            وتفضلوا بقبول فائق التحية والتقدير .
+
+                        </p><br/>
+                        <p style="font-size: 16px;text-align: right">
+<!-- <a href="${object.get_url()}">${user.company_id.name}.</a>-->
+
+
+                        </p>
+
+                    </div>
+                ]]>
+            </field>
+        </record>
+
+
+        <record id="changes_received_email" model="mail.template">
+            <field name="name">ايميل استلام تحديث البيانات</field>
+            <field name="model_id" ref="odex_benefit.model_grant_benefit"/>
+            <field name="email_from">
+                <![CDATA[${user.company_id.name} <${(user.company_id.email or user.partner_id.email or 'noreply@localhost')|safe}>]]></field>
+            <field name="email_to">${object.partner_id.email|safe}</field>
+            <field name="subject"><![CDATA[ اشعار باستلام تحديث البيانات  ]]></field>
+            <field name="body_html">
+                <![CDATA[
+                    <div style="text-align: right;direction:rtl">
+                        <p style="font-size: 16px;text-align: right">
+                         مرحبا بكم شركائنا في العمل الخيري ${object.name} المحترمين
+                        </p>
+                        <p style="font-size: 16px;text-align: right">
+                            السلام عليكم ورحمة الله.
+                        </p>
+                        <p style="font-size: 16px;text-align: right">
+                        تم استلام طلب تحديث بياناتكم , سيتم تدقيقها في أقرب وقت ممكن ومن ثم إفادتكم.
+
+                        </p><br/>
+                        <p style="font-size: 16px;text-align: right">
+                            وتفضلوا بقبول فائق التحية والتقدير .
+
+                        </p><br/>
+                        <p style="font-size: 16px;text-align: right">
+<!-- <a href="${object.get_url()}">${user.company_id.name}.</a>-->
+
+
+                        </p>
+
+                    </div>
+                ]]>
+            </field>
+        </record>
+        <record id="visit_date_email" model="mail.template">
+            <field name="name"> تحديد موعد زيارة</field>
+            <field name="model_id" ref="odex_benefit.model_visit_location"/>
+            <field name="email_from">
+                <![CDATA[${user.company_id.name} <${(user.company_id.email or user.partner_id.email or 'noreply@localhost')|safe}>]]></field>
+            <field name="email_to">${(object.researcher_id.email and object.benefit_id.email)|safe}</field>
+            <field name="subject"><![CDATA[ اشعار يتحديد موعد الزيارة]]></field>
+            <field name="body_html">
+                <![CDATA[
+                    <div style="text-align: right;direction:rtl">
+                        ${object.message}
+                    </div>
+                ]]>
+            </field>
+        </record>
+    </data>
+</odoo>

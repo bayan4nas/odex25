@@ -1,0 +1,66 @@
+<odoo>
+    <!-- Form View -->
+    <record id="view_membership_cancellation_request_form" model="ir.ui.view">
+        <field name="name">membership.cancellation.request.form</field>
+        <field name="model">membership.cancellation.request</field>
+        <field name="arch" type="xml">
+            <form string="Membership Cancellation Request">
+                <header>
+                    <button name="action_approve" string="Approve" type="object" class="oe_highlight" attrs="{'invisible': [('state', '!=', 'draft')]}"/>
+                    <button name="action_reject" string="Reject" type="object" class="oe_highlight" attrs="{'invisible': [('state', '!=', 'draft')]}"/>
+                    <field name="state" widget="statusbar" readonly="1"/>
+
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field  domain='[("state","in",["active","expire"])]' attrs="{'readonly': [('state', '!=', 'draft')]}" name="membership_id"/>
+                            <field  attrs="{'readonly': [('state', '!=', 'draft')]}" name="member_id"/>
+                            <field  attrs="{'readonly': [('state', '!=', 'draft')]}" name="membership_type_id"/>
+                        </group>
+                        <gruop>
+                            <field  attrs="{'readonly': [('state', '!=', 'draft')]}" name="request_date"/>
+                        </gruop>
+                    </group>
+                    <div>
+                    <h3>
+                        <label for="cancel_reason"/>
+                        <field  attrs="{'readonly': [('state', '!=', 'draft')]}" name="cancel_reason"/>
+
+                    </h3></div>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids" />
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Tree View -->
+    <record id="view_membership_cancellation_request_tree" model="ir.ui.view">
+        <field name="name">membership.cancellation.request.tree</field>
+        <field name="model">membership.cancellation.request</field>
+        <field name="arch" type="xml">
+            <tree string="Membership Cancellation Requests">
+                <field name="membership_id"/>
+                <field name="member_id"/>
+                <field name="membership_type_id"/>
+                <field name="cancel_reason"/>
+                <field name="request_date"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_membership_cancellation_request" model="ir.actions.act_window">
+        <field name="name">Membership Cancellation Requests</field>
+        <field name="res_model">membership.cancellation.request</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Menu Item -->
+    <menuitem id="menu_membership_cancellation_request" name="Membership Cancellation Requests" parent="dev_membership.menu_membership_root" action="action_membership_cancellation_request"/>
+</odoo>

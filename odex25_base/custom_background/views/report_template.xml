@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <!-- Inherit template for set the transparent backgrounf in PFD #T4818 -->
+        <template id="report_assets_pdf_inherited" inherit_id="web.report_assets_pdf">
+            <link position="after">
+                <link
+                    href="/custom_background/static/src/scss/report_qweb_pdf.scss"
+                    rel="stylesheet"
+                />
+            </link>
+        </template>
+    </data>
+</odoo>

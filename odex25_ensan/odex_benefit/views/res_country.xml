@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Inherit Form res.country View to add is_excluded field to exclude some family in registration -->
+        <record id="res_partner_data" model="ir.ui.view">
+            <field name="name">res.country.inherit</field>
+            <field name="model">res.country</field>
+            <field name="inherit_id" ref="base.view_country_form"/>
+            <field name="arch" type="xml">
+               <xpath expr="//group[@name='country_details']" position="after">
+                   <group>
+                     <field name="is_excluded" groups="odex_benefit.group_benefit_manager"></field>
+                   </group>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

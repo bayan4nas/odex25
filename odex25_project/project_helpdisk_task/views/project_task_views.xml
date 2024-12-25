@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Project Tasks from inherite-->
+    <record id="view_task_form2" model="ir.ui.view">
+        <field name="name">project.task.form</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_form2" />
+        <field name="arch" type="xml">
+            <field name="tag_ids" position="after">
+                    <field name="link_helpdisk_task" invisible="1"/>
+                    <field name="ticket_id"
+                           attrs="{'invisible': [('link_helpdisk_task', '!=', True)]}"/>
+                    <field name="ticket_ip_address"
+                           attrs="{'invisible': [('link_helpdisk_task', '!=', True)]}"/>
+                    <field name="ticket_db_name"
+                           attrs="{'invisible': [('link_helpdisk_task', '!=', True)]}"/>
+                </field>
+        </field>
+    </record>
+
+    
+</odoo>

@@ -1,0 +1,341 @@
+<odoo>
+    <data>
+        <template id="employee_purchase_report2" name="Purchase Requistion Report">
+            <t t-call="web.html_container">
+                <t t-call="web.internal_layout">
+
+                    <style type="text/css">
+                        @font-face {
+                        font-family: 'GE_SS_Unique_Bold';
+                        src: local('GE_SS_Unique_Bold.otf'), local('GE_SS_Unique_Bold.otf'),
+                        url('/purchase_custom_report/static/fonts/GE_SS_Unique_Bold.otf') format('truetype');
+                        }@font-face {
+                        font-family: 'ae_AlMohanad';
+                        src: local('ae_AlMohanad.ttf'), local('ae_AlMohanad.ttf'),
+                        url('/purchase_custom_report/static/fonts/ae_AlMohanad.ttf') format('truetype');
+                        }
+                        .page{
+                        font-family: Times New Roman;;
+                        }
+                        table{
+                        width :100%;
+                        border : 1px solid black;
+                        border-collapse : collapse;
+                        font-size : 13pt;
+
+                        }
+                        th{
+                        border : 1px solid black;
+                        background-color: #07b8ad; color: #ffffff;
+                        text-align : center;
+                        padding : 5px;
+                        }
+                        td{
+                        border : 1px solid black;
+                        text-align : center;
+                        padding : 3px;
+                        }
+                        .cr_t{
+                        text-align : center;
+                        }
+
+                    </style>
+                    <div class="page" size="A4">
+                        <t t-if="datas['type'] == 'total'">
+                            <center>
+                                <h3>Purchase Reuistion Total</h3>
+                                <table>
+                                    <tr>
+                                        <th rowspan="2" style="verical-align :center">Group By</th>
+                                        <th colspan="2">Period</th>
+
+                                    </tr>
+                                    <tr>
+                                        <th>From</th>
+                                        <th>To</th>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <t t-esc="'Employee'"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="datas['date_from']"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="datas['date_to']"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </center><br/><br/>
+                            <t t-set="count" t-value="1"/>
+                            <t t-set="qty_total" t-value="0"/>
+                            <t t-set="amount_total" t-value="0"/>
+                            <t t-set="amount_price" t-value="0"/>
+                            <t t-set="amount_prices" t-value="0"/>
+                            <!--                        <h3><t t-esc="o.employee_id.name"/></h3>-->
+                            <table>
+                                <!-- <thead> -->
+                                <tr>
+                                    <th>#</th>
+                                    <th>Date</th>
+                                    <th>PR NO.</th>
+                                    <th>Department</th>
+                                    <th>Employee</th>
+                                    <th>State</th>
+                                    <th>Amount</th>
+                                </tr>
+                                <!-- </thead> -->
+                                <tbody>
+                                    <t t-foreach="docs" t-as="o">
+                                        <t t-foreach="o.line_ids" t-as="prod">
+                                            <t t-set="amount_price" t-value="amount_price+prod.sum_total"/>
+                                        </t>
+                                        <t t-set="amount_prices" t-value="amount_prices+amount_price"/>
+                                        <tr>
+                                            <td>
+                                                <t t-esc="count"/>
+                                            </td>
+                                            <t t-set="count" t-value="count+1"/>
+                                            <td>
+                                                <t t-esc="o.date"/>
+                                            </td>
+                                            <td>
+                                                <t t-esc="o.name"/>
+                                            </td>
+                                            <td>
+                                                <t t-esc="o.department_id.name"/>
+                                            </td>
+                                            <td>
+                                                <t t-esc="o.employee_id.name"/>
+                                            </td>
+                                            <td>
+                                                <t t-esc="o.state"/>
+                                            </td>
+                                            <td>
+                                                <t t-esc="amount_price"/>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                    <tr style="background-color: #07b8ad; color: #ffffff;">
+                                        <td colspan="6">Total</td>
+                                        <td>
+                                            <t t-esc="amount_prices"/>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <t t-set="count" t-value="1"/>
+                            <t t-set="amount_prices" t-value="0"/>
+                            <br/>
+                        </t>
+                        <t t-else=''>
+                            <center>
+                                <h3>Purchase Reuistion Total</h3>
+                                <table>
+                                    <tr>
+                                        <th rowspan="2" style="verical-align :center">Group By</th>
+                                        <th colspan="2">Period</th>
+                                    </tr>
+                                    <tr>
+                                        <th>From</th>
+                                        <th>To</th>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <t t-esc="'Employee'"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="datas['date_from']"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="datas['date_to']"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </center><br/>
+                            <t t-set="count" t-value="1"/>
+                            <t t-set="qty_total" t-value="0"/>
+                            <t t-set="amount_total" t-value="0"/>
+                            <t t-set="amount_price" t-value="0"/>
+                            <t t-set="amount_prices" t-value="0"/>
+                            <!--                        <h3><t t-esc="o.employee_id.name"/></h3>-->
+                            <table>
+                                <!-- <thead> -->
+                                <tr>
+                                    <th>#</th>
+                                    <th>Date</th>
+                                    <th>PR NO.</th>
+                                    <th>Department</th>
+                                    <th>Employee</th>
+                                    <th>State</th>
+                                    <th>Product</th>
+                                    <th>QTY</th>
+                                    <th>Amount</th>
+                                </tr>
+                                <!-- </thead> -->
+                                <tbody>
+                                    <t t-foreach="docs" t-as="o">
+
+                                        <tr t-foreach="o.line_ids" t-as="line">
+                                            <t t-set="qty_total" t-value="qty_total + line.qty"/>
+<!--                                            <t t-set="count" t-value="1"/>-->
+                                            <t t-set="amount_total" t-value="amount_total+ line.sum_total"/>
+                                            <td>
+                                                <t t-esc="count"/>
+                                                <t t-set="count" t-value="count + 1"/>
+                                            </td>
+                                            <td>
+                                                <t t-esc="line.request_id.date"/>
+                                            </td>
+                                            <td>
+                                                <t t-esc="line.request_id.name"/>
+                                            </td>
+                                            <td>
+                                                <t t-esc="line.request_id.department_id.name"/>
+                                            </td>
+                                            <td>
+                                                <t t-esc="line.request_id.employee_id.name"/>
+                                            </td>
+                                            <td>
+                                                <t t-esc="line.request_id.state"/>
+                                            </td>
+                                            <td>
+                                                <t t-esc="line.product_id.name"/>
+                                            </td>
+                                            <td>
+                                                <t t-esc="line.qty"/>
+                                            </td>
+                                            <td>
+                                                <t t-esc="line.sum_total"/>
+                                            </td>
+                                        </tr>
+
+                                    </t>
+                                    <tr style="background-color: #07b8ad; color: #ffffff;">
+                                        <td colspan="7">Total</td>
+                                        <td>
+                                            <t t-esc="qty_total"/>
+                                        </td><td>
+                                            <t t-esc="amount_total"/>
+                                        </td>
+                                    </tr>
+                                    <t t-set="qty_total" t-value="0"/>
+<!--                                    <t t-set="count" t-value="1"/>-->
+                                    <t t-set="amount_total" t-value="0"/>
+
+                                </tbody>
+                            </table>
+                            <t t-set="count" t-value="1"/>
+                            <t t-set="amount_prices" t-value="0"/>
+                            <br/>
+                        </t>
+<!--                        <t t-else="">-->
+<!--                            <center>-->
+<!--                                <h3>Purchase Requistion Detailed Report</h3>-->
+<!--                            </center>-->
+<!--                            <table>-->
+<!--                                <tr>-->
+<!--                                    <th rowspan="2" style="verical-align :center">Group By</th>-->
+<!--                                    <th colspan="2">Period</th>-->
+<!--                                    <th rowspan="2">-->
+<!--                                        State-->
+<!--                                    </th>-->
+<!--                                </tr>-->
+<!--                                <tr>-->
+<!--                                    <th>From</th>-->
+<!--                                    <th>To</th>-->
+<!--                                </tr>-->
+<!--                                <tr>-->
+<!--                                    <td>-->
+<!--                                        <t t-esc="group_by"/>-->
+<!--                                    </td>-->
+<!--                                    <td>-->
+<!--                                        <t t-esc="datas['date_from']"/>-->
+<!--                                    </td>-->
+<!--                                    <td>-->
+<!--                                        <t t-esc="datas['date_to']"/>-->
+<!--                                    </td>-->
+<!--                                    <td>-->
+<!--                                        <t t-esc="datas['state']"/>-->
+<!--                                    </td>-->
+<!--                                </tr>-->
+<!--                            </table>-->
+
+<!--                            <t t-set="count" t-value="1"/>-->
+<!--                            <t t-set="qty_total" t-value="0"/>-->
+<!--                            <t t-set="amount_total" t-value="0"/>-->
+<!--&lt;!&ndash;                            <t t-foreach="docs" t-as="o">&ndash;&gt;-->
+<!--                                <table>-->
+<!--                                    &lt;!&ndash; <thead> &ndash;&gt;-->
+<!--                                    <tr>-->
+<!--                                        <th>#</th>-->
+<!--                                        <th>Date</th>-->
+<!--                                        <th>Department</th>-->
+<!--                                        <th>Employee</th>-->
+<!--                                        <th>State</th>-->
+<!--                                        <th>Product</th>-->
+<!--                                        <th>Quantity</th>-->
+<!--                                        <th>Amount</th>-->
+<!--                                    </tr>-->
+<!--                                    &lt;!&ndash; </thead> &ndash;&gt;-->
+<!--                                    <tbody>-->
+<!--                                        <t t-foreach="docs" t-as="o">-->
+<!--                                            <t t-foreach="o.line_ids" t-as="line">-->
+<!--                                                <tr>-->
+<!--                                                    <td>-->
+<!--                                                        <t t-esc="count"/>-->
+<!--                                                    </td>-->
+
+<!--                                                    <td>-->
+<!--                                                        <t t-esc="line.request_id.date"/>-->
+<!--                                                    </td>-->
+<!--                                                    <td>-->
+<!--                                                        <t t-esc="o.name"/>-->
+<!--                                                    </td>-->
+<!--                                                    <td>-->
+<!--                                                        <t t-esc="o.department_id.name"/>-->
+<!--                                                    </td>-->
+<!--                                                    <td>-->
+<!--                                                        <t t-esc="o.employee_id.name"/>-->
+<!--                                                    </td>-->
+<!--                                                    <td>-->
+<!--                                                        <t t-esc="o.state"/>-->
+<!--                                                    </td>-->
+<!--                                                    <td>-->
+<!--                                                        <t t-esc="line.product_id.name"/>-->
+<!--                                                    </td>-->
+<!--                                                    <td>-->
+<!--                                                        <t t-esc="line.qty"/>-->
+<!--                                                    </td>-->
+<!--                                                    <td>-->
+<!--                                                        <t t-esc="line.sum_total"/>-->
+<!--                                                    </td>-->
+<!--                                                </tr>-->
+<!--                                                <t t-set="count" t-value="count + 1"/>-->
+<!--                                                <t t-set="qty_total" t-value="qty_total + line.qty"/>-->
+<!--                                                <t t-set="amount_total" t-value="amount_total+ line.sum_total"/>-->
+<!--                                            </t>-->
+<!--                                            <tr style="background-color: #07b8ad; color: #ffffff;">-->
+<!--                                                <td colspan="8">Total</td>-->
+<!--                                                <td>-->
+<!--                                                    <t t-esc="qty_total"/>-->
+<!--                                                </td>-->
+<!--                                                <td>-->
+<!--                                                    <t t-esc="amount_total"/>-->
+<!--                                                </td>-->
+<!--                                            </tr>-->
+<!--                                        </t>-->
+<!--                                    </tbody>-->
+<!--                                </table>-->
+<!--                                <t t-set="count" t-value="1"/>-->
+<!--                                <t t-set="qty_total" t-value="0"/>-->
+<!--                                <t t-set="amount_total" t-value="0"/>-->
+<!--                                <br/>-->
+<!--&lt;!&ndash;                            </t>&ndash;&gt;-->
+<!--                        </t>-->
+                    </div>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="makfoul_details">
+        <t t-set="title"> بيانات المكفول </t>
+        <t t-call="website.layout">
+            <section class="my_details padding_top">
+                <div class="container">
+                    <h2 class="heading">كفالاتي </h2>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="#">الكفالات </a>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a href="#">كفالاتي </a>
+                            </li>
+                            <li class="breadcrumb-item benefit_name active" aria-current="page"> </li>
+                        </ol>
+                    </nav>
+                    <section class="makfoul_data">
+                        <div class="row">
+                            <div class="col-lg-9 the_benefit_details">
+                                
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="actions">
+                                    <a href="#"
+                                        class="d-flex align-items-center justify-content-center ">
+                                        <img src="/takaful_portal_sponsor/static/img/gift_1.png"
+                                            alt="gift" />
+                                        <span>إهداء مالي</span>
+                                    </a>
+                                    <a href="#"
+                                        class="d-flex align-items-center justify-content-center ">
+                                        <img src="/takaful_portal_sponsor/static/img/credit.png"
+                                            alt="credit" />
+                                        <span> سداد كفالة </span>
+                                    </a>
+                                    <a href="#"
+                                        class="d-flex align-items-center justify-content-center ">
+                                        <img src="/takaful_portal_sponsor/static/img/helping.png"
+                                            alt="helping" />
+                                        <span> ساهم في الاحتياجات </span>
+                                    </a>
+                                    <a href="#"
+                                        class="d-flex cancel_btn align-items-center justify-content-center ">
+                                        <img src="/takaful_portal_sponsor/static/img/red_cancel.png"
+                                            alt="red_cancel" />
+                                        <span> إلغاء الكفالة </span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+
+                    <!-- makfoul modals  -->
+
+                    <!-- الاهداء المالي  -->
+                    <!-- Single Kafala Modal  -->
+
+                    <div class="modal kafala_modal single_kafala fade" id="SingleKafala"
+                        tabindex="-1"
+                        role="dialog"
+                        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title heading" id="exampleModalLongTitle">
+                                        إهداء مالي
+                                    </h5>
+                                    <button type="button" class="close" data-dismiss="modal"
+                                        aria-label="Close">
+                                        <img src="/takaful_portal_sponsor/static/img/close.png"
+                                            alt="close" />
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="">
+                                        <input type="hidden" name="operation_type" id="operation_type" />
+                                        <div class="row">
+                                            <div class="form-group col-lg-12">
+                                                <label for="work" class="control-label"> اسم المستفيد </label>
+                                                <div class="">
+                                                    <input type="text" class="form-control"
+                                                        id="work"
+                                                        name="work"
+                                                        placeholder="أحمد بلال" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-lg-6">
+                                                <label for="work" class="control-label"> رقم المستفيد </label>
+                                                <div class="">
+                                                    <input type="text" class="form-control"
+                                                        id="work"
+                                                        name="work"
+                                                        placeholder="12020" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-lg-6">
+                                                <label for="myCity" class=" control-label"> نوع
+                                                    المستفيد </label>
+                                                    <div class="">
+                                                        <input type="text" class="form-control"
+                                                            id="work"
+                                                            name="work"
+                                                            placeholder="يتيم" />
+                                                    </div>
+                                            </div>
+                                            <div class="form-group col-lg-6">
+                                                <label for="myCity" class=" control-label"> 
+                                                    المبلغ
+                                                </label>
+                                                    <div class="">
+                                                        <input type="text" class="form-control"
+                                                            id="work"
+                                                            name="work"
+                                                            placeholder="300 ر.س" />
+                                                    </div>
+                                            </div>
+                                            <div class="form-group col-lg-6">
+                                                <label for="pay_months" class=" control-label"> 
+                                                    عدد الشهور 
+                                                </label>
+                                                    <div class="">
+                                                        <input type="text" class="form-control"
+                                                            id="pay_months"
+                                                            name="pay_months"
+                                                            placeholder="300 ر.س" />
+                                                    </div>
+                                            </div>
+                                            <div class="form-group col-lg-12">
+                                                <label for="name"> هل تريد    ارسال رسالة  ؟ </label>
+                                                <div class="">
+                                                    <textarea type="text" 
+                                                        class="form-control" id="month_number"
+                                                        name="month_number"></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-lg-6">
+                                                <label for="payment_method" class=" control-label"> طريقة الدفع </label>
+                                                <select id="payment_method" name="payment_method" class="custom-select">
+                                                    <option selected="" value="month">   </option>
+                                                    <option value="once "> بايبال </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary">تأكيد انشاء كفاله </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <script src="/takaful_portal_sponsor/static/js/makfoul_details.js"></script>
+
+        </t>
+
+    </template>
+
+
+</odoo>

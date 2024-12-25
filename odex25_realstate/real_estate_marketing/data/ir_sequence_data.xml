@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+
+        <record id="sequence_client_requirements" model="ir.sequence">
+            <field name="name">Client Requirement</field>
+            <field name="code">re.clients.requirement</field>
+            <field name="prefix">RE/%(year)s/</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+            <field name="number_increment" eval="1"/>
+        </record>
+
+        <record id="sequence_re_sale" model="ir.sequence">
+            <field name="name">Property Sales</field>
+            <field name="code">re.sale</field>
+            <field name="prefix">PS/%(year)s/</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+            <field name="number_increment" eval="1"/>
+        </record>
+
+
+    </data>
+</odoo>

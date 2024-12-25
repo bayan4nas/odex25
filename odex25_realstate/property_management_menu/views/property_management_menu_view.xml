@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+
+        <menuitem name="Property Management"
+                  id="property_management_main_menu"
+                  web_icon="property_management,static/description/property.png"
+        />
+
+        <menuitem name="Property Management"
+                  id="property_management_menu"
+                  parent="property_management_main_menu"
+                  sequence="1"
+        />
+
+<!--        <menuitem name="Property Maintenance"-->
+<!--                  id="property_maintenance_main_menu"-->
+<!--                  sequence="3"-->
+<!--        />-->
+
+<!--         <menuitem name="Property Maintenance"-->
+<!--                  id="property_maintenance_main_menu"-->
+<!--                  parent="property_management_main_menu"-->
+<!--                  sequence="1"-->
+<!--        />-->
+
+        <menuitem name="Configuration"
+                  id="property_management_conf"
+                  parent="property_management_main_menu"
+                  sequence="3" 
+                  groups="property_management.group_property_manager"
+        />
+
+        <menuitem name="Report"
+                  id="property_management_report_menu"
+                  parent="property_management_main_menu"
+                  sequence="2"
+        />
+
+        <menuitem name="Residential Property"
+                  id="property_residential_menu"
+                  parent="property_management_report_menu"
+                  sequence="2"
+        />
+
+        <menuitem name="Commercial Property "
+                  id="property_commercial_menu"
+                  parent="property_management_report_menu"
+                  sequence="2"
+        />
+
+        <!-- End of Contract Action -->
+        <record id="rent_end_action" model="ir.actions.act_window">
+            <field name="name">End of rental contract</field>
+            <field name="res_model">end.of.rent</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem name="Rental Contract End"
+                  id="rental_contract_end_menu"
+                  parent="property_management_menu"
+                  action="rent_end_action"
+                  sequence="3"/>
+
+         <!-- Transfer Contact action -->
+        <record id="action_transfer_contract" model="ir.actions.act_window">
+            <field name="name">Transfer Contract Contract</field>
+            <field name="res_model">transfer.contract</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+        <!-- Transfer Contract -->
+        <menuitem name="Transfer Contract"
+                  id="menu_transfer_contract"
+                  parent="property_management_menu"
+                  action="action_transfer_contract"
+                  sequence="4"/>
+
+        <!-- Property Maintenance Action -->
+
+        <record id="property_maintenance_action" model="ir.actions.act_window">
+            <field name="name">Property Maintenance</field>
+            <field name="res_model">property.management.maintenance</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem name="Property Maintenance"
+                  id="property_maintenance_menu"
+                  parent="property_management_main_menu"
+                  action="property_maintenance_action"
+                  sequence="2"/>
+
+        <!-- Configuration Action -->
+
+        <record id="rent_type_action" model="ir.actions.act_window">
+            <field name="name">Rent Type</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">rent.type</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+        <menuitem name="Rent Type"
+                  id="property_type_menu"
+                  parent="property_management_conf"
+                  action="rent_type_action"
+                  sequence="1"/>
+
+        <!-- Rent Payment Action -->
+
+        <record id="rent_payment_action" model="ir.actions.act_window">
+            <field name="name">Rent Payment</field>
+            <field name="res_model">rent.payment</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem name="Rent Payment"
+                  id="rent_payment_menu"
+                  parent="property_management_menu"
+                  action="rent_payment_action"
+                  sequence="2"/>
+
+
+        <!-- Rental Contract Action -->
+        <record id="rental_contract_action" model="ir.actions.act_window">
+            <field name="name">Rental Contract</field>
+            <field name="res_model">rental.contract</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'search_default_contract_not_cancelled':1}</field>
+        </record>
+
+
+        <menuitem name="Rental Contract"
+                  id="rental_contract_menu"
+                  parent="property_management_menu"
+                  action="rental_contract_action"
+                  sequence="1"/>
+
+
+        <record id="action_rental_contract_template" model="ir.actions.act_window">
+            <field name="name">Rental Contract Template</field>
+            <field name="res_model">rental.contract.template</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem name="Rental Contract Template"
+                  id="rent_contract_template_menu"
+                  parent="property_management_menu"
+                  action="action_rental_contract_template"
+                  sequence="5"/>
+
+
+
+        <!-- Property Management Report Action -->
+
+
+          <record id="property_report_action" model="ir.actions.act_window">
+            <field name="name">Commercial Property</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">internal.property</field>
+            <field name="domain">[('market_type', '=', 'commercial'),
+                ('management_type', '=', 'internal_investment')]
+            </field>
+            <field name="view_mode">kanban</field>
+            <field name="view_id" ref="property_management.property_kanban_view"/>
+        </record>
+
+        <record id="not_owned_property_report_action" model="ir.actions.act_window">
+            <field name="name">Commercial Property</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">internal.property</field>
+            <field name="domain">[('market_type', '=', 'commercial'),
+                ('management_type', '!=', 'internal_investment')]
+            </field>
+            <field name="view_mode">kanban</field>
+            <field name="view_id" ref="property_management.property_kanban_view"/>
+        </record>
+
+
+        <menuitem name="Owned Commercial Property" id="owned_property_info_menu" parent="property_commercial_menu"
+                  action="property_report_action" sequence="1"/>
+
+        <menuitem name="Not Owned Commercial Property" id="not_owned_property_info_menu" parent="property_commercial_menu"
+                  action="not_owned_property_report_action" sequence="1"/>
+
+        <record id="residential_property_report_action" model="ir.actions.act_window">
+            <field name="name">Residential Property</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">internal.property</field>
+            <field name="domain">[('market_type', '=', 'residential'),
+                ('management_type', '=', 'internal_investment')]
+            </field>
+            <field name="view_mode">kanban</field>
+            <field name="view_id" ref="property_management.property_kanban_view"/>
+        </record>
+
+        <record id="not_owned_residential_property_report_action" model="ir.actions.act_window">
+            <field name="name">Residential Property</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">internal.property</field>
+            <field name="domain">[('market_type', '=', 'residential'),
+                ('management_type', '!=', 'internal_investment')]
+            </field>
+            <field name="view_mode">kanban</field>
+            <field name="view_id" ref="property_management.property_kanban_view"/>
+        </record>
+
+
+        <menuitem name="Owned Residential Property" id="owned_residential_property" parent="property_residential_menu"
+                  action="residential_property_report_action" sequence="1"/>
+
+        <menuitem name="Not Owned Residential Property" id="nto_owned_residential_property" parent="property_residential_menu"
+                  action="not_owned_residential_property_report_action" sequence="1"/>
+
+
+        <record id="open_view_rental_contract_action" model="ir.actions.act_window">
+            <field name="name">Rental Contract</field>
+            <field name="res_model">rental.contract</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{}</field>
+        </record>
+
+        <menuitem id="menu_property_rental_contract" sequence="5"
+                  parent="real_estate_marketing.menu_real_estate_marketing"
+                  name="Rental Contract"
+                  action="open_view_rental_contract_action"
+                  groups="real_estate_marketing.group_sale_marketer_normal_user" />
+
+        <record id="action_tenant" model="ir.actions.act_window">
+            <field name="name">Tenants</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('is_tenant', '=', True)]</field>
+            <field name="context">{'default_is_tenant': True}</field>
+            <field name="search_view_id" ref="property_management.view_partner_tenant_search"/>
+        </record>
+        
+     <record id="action_property_config_settings" model="ir.actions.act_window">
+        <field name="name">Settings</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">res.config.settings</field>
+        <field name="view_id" ref="property_management.res_property_settings_view_form"/>
+        <field name="view_mode">form</field>
+        <field name="target">inline</field>
+        <field name="context">{'module' : 'property_management'}</field>
+    </record>
+
+
+        <menuitem id="menu_tenant" name="Tenants"
+                  parent="property_management_menu.property_management_menu"
+                  action="action_tenant"/>
+        
+        <menuitem id="menu_property_general_settings"
+              name="Settings"
+              parent="property_management_menu.property_management_conf"
+              sequence="0"
+              action="action_property_config_settings"/>
+
+<!-- property_management_menu.property_management_conf -->
+    </data>
+</odoo>

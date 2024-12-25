@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<templates id="template" xml:space="preserve">
+       <t t-extend="UserMenu.Actions" >
+        <t t-jquery="li > a[data-menu='logout']" t-operation="replace">
+           <li><a t-attf-href="/web/session/logout?redirect=/"  data-menu="logout">Log out</a></li>
+        </t>
+    </t>
+</templates>

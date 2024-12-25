@@ -1,0 +1,154 @@
+<odoo>
+    <data>
+        <template id="zakat" name="zakat fitr">
+            <t t-set="title"> زكاة الفطر </t>
+            <t t-call="website.layout">
+                <div class="profile_wrapper">
+                    <div class="container">
+                        <h2 class="heading"> زكاة المال </h2>
+                        <div class="zakat_wrapper">
+                            <div class="row zakat_fitr_row">
+
+                            </div>
+                            <div class="zakat_feedback"></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- add donation_modal   -->
+                <div class="modal fade zakat_modal " id="donation_modal" tabindex="-1"
+                    role="dialog"
+                    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title heading" id="exampleModalLongTitle">تبرع
+                                    بزكاتك </h5>
+                                <button type="button" class="close" data-dismiss="modal"
+                                    aria-label="Close">
+                                    <span aria-hidden="true">
+                                        <i class="fa fa-times"></i>
+                                    </span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+<!--                                <form accept-charset="UTF-8" action="https://api.moyasar.com/v1/payments.html" method="POST" id="zakat_fitr_form">-->
+                                <form accept-charset="UTF-8" action="" method="POST" id="zakat_fitr_form">
+                                    <input type="hidden" name="callback_url"
+                                        value="http://localhost:8069/dashboard/payment/feedback" />
+                                    <input type="hidden" name="publishable_api_key" value="pk_test_TuyAsdxaGVuZ5kWkM1Nsre8jakZNFMkaRpPjV3Qs" />
+                                    <div class="row">
+                                        <div class="form-group col-lg-12">
+                                            <label for="donor_name" class="myName control-label">
+                                                اسم المتبرع </label>
+                                            <div class="">
+                                                <input type="text" class="form-control"
+                                                    id="donor_name"
+                                                    name="donor_name" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-lg-6">
+                                            <label for="phone_number" class="myName control-label">
+                                                رقم الجوال </label>
+                                            <div class="">
+                                                <input type="text" class="form-control"
+                                                    id="phone_number"
+                                                    name="phone_number" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-lg-6">
+                                            <label for="donation_type" class=" control-label"> نوع
+                                                التبرع </label>
+                                            <select id="donation_type" name="donation_type"
+                                                class="custom-select">
+                                                <option value="cash" selected="selected">نقدي</option>
+                                                <option value="material">كمي </option>
+                                                <option value="both">كلاهما </option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group price_amount col-lg-6">
+                                            <label for="amount" class="myName  control-label">
+                                                المبلغ </label>
+                                            <div class="">
+                                                <input type="text" class="form-control"
+                                                    id="amount"
+                                                    name="amount" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group price_quantity col-lg-6">
+                                            <label for="quantity" class="myName control-label">
+                                                الكمية </label>
+                                            <div class="">
+                                                <input type="text" class="form-control"
+                                                    id="quantity"
+                                                    name="quantity" />
+                                            </div>
+                                        </div>
+                                        <!-- <div class="form-group payment_method col-lg-6">
+                                            <label for="source[type]" class=" control-label">
+                                                طريقة
+                                                الدفع </label>
+                                            <select id="payment_method" name="source[type]" class="custom-select">
+                                                <option selected="selected" value="creditcard">
+                                                    بطاقة ائتمان </option>
+                                                <option value="applepay"> أبل باي   </option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group price_amount col-lg-6">
+                                            <label for="source[name]" class="myName control-label">
+                                                اسم البطاقة </label>
+                                            <div class="">
+                                                <input type="text" class="form-control"
+                                                    id="cardName"
+                                                    name="source[name]" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group price_amount col-lg-6">
+                                            <label for="source[number]" class="myName control-label">
+                                                رقم البطاقة </label>
+                                            <div class="">
+                                                <input type="text" class="form-control"
+                                                    id="cardNumber"
+                                                    name="source[number]" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group price_amount col-lg-6">
+                                            <label for="source[cvc]" class="myName control-label">
+                                                CVC </label>
+                                            <div class="">
+                                                <input type="text" class="form-control"
+                                                    id="cardCvc"
+                                                    name="source[cvc]" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group price_amount col-lg-6">
+                                            <label for="source[month]">تاريخ الانتهاء </label>
+
+                                            <div class="expiry_wrapper">
+                                                <input
+                                                    type="number" name="source[month]"
+                                                    id="cardExpiryMonth" placeholder="MM"
+                                                    maxlength="2" /> / <input type="number"
+                                                    name="source[year]" id="cardExpiryYear"
+                                                    placeholder="YY"
+                                                    maxlength="2" />
+                                            </div>
+                                        </div> -->
+                                        <div class="new_donor col-lg-12"></div>
+                                        <input type="hidden" id="id_holder_input" />
+                                    </div>
+                                    <button type="submit" class="btn cash_btn main_link btn-primary">
+                                        تأكيد الدفع </button>
+                                    <button type="submit"
+                                        class="btn material_btn main_link btn-primary"> تأكيد
+                                        الكميات </button>
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <!-- <script src="/takaful_portal_benefit/static/js/zakat_fitr.js"></script> -->
+            </t>
+        </template>
+    </data>
+</odoo>

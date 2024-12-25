@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <!-- Project Project -->
+    <record id="view_edit_project_inherit_form" model="ir.ui.view">
+        <field name="name">project.project.view.inherit</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.edit_project"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='company_id']" position="after">
+                <field name="module_project_helpdisk_task" invisible="1"/>
+                <field name="link_helpdisk_task" attrs="{'invisible': [('module_project_helpdisk_task', '!=', True)]}"/>
+            </xpath>
+        </field>
+    </record>
+            
+</odoo>

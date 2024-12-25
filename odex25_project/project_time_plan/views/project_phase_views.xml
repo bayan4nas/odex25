@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="project_phase_form_view_inherit" model="ir.ui.view">
+        <field name="name">project.phase.form.inherit</field>
+        <field name="model">project.phase</field>
+        <field name="inherit_id" ref="project_base.project_phase_form_view"/>
+        <field name="arch" type="xml">
+            <field name="start_date" position="after">
+                <field name="plan_by_departments" invisible="1"/>
+                <field name="department_ids" readonly="1" widget="many2many_tags"
+                       attrs="{'invisible': [('plan_by_departments', '=', False)]}"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="view_edit_project_form_inherit" model="ir.ui.view">
+        <field name="name">project.project.view.inherit</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project_base.view_edit_project_inherit_form"/>
+        <field name="arch" type="xml">
+            <field name="is_down_payment" position="after">
+                <field name="plan_by_departments" invisible="1"/>
+            </field>
+            <xpath expr="//field[@name='company_id']" position="after">
+                <field name="plan_by" attrs="{'readonly':[('state','not in',['draft'])],'required':True}" />
+            </xpath>
+            <xpath expr="//field[@name='project_phase_ids']/tree/field[@name='estimated_hours']" position="after">
+                <field name="department_ids" attrs="{'column_invisible': [('parent.plan_by_departments', '=', False)],'readonly':[('state','not in',['draft'])],'required':[('parent.plan_by_departments', '!=', False)]}" widget="many2many_tags"/>
+                <button name="action_get_phase" type="object" string="Details" icon="fa-list"/>
+            </xpath>
+            <xpath expr="//field[@name='project_phase_ids']/tree/field[@name='estimated_hours']" position="replace">
+                <field name="plan_by_hour" string="Allocated By Hour" attrs="{'column_invisible': [('parent.plan_by', '=', 'man_days')]}"/>
+                <field name="plan_by_day" string="Allocated By Day" attrs="{'column_invisible': [('parent.plan_by', '=', 'man_hours')]}"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="help" name="Help">
+        <t t-call="website.layout">
+
+            <div class="oe_structure"/>
+                <div id="wrap">
+                    <div class="support-banner">
+                        <img src="/odex25_website/static/img/support_banner.jpg" alt=""/>
+                        <h1>Get Some Help</h1>
+                    </div>
+                    <div class="support-form-container">
+                        <form id="support-form" action="">
+                            <div class="form-row">
+                                <label for="">Your Name</label>
+                                <div class="input-container">
+                                    <input type="text" name="partner_name"/>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <label for="email">Your Email</label>
+                                <div class="input-container">
+                                    <input type="email" name="partner_email" id=""/>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <label for="phone">Your Phone</label>
+                                <div class="input-container">
+                                    <input type="tel" name="partner_phone" id=""/>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <label for="url">System URL</label>
+                                <div class="input-container">
+                                    <input type="url" name="url" id=""/>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <label for="">Database Name</label>
+                                <div class="input-container">
+                                    <input type="text" name="db_name"/>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <label for="">Model Name</label>
+                                <div class="input-container">
+                                    <input type="text" name="model_name"/>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <label for="">Category</label>
+                                <div class="input-container">
+                                    <select name="category" id="category">
+                                        <option value="question1">Category 1</option>
+                                        <option value="question2">Category 2</option>
+                                        <option value="question3">Category 3</option>
+                                        <option value="question4">Category 4</option>
+                                        <option value="question5">Category 5</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <label for="">Ticket Type</label>
+                                <div class="input-container">
+                                    <select name="ticket_type" id="ticket_type">
+                                        <option value="question1">Question 1</option>
+                                        <option value="question2">Question 2</option>
+                                        <option value="question3">Question 3</option>
+                                        <option value="question4">Question 4</option>
+                                        <option value="question5">Question 5</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <label for="">Subject</label>
+                                <div class="input-container">
+                                    <input type="text" name="subject"/>
+                                </div>
+                            </div>
+                            <div class="form-row align-top">
+                                <label for="">Description</label>
+                                <div class="input-container">
+                                    <textarea name="description" id=""></textarea>
+                                </div>
+                            </div>
+                            <div class="form-row align-top">
+                                <label for="">Attachments</label>
+                                <div class="input-container" id="file-input-container">
+                                    <input type="file" name="attachments[]" id="file-input-1"/>
+                                    <a href="#" id="add-file-input"><img src="/odex25_website/static/img/add.png" alt=""/> Add More Attachments</a>
+                                    
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <button type="submit" id="support-submit">Submit</button>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+        </t>
+    </template>
+</odoo>

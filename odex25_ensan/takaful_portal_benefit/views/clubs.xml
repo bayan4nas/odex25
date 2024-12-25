@@ -1,0 +1,117 @@
+<odoo>
+    <data>
+        <template id="my_clubs" name="my clubs">
+            <t t-set="title"> النوادي </t>
+            <t t-call="website.layout">
+                <div class="profile_wrapper">
+                    <div class="container">
+                        <h2 class="heading"> النوادي </h2>
+                        <div class="zakat_wrapper">
+                            <div class="row clubs_row">
+                                <!-- We well loop on data and display it here  -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- club subscription   modal   -->
+                <div class="modal fade club_subscription_modal  " id="donation_modal" tabindex="-1"
+                    role="dialog"
+                    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title heading" id="exampleModalLongTitle">
+                                    الاشتراك في النادي </h5>
+                                <button type="button" class="close" data-dismiss="modal"
+                                    aria-label="Close">
+                                    <span aria-hidden="true">
+                                        <i class="fa fa-times"></i>
+                                    </span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="club_subscription_form" action="/services/club_subscription" method="post">
+                                    <div class="row">
+                                        <input type="hidden" id="club_id_input" name="id" />
+                                        <div class="form-group col-lg-12">
+                                            <label for="name" class="myName control-label">
+                                                الاسم </label>
+                                            <div class="">
+                                                <input type="text" class="form-control"
+                                                    id="name"
+                                                    name="name" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-lg-12">
+                                            <label for="phone_number" class="myName control-label">
+                                                رقم الجوال </label>
+                                            <div class="">
+                                                <input type="text" class="form-control"
+                                                    id="phone_number"
+                                                    name="phone_number" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-lg-12">
+                                            <label for="birth_date" class=" control-label"> تاريخ
+                                                الميلاد </label>
+                                            <div class="">
+                                                <input type="date" class="form-control"
+                                                    id="birth_date"
+                                                    name="birth_date" />
+                                            </div>
+                                        </div>
+                                        <!-- <div class="form-group col-lg-12">
+                                            <label for="birth_date" class="myName control-label">
+                                                تاريخ الميلاد </label>
+                                            <div class="pick_date position-relative">
+                                                <input class="date_input" type="date"
+                                                    name="birth_date" id="birth_date" />
+                                                <img
+                                                    src="/takaful_portal_benefit/static/img/Icon awesome-calendar-alt.png"
+                                                    alt="calender" />
+                                            </div>
+                                        </div> -->
+                                        <div class="form-group col-lg-12">
+                                            <label for="city" class=" control-label">
+                                                المدينة </label>
+                                            <select name="city" id="city_id" class="custom-select">
+
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-lg-6">
+                                            <label for="lat" class=" control-label"> خط العرض </label>
+                                            <div class="position-relative">
+                                                <input type="text" class="form-control"
+                                                    id="lat" name="lat" />
+                                                <span class="setLocation"> تحديد </span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-lg-6">
+                                            <label for="lat" class=" control-label"> خط الطول </label>
+                                            <div class="position-relative">
+                                                <input type="text" class="form-control"
+                                                    id="lon" name="lon" />
+                                                <span class="setLocation"> تحديد </span>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn main_link"> تأكيد
+                                            الاشتراك </button>
+                                    </div>
+                                    <div class="club_sub_feedback"></div>
+
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <!-- <script src="/takaful_portal_benefit/static/js/clubs.js"></script> -->
+            </t>
+        </template>
+    </data>
+</odoo>

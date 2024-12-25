@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="notifications_settings">
+        <t t-set="title"> اعدادات التنبيهات   </t>
+        <t t-call="website.layout">
+            <div class="benifits_wrapper">
+                <div class="container">
+                    <h2 class="heading"> الاعدادات </h2>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="#"> الاعدادات </a>
+                            </li>
+                            <li class="breadcrumb-item active" aria-current="page"> اعدادات
+                                التنبيهات </li>
+                        </ol>
+                    </nav>
+                    <div class="user_reg_form notification_wrapper">
+                        <div class="form_wrapper">
+
+                            <form method="post" id="notifications_update_form" action="/portal/sponsor/notify_setting/update" class="notification_form">
+                                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                <div class="row notify_settings">
+                                    <div class="col-lg-12">
+                                        <div class="mb-4">
+                                            <h5> التنبيهات الشهرية </h5>
+                                            <div class="form-group flex-row">
+                                                <input type="checkbox" name="notify_by_app" id="notify-by-app" value="true" />
+                                                <label for="website"> عبر التطبيق / الموقع </label>
+                                            </div>
+                                            <div class="form-group flex-row">
+                                                <input type="checkbox" name="notify_by_sms" id="notify-by-sms" value="true" />
+                                                <label for="website"> عبر الرسائل النصية </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <div class="mb-4">
+                                            <h5>يوم التنبيه من كل شهر</h5>
+                                            <div class="form-group">
+                                                <input type="text" name="notify_month_day" id="notify-month-day" value="1" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="mb-4">
+                                            <h5> التذكير بإقتراب موعد سداد الكفالة </h5>
+                                            <div class="form-group flex-row">
+                                                <input type="checkbox" name="notify_pay_by_app" id="notify-pay-by-app" value="true" />
+                                                <label for="website"> عبر التطبيق / الموقع </label>
+                                            </div>
+                                            <div class="form-group flex-row">
+                                                <input type="checkbox" name="notify_pay_by_sms" id="notify-pay-by-sms" value="true" />
+                                                <label for="website"> عبر الرسائل النصية </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="submit  mb-3">
+                                    <button id="notifications_update_btn" type="submit"> حفظ التعديلات </button>
+                                </div>
+                                <div class="notifications_update_feedback"></div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <link rel="stylesheet" href="/takaful_portal_sponsor/static/css/notifications.css" />
+            <script src="/takaful_portal_sponsor/static/js/notifications_settings.js"></script>
+        </t>
+
+    </template>
+
+
+</odoo>

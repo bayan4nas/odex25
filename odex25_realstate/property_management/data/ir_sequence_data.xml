@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- Template for notifications due today -->
+        <record id="email_template_due_today" model="mail.template">
+            <field name="name">Payment Due Today</field>
+            <field name="model_id" ref="model_rent_payment"/>
+            <field name="subject">Payment Due Today</field>
+            <field name="email_from">${(user.email)|safe}</field>
+            <field name="email_to">${object.renter_id.email|safe}</field>
+            <field name="body_html">
+                <![CDATA[
+                <p>Dear ${object.renter_id.name},</p>
+                <p>This is a reminder that your payment is due today for the rental contract ${object.contract_id.name}.</p>
+                <p>Thank you.</p>
+                ]]>
+            </field>
+        </record>
+
+         <!-- Template for notifications due next week -->
+        <record id="email_template_due_next_week" model="mail.template">
+            <field name="name">Payment Due Next Week</field>
+            <field name="model_id" ref="model_rent_payment"/>
+            <field name="subject">Payment Due Next Week</field>
+            <field name="email_from">${(user.email)|safe}</field>
+            <field name="email_to">${object.renter_id.email|safe}</field>
+            <field name="body_html">
+                <![CDATA[
+                <p>Dear ${object.renter_id.name},</p>
+                <p>This is a reminder that your payment is due next week for the rental contract ${object.contract_id.name}.</p>
+                <p>Thank you.</p>
+                ]]>
+            </field>
+        </record>
+
+         <!-- Cron job to check due payments -->
+        <record id="ir_cron_check_due_payments" model="ir.cron">
+            <field name="name">Check Due Payments</field>
+            <field name="model_id" ref="model_rent_payment"/>
+            <field name="state">code</field>
+            <field name="code">model._check_due_payments()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">minutes</field>
+            <field name="numbercall">-1</field>
+        </record>
+        
+        <!-- Cron job to send payment notifications -->
+        <record id="ir_cron_send_payment_notifications" model="ir.cron">
+            <field name="name">Send Payment Notifications</field>
+            <field name="model_id" ref="model_rent_payment"/>
+            <field name="state">code</field>
+            <field name="code">model._send_payment_notifications()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+        </record>
+        
+        <record id="sequence_rental_contract_seq" model="ir.sequence">
+            <field name="name">Rental Contract</field>
+            <field name="code">rental.contract</field>
+            <field name="padding">4</field>
+            <field name="prefix">CO:%(y)s/%(month)s/</field>
+            <field name="company_id" eval="False"/>
+            <field name="number_increment" eval="1"/>
+        </record>
+
+        <record id="sequence_rent_payment_seq" model="ir.sequence">
+            <field name="name">Rent Payment</field>
+            <field name="code">rent.payment</field>
+            <field name="padding">4</field>
+            <field name="prefix">RP:%(y)s/%(month)s/</field>
+            <field name="company_id" eval="False"/>
+            <field name="number_increment" eval="1"/>
+        </record>
+
+        <record id="contract_transfer_seq" model="ir.sequence">
+            <field name="name">transfer.contract</field>
+            <field name="code">transfer.contract</field>
+            <field name="prefix">CT:%(y)s/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+            <field name="number_increment" eval="1"/>
+        </record>
+
+        <!-- Add server action to check from due date -->
+        <record id="custom_action_server" model="ir.actions.server">
+            <field name="name">Due Date</field>
+            <field name="model_id" ref="property_management.model_rent_payment"/>
+            <field name="binding_model_id" ref="property_management.model_rent_payment"/>
+            <field name="binding_view_types">list</field>
+            <field name="state">code</field>
+            <field name="code">
+                for record in records:
+                    record.action_validate2()
+            </field>
+        </record>
+         <record id="custom_invoice_action_server" model="ir.actions.server">
+            <field name="name">Create Commission Vendor Invoice</field>
+            <field name="model_id" ref="property_management.model_rent_payment"/>
+            <field name="binding_model_id" ref="property_management.model_rent_payment"/>
+            <field name="binding_view_types">list</field>
+            <field name="state">code</field>
+            <field name="code">
+                for record in records:
+                    record.create_vendor_bill_for_payments()
+            </field>
+        </record>
+        
+        <record id="custom_create_invoice_action_server" model="ir.actions.server">
+            <field name="name">Create Invoice</field>
+            <field name="model_id" ref="property_management.model_rent_payment"/>
+            <field name="binding_model_id" ref="property_management.model_rent_payment"/>
+            <field name="binding_view_types">list</field>
+            <field name="state">code</field>
+            <field name="code">
+                for record in records:
+                    record.action_invoice()
+            </field>
+        </record>
+        <!-- End -->
+    </data>
+</odoo>

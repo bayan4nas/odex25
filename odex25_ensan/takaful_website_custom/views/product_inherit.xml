@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="product_inherit" model="ir.ui.view">
+        <field name="name">product.product.form.inherit</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_normal_form_view"/>
+        <field name="arch" type="xml">
+             <xpath expr="//div[@name='options']" position="after">
+                 <field name="quick_donation"/>
+                 <label for="quick_donation"/>
+                 <field name="zakat_product"/>
+                 <label for="zakat_product"/>
+             </xpath>
+            <xpath expr="//field[@name='type']" position="after">
+                 <field name="tags_ids" widget="many2many_tags"/>
+             </xpath>
+<!--             <xpath expr="//field[@name='taxes_id']" position="after">-->
+<!--                 <field name="bank_id" widget="many2many_tags"/>-->
+<!--            </xpath>-->
+        </field>
+    </record>
+
+     <record id="product_temp_inherit" model="ir.ui.view">
+        <field name="name">product.template.form.inherit</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_only_form_view"/>
+        <field name="arch" type="xml">
+             <xpath expr="//field[@name='property_account_income_id']" position="after">
+                 <field name="bank_id" widget="many2many_tags"/>
+            </xpath>
+            <xpath expr="//field[@name='type']" position="after">
+                 <field name="tags_ids" widget="many2many_tags"/>
+            </xpath>
+        </field>
+    </record>
+
+     <record id="sale_order_inherit" model="ir.ui.view">
+        <field name="name">sale.order.form.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+             <xpath expr="//field[@name='partner_shipping_id']" position="after">
+                 <field name="sale_gifts_id"/>
+                 <field name="quick_donation"/>
+                 <!-- <field name="payment_methods"/> -->
+             </xpath>
+        </field>
+    </record>
+
+<!--    <record id="product_template_form_inherit" model="ir.ui.view">-->
+<!--            <field name="name">product.template.form.inherit</field>-->
+<!--            <field name="model">product.template</field>-->
+<!--            <field name="priority">5</field>-->
+<!--            <field name="inherit_id" ref="product.product_template_form_view"/>-->
+<!--            <field name="arch" type="xml">-->
+<!--                 <xpath expr="//field[@name='taxes_id']" position="after">-->
+<!--                 <field name="bank_id"/>-->
+<!--                 <field name="iban"/>-->
+<!--             </xpath>-->
+<!--            </field>-->
+<!--    </record>-->
+<!--                <page name="inventory" position="after">-->
+<!--                    <page string="Invoicing" name="invoicing">-->
+<!--                        <group name="properties">-->
+<!--                            <group string="Receivables">-->
+<!--                                <field name="taxes_id" widget="many2many_tags"/>-->
+<!--                                <field name="property_account_income_id"-->
+<!--                                    domain="[('internal_type','=','other'),('deprecated','=',False)]"-->
+<!--                                    groups="account.group_ac-->
+</odoo>

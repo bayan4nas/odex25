@@ -1,0 +1,60 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+<!--
+    <record model="ir.ui.view" id="task_survey.list">
+      <field name="name">task_survey list</field>
+      <field name="model">task_survey.task_survey</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="value"/>
+          <field name="value2"/>
+        </tree>
+      </field>
+    </record>
+-->
+
+    <!-- actions opening views on models -->
+<!--
+    <record model="ir.actions.act_window" id="task_survey.action_window">
+      <field name="name">task_survey window</field>
+      <field name="res_model">task_survey.task_survey</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+-->
+
+    <!-- server action to the one above -->
+<!--
+    <record model="ir.actions.server" id="task_survey.action_server">
+      <field name="name">task_survey server</field>
+      <field name="model_id" ref="model_task_survey_task_survey"/>
+      <field name="state">code</field>
+      <field name="code">
+        action = {
+          "type": "ir.actions.act_window",
+          "view_mode": "tree,form",
+          "res_model": model._name,
+        }
+      </field>
+    </record>
+-->
+
+    <!-- Top menu item -->
+<!--
+    <menuitem name="task_survey" id="task_survey.menu_root"/>
+-->
+    <!-- menu categories -->
+<!--
+    <menuitem name="Menu 1" id="task_survey.menu_1" parent="task_survey.menu_root"/>
+    <menuitem name="Menu 2" id="task_survey.menu_2" parent="task_survey.menu_root"/>
+-->
+    <!-- actions -->
+<!--
+    <menuitem name="List" id="task_survey.menu_1_list" parent="task_survey.menu_1"
+              action="task_survey.action_window"/>
+    <menuitem name="Server to list" id="task_survey" parent="task_survey.menu_2"
+              action="task_survey.action_server"/>
+-->
+  </data>
+</odoo>

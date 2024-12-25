@@ -1,0 +1,495 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* event_custom
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 11.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-02-10 21:22+0000\n"
+"PO-Revision-Date: 2023-02-10 21:22+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: event_custom
+#: model:mail.template,body_html:event_custom.event_subscription
+msgid "\n"
+"<div style=\"background:#F3F5F6;color:#515166;padding:25px 0px;font-family:Arial,Helvetica,sans-serif;font-size:14px;\">\n"
+"% set date_begin = format_tz(object.event_id.date_begin, tz='UTC', format='%Y%m%dT%H%M%SZ')\n"
+"% set date_end = format_tz(object.event_id.date_end, tz='UTC', format='%Y%m%dT%H%M%SZ')\n"
+"    <table style=\"width:600px;margin:5px auto;\">\n"
+"        <tbody>\n"
+"            <tr>\n"
+"                <td>\n"
+"                    <a href=\"/\">\n"
+"                        <img src=\"/logo\" alt=\"${object.company_id.name}\" style=\"vertical-align:baseline;max-width:100px;\" />\n"
+"                    </a>\n"
+"                </td>\n"
+"                <td>\n"
+"\n"
+"                <p>Details of the event Track changes</p>\n"
+"<ul>\n"
+"% for line in object.event_id.event_mail_ids:\n"
+"% if line.interval_type == 'after_change_tracks':\n"
+"% for rec in line.mail_track_ids:\n"
+"% if not rec.mail_sent:\n"
+"\n"
+"<li>\n"
+"    Track ${rec.track_id.name} changed From ${rec.change_date_from} To ${rec.change_date_to}\n"
+"    </li>\n"
+"% endif\n"
+"% endfor\n"
+"% endif\n"
+"% endfor\n"
+"</ul>\n"
+"</td>\n"
+"\n"
+"                <td style=\"text-align:right;vertical-align:middle;\">\n"
+"                    % if 'website_url' in object.website_url and object.event_id.website_url:\n"
+"                        <a href=\"${object.event_id.website_url}\" style=\"background-color: #1abc9c; padding: 12px; font-weight: 12px; text-decoration: none; color: #fff; border-radius: 5px; font-size:16px;\">View Event</a>\n"
+"                    % endif\n"
+"                </td>\n"
+"            </tr>\n"
+"        </tbody>\n"
+"    </table>\n"
+"</div>\n"
+"            "
+msgstr "\n"
+"<div style=\"background:#F3F5F6;color:#515166;padding:25px 0px;font-family:Arial,Helvetica,sans-serif;font-size:14px;\">\n"
+"% set date_begin = format_tz(object.event_id.date_begin, tz='UTC', format='%Y%m%dT%H%M%SZ')\n"
+"% set date_end = format_tz(object.event_id.date_end, tz='UTC', format='%Y%m%dT%H%M%SZ')\n"
+"    <table style=\"width:600px;margin:5px auto;\">\n"
+"        <tbody>\n"
+"            <tr>\n"
+"                <td>\n"
+"                    <a href=\"/\">\n"
+"                        <img src=\"/logo\" alt=\"${object.company_id.name}\" style=\"vertical-align:baseline;max-width:100px;\" />\n"
+"                    </a>\n"
+"                </td>\n"
+"                <td>\n"
+"\n"
+"                <p>Details of the event Track changes</p>\n"
+"<ul>\n"
+"% for line in object.event_id.event_mail_ids:\n"
+"% if line.interval_type == 'after_change_tracks':\n"
+"% for rec in line.mail_track_ids:\n"
+"% if not rec.mail_sent:\n"
+"\n"
+"<li>\n"
+"    Track ${rec.track_id.name} changed From ${rec.change_date_from} To ${rec.change_date_to}\n"
+"    </li>\n"
+"% endif\n"
+"% endfor\n"
+"% endif\n"
+"% endfor\n"
+"</ul>\n"
+"</td>\n"
+"\n"
+"                <td style=\"text-align:right;vertical-align:middle;\">\n"
+"                    % if 'website_url' in object.website_url and object.event_id.website_url:\n"
+"                        <a href=\"${object.event_id.website_url}\" style=\"background-color: #1abc9c; padding: 12px; font-weight: 12px; text-decoration: none; color: #fff; border-radius: 5px; font-size:16px;\">View Event</a>\n"
+"                    % endif\n"
+"                </td>\n"
+"            </tr>\n"
+"        </tbody>\n"
+"    </table>\n"
+"</div>\n"
+"            "
+
+#. module: event_custom
+#: model:ir.model.fields,field_description:event_custom.field_event_event_benefit_club_id
+msgid "Benefit Club"
+msgstr "نادي المستفيدين"
+
+#. module: event_custom
+#: model:ir.ui.view,arch_db:event_custom.view_event_search
+msgid "Cancelled"
+msgstr "ملغى "
+
+#. module: event_custom
+#: model:ir.model.fields,field_description:event_custom.field_event_sponsor_event_type_id
+msgid "Category"
+msgstr "النوع"
+
+#. module: event_custom
+#: model:ir.ui.view,arch_db:event_custom.print_event_card1
+#: model:ir.ui.view,arch_db:event_custom.print_event_card2
+#: model:ir.ui.view,arch_db:event_custom.print_event_card3
+#: model:ir.ui.view,arch_db:event_custom.print_event_card4
+msgid "Company Logo"
+msgstr "شعار الشركة"
+
+#. module: event_custom
+#: model:ir.model.fields,field_description:event_custom.field_event_sponsor_type_sponsor_cost
+msgid "Cost"
+msgstr "التكلفة"
+
+#. module: event_custom
+#: model:ir.model.fields,field_description:event_custom.field_event_mail_track_create_uid
+msgid "Created by"
+msgstr "أنشئ بواسطة"
+
+#. module: event_custom
+#: model:ir.model.fields,field_description:event_custom.field_event_mail_track_create_date
+msgid "Created on"
+msgstr "أنشئ في"
+
+#. module: event_custom
+#: model:ir.model.fields,field_description:event_custom.field_event_mail_track_display_name
+msgid "Display Name"
+msgstr "الاسم المعروض"
+
+#. module: event_custom
+#: model:ir.ui.view,arch_db:event_custom.view_event_search
+msgid "Done"
+msgstr "منتهي"
+
+#. module: event_custom
+#: model:ir.model,name:event_custom.model_event_event
+#: model:ir.model.fields,field_description:event_custom.field_muk_dms_file_event_id
+msgid "Event"
+msgstr "الحدث"
+
+#. module: event_custom
+#: model:ir.model,name:event_custom.model_event_mail
+msgid "Event Automated Mailing"
+msgstr "إرسال رسائل الفعاليات تلقائيًا"
+
+#. module: event_custom
+#: code:addons/event_custom/models/event.py:79
+#, python-format
+msgid "Event Files"
+msgstr "Event Files"
+
+#. module: event_custom
+#: model:ir.model.fields,field_description:event_custom.field_event_event_image
+#: model:ir.ui.view,arch_db:event_custom.print_event_card1
+#: model:ir.ui.view,arch_db:event_custom.print_event_card2
+#: model:ir.ui.view,arch_db:event_custom.print_event_card3
+#: model:ir.ui.view,arch_db:event_custom.print_event_card4
+msgid "Event Image"
+msgstr "Event Image"
+
+#. module: event_custom
+#: code:addons/event_custom/models/event.py:98
+#, python-format
+msgid "Event Mails"
+msgstr "Event Mails"
+
+#. module: event_custom
+#: model:ir.model,name:event_custom.model_event_sponsor
+msgid "Event Sponsor"
+msgstr "Event Sponsor"
+
+#. module: event_custom
+#: model:ir.model,name:event_custom.model_event_sponsor_type
+msgid "Event Sponsor Type"
+msgstr "Event Sponsor Type"
+
+#. module: event_custom
+#: model:ir.model,name:event_custom.model_event_track
+msgid "Event Track"
+msgstr "Event Track"
+
+#. module: event_custom
+#: model:ir.model.fields,field_description:event_custom.field_event_sponsor_date
+msgid "Event date"
+msgstr "Event date"
+
+#. module: event_custom
+#: model:ir.ui.menu,name:event_custom.menu_event_sponsor
+msgid "Events Sponsor"
+msgstr "Events Sponsor"
+
+#. module: event_custom
+#: model:ir.ui.menu,name:event_custom.menu_event_track
+msgid "Events Tracks"
+msgstr "فقرات الفعالية"
+
+#. module: event_custom
+#: model:ir.actions.act_window,name:event_custom.action_event_sponsor_view
+msgid "Events sponsor"
+msgstr "Events sponsor"
+
+#. module: event_custom
+#: model:ir.actions.act_window,name:event_custom.action_event_track_view
+msgid "Events track"
+msgstr "Events track"
+
+#. module: event_custom
+#: model:ir.model,name:event_custom.model_muk_dms_file
+msgid "File"
+msgstr "الملف"
+
+#. module: event_custom
+#: model:ir.model.fields,field_description:event_custom.field_event_event_count_files
+#: model:ir.model.fields,field_description:event_custom.field_event_event_event_dms_file_ids
+#: model:ir.ui.view,arch_db:event_custom.view_event_form
+msgid "Files"
+msgstr "الملفات"
+
+#. module: event_custom
+#: model:ir.model.fields,field_description:event_custom.field_event_mail_track_id
+msgid "ID"
+msgstr "المعرف"
+
+#. module: event_custom
+#: model:ir.model.fields,field_description:event_custom.field_event_mail_track___last_update
+msgid "Last Modified on"
+msgstr "آخر تعديل في"
+
+#. module: event_custom
+#: model:ir.ui.view,arch_db:event_custom.view_event_search
+#: model:ir.ui.view,arch_db:event_custom.view_event_sponsor_search
+#: model:ir.ui.view,arch_db:event_custom.view_event_track_search
+msgid "Last Month"
+msgstr "آخر شهر"
+
+#. module: event_custom
+#: model:ir.model.fields,field_description:event_custom.field_event_mail_track_write_uid
+msgid "Last Updated by"
+msgstr "آخر تحديث بواسطة"
+
+#. module: event_custom
+#: model:ir.model.fields,field_description:event_custom.field_event_mail_track_write_date
+msgid "Last Updated on"
+msgstr "آخر تحديث في"
+
+#. module: event_custom
+#: model:ir.ui.view,arch_db:event_custom.view_event_search
+#: model:ir.ui.view,arch_db:event_custom.view_event_sponsor_search
+#: model:ir.ui.view,arch_db:event_custom.view_event_track_search
+msgid "Last Year"
+msgstr "السنة السابقة"
+
+#. module: event_custom
+#: model:ir.model.fields,field_description:event_custom.field_event_track_location_location_url
+msgid "Location URL"
+msgstr "موقع الحدث"
+
+#. module: event_custom
+#: model:ir.model.fields,field_description:event_custom.field_event_mail_track_scheduler_id
+msgid "Mail Scheduler"
+msgstr "مجدول رسائل البريد"
+
+#. module: event_custom
+#: model:ir.model.fields,field_description:event_custom.field_event_mail_track_mail_sent
+msgid "Mail Sent"
+msgstr "تم إرسال الرسالة"
+
+#. module: event_custom
+#: model:ir.model.fields,field_description:event_custom.field_event_mail_mail_track_ids
+msgid "Mail Track"
+msgstr "Mail Track"
+
+#. module: event_custom
+#: model:ir.model.fields,field_description:event_custom.field_event_event_count_mails
+#: model:ir.ui.view,arch_db:event_custom.view_event_form
+msgid "Mails"
+msgstr "Mails"
+
+#. module: event_custom
+#: model:ir.model.fields,field_description:event_custom.field_event_event_directory_id
+msgid "Main directory"
+msgstr "ملفات المسابقة"
+
+#. module: event_custom
+#: model:ir.model.fields,field_description:event_custom.field_event_mail_track_change_date_to
+msgid "New Time"
+msgstr "New Time"
+
+#. module: event_custom
+#: model:ir.model.fields,field_description:event_custom.field_event_mail_track_change_date_from
+msgid "Old Time"
+msgstr "Old Time"
+
+#. module: event_custom
+#: model:ir.actions.report,name:event_custom.hr_event_print_card2
+msgid "Print female Organizer card"
+msgstr "Print female Organizer card"
+
+#. module: event_custom
+#: model:ir.actions.report,name:event_custom.hr_event_print_card4
+msgid "Print female volunteer card"
+msgstr "Print female volunteer card"
+
+#. module: event_custom
+#: model:ir.actions.report,name:event_custom.hr_event_print_card1
+msgid "Print male Organizer card"
+msgstr "Print male Organizer card"
+
+#. module: event_custom
+#: model:ir.actions.report,name:event_custom.hr_event_print_card3
+msgid "Print male volunteer card"
+msgstr "Print male volunteer card"
+
+#. module: event_custom
+#: model:ir.model.fields,field_description:event_custom.field_event_event_project_id
+msgid "Project"
+msgstr "المشروع"
+
+#. module: event_custom
+#: model:mail.template,subject:event_custom.event_subscription
+msgid "Some event Tracks has been changed : ${object.event_id.name}"
+msgstr "Some event Tracks has been changed : ${object.event_id.name}"
+
+#. module: event_custom
+#: model:ir.ui.view,arch_db:event_custom.event_sponsor_view_pivot
+msgid "Sponsor"
+msgstr "كفيل"
+
+#. module: event_custom
+#: model:ir.ui.view,arch_db:event_custom.view_event_search
+#: model:ir.ui.view,arch_db:event_custom.view_event_sponsor_search
+#: model:ir.ui.view,arch_db:event_custom.view_event_track_search
+msgid "This Month"
+msgstr "هذا الشهر"
+
+#. module: event_custom
+#: model:ir.ui.view,arch_db:event_custom.view_event_search
+#: model:ir.ui.view,arch_db:event_custom.view_event_sponsor_search
+#: model:ir.ui.view,arch_db:event_custom.view_event_track_search
+msgid "This Year"
+msgstr "هذه السنة"
+
+#. module: event_custom
+#: model:ir.ui.view,arch_db:event_custom.event_track_view_pivot
+msgid "Track"
+msgstr "مسار"
+
+#. module: event_custom
+#: model:ir.ui.view,arch_db:event_custom.view_event_mail_form
+msgid "Track Changes Mails"
+msgstr "Track Changes Mails"
+
+#. module: event_custom
+#: model:ir.model,name:event_custom.model_event_track_location
+msgid "Track Location"
+msgstr "موقع المسار "
+
+#. module: event_custom
+#: model:ir.model.fields,field_description:event_custom.field_event_mail_track_track_id
+msgid "Tracks"
+msgstr "فقرات الفعالية"
+
+#. module: event_custom
+#: model:ir.model,name:event_custom.model_event_mail_track
+msgid "Tracks change Mail Scheduler"
+msgstr "Tracks change Mail Scheduler"
+
+#. module: event_custom
+#: model:ir.ui.view,arch_db:event_custom.print_event_card1
+#: model:ir.ui.view,arch_db:event_custom.print_event_card2
+#: model:ir.ui.view,arch_db:event_custom.print_event_card3
+#: model:ir.ui.view,arch_db:event_custom.print_event_card4
+msgid "sponsor Image"
+msgstr "sponsor Image"
+
+#. module: event_custom
+#: model:ir.ui.view,arch_db:event_custom.print_event_card3
+msgid "متطوع"
+msgstr "متطوع"
+
+#. module: event_custom
+#: model:ir.ui.view,arch_db:event_custom.print_event_card4
+msgid "متطوعة"
+msgstr "متطوعة"
+
+#. module: event_custom
+#: model:ir.ui.view,arch_db:event_custom.print_event_card1
+msgid "منظم"
+msgstr "منظم"
+
+#. module: event_custom
+#: model:ir.ui.view,arch_db:event_custom.print_event_card2
+msgid "منظمة"
+msgstr "منظمة"
+
+#. module: event
+#: model:event.type,name:event.event_type_data_online
+#: model:ir.ui.view,arch_db:event.view_event_form
+msgid "Online"
+msgstr "عن بُعد"
+
+#. module: website_event
+#: model:ir.model.fields,field_description:website_event.field_event_event_website_menu
+msgid "Dedicated Menu"
+msgstr "حضوري"
+
+#. module: website_event_track
+#: model:ir.model.fields,field_description:website_event_track.field_event_track_partner_id
+msgid "Speaker"
+msgstr "المتحدث"
+
+#. module: website_event_track
+#: model:ir.model.fields,field_description:website_event_track.field_event_track_partner_name
+msgid "Speaker Name"
+msgstr "اسم المتحدث"
+
+#. module: website_event_track
+#: model:ir.model.fields,field_description:website_event_track.field_event_track_partner_phone
+msgid "Speaker Phone"
+msgstr "هاتف المتحدث"
+
+#. module: website_event_track
+#: code:addons/website_event_track/models/event_track.py:159
+#: model:ir.model.fields,field_description:website_event_track.field_event_track_partner_email
+#, python-format
+msgid "Speaker Email"
+msgstr "البريد الالكتروني للمتحدث"
+
+#. module: website_event_track
+#: model:ir.actions.act_window,name:website_event_track.action_event_sponsor_from_event
+#: model:ir.actions.act_window,name:website_event_track.action_event_track
+#: model:ir.actions.act_window,name:website_event_track.action_event_track_from_event
+#: model:ir.ui.menu,name:website_event_track.menu_event_track
+#: model:ir.ui.view,arch_db:website_event_track.view_event_track_calendar
+#: model:ir.ui.view,arch_db:website_event_track.view_event_track_search
+msgid "Event Tracks"
+msgstr "فقرات الفعالية"
+
+#. module: event
+#: model:ir.ui.menu,name:event.menu_event_mail_schedulers
+msgid "Mail Schedulers"
+msgstr "الرسائل المجدولة للفعالية"
+
+#. module: website_event_track
+#: model:ir.model.fields,field_description:website_event_track.field_event_event_track_count
+#: model:ir.model.fields,field_description:website_event_track.field_event_event_track_ids
+#: model:ir.model.fields,field_description:website_event_track.field_event_track_tag_track_ids
+#: model:ir.ui.view,arch_db:website_event_track.view_event_track_graph
+msgid "Tracks"
+msgstr "فقرات الفعالية"
+
+#. module: sale_timesheet
+#: model:ir.model.fields,field_description:sale_timesheet.field_project_task_sale_line_id
+#: model:ir.ui.view,arch_db:sale_timesheet.view_sale_service_inherit_form2
+msgid "Sales Order Item"
+msgstr "تكلفة تنفيذ المهمة"
+
+#. module: project
+#: model:ir.ui.view,arch_db:project.project_planner
+msgid "Tasks analysis"
+msgstr "تقرير مالي للفعالية"
+
+#. module: web
+#. openerp-web
+#: code:addons/web/static/src/xml/base.xml:508 code:addons/web/static/src/xml/base.xml:535
+#, python-format
+msgid "Measures"
+msgstr "عناصر فرز التقرير"
+
+#. module: project
+#: model:ir.actions.act_window,name:project.action_project_task_user_tree
+#: model:ir.actions.act_window,name:project.action_project_task_user_tree_filtered
+#: model:ir.ui.menu,name:project.menu_project_report_task_analysis
+#: model:ir.ui.view,arch_db:project.view_task_project_user_graph
+#: model:ir.ui.view,arch_db:project.view_task_project_user_pivot
+#: model:ir.ui.view,arch_db:project.view_task_project_user_search
+msgid "Tasks Analysis"
+msgstr "تقرير مالي للفعالية"
+

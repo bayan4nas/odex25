@@ -1,0 +1,187 @@
+<odoo>
+    <record id="purchase_request_competitive" model="ir.ui.view">
+        <field name="name">purchase.request.competitive</field>
+        <field name="model">purchase.request</field>
+        <field name="inherit_id" ref="governmental_purchase.purchase_request_form"/>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='type_id']" position="attributes">
+                <attribute name="attrs">{'readonly':[('state', '!=','draft')]}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='by_purchase']" position="attributes">
+                <attribute name="attrs">{'readonly':[('state', '!=','draft')]}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='partner_id']" position="attributes">
+                <attribute name="attrs">{'readonly':[('state', '!=','draft')]}</attribute>
+            </xpath>
+<!--             <xpath expr="//field[@name='is_analytic']" position="attributes">
+                <attribute name="attrs">{'readonly':[('state', '!=',('draft','waiting'))]}</attribute>
+            </xpath> -->
+            <xpath expr="//field[@name='state']" position="replace">
+                <field name="state" widget="statusbar" statusbar_visible="draft,dm,str_pro_department,direct_manager,send_budget,wait_budget,budget_approve,general_supervisor,waiting"/>
+            </xpath>
+            <xpath expr="//button[@name='action_pc_confirm']" position="replace">
+                <button name="action_pc_confirm" groups="governmental_purchase.executive_director_of_purchase_and_contract" type="object" string="Approve" states="budget_approve" class="oe_highlight"/>
+                <button name="%(purchase_requisition_custom.purchase_request_cancel_wizard_action)d" string="Refuse" states="budget_approve" type="action" groups="governmental_purchase.executive_director_of_purchase_and_contract"/>
+
+            </xpath>
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="purchase_type" invisible="1"/>
+                <field name="check_chief_executive" invisible="1"/>
+            </xpath>
+            <xpath expr="//button[@name='action_confirm']" position="replace">
+              <button name="action_confirm_button" groups="purchase_requisition_custom.group_direct_manger" type="object" string="Submit" class="oe_highlight" attrs="{'invisible': ['|',('check_chief_executive','=',False),('state','!=', 'dm')]}"/>
+                <button name="technical_department" type="object" groups="odex25_taqeem_purchase.strategy_project_group" string="Technical Department" states="str_pro_department" class="oe_highlight"/>
+                <button name="%(purchase_requisition_custom.purchase_request_cancel_wizard_action)d" string="Refuse" type="action" groups="odex25_taqeem_purchase.strategy_project_group" states="str_pro_department"/>
+            </xpath>
+<!--             <xpath expr="//field[@name='line_ids']//field[@name='sum_total']" position="attributes">
+                <attribute name="readonly">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='line_ids']//field[@name='sum_total']" position="after">
+                <field name="remain" attrs="{'column_invisible': [('parent.state', '!=', 'dm')]}"/>
+            </xpath> -->
+
+            <xpath expr="//page[@name='base_info_dep_use']" position="replace"/>
+            <xpath expr="//page[@name='purchase_request_info']" position="after">
+                <page string="Order Base info" name="base_info_order">
+                    <group>
+                        <group string="Delivery Info" name="DeliveryInfo">
+                            <field name="tender_name" required="1" attrs="{'readonly':[('state', '!=', 'draft')]}"/>
+                            <field name="purpose_of_tender" required="1" attrs="{'readonly':[('state', '!=', 'draft')]}"/>
+                            <field name="project_duration" required="1" attrs="{'readonly':[('state', '!=', 'draft')]}"/>
+                            <field name="project_start_date" required="1" attrs="{'readonly':[('state', '!=', 'draft')]}"/>
+                            <field name="work_service_imp" widget="radio" attrs="{'readonly':[('state', '!=', 'draft')]}"/>
+                            <field name="record_licenses" attrs="{'readonly':[('state', '!=', 'draft')]}"/>
+                            <field name="quality_spec" widget="radio" attrs="{'readonly':[('state', '!=', 'draft')]}"/>
+                            <field name="quality_notes" attrs="{'invisible':[('quality_spec' , '!=' , 'yes')],'readonly':[('state', '!=', 'draft')],'required':[('quality_spec' , '=' , 'yes')]}"/>
+                            <field name="material_spec" widget="radio" attrs="{'invisible':[('state' , '!=' , 'draft')]}"/>
+                            <field name="material_notes" attrs="{'invisible':[('material_spec' , '!=' , 'yes')],'readonly':[('state', '!=', 'draft')],'required':[('material_spec' , '=' , 'yes')]}"/>
+
+                            <field name="other_details" invisible="1" attrs="{'readonly':[('state' , '!=' , 'draft')]}"/>
+                            <field name="is_delivered" required="1" widget="radio" options="{'horizontal': true}" attrs="{'readonly':[('state', '!=', 'draft')]}"/>
+                            <field name="delivery_type" attrs="{'invisible':[('is_delivered' , '!=' , 'yes')],'readonly':[('state', '!=', 'draft')],}"/>
+
+                        </group>
+                        <group>
+                            <field name="business_place" attrs="{'readonly':[('state', '!=', 'draft')]}"/>
+                            <field name="attachment_scope_project" attrs="{'readonly':[('state', '!=', 'draft')]}"/>
+                            <field name="document_list" attrs="{'readonly':[('state', '!=', 'draft')]}"/>
+                            <field name="mech_evaluating_supp" attrs="{'readonly':[('state', '!=', 'draft')]}"/>
+                            <field name="offer_requirements" attrs="{'readonly':[('state', '!=', 'draft')]}"/>
+                            <field name="alternative_offer" widget="radio" attrs="{'readonly':[('state', '!=', 'draft')]}"/>
+                            <field name="department_alter_offer" widget="radio" attrs="{'readonly':[('state', '!=', 'draft')]}"/>
+                            <field name="date_receive_offer" widget="radio" attrs="{'readonly':[('state', '!=', 'draft')]}"/>
+                            <field name="day" attrs="{'invisible': [('date_receive_offer', '!=', 'day')],'readonly':[('state', '!=', 'draft')]}"/>
+                            <field name="month" attrs="{'invisible': [('date_receive_offer', '!=', 'month')],'readonly':[('state', '!=', 'draft')]}"/>
+                            <field name="year" attrs="{'invisible': [('date_receive_offer', '!=', 'year')],'readonly':[('state', '!=', 'draft')]}"/>
+                            <field name="special_condition" attrs="{'invisible':[('state' , '!=' , 'draft')]}"/>
+                            <!--                        <field name="attach" attrs="{'invisible':[('state' , '!=' , 'draft')]}"/>-->
+                        </group>
+
+
+                        <!--                      -->
+                    </group>
+                    <group string="Delivered sample address" attrs="{'invisible':['|',('delivery_type' , '!=' , 'manual'),('is_delivered' , '!=' , 'yes')]}">
+                        <group>
+                            <field name="delivery_building" attrs="{'readonly':[('state' , '!=' , 'draft')]}"/>
+                            <field name="delivery_floor" attrs="{'readonly':[('state' , '!=' , 'draft')]}"/>
+                        </group>
+                        <group>
+                            <field name="room" attrs="{'readonly':[('state' , '!=' , 'draft')]}"/>
+                            <field name="date_time" attrs="{'readonly':[('state' , '!=' , 'draft')]}"/>
+                        </group>
+
+                    </group>
+                    <group name="attachment_upload" string="Download Application brochure" attrs="{'invisible':[('state' , '!=' , 'draft')]}">
+                        <div class=" row mb4">
+                            <div class="col-12">
+                                <!-- <button string="Download" name="download_url" type="object" class="oe_highlight"/> -->
+                                <field readonly="1"  name="attachment_scop" class="btn btn-primary" widget="binary" nolabel="1"/>
+                            </div>
+                        </div>
+                        <div class="row mb4">
+                            <div class="col-12">
+                                <label for="attachment_upload"/>
+                                <field name="attachment_upload" widget="binary"/>
+                            </div>
+                        </div>
+                    </group>
+
+                </page>
+
+            </xpath>
+            <xpath expr="//page[@name='base_info_order']" position="after">
+                <page string="Suggested Supplier" name="selected_supplier">
+
+                    <field name="selected_supplier_id" attrs="{'readonly':[('state' , '!=' , 'draft')]}">
+                        <tree editable="bottom">
+                            <field name="supplier_id" required="1"/>
+                            <field name="supplier_email"/>
+                            <field name="supplier_phone"/>
+                        </tree>
+                    </field>
+                </page>
+            </xpath>
+            <xpath expr="//page[@name='selected_supplier']" position="after">
+                <page name="srt_project_dep" string="Strategy Project Department">
+                    <group>
+                        <group>
+                            <field name="operational_construction" attrs="{'readonly':[('state' , '!=' , 'str_pro_department')]}"/>
+                            <field name="dep_suggestion" attrs="{'readonly':[('state' , '!=' , 'str_pro_department')]}"/>
+                        </group>
+
+                    </group>
+
+
+                </page>
+            </xpath>
+            <xpath expr="//page[@name='srt_project_dep']" position="after">
+                <page name="technical_dep_use" string="Technical Department Use">
+                    <group>
+                        <group>
+                            <field name="competitive_type" attrs="{'readonly':[('state' , '!=' , 'waiting')]}"/>
+                            <field name="sell_document" attrs="{'readonly':[('state' , '!=' , 'waiting')]}"/>
+                        </group>
+                        <group>
+                            <field name="need_to_reparation" attrs="{'readonly':[('state' , '!=' , 'waiting')]}"/>
+                        </group>
+
+                    </group>
+
+                </page>
+            </xpath>
+
+
+<!--             <xpath expr="//page[@name='dep_use']" position="replace"/>
+            <xpath expr="//page[@name='technical_use']" position="replace"/> -->
+            <xpath expr="//page[@name='procurement_use']" position="replace"/>
+<!--             <xpath expr="//page[@name='note']" position="replace"/> -->
+
+        </field>
+    </record>
+
+    <record id="action_purchase_request_competitive" model="ir.actions.act_window">
+        <field name="name">Competitive Purchase</field>
+        <field name="res_model">purchase.request</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+              (0, 0, {'view_mode': 'tree'}),
+            (0, 0, {'view_mode': 'form', 'view_id': ref('purchase_request_competitive')})]"/>
+        <field name="domain">[('purchase_type', '=', 'competitive')]</field>
+        <field name="context">{'default_purchase_type': 'competitive'}</field>
+    </record>
+
+    <menuitem id="purchase_request_competitive_menu" name="Competitive Purchase Request" parent="purchase_requisition_custom.purchase_request_menu" action="action_purchase_request_competitive"/>
+
+
+    <!--    <record id="purchase_request_less_thirt" model="ir.actions.server">-->
+    <!--        <field name="name">Purchase Request Less Thirty</field>-->
+    <!--        <field name="model_id" ref="purchase_requisition_custom.model_purchase_request"/>-->
+    <!--        <field name="state">code</field>-->
+    <!--        <field name="code">-->
+    <!--            action = model.purchase_less_than_thirty()-->
+    <!--        </field>-->
+    <!--    </record>-->
+
+
+</odoo>

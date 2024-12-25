@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!--VO rules -->
+        <record id="vo_project_multi_company_rule" model="ir.rule">
+            <field name="name">VO Project Multi Company rule</field>
+            <field name="model_id" ref="model_project_variation_order"/>
+            <field eval="True" name="global"/>
+            <field name="domain_force">['|',('company_id', '=',False),('company_id', 'in', company_ids)]</field>
+        </record>
+
+        <record id="project_manager_vo_rule" model="ir.rule">
+            <field name="name">project Manager Rule</field>
+            <field name="model_id" ref="model_project_variation_order"/>
+            <field name="domain_force">['|',('project_id.user_id','=',user.id),('project_manager', '=', user.id)]</field>
+            <field name="groups" eval="[(4, ref('project.group_project_manager'))]"/>
+        </record>
+
+        <record id="department_manager_vo_rule" model="ir.rule">
+            <field name="name">Department Manager VO Rule</field>
+            <field name="model_id" ref="model_project_variation_order"/>
+            <field name="domain_force">[(1, '=', 1)]
+            </field>
+            <field name="groups" eval="[(4, ref('project_base.group_project_department_manager'))]"/>
+        </record>
+
+        <record id="project_vo_super_user" model="ir.rule">
+            <field name="name">project vo super user</field>
+            <field name="model_id" ref="model_project_variation_order"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('base.group_erp_manager')),(4,ref('account.group_account_manager'))]"/>
+        </record>
+
+        <record id="project_cr_rule_portal" model="ir.rule">
+            <field name="name">CR: Portal Users Access</field>
+            <field name="model_id" ref="project_variation_order.model_project_variation_order"/>
+            <field name="domain_force">[('allowed_portal_user_ids', 'in', user.ids)]</field>
+            <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+        </record>
+
+        <!--  (project.phase) -->
+        <record id="project_cr_rule_internal_users" model="ir.rule">
+            <field name="name">CR: Internal Users Access</field>
+            <field name="model_id" ref="project_variation_order.model_project_variation_order"/>
+            <field name="domain_force">[('allowed_internal_user_ids', 'in', user.ids)]</field>
+            <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+        </record>
+    </data>
+</odoo>

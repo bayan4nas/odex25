@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+
+        <template id="daily_report_template">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="web.external_layout">
+                        <div class="page">
+                            <br/>
+                            <h2 style="text-align: center;">تــقريـــر يومـــــي  رقم (   ) لمشــــــروع : <t t-esc="o.name"/> </h2>
+                            <body>
+                            <div style="display: -webkit-box; display: -webkit-flex; display: flex; flex-wrap: wrap;">
+                            <table class="table table-bordered" style="width:50%">
+                            	<t t-set="col_repeat" t-value="7"/>
+
+		                    <tr>
+		                    	<td colspan="2" style="border:none;">المقـــاول : </td>
+		                    	<td colspan="2" style="border:none;">الإستشاري : </td>
+		                    </tr>
+		                    <tr>
+		                    	<td style="border:none;">اليوم : </td>
+		                    	<td style="border:none;">التاريخ : </td>
+		                    	<td style="border:none;">ساعات العمل من : </td>
+		                    	<td style="border:none;">إلي : </td>
+		                    </tr>
+		                    <tr>
+		                    	<td colspan="4" style="text-align: center;border:none;">حالة الطقس : </td>
+		                    </tr>
+		                    <tr>
+		                    	<td style="border:none;"> <input type="checkbox"/> صحو</td>
+		                    	<td style="border:none;"><input type="checkbox"/> ماطر</td>
+		                    	<td style="border:none;"><input type="checkbox"/> رياح</td>
+		                    	<td style="border:none;"><input type="checkbox"/> غبار</td>
+		                    </tr>
+		                    <tr>
+		                    	<th colspan="4">ملخص أعمال اليوم الجاري تنفيذها</th>
+		                    </tr>
+		                    <tr t-foreach="range(col_repeat)" t-as="rep">
+		                    	<td colspan="2" style="white-space: pre;"> </td>
+		                    	<td colspan="2" style="white-space: pre;"> </td>
+		                    </tr>
+		                    
+		                     <tr>
+		                    	<th colspan="4">الأعمال المتوقع تنفيذها في اليوم التالي:</th>
+		                    </tr>
+		                    <tr t-foreach="range(col_repeat)" t-as="rep">
+		                    	<td colspan="2" style="white-space: pre;"> </td>
+		                    	<td colspan="2" style="white-space: pre;"> </td>
+		                    </tr>
+		                    
+		                    <tr>
+		                    	<th colspan="4">المشاكل الموجودة بالموقع:</th>
+		                    </tr>
+		                    <tr t-foreach="range(col_repeat - 1)" t-as="rep">
+		                    	<td colspan="2" style="white-space: pre;"> </td>
+		                    	<td colspan="2" style="white-space: pre;"> </td>
+		                    </tr>
+		                    
+		                    <tr>
+		                    	<th colspan="4">المواد المورده للموقع:</th>
+		                    </tr>
+		                    <tr t-foreach="range(col_repeat - 3)" t-as="rep">
+		                    	<td colspan="2" style="white-space: pre;"> </td>
+		                    	<td colspan="2" style="white-space: pre;"> </td>
+		                    </tr>
+		                    
+		                     
+		                    <tr>
+		                    <td colspan="4">
+		                    	<p>مهندس مقاول</p>
+		                    	<p>الإسم</p>
+		                    	<p>التوقيع</p>
+		                    	</td>
+		                    </tr>
+                            </table>
+                            
+                            <table class="table table-bordered" style="width:50%">
+
+		                    <tr>
+		                    	<th >العمالة</th>
+		                    	<th >العدد</th>
+		                    	<th >الجهاز الفني والإداري</th>
+		                    	<th >العدد</th>
+		                    </tr>
+		                    <tr>
+		                    	<td >حارس</td>
+		                    	<td > </td>
+		                    	<td >مدير مشروع</td>
+		                    	<td > </td>
+		                    </tr>
+		                    
+		                    <tr>
+		                    	<td >عمال موقع</td>
+		                    	<td > </td>
+		                    	<td >مهندس موقع</td>
+		                    	<td > </td>
+		                    </tr>
+		                    
+		                    <tr>
+		                    	<td >سائق</td>
+		                    	<td > </td>
+		                    	<td >مهندس كهربا</td>
+		                    	<td > </td>
+		                    </tr>
+		                    
+		                    <tr>
+		                    	<td >حداد</td>
+		                    	<td > </td>
+		                    	<td > </td>
+		                    	<td > </td>
+		                    </tr>
+		                    
+		                    <tr>
+		                    	<td >مساعد حداد</td>
+		                    	<td > </td>
+		                    	<td > </td>
+		                    	<td > </td>
+		                    </tr>
+		                    
+		                    <tr>
+		                    	<td >نجار</td>
+		                    	<td > </td>
+		                    	<td > </td>
+		                    	<td > </td>
+		                    </tr>
+		                    
+		                    <tr>
+		                    	<td >مساعد نجار</td>
+		                    	<td > </td>
+		                    	<td > </td>
+		                    	<td > </td>
+		                    </tr>
+		                    <tr t-foreach="range(col_repeat - 3)" t-as="rep">
+		                    	<td style="white-space: pre;"> </td>
+		                    	<td style="white-space: pre;"> </td>
+		                    	<td style="white-space: pre;"> </td>
+		                    	<td style="white-space: pre;"> </td>
+		                    </tr>
+		                    
+		                    <tr>
+		                    	<td >إجمالي العمالة</td>
+		                    	<td > </td>
+		                    	<td >إجمالي الفنيين والإداريين</td>
+		                    	<td > </td>
+		                    </tr>
+		                    <tr>
+		                    	<th colspan="2">مقاولي الباطن</th>
+		                    	<th colspan="2">العدد</th>
+
+		                    </tr>
+		                    <tr>
+		                    	<td colspan="2">مقاول الدفان</td>
+		                    	<td colspan="2"> </td>
+		                    </tr>
+		                    
+		                    <tr>
+		                    	<td colspan="2">مقاول لم يتم ارسال العقد</td>
+		                    	<td colspan="2"> </td>
+		                    </tr>
+		                    
+		                    <tr>
+		                    	<td colspan="2">مقاول زهرة رغد</td>
+		                    	<td colspan="2"> </td>
+		                    </tr>
+		                    <tr t-foreach="range(col_repeat - 4)" t-as="rep">
+		                    	<td colspan="2" style="white-space: pre;"> </td>
+		                    	<td colspan="2" style="white-space: pre;"> </td>
+		                    </tr>
+		                    
+		                    <tr>
+		                    	<td colspan="2">الإجمالي</td>
+		                    	<td colspan="2"> </td>
+		                    </tr>
+		                    
+		                    <tr>
+		                    	<th >المعدات</th>
+		                    	<th >العدد</th>
+		                    	<th >المعدات</th>
+		                    	<th >العدد</th>
+		                    </tr>
+		                    
+		                    <tr>
+		                    	<td >سيارات صغيره</td>
+		                    	<td > </td>
+		                    	<td >بلدوز</td>
+		                    	<td > </td>
+		                    </tr>
+		                    <tr>
+		                    	<td >ألة ثني الحديد</td>
+		                    	<td > </td>
+		                    	<td >بوكلين</td>
+		                    	<td > </td>
+		                    </tr>
+		                    <tr>
+		                    	<td >جاك همر</td>
+		                    	<td > </td>
+		                    	<td >كرين</td>
+		                    	<td > </td>
+		                    </tr>
+		                    <tr>
+		                    	<td >منشار خشب</td>
+		                    	<td > </td>
+		                    	<td >تريلة</td>
+		                    	<td > </td>
+		                    </tr>
+		                    <tr>
+		                    	<td >دكاكة صغيرة</td>
+		                    	<td > </td>
+		                    	<td >كمبروسر كبير</td>
+		                    	<td > </td>
+		                    </tr>
+		                    <tr>
+		                    	<td >هزاز خرسانه</td>
+		                    	<td > </td>
+		                    	<td >رصاصه كبيره</td>
+		                    	<td > </td>
+		                    </tr>
+		                    <tr>
+		                    	<td >مضخة مياه</td>
+		                    	<td > </td>
+		                    	<td >بوبكات</td>
+		                    	<td > </td>
+		                    </tr>
+		                    <tr>
+		                    	<td >مولد كهرباء</td>
+		                    	<td > </td>
+		                    	<td >غريدر</td>
+		                    	<td > </td>
+		                    </tr>
+		                    <tr t-foreach="range(col_repeat - 3)" t-as="rep">
+		                    	<td style="white-space: pre;"> </td>
+		                    	<td style="white-space: pre;"> </td>
+		                    	<td style="white-space: pre;"> </td>
+		                    	<td style="white-space: pre;"> </td>
+		                    </tr>
+		                    
+		                    <tr>
+		                    	<td colspan="3">إجمالي المعدات بالموقع</td>
+		                    	<td> </td>
+		                    </tr>
+                            </table>
+                            </div>
+                            </body>
+                            <style type="text/css">
+
+                                td
+                                {
+                                -ms-writing-mode: tb-rl;
+                                -webkit-writing-mode: vertical-rl;
+                                writing-mode: vertical-rl;
+                                transform: rotate(180deg);
+                                white-space: nowrap;
+                                }
+
+                                body {
+
+
+                                font-style: normal;
+                                font-weight: 60px;
+                                bottom: 10px;
+                                top: 1px;
+                                font-size: 115%;
+
+                                }
+
+                            </style>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

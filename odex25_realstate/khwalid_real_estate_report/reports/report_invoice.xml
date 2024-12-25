@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="report_invoice_document_inherit" inherit_id="account.report_invoice_document">
+
+            <xpath expr="//t[@t-set='address']" position="replace"/>
+            <xpath expr="//h2/span[7]" position="replace"/>
+            <xpath expr="//div[@id='informations']" position="replace">
+                <table class="table">
+                    <tr>
+                        <th>Invoice No</th>
+                        <td><span t-if="o.name != '/'" t-field="o.name"/> </td>
+
+                        <th>Date</th>
+                        <td><span t-field="o.invoice_date"/> </td>
+                    </tr>
+                    <tr>
+                        <th>From</th>
+                        <td><span t-field="o.invoice_user_id.name"/> </td>
+
+                        <th>Vat</th>
+                        <td><span t-field="o.company_id.vat"/> </td>
+                    </tr>
+
+                    <tr>
+                        <th>Address</th>
+                        <td><span t-field="o.partner_id.country_id.name"/>, <span t-field="o.partner_id.city"/>, <span t-field="o.partner_id.street"/>, <span t-field="o.partner_id.street2"/> </td>
+                    </tr>
+
+                    <tr>
+                        <th>To</th>
+                        <td><span t-field="o.partner_id.name"/> </td>
+                    </tr>
+
+                    <tr>
+                        <th>Vat</th>
+                        <td><span t-field="o.partner_id.vat"/> </td>
+                    </tr>
+
+                </table>
+                <br/>
+            </xpath>
+            <xpath expr="//th[@name='th_quantity']" position="replace"/>
+            <xpath expr="//table/tbody/t[3]/tr/t/td[2]" position="replace"/>
+            
+            <xpath expr="//div[@class='clearfix']" position="after">
+                <table class="table table-sm" style="page-break-inside: avoid;">
+                    <tr>
+                        <td><strong>Salesperson</strong></td>
+                        <td class="text-right">
+                            <span class="text-nowrap" t-field="o.invoice_user_id.name"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>Signature</strong></td>
+                        <td class="text-right"> </td>
+                    </tr>
+                </table>
+            </xpath>
+
+        </template>
+    </data>
+</odoo>

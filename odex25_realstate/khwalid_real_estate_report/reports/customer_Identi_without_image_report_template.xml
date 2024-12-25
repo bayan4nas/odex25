@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <template id="customer_Identi_without_image_report">
+        <t t-call="web.html_container">
+            <t  t-foreach="docs" t-as="doc">
+                <div class="page">
+                    <t t-call="web.external_layout">
+                        <h2 class="text-center">Customer Identification without Image</h2> <br/>
+
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th style="text-align: center; background-color:#e6e5e5;"><strong>Unit No.</strong></th>
+                                    <th colspan="2" style="text-align: center; background-color:#e6e5e5;"><strong>Customer Name</strong></th>
+                                    <th style="text-align: center; background-color:#e6e5e5;"><strong>Mobile</strong></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <td style="text-align: center;"> <t t-esc="doc.unit_id.name"/> </td>
+                                <td colspan="2" style="text-align: center;"> <t t-esc="doc.partner_id.name"/> </td>
+                                <td style="text-align: center;"> <t t-esc="doc.partner_id.mobile"/> </td>
+                            </tbody>
+
+                            <thead>
+                                <tr>
+                                    <th colspan="4" style="text-align: center; background-color:#e6e5e5;"><strong>Identification Number/ Iqama</strong></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <td colspan="4" style="text-align: center;"> <t t-esc="doc.partner_id.identification_number"/> </td>
+                            </tbody>
+
+                            <thead>
+                                <tr>
+                                    <th style="text-align: center; background-color:#e6e5e5;"><strong>Birth Date</strong></th>
+                                    <th style="text-align: center; background-color:#e6e5e5;"><strong>Identification Expiry Date</strong></th>
+                                    <th style="text-align: center; background-color:#e6e5e5;"><strong>Issuer</strong></th>
+                                    <th style="text-align: center; background-color:#e6e5e5;"><strong>Copy No.</strong></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <td style="text-align: center;"> <t t-esc="doc.partner_id.date_of_birth"/> </td>
+                                <td style="text-align: center;"> <t t-esc="doc.partner_id.identification_expiry_date"/> </td>
+                                <td style="text-align: center;"> <t t-esc="doc.partner_id.issuer"/> </td>
+                                <td style="text-align: center;"> <t t-esc="doc.partner_id.copy_no"/> </td>
+                            </tbody>
+
+                            <thead>
+                                <tr>
+                                    <th colspan="4" style="text-align: center; background-color:#e6e5e5;"><strong>The Confession</strong></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <td colspan="4"> <p> I agree, I am the second party buyer  <t t-esc="doc.partner_id.name"/> to take the data of the national identity card for official use with the first party, and I also acknowledge the validity of the information and data that it provided, and I bear any responsibility that may result from my failure to disclose any data that the agreement requires disclosure or its incorrectness. I have read, understood and accepted the terms and conditions of this Agreement and agree to be bound by its contents.</p>  <p> I acknowledge receipt of each of: </p> <t t-raw="doc.cusomer_confession"/></td>
+
+                            </tbody>
+
+                            <thead>
+                                <tr>
+                                    <th colspan="2" style="text-align: center; background-color:#e6e5e5;"><strong>Purpose</strong></th>
+                                    <th colspan="2" style="text-align: center; background-color:#e6e5e5;"><strong>Customer Signature</strong></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <td colspan="2" style="text-align: center;"> Sale Unit </td>
+                                <td colspan="2"> </td>
+                            </tbody>
+
+
+                        </table>
+                    </t>
+                </div>
+            </t>
+        </t>
+    </template>
+    <report
+            id ="action_customer_Identi_without_image_pdf"
+            model ="re.sale"
+            string ="Customer Identification without Image"
+            report_type ="qweb-pdf"
+            name ="khwalid_real_estate_report.customer_Identi_without_image_report"
+            file ="khwalid_real_estate_report.customer_Identi_without_image_report"
+            />
+
+</odoo>

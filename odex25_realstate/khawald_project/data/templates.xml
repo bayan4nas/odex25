@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<data>
+
+        <record id="template_marketing_task_complete" model="mail.template">
+            <field name="name">Marketing Task Done</field>
+            <field name="model_id" ref="khawald_project.model_project_task"/>
+            <field name="subject">Al-Khawalid Real Estate Company - Marketing Task</field>
+            <field name="email_to">${object.email_formatted}</field>
+            <field name="body_html"><![CDATA[
+                <div>
+                Dear colleague,
+                </div>
+                <div>
+                <br/>
+                You have a task waiting for you to perform
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                With sincere affection and appreciation,<br/>
+                Al-Khawalid Real Estate Company - Projects Department<br/>
+                </div>
+                ]]>
+            </field>
+        </record>
+
+
+</data>

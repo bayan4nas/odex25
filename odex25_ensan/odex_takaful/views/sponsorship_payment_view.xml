@@ -1,0 +1,106 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="takaful_sponsorship_payment_form">
+            <field name="name">sponsorship.payment.form</field>
+            <field name="model">sponsorship.payment</field>
+            <field name="arch" type="xml">
+                <form string="Sponsorship Payment" delete="false">
+                    <header>
+                        <button name="action_pay" class="oe_highlight" type="object" string="Send to Finance" attrs="{'invisible': ['|', ('state', 'in', ('financial', 'paid')), ('id', '=', False)]}"/>
+
+                        <button name="open_account_invoice_action" string="Financial" type="object" class="oe_highlight" attrs="{'invisible': [('state', '=', 'draft')]}"/>
+
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                            <group name="group_top"> 
+                                <group name="group_left">
+                                    <field name="code" readonly="1"/>
+                                    <field name="sponsor_id" force_save="1" attrs="{'readonly': [('id', '>', 0)]}"/>
+
+                                    <field name="sponsorship_id" force_save="1" attrs="{'readonly': [('id', '>', 0)]}"/>
+
+                                    <label for="payment_month_number" />
+                                    <div> 
+
+                                        <field name="payment_month_number" required="1" class="oe_inline" style="margin-right:50px; margin-bottom:20px;"/>   
+                                        <span class="oe_inline text-muted"> Months</span>
+
+                                    </div>
+
+                                    <field name="payment_method" style="margin-bottom:20px;"/>
+
+                                    <field name="has_bank_account" attrs="{'invisible': [('payment_method', '=', 'cash')]}" style="margin-bottom:10px;"/>
+
+                                    <label for="month_amount"/>
+                                    <div> 
+                                        <field name="month_amount" force_save="1" class="oe_inline" style="margin-right:50px; margin-bottom:20px;"/>   
+                                        <span class="oe_inline text-muted"> Riyal</span>
+                                    </div>
+
+                                    <label for="amount" />
+                                    <div>  
+                                        <field name="amount" readonly="1" class="oe_inline" style="margin-right:50px;"/>   
+                                        <span class="oe_inline text-muted"> Riyal</span>
+                                    </div>
+                                </group> 
+
+                                <group name="group_right" attrs="{'invisible': [('payment_method', '=', 'cash')]}">
+                                    <field name="bank_id"/>
+                                    <field name="iban"/>
+                                    <field name="transfer_receipt"/>
+                                </group>
+                            </group>
+
+                            <group>
+                                <field name="user_id" attrs="{'invisible': [('state', '=', 'draft')]}"/>
+                                <field name="date" attrs="{'invisible': [('state', '=', 'draft')]}"/>
+                                <field name="is_invoiced" invisible="1"/>
+                            </group>
+                        
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="takaful_sponsorship_payment_tree">
+            <field name="name">sponsorship.payment.tree</field>
+            <field name="model">sponsorship.payment</field>
+            <field name="arch" type="xml">
+                <tree string="Payments List" decoration-danger="state=='financial'" decoration-success="state=='paid'">
+                    <field name="sponsor_id"/>
+                    <field name="code"/>
+                    <field name="amount" sum="Total Payments" widget="monetary"/>
+                    <field name="date"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="takaful_sponsorship_payment_search">
+            <field name="name">sponsorship.payment.search</field>
+            <field name="model">sponsorship.payment</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="sponsor_id"/>
+                    <field name="code"/>
+                    <field name="date"/>
+                    <field name="state"/>
+                </search>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="takaful_sponsorship_payment_action">
+            <field name="name">Sponsorship Payment</field>
+            <field name="res_model">sponsorship.payment</field>
+<!--            <field name="view_type">form</field>-->
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Create the Sponsorship Payment
+                </p>
+            </field>
+        </record>
+
+    </data>
+</odoo>

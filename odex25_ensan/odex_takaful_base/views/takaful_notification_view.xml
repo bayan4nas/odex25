@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+
+    <!-- All views for takaful.notification -->
+    <record id="takaful_notification_form" model="ir.ui.view">
+        <field name="name">takaful_notification.form</field>
+        <field name="model">takaful.notification</field>
+        <field name="arch"  type="xml">
+            <form string="Takaful Notification">
+                <sheet>
+                    <group name="main">
+                         <field name="duration" required="1" placeholder="Enter duration in days"/>
+                         <field name="notification_type" required="1"/>
+                    </group>
+
+                    <notebook>
+                        <page string="Message Types" name="Types">
+                            <field name="message_type_ids" widget="many2many_tags" nolabel="1"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="takaful_notification_tree" model="ir.ui.view">
+        <field name="name">takaful_notification.tree</field>
+        <field name="model">takaful.notification</field>
+        <field name="arch"  type="xml">
+<!--            <tree string="The Notifications" colors="orange:notification_type=='before_finish' ;red:notification_type=='before_cancel'">-->
+            <tree string="The Notifications">
+                <field name="duration"/>
+                <field name="notification_type"/>
+                <field name="message_type_ids" widget="many2many_tags"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- All views for takaful.message.type -->
+    <record id="takaful_message_type_form" model="ir.ui.view">
+        <field name="name">takaful.message.type.form</field>
+        <field name="model">takaful.message.type</field>
+        <field name="arch"  type="xml">
+            <form string="Takaful Message Type">
+                <sheet>
+                    <group name="main">
+                        <field name="name"/>
+                        <field name="tool_type"/>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="takaful_message_type_tree" model="ir.ui.view">
+        <field name="name">takaful.message.type.tree</field>
+        <field name="model">takaful.message.type</field>
+        <field name="arch"  type="xml">
+            <tree string="Takaful Message Type">
+                <field name="name"/>
+                <field name="tool_type"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- All actions -->
+    <record id="takaful_notification_action" model="ir.actions.act_window">
+        <field name="name">Takaful Notifications</field>
+        <field name="res_model">takaful.notification</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="takaful_message_type_action" model="ir.actions.act_window">
+        <field name="name">Takaful Message Types</field>
+        <field name="res_model">takaful.message.type</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- All menus -->
+    <menuitem id="takaful_app_top_menu" sequence="15"
+        name="Takaful Settings" web_icon="odex_takaful_base,static/description/icon.png" groups="odex_takaful.group_kufula_viewer"/>
+  
+
+    <menuitem id="message_type_menu" action="takaful_message_type_action"
+        name="Message Types" sequence="10"
+        parent="takaful_app_top_menu"/>
+
+    <menuitem id="takaful_notification_menu" action="takaful_notification_action"
+        name="Takaful Notifications" sequence="20"
+        parent="takaful_app_top_menu"/>
+
+</odoo>

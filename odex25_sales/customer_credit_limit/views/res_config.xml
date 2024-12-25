@@ -1,0 +1,69 @@
+<odoo>
+    <data>
+        <record id="inherit_config_settings_view_form" model="ir.ui.view">
+            <field name="name">inherit.res.config.settings</field>
+            <field name="model">res.config.settings</field>
+            <field name="priority" eval="50"/>
+            <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='has_accounting_entries']" position="after">
+
+                    <h2 attrs="{'invisible': [('has_chart_of_accounts','==',False)]}">Discounts</h2>
+                    <div class="row mt16 o_settings_container" attrs="{'invisible': [('has_chart_of_accounts','==',False)]}">
+                        <div class="col-xs-12 col-md-6 o_setting_box" >
+                            <div class="o_setting_left_pane"/>
+                            <div class="o_setting_right_pane">
+
+                                <div class="text-muted">
+                                        Set discounts for levels to use in sale.
+                                </div>
+                                <div class="content-group">
+                                    <div class="row mt16">
+                                        <label string="First Level Amount Limit" for="amount_limit_a" class="col-md-3 o_light_label"/>
+                                        <field name="amount_limit_a" />
+                                    </div>
+                                    <div class="row mt16">
+                                        <label string="First Level Percent Limit" for="percent_limit_a" class="col-md-3 o_light_label"/>
+                                        <field name="percent_limit_a" />
+                                    </div>
+
+                                    <div class="row mt16">
+                                        <label string="Second Level Amount Limit" for="amount_limit_b" class="col-md-3 o_light_label"/>
+                                        <field name="amount_limit_b" />
+                                    </div>
+                                    <div class="row mt16">
+                                        <label string="Second Level Percent Limit" for="percent_limit_b" class="col-md-3 o_light_label"/>
+                                        <field name="percent_limit_b" />
+                                    </div>
+
+                                    <div class="row mt16">
+                                        <label string="Third Level Amount Limit" for="amount_limit_c" class="col-md-3 o_light_label"/>
+                                        <field name="amount_limit_c" />
+                                    </div>
+                                    <div class="row mt16">
+                                        <label string="Third Level Percent Limit" for="percent_limit_c" class="col-md-3 o_light_label"/>
+                                        <field name="percent_limit_c" />
+                                    </div>
+
+                                    <div class="row mt16">
+                                        <label string="Fourth Level Amount Limit" for="amount_limit_d" class="col-md-3 o_light_label"/>
+                                        <field name="amount_limit_d" />
+                                    </div>
+                                    <div class="row mt16">
+                                        <label string="Fourth Level Percent Limit" for="percent_limit_d" class="col-md-3 o_light_label"/>
+                                        <field name="percent_limit_d" />
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </xpath>
+            </field>
+        </record>
+
+
+    </data>
+</odoo>

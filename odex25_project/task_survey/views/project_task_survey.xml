@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Inherit Project Task Form View to Modify it -->
+        <record id="project_task_inherit" model="ir.ui.view">
+            <field name="name">project.task.inherit</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_form2"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='tag_ids']" position="after">
+                    <field name="survey_id"/>
+                </xpath>
+                <xpath expr="//header" position="inside">
+                    <button name="action_start_survey" string="Start Survey" type="object" class="oe_highlight"
+                            attrs="{'invisible': [('survey_id', '=', False)]}"/>
+                </xpath>
+                <xpath expr="//sheet//button[@name='action_subtask']" position="after">
+                    <button name="action_survey_user_input_task"
+                            type="object"
+                            class="oe_stat_button"
+                            icon="fa-envelope-o">
+                        <field string="Registered" name="answer_count" widget="statinfo"/>
+                    </button>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Inherit Survey User Input Form View to Modify it -->
+        <record id="survey_user_input_vie_form_inherit" model="ir.ui.view">
+            <field name="name">survey.user_input.view.form.inherit</field>
+            <field name="model">survey.user_input</field>
+            <field name="inherit_id" ref="survey.survey_user_input_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='survey_id']" position="after">
+                    <field name="task_id"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

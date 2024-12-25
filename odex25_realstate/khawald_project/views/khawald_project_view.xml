@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record id="khawald_edit_project_customs" model="ir.ui.view">
+            <field name="name">Project</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project_management_custom.edit_project_customs"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='get_engineering_payment']" position="after">
+                    <button class="oe_stat_button" name="get_supplier_payment" type="object" icon="fa-money">
+                        <field string="Supplier Payments" name="suppl_payment_amount"/>
+                    </button>
+
+                    <button class="oe_stat_button" name="get_unit" type="object" icon="fa-home">
+                        <field string="Units" name="unit_counts" widget="statinfo"/>
+                    </button>
+                </xpath>
+                <xpath expr="//button[@name='action_done']" position="before">
+                    <button name="action_selling" type="object" string="Start Sale" states="in_progess"
+                            groups="project.group_project_manager"
+                            class="oe_highlight"/>
+                </xpath>
+                <xpath expr="//button[@name='action_done']" position="attributes">
+                    <attribute name="states">sale</attribute>
+                    <attribute name="groups">project.group_project_manager</attribute>
+
+
+                </xpath>
+                
+                
+                <xpath expr="//group[@name='project_info']" position="replace">
+                    <group col="4" colspan="2">
+                        <field name="project_type_id" context="{'project_type_id': project_type_id}"
+                               options="{'no_create': True, 'no_quick_create': True}" required="1"/>
+                        <field name="space" required="1"/>
+                        <!-- <field name="project_status_id" required="1"/> -->
+
+                        <field name="project_face_ids" required="1" widget="many2many_tags"/>
+                        <field name="building_factor"/>
+
+                        <field name="basement" widget="radio" required="1"/>
+                        <field name="sale_space"/>
+
+                        <field name="owner_id" options="{'no_create': True, 'no_quick_create': True}" required="1"/>
+                        <field name="agent_id" options="{'no_create': True, 'no_quick_create': True}" />
+
+                        <field name="user_id" options="{'no_create': True, 'no_quick_create': True}" required="1"/>
+                        <field name="building_license" required="1"/>
+
+                        <field name="engineer_id" options="{'no_create': True, 'no_quick_create': True}"/>
+                        <field name="building_certificate" required="1"/>
+
+                        <field name="supervisor_id" options="{'no_create': True, 'no_quick_create': True}"/>
+                        <field name="insurance_policy" required="1"/>
+
+                        <field name="stamping" required="1"/>
+                        <field name="stamping_date" required="1"/>
+                        <field name="stamping_attach" />
+
+
+                    </group>
+
+                </xpath>
+
+                <xpath expr="//page[@name='team']" position="replace"/>
+
+                <xpath expr="//page[@name='info']" position="after">
+                    <page name="unit_info" string="Unit Information">
+                        <group>
+                            <group>
+                                <field name="building_count" attrs="{'readonly':[('created', '=', True)]}"/>
+                                <field name="floor_count" attrs="{'readonly':[('created', '=', True)]}"/>
+                                <field name="unit_count" attrs="{'readonly':[('created', '=', True)]}"/>
+                                <field name="unit_space" attrs="{'readonly':[('created', '=', True)]}"/>
+                                <field name="total_unit" readonly="1"/>
+                            </group>
+
+                            <group>
+                                <field name="room_no" attrs="{'readonly':[('created', '=', True)]}"/>
+                                <field name="bathroom_no" attrs="{'readonly':[('created', '=', True)]}"/>
+                                <field name="hall_no" attrs="{'readonly':[('created', '=', True)]}" />
+                                <field name="kitchen_no" attrs="{'readonly':[('created', '=', True)]}" />
+                            </group>
+
+                            <group></group>
+                            <field name="created" invisible="1"/>
+                            <button attrs="{'invisible':[('created', '=', True)]}" name="create_unit_building"
+                                    type="object" string="Create Building and unit" class="oe_highlight"/>
+                        </group>
+                        <label for="advantage_ids" string="Advantages"/>
+                        <div>
+                            <field name="advantage_ids" options="{'no_create': True, 'no_quick_create': True}">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="price" options="{'currency_field': 'company_currency_id'}"
+                                           readonly="1"/>
+                                </tree>
+                            </field>
+                        </div>
+                    </page>
+                    <page name="project_state" string="Project State &amp; Tasks">
+                        <label for="project_state_ids"/>
+                        <div>
+                            <field name="project_state_ids" force_save="true" >
+                                <tree>
+                                    <field name="parent_id"/>
+                                    <field name="name"/>
+                                    <field name="dependency_id"/>
+                                    <field name="total_tasks"/>
+                                </tree>
+                            </field>
+                        </div>
+                        <label for="project_task_ids"/>
+                        <div>
+                            <field name="project_task_ids" force_save="true"
+                                   attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                        </div>
+                    </page>
+                    <page name="project_insurance" string="Project Insurance">
+                        <field name="project_insurance_ids">
+                            <tree editable="bottom">
+                                <field name="partner_id" required="1"/>
+                                <field name="project_insur_line_id" required="1"/>
+                                <field name="duration" required="1"/>
+                                <field name="duration_kind"/>
+                                <field name="date_from"/>
+                                <field name="date_to"/>
+                            </tree>
+                        </field>
+                    </page>
+                    
+                    <page name="land_info" string="Land Info">
+                        <group>
+                            <group>
+                                <field name="stamp" attrs="{'readonly': [('state', '!=', 'draft')]}" required="1"/>
+                                <field name="land_state_id" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="land_space" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="invoice_ref" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            </group>
+                            <group>
+                                <field name="city" attrs="{'readonly': [('state', '!=', 'draft')]}"
+                                       options="{'no_create': True, 'no_quick_create': True}" required="1"/>
+                                <field name="district" domain="[('city_id', '=', city)]"
+                                       attrs="{'readonly': [('state', '!=', 'draft')]}"
+                                       options="{'no_create': True, 'no_quick_create': True}" required="1"/>
+                                <field name="street" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+
+                                <label for="location_x" string="Location"/>
+                                <div>
+                                    <field name="location_x" attrs="{'readonly': [('state', '!=', 'draft')]}" class="oe_inline"/>|
+                                    <field name="location_y" attrs="{'readonly': [('state', '!=', 'draft')]}" class="oe_inline"/>
+                                </div>
+                            </group>
+
+                        </group>
+                    </page>
+
+                    <page name="s_payments" string="Supplier Payments">
+                        <field name="project_expense_ids" attrs="{'readonly': [('state', '!=', 'draft')]}">
+                            <tree editable="bottom">
+                                <field name="name" required="1" attrs="{'readonly':[('invoice_id', '!=', False)]}"/>
+                                <field name="partner_id" required="1" attrs="{'readonly':[('invoice_id', '!=', False)]}"/>
+                                <field name="date" required="1" attrs="{'readonly':[('invoice_id', '!=', False)]}"/>
+                                <field name="amount" required="1" attrs="{'readonly':[('invoice_id', '!=', False)]}"/>
+                                <field name="paid" readonly="1"/>
+                                <field name="invoice_id" attrs="{'invisible':[('invoice_id', '=', False)]}" readonly="1"/>
+                                <button name="create_invoice" attrs="{'invisible':[('invoice_id', '!=', False)]}" string="Create invoice" type="object"/>
+                            </tree>
+                        </field>
+                    </page>
+                
+                </xpath>
+
+                <xpath expr="//page[@name='project_account_config']" position="before">
+                    <page name="e_payments" string="Payment Expense">
+                        <group class="oe_subtotal_footer oe_left">
+                            <field name="suppl_payment_amount" string="Supplier Payments"/>
+                            <field name="engineer_payment_amount" />
+                            <field name="subcontractor_payment_amount" />
+                            <field name="total_payment" string="Total Payments" class="oe_subtotal_footer_separator" />
+                        </group>
+                    </page>
+                </xpath>
+
+
+                <xpath expr="//page[@name='phase']" position="replace"/>
+
+                <xpath expr="//page[@name='Task']" position="replace"/>
+
+                <xpath expr="//page[@name='quantity']" position="replace"/>
+
+                <xpath expr="//page[@name='info']/group/group[2]/field[@name='date_start']" position="before">
+                    <field name="resource_calendar_id" attrs="{'readonly': [('state', '!=', 'draft')]}" required="1"/>
+                </xpath>
+
+                <xpath expr="//field[@name='date_end']" position="after">
+                    <field name="total_days" readonly="1"/>
+                </xpath>
+
+
+            </field>
+        </record>
+
+
+        <record id="project.action_view_all_task" model="ir.actions.act_window">
+            <field name="view_mode">kanban,tree,form,calendar,pivot,graph,activity,map,dhx_gantt</field>
+        </record>
+
+        <record id="project.act_project_project_2_project_task_all" model="ir.actions.act_window">
+            <field name="view_mode">kanban,tree,form,calendar,pivot,graph,activity,map,dhx_gantt</field>
+        </record>
+
+        <record id="project_expense_tree_view" model="ir.ui.view">
+            <field name="name">Project Expense</field>
+            <field name="model">project.expense</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="partner_id" />
+                    <field name="date"/>
+                    <field name="amount" />
+                    <field name="paid"/>
+                    <field name="invoice_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <delete id="project_management_custom.project_estimated_quantities" model="ir.ui.menu"/>
+        <delete id="project_management_custom.project_estimated_quantities_menu" model="ir.ui.menu"/>
+        <delete id="project_management_custom.work_item_menu" model="ir.ui.menu"/>
+
+    </data>
+</odoo>

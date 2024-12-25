@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<template id="custom_events" inherit_id="website_event.index" name="Events Holder">
+		<xpath expr="//div[@class='container']" position="replace">
+            <div class="container main_events_container">
+                <link rel="stylesheet" href="/event_website_custom/static/src/css/events.css"/>
+                <h2 class="events_title"> Events </h2>
+                <div class="row mt8">
+                    <div class="col-sm-12">
+                        <ol class="breadcrumb mb0">
+                            <li>
+                                <a href="/event">Our Events</a>
+                            </li>
+                            <li t-if="current_date"><t t-esc="current_date"/></li>
+                            <li t-if="current_type"><t t-esc="current_type.name"/></li>
+                            <li t-if="current_country"><t t-esc="current_country.name"/></li>
+                        </ol>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 col-xs-offset-3">
+                        <t t-call="website.pager"/>
+                    </div>
+                </div>
+                <div class="row mt32 events_row mb32">
+                    <div class="col-lg-9" id="middle_column">
+                        <div class="text-center text-muted" t-if="not event_ids">
+                            <h1>No event found</h1>
+                            <p groups="event.group_event_manager">Use the top menu <i>'Content'</i> to create your first event.</p>
+                        </div>
+                        <ul class="events_list">
+                            <li t-foreach="event_ids" t-as="event" class="single_event">
+                                <div itemscope="itemscope" itemtype="http://schema.org/Event" class="event_content">
+                                    <h4 class="media-heading">
+                                        <a itemprop="url" t-att-class="event.state == 'done' and 'text-success'" t-attf-href="/event/#{ slug(event) }/#{(not event.menu_id) and 'register' or ''}">
+                                            <span itemprop="name" t-field="event.name" class="event_name"> </span>
+                                        </a>
+                                        <small t-if="event.is_participating" class="label label-info">Participating</small>
+                                        <small t-if="event.is_online" class="label label-info">Online</small>
+                                        <small t-if="not event.website_published" class="label label-danger">unpublished</small>
+                                    </h4>
+                                    <div class="org_by event_data">
+                                        <t t-if="event.organizer_id">
+                                            Organized by: <span t-field="event.organizer_id"> </span>
+                                        </t>
+                                    </div>
+                                    <div class="event_date event_data">
+                                        <i class="fa fa-clock-o"></i> <span itemprop="startDate" t-field="event.with_context(tz=event.date_tz).date_begin" t-options='{"hide_seconds":"True"}'> </span> <i>to</i> <span itemprop="endDate" t-field="event.with_context(tz=event.date_tz).date_end" t-options='{"hide_seconds":"True"}'> </span>
+                                    </div>
+                                    <t t-if="not event.is_online">
+                                        <div class="event_location event_data" itemprop="location" t-field="event.address_id" t-options='{
+                                            "widget": "contact",
+                                            "fields": ["city"]
+                                            }'/>
+                                    </t>
+                                    <div  class="text-muted event_tag event_data" t-if="event.event_type_id">
+                                        <i class="fa fa-tag"></i> <span t-field="event.event_type_id"/>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- <div class="col-md-3 oe_structure" id="right_column">
+                    </div> -->
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 col-xs-offset-3">
+                        <t t-call="website.pager"/>
+                    </div>
+                </div>
+            </div>
+		</xpath>
+	</template>
+
+    <template id="event_left_column" customize_show="True" inherit_id="website_event.index" name="Filters">
+        <xpath expr="//div[@id='middle_column']" position="attributes">
+            <attribute name="class">col-md-6</attribute>
+        </xpath>
+        <xpath expr="//div[@id='middle_column']" position="before">
+            <div class="col-lg-3 css_noprint events_categories" id="left_column">
+                <ul class="nav nav-pills nav-stacked">
+                    <t t-foreach="dates" t-as="date">
+                        <li t-att-class="searches.get('date') == date[0] and 'active' or None" t-if="date[3] or (date[0] in ('old','all'))">
+                            <a t-attf-href="/event?{{ keep_query('country', 'type', date=date[0]) }}"><t t-esc="date[1]"/>
+                                <span t-if="date[3]" class="badge pull-right"><t t-esc="date[3]"/></span>
+                            </a>
+                        </li>
+                    </t>
+                </ul>
+            </div>
+        </xpath>
+        <xpath expr="//div[@id='middle_column']" position="attributes">
+            <attribute name="class">col-lg-9</attribute>
+        </xpath>
+    </template>
+
+    <!-- <template id="events_assets" inherit_id="website.assets_frontend" name="events">
+        <xpath expr="." position="inside">
+        </xpath>
+    </template> -->
+</odoo>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+
+        <record id="paperformat_project_report" model="report.paperformat">
+            <field name="name">Project Report</field>
+            <field name="default" eval="True"/>
+            <field name="format">custom</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">15</field>
+            <field name="margin_bottom">15</field>
+            <field name="margin_left">5</field>
+            <field name="margin_right">5</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">5</field>
+            <field name="dpi">150</field>
+        </record>
+
+        <record id="action_sub_contractor_report" model="ir.actions.report">
+            <field name="name">Sub-Contractor Approvals</field>
+            <field name="model">project.project</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">khawald_project.sub_contractor_report_template</field>
+            <field name="report_file">khawald_project.sub_contractor_report_template</field>
+            <field name="paperformat_id" ref="khawald_project.paperformat_project_report"/>
+            <field name="attachment_use">True</field>
+        </record>
+
+        <record id="action_sample_report" model="ir.actions.report">
+            <field name="name">Sample Approvals</field>
+            <field name="model">project.project</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">khawald_project.sample_report_template</field>
+            <field name="report_file">khawald_project.sample_report_template</field>
+            <field name="paperformat_id" ref="khawald_project.paperformat_project_report"/>
+            <field name="attachment_use">True</field>
+        </record>
+
+
+        <record id="action_inspection_report" model="ir.actions.report">
+            <field name="name">Inspection Request</field>
+            <field name="model">project.project</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">khawald_project.inspection_report_template</field>
+            <field name="report_file">khawald_project.inspection_report_template</field>
+            <field name="paperformat_id" ref="khawald_project.paperformat_project_report"/>
+            <field name="attachment_use">True</field>
+        </record>
+
+        <record id="action_daily_report" model="ir.actions.report">
+            <field name="name">Daily Report</field>
+            <field name="model">project.project</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">khawald_project.daily_report_template</field>
+            <field name="report_file">khawald_project.daily_report_template</field>
+            <field name="paperformat_id" ref="khawald_project.paperformat_project_report"/>
+            <field name="attachment_use">True</field>
+        </record>
+    </data>
+</odoo>

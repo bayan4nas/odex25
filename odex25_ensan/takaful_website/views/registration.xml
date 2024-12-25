@@ -1,0 +1,357 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="portal_global_registration">
+        <t t-set="title">إنشاء حساب</t>
+        <t t-call="website.layout">
+            <!-- STYLE -->
+            <link rel="stylesheet" href="/takaful_website/static/src/css/pages/registration.css" />
+
+            <section class="registration-section">
+                <div class="col-md-12 benifits_wrapper">
+                    <div class="container">
+                        <div class="row">
+                            <div class="stepper_header d-flex flex-wrap">
+                                <div class="step d-flex flex-column align-items-center active"
+                                    data-toggle="steper" data-taget="#section-tag">
+                                    <img src="/takaful_website/static/src/img/step_3_act.png"
+                                        alt="1" />
+                                    <div class="step_content">
+                                        حدد شاراتك
+                                    </div>
+                                </div>
+                                <div class="step d-flex flex-column align-items-center"
+                                    data-toggle="steper" data-taget="#section-account">
+                                    <img src="/takaful_website/static/src/img/step_1_act.png"
+                                        alt="2" />
+                                    <div class="step_content">
+                                        انشاء حساب
+                                    </div>
+                                </div>
+                                <div class="step d-flex flex-column align-items-center"
+                                    data-toggle="steper" data-taget="#section-confirm">
+                                    <img src="/takaful_website/static/src/img/step_2_inact.png"
+                                        alt="3" />
+                                    <div class="step_content">
+                                        تأكيد الحساب
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12 steper-content user_reg_form">
+                                <!-- SECTION TAG -->
+                                <div
+                                    class="col-md-12 code_wrapper specify_char steper-step-content active"
+                                    id="section-tag">
+                                    <div class="col-md-12">
+                                        <h6 class="text-center"> من فضلك حدد شاراتك ( نوع حسابك ) ،
+                                            مثال : هل أنت متطوع ؟</h6>
+                                        <div class="col-md-12" id="form">
+                                            <div class="character_row mb-4">
+                                                <div class="char_img">
+                                                    <div class="specify_img">
+                                                        <img
+                                                            src="/takaful_website/static/src/img/member.png"
+                                                            alt="kafel" />
+                                                        <input type="radio" class="radio_btn"
+                                                            name="specify" value="sponsor"
+                                                            checked="checked" />
+                                                    </div>
+                                                    <h5> كافل </h5>
+                                                </div>
+                                                <div class="char_img">
+                                                    <div class="specify_img">
+                                                        <img
+                                                            src="/takaful_website/static/src/img/employee.png"
+                                                            alt="benefit" />
+                                                        <input type="radio" class="radio_btn"
+                                                            name="specify" value="benefit" />
+                                                    </div>
+                                                    <h5>مستفيد</h5>
+                                                </div>
+                                                <div class="char_img">
+                                                    <div class="specify_img">
+                                                        <img
+                                                            src="/takaful_website/static/src/img/employee.png"
+                                                            alt="employee" />
+                                                        <input type="radio" class="radio_btn"
+                                                            name="specify" value="employee" />
+                                                    </div>
+                                                    <h5> موظف </h5>
+                                                </div>
+                                                <div class="char_img">
+                                                    <div class="specify_img">
+                                                        <img
+                                                            src="/takaful_website/static/src/img/member.png"
+                                                            alt="member" />
+                                                        <input type="radio" class="radio_btn"
+                                                            name="specify" value="member" />
+                                                    </div>
+                                                    <h5> عضو مجلس </h5>
+                                                </div>
+                                                <div class="char_img">
+                                                    <div class="specify_img">
+                                                        <img
+                                                            src="/takaful_website/static/src/img/resturant_owner.png"
+                                                            alt="resturant_owner" />
+                                                        <input type="radio" class="radio_btn"
+                                                            name="specify" value="resturant_owner" />
+                                                    </div>
+                                                    <h5> صاحب مطعم </h5>
+                                                </div>
+                                                <div class="char_img">
+                                                    <div class="specify_img">
+                                                        <img
+                                                            src="/takaful_website/static/src/img/volanteere.png"
+                                                            alt="volunteer" />
+                                                        <input type="radio" class="radio_btn"
+                                                            name="specify" value="volunteer" />
+                                                    </div>
+                                                    <h5> متطوع</h5>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12" style="padding: 0;">
+                                                <button type="button"
+                                                    class="btn btn-primary main_link next"
+                                                    id="next-step-button">التالي</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- SECTION ACCOUNT -->
+                                <div class="col-md-12 steper-step-content form_wrapper"
+                                    id="section-account">
+                                    <div class="col-md-10 col-md-offset-1 step-content-body">
+                                        <h5>قم بتعبئة البيانات التالية </h5>
+                                        <form id="registartionForm" method="post">
+                                            <div class="row">
+
+                                                <div class="col-lg-3 col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="first_name"> الاسم الأول</label>
+                                                        <input type="text" class="form-control"
+                                                            name="first_name" id="first_name"
+                                                            placeholder="الأسم الأول"
+                                                            required="required" />
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-3 col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="second_name">الاسم الثاني</label>
+                                                        <input type="text" class="form-control"
+                                                            name="second_name" id="second_name"
+                                                            placeholder="الاسم الثاني"
+                                                            required="required" />
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-3 col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="middle_name">الاسم الثالث</label>
+                                                        <input type="text" class="form-control"
+                                                            name="middle_name" id="middle_name"
+                                                            placeholder="الاسم الثالث"
+                                                            required="required" />
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-3 col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="family_name">الاسم الأخير</label>
+                                                        <input type="text" class="form-control"
+                                                            name="family_name" id="family_name"
+                                                            placeholder="الأسم الأخير"
+                                                            required="required" />
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-6 col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="id_number">رقم الهوية</label>
+                                                        <input type="text" class="form-control"
+                                                            name="id_number" id="id_number"
+                                                            placeholder="رقم الهوية"
+                                                            required="required" />
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-6 col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="mobile">رقم الهاتف</label>
+                                                        <div class="input-group mb-3">
+                                                            <input type="text" class="form-control"
+                                                                id="mobile" name="mobile"
+                                                                placeholder="Ex: 123456"
+                                                                aria-describedby="basic-addon3" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="email"> البريد الالكتروني    </label>
+                                                        <input type="email" class="form-control"
+                                                            name="email" id="email"
+                                                        />
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="DOB"> تاريخ  الميلاد </label>
+                                                        <input type="date" class="form-control"
+                                                            name="DOB" id="DOB"
+                                                        />
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-6 col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="city_id">المدينة</label>
+                                                        <select name="city_id" id="city_id"
+                                                            class="form-control custom-select"></select>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-6 col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="gender">الجنس</label>
+                                                        <div class="gender d-flex">
+                                                            <div
+                                                                class="mail d-flex align-items-center">
+                                                                <input type="radio"
+                                                                    class="d-inline-block w-auto"
+                                                                    id="gender-male" name="gender"
+                                                                    value="male" checked="checked" />
+                                                                <label class="mb-0"> ذكر </label>
+                                                            </div>
+                                                            <div
+                                                                class="femail d-flex align-items-center">
+                                                                <input type="radio"
+                                                                    class="d-inline-block w-auto"
+                                                                    id="gender-female" name="gender"
+                                                                    value="female" />
+                                                                <label class="mb-0"> انثى </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-6 col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="activation_mode"> اختار طريقة
+                                                            تفعيل حسابك </label>
+                                                        <select class="form-control custom-select"
+                                                            id="activation_mode"
+                                                            name="activation_mode"
+                                                            required="required">
+                                                            <option value="sms" selected="selected">عبر
+                                                                رسالة جوال </option>
+                                                            <option value="email">البريد الالكتروني </option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-6 col-md-6 marital_status">
+                                                    <div class="form-group">
+                                                        <label for="marital_status">الحالة
+                                                            الإجتماعية</label>
+                                                        <select class="form-control custom-select"
+                                                            id="marital_status"
+                                                            name="marital_status"
+                                                            required="required">
+                                                            <option value="single"
+                                                                selected="selected">عازب/ة</option>
+                                                            <option value="married">متزوج/ة</option>
+                                                            <option value="widower">أرمل/ة</option>
+                                                            <option value="divorced">مطلق/ة</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+<!--                                                <div class="col-lg-6 col-md-6">-->
+<!--                                                    <div class="form-group">-->
+<!--                                                        <label for="password">كلمة المرور</label>-->
+<!--                                                        <input type="password" class="form-control"-->
+<!--                                                            name="password" id="password"-->
+<!--                                                        />-->
+<!--                                                    </div>-->
+<!--                                                </div>-->
+<!--                                                <div class="col-lg-6 col-md-6">-->
+<!--                                                    <div class="form-group">-->
+<!--                                                        <label for="password_conf">تأكيد كلمة المرور</label>-->
+<!--                                                        <input type="password" class="form-control"-->
+<!--                                                            name="password_conf" id="password_conf"-->
+<!--                                                        />-->
+<!--                                                    </div>-->
+<!--                                                </div>-->
+                                            </div>
+                                            <div class="submit">
+                                                <input type="hidden" name="account_type" value="" />
+                                                <input type="hidden" name="user_type" value="person" />
+                                                <button type="submit">انشاء حساب</button>
+                                            </div>
+                                            <div class="col-md-12 message-block"></div>
+                                            <div class="login">
+                                                <span>هل لديك حساب بالفعل ؟</span>
+                                                <a href="/web/login"> تسجيل الدخول </a>
+                                            </div>
+
+                                        </form>
+                                    </div>
+                                    <div class="step-loader">
+                                        <p>
+                                            <span class="loader"></span>
+                                            <br />
+                                            <span>جاري إنشاء الحساب ...</span>
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <!-- SECTION CONFIRM -->
+                                <div class="col-md-12 steper-step-content code_wrapper"
+                                    id="section-confirm">
+                                    <div class="col-md-8 col-md-offset-2 mode-content code-mode">
+                                        <h6> من فضلك ادخل رمز التأكيد المكون من 4 أرقام </h6>
+                                        <p> قم بادخال الرقم الذي تم ارساله على هاتفك المحمول </p>
+                                        <a href="#"> تعديل الرقم ؟ </a>
+                                        <div id="form">
+                                            <div class="d-flex inputs">
+                                                <input type="text" maxLength="1" size="1" min="0"
+                                                    max="9" pattern="[0-9]{1}" />
+                                                <input type="text" maxLength="1" size="1" min="0"
+                                                    max="9" pattern="[0-9]{1}" />
+                                                <input type="text" maxLength="1" size="1" min="0"
+                                                    max="9" pattern="[0-9]{1}" />
+                                                <input type="text" maxLength="1" size="1" min="0"
+                                                    max="9" pattern="[0-9]{1}" />
+                                            </div>
+                                            <div class="resend d-flex justify-content-between">
+                                                <a href="#"> اعادة ارسال الرمز </a>
+                                                <span>انتظر 45 ثانية </span>
+                                            </div>
+                                            <button class="btn btn-primary btn-embossed">تأكيد</button>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8 col-md-offset-2 mode-content mail-mode">
+                                        <h3>
+                                            <i class="mdi mdi-email" />
+                                        </h3>
+                                        <p> يرجى مراجعة بريدك الإلكتروني، لقد تم إرسال الرسالة التي
+                                            تحتوي على رابط تنشيط الحساب على البريد الإلكتروني الخاص
+                                            بك، قم بالضفط على الرابط وبعد التأكد من تنشيط الحساب
+                                            يمكنك تسجيل الدخول مباشرة على حسابك في المنصة.</p>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- SCRIPT -->
+            <!-- <script src="/takaful_website/static/src/js/pages/registration.js"></script>
+            <script src="/takaful_website/static/src/js/verification_code.js"></script> -->
+        </t>
+
+    </template>
+
+</odoo>

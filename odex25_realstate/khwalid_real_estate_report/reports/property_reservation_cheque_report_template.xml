@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <template id="property_reservation_cheque_report">
+        <t t-call="web.html_container">
+            <t  t-foreach="docs" t-as="doc">
+                <div class="page">
+                    <t t-call="web.external_layout">
+                        <h2 class="text-center">Reservation and Cheque Details</h2><br/>
+
+                        <p>Dear Customer:</p>
+                        <p>We inform you that the unit No. has been booked <b><span t-esc="doc.unit_id.name"/></b> in project <b><span t-esc="doc.property_id.name"/></b> and located in the district <b><span t-esc="doc.unit_id.district_id.name"/></b> in the date <b><span t-esc="doc.request_date"/></b> for a period of <b><span t-esc="doc.total_days"/></b> </p>
+                        <p>We kindly ask you to hand over a cheque in the amount of the deposit / the value of the price of the housing unit before <b><span t-esc="doc.end_date"/></b> in order to avoid cancel the reservation. </p>
+
+                        <p>Attached is the cheque details below. </p>
+                        <p>Thanks You. </p>
+                        <span>Unit Details: </span>
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th style="text-align: center; background-color:#e6e5e5;"><strong>Project</strong></th>
+                                    <th style="text-align: center; background-color:#e6e5e5;"><strong>District</strong></th>
+                                    <th style="text-align: center; background-color:#e6e5e5;"><strong>Unit</strong></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <td style="text-align: center;"> <t t-esc="doc.property_id.name"/> </td>
+                                <td style="text-align: center;"> <t t-esc="doc.unit_id.district_id.name"/> </td>
+                                <td style="text-align: center;"> <t t-esc="doc.unit_id.name"/> </td>
+                            </tbody>
+
+                            <thead>
+                                <tr>
+                                    <th style="text-align: center; background-color:#e6e5e5;"><strong>Unit Amount</strong></th>
+                                    <th style="text-align: center; background-color:#e6e5e5;"><strong>Tax</strong></th>
+                                    <th style="text-align: center; background-color:#e6e5e5;"><strong>Reserve Type</strong></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <td style="text-align: center;"> <t t-esc="'%.2f'% doc.total_price"/> </td>
+                                <td style="text-align: center;"> <t t-esc="doc.unit_id.district_id.name"/> </td>
+                                <td style="text-align: center;"> <t t-esc="doc.reserve_type"/> </td>
+                            </tbody>
+
+                            <thead>
+                                <tr>
+                                    <th colspan="2" style="text-align: center; background-color:#e6e5e5;"><strong>Down Payment Amount</strong></th>
+                                    <th style="text-align: center; background-color:#e6e5e5;"><strong>Discount</strong></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <td colspan="2" style="text-align: center;"> <t t-esc="doc.payment_amount"/> </td>
+                                <td style="text-align: center;"> <t t-esc="doc.discount"/> </td>
+                            </tbody>
+
+                        </table>
+                        
+                        <span>Cheque Details: </span>
+                        <table class="table table-bordered">
+                            <tr>
+                                <th style="text-align: center; background-color:#e6e5e5;"><strong>Customer Name</strong></th>
+                                <td style="text-align: center;"><t t-esc="doc.partner_id.name"/></td>
+                            </tr>
+                            <tr>
+                                <th style="text-align: center; background-color:#e6e5e5;"><strong>Amount</strong></th>
+                                <td><t t-esc="'%.2f'% doc.total_price"/></td>
+                            </tr>
+                            <tr>
+                                <th style="text-align: center; background-color:#e6e5e5;"><strong>Purpose</strong></th>
+                                <td></td>
+                            </tr>
+                        </table>
+
+                        <span>Notes:</span>
+                        <ul>
+                            <li> The customer issues a cheque certified by the bank with the above data.</li>
+                            <li> Anyone who has a first home certificate is exempted from real estate tax for an amount of less than one million riyals.</li>
+                        </ul>
+
+                    </t>
+                </div>
+            </t>
+        </t>
+    </template>
+    <report
+            id ="action_property_reservation_cheque_pdf"
+            model ="property.reservation"
+            string ="Reservation and Cheque Details"
+            report_type ="qweb-pdf"
+            name ="khwalid_real_estate_report.property_reservation_cheque_report"
+            file ="khwalid_real_estate_report.property_reservation_cheque_report"
+            />
+
+</odoo>

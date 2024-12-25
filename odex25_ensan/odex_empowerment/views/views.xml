@@ -1,0 +1,32 @@
+<odoo>
+  <data>
+
+       <!-- actions opening views on models -->
+      <record model="ir.actions.act_window" id="empowerment_action_window">
+        <field name="name">Empowerment Requests</field>
+        <field name="res_model">empowerment.requests</field>
+        <field name="view_mode">tree,form</field>
+      </record>
+
+    <!-- empowerment requests list view -->
+    <record model="ir.ui.view" id="empowerment_list">
+      <field name="name">empowerment requests list</field>
+      <field name="model">empowerment.requests</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="branch_custom_id"/>
+          <field name="employee_id"/>
+          <field name="request_date"/>
+          <field name="service_type"/>
+          <field name="benefit_id"/>
+        </tree>
+      </field>
+    </record>
+
+    <!-- Top menu item -->
+    <menuitem id="empowerment_menu_root" name="Empowerment Management" sequence="100" groups="odex_empowerment.group_empowerment_user"/>
+    <!-- menu categories -->
+    <menuitem name="Empowerment Requests" id="empowerment_requests_menu" parent="odex_empowerment.empowerment_menu_root" action = "empowerment_action_window"/>
+  </data>
+</odoo>

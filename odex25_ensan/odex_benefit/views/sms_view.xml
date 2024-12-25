@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+    <record id="grant_benefit_sms_form" model="ir.ui.view">
+        <field name="name">Sms Configuration</field>
+        <field name="model">benefit.sms.configuration</field>
+        <field name="arch" type="xml">
+            <form string="SMS Template">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="state"/>
+                    </group>
+                    <group col="2">
+                        <field name="case_text"/>
+                    </group>
+                    <h5>الرجاء استخدام هذه المفاتيح لاستخدام في القالب :</h5>
+                    <br></br>
+                    <h5>1/ عند الحوجة لاستخدام اسم المستفيد ادخل $اسم_المستفيد</h5>
+                    <br></br>
+                    <h5>2/ عند الحوجة لاستخدام اسم عائلة المستفيد ادخل $اسم_العائلة</h5>
+                    <br></br>
+                    <h5>3/ عند الحوجة لاستخدام رقم هوية المستفيد ادخل $رقم_الهوية</h5>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="benefit_sms_configuration_tree" model="ir.ui.view">
+        <field name="name">benefit.sms.configuration.tree</field>
+        <field name="model">benefit.sms.configuration</field>
+        <field name="arch" type="xml">
+            <tree string="SMS Template">
+                <field name="name"/>
+                <field name="state"/>
+                <field name="case_text"/>
+            </tree>
+        </field>
+    </record>
+
+</odoo>

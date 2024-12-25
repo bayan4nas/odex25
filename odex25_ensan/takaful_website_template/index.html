@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Order Process</title>
+  <link rel="stylesheet" href="css/bootstrap.min.css" />
+  <link rel="stylesheet" href="css/fontawesome-all.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body>
+  <div class="benifits_wrapper">
+    <div class="container">
+      <div class="stepper_header d-flex flex-wrap">
+        <div class="step d-flex flex-column align-items-center active">
+          <img  src="imgs/step_1_act.png" alt="1"/>
+          <div class="step_content">
+            انشاء حساب
+          </div>
+        </div>
+        <div class="step d-flex flex-column align-items-center ">
+          <img  src="imgs/step_2_inact.png" alt="2" />
+          <div class="step_content">
+            تأكيد الحساب
+          </div>
+        </div>
+        <div class="step d-flex flex-column align-items-center">
+          <img  src="imgs/step_3_inact.png" alt="3" />
+          <div class="step_content">
+            حدد شاراتك
+          </div>
+        </div>
+        <div class="step d-flex flex-column align-items-center">
+          <img  src="imgs/step_4_inact.png" alt="4" />
+          <div class="step_content">
+            استكمال البيانات
+          </div>
+        </div>
+        <div class="step d-flex flex-column align-items-center">
+          <img  src="imgs/step_5_inact.png" alt="5" />
+          <div class="step_content">
+            تم بنجاح
+          </div>
+        </div>
+      </div>
+      <div class="user_reg_form">
+        <div class="form_wrapper">
+          <h5>قم بتعبئة البيانات التالية </h5>
+          <form method="post">
+            <div class="row">
+              <div class="col-lg-6">
+                <div class="form-group">
+                  <label for="name"> الاسم رباعي  </label>
+                  <input type="text" placeholder="كما هو في بطاقة الهوية " name="name">
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="form-group">
+                  <label for="name"> رقم الهاتف  </label>
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" id="basic-addon3">+966</span>
+                    </div>
+                    <input type="text" maxlength="6" id="basic-url" value="123456" aria-describedby="basic-addon3">
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="form-group">
+                  <label for="name"> البريد الالكتروني  </label>
+                  <input type="text" placeholder="email@example.com" name="name">
+                </div>
+              </div>
+
+              <div class="col-lg-6">
+                <div class="form-group">
+                  <label for="name"> المدينة  </label>
+                  <select id="myCity" class="custom-select">
+                    <option selected>الرياض</option>
+                    <option value="1">One</option>
+                    <option value="2">Two</option>
+                    <option value="3">Three</option>
+                  </select>
+                </div>
+              </div>
+              
+              <div class="col-lg-6">
+                <div class="form-group">
+                  <label for="name"> الجنس   </label>
+                  <div class="gender d-flex">
+                    <div class="mail d-flex align-items-center">
+                      <input class="d-inline-block w-auto" type="radio" checked name="gender" value="mail" id="mail">
+                      <label class="mb-0"> ذكر </label>
+                    </div>
+                    <div class="femail d-flex align-items-center">
+                      <input class="d-inline-block w-auto" type="radio" name="gender" value="femail" id="femail">
+                      <label class="mb-0" > انثى  </label>
+                    </div>
+                    
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="form-group">
+                  <label for="name"> اختار طريقة تفعيل حسابك   </label>
+                  <select class="custom-select">
+                    <option selected>عبر رسالة جوال </option>
+                    <option value="1">البريد الالكتروني </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="submit  mb-3">
+              <button type="submit" >  انشاء حساب </button>
+            </div>
+            <div class="login">
+              هل لديك حساب بالفعل ؟ <a href="#"> تسجيل الدخول  </a>
+            </div>
+            
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/jquery-3.2.1.min.js"></script>
+  <script src="js/popper.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/main.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <template id="receipt_voucher_report">
+        <t t-call="web.html_container">
+            <t  t-foreach="docs" t-as="doc">
+                <div class="page">
+                    <t t-call="web.external_layout">
+                        <h2 class="text-center">Receipt Voucher</h2> <br/>
+
+                        <p>We are Khawald Real Estate Company, received from:</p>
+                        <p> Mr/ Mrs <b><span t-esc="doc.partner_id.name"/></b>, Identification Number <b><span t-esc="doc.identification_number"/></b>,  Mobile <b><span t-esc="doc.mobile"/></b> </p>
+
+                        <p> Amount of <b><span t-esc="'%.2f'% doc.total_price"/></b>  <span t-esc="doc.env.company.currency_id.amount_to_text(doc.total_price)"/> </p>
+
+                        <table class="table">
+                            <tr>
+                                <th style="text-align: center;"><strong>Cheque No.</strong></th>
+                                <td> <span t-esc="doc.client_check_number"/> </td>
+
+                                <th style="text-align: center;"><strong>Bank</strong></th>
+                                <td> <span t-esc="doc.bank_id.name"/> </td>
+
+                                <th style="text-align: center;"><strong>Date</strong></th>
+                                <td> <span t-esc="doc.request_date"/> </td>
+                            </tr>
+                        </table>
+
+                        <p>And this price of unit <b><span t-esc="doc.unit_id.name"/></b>, project <b><span t-esc="doc.unit_id.project_id.name"/></b>, <b><span t-esc="doc.unit_id.city_id.name"/></b>, district <b><span t-esc="doc.unit_id.district_id.name"/></b></p>
+
+                        <p>And we received it: </p>
+                        <ul style="list-style-type:square;">
+                            <li t-if="doc.tax_exemption == 'yes' "> Tax exemption certificate </li>
+                            <li t-if="doc.tax_exemption == 'no'" > Tax Cheque </li>
+                        </ul>
+
+                        <table class="table">
+                            <tr>
+                                <th style="text-align: center;"><strong>Receiver: </strong></th>
+                                <td> </td>
+
+                                <th style="text-align: center;"><strong>Receiver Signature: </strong></th>
+                                <td> </td>
+
+                                <th style="text-align: center;"><strong>Buyer Signature: </strong></th>
+                                <td>  </td>
+                            </tr>
+                        </table>
+                    </t>
+                </div>
+            </t>
+        </t>
+    </template>
+    <report
+            id ="action_receipt_voucher_pdf"
+            model ="property.reservation"
+            string ="Receipt Voucher"
+            report_type ="qweb-pdf"
+            name ="khwalid_real_estate_report.receipt_voucher_report"
+            file ="khwalid_real_estate_report.receipt_voucher_report"
+            />
+
+</odoo>

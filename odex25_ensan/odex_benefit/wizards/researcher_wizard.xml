@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_resarcher_member_wizard_form" model="ir.ui.view">
+            <field name="name">researcher.member.wizard.form</field>
+            <field name="model">researcher.member.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+<!--                            <field name="selector"/>-->
+                            <field name="member_id"/>
+<!--                            <field name="researcher_id" attrs="{'invisible':[('selector','=','researcher_team')]}"/>-->
+                            <field name="researcher_team"/>
+                        </group>
+                        <footer>
+                            <button name="submit_member" type="object" string="Submit" class="oe_highlight" attrs="{'invisible':[('member_id','=',False)]}"/>
+                            or
+                            <button special="cancel" string="Cancel"/>
+                        </footer>
+                    </sheet>
+                </form>
+
+            </field>
+        </record>
+        <record id="view_resarcher_family_wizard_form" model="ir.ui.view">
+            <field name="name">researcher.family.wizard.form</field>
+            <field name="model">researcher.family.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="benefit_id" invisible="1"/>
+                            <field name="branch_custom_id" invisible="1"/>
+                            <field name="researcher_team" required="1"/>
+                        </group>
+                        <footer>
+                            <button name="submit_family" type="object" string="Submit" class="oe_highlight" attrs="{'invisible':[('benefit_id','=',False)]}"/>
+                        </footer>
+                    </sheet>
+                </form>
+
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,180 @@
+<odoo>
+    <data>
+        <!-- Education Entity -->
+        <record id="education_entities_form" model="ir.ui.view">
+            <field name="name">education.entities.form</field>
+            <field name="model">education.entities</field>
+            <field name="arch" type="xml">
+                <form string="Education Entities">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="education_entities_tree" model="ir.ui.view">
+            <field name="name">education.entities.tree</field>
+            <field name="model">education.entities</field>
+            <field name="arch" type="xml">
+                <tree string="Education Entities">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+        <!-- Action-->
+        <record model="ir.actions.act_window" id="education_entities_action">
+            <field name="name">Education Entities</field>
+            <field name="res_model">education.entities</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <!-- Education Level -->
+        <record id="education_level_form" model="ir.ui.view">
+            <field name="name">education.level.form</field>
+            <field name="model">education.level</field>
+            <field name="arch" type="xml">
+                <form string="Education Level">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="education_level_tree" model="ir.ui.view">
+            <field name="name">education.level.tree</field>
+            <field name="model">education.level</field>
+            <field name="arch" type="xml">
+                <tree string="Education Level">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+        <!-- Action-->
+        <record model="ir.actions.act_window" id="education_level_action">
+            <field name="name">Education Level</field>
+            <field name="res_model">education.level</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <!-- Education Classroom -->
+        <record id="education_classroom_form" model="ir.ui.view">
+            <field name="name">education.classroom.form</field>
+            <field name="model">education.classroom</field>
+            <field name="arch" type="xml">
+                <form string="Education Classroom">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="education_classroom_tree" model="ir.ui.view">
+            <field name="name">education.classroom.tree</field>
+            <field name="model">education.classroom</field>
+            <field name="arch" type="xml">
+                <tree string="Education Classroom">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+        <!-- Action-->
+        <record model="ir.actions.act_window" id="education_classroom_action">
+            <field name="name">Education Classroom</field>
+            <field name="res_model">education.classroom</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <!-- Education Result -->
+        <record id="education_result_form" model="ir.ui.view">
+            <field name="name">education.result.form</field>
+            <field name="model">education.result</field>
+            <field name="arch" type="xml">
+                <form string="Education Result">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="evaluation" required="1"/>
+                        </group>
+                        <group>
+                            <field name="min_degree" required="1"/>
+                            <field name="max_degree" required="1"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="education_result_tree" model="ir.ui.view">
+            <field name="name">education.result.tree</field>
+            <field name="model">education.result</field>
+            <field name="arch" type="xml">
+                <tree string="Education Result">
+                    <field name="name"/>
+                    <field name="evaluation"/>
+                    <field name="min_degree"/>
+                    <field name="max_degree"/>
+                </tree>
+            </field>
+        </record>
+        <!-- Action-->
+        <record model="ir.actions.act_window" id="education_result_action">
+            <field name="name">Education Result</field>
+            <field name="res_model">education.result</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+          <!-- Study Material -->
+        <record id="study_material_form" model="ir.ui.view">
+            <field name="name">study.material.form</field>
+            <field name="model">study.material</field>
+            <field name="arch" type="xml">
+                <form string="Study Material">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="study_material_tree" model="ir.ui.view">
+            <field name="name">study.material.tree</field>
+            <field name="model">study.material</field>
+            <field name="arch" type="xml">
+                <tree string="Study Material">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+        <!-- Action-->
+        <record model="ir.actions.act_window" id="study_material_action">
+            <field name="name">Study Material</field>
+            <field name="res_model">study.material</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <record model="ir.actions.act_window" id="education_illiterate_reason_action">
+            <field name="name">Education Illiterate Reason</field>
+            <field name="res_model">education.illiterate.reason</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="education_main_menu" name="Education Settings"
+                  parent="odex_benefit.benefit_tools" sequence="3"/>
+        <menuitem id="education_entities_menu" name="Education Entities"
+                  parent="education_main_menu" action="education_entities_action" sequence="0"/>
+        <menuitem id="education_level_menu" name="Education Level"
+                  parent="education_main_menu" action="education_level_action" sequence="1"/>
+         <menuitem id="specialization_menu" name="Specialization"
+                  parent="education_main_menu" action="specialization_action" sequence="2"/>
+        <menuitem id="education_classroom_menu" name="Education Classroom"
+                  parent="education_main_menu" action="education_classroom_action" sequence="3"/>
+        <menuitem id="education_result_menu" name="Education Result"
+                  parent="education_main_menu" action="education_result_action" sequence="4"/>
+        <menuitem id="study_material_menu" name="Study Material"
+                  parent="education_main_menu" action="study_material_action" sequence="5"/>
+        <menuitem id="illiterate_reason_menu" name="Education Illiterate Reason"
+                  parent="education_main_menu" action="education_illiterate_reason_action" sequence="6"/>
+    </data>
+</odoo>

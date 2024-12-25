@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="ir_attachment_form" model="ir.ui.view">
+        <field name="name">ir.attachment.inherit.form</field>
+        <field name="model">ir.attachment</field>
+        <field name="inherit_id" ref="base.view_attachment_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='website_id']" position="after">
+                <field name="benefit_id" invisible="1"/>
+                <field name="member_id" invisible="1"/>
+                <field name="expiration_date" invisible="1"/>
+                <field name="attach_status" invisible="1"/>
+                <field name="allow_days" invisible="1"/>
+                <field name="is_required" invisible="1"/>
+                <field name="is_default" invisible="1"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

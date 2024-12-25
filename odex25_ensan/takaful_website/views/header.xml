@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="frontend_layout" name="Main Frontend Layout" inherit_id="web.frontend_layout">
+        <xpath expr="//div[@id='wrapwrap']/header/nav" position="replace">
+            <div class="navbar-container">
+                <div class="logo">
+                    <a href="/" class="navbar-brand">
+                        <img src="/takaful_website/static/src/img/ensan-logo-white.png" alt=""/>
+                    </a>
+                </div>
+                <ul class="nav navbar-nav">
+                    <li class="active">
+                        <a href="/">Home</a>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true">About Ensan</a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="/about#who_are_we">Who are we ?</a>
+                            </li>
+                            <span class="dropdown-items-divider"></span>
+                            <li>
+                                <a href="/about#objectives">Our Objectives</a>
+                            </li>
+                            <span class="dropdown-items-divider"></span>
+                            <li>
+                                <a href="/about#ambitions">Our Ambitions</a>
+                            </li>
+                            <span class="dropdown-items-divider"></span>
+                            <li>
+                                <a href="/about#adminstrative_structure">Administrative Structure</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true">التبرع</a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="/zakat">زكاة المال</a>
+                            </li>
+                            <span class="dropdown-items-divider"></span>
+                            <li>
+                                <a href="/food_basket">زكاة الاضاحي</a>
+                            </li>
+                            <span class="dropdown-items-divider"></span>
+                            <li>
+                                <a href="/applications">الأثاث و الاجهزة</a>
+                            </li>
+                            <span class="dropdown-items-divider"></span>
+                            <li>
+                                <a href="/families_loan">الاسر المنتجة</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <!-- <li class="dropdown" t-if="request.env.user.partner_id.account_type=='benefit'"> -->
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true">المستفيدين</a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="/food_remain">فائض الطعام</a>
+                            </li>
+                            <span class="dropdown-items-divider"></span>
+                            <li>
+                                <a href="/clubs">النوادى</a>
+                            </li>
+                            <span class="dropdown-items-divider"></span>
+                            <li>
+                                <a href="/urgent_needs">الاحتياجات الطارئة</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <!-- <li class="dropdown" t-if="request.env.user.partner_id.account_type=='sponsor'"> -->
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true">الكافل</a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="/guarantees">كفالاتي</a>
+                            </li>
+                            <span class="dropdown-items-divider"></span>
+                            <li>
+                                <a href="/notifications">الاشعارات</a>
+                            </li>
+                            <span class="dropdown-items-divider"></span>
+                            <li>
+                                <a href="/notifications_settings">اعدادات الاشعارات</a>
+                            </li>
+                            <span class="dropdown-items-divider"></span>
+                            <li>
+                                <a href="/certificates_settings">اعدادات الشهادات</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="/contactus">Contact us</a>
+                    </li>
+                </ul>
+                <div class="lang-container">
+                    <t t-call="website.language_selector_inline"/>
+                </div>
+                <div class="signin">
+                    <!-- Sign In -->
+                    <t t-call="portal.placeholder_user_sign_in">
+                        <t t-set="_item_class" t-value="'nav-item ml-lg-auto'"/>
+                        <t t-set="_link_class" t-value="'nav-link font-weight-bold'"/>
+                    </t>
+                    <!-- User Dropdown -->
+                    <t class="user-dropdown-options" t-call="portal.user_dropdown">
+                        <t t-set="_user_name" t-value="true"/>
+                        <t t-set="_item_class" t-value="'nav-item dropdown ml-lg-auto'"/>
+                        <t t-set="_link_class" t-value="'nav-link font-weight-bold'"/>
+                    </t>
+                </div>
+            </div>
+        </xpath>
+    </template>
+
+    <!-- <template inherit_id="website.submenu" id="submenus">
+        <xpath expr="//li" position="replace">
+            <li
+                    t-if="submenu.is_visible and not submenu.child_id.filtered(lambda menu: menu.is_visible)"
+                    t-att-class="
+                'active' if submenu.clean_url() and unslug_url(request.httprequest.path) == unslug_url(submenu.clean_url()) else None
+                "
+                    data-target="menu">
+                <a t-att-href="submenu.clean_url()" t-ignore="true"
+                   t-att-target="'_blank' if submenu.new_window else None">
+                    <span t-field="submenu.name"/>
+                </a>
+            </li>
+            <li t-if="submenu.child_id.filtered(lambda menu: menu.is_visible)"
+                t-attf-class="dropdown #{
+                (submenu.clean_url() and submenu.clean_url() != '/' and any([request.httprequest.path == child.url for child in submenu.child_id if child.url]) or
+                (submenu.clean_url() and request.httprequest.path == submenu.clean_url())) and 'active'
+                }"
+                data-target="menu">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    <span t-field="submenu.name"/>
+                    <span class="caret" t-ignore="true"></span>
+                </a>
+                <ul class="dropdown-menu" role="menu">
+
+                    <t t-foreach="submenu.child_id" t-as="submenu">
+                        <t t-call="website.submenu"/>
+                    </t>
+
+                </ul>
+            </li>
+        </xpath>
+    </template> -->
+</odoo>

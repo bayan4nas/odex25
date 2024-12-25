@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+<template id="project_detail_qweb_report" name="project_detail_qweb_report">
+    <t t-call="web.html_container">
+    <t t-foreach="docs" t-as="e">
+        <t t-call="web.external_layout">
+            <div class="page">
+                <form>
+                    <div class="container">
+                        <tr class="text-center">
+                            <th>
+                                <t t-if="e.name">
+                                    <h2 class="text-center">
+                                        <b>
+                                            <span t-field="e.project_no"/>
+                                        </b>
+                                        -
+                                        <b>
+                                            <span t-field="e.name"/>
+                                        </b>
+                                    </h2>
+                                </t>
+                            </th>
+                        </tr>
+                        <table class="table table-borderless">
+                                <tr>
+                                    <td colspan="4" class="text-muted"><h4>Project Info</h4></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <b>Sale Order</b>
+                                    </td>
+                                    <td>
+                                        <span t-field="e.sale_order_id.name"/>
+                                    </td>
+                                    <td>
+                                        <b>Project Manager</b>
+                                    </td>
+                                    <td>
+                                        <span t-field="e.user_id.name"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <b>Customer</b>
+                                    </td>
+                                    <td>
+                                        <div t-field="e.partner_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;], &quot;no_marker&quot;: True}"/>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <h2>
+                                        <b>
+                                            <td colspan="4" class="text-muted"><h4>Project Location Info</h4></td>
+                                        </b>
+                                    </h2>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <b>Country</b>
+                                    </td>
+                                    <td>
+                                        <span t-field="e.country_id.name"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <b>Project Category</b>
+                                    </td>
+                                    <td>
+                                        <t t-if="e.category_id">
+                                            <span t-field="e.category_id.name"/>
+                                        </t>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <h2>
+                                        <b>
+                                            <td colspan="4" class="text-muted"><h4>Project Schedule Duration</h4></td>
+                                        </b>
+                                    </h2>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <b>Start Date</b>
+                                    </td>
+                                    <td>
+                                        <span t-field="e.start"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <b>Finish Date</b>
+                                    </td>
+                                    <td>
+                                        <span t-field="e.date"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <b>Kick-Off Date</b>
+                                    </td>
+                                    <td>
+                                        <span t-field="e.launch_date"/>
+                                    </td>
+                                    <td>
+                                        
+                                    </td>
+                                    <td>
+                                        
+                                    </td>
+                                </tr>
+                            </table>
+                             <p style="page-break-before:always;"> </p>
+                            <table class="table table-bordered">
+                                 <tr>
+                                    <h2>
+                                        <b>
+                                            <td colspan="4" class="text-muted"><h4>Project Stages</h4></td>
+                                        </b>
+                                    </h2>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        <b>#</b>
+                                    </td>
+                                    <td colspan="2">
+                                        <b>stage</b>
+                                    </td>
+                                </tr>
+                                <t t-set="counter" t-value="0"/>
+                                 <t t-foreach="e.project_phase_ids" t-as="p">
+                                    <t  t-set="counter" t-value="counter + 1"/>
+                                    <tr>
+                                        <td colspan="2">
+                                            <span t-esc="counter"/>
+                                        </td>
+                                        <td colspan="2">
+                                            <span t-esc="p.name"/>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </table>
+                            <table class="table table-borderless">
+                                <tr>
+                                    <h2>
+                                        <b>
+                                            <td colspan="4" class="text-muted"><h4>Description</h4></td>
+                                        </b>
+                                    </h2>
+                                </tr>
+                                <tr rowspan="4">
+                                    <td colspan="4">
+                                        <span t-field="e.description"/>
+                                    </td>
+                                </tr>
+                        </table>
+                        
+                    </div>
+                </form>
+            </div>
+        </t>
+    </t>
+    </t>
+</template>
+</odoo>

@@ -1,0 +1,251 @@
+<odoo>
+    <data>
+        <!-- As resturant owner -->
+        <template id="food_remain" name="food remain">
+            <t t-set="title"> فائض الطعام </t>
+            <t t-call="website.layout">
+                <div class="profile_wrapper">
+                    <div class="container">
+                        <h2 class="heading"> فائض الطعام </h2>
+                        <div class="zakat_wrapper">
+                            <span data-toggle="modal" data-target="#add_food" class="add_food">
+                                <img src="/takaful_portal_benefit/static/img/Icon awesome-plus.png"
+                                    alt="plus" /> أضف فائض طعام </span>
+                            <span data-toggle="modal" data-target="#add_rest" class="add_food">
+                                <img src="/takaful_portal_benefit/static/img/Icon awesome-plus.png"
+                                    alt="plus" /> أضف  مطعم </span>
+                            <div class="row food_surplus_row">
+
+                                <div class="new_food"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- add  food remain modal    -->
+                <div class="modal fade kafala_modal " id="add_food" tabindex="-1" role="dialog"
+                    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title heading" id="exampleModalLongTitle"> إضافه
+                                    فائض طعام </h5>
+                                <button type="button" class="close" data-dismiss="modal"
+                                    aria-label="Close">
+                                    <span aria-hidden="true">
+                                        <i class="fa fa-times"></i>
+                                    </span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="add_rest_food" method="post" action="">
+                                    <div class="row">
+                                        <div class="form-group col-lg-12">
+                                            <label for="surplus_type" class=" control-label"> نوع
+                                                الفائض من الطعام </label>
+                                            <select id="surplus_type" class="custom-select">
+                                                <option selected="selected" value="1">لحوم </option>
+                                                <option value="2">طباق وجبات </option>
+                                                <option value="3"> فراخ </option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-lg-12">
+                                            <label for="surplus_count" class="myName control-label">
+                                                عدد المستفيدين </label>
+                                            <div class="">
+                                                <input type="text" class="form-control"
+                                                    id="surplus_count"
+                                                    name="surplus_count" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-lg-12">
+                                            <label for="quantity" class="myName control-label">
+                                                الكمية </label>
+                                            <div class="">
+                                                <input type="text" class="form-control"
+                                                    id="quantity"
+                                                    name="quantity" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-lg-6">
+                                            <label for="date_start" class=" control-label"> تاريخ
+                                                البداية </label>
+                                            <div class="">
+                                                <input type="date" class="form-control"
+                                                    id="date_start" name="date_start" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-lg-6">
+                                            <label for="date_end" class=" control-label"> تاريخ
+                                                النهاية </label>
+                                            <div class="">
+                                                <input type="date" class="form-control"
+                                                    id="date_end" name="date_end" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-lg-6">
+                                            <label for="description" class=" control-label"> الوصف </label>
+                                            <div class="">
+                                                <input type="text" class="form-control"
+                                                    id="description" name="description" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary"> تأكيد </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal fade kafala_modal " id="add_rest" tabindex="-1" role="dialog"
+                    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title heading" id="exampleModalLongTitle"> إضافه
+                                    مطعم </h5>
+                                <button type="button" class="close" data-dismiss="modal"
+                                    aria-label="Close">
+                                    <span aria-hidden="true">
+                                        <i class="fa fa-times"></i>
+                                    </span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="add_rest" method="post" action="">
+                                    <div class="row">
+
+                                        <div class="form-group col-lg-12">
+                                            <label for="name" class="myName control-label"> اسم
+                                                المطعم </label>
+                                            <div class="">
+                                                <input type="text" class="form-control" id="name"
+                                                    name="name" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-lg-12">
+                                            <label for="surplus_type" class=" control-label"> نوع
+                                                الفائض من الطعام </label>
+                                            <select id="surplus_type" class="custom-select">
+                                                <option selected="selected" value="1">لحوم </option>
+                                                <option value="2">طباق وجبات </option>
+                                                <option value="3"> فراخ </option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-lg-12">
+                                            <label for="zone" class="myName control-label">
+                                                المنطقة </label>
+                                            <div class="">
+                                                <input type="text" class="form-control"
+                                                    id="zone"
+                                                    name="zone" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-lg-12">
+                                            <label for="neighborhood" class="myName control-label">
+                                                الجوار </label>
+                                            <div class="">
+                                                <input type="text" value="+9541333"
+                                                    class="form-control" id="neighborhood"
+                                                    name="neighborhood" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-lg-12">
+                                            <label for="city" class=" control-label">
+                                                المدينة </label>
+                                            <select name="city" id="city_id" class="custom-select">
+
+                                            </select>
+                                        </div>
+
+                                        <div class="form-group col-lg-6">
+                                            <label for="address" class=" control-label"> العنوان </label>
+                                            <div class="">
+                                                <input type="text" class="form-control"
+                                                    id="address" name="address" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-lg-6">
+                                            <label for="" class=" control-label"> خط الطول </label>
+                                            <div class="position-relative">
+                                                <input type="text" class="form-control"
+                                                    id="lon" name="lon" />
+                                                <span class="setLocation"> تحديد </span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-lg-6">
+                                            <label for="" class=" control-label"> خط العرض </label>
+                                            <div class="position-relative">
+                                                <input type="text" class="form-control"
+                                                    id="lat" name="lat" />
+                                                <span class="setLocation"> تحديد </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary"> تأكيد الدفع </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </template>
+
+
+        <!-- As Benefit  -->
+        <template id="benefit_food_remain" name="benefit food remain">
+            <t t-set="title"> فائض الطعام </t>
+            <t t-call="website.layout">
+                <div class="profile_wrapper">
+                    <div class="container">
+                        <h2 class="heading"> فائض الطعام </h2>
+                        <div class="zakat_wrapper">
+                            <div class="row food_surplus_row">
+
+                            </div>
+                            <div class="food_surplus_feedback"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal fade  food_surplus_modal" id="donation_modal" tabindex="-1"
+                    role="dialog"
+                    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title heading" id="exampleModalLongTitle">
+                                    تقديم طلب فائض طعام </h5>
+                                <button type="button" class="close" data-dismiss="modal"
+                                    aria-label="Close">
+                                    <span aria-hidden="true">
+                                        <i class="fa fa-times"></i>
+                                    </span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p> يمكنك تقديم طلب احتياج فائض طعام عبر الضعط على الزر الاسفل </p>
+                                <form action="" id="food_surplus_form">
+                                    <div class="row">
+                                        <input type="hidden" id="food_id" name="id" />
+                                        <!-- <input type="hidden" name="csrf_token"
+                                        t-att-value="request.csrf_token()" /> -->
+
+                                        <div class="new_donor col-lg-12"></div>
+                                    </div>
+                                    <button type="submit" class="btn main_link btn-primary"> تقديم
+                                        طلب </button>
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <!-- <script src="/takaful_portal_benefit/static/js/food_surplus.js"></script> -->
+            </t>
+        </template>
+    </data>
+</odoo>

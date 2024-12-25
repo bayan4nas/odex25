@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <report
+                id="generate_benefit_report_pdf"
+                model="generate.reports"
+                string="Benefit Report"
+                report_type="qweb-pdf"
+                name="odex_benefit.template_generate_benefit_report_pdf"
+                file="odex_benefit.template_generate_benefit_report_pdf"
+                menu="False"/>
+        <template id="template_generate_benefit_report_pdf">
+            <t t-call="web.html_container">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <center>
+                            <h3>
+                                <span t-esc="record['name']"/>
+                            </h3>
+                        </center>
+                        <table class="table table-condensed table-bordered"
+                               style="table-layout: fixed">
+                            <t t-foreach="length" t-as="lenth">
+                                <th style="background-color: #b8bcbf;width:100%;">
+                                    <span t-esc="record['ar_headers'][lenth]"/>
+                                </th>
+                            </t>
+                            <t t-foreach="data_len" t-as="ln">
+                                <!--                            <t t-foreach="data_len" t-as="rec">-->
+                                <tr>
+                                    <t t-foreach="data[ln]" t-as="rec">
+                                        <td>
+                                            <span t-esc="rec"/>
+                                        </td>
+                                    </t>
+                                </tr>
+                            </t>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </template>
+
+
+        <!--service_to == 'benefit'-->
+        <!--        <template id="benefit_report_pdf">-->
+        <!--            <t t-call="web.html_container">-->
+        <!--                <t t-call="web.external_layout">-->
+        <!--                    <div class="page">-->
+        <!--                        &lt;!&ndash;                        <t t-foreach="docs" t-as="doc">&ndash;&gt;-->
+        <!--                        <h2 colspan="10" class="text-center" style="color:#f7f7f7;font-size:20px">-->
+
+        <!--                            <span t-esc="name"/>-->
+
+        <!--                            <span t-esc="family_id"/>-->
+        <!--                            <span t-esc="benefit_id"/>-->
+        <!--                            <span t-esc="housing_id"/>-->
+
+        <!--                            <span t-esc="age_from"/>-->
+        <!--                            - -->
+        <!--                            <span t-esc="age_to"/>-->
+        <!--                        </h2>-->
+        <!--                        <table class="table table-condensed table-bordered">-->
+        <!--                            <thead class="text-center">-->
+        <!--                                <tr style="background-color: #b8bcbf;width:100%;">-->
+        <!--                                    <th style="text-align:center;">#</th>-->
+        <!--                                    <th style="text-align:center;">name</th>-->
+        <!--                                    <th style="text-align:center;">gender</th>-->
+        <!--                                    <th style="text-align:center;">age</th>-->
+        <!--                                    <th style="text-align:center;">family</th>-->
+        <!--                                    <th style="text-align:center;">behavior</th>-->
+        <!--                                    <th style="text-align:center;">need_type_ids</th>-->
+        <!--                                    <th style="text-align:center;">fat</th>-->
+        <!--                                    <th style="text-align:center;">education_status</th>-->
+        <!--                                    <th style="text-align:center;">memorization</th>-->
+        <!--                                    <th style="text-align:center;">specialty</th>-->
+        <!--                                    <th style="text-align:center;">omra date</th>-->
+        <!--                                </tr>-->
+        <!--                            </thead>-->
+        <!--                            <tbody class="text-center">-->
+        <!--                                <t t-set="sequence" t-value="0"/>-->
+        <!--                                <t t-foreach="docs" t-as="doc">-->
+        <!--                                    <tr>-->
+        <!--                                        <td>-->
+        <!--                                            <t t-set="sequence" t-value="sequence +1"/>-->
+        <!--                                            <t t-esc="sequence"/>-->
+        <!--                                        </td>-->
+        <!--                                        <td class="text-center">-->
+        <!--                                            <span t-esc="doc.name"/>-->
+        <!--                                        </td>-->
+        <!--                                        <td class="text-center">-->
+        <!--                                            <span t-esc="doc.gender"/>-->
+        <!--                                        </td>-->
+        <!--                                        <td class="text-center">-->
+        <!--                                            <span t-esc="doc.age"/>-->
+        <!--                                        </td>-->
+        <!--                                    </tr>-->
+        <!--                                </t>-->
+
+        <!--                            </tbody>-->
+        <!--                        </table>-->
+        <!--                        &lt;!&ndash;                        </t>&ndash;&gt;-->
+        <!--                        <div style="page-break-before: always;"></div>-->
+
+        <!--                    </div>-->
+        <!--                </t>-->
+        <!--            </t>-->
+        <!--        </template>-->
+        <!--        <report-->
+        <!--                id="benefit_report_pdf_act"-->
+        <!--                model="grant.benefit"-->
+        <!--                string="Benefit Report"-->
+        <!--                report_type="qweb-pdf"-->
+        <!--                name="odex_benefit.benefit_report_pdf"-->
+        <!--                file="odex_benefit.benefit_report_pdf"-->
+        <!--                menu="False"/>-->
+    </data>
+</odoo>

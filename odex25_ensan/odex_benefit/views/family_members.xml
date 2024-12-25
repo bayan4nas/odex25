@@ -1,0 +1,240 @@
+<odoo>
+    <data>
+        <record id="family_member_form" model="ir.ui.view">
+            <field name="name">family.member.form</field>
+            <field name="model">family.member</field>
+            <field name="arch" type="xml">
+                 <form string="Family Member">
+                   <header>
+                        <button name="action_suspend" type="object"
+                                string="Temporarily Suspended" class="oe_highlight"
+                                attrs="{'invisible': ['|',('state','not in',['second_approve']),('is_member_workflow','=',True)]}"
+                                confirm="Are you sure you want to move  to Temporarily Suspended ?"/>
+                       <button name="action_suspend_first_accept" type="object"
+                                string="First Approve" class="oe_highlight" attrs="{'invisible': [('state','not in',['temporarily_suspended'])]}"/>
+                       <button name="action_suspend_second_accept" type="object"
+                                string="Second Approve" class="oe_highlight" attrs="{'invisible': [('state','not in',['suspended_first_approve'])]}"/>
+                       <button name="action_suspend_refuse" type="object"
+                                string="Suspend Refuse" class="oe_highlight"  attrs="{'invisible': [('state','not in',['temporarily_suspended','suspended_first_approve'])]}"/>
+                        <!-- Exception -->
+                        <button name="action_exception" type="object"
+                                string="Temporarily Exception" class="oe_highlight"
+                                confirm="Are you sure you want to move  to Temporarily Exception ?" attrs="{'invisible': [('state','not in',['suspended_second_approve'])]}"/>
+                        <button name="action_exception_first_accept" type="object"
+                                string="Exception First Approve" class="oe_highlight" groups="odex_benefit.group_benefit_woman_commitee,odex_benefit.group_benefit_manager" attrs="{'invisible': [('state','not in',['temporarily_exception'])]}"/>
+                        <button name="action_exception_second_accept" type="object"
+                                string="Exception Second Approve" class="oe_highlight" groups="odex_benefit.group_benefit_branch_manager,odex_benefit.group_benefit_manager"
+                        attrs="{'invisible': [('state','not in',['exception_first_approve'])]}"/>
+                       <button name="action_exception_final_accept" type="object"
+                                string="Exception Final Approve" class="oe_highlight"
+                                attrs="{'invisible': [('state','not in',['exception_second_approve'])]}" groups="odex_benefit.group_benefit_manager"/>
+                        <button name="action_exception_refuse" type="object"
+                                string="Exception Refuse" class="oe_highlight" attrs="{'invisible': [('state','not in',['temporarily_exception','exception_first_approve','exception_second_approve'])]}"/>
+                        <field name="state" widget="statusbar"
+                               statusbar_visible="draft,complete_info,waiting_approve,first_approve,second_approve,first_refusal,refused,temporarily_suspended"/>
+                       <field name="state_a" widget="statusbar"
+                               statusbar_visible="draft,complete_info,waiting_approve,first_approve,second_approve,first_refusal,refused,temporarily_suspended" invisible="1"/>
+                    </header>
+                    <sheet>
+                        <field name="is_member_workflow" invisible="1"/>
+                    <widget name="web_ribbon" title="Non Benefit Member" bg_color="bg-danger" attrs="{'invisible': ['|',('member_status', '=', False),('member_status', '!=', 'non_benefit')]}"/>
+                     <widget name ="web_ribbon" title="Benefit Member" bg_color="bg-success" attrs="{'invisible': ['|',('member_status', '=', False),('member_status', '!=', 'benefit')]}"/>
+                        <h1>
+                            <field placeholder="Name" name="name" class="oe_inline" readonly="1"
+                                   force_save="1"/>
+                        </h1>
+                           <group>
+                                <label for="relationn" string="Relation"/>
+                                <div>
+                                    <field name="relationn" class="oe_inline" nolabel="1" attrs="{'readonly':[('state','not in',['draft','complete_info','edit_info'])]}" required="1" options='{"no_open": True,"no_create_edit": True}'/>
+                                </div>
+                          </group>
+                        <group>
+                             <group>
+                                <field name="member_first_name" attrs="{'readonly':[('state','not in',['draft','complete_info','edit_info'])]}" required="1"/>
+                                 <field name="member_third_name" attrs="{'readonly':[('state','not in',['draft','complete_info','edit_info'])]}" required="1"/>
+                                <field name="member_id_number" attrs="{'readonly':[('state','not in',['draft','complete_info','edit_info'])]}" required="1"/>
+<!--                                 <field name="gender" required="1" attrs="{'readonly':[('state','not in',['draft','complete_info','edit_info'])]}"/>-->
+                                <field name="is_dead" attrs="{'readonly':[('state','not in',['draft','complete_info','edit_info'])]}"/>
+                                <field name="member_location" attrs="{'readonly':[('state','not in',['draft','complete_info','edit_info'])]}" invisible="1"/>
+                                <field name="member_location_conf" attrs="{'readonly':[('state','not in',['draft','complete_info','edit_info'])]}"/>
+                                <field name="is_work" attrs="{'readonly':[('state','not in',['draft','complete_info','edit_info'])]}"/>
+                                <field name="member_income" attrs="{'required':[('is_work','=',True)],'readonly':[('state','not in',['draft','complete_info','edit_info'])]}"/>
+                                <field name="need_transportation" attrs="{'readonly':[('state','not in',['draft','complete_info','edit_info'])]}"/>
+                                <field name="has_disabilities" attrs="{'readonly':[('state','not in',['draft','complete_info','edit_info'])]}"/>
+                                <field name="minor_siblings" attrs="{'readonly':[('state','not in',['draft','complete_info','edit_info'])]}"/>
+                                <field name="sponsor_id"  attrs="{'readonly':[('state','not in',['draft','complete_info','edit_info'])]}"/>
+                                <field name="is_excluded_suspension" readonly="1" force_save="1"/>
+                             </group>
+                             <group>
+                                 <field name="member_second_name" attrs="{'readonly':[('state','not in',['draft','complete_info','edit_info'])]}" required="1"/>
+                                <field name="member_family_name" attrs="{'readonly':[('state','not in',['draft','complete_info','edit_info'])]}" required="1"/>
+                                <field name="member_phone" attrs="{'readonly':[('state','not in',['draft','complete_info','edit_info'])]}"/>
+                                <field name="birth_date" attrs="{'readonly':[('state','not in',['draft','complete_info','edit_info'])]}" required="1"/>
+                                <field name="age" readonly="1" required="1" force_save="1"/>
+                                <field name="is_married" attrs="{'readonly':[('state','not in',['draft','complete_info','edit_info'])]}"/>
+                                 <field name="is_alhaju" widget="boolean_toggle" attrs="{'readonly':[('state','not in',['draft','complete_info','edit_info'])]}"/>
+                                 <field name="is_amra" widget="boolean_toggle" attrs="{'readonly':[('state','not in',['draft','complete_info','edit_info'])]}"/>
+                                 <field name="mother_marital_conf" attrs="{'invisible':['|',('relationn','=','mother'),('relationn','=','replacement_mother')]}"/>
+                                 <field name="mother_location" invisible="1"/>
+                                 <field name="mother_location_conf" attrs="{'invisible':['|',('relationn','=','mother'),('relationn','=','replacement_mother')]}"/>
+                                 <field name="benefit_id"  attrs="{'readonly': [('state','!=','draft')]}" force_save="1" required="1"/>
+                                 <field name="member_status" readonly="1" widget="badge" decoration-success="member_status == 'benefit'" decoration-danger="member_status == 'non_benefit'"/>
+
+                             </group>
+                        </group>
+                        <notebook>
+                            <page string="Hobbies">
+                                <field name="hobbies_attachment_ids" widget="one2many_list">
+                                     <tree editable="bottom">
+                                        <field name="name"/>
+                                        <field name="hobbies_id" required="1"/>
+                                        <field name="datas" string="File content"/>
+                                        <field name="expiration_date"/>
+                                        <field name="attach_status"/>
+                                        <field name="member_id" invisible="1"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Diseases">
+                                <field name="diseases_attachment_ids" widget="one2many_list">
+                                    <tree editable="bottom">
+                                        <field name="name"/>
+                                        <field name="diseases_id" required="1"/>
+                                        <field name="datas" string="File content"/>
+                                        <field name="expiration_date"/>
+                                        <field name="attach_status"/>
+                                        <field name="member_id" invisible="1"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Disabilities">
+                                <field name="disabilities_attachment_ids" widget="one2many_list">
+                                    <tree editable="bottom">
+                                        <field name="name"/>
+                                        <field name="disabilities_id" required="1"/>
+                                        <field name="datas" string="File content"/>
+                                        <field name="expiration_date"/>
+                                        <field name="attach_status"/>
+                                        <field name="member_id" invisible="1"/>
+                                    </tree>
+                                </field>
+                            </page>
+                               <page string="Education">
+                                   <h3>Current Education Status</h3>
+                                   <group>
+                                    <group>
+                                        <field name="is_scientific_specialty" invisible="1"/>
+                                        <field name="is_medical_specialty" invisible="1"/>
+                                        <field name="education_status" attrs="{'readonly':[('state','not in',['draft','complete_info','edit_info'])]}"/>
+                                        <field name="illiterate_reason" attrs="{'readonly':[('state','not in',['draft','complete_info','edit_info'])],
+                                        'invisible':[('education_status','!=','illiterate')]}"/>
+                                        <field name="case_study" attrs="{'readonly':[('state','not in',['draft','complete_info','edit_info'])],'invisible':[('education_status','=','illiterate')]}"/>
+                                        <field name="intermittent_reason" attrs="{'readonly':[('state','not in',['draft','complete_info','edit_info'])],'invisible':[('case_study','!=','intermittent')]}"/>
+                                        <field name="education_entity" attrs="{'readonly':[('state','not in',['draft','complete_info','edit_info'])],'invisible':[('education_status','=','illiterate')]}"/>
+                                        <field name="entities" attrs="{'readonly':[('state','not in',['draft','complete_info','edit_info'])],'invisible':[('education_status','=','illiterate')]}"/>
+                                        <field name="education_levels" attrs="{'readonly':[('state','not in',['draft','complete_info','edit_info'])],'invisible':[('education_status','=','illiterate')]}"/>
+                                        <field name="educational_certificate" attrs="{'readonly':[('state','not in',['draft','complete_info','edit_info'])],'invisible':[('education_status','=','illiterate')]}"/>
+                                    </group>
+                                    <group>
+                                        <field name="specialization_ids" attrs="{'readonly':[('state','not in',['draft','complete_info','edit_info'])],'invisible':[('education_status','=','illiterate')],'invisible':[('education_status','=','illiterate')]}"/>
+                                        <field name="classroom" attrs="{'readonly':[('state','not in',['draft','complete_info','edit_info'])],'invisible':[('education_status','=','illiterate')]}"/>
+                                        <field name="degree" attrs="{'readonly':[('state','not in',['draft','complete_info','edit_info'])],'invisible':[('education_status','=','illiterate')]}"/>
+                                        <field name="percentage" attrs="{'readonly':[('state','not in',['draft','complete_info','edit_info'])],'invisible':[('education_status','=','illiterate')]}"/>
+                                        <field name="education_start_date" attrs="{'readonly':[('state','not in',['draft','complete_info','edit_info'])],'invisible':[('education_status','=','illiterate')]}"/>
+                                        <field name="education_end_date" attrs="{'readonly':[('state','not in',['draft','complete_info','edit_info'])],'invisible':[('education_status','=','illiterate')]}"/>
+                                    </group>
+                                </group>
+                                <h3 attrs="{'invisible':[('education_status','=','illiterate')]}">Last Education Status</h3>
+                                <group>
+                                    <group>
+                                        <field name="last_education_entity" attrs="{'readonly':[('state','not in',['draft','complete_info','edit_info'])],'invisible':[('education_status','=','illiterate')]}"/>
+                                        <field name="last_entities" attrs="{'readonly':[('state','not in',['draft','complete_info','edit_info'])],'invisible':[('education_status','=','illiterate')]}"/>
+                                        <field name="last_education_levels" attrs="{'readonly':[('state','not in',['draft','complete_info','edit_info'])],'invisible':[('education_status','=','illiterate')]}"/>
+                                        <field name="last_specialization_ids" attrs="{'readonly':[('state','not in',['draft','complete_info','edit_info'])],'invisible':[('education_status','=','illiterate')]}"/>
+                                        <field name="last_educational_certificate" attrs="{'readonly':[('state','not in',['draft','complete_info','edit_info'])],'invisible':[('education_status','=','illiterate')]}"/>
+                                    </group>
+                                    <group>
+                                        <field name="last_classroom" attrs="{'readonly':[('state','not in',['draft','complete_info','edit_info'])],'invisible':[('education_status','=','illiterate')]}"/>
+                                        <field name="last_degree" attrs="{'readonly':[('state','not in',['draft','complete_info','edit_info'])],'invisible':[('education_status','=','illiterate')]}"/>
+                                        <field name="last_percentage" attrs="{'readonly':[('state','not in',['draft','complete_info','edit_info'])],'invisible':[('education_status','=','illiterate')]}"/>
+                                        <field name="weak_study" attrs="{'readonly':[('state','not in',['draft','complete_info','edit_info'])],'invisible':[('education_status','=','illiterate')]}" widget="many2many_tags"/>
+                                        <field name="last_education_start_date" attrs="{'readonly':[('state','not in',['draft','complete_info','edit_info'])],'invisible':[('education_status','=','illiterate')]}"/>
+                                        <field name="last_education_end_date" attrs="{'readonly':[('state','not in',['draft','complete_info','edit_info'])],'invisible':[('education_status','=','illiterate')]}"/>
+                                    </group>
+                                </group>
+                               </page>
+                               <page string="Suspend Reason" attrs="{'invisible': [('state_a', 'not in', ['temporarily_suspended','suspended_first_approve','suspended_second_approve'])]}">
+                                <group>
+                                    <group>
+                                    <field name="suspend_reason"/>
+                                    <field name="suspend_description"/>
+                                    </group>
+                                    <group>
+                                        <field name="suspend_attachment"/>
+                                        <field name="suspend_type"/>
+                                        <field name="suspend_method" readonly="1" force_save="1"/>
+                                    </group>
+                                </group>
+                               </page>
+                                <page string="Exception" attrs="{'invisible': [('state_a', 'not in', ['temporarily_exception','exception_first_approve','exception_second_approve'])]}">
+                                 <group>
+                                <group>
+                                    <field name="exception_start_date"/>
+                                    <field name="exception_description"/>
+                                    <field name="exception_type"/>
+                                 </group>
+                                <group>
+                                    <field name="exception_end_date"/>
+                                    <field name="exception_attachment"/>
+                                </group>
+                                </group>
+                               </page>
+                               <page string="Attachments">
+                                    <field name="attachment_ids" widget="one2many_list">
+                                        <tree editable="bottom">
+                                            <field name="name" string="Attachment Name"/>
+                                            <field name="datas" string="File content" attrs="{'readonly':[('parent.state','not in',['draft','complete_info','edit_info'])]}"/>
+                                            <field name="expiration_date" attrs="{'readonly':[('parent.state','not in',['draft','complete_info','edit_info'])]}"/>
+                                            <field name="attach_status" attrs="{'readonly':[('parent.state','not in',['draft','complete_info','edit_info'])]}"/>
+                                            <field name="member_id" invisible="1"/>
+                                        </tree>
+                                    </field>
+                                </page>
+                        </notebook>
+                    </sheet>
+                 </form>
+            </field>
+        </record>
+        <record id="family_member_tree" model="ir.ui.view">
+            <field name="name">family.member.tree</field>
+            <field name="model">family.member</field>
+            <field name="arch" type="xml">
+                <tree string="Family Members" create="false">
+                    <field name="name" force_save="1"/>
+<!--                    <field name="gender" required="1"/>-->
+                    <field name="relationn"/>
+                    <field name="member_location_conf"/>
+                    <field name="member_status" string="Is Benefit?"/>
+                     <field name="age"/>
+                     <field name="benefit_id"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+        <!-- Action for family members -->
+        <record model="ir.actions.act_window" id="family_member_action">
+            <field name="name">Family Members</field>
+            <field name="res_model">family.member</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Create the Member
+                </p>
+            </field>
+        </record>
+        <menuitem id="family_member_main_menu" name="Family Members"
+                  parent="benefits_root_menu" sequence="2"/>
+         <menuitem id="family_member_menu" name="Family Members"
+                  parent="family_member_main_menu" action="family_member_action" sequence="0"/>
+    </data>
+</odoo>

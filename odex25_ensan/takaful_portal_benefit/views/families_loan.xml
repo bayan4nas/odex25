@@ -1,0 +1,97 @@
+<odoo>
+    <data>
+        <template id="families_loan" name="Families loan">
+            <t t-set="title"> الاسر المنتجة </t>
+            <t t-call="website.layout">
+                <div class="profile_wrapper">
+                    <div class="container">
+                        <h2 class="heading"> الاسر المنتجة </h2>
+                        <div class="zakat_wrapper">
+                            <div class="families_loans_row">
+                                <!-- Look at the families_loan.js file  -->
+
+                            </div>
+                            <div class="families_feedback"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- add donation_modal   -->
+                <div class="modal fade loans_modal " id="donation_modal" tabindex="-1"
+                    role="dialog"
+                    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title heading" id="exampleModalLongTitle">تبرع
+                                    بالقرض </h5>
+                                <button type="button" class="close" data-dismiss="modal"
+                                    aria-label="Close">
+                                    <span aria-hidden="true">
+                                        <i class="fa fa-times"></i>
+                                    </span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form action="/services/create_loan" class="good_loan_form">
+                                    <div class="row">
+<!--                                        <input type="hidden" id="userId" name="partner_id"-->
+<!--                                            t-att-value="request.env.user.id" />-->
+
+                                        <input type="hidden" id="family_id" />
+                                        <div class="form-group user_name col-lg-6">
+                                            <label for="name" class=" control-label"> الاسم </label>
+                                            <div class="">
+                                                <input type="text" class="form-control"
+                                                    id="name" name="name" />
+                                            </div>
+                                        </div>
+<!--                                        <div class="form-group col-lg-6">-->
+<!--                                            <label for="phone_number" class="myName control-label">-->
+<!--                                                رقم الجوال </label>-->
+<!--                                            <div class="">-->
+<!--                                                <input type="text" class="form-control"-->
+<!--                                                    id="phone_number"-->
+<!--                                                    name="phone_number" />-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+                                        <div class="form-group col-lg-6">
+                                            <label for="loan_amount" class=" control-label"> مبلغ
+                                                السلفه </label>
+                                            <div class="">
+                                                <input readonly="true" type="text"
+                                                    class="form-control"
+                                                    id="loan_amount" name="loan_amount" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-lg-6">
+                                            <label for="installment_value" value="1"
+                                                class=" control-label"> قيمة الاقساط </label>
+                                            <div class="">
+                                                <input type="number" class="form-control"
+                                                    id="installment_value" name="installment_value" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-lg-6">
+                                            <label for="number_of_installments" class=" control-label">
+                                                عدد
+                                                الاقساط </label>
+                                            <input readonly="true" type="text" class="form-control"
+                                                id="number_of_installments" name="number_of_installments" />
+                                        </div>
+                                    </div>
+                                    <div class="">
+                                        <button type="submit" class="btn main_link btn-primary">
+                                            تبرع بالقرض </button>
+                                    </div>
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <!-- <script src="/takaful_portal_benefit/static/js/families_loan.js"></script> -->
+            </t>
+        </template>
+    </data>
+</odoo>

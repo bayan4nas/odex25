@@ -1,0 +1,125 @@
+.profile-section{
+    
+}
+
+.profile-section .section-header{
+    padding: 0;
+    padding-top: 50px;
+}
+
+.profile-section .section-header h3{
+    color: #355692;
+    font-weight: 500;
+    padding: 0;
+    margin: 0;
+    padding-bottom: 20px;
+    position: relative;
+}
+.profile-section .section-header h3::after{
+    content: "";
+    width: 150px;
+    height: 5px;
+    background-color: #355692;
+    border-radius: 10px;
+    position: absolute;
+    bottom: 5px;
+    right: 0;
+} 
+.profile-section .section-header ul{
+    margin-top: 20px;
+    margin-bottom: 40px;
+}
+.profile-section .section-header ul li{
+    color: #999;
+}
+.profile-section .section-header ul li:last-child{
+    color: #222;
+    padding: 0;
+}
+.profile-section .section-header ul li::after{
+    content: "\F0141";
+    font-family: "Material Design Icons";
+    margin-right: 2px;
+}
+
+.profile-section .section-header ul li:last-child::after{
+    content: "";
+}
+
+.profile-section .section-body{
+    min-height: 200px;
+    background-color: #fff;
+    border-radius: 20px;
+    margin-bottom: 50px;
+    padding: 50px 0;
+}
+
+.profile-section .section-body form button.btn{
+    background-color: #355692;
+}
+.profile-section .section-body form input,
+.profile-section .section-body form select
+{
+    border-color: #dfdfdf;
+}
+
+.profile-section .section-body form > .col-md-6:nth-child(even){
+    padding-right: 0;
+}
+
+.profile-section .section-body form > .col-md-6:nth-child(odd){
+    padding-left: 0;
+}
+
+.profile-section .section-body form > .col-md-12{
+    padding: 0;
+}
+
+.profile-section .section-body .gender {
+    display: flex;
+    justify-content: space-around;
+    background-color: #eaeef4;
+    padding: 7px 0;
+    border-radius: 5px;
+}
+
+.profile-section .section-body .gender label{
+    margin-bottom: 0;
+    margin-right: 5px;
+    font-weight: 100;
+    color: #355692;
+}
+
+.profile-section .section-body input[type=checkbox], 
+.profile-section .section-body input[type=radio]{
+    margin: 0;
+}
+
+.profile-section .section-body .upload-pp{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 50px;
+}
+.profile-section .section-body .upload-pp .pp-view{
+    height: 120px;
+    width: 120px;
+    border-radius: 100%;
+    background-color: #c5d3ec;
+    display:relative;
+}
+.profile-section .section-body .upload-pp .pp-view .upload-btn{
+    height: 40px;
+    width: 40px;
+    position: absolute;
+    border-radius: 100%;
+    bottom: 0;
+    background-color: #fff;
+    box-shadow: 0 10px 20px rgba(165, 165, 165, 0.19), 0 6px 6px rgba(165, 165, 165,0.23);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.profile-section .section-body .upload-pp .pp-view .upload-btn i {
+    font-size: 20px;
+    color: #3f6cbf;
+}

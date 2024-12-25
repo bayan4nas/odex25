@@ -1,0 +1,113 @@
+/* Fonts */
+@font-face {
+    font-family: "Changa-Bold";
+    src: url("../fonts/changa/ArbFONTS-Changa-Bold.ttf");
+    font-weight: bold;
+}
+
+@font-face {
+    font-family: "Changa-Regular";
+    src: url("../fonts/changa/ArbFONTS-Changa-Regular.ttf");
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: "Changa-Medium";
+    src: url("../fonts/changa/ArbFONTS-Changa-Medium.ttf");
+    font-weight: 500;
+}
+
+@font-face {
+    font-family: "Changa-SemiBold";
+    src: url("../fonts/changa/ArbFONTS-Changa-SemiBold.ttf");
+    font-weight: 600;
+}
+/* GLOBAL */
+body{
+  font-family: "Changa-Regular";
+  background-color: #f5f5f5;
+}
+/* NAVBAR */
+.navbar {
+    padding: 20px 0;
+    background: #355692 !important;
+    border: none;
+    border-radius: 0;
+    margin: 0;
+}
+
+.navbar ul {}
+
+.navbar ul li a {
+    color: #fff !important;
+    font-size: 16px;
+}
+
+.navbar-default .navbar-nav>a:hover {
+    background-color: transparent;
+}
+.navbar-default .navbar-nav li.dropdown > a::after{
+    content: "\F0140";
+    font-family: "Material Design Icons";
+    margin-right: 2px;
+}
+
+.navbar-default .navbar-nav>.active>a {
+    background: transparent;
+    box-shadow: none;
+}
+
+.navbar-default .navbar-nav>.active>a,
+.navbar-default .navbar-nav>.active>a:focus,
+.navbar-default .navbar-nav>.active>a:hover {
+    background-color: transparent;
+}
+
+.navbar-default .navbar-nav>li>a:focus,
+.navbar-default .navbar-nav>li>a:hover {
+    background-color: transparent;
+}
+
+.navbar-default .navbar-nav>.open>a,
+.navbar-default .navbar-nav>.open>a:focus,
+.navbar-default .navbar-nav>.open>a:hover {
+    background-color: transparent;
+}
+
+.navbar-collapse.collapse{
+    display: flex!important;
+    align-items: center;
+    justify-content:space-between;
+    padding: 0;
+}
+.navbar-collapse.collapse ul.nav:first-child{
+    margin-right: 40px;
+}
+ul.nav:first-child li{
+    padding: 10px 15px;
+}
+/*  */
+.d-flex {
+    display: -webkit-box!important;
+    display: -ms-flexbox!important;
+    display: flex!important;
+}
+.flex-wrap {
+    -ms-flex-wrap: wrap!important;
+    flex-wrap: wrap!important;
+}
+.align-items-center {
+    -webkit-box-align: center!important;
+    -ms-flex-align: center!important;
+    align-items: center!important;
+}
+.flex-column {
+    -webkit-box-orient: vertical!important;
+    -webkit-box-direction: normal!important;
+    -ms-flex-direction: column!important;
+    flex-direction: column!important;
+}
+
+.mb-4, .my-4 {
+    margin-bottom: 1.5rem!important;
+}

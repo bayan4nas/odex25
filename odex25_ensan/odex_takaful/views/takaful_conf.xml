@@ -1,0 +1,99 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="donations_items_form">
+            <field name="name">donations.items.form</field>
+            <field name="model">donations.items</field>
+            <field name="arch" type="xml">
+                <form string="Donations Items">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="donation_type"/>
+                                <field name="fixed_value"/>
+                                <field name="fixed_donation_amount" attrs="{'invisible': [('fixed_value', '=', False)]}"/>
+                            </group>
+                            <group>
+                                <field name="branch_custom_id"/>
+                                <field name="show_donation_item"/>
+                                <field name="account_id" attrs="{'invisible': [('fixed_value', '=', False)]}"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="donations_items_tree" model="ir.ui.view">
+            <field name="name">donations.items.tree</field>
+            <field name="model">donations.items</field>
+            <field name="arch" type="xml">
+                <tree string="Donations Items">
+                    <field name="name"/>
+                    <field name="donation_type"/>
+                    <field name="branch_custom_id"/>
+                    <field name="show_donation_item"/>
+                </tree>
+            </field>
+        </record>
+        <record id="donations_items_action" model="ir.actions.act_window">
+            <field name="name">Donations Items</field>
+            <field name="res_model">donations.items</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a Donation Item
+                </p>
+            </field>
+        </record>
+        <!-- Points Of sale custom -->
+         <record model="ir.ui.view" id="points_of_sale_custom_form">
+            <field name="name">points.of.sale.custom.form</field>
+            <field name="model">points.of.sale.custom</field>
+            <field name="arch" type="xml">
+                <form string="Points of sale custom">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="department_name"/>
+                                <field name="branch_custom_ids" widget="many2many_tags"/>
+                                <field name="journal_id"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="points_of_sale_custom_tree" model="ir.ui.view">
+            <field name="name">points.of.sale.custom.tree</field>
+            <field name="model">points.of.sale.custom</field>
+            <field name="arch" type="xml">
+                <tree string="Points of sale custom">
+                    <field name="name"/>
+                    <field name="department_name"/>
+                    <field name="branch_custom_ids" widget="many2many_tags"/>
+                    <field name="department_name"/>
+                    <field name="journal_id"/>
+                </tree>
+            </field>
+        </record>
+        <record id="points_of_sale_custom_action" model="ir.actions.act_window">
+            <field name="name">Points Of Sale Custom</field>
+            <field name="res_model">points.of.sale.custom</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a points of sale
+                </p>
+            </field>
+        </record>
+
+<menuitem id="menu_donations_items" name="Donations Items"
+	parent="sponsor_setting_menu"
+	action="donations_items_action" />
+
+<menuitem id="menu_points_of_sale_custom" name="Points of Sale"
+	parent="sponsor_setting_menu"
+	action="points_of_sale_custom_action" />
+    </data>
+</odoo>

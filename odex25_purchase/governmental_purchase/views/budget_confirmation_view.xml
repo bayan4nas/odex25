@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="inherit_view_budget_confirmation_form" model="ir.ui.view">
+        <field name="name">budget.confirmation.form</field>
+        <field name="model">budget.confirmation</field>
+        <field name="inherit_id" ref="account_budget_custom.view_budget_confirmation_form"/>
+        <field name="arch" type="xml">
+             <xpath expr="//page[last()]" position="after">
+                <page string="Budget Management">
+                    <group>
+                            <field name="budget_scope" widget="radio" options="{'horizontal': true}" attrs="{'required':[('state','=','bdgt_dep_mngr')],'readonly':[('state' , '!=' , 'bdgt_dep_mngr')]}"/>
+                            <field name="permission" widget="radio" options="{'horizontal': true}" attrs="{'required':[('state','=','bdgt_dep_mngr')],'readonly':[('state' , '!=' , 'bdgt_dep_mngr')]}"/>
+                            <field name="request_id" readonly="1" attrs="{'invisible':[('request_id' , '=' , False)]}"/>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

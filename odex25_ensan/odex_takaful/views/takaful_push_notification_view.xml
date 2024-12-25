@@ -1,0 +1,111 @@
+<odoo>
+    <data>
+
+        <!-- Form View -->
+        <record model="ir.ui.view" id="takaful_push_notification_form">
+            <field name="name">takaful.push.notification.form</field>
+            <field name="model">takaful.push.notification</field>
+            <field name="arch" type="xml">
+                <form string="Notification Message" create="false" edit="false" delete="false" duplicate="false">
+                    <sheet>
+                        <group>
+                            <field name="user_id" readonly="1"/>
+                            <field name="email" readonly="1"/>
+                            <field name="mobile" readonly="1"/>
+                            <field name="title" readonly="1"/>
+                            <field name="body" readonly="1"/>
+                            <field name="sent_on" readonly="1"/>
+                            <field name="is_read" readonly="1"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Tree View -->
+        <record model="ir.ui.view" id="takaful_push_notification_tree">
+            <field name="name">takaful.push.notification.tree</field>
+            <field name="model">takaful.push.notification</field>
+            <field name="arch" type="xml">
+                <tree string="Notifications Messages List" create="false" edit="false" delete="false" duplicate="false">
+                    <field name="user_id"/>
+                    <field name="title"/>
+                    <field name="mobile"/>
+                    <field name="email"/>
+                    <field name="sent_on"/>
+                    <field name="is_read"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Search View -->
+        <record model="ir.ui.view" id="takaful_push_notification_search">
+            <field name="name">takaful.push.notification.search</field>
+            <field name="model">takaful.push.notification</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="user_id"/>
+                    <field name="mobile"/>
+                    <field name="email"/>
+                    <field name="sent_on"/>
+                    <field name="is_read"/>
+                </search>
+            </field>
+        </record>
+
+        <!-- Message Template Form View -->
+        <record model="ir.ui.view" id="takaful_message_template_form">
+            <field name="name">Message Template Form</field>
+            <field name="model">takaful.message.template</field>
+            <field name="arch" type="xml">
+                <form string="Message Template" delete="false" duplicate="false">
+                    <sheet>
+                        <group>
+                            <field name="title"/>
+                            <field name="body"/>
+                            <field name="template_name"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Message Template Tree View -->
+        <record model="ir.ui.view" id="takaful_message_template_tree">
+            <field name="name">Messages Templates List</field>
+            <field name="model">takaful.message.template</field>
+            <field name="arch" type="xml">
+                <tree string="Messages Templates List" delete="false" duplicate="false">
+                    <field name="title"/>
+                    <field name="body"/>
+                    <field name="template_name"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Windows Action -->
+        <record model="ir.actions.act_window" id="takaful_push_notification_action">
+            <field name="name">Notification Message</field>
+            <field name="res_model">takaful.push.notification</field>
+<!--            <field name="view_type">form</field>-->
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">No Notification Messege
+                </p>
+            </field>
+        </record>
+
+        <!-- Message Template Window Action -->
+        <record model="ir.actions.act_window" id="takaful_message_template_action">
+            <field name="name">Message Template</field>
+            <field name="res_model">takaful.message.template</field>
+<!--            <field name="view_type">form</field>-->
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">No Message Template
+                </p>
+            </field>
+        </record>
+
+    </data>
+</odoo>

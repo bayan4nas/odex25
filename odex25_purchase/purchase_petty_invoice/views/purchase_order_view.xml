@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_purchase_order_filter" model="ir.ui.view">
+        <field name="name">purchase.order.filter.custom</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.view_purchase_order_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='product_id']" position="after">
+                <field name="petty_employee_id"/>
+                <field name="is_petty_paid"/>
+                <filter name="is_petty_paid" string="Paid by Petty Cash"
+                        domain="[('is_petty_paid', '=',True)]"/>
+            </xpath>
+            <xpath expr="//group" position="inside">
+                <filter name="group_by_petty_employee_id" string="Petty Cashier" context="{'group_by':'petty_employee_id'}"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="purchase_order_form" model="ir.ui.view">
+        <field name="name">purchase.order.form.custom</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="is_petty_paid"/>
+                <field name="petty_employee_id" options='{"no_open": True, "no_create": True}'
+                       attrs="{'invisible':[('is_petty_paid','=',False)],'required':[('is_petty_paid','=',True)]}"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

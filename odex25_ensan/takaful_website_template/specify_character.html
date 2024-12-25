@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Order Process</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/fontawesome-all.min.css" />
+    <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body>
+    <div class="benifits_wrapper">
+        <div class="container">
+            <div class="stepper_header d-flex flex-wrap">
+                <div class="step d-flex flex-column align-items-center active">
+                    <img src="imgs/step_1_act.png" alt="1" />
+                    <div class="step_content">
+                        انشاء حساب
+                    </div>
+                </div>
+                <div class="step d-flex flex-column align-items-center active">
+                    <img src="imgs/step_2_act.png" alt="2" />
+                    <div class="step_content">
+                        تأكيد الحساب
+                    </div>
+                </div>
+                <div class="step d-flex flex-column align-items-center">
+                    <img src="imgs/step_3_inact.png" alt="3" />
+                    <div class="step_content">
+                        حدد شاراتك
+                    </div>
+                </div>
+                <div class="step d-flex flex-column align-items-center">
+                    <img src="imgs/step_4_inact.png" alt="4" />
+                    <div class="step_content">
+                        استكمال البيانات
+                    </div>
+                </div>
+                <div class="step d-flex flex-column align-items-center">
+                    <img src="imgs/step_5_inact.png" alt="5" />
+                    <div class="step_content">
+                        تم بنجاح
+                    </div>
+                </div>
+            </div>
+            <div class="user_reg_form">
+                <div class="code_wrapper specify_char">
+                    <h6 class="text-center"> من فضلك حدد شاراتك ( نوع حسابك ) ، مثال : هل أنت متطوع ؟</h6>
+                    <div id="form">
+                        <div class="character_row mb-4">
+                            <div class="char_img">
+                                <div class="specify_img">
+                                    <img src="imgs/member.png" alt="kafel" />
+                                    <input type="radio" class="radio_btn" name="specify" value="كافل" />
+                                </div>
+                                <h5> كافل </h5>
+                            </div>
+                            <div class="char_img">
+                                <div class="specify_img">
+                                    <img src="imgs/employee.png" alt="employee" />
+                                    <input type="radio" class="radio_btn" name="specify" value="موظف" />
+                                </div>
+                                <h5> موظف </h5>
+                            </div>
+                            <div class="char_img">
+                                <div class="specify_img">
+                                    <img src="imgs/member.png" alt="member" />
+                                    <input type="radio" class="radio_btn" name="specify" value="عضو" />
+                                </div>
+                                <h5> عضو مجلس </h5>
+                            </div>
+                            <div class="char_img">
+                                <div class="specify_img">
+                                    <img src="imgs/resturant_owner.png" alt="resturant_owner" />
+                                    <input type="radio" class="radio_btn" name="specify" value="صاحب مطعم" />
+                                </div>
+                                <h5> صاحب مطعم </h5>
+                            </div>
+                            <div class="char_img">
+                                <div class="specify_img">
+                                    <img src="imgs/volanteere.png" alt="volunteer" />
+                                    <input type="radio" class="radio_btn" name="specify" value="متطوع" />
+                                </div>
+                                <h5> متطوع</h5>
+                            </div>
+                        </div>
+                        <p><a class="btn btn-primary main_link next">التالي</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script>
+        $('.char_img').on('click', function(){
+            $('.char_img').removeClass('active')
+            $(this).addClass('active');
+            $('.radio_btn').attr('checked', false)
+            $(this).find('input').attr('checked', 'checked')
+        })
+    </script>
+</body>
+
+</html>

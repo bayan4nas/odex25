@@ -1,0 +1,21 @@
+<odoo>
+    <record id="res_partner_view_inherit" model="ir.ui.view">
+        <field name="name">res.partner.view.inherit</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='vat']" position="attributes">
+                <attribute name="attrs">{'required':[('company_type', '=','company')]}
+                </attribute>
+            </xpath>
+            <xpath expr="//field[@name='commercial_register']" position="attributes">
+                <attribute name="attrs">{'required':[('company_type', '=','company')]}
+                </attribute>
+            </xpath>
+            <xpath expr="//field[@name='id_number']" position="attributes">
+                <attribute name="attrs">{'required':[('company_type', '=','person')]}
+                </attribute>
+            </xpath>
+        </field>
+    </record>
+</odoo>

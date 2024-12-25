@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record id="module_category_purchase_management" model="ir.module.category">
+            <field name="name">Purchase Management</field>
+        </record>
+
+        <!-- Purchase COC groups -->
+        <record id="group_coc_user" model="res.groups">
+            <field name="name">COC User</field>
+            <field name="category_id" ref="odex25_purchase_coc.module_category_purchase_management"/>
+        </record>
+
+        <record id="group_coc_manager" model="res.groups">
+            <field name="name">COC Manager</field>
+            <field name="category_id" ref="odex25_purchase_coc.module_category_purchase_management"/>
+        </record>
+
+        <record id="group_coc_menu" model="res.groups">
+            <field name="name">COC Menu</field>
+            <field name="category_id" ref="odex25_purchase_coc.module_category_purchase_management"/>
+        </record>
+    </data>
+</odoo>

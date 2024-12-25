@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="property_form_view" model="ir.ui.view">
+            <field name="name">internal.property</field>
+            <field name="model">internal.property</field>
+            <field name="inherit_id" ref="real_estate.property_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//notebook//page[4]//group[2]" position="after">
+                    <label for="somme_ids"/>
+                    <field name="somme_ids" readonly="1"/>
+                    <label for="pricing_ids"/>
+                    <field name="pricing_ids" readonly="1"/>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,140 @@
+$reg: "Changa-Regular";
+$medium: "Changa-Medium";
+$semiBold: "Changa-SemiBold";
+$bold: "Changa-Bold";
+$mainColor: #355692;
+$darkBlue: #091C3F;
+
+
+.attach_img {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    margin-bottom: 40px;
+
+    #user_profile_img {
+        width: 112px;
+        height: 112px;
+    }
+
+    .wraper {
+        position: absolute;
+        width: 130px;
+        right: 45%;
+        transform: translate(95%, -50%);
+        top: 50%;
+
+        input {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            z-index: 10;
+
+        }
+
+        .img_upload {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: row-reverse;
+        }
+    }
+}
+
+.input-group-text {
+    z-index: 10;
+}
+
+
+
+
+/* kafalaty */
+
+#benefits-type,
+#benefit-type {
+    background: transparent;
+    border: none;
+    outline: none !important;
+    color: $mainColor;
+}
+
+//cancel kafala modal 
+
+#sponsorship_cancelation {
+    .modal-body {
+        p {
+            font-weight: 600;
+            font-size: 18px;
+            margin-bottom: 24px;
+
+            @media(max-width:575px) {
+                font-size: 15px;
+            }
+        }
+    }
+
+    .modal-footer {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+
+        .btn-outline-danger {
+            margin: 0 !important;
+            background-color: transparent !important;
+            border: 1px solid #DC3A08 !important;
+            color: #DC3A08 !important;
+        }
+    }
+}
+
+.success_res,
+.error_res {
+    display: none;
+}
+
+.notification_wrapper {
+    font-family: $reg;
+}
+
+#benefit_ids {}
+
+/* Hide the default dropdown arrow */
+select#benefit_ids {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    padding-right: 25px;
+    /* Add space for the custom arrow */
+    background: transparent;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    line-height: 1.5;
+    padding: 8px;
+    width: 200px;
+}
+
+/* Custom dropdown arrow */
+select#benefit_ids::after {
+    content: '';
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 6px 5px 0 5px;
+    border-color: #999 transparent transparent transparent;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+}
+
+/* Style when the select element is focused */
+select#benefit_ids:focus {
+    outline: none;
+    border-color: #999;
+    box-shadow: 0 0 0 1px #999;
+}

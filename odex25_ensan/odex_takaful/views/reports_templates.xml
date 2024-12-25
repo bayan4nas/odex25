@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+<!-- Makfuleen Report -->
+<template id="makfuleen_report_pdf">
+  <t t-call="web.html_container">
+    <t t-call="web.external_layout">
+      <div class="page">
+        <div class="text-center">
+          <h2><span> Sponsor Name: </span><span t-esc='name'/></h2>
+          <h2>Makfuleen Report</h2>
+        </div>
+
+            <table class="table table-condensed table-bordered">
+              <thead class="text-center">
+                <tr style="background-color: #b8bcbf;width:100%;">
+                  <th style="text-align:center;">#</th>
+                  <th style="text-align:center;">Sponsorship</th>
+                  <th style="text-align:center;">Start Date</th>
+                  <th style="text-align:center;">End Date</th>
+                  <th style="text-align:center;">Sponsorship Type</th>
+                  <th style="text-align:center;">Sponsorship Value</th>
+                  <th style="text-align:center;">Sponsorship State</th>
+                  <th style="text-align:center;">Makfool Name/Makfuleen Names</th>
+                  <th style="text-align:center;">Total Payment</th>
+                </tr>
+              </thead>
+              <tbody class="text-center">
+                <t t-set="sequence" t-value="0"/>
+                <t t-foreach="docs" t-as="o">
+                  <tr>
+                    <td>
+                      <t t-set="sequence" t-value="sequence +1"/>
+                      <t t-esc="sequence"/>
+                    </td>
+                    <td  class="text-center">
+                      <span t-esc="o.code"/>
+                    </td>
+                    <td  class="text-center">
+                      <span t-esc="o.start_date"/>
+                    </td>
+                    <td  class="text-center">
+                      <span t-esc="o.end_date"/>
+                    </td>
+
+                    <td  class="text-center">
+                      <span>
+                      <t t-esc="dict(o.fields_get(allfields=['sponsorship_type'])['sponsorship_type']['selection'])[o.sponsorship_type]"/>
+                      </span>
+                    </td>
+
+                    <td  class="text-center">
+                      <span t-esc="o.contribution_value"/>
+                    </td>
+
+                    <td  class="text-center">
+                      <span>
+                      <t t-esc="dict(o.fields_get(allfields=['state'])['state']['selection'])[o.state]"/>
+                      </span>
+                    </td>
+
+                    <td  class="text-center">
+                      <t t-if="o.sponsorship_type == 'person'">
+                        <span t-esc="o.benefit_id.name"/>
+                      </t>
+                      <t t-if="o.sponsorship_type == 'group'">
+                          <p t-foreach="o.benefit_ids" t-as="ben">
+                            <p><span t-esc="ben.name"/></p>
+                          </p>
+                      </t>
+                    </td>
+
+                    <td  class="text-center">
+                      <span t-esc="o.total_contribution"/>
+                    </td>
+
+                  </tr>
+                </t>
+              </tbody>
+            </table>
+
+          
+          <div style="page-break-before: always;"></div>
+
+        </div>
+      </t>
+  </t>
+</template>
+
+<!-- Kafalat Payments and Delays report -->
+<template id="kafalat_payment_report_pdf">
+  <t t-call="web.html_container">
+    <t t-call="web.external_layout">
+      <div class="page">
+        <div class="text-center">
+          <h2><span> Sponsor Name: </span><span t-esc='name'/></h2>
+          <h2>Kafalat Overdue Report</h2>
+        </div>
+
+            <table class="table table-condensed table-bordered">
+              <thead class="text-center">
+                <tr style="background-color: #b8bcbf;width:100%;">
+                  <th style="text-align:center;">Kafalat Overdue Count</th>
+                  <th style="text-align:center;">Total Overdues</th>
+                </tr>
+              </thead>
+              <tbody class="text-center">
+                <t>
+                  <tr>
+                    <td  class="text-center">
+                      <span t-esc='overdue_count'/>
+                    </td>
+                    <td  class="text-center">
+                      <span t-esc='overdue_amount' t-options='{"widget": "float", "precision": 2}' />
+                    </td>
+                  </tr>
+                </t>
+              </tbody>
+            </table>
+
+            <br/>
+            <br/>        
+
+            <!-- Overdue details -->
+            <table class="table table-condensed table-bordered">
+              <thead class="text-center">
+                <tr style="background-color: #b8bcbf;width:100%;">
+                  <th style="text-align:center;">#</th>
+                  <th style="text-align:center;">Sponsorship</th>
+                  <th style="text-align:center;">Contribution Value</th>
+                  <th style="text-align:center;">Sponsorship Duration</th>
+                  <th style="text-align:center;">Sponsorship Type</th>
+                  <th style="text-align:center;">Benefit Type</th>
+                  <th style="text-align:center;">Start Date</th>
+                  <th style="text-align:center;">End Date</th>
+                  <th style="text-align:center;">Overdue Amount</th>
+                  <th style="text-align:center;">Expected Cancel Date</th>
+                  <th style="text-align:center;">Status</th>
+
+                </tr>
+              </thead>
+              <tbody class="text-center">
+                <t t-set="sequence" t-value="0"/>
+                <t t-foreach="docs" t-as="o">
+                  <tr>
+                    <td>
+                      <t t-set="sequence" t-value="sequence +1"/>
+                      <t t-esc="sequence"/>
+                    </td>
+
+                    <td  class="text-center">
+                      <span t-esc="o.code"/>
+                    </td>
+                    
+                    <td  class="text-center">
+                      <span t-esc="o.contribution_value" t-options='{"widget": "float", "precision": 2}' />
+                    </td>
+
+                    <td  class="text-center">
+                      <span>
+                      <t t-esc="dict(o.fields_get(allfields=['sponsorship_duration'])['sponsorship_duration']['selection'])[o.sponsorship_duration]"/>
+                      </span>
+                    </td>
+
+                    <td  class="text-center">
+                      <span>
+                      <t t-esc="dict(o.fields_get(allfields=['sponsorship_type'])['sponsorship_type']['selection'])[o.sponsorship_type]"/>
+                      </span>
+                    </td>
+
+                    <td  class="text-center">
+                      <span>
+                      <t t-esc="dict(o.fields_get(allfields=['benefit_type'])['benefit_type']['selection'])[o.benefit_type]"/>
+                      </span>
+                    </td>
+
+                    <td  class="text-center">
+                      <span t-esc="o.start_date"/>
+                    </td>
+
+                    <td  class="text-center">
+                      <span t-esc="o.end_date"/>
+                    </td>
+
+                    <td  class="text-center">
+                      <span t-esc="o.overdue_amount"/>
+                    </td>
+
+                    <td  class="text-center">
+                      <span t-esc="o.expected_cancel_date"/>
+                    </td>
+
+                    <td  class="text-center">
+                      <span>
+                      <t t-esc="dict(o.fields_get(allfields=['state'])['state']['selection'])[o.state]"/>
+                      </span>
+                    </td>
+
+                  </tr>
+                </t>
+              </tbody>
+            </table>
+          
+          <div style="page-break-before: always;"></div>
+
+        </div>
+      </t>
+  </t>
+</template>
+
+<!-- Canceled Kafalat Report -->
+<template id="kafalat_cancel_report_pdf">
+  <t t-call="web.html_container">
+    <t t-call="web.external_layout">
+      <div class="page">
+        <div class="text-center">
+          <h2>Canceled Kafalat Report </h2>
+        </div>
+
+            <table class="table table-condensed table-bordered">
+              <thead class="text-center">
+                <tr style="background-color: #b8bcbf;width:100%;">
+                  <th style="text-align:center;">Canceled Kafalat Count</th>
+                  <th style="text-align:center;">From Date</th>
+                  <th style="text-align:center;">To Date</th>
+                </tr>
+              </thead>
+              <tbody class="text-center">
+                <t>
+                  <tr>
+                    <td  class="text-center">
+                      <span t-esc='cancel_count'/>
+                    </td>
+                    <td  class="text-center">
+                      <span t-esc='start_date'/>
+                    </td>
+                    <td  class="text-center">
+                      <span t-esc='end_date'/>
+                    </td>
+                  </tr>
+                </t>
+              </tbody>
+            </table>
+
+            <br/>
+            <br/>
+
+            <!-- Cancel details -->
+            <table class="table table-condensed table-bordered">
+              <thead class="text-center">
+                <tr style="background-color: #b8bcbf;width:100%;">
+                  <th style="text-align:center;">#</th>
+                  <th style="text-align:center;">Sponsorship</th>
+                  <th style="text-align:center;">The Sponsor</th>
+                  <th style="text-align:center;">Cancel Date</th>
+                  <th style="text-align:center;">Cancel Type</th>
+                  <th style="text-align:center;">Cancel Reason</th>
+                  <th style="text-align:center;">Notes</th>
+                </tr>
+              </thead>
+              <tbody class="text-center">
+                <t t-set="sequence" t-value="0"/>
+                <t t-foreach="docs" t-as="o">
+                  <tr>
+                    <td>
+                      <t t-set="sequence" t-value="sequence +1"/>
+                      <t t-esc="sequence"/>
+                    </td>
+                    <td  class="text-center">
+                      <span t-esc="o.code"/>
+                    </td>
+                    <td  class="text-center">
+                      <span t-esc="o.sponsor_id.name"/>
+                    </td>
+
+                    <td  class="text-center">
+                      <span t-esc="o.confirm_date"/>
+                    </td>
+                   
+                    <td  class="text-center">
+                      <span>
+                      <t t-esc="dict(o.fields_get(allfields=['cancel_type'])['cancel_type']['selection'])[o.cancel_type]"/>
+                      </span>
+                    </td>
+
+                    <td  class="text-center">
+                      <span t-esc="o.reason_id.name"/>
+                    </td>
+
+                    <td  class="text-center">
+                      <span t-esc="o.note"/>
+                    </td>
+
+                  </tr>
+                </t>
+              </tbody>
+            </table>
+          
+          <div style="page-break-before: always;"></div>
+
+        </div>
+      </t>
+  </t>
+</template>
+
+
+</odoo>

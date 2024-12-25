@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="custom_system_login" name="System Login" inherit_id="web.login">
+        <xpath expr="." position="replace">
+            <t name="Login" t-name="web.login">
+                <t t-call="web.login_layout">
+                    <!-- STYLE -->
+                    <link rel="stylesheet" href="/takaful_website/static/src/css/pages/login.css"/>
+                    <link rel="stylesheet" href="/takaful_website/static/src/css/pages/takaful_login.css"/>
+                    <div class="col-md-12 login-container">
+                        <section class="container-fluid" id="main-section">
+                            <div class="row">
+                                <div class="col-md-6 login-form">
+                                    <div class="col-md-12 form-body">
+                                        <div class="col-md-12 login-top">
+                                            <div class="logo">
+                                                <img src="/takaful_website/static/src/img/login_logo.png"/>
+                                            </div>
+                                            <div class="name">Takaful for orphan care</div>
+                                        </div>
+                                        <div class="form-wrap">
+<!--                                            <div class="col-md-12 wrap-lang">-->
+<!--                                                <ul class="langs text-left">-->
+<!--                                                    <t  t-foreach="languages" t-as="lg">-->
+<!--                                                        <li t-att-data-lang="lg[0]">-->
+<!--                                                            <a t-att-href="url_for(request.httprequest.path + '?' + keep_query(), lang=lg[0])" t-att-data-default-lang="(editable or translatable) and 'true' if website and lg[0] == website.default_lang_code else None" t-att-data-lang="lg[0]" class="js_change_lang">-->
+<!--                                                                <t t-esc="lg[1].split('/').pop()"/>-->
+<!--                                                            </a>-->
+<!--                                                        </li>-->
+<!--                                                    </t>-->
+<!--                                                </ul>-->
+<!--                                            </div>-->
+                                            <div class="lang-container">
+                                                <t t-call="website.language_selector_inline"/>
+                                            </div>
+                                            <div class="col-md-12 wrap-head">
+                                                <h1>takaful login</h1>
+                                            </div>
+                                            <div class="col-lg-12 col-md-12 login-box">
+                                                <form class="" role="form" t-attf-action="/web/login{{ '?debug' if debug else '' }}" method="post" onsubmit="this.action = this.action + location.hash">
+                                                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                                    <div class="col-md-12 col-xs-12 box-body">
+                                                        <div class="form-group field-db" t-if="databases and len(databases) &gt; 1">
+                                                            <label for="db" class="control-label">Select database</label>
+                                                            <div class="input-group">
+                                                                <input type="text" name="db" t-att-value="request.db" id="db" class="form-control" required="required" readonly="readonly"/>
+                                                                <span class="input-group-btn">
+                                                                    <a href="/web/database/selector" class="btn btn-default">Select <i class="mdi mdi-database"/></a>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group field-login">
+                                                            <label for="login" class="control-label">
+                                                                <span>User Name</span>
+                                                                <span class="red">*</span>
+                                                            </label>
+                                                            <input type="text" name="login" t-att-value="login" id="login" class="form-control" required="required" autofocus="autofocus" autocapitalize="off" placeholder="User Name"/>
+                                                        </div>
+                                                        <div class="form-group field-password">
+                                                            <label for="password" class="control-label">
+                                                                <span>Your Password</span>
+                                                                <span class="red">*</span>
+                                                            </label>
+                                                            <input type="password" name="password" id="password" class="form-control" required="required" autocomplete="current-password" t-att-autofocus="'autofocus' if login else None" maxlength="4096" placeholder="********"/>
+                                                        </div>
+                                                        <p class="alert alert-danger" t-if="error">
+                                                            <t t-esc="error"/>
+                                                        </p>
+                                                        <p class="alert alert-success" t-if="message">
+                                                            <t t-esc="message"/>
+                                                        </p>
+                                                        <p><span>You don't have an account.</span> <a href="/registration">Create new account</a></p>
+                                                        <input type="hidden" name="redirect" value="/"/>
+                                                        <div class="form-group clearfix oe_login_buttons">
+                                                            <button type="submit" class="btn btn-success">Login</button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                                <script>
+                                                    $(document).ready(function(){
+                                                        $('button#home-button').click(function(){
+                                                            window.location.href = '/';
+                                                        });
+                                                        
+                                                        if($('body').hasClass("rtl")){
+                                                            $('li[data-lang="ar_001"]').addClass('active');
+                                                        }else{
+                                                            $('li[data-lang="en_US"]').addClass('active');
+                                                        }
+                                                    });
+                                                </script>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 login-content">
+                                    <div class="col-md-12 login-content-body">
+                                        <div class="content-wrap">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </t>
+            </t>
+        </xpath>
+    </template>
+</odoo>

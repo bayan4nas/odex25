@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="transfer_sequence_bank" model="ir.sequence">
+        <field name="name">Bank Transfer</field>
+        <field name="code">bank.payment.transfer</field>
+        <field name="prefix">Trans/</field>
+        <field name="padding">4</field>
+    </record>
+
+    <record id="view_order_form_inherit_res_comapny" model="ir.ui.view">
+        <field name="name">res.company.form</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="base.view_company_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//h1" position="after">
+                <h2>
+                    <field name="company_name"/>
+                </h2>
+            </xpath>
+<!--            <xpath expr="//field[@name='report_footer']" position="after">-->
+<!--                <div>-->
+<!--                    <label for="bank_account_count"/>-->
+<!--                    <button type="action" class="btn-link"-->
+<!--                            name="%(base.action_res_partner_bank_account_form)d"-->
+<!--                            context="{'search_default_company_id': active_id, 'default_company_id': active_id}">-->
+<!--                        <field string="Bank account(s)" name="bank_account_count" widget="statinfo"/>-->
+<!--                    </button>-->
+<!--                </div>-->
+
+<!--            </xpath>-->
+        </field>
+    </record>
+
+
+    <record id="bank_account_image_add_view" model="ir.ui.view">
+        <field name="name">res.partner.bank.form</field>
+        <field name="model">res.partner.bank</field>
+        <field name="inherit_id" ref="base.view_partner_bank_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='acc_number']" position="after">
+                <field name="bank_img" string="Bank Image" widget="image" class="oe_avatar"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_takaful_bank_payment_transfer_tree" model="ir.ui.view">
+        <field name="name">takaful.bank.transfer.payment.tree</field>
+        <field name="model">takaful.bank.transfer.payment</field>
+        <field name="priority" eval="8"/>
+        <field name="arch" type="xml">
+            <tree string="Bank Transfer" decoration-muted="state in ('cancel','accept')"
+                  decoration-danger="state in ('reject','pending')" decoration-info="state=='draft'">
+                <field name="partner_id"/>
+                <field name="number"/>
+                <field name="name"/>
+                <field name="name_of"/>
+                <field name="amount"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+    <record id="view_takaful_bank_payment_transfer_form" model="ir.ui.view">
+        <field name="name">takaful.bank.transfer.payment.form</field>
+        <field name="model">takaful.bank.transfer.payment</field>
+        <field name="priority" eval="8"/>
+        <field name="arch" type="xml">
+            <form string="Bank Transfer">
+                <header>
+                    <button name="action_pending" string="Pending" states="draft" class="oe_highlight"
+                            type="object"/>
+                    <button name="action_accepted" string="Accept" states="pending,draft" class="oe_highlight"
+                            type="object"/>
+                    <button name="action_rejected" string="Reject" states="pending,draft" class="oe_highlight"
+                            type="object"/>
+                    <button name="action_canceled" string="Cancel" states="accept,reject" class="oe_highlight"
+                            type="object"/>
+                    <button name="action_reset_to_draft" string="Set Draft" states="cancel" class="oe_highlight"
+                            type="object"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,pending,accept"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h2>
+                            <table>
+                                <tr>
+                                    <td>
+                                        <field name="number" style="padding-right:10px"/>
+                                    </td>
+                                </tr>
+                            </table>
+                        </h2>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="partner_id"/>
+                            <field name="name"/>
+                            <field name="name_of"/>
+                            <field name="transfer_date"/>
+                        </group>
+                        <group>
+                            <field name="transfer_attachment" filename="filename"/>
+                            <field name="filename" invisible="1"/>
+                            <field name="move_id"/>
+                            <field name="amount"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+<!--    <record id="view_takaful_bank_payment_transfer_search" model="ir.ui.view">-->
+<!--        <field name="name">takaful.bank.transfer.payment.search</field>-->
+<!--        <field name="model">takaful.bank.transfer.payment</field>-->
+<!--        <field name="priority" eval="8"/>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <search string="Bank Transfer">-->
+<!--                <field name="partner_id"/>-->
+<!--                <field name="number"/>-->
+<!--                <field name="name"/>-->
+<!--                <field name="name_of"/>-->
+<!--                <field name="amount"/>-->
+<!--                <field name="state"/>-->
+<!--                <newline/>-->
+<!--                <group expand="0" string="Group By...">-->
+<!--                    <filter string="Customer" domain="[]"-->
+<!--                            context="{'group_by':'partner_id'}"/>-->
+<!--                    <filter string="State" domain="[]"-->
+<!--                            context="{'group_by':'state'}"/>-->
+<!--                </group>-->
+<!--            </search>-->
+<!--        </field>-->
+<!--    </record>-->
+
+<!--    <record model="ir.actions.act_window" id="act_takaful_bank_transfer_view">-->
+<!--        <field name="name">Bank Transfer</field>-->
+<!--        <field name="type">ir.actions.act_window</field>-->
+<!--        <field name="res_model">takaful.bank.transfer.payment</field>-->
+<!--        <field name="view_type">form</field>-->
+<!--        <field name="view_mode">tree,form</field>-->
+<!--        <field name="search_view_id" ref="view_takaful_bank_payment_transfer_search"/>-->
+<!--        <field name="domain">[]</field>-->
+<!--        <field name="context">{}</field>-->
+<!--    </record>-->
+<!--    <record model="ir.actions.act_window.view" id="act_takaful_bank_transfer_form">-->
+<!--        <field name="act_window_id" ref="act_takaful_bank_transfer_view"/>-->
+<!--        <field name="sequence" eval="20"/>-->
+<!--        <field name="view_mode">form</field>-->
+<!--        <field name="view_id" ref="view_takaful_bank_payment_transfer_form"/>-->
+<!--    </record>-->
+<!--    <record model="ir.actions.act_window.view" id="act_takaful_bank_transfer_tree">-->
+<!--        <field name="act_window_id" ref="act_takaful_bank_transfer_view"/>-->
+<!--        <field name="sequence" eval="10"/>-->
+<!--        <field name="view_mode">tree</field>-->
+<!--        <field name="view_id" ref="view_takaful_bank_payment_transfer_tree"/>-->
+<!--    </record>-->
+</odoo>

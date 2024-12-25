@@ -1,0 +1,68 @@
+<odoo>
+    <data>
+
+        <record id="project_project_metrics_pivot" model="ir.ui.view">
+            <field name="name">project.project.metrics.pivot</field>
+            <field name="model">project.project.metrics</field>
+            <field name="arch" type="xml">
+                <pivot string="Project Metrics" disable_linking="True" sample="1">
+                    <field name="week_id" type="col"/>
+                    <field name="project_id" type="row"/>
+                    <field name="progress" type="measure"/>
+                </pivot>
+            </field>
+        </record>
+
+        <record id="project_project_metrics_tree" model="ir.ui.view">
+            <field name="name">project.project.metrics.tree</field>
+            <field name="model">project.project.metrics</field>
+            <field name="arch" type="xml">
+                <tree string="Project Metrics">
+                    <field name="week_id"/>
+                    <field name="progress" widget="progressbar"/>
+                    <field name="ev" optional="hide"/>
+                    <field name="total_time_plan" string="Total Allocated Budget Hours" invisible="1"/>
+                    <field name="week_time_plan" string="PV" optional="hide"/>
+                    <field name="week_consumed_hours" string="AC" optional="hide"/>
+                    <field name="cpi"
+                           options='{"fg_color": "red: cpi &lt;= 1 and ev != 0.0;green:cpi &gt; 1 and ev != 0.0"}'
+                           optional="hide"/>
+                    <field name="spi"
+                           options='{"fg_color": "red: spi &lt;= 1 and ev != 0.0;green:spi &gt; 1 and ev != 0.0"}'
+                           optional="hide"/>
+                    <field name="cv"
+                           options='{"fg_color": "red: cv &lt;= 0 and ev != 0.0;green:cv &gt; 0 and ev != 0.0"}'
+                           optional="hide"/>
+                    <field name="sv"
+                           options='{"fg_color": "red: sv &lt;= 0 and ev != 0.0;green:sv &gt; 0 and ev != 0.0"}'
+                           optional="hide"/>
+                    <field name="eac"
+                           options='{"fg_color": "red: eac &gt; total_time_plan and ev != 0.0;green:eac &lt; total_time_plan and ev != 0.0"}'
+                           optional="hide"/>
+                    <field name="etc"
+                           options='{"fg_color": "red: etc &gt; total_time_plan and ev != 0.0;green:etc &lt; total_time_plan and ev != 0.0"}'
+                           optional="hide"/>
+                    <field name="vac"
+                           options='{"fg_color": "red: vac &lt; 0 and ev != 0.0;green:vac &gt; 0 and ev != 0.0"}'
+                           optional="hide"/>
+                    <field name="tcpi"
+                           options='{"fg_color": "red: tcpi &gt; 1 and ev != 0.0;green:tcpi &lt; 1 and ev != 0.0"}'
+                           optional="hide"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="project_project_metrics_graph" model="ir.ui.view">
+            <field name="name">project.project.metrics.graph</field>
+            <field name="model">project.project.metrics</field>
+            <field name="arch" type="xml">
+                <graph string="Project Metrics" type="line" sample="1" disable_linking="1">
+                    <field name="week_id"/>
+                    <field name="ev" type="measure"/>
+                </graph>
+            </field>
+        </record>
+
+
+    </data>
+</odoo>

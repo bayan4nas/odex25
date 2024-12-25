@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="sequence_sr_op" model="ir.sequence">
+            <field name="name">Stock Request Order</field>
+            <field name="code">stock.request.order</field>
+            <field name="prefix">PR %(range_year)s/%(month)s/</field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+        </record>
+        <record id="purchase_date_pr_id" model="ir.sequence.date_range">
+            <field eval="time.strftime('%Y-01-01')" name="date_from"/>
+            <field eval="time.strftime('%Y-12-31')" name="date_to"/>
+            <field name="sequence_id" ref="sequence_sr_op"/>
+        </record>
+    </data>
+</odoo>

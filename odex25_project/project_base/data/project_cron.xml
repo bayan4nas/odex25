@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="ir_cron_project_status" model="ir.cron">
+        <field name="name">Project: Update Project Status</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="numbercall">-1</field>
+        <field name="nextcall" eval="(DateTime.now().replace(hour=2, minute=0) + timedelta(days=1)).strftime('%Y-%m-%d %H:%M:%S')" />
+        <field name="doall" eval="False"/>
+        <field name="model_id" ref="model_project_project"/>
+        <field name="code">model.update_project_status()</field>
+        <field name="state">code</field>
+    </record>
+    
+    <record id="ir_cron_project_invoice" model="ir.cron">
+        <field name="name">Project: Send Invoice Issue Notification</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="numbercall">-1</field>
+        <field name="nextcall" eval="(DateTime.now().replace(hour=2, minute=0) + timedelta(days=1)).strftime('%Y-%m-%d %H:%M:%S')"/>
+        <field name="doall" eval="False"/>
+        <field name="model_id" ref="model_project_project"/>
+        <field name="code">model.project_invoice_notification()</field>
+        <field name="state">code</field>
+    </record>
+</odoo>

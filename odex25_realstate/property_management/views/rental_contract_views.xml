@@ -1,0 +1,404 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <!--          Inherit Form View to Modify it -->
+        <record id="contact_extend" model="ir.ui.view">
+            <field name="name">contact.extend.partner</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='category_id']" position="after">
+                    <field groups='property_management.group_property_user,property_management.group_property_manager'
+                           name="is_tenant"/>
+                    <!--                    <field name="is_property_evaluator"/>-->
+                </xpath>
+            </field>
+        </record>
+        <record id="view_partner_tenant_search" model="ir.ui.view">
+            <field name="name">res.partner.tenant.search</field>
+            <field name="model">res.partner</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <field name="phone"/>
+                    <field name="email"/>
+                    <field name="is_tenant"/>
+                    <filter string="Tenants" name="tenant_filter" domain="[('is_tenant', '=', True)]"
+                            context="{'group_by': 'is_tenant'}"/>
+                </search>
+            </field>
+        </record>
+
+        <!--         ########################################################################################################################## -->
+        <record id="rental_contract_form_view" model="ir.ui.view">
+            <field name="name">Rental Contract</field>
+            <field name="model">rental.contract</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="action_submit" string="Submit"
+                                states="draft"
+                                type="object"/>
+                        <button name="action_review" string="Review"
+                                states="submit"
+                                type="object"/>
+                        <button name="action_confirm" string="Confirm"
+                                states="review"
+                                groups="property_management.group_property_manager"
+                                type="object"/>
+                        <button name="action_renew" string="Renew Contract" type="object"
+                                confirm="Are you sure to renew the contract? That is mean you will renew this contract and create new draft one"
+                                class="oe_highlight"
+                                states="confirm"
+                                groups="property_management.group_property_manager"
+                        />
+                        <button name="action_cancel" string="Cancel"
+                                states="draft,submit,review"
+                                type="object" groups="property_management.group_property_manager"/>
+
+                        <button name="action_draft" string="RE-set To Draft"
+                                states="submit,review,cancel"
+                                type="object" groups="property_management.group_property_manager"/>
+
+                        <field name="state" widget="statusbar"
+                               statusbar_visible="draft,submit,confirm,review,close,cancel"/>
+
+                    </header>
+                    <sheet>
+                        <field name="is_today_end_date" invisible="1"/> <!-- Add this line -->
+                        <widget name="web_ribbon" title="Expired" bg_color="bg-danger"
+                                attrs="{'invisible': [('is_today_end_date', '!=', True)]}"/>
+                        <h1>
+                            <field name="seq" readonly="1"/>
+                        </h1>
+                        <group string="Property &amp; Unit Information">
+                            <group>
+                                <field name="name" required="1"/>
+                                <field name="date" attrs="{'readonly':[('state','!=','draft')]}" required="1"/>
+                            </group>
+                            <group>
+                                <field name="rent_method" attrs="{'readonly':[('state','!=','draft')]}" required="1"/>
+                                <field name="property_id" attrs="{'readonly':[('state','!=','draft')]}"
+                                       domain="[('state','=','approve'),('management_type','!=','include')]" required="1"/>
+                                <field name="management_type" readonly="1"/>
+                                <field name="unit_ids" domain="[('property_id','=',property_id),
+                                ('state','=','available'),
+                                ('action_type', '=', 'rent')]" widget="many2many_tags" attrs="{'readonly':[('state','!=','draft')], 'invisible':[('rent_method','in',['property', False])],
+                                'required':[('rent_method','not in',['property', False])]}"/>
+                                <field name="user_id" readonly="1"/>
+                                <field name="company_id" readonly="1"/>
+                            </group>
+                        </group>
+                        <group string="Rent Duration" colspan="2" col="4">
+                            <label for="rent_duration"/>
+                            <div>
+                                <field name="rent_duration" attrs="{'readonly':[('state','!=','draft')]}"
+                                       required="1" class="oe_inline"/>|
+                                <field name="rent_kind" attrs="{'readonly':[('state','!=','draft')]}"
+                                       style="width:70px !important; height:30px !important;"
+                                       required="1" class="oe_inline"/>
+                            </div>
+                            <field name="date_from" attrs="{'readonly':[('state','!=','draft')]}" required="1"/>
+                            <field name="date_to" readonly="1"/>
+                            <field name="rent_type" attrs="{'readonly':[('state','!=','draft')]}" required="1"/>
+                        </group>
+
+                        <group>
+                            <group string="Space">
+                                <field name="space"/>
+                                <field name="meter_price"/>
+                            </group>
+                            <group string="Meter Price  &amp; Rent amount">
+                                <field name="cal_rent_amount" readonly="1"/>
+                                <field name="change_price"
+                                       help="If the meter price is not the same as the registered on record information"/>
+                                <field name="new_price" attrs="{'readonly':[('state', '!=', 'draft')],'invisible':[('change_price','!=',True)],
+                                                            'required':[('change_price','=',True)]}"/>
+                                <field name="rent_amount" attrs="{'readonly':[('state', '!=', 'draft')],'invisible':[('change_price','!=',True)],
+                                                            'required':[('change_price','=',True)]}"/>
+
+
+                            </group>
+                        </group>
+                        <group>
+                            <group string="Contract Service">
+                                <!--                                <field name="separate_service"/>-->
+                                <label for="service"/>
+                                <div>
+                                    <field name="service" attrs="{'readonly':[('state','!=','draft')]}"
+                                           class="oe_inline"/>|
+                                    <field name="service_cost"
+                                           attrs="{'readonly':[('state', '!=', 'draft')], 'required':[('service','!=',False)]}"
+                                           style="width:70px !important;" class="oe_inline"/>|
+                                    <field name="service_amount" readonly="1"
+                                           class="oe_inline"/>
+                                </div>
+                                <field name="service_note"/>
+                                <field name="electricity_cost"/>
+                                <field name="sanitation_cost"/>
+                                <field name="water_cost"/>
+                                <field name="tax_id"/>
+                                <div attrs="{'invisible': [('management_type', '!=', 'included')]}">
+                                    <field name="company_profit"
+                                           attrs="{'readonly':[('state','not in',['draft','register'])],'required': [('management_type', 'in',('included'))]}"
+                                           class="oe_inline"/>
+                                    :
+                                    <field name="company_profit_amount" class="oe_inline"
+                                           attrs="{'invisible':[('company_profit','not in',['percentage','number'])],'required':[('company_profit','in',['percentage','number'])],'readonly':[('state','not in',['draft','register'])]}"/>
+                                    <field name="company_profit_val" class="oe_inline"
+                                           attrs="{'invisible':[('company_profit','not in',['percentage','number'])],'required':[('company_profit','in',['percentage','number'])],'readonly':[('state','not in',['draft','register'])]}"/>
+                                </div>
+
+                            </group>
+                            <group string="Contract Insurance">
+                                <field name="insurance" attrs="{'readonly':[('state','!=','draft')]}" required="1"/>
+                                <field name="insurance_cost" attrs="{'readonly':[('state','!=','draft')]}"
+                                       required="1"/>
+                                <field name="insurance_amount" readonly="1"/>
+                                <field name="insurance_invoice_id"
+                                       attrs="{'invisible':[('insurance_invoice_id','=', False)], 'readonly':[('state','!=', 'draft')]}"/>
+                                <field name="insurance_paid" readonly="1"/>
+                            </group>
+                        </group>
+                        <group string="Renter">
+                            <field name="partner_id" attrs="{'readonly':[('state','!=','draft')]}"
+
+                                   required="1"/>
+                            <field name="identification_type" readonly="1"/>
+                            <field name="identification_number" readonly="1"/>
+                            <field name="identification_issue_date" readonly="1"/>
+                            <field name="identification_expiry_date" readonly="1"/>
+                        </group>
+                        <button name="check_line" attrs="{'invisible':[('state', '!=', 'draft')]}" icon="fa-gears"
+                                type="object" string="Generate Payment"/>
+                        <notebook>
+                            <page string="Rent Payment">
+                                <field name="annual_raise_ids" context="{'contract_id': active_id}"
+                                       attrs="{'readonly':[('state', '!=', 'draft')]}">
+                                    <tree editable="bottom">
+                                        <field name="year" required="1"/>
+                                        <field name="raise_type" required="1"/>
+                                        <field name="raise_on" required="1"/>
+                                        <field name="raise_val" required="1"/>
+                                        <field name="meter_price"
+                                               attrs="{'invisible':[('raise_on', '=', 'rent_amount')]}"/>
+                                        <field name="meter_price_after_raise"
+                                               attrs="{'invisible':[('raise_on', '=', 'rent_amount')]}"/>
+                                        <field name="raise_amount" required="1"/>
+                                        <field name="due_date_raise" required="1"/>
+                                        <field name="rent_amount" sum="Rent Amount"/>
+                                        <field name="rent_amount_after_raise_temp" sum="Rent Amount After Raise"/>
+                                        <field name="rent_amount_after_raise" sum="Rent Amount After Raise"/>
+                                    </tree>
+                                </field>
+                                <field name="rent_payment_ids">
+                                    <tree editable="bottom" create="false">
+                                        <field name="code" readonly="1"/>
+                                        <field name="name" readonly="1"/>
+                                        <field name="due_date" readonly="1"/>
+                                        <field name="amount" sum="Rent Amount" readonly="1"/>
+                                        <field name="electricity_cost"/>
+                                        <field name="sanitation_cost"/>
+                                        <field name="water_cost" sum="Water Amount" readonly="1"/>
+                                        <field name="service_cost" sum="Service Amount" readonly="1"/>
+                                        <field name="tax_id" required="1"/>
+                                        <field name="untaxed_amount" sum="Untaxed Amount" readonly="1"/>
+                                        <field name="tax_amount" sum="Tax Amount" readonly="1"/>
+                                        <field name="total_amount" sum="Total Amount" readonly="1"/>
+                                        <field name="paid" readonly="1"/>
+                                    </tree>
+                                </field>
+
+                            </page>
+                            <page invisible="1" string="Commission">
+                                <group colspan="2" col="4">
+                                    <field name="external_broker" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                    <field name="external_broker_id"
+                                           attrs="{'required':[('external_broker', '=', True)], 'invisible':[('external_broker', '=', False)], 'readonly':[('state','!=','draft')]}"/>
+                                    <field name="external_percent"
+                                           attrs="{'required':[('external_broker', '=', True)], 'invisible':[('external_broker', '=', False)], 'readonly':[('state','!=','draft')]}"/>
+                                    <field name="external_commission"
+                                           attrs="{'required':[('external_broker', '=', True)], 'invisible':[('external_broker', '=', False)], 'readonly':[('state','!=','draft')]}"/>
+
+                                    <field name="internal_broker" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                    <field name="internal_broker_id"
+                                           attrs="{'required':[('internal_broker', '=', True)], 'invisible':[('internal_broker', '=', False)], 'readonly':[('state','!=','draft')]}"/>
+                                    <field name="internal_percent"
+                                           attrs="{'required':[('internal_broker', '=', True)], 'invisible':[('internal_broker', '=', False)], 'readonly':[('state','!=','draft')]}"/>
+                                    <field name="internal_commission"
+                                           attrs="{'required':[('internal_broker', '=', True)], 'invisible':[('internal_broker', '=', False)], 'readonly':[('state','!=','draft')]}"/>
+
+                                    <field name="renter_commission" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                    <field name="renter_percent"
+                                           attrs="{'required':[('renter_commission', '=', True)], 'invisible':[('renter_commission', '=', False)], 'readonly':[('state','!=','draft')]}"/>
+                                    <field name="renter_value"
+                                           attrs="{'required':[('renter_commission', '=', True)], 'invisible':[('renter_commission', '=', False)], 'readonly':[('state','!=','draft')]}"/>
+
+                                </group>
+                            </page>
+                            <page string="Renter History">
+                                <field name="log_rental_contract_ids" readonly="1">
+                                    <tree>
+                                        <field name="leaser_id" readonly="1"/>
+                                        <field name="date_start" readonly="1"/>
+                                        <field name="date_end" readonly="1"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Rental Contract Template">
+                                <group>
+                                    <group>
+                                        <field name="template_id"/>
+                                    </group>
+                                    <group></group>
+                                </group>
+                                <group>
+                                    <field name="template" widget="html" options="{'style-inline': true}"
+                                           force_save="1"/>
+                                </group>
+                            </page>
+                            <page string="Accounting">
+                                <group col="4" colspan="2">
+                                    <field name="journal_id" attrs="{'readonly':[('state','!=','draft')]}"
+                                           required="1"/>
+                                    <field name="debit_account_id" attrs="{'readonly':[('state','!=','draft')]}"
+                                           required="1"/>
+                                    <field name="accrued_account_id" attrs="{'readonly':[('state','!=','draft')]}"
+                                           required="1" options="{'no_create': True, 'no_open': True}"/>
+                                    <field name="revenue_account_id" attrs="{'readonly':[('state','!=','draft')]}"
+                                           required="1"/>
+                                </group>
+                            </page>
+                            <page string="Note">
+                                <field name="note"/>
+
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="rental_contract_list_view" model="ir.ui.view">
+            <field name="name">Rental Contract List</field>
+            <field name="model">rental.contract</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="date"/>
+                    <field name="name"/>
+                    <field name="seq"/>
+                    <field name="management_type"/>
+                    <field name="property_id"/>
+                    <field name="unit_ids" widget="many2many_tags"/>
+                    <field name="partner_id"/>
+                    <field name="rent_type"/>
+                    <field name="date_from"/>
+                    <field name="date_to"/>
+                    <field name="cal_rent_amount"/>
+                    <field name="service_amount"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="view_rental_contract_filter" model="ir.ui.view">
+            <field name="name">Rental Contract Filter</field>
+            <field name="model">rental.contract</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="seq"/>
+                    <field name="name" string="Contract"/>
+                    <field name="property_id"/>
+                    <field name="city_id"/>
+                    <field name="district_id"/>
+                    <field name="partner_id"/>
+                    <field name="company_id"/>
+                    <field name="user_id"/>
+                    <field name="date"/>
+                    <field name="date_from"/>
+                    <field name="state"/>
+                    <separator/>
+                    <filter string="My Contract" name="my_reports" domain="[('user_id', '=', uid)]"/>
+                    <separator/>
+
+                    <filter string="Draft" name="draft" domain="[('state','=','draft')]"/>
+                    <separator/>
+                    <filter name="expired_contracts" string="Expired"
+                            domain="[('date_to', '&lt;', context_today().strftime('%Y-%m-%d'))]"/>
+                    <separator/>
+                    <filter string="Review" name="review" domain="[('state','in',('submit','review') )]"/>
+                    <separator/>
+                    <filter string="Confirmed" name="confirmed" domain="[('state','=','confirm')]"/>
+                    <separator/>
+                    <filter string="Cancelled" name="cancelled" domain="[('state','=','cancel')]"/>
+                    <separator/>
+                    <filter string="Not Cancelled" name="contract_not_cancelled" domain="[('state','!=','cancel')]"/>
+                    <separator/>
+
+
+                    <group expand="0" string="Group By">
+                        <filter string="Status" name="state" domain="[]" context="{'group_by': 'state'}"/>
+                        <filter string="Property" name="property_id" domain="[]" context="{'group_by': 'property_id'}"/>
+                        <filter string="Renter" name="partner_id" domain="[]" context="{'group_by': 'partner_id'}"/>
+                        <filter string="Rent kind" name="rent_kind" domain="[]" context="{'group_by': 'rent_kind'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="contract_unit_view" model="ir.ui.view">
+            <field name="name">Units Contract</field>
+            <field name="model">re.unit</field>
+            <field name="inherit_id" ref="real_estate.unit_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[hasclass('oe_button_box')]" position="inside">
+                    <button class="oe_stat_button" name="get_contract"
+                            type="object"
+                            icon="fa-files" attrs="{'invisible':[('state','=','draft')]}">
+                        <field string="Contracts" name="contract_counts" widget="statinfo"/>
+                    </button>
+                </xpath>
+            </field>
+        </record>
+
+
+        <record id="view_rental_contract_template_tree" model="ir.ui.view">
+            <field name="name">rental.contract.template.tree</field>
+            <field name="model">rental.contract.template</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="view_rental_contract_template_form" model="ir.ui.view">
+            <field name="name">rental.contract.template.form</field>
+            <field name="model">rental.contract.template</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name" required="1"/>
+                            </group>
+                            <group></group>
+                        </group>
+                        <group>
+                            <field name="template" widget="html" options="{'style-inline': true}"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+    </data>
+</odoo>

@@ -1,0 +1,369 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+
+        <!-- Benefits Payments Report -->
+        <template id="benefit_payment_report_pdf">
+          <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+              <div class="page">
+                <div class="text-center">
+                  <h2><span>Benefits Payments Report</span></h2>
+                  <span>
+                    <t t-if="date_from">
+                        <span t-esc="date_from"/>
+                        /
+                    </t>
+                    <t t-if="date_to">
+                        <span t-esc="date_to"/>
+                    </t>
+                  </span>
+                </div>
+
+                    <table class="table table-condensed table-bordered">
+                      <thead class="text-center">
+                        <tr style="background-color: #b8bcbf;width:100%;">
+                        <th style="text-align:center;">#</th>
+                        <th style="text-align:center;">Benefit Name</th>
+                        <th style="text-align:center;">Benefit Type</th>
+                        <th style="text-align:center;">Benefit ID Number</th>
+                        <th style="text-align:center;">Sponsorship Number</th>
+                        <th style="text-align:center;">Month Payment</th>
+                        <th style="text-align:center;">Payment Code</th>
+                        <th style="text-align:center;">Amount</th>
+                        <th style="text-align:center;">Date</th>
+                        <th style="text-align:center;">Status</th>
+                        </tr>
+                      </thead>
+                      <tbody class="text-center">
+                        <t t-set="sequence" t-value="0"/>
+                        <t t-foreach="docs" t-as="o">
+                          <tr>
+                            <td>
+                                <t t-set="sequence" t-value="sequence +1"/>
+                                <t t-esc="sequence"/>
+                            </td>
+                            <td class="text-center">
+                                <span t-esc="o.benefit_id.name"/>
+                            </td>
+                            <td class="text-center">
+                                <span>
+                                  <t t-esc="dict(o.fields_get(allfields=['benefit_type'])['benefit_type']['selection'])[o.benefit_id.benefit_type]"/>
+                                </span>
+                            </td>
+                            
+                            <td class="text-center">
+                                <span t-esc="o.benefit_id.id_number"/>
+                            </td>
+                            <td class="text-center">
+                                <span t-esc="o.s_code"/>
+                            </td>
+                            <td class="text-center">
+                                <span t-esc="o.month_id.name"/>
+                            </td>
+                            <td class="text-center">
+                                <span t-esc="o.code"/>
+                            </td>
+                            <td class="text-center">
+                                <span t-esc="o.amount"/>
+                            </td>
+                            <td class="text-center">
+                                <span t-esc="o.date"/>
+                            </td>
+                            <td class="text-center">
+                                <span>
+                                  <t t-esc="dict(o.fields_get(allfields=['state'])['state']['selection'])[o.state]"/>
+                                </span>
+                            </td>
+                          </tr>
+                        </t>
+                      </tbody>
+                    </table>
+
+                  
+                  <div style="page-break-before: always;"></div>
+
+                </div>
+              </t>
+          </t>
+        </template>
+
+        <!-- End Template -->
+
+        <report
+                id="benefit_payment_report_pdf_act"
+                model="month.payment.line"
+                string="Benefit Payment Report"
+                report_type="qweb-pdf"
+                name="odex_takaful.benefit_payment_report_pdf"
+                file="odex_takaful.benefit_payment_report_pdf"
+                menu="False"/>
+
+
+        <!-- Sponsorship Monthly Payments of Benefits Report -->
+        <template id="benefit_month_payment_report_pdf">
+          <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+              <div class="page">
+                <div class="text-center">
+                  <h2><span>Sponsorship Monthly Payments of Benefits :</span></h2>
+                  <span>
+                    <t t-if="date_from">
+                        <span t-esc="date_from"/>
+                        /
+                    </t>
+                    <t t-if="date_to">
+                        <span t-esc="date_to"/>
+                    </t>
+                  </span>
+                </div>
+                <br></br>
+                <t t-foreach="docs" t-as="doc">
+                    <div class="text-center" style="font-size:20px">
+                        <span t-esc="doc['name']"/>
+                    </div>
+                    <div class="text-center" style="font-size:20px">
+                        Month :
+                        <span t-esc="doc['month_payment']"/>
+                    </div>
+                    <div class="text-center" style="font-size:20px">
+                        Number :
+                        <span t-esc="doc['code']"/>
+                    </div>
+                    <br></br>
+
+                    <table class="table table-condensed table-bordered">
+                      <thead class="text-center">
+                        <tr style="background-color: #b8bcbf;width:100%;">
+                        <th style="text-align:center;">#</th>
+                        <th style="text-align:center;">Benefit Name</th>
+                        <th style="text-align:center;">Benefit Type</th>
+                        <th style="text-align:center;">Sponsorship Number</th>
+                        <th style="text-align:center;">The Sponsor</th>
+                        <th style="text-align:center;">Amount</th>
+                        
+                        <th style="text-align:center;">Benefit ID Number</th>
+                        <th style="text-align:center;">IBAN</th>
+                        <th style="text-align:center;">Bank</th>
+                        <th style="text-align:center;">Responsible Name</th>
+                        <th style="text-align:center;">Responsible ID Number</th>
+                        <th style="text-align:center;">Status</th>
+                        </tr>
+                      </thead>
+                      <tbody class="text-center">
+                        <t t-set="sequence" t-value="0"/>
+                        <t t-foreach="doc['payment']" t-as="o">
+                          <tr>
+                            <td>
+                                <t t-set="sequence" t-value="sequence +1"/>
+                                <t t-esc="sequence"/>
+                            </td>
+                            <td class="text-center">
+                                <span t-esc="o.benefit_id.name"/>
+
+                            </td>
+                            <td class="text-center">
+                                <span>
+                                  <t t-esc="dict(o.fields_get(allfields=['benefit_type'])['benefit_type']['selection'])[o.benefit_id.benefit_type]"/>
+                                </span>
+                            </td>
+                            <td class="text-center">
+                                <span t-esc="o.s_code"/>
+                            </td>
+                            <td class="text-center">
+                                <span t-esc="o.sponsor_id.name"/>
+                            </td>
+
+                            <td class="text-center">
+                                <span t-esc="o.amount"/>
+                            </td>
+
+                            <td class="text-center">
+                                <span t-esc="o.benefit_id.id_number"/>
+                            </td>
+                            <td class="text-center">
+                                <span t-esc="o.benefit_id.iban"/>
+
+                            </td>
+                            <td class="text-center">
+                                <span t-esc="o.benefit_id.bank_id.name"/>
+
+                            </td>
+                            <td class="text-center">
+                                <span t-esc="o.responsible_id.name"/>
+                            </td>
+                            <td class="text-center">
+                                <span t-esc="o.responsible_id.id_number"/>
+                            </td>
+                            <td class="text-center">
+                                <span>
+                                  <t t-esc="dict(o.fields_get(allfields=['state'])['state']['selection'])[o.state]"/>
+                                </span>
+                            </td>
+                          </tr>
+                          </t>
+
+                      </tbody>
+                    </table>
+                </t>
+                  
+                  <div style="page-break-before: always;"></div>
+
+                </div>
+              </t>
+          </t>
+        </template>
+        <!-- End monthly -->
+
+        <report
+                id="benefit_month_payment_report_pdf_act"
+                model="month.payment.line"
+                string="Month Payment Report"
+                report_type="qweb-pdf"
+                name="odex_takaful.benefit_month_payment_report_pdf"
+                file="odex_takaful.benefit_month_payment_report_pdf"
+                menu="False"/>
+
+        <!-- Benefits Payments Shares Report -->
+        <template id="benefit_month_payment_share">
+          <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+              <div class="page">
+                <div class="text-center">
+                  <h2><span>Benefits Payments Shares Report From Sponsorship:</span></h2>
+                  <span>
+                    <t t-if="date_from">
+                        <span t-esc="date_from"/>
+                        /
+                    </t>
+                    <t t-if="date_to">
+                        <span t-esc="date_to"/>
+                    </t>
+                  </span>
+                </div>
+                <br></br>
+                <t t-foreach="docs" t-as="doc">
+                    <br></br>
+                    <div class="text-center" style="font-size:20px">
+                        <span t-esc="doc.name"/> /
+                        <span t-esc="doc.code"/>
+                    </div>
+                    <br></br>
+
+                    <table class="table table-condensed table-bordered">
+                      <thead class="text-center">
+                        <tr style="background-color: #b8bcbf;width:100%;">
+                        <th style="text-align:center;">#</th>
+                        <th style="text-align:center;">Benefit Name</th>
+                        <th style="text-align:center;">Benefit Type</th>
+                        <th style="text-align:center;">Benefit ID Number</th>
+                        <th style="text-align:center;">Birth Date</th>
+                        <th style="text-align:center;">Sponsorship Number</th>
+                        <th style="text-align:center;">The Sponsor</th>
+                        <th style="text-align:center;">Amount</th>
+                        <th style="text-align:center;">IBAN</th>
+                        <th style="text-align:center;">Bank</th>
+                        <th style="text-align:center;">Responsible Name</th>
+                        <th style="text-align:center;">Responsible ID Number</th>
+                        <th style="text-align:center;">Status</th>
+                        </tr>
+                      </thead>
+                      <tbody class="text-center">
+                        <t t-set="sequence" t-value="0"/>
+                        <t t-foreach="doc.line_ids" t-as="o">
+                          <tr>
+                            <td>
+                                <t t-set="sequence" t-value="sequence +1"/>
+                                <t t-esc="sequence"/>
+                            </td>
+                            <td class="text-center">
+                                <span t-esc="o.benefit_id.name"/>
+                            </td>
+                            <td class="text-center">
+                                <span>
+                                  <t t-esc="dict(o.fields_get(allfields=['benefit_type'])['benefit_type']['selection'])[o.benefit_id.benefit_type]"/>
+                                </span>
+                            </td>
+                            <td class="text-center">
+                                <span t-esc="o.benefit_id.id_number"/>
+
+                            </td>
+                            <td class="text-center">
+                                <span t-esc="o.benefit_id.birth_date"/>
+
+                            </td>
+                            <td class="text-center">
+                                <span t-esc="o.s_code"/>
+
+                            </td>
+                            <td class="text-center">
+                                <span t-esc="o.sponsor_id.name"/>
+                            </td>
+                            
+                            <td class="text-center">
+                                <span t-esc="o.amount"/>
+                            </td>
+                            <td class="text-center">
+                                <span t-esc="o.benefit_id.iban"/>
+
+                            </td>
+                            <td class="text-center">
+                                <span t-esc="o.benefit_id.bank_id.name"/>
+
+                            </td>
+                            <td class="text-center">
+                                <span t-esc="o.responsible_id.name"/>
+                            </td>
+                            <td class="text-center">
+                                <span t-esc="o.responsible_id.id_number"/>
+                            </td>
+                            <td class="text-center">
+                                <span>
+                                  <t t-esc="dict(o.fields_get(allfields=['state'])['state']['selection'])[o.state]"/>
+                                </span>
+                            </td>
+                          </tr>
+                          </t>
+
+                      </tbody>
+                    </table>
+                </t>
+                  
+                  <div style="page-break-before: always;"></div>
+
+                </div>
+              </t>
+          </t>
+        </template>
+        <!-- End Template -->
+
+        <report
+                id="benefit_month_payment_share_report_pdf_act"
+                model="month.payment"
+                string="Month Payments Shares PDF"
+                report_type="qweb-pdf"
+                name="odex_takaful.benefit_month_payment_share"
+                file="odex_takaful.benefit_month_payment_share"
+                menu="True"/>
+        
+        <!--		xlx-->
+        <report
+                id="benefit_month_payment_report_xlsx_act"
+                model="month.payment"
+                string="Month Payments Shares Xlsx"
+                report_type="xlsx"
+                name="odex_takaful.benefit_month_payment_report_xlsx"
+                file="odex_takaful.benefit_month_payment_report_xlsx"
+                menu="True"/>
+        <!--		Bank Statement-->
+        <report
+                id="benefit_month_payment_bank_Sheet_act"
+                model="month.payment"
+                string="Print Bank Sheet"
+                report_type="xlsx"
+                name="odex_takaful.benefit_month_payment_bank_sheet"
+                file="odex_takaful.benefit_month_payment_bank_sheet"
+                menu="True"/>
+
+    </data>
+</odoo>

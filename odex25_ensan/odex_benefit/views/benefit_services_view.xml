@@ -1,0 +1,1027 @@
+<odoo>
+    <data>
+        <!--"Benefit Need_-->
+        <record model="ir.ui.view" id="benefit_need_tree">
+            <field name="name">benefit.need.tree</field>
+            <field name="model">benefit.need</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+        <record id="benefit_need_form" model="ir.ui.view">
+            <field name="name">benefit.need.form</field>
+            <field name="model">benefit.need</field>
+            <field name="arch" type="xml">
+                <form string="Benefit need">
+                    <header>
+                        <button name="action_visit" type="object" states="draft"
+                                string="Visit" class="oe_highlight"/>
+                        <button name="action_waiting_approve" type="object" states="visit"
+                                string="submit" class="oe_highlight"/>
+                        <button name="action_approve" type="object" states="waiting_approve"
+                                string="approve" class="oe_highlight"/>
+                        <button name="action_refused" type="object" states="waiting_approve"
+                                string="refused" class="oe_highlight"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="housing_id"/>
+                            </group>
+                            <group>
+                                <field name="total_expenses" force_save="1" invisible="1"/>
+                                <field name="total_income" invisible="1"/>
+                                <!--                                <field name="income_ids">-->
+                                <!--                                    <tree>-->
+                                <!--                                        <field name="name"/>-->
+                                <!--                                        <field name="total_income"/>-->
+                                <!--                                    </tree>-->
+                                <!--                                </field>-->
+                                <field name="total_net"/>
+                                <field name="financial_aid"/>
+                            </group>
+                        </group>
+                        <group>
+                            <field name="expenses_ids">
+                                <tree decoration-info="is_responsible==True" default_order='is_responsible desc'>
+                                    <field name="is_responsible" invisible="1"/>
+                                    <field name="name"/>
+                                    <field name="total_expenses" force_save="1" sum="Total Expenses"/>
+                                    <field name="total_income" force_save="1" sum="Total Income"/>
+                                </tree>
+                            </field>
+                        </group>
+                        <group>
+                            <field name="house_need">
+                                <tree editable="top">
+                                    <field name="benefit_need_id" invisible="1"/>
+                                    <field name="housing_id" invisible="1"/>
+                                    <field name="room_id"/>
+                                    <field name="needs"/>
+                                    <field name="needs_percentage"/>
+                                </tree>
+                            </field>
+                        </group>
+                        <!--                            <group>-->
+                        <!--                                <field name="amount"/>-->
+                        <!--                                <field name="quantity"/>-->
+                        <!--                                <field name="date_to"/>-->
+                        <!--                            </group>-->
+                        <!--                        </group>-->
+                        <!--                        <notebook>-->
+                        <!--                            <page string="Payment Collection">-->
+                        <!--                                <group>-->
+                        <!--                                    <field name="payment_collection_ids" string="amount">-->
+                        <!--                                        <tree editable="bottom">-->
+                        <!--                                            <field name="zkat_id" invisible="1"/>-->
+                        <!--                                            <field name="donor_name"/>-->
+                        <!--                                            <field name="donation_type"/>-->
+                        <!--                                            <field name="amount"/>-->
+                        <!--                                            <field name="quantity"/>-->
+                        <!--                                        </tree>-->
+                        <!--                                    </field>-->
+                        <!--                                </group>-->
+                        <!--                            </page>-->
+                        <!--                            <page string="benefit">-->
+                        <!--                                <group>-->
+                        <!--                                    &lt;!&ndash;                                <field name="barcode"/>&ndash;&gt;-->
+                        <!--                                    <field name="benefit_ids" widget="tree"/>-->
+                        <!--                                </group>-->
+                        <!--                            </page>-->
+                        <!--                        </notebook>-->
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+        <!--##################################################->
+         <!-"Receiving benefit zkat_-->
+        <record model="ir.ui.view" id="benefit_receive_zkat_tree">
+            <field name="name">benefit.receive.zkat.tree</field>
+            <field name="model">receive.benefit.zkat</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="date_from"/>
+                    <field name="date_to"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+        <record id="benefit_receive_zkat_form" model="ir.ui.view">
+            <field name="name">benefit.zkat.form</field>
+            <field name="model">receive.benefit.zkat</field>
+            <field name="arch" type="xml">
+                <form string="Receive Benefit Zkat">
+                    <header>
+                        <button name="action_approve" type="object" states="draft"
+                                string="approve" class="oe_highlight"/>
+                        <button name="action_refuse" type="object" states="draft"
+                                string="refused" class="oe_highlight"/>
+                        <button name="action_receiving" type="object" states="approve"
+                                string="receiving" class="oe_highlight"/>
+                        <button name="action_compute" string="compute Picking" type="object"
+                                attrs="{'invisible': ['|',('state','!=','receiving'),('stock_picking_id', '=', True)]}"
+                                class="oe_highlight"/>
+                        <button name="action_compute_purchase_order" string="Compute Purchase Order" type="object"
+                                class="oe_highlight"
+                                attrs="{'invisible': ['|',('state','!=','receiving'),('purchase_order_id', '!=',False)]}"/>
+                        <button name="action_done" type="object" states="piking"
+                                string="Done" class="oe_highlight"/>
+                        <button name="action_cancel" type="object"
+                                string="Cancel" class="oe_highlight"/>
+                        <button name="action_draft" type="object"
+                                string="draft" class="oe_highlight"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button type="object"
+                                    name="action_open_quants"
+                                    class="oe_stat_button" icon="fa-building-o">
+                                <field name="qty_available" widget="statinfo" string="On Hand"/>
+                            </button>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="name" required="1"
+                                       attrs="{'readonly': [('state','not in',['draft','receiving'])]}"/>
+                                <field name="date_from" required="1"
+                                       attrs="{'readonly': [('state','not in',['draft','receiving'])]}"/>
+                            </group>
+                            <group>
+                                <field name="code"/>
+                                <field name="date_to" required="1"
+                                       attrs="{'readonly': [('state','not in',['draft','approve'])]}"/>
+                                <field name="product_id" required="1"
+                                       attrs="{'readonly': [('state','not in',['draft','approve'])]}"/>
+                            </group>
+                            <group>
+                                <field name="journal_id"
+                                       attrs="{'required': [('state','not in',['draft','approve'])],'readonly': [('state','not in',['draft','approve','receiving'])]}"/>
+                                <field name="account_id"
+                                       attrs="{'required': [('state','not in',['draft','approve'])],'readonly': [('state','not in',['draft','approve','receiving'])]}"/>
+                                <field name="entry_id" readonly="1"/>
+                            </group>
+                            <group>
+                                <field name="picking_type_id"
+                                       attrs="{'required': [('state','not in',['draft','approve'])],'readonly': [('state','not in',['draft','approve','receiving'])]}"/>
+                                <field name="stock_picking_id" readonly="1"/>
+                                <field name="purchase_order_id" readonly="1" required="0"/>
+                            </group>
+                            <group>
+                                <field name="uint_price" required="1"
+                                       attrs="{'readonly': [('state','not in',['draft'])]}"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Payment Collection">
+                                <group>
+                                    <field name="payment_collection_ids" string="amount"
+                                           attrs="{'readonly': [('state','not in',['receiving'])]}">
+                                        <tree editable="bottom">
+                                            <field name="receive_zkat_id" invisible="1"/>
+                                            <field name="payment_id"/>
+                                            <field name="donor_name"/>
+                                            <field name="donor_partner"/>
+                                            <field name="phone_number"/>
+                                            <field name="donation_type"/>
+                                            <field name="amount" sum="amount"/>
+                                            <field name="quantity" sum="quantity"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+        <!--benefit_zkat-->
+        <record model="ir.ui.view" id="benefit_zkat_tree">
+            <field name="name">benefit.zkat.tree</field>
+            <field name="model">benefit.zkat</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="uint"/>
+                    <field name="date_from"/>
+                    <field name="date_to"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+        <record id="benefit_zkat_form" model="ir.ui.view">
+            <field name="name">benefit.zkat.form</field>
+            <field name="model">benefit.zkat</field>
+            <field name="arch" type="xml">
+                <form string="Benefit Zkat">
+                    <header>
+                        <button name="action_restriction" type="object" states="draft"
+                                string="submit" class="oe_highlight"/>
+                        <button name="action_approve" type="object" states="restriction"
+                                string="approve" class="oe_highlight"/>
+                        <button name="action_refuse" type="object" states="restriction"
+                                string="refused" class="oe_highlight"/>
+                        <button name="action_compute" type="object" states="approve"
+                                string="piking" class="oe_highlight"/>
+                        <button name="action_delivery" type="object" states="piking"
+                                string="delivery" class="oe_highlight"/>
+                        <button name="action_done" type="object" states="delivery"
+                                string="Done" class="oe_highlight"/>
+                        <button name="action_cancel" type="object"
+                                string="Cancel" class="oe_highlight"/>
+                        <button name="action_draft" type="object"
+                                string="draft" class="oe_highlight"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button type="object"
+                                    name="action_open_quants"
+                                    class="oe_stat_button" icon="fa-building-o">
+                                <field name="qty_available" widget="statinfo" string="On Hand"/>
+                            </button>
+                            <button name="open_external_request"
+                                    type="object" class="oe_stat_button" icon="fa-users">
+                                <field string="Requests" name="requests_total" widget="statinfo"/>
+                            </button>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="name" required="1"
+                                       attrs="{'readonly': [('state','not in',['draft','restriction'])]}"/>
+                                <field name="date_from" required="1"/>
+                            </group>
+                            <group>
+                                <field name="code"/>
+                                <field name="date_to" required="1"/>
+                                <field name="delivery_date"
+                                       attrs="{'invisible': [('state','not in',['delivery','done',])]}"/>
+                            </group>
+                            <group>
+                                <field name="product_id" required="1"/>
+                                <field name="uint"
+                                       attrs="{'required': [('state','not in','draft')],'readonly': [('state','not in',['draft','restriction'])]}"/>
+                            </group>
+                            <group>
+                                <field name="uint_amount" readonly="1"/>
+                                <field name="picking_type_id" attrs="{'required': [('state','=','approve')]}"/>
+                                <field name="stock_picking_id" required="0" readonly="1"/>
+                            </group>
+                            <field name="zkat_ids"
+                                   attrs="{'required': [('state','not in','draft')],'readonly': [('state','not in',['draft','restriction'])]}">
+                                <tree editable="bottom">
+                                    <field name="zkat_id" invisible="1"/>
+                                    <field name="family_id"/>
+                                    <field name="benefits_total" sum="Benefits Total"/>
+                                    <field name="uint"/>
+                                    <field name="quantity" sum="quantity"/>
+                                    <field name="rate"/>
+                                    <field name="net" sum="net"/>
+                                </tree>
+                            </field>
+                        </group>
+                        <notebook>
+                            <page string="External benefit">
+                                <group>
+                                    <field name="external_ids" widget="tree"/>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+        <!--##########################################->
+        <!-"Food Surplus_-->
+        <record model="ir.ui.view" id="benefit_surplus_tree">
+            <field name="name">benefit.food.surplus.tree</field>
+            <field name="model">benefit.food.surplus</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="surplus_type" widget="many2many_tags"/>
+                    <field name="location"/>
+                    <button name="open_map" string="Map" type="object" class="oe_highlight"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+        <record id="benefit_food_surplus_form" model="ir.ui.view">
+            <field name="name">benefit.food.surplus.form</field>
+            <field name="model">benefit.food.surplus</field>
+            <field name="arch" type="xml">
+                <form string="Food Surplus">
+                    <header>
+                        <button name="action_submit" type="object" states="draft"
+                                string="submit" class="oe_highlight"/>
+                        <button name="action_approve" type="object" states="waiting_approve"
+                                string="Approve" class="oe_highlight"/>
+                        <button name="action_refused" type="object" states="waiting_approve"
+                                string="Refused" class="oe_highlight"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="partner_id"/>
+                                <!--                                <field name="code"/>-->
+                                <field name="surplus_type" widget="many2many_tags"/>
+                                <!--                                <field name="quantity"/>-->
+                                <!--                                <field name="delivery_date"/>-->
+                            </group>
+                            <group>
+                                <field name="city_id"/>
+                                <field name="zone"/>
+                                <field name="neighborhood"/>
+                                <field name="address"/>
+                                <field name="phone"/>
+                                <button name="open_map" string="Map" type="object" class="oe_highlight"/>
+                                <field name="lat" invisible="1"/>
+                                <field name="lon" invisible="1"/>
+                                <field name="location" invisible="1"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Surplus">
+                                <group>
+                                    <field name="surplus_ids" string="Quantity">
+                                        <tree editable="bottom">
+                                            <field name="food_surplus_id" invisible="1"/>
+                                            <field name="surplus_type"/>
+                                            <field name="quantity"/>
+                                            <field name="description"/>
+                                            <field name="surplus_count"/>
+                                            <field name="date_start"/>
+                                            <field name="date_end"/>
+                                            <field name="benefit_ids" widget="many2many_tags" limit="surplus_count"/>
+                                            <field name="is_available" invisible="1"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <!--##########################################->
+        <!-receive food basket -->
+        <record model="ir.ui.view" id="receive_food_basket_tree">
+            <field name="name">receive.food.basket.tree</field>
+            <field name="model">receive.food.basket</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="donation_method"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+        <record id="receive_food_basket_form" model="ir.ui.view">
+            <field name="name">receive.food.basket.form</field>
+            <field name="model">receive.food.basket</field>
+            <field name="arch" type="xml">
+                <form string="Receive Food Basket">
+                    <header>
+                        <button name="action_approve" type="object" states="draft"
+                                string="approve" class="oe_highlight"/>
+<!--                        <button name="action_refuse" type="object" states="draft"-->
+<!--                                string="refused" class="oe_highlight"/>-->
+                        <button name="action_receiving" type="object" states="approve"
+                                string="receiving" class="oe_highlight"/>
+                        <button name="action_compute" string="compute Picking" type="object"
+                                attrs="{'invisible': ['|',('state','!=','receiving'),('stock_picking_id', '=', True)]}"
+                                class="oe_highlight"/>
+                        <button name="action_compute_purchase_order" string="Compute Purchase Order" type="object"
+                                class="oe_highlight"
+                                attrs="{'invisible': ['|',('state','!=','receiving'),('purchase_order_id', '!=',False)]}"/>
+                        <button name="action_done" type="object" states="piking"
+                                string="Done" class="oe_highlight"/>
+                        <button name="action_cancel" type="object"
+                                string="Cancel" class="oe_highlight"/>
+<!--                        <button name="action_draft" type="object"-->
+<!--                                string="draft" class="oe_highlight"/>-->
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button type="object"
+                                    name="action_open_quants"
+                                    class="oe_stat_button" icon="fa-building-o">
+                                <field name="qty_available" widget="statinfo" string="On Hand"/>
+                            </button>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="code"/>
+                                <field name="product_id"/>
+                                <field name="donation_method"/>
+                                <field name="date_start"/>
+                            </group>
+                            <group>
+                                <field name="donation_amount"/>
+                                <field name="donation_type" widget="many2many_tags"/>
+                                <field name="date_end"/>
+                                <field name="delivery_date"/>
+                            </group>
+                            <group>
+                                <field name="journal_id"/>
+                                <field name="account_id"/>
+                                <field name="entry_id" readonly="1"/>
+                            </group>
+                            <group>
+                                <field name="purchase_order_id" readonly="1"/>
+                                <field name="picking_type_id"/>
+                                <field name="stock_picking_id" readonly="1"/>
+                                <field name="description"/>
+                            </group>
+                            <field name="amount_ids" string="amount">
+                                <tree editable="bottom">
+                                    <field name="food_basket_id" invisible="1"/>
+                                    <field name="name"/>
+                                    <field name="payment_id"/>
+                                    <field name="donor_partner"/>
+                                    <field name="phone_number"/>
+                                    <field name="donation_type"/>
+                                    <field name="amount"/>
+                                    <field name="qty"/>
+                                    <field name="donation_method"/>
+                                </tree>
+                            </field>
+                        </group>
+                        <group>
+                            <!--                                <field name="barcode"/>-->
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+        <!--##########################################-->
+        <!--        <!-benefit food basket &ndash;&gt;-->
+        <record model="ir.ui.view" id="benefit_food_basket_tree">
+            <field name="name">benefit.food.basket.tree</field>
+            <field name="model">benefit.food.basket</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="date_start"/>
+                    <field name="date_end"/>
+                    <field name="delivery_date"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+        <record id="benefit_food_basket_form" model="ir.ui.view">
+            <field name="name">benefit.food.basket.form</field>
+            <field name="model">benefit.food.basket</field>
+            <field name="arch" type="xml">
+                <form string="Food Basket">
+                    <header>
+                        <button name="action_submit" type="object" states="draft"
+                                string="submit" class="oe_highlight"/>
+                        <button name="action_approve" type="object" states="waiting_approve"
+                                string="Approve" class="oe_highlight"/>
+                        <button name="action_refused" type="object" states="waiting_approve"
+                                string="Refused" class="oe_highlight"/>
+                        <button name="action_calculation" type="object" states="approve"
+                                string="calculation" class="oe_highlight"/>
+                        <button name="action_delivery" type="object" states="calculation"
+                                string="delivery" class="oe_highlight"/>
+                        <button name="action_done" type="object" states="waiting_delivery"
+                                string="Done" class="oe_highlight"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button type="object"
+                                    name="action_open_quants"
+                                    class="oe_stat_button" icon="fa-building-o">
+                                <field name="qty_available" widget="statinfo" string="On Hand"/>
+                            </button>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="date_start"/>
+                            </group>
+                            <group>
+                                <field name="donation_amount"/>
+                                <field name="date_end"/>
+                                <field name="delivery_date"/>
+                            </group>
+                            <group>
+                                <field name="product_id"/>
+                                <field name="quantity"/>
+                                <field name="picking_type_id"/>
+                                <field name="stock_picking_id" readonly="1"/>
+                            </group>
+                        </group>
+                        <group>
+                            <!--                                <field name="barcode"/>-->
+                            <field name="benefit_ids">
+                                <tree editable="top">
+                                    <field name="food_basket_id" invisible="1"/>
+                                    <field name="family_id"/>
+                                    <field name="family_member" readonly="1" sum="family_member"/>
+                                    <field name="qty" sum="qty"/>
+                                    <field name="date"/>
+                                    <field name="qr_code" widget="image" options="{'size': [50, 50]}"/>
+                                    <field name="is_receive" widget="boolean_toggle"/>
+                                </tree>
+                            </field>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+        <!--##########################################-->
+        <!--  Receive appliances furniture -->
+        <record model="ir.ui.view" id="receive_appliances_furniture_tree">
+            <field name="name">appliances.furniture.tree</field>
+            <field name="model">receive.appliances.furniture</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="donation_method"/>
+                    <field name="product_qty"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+        <record id="receive_appliances_furniture_form" model="ir.ui.view">
+            <field name="name">receive.appliances.furniture.form</field>
+            <field name="model">receive.appliances.furniture</field>
+            <field name="arch" type="xml">
+                <form string="Receive Appliances Furniture">
+                    <header>
+                        <button name="action_submit" type="object" states="draft"
+                                string="submit" class="oe_highlight"/>
+                        <button name="action_approve" type="object"
+                                string="Accept" class="oe_highlight"
+                                states="receipt"
+                                confirm="Are you sure you want to receipt ?"/>
+                        <button name="action_refused" type="object" states="receipt"
+                                string="refused" class="oe_highlight"
+                                confirm="Are you sure you want to refused ?"/>
+                        <button name="action_storage" type="object"
+                                string="storage" class="oe_highlight"
+                                confirm="Are you sure you want to storage?"
+                                states="approve"/>
+                        <button name="action_done" type="object" states="storage"
+                                string="Done" class="oe_highlight"/>
+                        <button name="action_draft" type="object"
+                                string="draft"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name" required="1"/>
+                                <field name="donation_method"/>
+                                <field name="prod_id" readonly="1" required="0"/>
+                                <field name="stock_picking_id" readonly="1" required="0"/>
+                            </group>
+                            <group>
+                                <field name="date_receipt"/>
+                                <field name="uom_id" required="1"/>
+                                <field name="product_qty"/>
+                                <field name="picking_type_id" required="1"/>
+                            </group>
+                        </group>
+                        <group string="Donor data">
+                            <group>
+                                <field name="donor_name"/>
+                                <field name="phone_number"/>
+                                <field name="address"/>
+                                <field name="description"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="images">
+                                <group>
+                                    <group>
+                                        <field name="image_1" widget="image"/>
+                                        <field name="image_2" widget="image"/>
+                                    </group>
+                                    <group>
+                                        <field name="image_3" widget="image"/>
+                                        <field name="image_4" widget="image"/>
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+        <!--##########################################-->
+        <!-- appliances furniture -->
+        <record model="ir.ui.view" id="appliances_furniture_tree">
+            <field name="name">appliances.furniture.tree</field>
+            <field name="model">appliances.furniture</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="benefit_id"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+        <record id="appliances_furniture_form" model="ir.ui.view">
+            <field name="name">appliances.furniture.form</field>
+            <field name="model">appliances.furniture</field>
+            <field name="arch" type="xml">
+                <form string="Appliances Furniture">
+                    <header>
+                        <button name="action_submit" type="object" states="draft"
+                                string="submit" class="oe_highlight"/>
+                        <button name="action_approve" type="object"
+                                string="Accept" class="oe_highlight"
+                                confirm="Are you sure you want to accept  ?"
+                                attrs="{'invisible': [('state','not in',['waiting_approve'])]}"/>
+                        <button name="action_delivery" type="object"
+                                string="delivery" class="oe_highlight"
+                                confirm="Are you sure you want to delivery?"
+                                states="approve"/>
+                        <button name="action_draft" type="object"
+                                string="draft"/>
+                        <button name="action_done" type="object" states="waiting_delivery"
+                                string="Done" class="oe_highlight"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button type="object"
+                                    name="action_open_quants"
+                                    class="oe_stat_button" icon="fa-building-o">
+                                <field name="qty_available" widget="statinfo" string="On Hand"/>
+                            </button>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <!--                                <field name="benefit_id"/>-->
+                                <field name="prod_id" required="0"/>
+                                <field name="quantity" required="0"/>
+                                <field name="stock_picking_id" readonly="1" required="0"/>
+                                <field name="picking_type_id"/>
+                            </group>
+                            <group>
+                                <field name="delivery_date"/>
+                            </group>
+                        </group>
+                        <group>
+                            <!--                                <field name="barcode"/>-->
+                            <!--                            <field name="benefit_ids" widget="tree"/>-->
+                            <field name="appliances_furniture_need">
+                                <tree editable="bottom">
+                                    <field name="ap_id" invisible="1"/>
+                                    <!--                                    <field name="name"/>-->
+                                    <field name="housing_id"/>
+                                    <field name="room_id"/>
+                                    <field name="benefit_id"/>
+                                    <field name="qty" sum="qty"/>
+                                    <field name="qr_code" widget="image" options="{'size': [50, 50]}"/>
+                                    <field name="is_receive" widget="boolean_toggle"/>
+                                    <!--                                    <field name="status"/>-->
+                                </tree>
+                            </field>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+        <!--##########################################-->
+        <!-- loans -->
+        <record model="ir.ui.view" id="receive_benefit_loans_tree">
+            <field name="name">benefit.loans.tree</field>
+            <field name="model">receive.benefit.loans</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="donation_type"/>
+                    <field name="loan_amount"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+        <record id="receive_benefit_loans_form" model="ir.ui.view">
+            <field name="name">receive.benefit.loans.form</field>
+            <field name="model">receive.benefit.loans</field>
+            <field name="arch" type="xml">
+                <form string="benefit loans">
+                    <header>
+                        <button name="action_submit" type="object" states="draft"
+                                string="announced" class="oe_highlight"/>
+                        <button name="action_booked_up" type="object" states="announced"
+                                string="Booked Up" class="oe_highlight"/>
+                        <button name="action_approve" type="object" states="booked_up"
+                                string="approve" class="oe_highlight"/>
+                        <button name="action_refused" type="object" states="booked_up"
+                                string="refused" class="oe_highlight"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="donation_type" invisible="1"/>
+                                <field name="account_payment_id"/>
+                                <field name="loan_amount"/>
+                            </group>
+                            <group>
+                                <field name="number_of_installments"/>
+                                <field name="installment_value"/>
+                                <field name="receive_date"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+        <!--##########################################-->
+        <record model="ir.ui.view" id="benefit_loans_tree">
+            <field name="name">benefit.loans.tree</field>
+            <field name="model">benefit.loans</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="donation_type"/>
+                    <field name="loan_amount"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+        <record id="benefit_loans_form" model="ir.ui.view">
+            <field name="name">benefit.loans.form</field>
+            <field name="model">benefit.loans</field>
+            <field name="arch" type="xml">
+                <form string="benefit loans">
+                    <header>
+                        <button name="action_submit" type="object" states="draft"
+                                string="announced" class="oe_highlight"/>
+                        <button name="action_booked_up" type="object" states="announced"
+                                string="Booked Up" class="oe_highlight"/>
+                        <button name="action_approve" type="object" states="booked_up"
+                                string="approve" class="oe_highlight"/>
+                        <button name="action_refused" type="object" states="booked_up"
+                                string="refused" class="oe_highlight"/>
+                        <button name="action_draft" type="object"
+                                string="draft" class="oe_highlight"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="family_id"/>
+                                <field name="responsible_id" readonly="1"/>
+                                <field name="benefits_total" readonly="1"/>
+                                <field name="description"/>
+                            </group>
+                            <group>
+                                <field name="loan_amount"/>
+                                <field name="number_of_installments"/>
+                                <field name="donation_type" invisible="1"/>
+                                <field name="installment_value"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="payment_method_id"/>
+                                <field name="account_payment_id" readonly="1"/>
+                                <field name="journal_id"/>
+                            </group>
+                            <group>
+                                <field name="delivery_date"/>
+                                <field name="purchase_order_id" required="0"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="products">
+                                <group>
+                                    <field name="purchase_product_ids">
+                                        <tree editable="bottom">
+                                            <field name="loan_id" invisible="1"/>
+                                            <field name="product_id"/>
+                                            <field name="list_price"/>
+                                            <field name="quantity"/>
+                                            <field name="price" string="Total Price" sum="price"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+        <!--##########################################-->
+        <!-- benefit  club -->
+        <record model="ir.ui.view" id="benefit_club_tree">
+            <field name="name">benefit.club.tree</field>
+            <field name="model">benefit.club</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <!--                    <field name="donation_method"/>-->
+                    <field name="benefit_type"/>
+                    <field name="subscription_amount"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+        <record id="benefit_club_form" model="ir.ui.view">
+            <field name="name">benefit.club.form</field>
+            <field name="model">benefit.club</field>
+            <field name="arch" type="xml">
+                <form string="club">
+                    <header>
+                        <button name="action_submit" type="object" states="draft"
+                                string="Submit" class="oe_highlight"/>
+                        <button name="action_approve" type="object" states="waiting_approve"
+                                string="approve" class="oe_highlight"/>
+                        <button name="action_refused" type="object" states="waiting_approve"
+                                string="refused" class="oe_highlight"/>
+                        <button name="action_done" type="object" states="approve"
+                                string="Done" class="oe_highlight"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="open_external_request"
+                                    type="object" class="oe_stat_button" icon="fa-users">
+                                <field string="Requests" name="requests_total" widget="statinfo"/>
+                            </button>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="benefit_type"/>
+                                <field name="subscription_amount"/>
+                            </group>
+                            <group>
+                                <field name="benefit_programs" widget="many2many_tags"/>
+                                <field name="description"/>
+                                <field name="programs_type"/>
+                                <!--                                <field name="program_plane"/>-->
+                            </group>
+                        </group>
+                        <group>
+                            <field name="program_plane_ids">
+                                <tree editable="bottom">
+                                    <field name="club_id" invisible="1"/>
+                                    <field name="benefit_ids" invisible="1"/>
+                                    <field name="date_from"/>
+                                    <field name="date_to"/>
+                                    <field name="activity_type"/>
+                                    <field name="description"/>
+                                    <field name="attendees" widget="many2many_tags"/>
+                                    <field name="score"/>
+                                </tree>
+                            </field>
+                        </group>
+                        <!--                                <field name="barcode"/>-->
+                        <notebook>
+                            <page string="benefits" attrs="{'invisible': [('benefit_type','=','external')]}">
+                                <group>
+                                    <field name="benefit_ids" widget="tree"/>
+                                </group>
+                            </page>
+                            <page string="External benefit" attrs="{'invisible': [('benefit_type','=','internal')]}">
+                                <group>
+                                    <field name="external_ids" widget="tree"/>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+        <!--##########################################-->
+        <!-- External Request-->
+        <record model="ir.ui.view" id="external_request_tree">
+            <field name="name">external.request.tree</field>
+            <field name="model">external.request</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="club_id" invisible="1"/>
+                    <field name="zkat_id" invisible="1"/>
+                    <field name="external_id"/>
+                    <field name="location"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+        <record id="external_request_form" model="ir.ui.view">
+            <field name="name">external.request.form</field>
+            <field name="model">external.request</field>
+            <field name="arch" type="xml">
+                <form string="club">
+                    <header>
+                        <button name="action_accept" string="Accept" states="draft" type="object" class="oe_highlight"
+                                confirm="Are you sure you want to accept  ?"/>
+                        <button name="action_refused" string="Refuse" states="draft" type="object" class="oe_highlight"
+                                confirm="Are you sure you want to Refuse  ?"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="club_id" invisible="1"/>
+                                <field name="zkat_id" invisible="1"/>
+                                <field name="external_id"/>
+                                <field name="location"/>
+                                <field name="lat"/>
+                                <field name="lon"/>
+                            </group>
+                            <group>
+                                <field name="country_id"/>
+                                <field name="state_id"/>
+                                <field name="city_id"/>
+                                <field name="street"/>                               
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Inherit Form View to Modify it -->
+        <record id="benefit_account_payment_form" model="ir.ui.view">
+            <field name="name">benefit.account.payment</field>
+            <field name="model">account.payment</field>
+            <field name="inherit_id" ref="account.view_account_payment_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//group[1]" position="after">
+                    <!-- Add your fields or attributes here -->
+                    <group>
+                        <group>
+                            <field name="benefit_loan_id" attrs="{'invisible': [('benefit_loan_id','==',False)]}"
+                                   readonly="1"/>
+                            <field name="receive_benefit_loan_id"
+                                   attrs="{'invisible': [('receive_benefit_loan_id','==',False)]}" readonly="1"/>
+                            <field name="receive_food_basket"
+                                   attrs="{'invisible': [('receive_food_basket','==',False)]}" readonly="1"/>
+                            <field name="receive_zkat" attrs="{'invisible': [('receive_zkat','==',False)]}"
+                                   readonly="1"/>
+                        </group>
+                    </group>
+                </xpath>
+
+            </field>
+        </record>
+
+
+    </data>
+</odoo>

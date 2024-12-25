@@ -1,0 +1,1203 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Order Process</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/fontawesome-all.min.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"
+        integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+    <script type="text/javascript"
+        src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/jquery.validate.js"></script>
+    <script type="text/javascript"
+        src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/additional-methods.js"></script>
+</head>
+
+<body>
+    <div class="benifits_wrapper">
+        <div class="container">
+            <div class="stepper_header d-flex flex-wrap">
+                <div class="step d-flex flex-column align-items-center active">
+                    <img src="imgs/step_1_act.png" alt="1" />
+                    <div class="step_content">
+                        انشاء حساب
+                    </div>
+                </div>
+                <div class="step d-flex flex-column align-items-center active">
+                    <img src="imgs/step_2_act.png" alt="2" />
+                    <div class="step_content">
+                        تأكيد الحساب
+                    </div>
+                </div>
+                <div class="step d-flex flex-column align-items-center active">
+                    <img src="imgs/step_3_act.png" alt="3" />
+                    <div class="step_content">
+                        حدد شاراتك
+                    </div>
+                </div>
+                <div class="step d-flex flex-column align-items-center active">
+                    <img src="imgs/step_4_act.png" alt="4" />
+                    <div class="step_content">
+                        استكمال البيانات
+                    </div>
+                </div>
+                <div class="step d-flex flex-column align-items-center">
+                    <img src="imgs/step_5_inact.png" alt="5" />
+                    <div class="step_content">
+                        تم بنجاح
+                    </div>
+                </div>
+            </div>
+            <div class="user_reg_form">
+                <div class="code_wrapper">
+                    <form class="form-horizontal user_data_form" action="" method="POST" id="myform">
+
+                        <!-- first step data -->
+                        <fieldset id="first_step" class="step_field active">
+                            <legend>
+                                <div class="step_number">
+                                    <span class="active"> 1 </span>
+                                    من
+                                    <span class="total"> 10 </span>
+
+                                </div>
+                                من فضلك قم بتعبئة (بيانات العائل الرئيسي )
+                            </legend>
+                            <div class="row">
+                                <div class="form-group col-lg-6">
+                                    <label for="work" class="control-label">العمل</label>
+                                    <div class="">
+                                        <input type="text" class="form-control" id="work" name="work"
+                                            placeholder="كما موضح في بطاقة الهوية" />
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="workPlace" class="control-label">مكان العمل </label>
+                                    <div class="">
+                                        <input type="text" class="form-control" id="workPlace" name="workPlace" />
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="indetity" class=" control-label">أرفق الهوية </label>
+                                    <div class="attach_wrapper">
+                                        <input type="file" class="form-control" id="indetity" name="indetity" />
+                                        <input type="text" class="form-control" />
+                                        <img src="imgs/attatch.png" alt="attach" />
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="identity_date" class=" control-label"> تاريخ انتهاء الهوية </label>
+                                    <div class="">
+                                        <input type="date" class="form-control" id="identity_date" name="identity_date">
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="myCity" class=" control-label"> الحالة الاجتماعية </label>
+                                    <select id="myCity" class="custom-select">
+                                        <option selected>اعزب</option>
+                                        <option value="1">متزوج </option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="bank" class=" control-label"> اسم البنك </label>
+                                    <div class="">
+                                        <input type="text" class="form-control" id="bank" name="bank">
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="" class=" control-label"> ارفاق شهادة لحساب البنك </label>
+                                    <div class="attach_wrapper">
+                                        <input type="file" class="form-control" id="" name="">
+                                        <input type="text" />
+                                        <img src="imgs/attatch.png" alt="attach">
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="" class=" control-label"> رقم ايبان البنك </label>
+                                    <div class="">
+                                        <input type="text" class="form-control" id="" name="">
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="" class=" control-label"> اسم المستفيد في البنك</label>
+                                    <div class="">
+                                        <input type="text" class="form-control" id="" name="">
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="" class=" control-label"> ترميز رقم الملف </label>
+                                    <div class="">
+                                        <input type="text" class="form-control" id="" name="">
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="" class=" control-label"> عدد التابعين داخل المنزل </label>
+                                    <div class="">
+                                        <input type="text" class="form-control" id="" name="">
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="" class=" control-label"> عدد التابعين خارج المنزل </label>
+                                    <div class="">
+                                        <input type="text" class="form-control" id="" name="">
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="" class=" control-label"> صك الاعانة </label>
+                                    <div class="">
+                                        <input type="text" class="form-control" id="" name="">
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="" class=" control-label">ارفاق صك الاعانة </label>
+                                    <div class="attach_wrapper">
+                                        <input type="file" class="form-control" id="" name="">
+                                        <input type="text" />
+                                        <img src="imgs/attatch.png" alt="attach">
+                                    </div>
+                                </div>
+                            </div>
+                            <p><a class="btn btn-primary next">التالي</a></p>
+                        </fieldset>
+
+                        <!-- Home information -->
+
+                        <fieldset id="home_information" class="step_field ">
+                            <legend>
+                                <div class="step_number">
+                                    <span class="active"> 2 </span>
+                                    من
+                                    <span class="total"> 10 </span>
+
+                                </div>
+                                من فضلك قم بتعبئة (بيانات السكن )
+                            </legend>
+                            <div class="row">
+                                <div class="form-group col-lg-6">
+                                    <label for="work" class="control-label">المدينة</label>
+                                    <div class="">
+                                        <select id="city" class="custom-select">
+                                            <option selected="selected">1</option>
+                                            <option value="1">2 </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="place" class="control-label"> الحي </label>
+                                    <div class="">
+                                        <select id="place" class="custom-select">
+                                            <option selected="selected">1</option>
+                                            <option value="1">2 </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="street" class=" control-label"> الشارع</label>
+                                    <div class="">
+                                        <input type="text" class="form-control" id="street" name="bank">
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="status" class=" control-label"> حالة السكن </label>
+                                    <div class="">
+                                        <select id="status" name="status" class="custom-select">
+                                            <option selected="selected">1</option>
+                                            <option value="1">2 </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="floor" class=" control-label"> الدور </label>
+                                    <div class="">
+                                        <select id="floor" name="status" class="custom-select">
+                                            <option selected="selected">1</option>
+                                            <option value="1">2 </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="flat_number" class=" control-label"> رقم الوحدة السكنية </label>
+                                    <select id="flat_number" class="custom-select">
+                                        <option selected>اعزب</option>
+                                        <option value="1">متزوج </option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="bank" class=" control-label"> الموقع على الخريطة </label>
+                                    <div class="">
+                                        <input type="text" class="form-control" id="bank" name="bank">
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="" class=" control-label"> ارفاق صورة السكن </label>
+                                    <div class="attach_wrapper">
+                                        <input type="file" class="form-control" id="" name="">
+                                        <input type="text" />
+                                        <img src="imgs/attatch.png" alt="attach">
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="home_type" class=" control-label"> نوع السكن </label>
+                                    <div class="">
+                                        <select id="home_type" class="custom-select">
+                                            <option selected>1</option>
+                                            <option value="1">2 </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="owner_type" class=" control-label"> نوع الملكية </label>
+                                    <div class="">
+                                        <select id="owner_type" class="custom-select">
+                                            <option selected>1</option>
+                                            <option value="1">2 </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="" class=" control-label"> رقم حساب فاتورة المياه </label>
+                                    <div class="">
+                                        <input type="text" class="form-control" id="" name="">
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="water_bill" class=" control-label">ارفاق فاتورة المياه </label>
+                                    <div class="attach_wrapper">
+                                        <input type="file" class="form-control" id="" name="">
+                                        <input type="text" />
+                                        <img src="imgs/attatch.png" alt="attach">
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="" class=" control-label"> رقم حساب فاتورة الكهرباء </label>
+                                    <div class="">
+                                        <input type="text" class="form-control" id="" name="">
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="elect_bill" class=" control-label">ارفاق فاتورة الكهرباء </label>
+                                    <div class="attach_wrapper">
+                                        <input type="file" class="form-control" id="" name="">
+                                        <input type="text" />
+                                        <img src="imgs/attatch.png" alt="attach">
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="owner_type" class=" control-label"> ملائمة عدد الغرف لعدد الأفراد
+                                    </label>
+                                    <div class="">
+                                        <select id="owner_type" class="custom-select">
+                                            <option selected>1</option>
+                                            <option value="1">2 </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="" class=" control-label"> مساحة الغرفة </label>
+                                    <div class="">
+                                        <input type="text" class="form-control" id="" name="">
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="owner_type" class=" control-label"> حالة الغرفة </label>
+                                    <div class="">
+                                        <select id="owner_type" class="custom-select">
+                                            <option selected>1</option>
+                                            <option value="1">2 </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="owner_type" class=" control-label"> الموجودات </label>
+                                    <div class="">
+                                        <select id="owner_type" class="custom-select">
+                                            <option selected>1</option>
+                                            <option value="1">2 </option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <p><a class="btn btn-primary next">التالي</a></p>
+                        </fieldset>
+
+                        <!-- the benefits information -->
+                        <fieldset id="step_3" class="step_field">
+                            <legend>
+                                <div class="step_number">
+                                    <span class="active"> 3 </span>
+                                    من
+                                    <span class="total"> 10 </span>
+
+                                </div>
+                                من فضلك قم بتعبئة ( بيانات التابع للمستفيد)
+                            </legend>
+                            <div class="row">
+                                <div class="form-group col-lg-6">
+                                    <label for="work" class="control-label">اسم التابع</label>
+                                    <div class="">
+                                        <input type="text" name="" id="">
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="place" class="control-label"> نوع التابع </label>
+                                    <div class="">
+                                        <select id="place" class="custom-select">
+                                            <option selected="selected">1</option>
+                                            <option value="1">2 </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="name"> الجنس </label>
+                                    <div class="gender d-flex">
+                                        <div class="mail d-flex align-items-center">
+                                            <input class="d-inline-block w-auto" type="radio" checked name="gender"
+                                                value="mail" id="mail">
+                                            <label class="mb-0"> ذكر </label>
+                                        </div>
+                                        <div class="femail d-flex align-items-center">
+                                            <input class="d-inline-block w-auto" type="radio" name="gender"
+                                                value="femail" id="femail">
+                                            <label class="mb-0"> انثى </label>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="status" class=" control-label"> تاريخ الميلاد </label>
+                                    <div class="">
+                                        <input type="date" name="" id="">
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="floor" class=" control-label"> الراتب </label>
+                                    <div class="">
+                                        <select id="floor" name="status" class="custom-select">
+                                            <option selected="selected">1</option>
+                                            <option value="1">2 </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="flat_number" class=" control-label"> نوع الراتب</label>
+                                    <select id="flat_number" class="custom-select">
+                                        <option selected>اعزب</option>
+                                        <option value="1">متزوج </option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="bank" class=" control-label"> قيمة الراتب </label>
+                                    <div class="">
+                                        <input type="text" class="form-control" id="bank" name="bank">
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="" class=" control-label"> ارفاق ثابت الراتب </label>
+                                    <div class="attach_wrapper">
+                                        <input type="file" class="form-control" id="" name="">
+                                        <input type="text" />
+                                        <img src="imgs/attatch.png" alt="attach">
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="name"> هل يسكن مع العائلة ؟ </label>
+                                    <div class="gender d-flex">
+                                        <div class="mail d-flex align-items-center">
+                                            <input class="d-inline-block w-auto" type="radio" checked name="gender"
+                                                value="mail" id="mail">
+                                            <label class="mb-0"> نعم </label>
+                                        </div>
+                                        <div class="femail d-flex align-items-center">
+                                            <input class="d-inline-block w-auto" type="radio" name="gender"
+                                                value="femail" id="femail">
+                                            <label class="mb-0"> لا </label>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="name"> هل هو مستفيد من جمعيات اخرى ؟ </label>
+                                    <div class="gender d-flex">
+                                        <div class="mail d-flex align-items-center">
+                                            <input class="d-inline-block w-auto" type="radio" checked name="gender"
+                                                value="mail" id="mail">
+                                            <label class="mb-0"> نعم </label>
+                                        </div>
+                                        <div class="femail d-flex align-items-center">
+                                            <input class="d-inline-block w-auto" type="radio" name="gender"
+                                                value="femail" id="femail">
+                                            <label class="mb-0"> لا </label>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="home_type" class=" control-label"> اسم الجمعية </label>
+                                    <div class="">
+                                        <input type="text" name="" id="">
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="owner_type" class=" control-label"> نوع الدعم </label>
+                                    <div class="">
+                                        <select id="owner_type" class="custom-select">
+                                            <option selected>1</option>
+                                            <option value="1">2 </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="" class=" control-label"> قيمة الدعم </label>
+                                    <div class="">
+                                        <input type="text" class="form-control" id="" name="">
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="water_bill" class=" control-label">شرح الدعم </label>
+                                    <div class="">
+                                        <input type="text" class="form-control" id="" name="water_bill">
+                                    </div>
+                                </div>
+                            </div>
+                            <p><a class="btn btn-primary next">التالي</a></p>
+                        </fieldset>
+                        <!-- the funds information -->
+                        <fieldset id="step_4" class="step_field ">
+                            <legend>
+                                <div class="step_number">
+                                    <span class="active"> 4 </span>
+                                    من
+                                    <span class="total"> 10 </span>
+
+                                </div>
+                                من فضلك قم بتعبئة ( بيانات المصروفات )
+                            </legend>
+                            <div class="row">
+                                <div class="form-group col-lg-6">
+                                    <label for="work" class="control-label"> نوع المصروف </label>
+                                    <div class="d-flex add_wrapper ">
+                                        <select style="margin-inline-end:8px" id="place" class="custom-select">
+                                            <option selected="selected">1</option>
+                                            <option value="1">2 </option>
+                                        </select>
+                                        <button type="button" class="btn btn-primary" data-toggle="modal"
+                                            data-target="#exampleModal">
+                                            <img src="imgs/Icon awesome-plus.png" alt="">
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="place" class="control-label"> الاعتماد </label>
+                                    <div class="">
+                                        <select id="place" class="custom-select">
+                                            <option selected="selected">1</option>
+                                            <option value="1">2 </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="name"> نوع الرسوم </label>
+                                    <div class="">
+                                        <input type="text" name="" id="">
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="status" class=" control-label"> قيمة الرسوم </label>
+                                    <div class="">
+                                        <input type="text" name="" id="">
+                                    </div>
+                                </div>
+                                <legend>
+
+                                    من فضلك قم بتعبئة ( بيانات المصروفات العلاجية)
+                                </legend>
+                                <div class="form-group col-lg-6">
+                                    <label for="work" class="control-label"> نوع المصروف </label>
+                                    <div class="d-flex add_wrapper ">
+                                        <select style="margin-inline-end:8px" id="place" class="custom-select">
+                                            <option selected="selected">1</option>
+                                            <option value="1">2 </option>
+                                        </select>
+                                        <button type="button" class="btn btn-primary" data-toggle="modal"
+                                            data-target="#exampleModal">
+                                            <img src="imgs/Icon awesome-plus.png" alt="">
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="place" class="control-label"> الاعتماد </label>
+                                    <div class="">
+                                        <select id="place" class="custom-select">
+                                            <option selected="selected">1</option>
+                                            <option value="1">2 </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-12">
+                                    <label for="" class="control-label"> نوع الدواء </label>
+                                    <input type="text" name="" id="">
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="" class="control-label"> المرض </label>
+                                    <input type="text" name="" id="">
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="" class="control-label"> قيمة الرسوم </label>
+                                    <input type="text" name="" id="">
+                                </div>
+
+                            </div>
+                            <p><a class="btn btn-primary next">التالي</a></p>
+                        </fieldset>
+
+                        <!-- transport funds -->
+                        <fieldset id="step_5" class="step_field  ">
+                            <legend>
+                                <div class="step_number">
+                                    <span class="active"> 5 </span>
+                                    من
+                                    <span class="total"> 10 </span>
+
+                                </div>
+                                من فضلك قم بتعبئة ( بيانات مصروفات المواصلات )
+                            </legend>
+                            <div class="row">
+                                <div class="form-group col-lg-6">
+                                    <label for="work" class="control-label"> نوع المصروف </label>
+                                    <div class="d-flex add_wrapper ">
+                                        <select style="margin-inline-end:8px" id="place" class="custom-select">
+                                            <option selected="selected">1</option>
+                                            <option value="1">2 </option>
+                                        </select>
+                                        <button type="button" class="btn btn-primary" data-toggle="modal"
+                                            data-target="#exampleModal">
+                                            <img src="imgs/Icon awesome-plus.png" alt="">
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="place" class="control-label"> الاعتماد </label>
+                                    <div class="">
+                                        <select id="place" class="custom-select">
+                                            <option selected="selected">1</option>
+                                            <option value="1">2 </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="name">نوع التنقلات</label>
+                                    <div class="">
+                                        <input type="text" name="" id="">
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="status" class=" control-label"> قيمة المصروف </label>
+                                    <div class="">
+                                        <input type="text" name="" id="">
+                                    </div>
+                                </div>
+                                <legend>
+
+                                    من فضلك قم بتعبئة (بيانات مصروفات الديون)
+                                </legend>
+                                <div class="form-group col-lg-6">
+                                    <label for="work" class="control-label"> نوع المصروف </label>
+                                    <div class="d-flex add_wrapper ">
+                                        <select style="margin-inline-end:8px" id="place" class="custom-select">
+                                            <option selected="selected">1</option>
+                                            <option value="1">2 </option>
+                                        </select>
+                                        <button type="button" class="btn btn-primary" data-toggle="modal"
+                                            data-target="#exampleModal">
+                                            <img src="imgs/Icon awesome-plus.png" alt="">
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="place" class="control-label"> الاعتماد </label>
+                                    <div class="">
+                                        <select id="place" class="custom-select">
+                                            <option selected="selected">1</option>
+                                            <option value="1">2 </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="" class="control-label"> سبب الدين </label>
+                                    <input type="text" name="" id="">
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="" class="control-label"> قيمة الدين </label>
+                                    <input type="text" name="" id="">
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="" class="control-label"> نوع الدين </label>
+                                    <div class="">
+                                        <select id="place" class="custom-select">
+                                            <option selected="selected">1</option>
+                                            <option value="1">2 </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="" class="control-label"> الوقت </label>
+                                    <input type="text" name="" id="">
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="" class="control-label"> التقسيط </label>
+                                    <input type="text" name="" id="">
+                                </div>
+
+                                <div class="form-group col-lg-6">
+                                    <label for="indetity" class=" control-label">إرفاق مستند اثبات الدين</label>
+                                    <div class="attach_wrapper">
+                                        <input type="file" class="form-control" id="indetity" name="indetity" />
+                                        <input type="text" class="form-control" />
+                                        <img src="imgs/attatch.png" alt="attach" />
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-12">
+                                    <label for="" class="control-label"> شرح الدين </label>
+                                    <input type="text" name="" id="">
+                                </div>
+                            </div>
+                            <p><a class="btn btn-primary next">التالي</a></p>
+                        </fieldset>
+                        <!-- funds -->
+                        <fieldset id="step_6" class="step_field">
+                            <legend>
+                                <div class="step_number">
+                                    <span class="active"> 6 </span>
+                                    من
+                                    <span class="total"> 10 </span>
+
+                                </div>
+                                من فضلك قم بتعبئة (بيانات مصروفات الجوائح )
+                            </legend>
+                            <div class="row">
+                                <div class="form-group col-lg-6">
+                                    <label for="work" class="control-label"> نوع المصروف </label>
+                                    <div class="d-flex add_wrapper ">
+                                        <select style="margin-inline-end:8px" id="place" class="custom-select">
+                                            <option selected="selected">1</option>
+                                            <option value="1">2 </option>
+                                        </select>
+                                        <button type="button" class="btn btn-primary" data-toggle="modal"
+                                            data-target="#exampleModal">
+                                            <img src="imgs/Icon awesome-plus.png" alt="">
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="place" class="control-label"> الاعتماد </label>
+                                    <div class="">
+                                        <select id="place" class="custom-select">
+                                            <option selected="selected">1</option>
+                                            <option value="1">2 </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="name">نوع الجائحة </label>
+                                    <div class="">
+                                        <input type="text" name="" id="">
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="status" class=" control-label"> القيمة </label>
+                                    <div class="">
+                                        <input type="text" name="" id="">
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="work" class="control-label">شرح الجائحة </label>
+                                    <div class="">
+                                        <input type="text" name="" id="">
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="indetity" class=" control-label"> إرفاق مستند اثبات الجائحة</label>
+                                    <div class="attach_wrapper">
+                                        <input type="file" class="form-control" id="indetity" name="indetity" />
+                                        <input type="text" class="form-control" />
+                                        <img src="imgs/attatch.png" alt="attach" />
+                                    </div>
+                                </div>
+                                <legend>
+                                    من فضلك قم بتعبئة (بيانات مصروفات المعيشية )
+                                </legend>
+                                <div class="form-group col-lg-6">
+                                    <label for="work" class="control-label"> نوع المصروف </label>
+                                    <div class="d-flex add_wrapper ">
+                                        <select style="margin-inline-end:8px" id="place" class="custom-select">
+                                            <option selected="selected">1</option>
+                                            <option value="1">2 </option>
+                                        </select>
+                                        <button type="button" class="btn btn-primary" data-toggle="modal"
+                                            data-target="#exampleModal">
+                                            <img src="imgs/Icon awesome-plus.png" alt="">
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="place" class="control-label"> الاعتماد </label>
+                                    <div class="">
+                                        <select id="place" class="custom-select">
+                                            <option selected="selected">1</option>
+                                            <option value="1">2 </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="name"> هل له طعام او لباس خاص ؟</label>
+                                    <div class="gender d-flex">
+                                        <div class="mail d-flex align-items-center">
+                                            <input class="d-inline-block w-auto" type="radio" checked name="gender"
+                                                value="mail" id="mail">
+                                            <label class="mb-0"> نعم </label>
+                                        </div>
+                                        <div class="femail d-flex align-items-center">
+                                            <input class="d-inline-block w-auto" type="radio" name="gender"
+                                                value="femail" id="femail">
+                                            <label class="mb-0"> لا </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="place" class="control-label"> نوع المصروف </label>
+                                    <div class="">
+                                        <input type="text" name="" id="">
+                                    </div>
+                                </div>
+                            </div>
+                            <p><a class="btn btn-primary next">التالي</a></p>
+                        </fieldset>
+                        <!-- العائل الرئيسي -->
+                        <fieldset id="step_7" class="step_field ">
+                            <legend>
+                                <div class="step_number">
+                                    <span class="active"> 7</span>
+                                    من
+                                    <span class="total"> 10 </span>
+
+                                </div>
+                                من فضلك قم بتعبئة (بيانات مصروفات الجوائح )
+                            </legend>
+                            <div class="row">
+                                <div class="form-group col-lg-12">
+                                    <label for="name"> هل المستفيد متعلم ؟</label>
+                                    <div class="gender d-flex">
+                                        <div class="mail d-flex align-items-center">
+                                            <input class="d-inline-block w-auto" type="radio" checked name="gender"
+                                                value="mail" id="mail">
+                                            <label class="mb-0"> نعم </label>
+                                        </div>
+                                        <div class="femail d-flex align-items-center">
+                                            <input class="d-inline-block w-auto" type="radio" name="gender"
+                                                value="femail" id="femail">
+                                            <label class="mb-0"> لا </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-12">
+                                    <label for="work" class="control-label"> نوع المصروف </label>
+                                    <div class="d-flex add_wrapper ">
+                                        <select style="margin-inline-end:8px" id="place" class="custom-select">
+                                            <option selected="selected">1</option>
+                                            <option value="1">2 </option>
+                                        </select>
+                                        <button type="button" class="btn btn-primary" data-toggle="modal"
+                                            data-target="#exampleModal">
+                                            <img src="imgs/Icon awesome-plus.png" alt="">
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="place" class="control-label"> الاعتماد </label>
+                                    <div class="">
+                                        <select id="place" class="custom-select">
+                                            <option selected="selected">غير معتمد </option>
+                                            <option value="1">2 </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="place" class="control-label"> مدة تكرار المصروف </label>
+                                    <div class="">
+                                        <select id="place" class="custom-select">
+                                            <option selected="selected">شهري</option>
+                                            <option value="1">2 </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <legend>
+                                    من فضلك قم بتعبئة ( بياناتك بالجهة التعليمية )
+                                </legend>
+                                <div class="form-group col-lg-6">
+                                    <label for="place" class="control-label"> المرحلة </label>
+                                    <div class="">
+                                        <select id="place" class="custom-select">
+                                            <option selected="selected">1</option>
+                                            <option value="1">2 </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="place" class="control-label"> الصف الدراسي </label>
+                                    <div class="">
+                                        <input type="text" value="2" name="" id="">
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="place" class="control-label"> معلومات الجهة التعليمية </label>
+                                    <div class="">
+                                        <input type="text" value="2" name="" id="">
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="indetity" class=" control-label">تقاريرالجهة التعليمية </label>
+                                    <div class="attach_wrapper">
+                                        <input type="file" class="form-control" id="indetity" name="indetity" />
+                                        <input type="text" class="form-control" />
+                                        <img src="imgs/attatch.png" alt="attach" />
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="work" class="control-label"> التخصص التعليمي </label>
+                                    <div class="d-flex add_wrapper ">
+                                        <select style="margin-inline-end:8px" id="place" class="custom-select">
+                                            <option selected="selected">1</option>
+                                            <option value="1">2 </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="indetity" class=" control-label"> إرفاق مستند الدراسة </label>
+                                    <div class="attach_wrapper">
+                                        <input type="file" class="form-control" id="indetity" name="indetity" />
+                                        <input type="text" class="form-control" />
+                                        <img src="imgs/attatch.png" alt="attach" />
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="place" class="control-label"> حالة الدراسة </label>
+                                    <div class="">
+                                        <select id="place" class="custom-select">
+                                            <option selected="selected">1</option>
+                                            <option value="1">2 </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="place" class="control-label"> حالة التخرج </label>
+                                    <div class="">
+                                        <input type="text" name="" id="">
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="place" class="control-label"> تاريخ التخرج </label>
+                                    <div class="">
+                                        <input type="text" name="" id="">
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="place" class="control-label"> تاريخ الانقطاع </label>
+                                    <div class="">
+                                        <input type="text" name="" id="">
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="place" class="control-label"> اسباب الانقطاع </label>
+                                    <div class="">
+                                        <input type="text" name="" id="">
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="indetity" class=" control-label"> السجل الأكاديمي </label>
+                                    <div class="attach_wrapper">
+                                        <input type="file" class="form-control" id="indetity" name="indetity" />
+                                        <input type="text" class="form-control" />
+                                        <img src="imgs/attatch.png" alt="attach" />
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="indetity" class=" control-label"> كشف الدرجات </label>
+                                    <div class="attach_wrapper">
+                                        <input type="file" class="form-control" id="indetity" name="indetity" />
+                                        <input type="text" class="form-control" />
+                                        <img src="imgs/attatch.png" alt="attach" />
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="place" class="control-label"> المعدل </label>
+                                    <div class="">
+                                        <input type="text" name="" id="">
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="name"> هل ملحق بجهات تحفيظ قرآن ؟</label>
+                                    <div class="gender d-flex">
+                                        <div class="mail d-flex align-items-center">
+                                            <input class="d-inline-block w-auto" type="radio" checked name="gender"
+                                                value="mail" id="mail">
+                                            <label class="mb-0"> نعم </label>
+                                        </div>
+                                        <div class="femail d-flex align-items-center">
+                                            <input class="d-inline-block w-auto" type="radio" name="gender"
+                                                value="femail" id="femail">
+                                            <label class="mb-0"> لا </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="place" class="control-label"> اسم الجهة </label>
+                                    <div class="">
+                                        <input type="text" name="" id="">
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="place" class="control-label"> عدد أجزاء الحفظ </label>
+                                    <div class="">
+                                        <input type="text" name="" id="">
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="name"> برامج علمية اخرى ؟</label>
+                                    <div class="gender d-flex">
+                                        <div class="mail d-flex align-items-center">
+                                            <input class="d-inline-block w-auto" type="radio" checked name="gender"
+                                                value="mail" id="mail">
+                                            <label class="mb-0"> نعم </label>
+                                        </div>
+                                        <div class="femail d-flex align-items-center">
+                                            <input class="d-inline-block w-auto" type="radio" name="gender"
+                                                value="femail" id="femail">
+                                            <label class="mb-0"> لا </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-12">
+                                    <label for="place" class="control-label"> المجال او التخصص </label>
+                                    <div class="">
+                                        <select id="place" class="custom-select">
+                                            <option selected="selected">1</option>
+                                            <option value="1">2 </option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <p><a class="btn btn-primary next">التالي</a></p>
+                        </fieldset>
+                        <!-- funds -->
+                        <fieldset id="step_8" class="step_field  ">
+                            <legend>
+                                <div class="step_number">
+                                    <span class="active"> 8 </span>
+                                    من
+                                    <span class="total"> 10 </span>
+
+                                </div>
+                                من فضلك قم بتعبئة ( بيانات مصروفات الملابس )
+                            </legend>
+                            <div class="row">
+                                <div class="form-group col-lg-6">
+                                    <label for="work" class="control-label"> نوع المصروف </label>
+                                    <div class="d-flex add_wrapper ">
+                                        <select style="margin-inline-end:8px" id="place" class="custom-select">
+                                            <option selected="selected">1</option>
+                                            <option value="1">2 </option>
+                                        </select>
+                                        <button type="button" class="btn btn-primary" data-toggle="modal"
+                                            data-target="#exampleModal">
+                                            <img src="imgs/Icon awesome-plus.png" alt="">
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="place" class="control-label"> الاعتماد </label>
+                                    <div class="">
+                                        <select id="place" class="custom-select">
+                                            <option selected="selected">1</option>
+                                            <option value="1">2 </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-12">
+                                    <label for="place" class="control-label"> مدة تكرار المصروف </label>
+                                    <div class="">
+                                        <select id="place" class="custom-select">
+                                            <option selected="selected">1</option>
+                                            <option value="1">2 </option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <legend>
+                                    من فضلك قم بتعبئة ( بيانات مقاسات الملابس والاحذية )
+                                </legend>
+                                <div class="form-group col-lg-6">
+                                    <label for="work" class="control-label"> نوع الملابس </label>
+                                    <div class="d-flex add_wrapper ">
+                                        <select style="margin-inline-end:8px" id="place" class="custom-select">
+                                            <option selected="selected">1</option>
+                                            <option value="1">2 </option>
+                                        </select>
+                                        <button type="button" class="btn btn-primary" data-toggle="modal"
+                                            data-target="#exampleModal">
+                                            <img src="imgs/Icon awesome-plus.png" alt="">
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="place" class="control-label"> المقاس </label>
+                                    <div class="">
+                                        <select id="place" class="custom-select">
+                                            <option selected="selected">1</option>
+                                            <option value="1">2 </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <legend>
+                                    من فضلك قم بتعبئة ( البيانات الصحية )
+                                </legend>
+
+                                <div class="form-group col-lg-6">
+                                    <label for="name"> هل لديه أمراض ؟</label>
+                                    <div class="gender d-flex">
+                                        <div class="mail d-flex align-items-center">
+                                            <input class="d-inline-block w-auto" type="radio" checked name="gender"
+                                                value="mail" id="mail">
+                                            <label class="mb-0"> نعم </label>
+                                        </div>
+                                        <div class="femail d-flex align-items-center">
+                                            <input class="d-inline-block w-auto" type="radio" name="gender"
+                                                value="femail" id="femail">
+                                            <label class="mb-0"> لا </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="place" class="control-label"> نوع المرض </label>
+                                    <div class="">
+                                        <select id="place" class="custom-select">
+                                            <option selected="selected">1</option>
+                                            <option value="1">2 </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="place" class="control-label">العلاج المستخدم</label>
+                                    <div class="">
+                                        <input type="text" name="" id="">
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="place" class="control-label"> التكلفة</label>
+                                    <div class="">
+                                        <input type="text" name="" id="">
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="name"> هل يصرف من الدولة ؟</label>
+                                    <div class="gender d-flex">
+                                        <div class="mail d-flex align-items-center">
+                                            <input class="d-inline-block w-auto" type="radio" checked name="gender"
+                                                value="mail" id="mail">
+                                            <label class="mb-0"> نعم </label>
+                                        </div>
+                                        <div class="femail d-flex align-items-center">
+                                            <input class="d-inline-block w-auto" type="radio" name="gender"
+                                                value="femail" id="femail">
+                                            <label class="mb-0"> لا </label>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="place" class="control-label"> الكمية في الشهر</label>
+                                    <div class="">
+                                        <input type="text" name="" id="">
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="place" class="control-label"> شرح</label>
+                                    <div class="">
+                                        <input type="text" name="" id="">
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="" class=" control-label"> إرفاق مستند اثبات المرض</label>
+                                    <div class="attach_wrapper">
+                                        <input type="file" class="form-control" id="" name="">
+                                        <input type="text" />
+                                        <img src="imgs/attatch.png" alt="attach">
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="name"> هل لديه إعاقة ؟</label>
+                                    <div class="gender d-flex">
+                                        <div class="mail d-flex align-items-center">
+                                            <input class="d-inline-block w-auto" type="radio" checked name="gender"
+                                                value="mail" id="mail">
+                                            <label class="mb-0"> نعم </label>
+                                        </div>
+                                        <div class="femail d-flex align-items-center">
+                                            <input class="d-inline-block w-auto" type="radio" name="gender"
+                                                value="femail" id="femail">
+                                            <label class="mb-0"> لا </label>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="place" class="control-label"> نوع الإعاقة </label>
+                                    <div class="">
+                                        <select id="place" class="custom-select">
+                                            <option selected="selected">1</option>
+                                            <option value="1">2 </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="place" class="control-label"> المستلزمات الخاصة </label>
+                                    <div class="">
+                                        <input type="text" name="" id="">
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <label for="" class=" control-label"> إرفاق ملف المعاق في الجهات الحكومية</label>
+                                    <div class="attach_wrapper">
+                                        <input type="file" class="form-control" id="" name="">
+                                        <input type="text" />
+                                        <img src="imgs/attatch.png" alt="attach">
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-12">
+                                    <label for="place" class="control-label"> الدعم الذي يتلقاه من الدولة</label>
+                                    <div class="">
+                                        <input type="text" name="" id="">
+                                    </div>
+                                </div>
+                            </div>
+                            <p><a class="btn btn-primary next">التالي</a></p>
+                        </fieldset>
+
+                    </form>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/stepper.js"></script>
+    <script src="js/main.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record id="view_khawald_task_form2__custom" model="ir.ui.view">
+        <field name="name">khawald.project.task.custom</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_form2"/>
+        <field name="arch" type="xml">
+            
+            <xpath expr="//field[@name='project_id']" position="after">
+                <field name="days" required="1"/>
+                <field name="completion_rate" />
+            </xpath>
+            <xpath expr="//field[@name='project_id']" position="after">
+                <field name="project_type_id" readonly="1" attrs="{'invisible':[('project_type_id','=',False)]}"/>
+                <field name="project_task_id" readonly="1" attrs="{'invisible':[('project_task_id','=',False)]}"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

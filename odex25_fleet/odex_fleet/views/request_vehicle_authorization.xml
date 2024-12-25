@@ -1,0 +1,118 @@
+<odoo>
+
+
+    <record id='fleet_request_vehicle_authorization_action_form' model='ir.ui.view'>
+        <field name="name">fleet.request.vehicle.authorization.form</field>
+        <field name="model">request.vehicle.authorization</field>
+        <field name="arch" type="xml">
+            <form string="Vehicle">
+                <header>
+                    <button name="action_confirm" string="Confirm" type="object" class="oe_highlight"
+                            states="draft" attrs="{'invisible': [('state', '!=', 'draft')]}"
+                            groups="odex_fleet.group_hr_user,odex_fleet.group_fleet_tool,odex_fleet.group_direct_manager"/>
+
+                    <button name="direct_manager" string="Direct manager" type="object" class="oe_highlight"
+                            states="confirm" groups="odex_fleet.group_direct_manager,odex_fleet.group_fleet_tool"/>
+
+                    <button name="action_refuse" type="object" states="confirm"
+                            class="oe_highlight" string="Refuse"
+                            groups="odex_fleet.group_direct_manager,odex_fleet.group_fleet_tool"/>
+
+                    <button name="fleet_tool" string="Fleet tool" type="object" class="oe_highlight"
+                            states="direct_manager" groups="odex_fleet.group_fleet_tool"/>
+
+                    <button name="action_refuse" type="object" states="direct_manager"
+                            class="oe_highlight" string="Refuse" ttrs="{'invisible': [('state', '=', 'fleet_tool')]}"
+                            groups="odex_fleet.group_fleet_tool"/>
+
+
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="from_hr_depart" string="Another Employee"/>
+                        </group>
+                        <group col="4" colspan="2" string="Employee Information">
+                            <field name="employee_id" string="Employee Name"
+                                   attrs="{'readonly': [('from_hr_depart', '=', False), ('state', '!=', 'draft')]}"/>
+                            <field name="license_type"
+                                   attrs="{'readonly': [('license_type', '!=', False), ('state', '!=', 'draft')]}"/>
+                            <field name="license_start"
+                                   attrs="{'readonly': [('license_start', '!=', False), ('state', '!=', 'draft')]}"/>
+                            <field name="license_end"
+                                   attrs="{'readonly': [('license_end', '!=', False), ('state', '!=', 'draft')]}"/>
+                            <field name="license_number"
+                                   attrs="{'readonly': [('license_number', '!=', False), ('state', '!=', 'draft')]}"/>
+
+                            <!--                            <field name="custody_id" invisible="1"/>-->
+                            <field name="depart_id" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            <field name="driver" invisible="1"/>
+                        </group>
+                        <div class="oe_title">
+                            <label for="vehicle_id" class="oe_edit_only"/>
+                            <h2>
+                                <field name="vehicle_id" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="name" invisible="1"/>
+                            </h2>
+                        </div>
+                        <group col="4" colspan="2" string="Vehicle Information">
+                            <field name="start_date"
+                                   attrs="{'readonly': [('state', '!=', 'draft')], 'required': [('state', '=', 'draft')]}"/>
+                            <field name="end_date"
+                                   attrs="{'readonly': [('state', '!=', 'draft')], 'required': [('state', '=', 'draft')]}"/>
+                            <field name="last_department_id" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            <field name="last_project_id" invisible="1"/>
+                            <field name="last_branch_id" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            <field name="vin_sn" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            <field name="model_id" readonly="1" force_save="1"/>
+                            <field name="license_plate" readonly="1" force_save="1"/>
+                            <field name="serial_number" readonly="1" force_save="1"/>
+                            <field name="fleet_type_id" readonly="1" force_save="1"/>
+                            <field name="first_odometer" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            <field name="odometer" readonly="1" force_save="1"/>
+                            <field name="km_number" readonly="1" force_save="1"/>
+                            <!--                            <field name="delegation_type" invisible="1"/>-->
+                        </group>
+                    </group>
+                </sheet>
+
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread" options='{"thread_level": 1}'/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id='fleet_request_vehicle_authorization_action_tree' model='ir.ui.view'>
+        <field name="name">fleet.request.vehicle.authorization.tree</field>
+        <field name="model">request.vehicle.authorization</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="employee_id"/>
+                <field name="vehicle_id"/>
+                <field name="depart_id"/>
+
+            </tree>
+        </field>
+    </record>
+
+
+    <record id='fleet_request_vehicle_authorization_action' model='ir.actions.act_window'>
+        <field name="name">Request vehicle authorization</field>
+        <field name="res_model">request.vehicle.authorization</field>
+
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Click to create a new Driver Delegation.
+            </p>
+
+        </field>
+    </record>
+
+    <menuitem action="fleet_request_vehicle_authorization_action" parent="fleet_vehicles_delegation"
+              id="request_vehicle_authorization_menu_test" sequence="5"/>
+
+</odoo>

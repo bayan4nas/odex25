@@ -1,0 +1,28 @@
+<odoo>
+    <record id="whatsapp_res_view_form" model="ir.ui.view">
+        <field name="name">whatsapp.view.form.inherit.res</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='image_1920']" position="before">
+                <div class="oe_button_box" name="button_box">
+                    <button type="object" class="oe_stat_button" style="background-color: #25D366;color: white;"
+                            name="action_send_whatsapp" icon="fa-whatsapp" string="Send by Whatsapp"/>
+                </div>
+            </xpath>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="res_list_view_inherited">
+        <field name="name">res.partner.list.view.inherited</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//tree" position="inside">
+                <header>
+                    <button type="object" class="btn-primary"
+                            name="action_whatsapp_multi" icon="fa-whatsapp" string="Send by Whatsapp"/>
+                </header>
+            </xpath>
+        </field>
+    </record>
+</odoo>

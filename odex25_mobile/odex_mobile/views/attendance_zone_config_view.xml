@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <!--        zone -->
+        <record id="attendance_zone_form" model="ir.ui.view">
+            <field name="name">attendance.zone.form</field>
+            <field name="model">attendance.zone</field>
+            <field name="arch" type="xml">
+                <form string="Attendance Zone">
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="name" class="oe_inline"/>
+                            <h2>
+                                <field name="name" />
+                            </h2>
+                        </div>
+                        <group col="4" colspan="2">
+                            <field name="latitude" attrs="{'required':[('specific','=',True)],'invisible':[('specific','=',False)]}"/>
+                            <field name="longitude" attrs="{'required':[('specific','=',True)],'invisible':[('specific','=',False)]}"/>
+                            <field name="zone" attrs="{'required':[('specific','=',True)],'invisible':[('specific','=',False)]}"/>
+                            <field name="allowed_range" attrs="{'required':[('specific','=',True)],'invisible':[('specific','=',False)]}"/>
+                            <field name="active_check" readonly="1" force_save="1" />
+                        </group>
+                        <group>
+                            <group>
+                                <field name="general"/>
+                                <field name="specific"/>
+                            </group>
+
+                            <group>
+                                <field name="loc_ch_intv" attrs="{'required':[('specific','=',True)],'invisible':[('specific','=',False)]}" class="oe_inline"/>
+                                <field name="loc_ch_dist" attrs="{'required':[('specific','=',True)],'invisible':[('specific','=',False)]}"/>
+                                <field name="srv_ch_tmout" attrs="{'required':[('specific','=',True)],'invisible':[('specific','=',False)]}"/>
+                                <field name="app_cl_tmout" attrs="{'required':[('specific','=',True)],'invisible':[('specific','=',False)]}"/>
+                                <field name="auto_checkout" />
+                            </group>
+
+                        </group>
+                        <group col="6" colspan="3">
+                            <field name="specific_period" attrs="{'invisible':[('specific','=',False)]}"/>
+                            <field name="start" attrs="{'required':[('specific_period','=',True)],'invisible':[('specific_period','=',False)]}"/>
+                            <field name="end" attrs="{'required':[('specific_period','=',True)],'invisible':[('specific_period','=',False)]}"/>
+                        </group>
+                        <group>
+                            <field name="all_employee"/>
+
+                        </group>
+                        <notebook>
+                            <page string="Employees">
+                                <field name="employee_ids"></field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="attendance_zone_tree" model="ir.ui.view">
+            <field name="name">attendance.zone.tree</field>
+            <field name="model">attendance.zone</field>
+            <field name="arch" type="xml">
+                <tree string="Attendance Zone">
+                    <field name="name" />
+                    <field name="zone"/>
+                    <field name="active_check"/>
+                </tree>
+            </field>
+        </record>
+        <record id="attendance_zone_action" model="ir.actions.act_window">
+            <field name="name">Attendance Zone</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">attendance.zone</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <!--        <menuitem-->
+        <menuitem id="menu_attendance_zone" name="Attendance Zone" parent="attendances.menu_hr_attendance_configurations" sequence="3" action="attendance_zone_action"/>
+
+
+        <!--        config-->
+        <record id="res_config_settings_view_form" model="ir.ui.view">
+            <field name="name">mobile.res.config.settings.view.form</field>
+            <field name="model">res.config.settings</field>
+            <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[hasclass('settings')]" position="inside">
+                    <div class="app_settings_block" data-string="MobileAttendance" string="Odex SS App" data-key="spl-mobile">
+                        <h2>Odex SS App</h2>
+                        <div class="row mt16 o_settings_container">
+
+                            <div class="col-xs-12 col-md-6 o_setting_box">
+                                <div class="o_setting_right_pane">
+                                    <label for="service_account"/>
+                                    <field name="service_account"/>
+                                </div>
+                            </div>
+
+                            <div class="col-xs-12 col-md-6 o_setting_box">
+                                <div class="o_setting_right_pane">
+                                    <label for="auto_checkout"/>
+                                    <div class="content-group">
+                                        <div class="mt16">
+                                            <field name="auto_checkout" readonly="0"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-xs-12 col-md-6 o_setting_box">
+                                <div class="o_setting_right_pane">
+                                    <label for="jwt_expire_days"/>
+                                    <field name="jwt_expire_days"/>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                        <div id="fcm_settings">
+                            <h2>FCM</h2>
+                            <div class="row mt16 o_settings_container">
+                                <div class="col-xs-12 col-md-6 o_setting_box">
+                                    <div class="o_setting_right_pane">
+                                        <label for="fcm_server_key"/>
+                                        <field name="fcm_server_key"/>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 col-md-6 o_setting_box">
+                                    <div class="o_setting_right_pane">
+                                        <label for="sender_id"/>
+                                        <field name="sender_id"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

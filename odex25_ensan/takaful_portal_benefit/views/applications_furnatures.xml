@@ -1,0 +1,222 @@
+<odoo>
+    <data>
+        <template id="apps_furnatures" name="apps">
+            <t t-set="title"> الأثاث و الاجهزة </t>
+            <t t-call="website.layout">
+                <div class="profile_wrapper">
+                    <div class="container">
+                        <h2 class="heading"> الأثاث و الاجهزة </h2>
+                        <div class="tab-content">
+                            <div id="general_info" class="tab-pane active">
+                                <form action="" method="POST" id="apps_fur_form"
+                                    class="general_data_form urgent_needs_form">
+                                    <div class="row">
+                                        <div class="form-group col-lg-6">
+                                            <label for="" class=" control-label"> اسم الجهاز او
+                                                الاثاث </label>
+                                            <div class="">
+                                                <input type="text" class="form-control"
+                                                    id="name" name="name" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-lg-6">
+                                            <label for="" class=" control-label"> اسم
+                                                المتبرع </label>
+                                            <div class="">
+                                                <input type="text" class="form-control"
+                                                    id="donor_name" name="donor_name" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-lg-6">
+                                            <label for="" class=" control-label"> رقم
+                                                الهاتف </label>
+                                            <div class="">
+                                                <input type="number" class="form-control"
+                                                    id="phone_number" name="phone_number" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-lg-6">
+                                            <label for="" class=" control-label"> العنوان </label>
+                                            <div class="">
+                                                <input type="text" class="form-control"
+                                                    id="address" name="address" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-lg-6">
+                                            <label for="" class=" control-label"> خط الطول </label>
+                                            <div class="position-relative">
+                                                <input type="text" class="form-control"
+                                                    id="lon" name="lon" />
+                                                <span class="setLocation"> تحديد </span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-lg-6">
+                                            <label for="" class=" control-label"> خط العرض </label>
+                                            <div class="position-relative">
+                                                <input type="text" class="form-control"
+                                                    id="lat" name="lat" />
+                                                <span class="setLocation"> تحديد </span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-lg-6">
+                                            <label for="" class=" control-label"> تاريخ الاستلام </label>
+                                            <div class="">
+                                                <input type="date" class="form-control"
+                                                    id="date_receipt" name="date_receipt" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-lg-6">
+                                            <label for="" class=" control-label"> الوحدة </label>
+                                            <div class="">
+                                                <select name="uom_id" id="uom_id" class="custom-select">
+                                                    <t t-foreach="uom_id" t-as="u">
+                                                        <option t-att-value="u.id">
+                                                            <t t-esc="u.name"/>
+                                                        </option>
+                                                    </t>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-lg-6">
+                                            <label for="" class=" control-label"> العدد </label>
+                                            <div class="">
+                                                <input type="text" class="form-control"
+                                                    id="product_qty" name="product_qty" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-lg-6">
+                                            <label for="" class=" control-label"> الحالة </label>
+                                            <div class="">
+                                                <select name="product_status" id="product_status"
+                                                    class="custom-select">
+                                                    <t t-foreach="product_status" t-as="p">
+                                                        <option t-att-value="p.id">
+                                                            <t t-esc="p.name"/>
+                                                        </option>
+                                                    </t>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-lg-6">
+                                            <label for="" class=" control-label"> الوصف </label>
+                                            <div class="">
+                                                <input type="text" class="form-control"
+                                                    id="description" name="description" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-lg-6">
+                                            <label for="indetity" class=" control-label"> صور الجهاز
+                                                او الاثاث </label>
+                                            <div class="attach_wrapper">
+                                                <input type="file" class="form-control" style="opacity: 1!important;"
+                                                    id="image_1" name="image_1" />
+                                                <img
+                                                    src="/takaful_portal_benefit/static/img/attatch.png"
+                                                    alt="attach" />
+                                            </div>
+                                            <div class="attach_wrapper">
+                                                <input type="file" class="form-control" style="opacity: 1!important;"
+                                                    id="image_2" name="image_2" />
+                                                <img
+                                                    src="/takaful_portal_benefit/static/img/attatch.png"
+                                                    alt="attach" />
+                                            </div>
+                                            <div class="attach_wrapper">
+                                                <input type="file" class="form-control" style="opacity: 1!important;"
+                                                    id="image_3" name="image_3" />
+                                                <img
+                                                    src="/takaful_portal_benefit/static/img/attatch.png"
+                                                    alt="attach" />
+                                            </div>
+                                            <div class="attach_wrapper">
+                                                <input type="file" class="form-control" style="opacity: 1!important;"
+                                                    id="image_4" name="image_4" />
+                                                <img
+                                                    src="/takaful_portal_benefit/static/img/attatch.png"
+                                                    alt="attach" />
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <button class="main_link"> تأكيد التبرع </button>
+                                        </div>
+                                        <div class="new_app"></div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- add donation_modal   -->
+                <div class="modal fade kafala_modal " id="donation_modal" tabindex="-1"
+                    role="dialog"
+                    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title heading" id="exampleModalLongTitle">تبرع
+                                    بزكاتك </h5>
+                                <button type="button" class="close" data-dismiss="modal"
+                                    aria-label="Close">
+                                    <span aria-hidden="true">
+                                        <i class="fa fa-times"></i>
+                                    </span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form action="">
+                                    <div class="row">
+                                        <div class="form-group col-lg-12">
+                                            <label for="flat_number" class=" control-label"> نوع
+                                                التبرع </label>
+                                            <select id="flat_number" class="custom-select">
+                                                <option selected="selected">نقدي</option>
+                                                <option value="1">تحويل </option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-lg-12">
+                                            <label for="motherIdentity" class="myName control-label">
+                                                المبلغ </label>
+                                            <div class="">
+                                                <input type="text" value="5000" class="form-control"
+                                                    id="motherIdentity"
+                                                    name="motherIdentity" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-lg-12">
+                                            <label for="flat_number" class=" control-label"> طريقة
+                                                الدفع </label>
+                                            <select id="flat_number" class="custom-select">
+                                                <option selected="selected">ابل باي </option>
+                                                <option value="1">بايبال </option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-lg-12">
+                                            <label for="flat_number" class=" control-label"> بطاقة
+                                                الدفع </label>
+                                            <select id="flat_number" class="custom-select">
+                                                <option selected="selected">ابل باي </option>
+                                                <option value="1">بايبال </option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-lg-12">
+                                            <div
+                                                class="d-flex align-items-center justify-content-between">
+                                                <span>الاجمالي</span>
+                                                <span>5000 ر.س</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary"> تأكيد الدفع </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- <script src="/takaful_portal_benefit/static/js/applications.js"></script> -->
+            </t>
+        </template>
+    </data>
+</odoo>

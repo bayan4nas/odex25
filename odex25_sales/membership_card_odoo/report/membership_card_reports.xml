@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Used to change the format of pdf. -->
+    <record id="paperformat_card" model="report.paperformat">
+        <field name="name">Custom Paper</field>
+        <field name="default" eval="True"/>
+        <field name="format">custom</field>
+        <field name="page_height">110</field>
+        <field name="page_width">70</field>
+        <field name="orientation">Landscape</field>
+        <field name="margin_top">5.00</field>
+        <field name="margin_bottom">5.00</field>
+        <field name="margin_left">7.0</field>
+        <field name="margin_right">7.0</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">35</field>
+        <field name="dpi">125</field>
+    </record>
+    <!--Report Action-->
+    <record id="action_membership_card" model="ir.actions.report">
+        <field name="name">Membership Card</field>
+        <field name="model">res.partner</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">membership_card_odoo.print_member_ship_card</field>
+        <field name="report_file">membership_card_odoo.print_member_ship_card</field>
+        <field name="paperformat_id"
+               ref="membership_card_odoo.paperformat_card"/>
+    </record>
+    <!-- Template to print Pdf. -->
+    <template id="print_member_ship_card">
+        <t t-call="web.html_container">
+            <t t-set="company" t-value="user.company_id"/>
+            <!-- Header -->
+            <style>
+                @font-face {font-family: "Sakkal Majalla"; src:
+                url("/membership_card_odoo/static/fonts/ce7b5754581057e6f7444e2192850cc8.eot"); src:
+                url("/membership_card_odoo/static/fonts/ce7b5754581057e6f7444e2192850cc8.eot?#iefix")
+                format("embedded-opentype"),
+                url("/membership_card_odoo/static/fonts/ce7b5754581057e6f7444e2192850cc8.woff2") format("woff2"),
+                url("/membership_card_odoo/static/fonts/ce7b5754581057e6f7444e2192850cc8.woff") format("woff"),
+                url("/membership_card_odoo/static/fonts/ce7b5754581057e6f7444e2192850cc8.ttf") format("truetype");
+                }
+                .content{
+                    font-family: 'Sakkal Majalla'!important;
+                }
+            </style>
+            <div style="font-family:'Sakkal Majalla'!important;"  id="font" class="page content">
+                <div t-attf-style="background-color:{{membrship_level_color }};">
+                    <div style="font-family:'Sakkal Majalla'!important;" class="content">
+                        <center>
+                            <h2><t t-esc="company.name"/></h2>
+                        </center>
+                        <center>
+                            <img t-if="company.logo" t-att-src="image_data_uri(company.logo)" height="50" style="max-height: 80px;" alt="Logo"/>
+                        </center>
+                    </div><br/>
+                    <!-- Content -->
+                    <div style="font-family:'Sakkal Majalla'!important;" class="row mt32">
+                        <div style="width:20%;margin-top:10px;float:right">
+                            <img t-if="image" style="width: 120px;  border-radius: 5px;"
+                                 t-attf-src="data:image/*;base64,{{image}}"/>
+                        </div>
+
+                        <div style="width:70%;font-family:'Sakkal Majalla'!important;';margin-top:5px;float:left">
+                            <p dir="rtl" t-if="name"><strong>الاسم:</strong> <t t-esc="name"/></p>
+                            <p dir="rtl" t-if="membrship_no"><strong>رقم العضوية:</strong> <t t-esc="membrship_no"/></p>
+                            <p dir="rtl" t-if="product_id"><strong> نوع العضوية:</strong> <t t-esc="product_id"/></p>
+                            <p dir="rtl" t-if="membrship_level"><strong>  العضوية:</strong> <t t-esc="membrship_level"/></p>
+                            <p dir="rtl" t-if="end_date"><strong>تاريخ الانتهاء:</strong> <t t-esc="end_date"/></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>

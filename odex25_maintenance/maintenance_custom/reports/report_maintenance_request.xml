@@ -1,0 +1,160 @@
+<odoo>
+<template id="report_maintenance_request">
+    <t t-call="web.html_container">
+        <t t-foreach="docs" t-as="o">
+            <t t-call="web.external_layout">
+                <style> 
+
+                    td, th{
+                        padding:5px;
+                    }
+
+                    table{
+                        border: 1px solid black;
+                        text-align:center;
+                        margin-bottom:40px;
+
+                    }
+                    th{
+                        background-color:cadetblue;
+                        
+
+                    }
+
+
+                    th,td{
+                        border: 1px solid black;
+                        min-width:80px;
+                        min-height:20px;
+                        height:20px;
+                    }
+
+                    #failure_tb th ,  #repair_tb th , #down_tb th , #manager_tb th {
+                        word-wrap: break-word;
+                        min-width:30px;
+                        max-width:60px;
+                    }
+
+                    #repair_tb th  {
+                        word-wrap: break-word;
+                        min-width:30px;
+                        max-width:100px;
+                    }
+                </style>
+                <center>
+                    <div class="page">
+                        <h1>Failure report</h1>
+                        <table width="90%" height="100%">
+                            <tr>
+                                <th colspan="8">REQUEST INFORMATION</th>
+                            </tr>
+                            <tr>
+                                <th>REQUESTER</th><td colspan="2"><span t-field="o.employee_id.name"/></td>
+                                <th>REQUEST NO</th><td colspan="1"><span t-field="o.code"/></td>
+                                <th>DATE/TIME</th><td colspan="2"><span t-field="o.request_date"/></td>
+                            </tr>
+                            <tr>
+                                <th >EQUIPMENT</th><td colspan="2"><span t-field="o.equipment_id.name"/></td>
+                                <th>EQUIPMENT CONDITION</th><td colspan="4"></td>
+                            </tr>
+                        </table>
+                        <span t-if="o.maintenance_type=='corrective'">
+                        <table width="90%" height="100%" id="failure_tb">
+                            <tr>
+                                <th colspan="8">FAILURE</th>
+                            </tr>
+                            <tr>
+                                <th>FAILURE TYPE</th><td colspan="2"><span t-field="o.failure_id.name"/></td>
+                                <th>FAILED COMPONANT</th><td colspan="4"></td>
+                            </tr>
+                            <tr>
+                                <th>FAILURE CAUSE</th><td colspan="7"><span t-field="o.failure_cause_id.name"/></td>
+                            </tr>
+                            <tr>
+                                <th>HOW FAILURE WAS DETECTED</th><td colspan="7"></td>
+                            </tr>
+                        </table>
+
+                        <table width="90%" height="100%" id="repair_tb">
+                            <tr>
+                                <th colspan="8">REPAIRING AND CORRECTION ACTION</th>
+                            </tr>
+                            <tr height="120px">
+                                <th>CORRECTION ACTION</th>
+                                <td colspan="8"><span t-field="o.maintenance_work"/></td>
+                            </tr>
+                            <tr>
+                                <th>REPAIR COMPLATE DATE AND TIME</th>
+                                <td><span t-field="o.done_time"/></td>
+                                <th>REPAIR DURATION</th>
+                                <td><span t-field="o.duration"/></td>
+                                <th>EQUIPMENT CONDITION</th>
+                                <td></td>
+                            </tr>
+                        </table>
+
+                        <table width="90%" height="100%" id="down_tb">
+                            <tr>
+                                <th colspan="8">DOWNTIME AND LOSSES</th>
+                            </tr>
+                            <tr>
+                                <th>DOWNTIME</th>
+                                <td colspan="3"><span t-field="o.down_time"/></td>
+                                <th>LOSSES OF PRODUCTION</th>
+                                <td colspan="3"><span t-field="o.product_loss"/></td>
+                            </tr>
+                        </table>
+                        </span>
+                        <span t-if="o.maintenance_type=='preventive'">
+                            <table width="90%" height="100%" id="down_tb">
+                                <tr>
+                                    <th colspan="8">Tasks Details</th>
+                                </tr>
+                                <tr>
+                                    <th>Task Title</th>
+                                    <th>Employee</th>
+                                    <th>Executing Time</th>
+                                    <th>Duration</th>
+                                    <th>Status</th>
+                                </tr>
+                                <t t-foreach="o.task_ids" t-as="t">
+                                    <tr>
+                                        <td><span t-field="t.name"/></td>
+                                        <td><span t-field="t.employee_id.name"/></td>
+                                        <td><span t-field="t.time"/></td>
+                                        <td><span t-field="t.duration"/></td>
+                                        <td>
+                                            <span t-if="t.is_done">Done</span>
+                                            <span t-else="" >Pending</span>
+                                        </td>
+                                    </tr>
+                                </t>
+                                <span t-if="len(o.task_ids) &lt; 3">
+                                <t t-foreach="range(3-len(o.task_ids))" t-as="i">
+                                <tr>
+                                    <td>   </td>
+                                    <td>  </td>
+                                    <td>  </td>
+                                    <td>  </td>
+                                    <td>  </td>
+                                </tr>
+                                </t>
+                                </span>
+                            </table>
+                        </span>
+                        <table width="90%" height="100%" id="manager_tb">
+                            <tr>
+                                <th>SUPERVISOR</th>
+                                <td colspan="3"><span t-field="o.user_id"/></td>
+                                <th>MANAGER</th>
+                                <td colspan="3">Administrator</td>
+                            </tr>
+                        </table>
+
+                    </div>                    
+                </center>
+            </t>
+        </t>
+    </t>
+</template>
+</odoo>

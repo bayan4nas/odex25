@@ -1,0 +1,145 @@
+<?xml version="1.0"?>
+<odoo>
+
+    
+    <record id="kpi_scorecard_line_view_kanban" model="ir.ui.view">
+        <field name="name">kpi.scorecard.line.kanban.inherit</field>
+        <field name="model">kpi.scorecard.line</field>
+        <field name="inherit_id" ref="kpi_scorecard.kpi_scorecard_line_view_kanban"/>
+        <field name="arch" type="xml">
+            <xpath expr="//kanban" position="replace">
+                
+                
+            <kanban js_class="scorecard_kanban" 
+                    class="kpi-kanban-view"
+                    group_create="0"
+                    group_delete="0"
+                    group_edit="0" 
+                    archivable="0"
+                    quick_create="0"
+                    records_draggable="0"   
+            >
+                <field name="id"/>
+                <field name="kpi_id"/>
+                <field name="formatted_target_value"/>
+                <field name="formatted_actual_value"/>
+                <field name="computation_error"/>
+                <field name="result"/>
+                <field name="weight" />
+                <field name="progress" />
+                <field name="weight_progress" />
+                <field name="all_parents"/>
+                <field name="sequence"/>
+                <field name="description"/>
+                <field name="edit_rights"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="kpi-kanban-record-card row mx-0"
+                             t-att-id="id"
+                        >
+                           <div class="col mx-2">
+                                <b><field name="code" /></b>
+                            </div>
+                            <div t-attf-class="text-#{record.result.raw_value == 'error' and 'muted' or ''}"                                 
+                                 t-attf-data-parent="#{record.all_parents.raw_value}"
+                                 t-attf-data-id="#{record.id.raw_value}"
+                                 t-attf-title="#{record.description.raw_value and record.description.raw_value or ''}"
+                              style="flex: 0 0 35%;">
+                                <field name="kpi_id"/>
+                                <i t-if="record.computation_error.raw_value"
+                                   class="fa fa-warning text-danger" 
+                                   t-attf-title="#{record.computation_error.raw_value}"  
+                                > </i>
+                            </div>
+                            
+                            <div class="col mx-2">
+                                <b><field name="formatted_planed_value" /></b>
+                                    <div>Target Value</div>
+                            </div>
+                            <div class="col mx-2">
+                                <b><field name="formatted_target_value" /></b>
+                                    <div>Success Value</div>
+                            </div>
+                            <div t-attf-class="col mx-2 text-#{record.result.raw_value == 'success' and 'success' or record.result.raw_value == 'failure' and 'danger' or 'muted'}">
+                                <b><field name="formatted_actual_value" /></b>
+                                    <div>Actual Value</div>
+                            </div>
+                            
+                            <div class="col mx-2">
+                                <b><field name="progress" widget="progressbar"/></b>
+                            </div>
+                            <div class="col mx-2">
+                                <b><field name="weight" /></b>
+                                    <div>Weight</div>
+                            </div>
+                            <div class="col mx-2">
+                                <b><field name="weight_progress" /></b>
+                                    <div>Weight progress</div>
+                            </div>
+                            
+                            <div style="flex: 0 0 5%;">
+                                    <div class="pull-right">
+                                    <button type="button" 
+                                            class="btn btn-primary kpi-edit-target kpi-kanban-row-btn kpi-kanban-button kpi-kanban-conditional"
+                                            kpi-required="period,open"
+                                            t-attf-data-id="#{record.id.raw_value}"
+                                            title="Change Target"
+                                            t-if="record.edit_rights.raw_value"
+                                            name="kpi-edit-target"
+                                    >
+                                        <i class="fa fa-edit"></i>
+                                    </button>    
+                                    <button type="button" 
+                                            class="btn btn-primary kpi-show-history kpi-kanban-row-btn kpi-kanban-button kpi-kanban-conditional"
+                                            kpi-required="period"
+                                            t-attf-data-id="#{record.id.raw_value}"
+                                            title="History"
+                                            name="kpi-show-history"
+                                    >
+                                        <i class="fa fa-signal"></i>
+                                    </button>
+
+                                    <button type="button"
+                                            class="btn btn-primary kpi-remove-target kpi-kanban-row-btn kpi-kanban-button kpi-kanban-conditional"
+                                            kpi-required="period,open"
+                                            t-attf-data-id="#{record.id.raw_value}"
+                                            title="Delete Target"
+                                            t-if="record.edit_rights.raw_value"
+                                            name="kpi-remove-target"
+                                    >
+                                        <i class="fa fa-remove"></i>
+                                    </button>
+                                                   <button name="action_compare_with_partners_targets"  type="object" class="btn btn-warning btn-block" title="Compare"
+                               >
+                                                        <i class="fa fa-bar-chart">Benchmark</i>
+                                                   </button>
+                                </div>       
+                                                           
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+            </xpath>
+        </field>
+    </record>
+    
+    <record id="kpi_scorecard_line_view_pivot" model="ir.ui.view">
+         <field name="name">kpi.scorecard.line.pivot</field>
+            <field name="model">kpi.scorecard.line</field>
+            <field name="arch" type="xml">
+                <pivot string="Kbi" sample="1">
+                                        <field name="planed_value" type="measure"/>
+
+                    <field name="target_value" type="measure"/>
+                    <field name="actual_value" type="measure"/>
+                    <field name="kpi_id" type="row"/>
+                    <field name="period_id" type="col"/>
+                </pivot>
+            </field>
+        </record>
+
+       <record id="kpi_scorecard.kpi_scorecard_line_action" model="ir.actions.act_window">
+        <field name="view_mode">kanban,pivot</field>
+    </record>
+</odoo>

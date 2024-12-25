@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_exception_wizard_form" model="ir.ui.view">
+            <field name="name">exception.wizard.form</field>
+            <field name="model">exception.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="exception_type" required="1"/>
+                            <field name="exception_reason"/>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="exception_start_date" attrs="{'invisible': [('exception_type','=','permanent_exception')]}"/>
+                                <field name="exception_description"/>
+                             </group>
+                            <group>
+                                <field name="exception_end_date" attrs="{'invisible': [('exception_type','=','permanent_exception')]}"/>
+                                <field name="exception_attachment"/>
+                            </group>
+                        </group>
+                        <footer>
+                            <button name="action_submit" type="object" string="Submit" class="oe_highlight"/>
+                            or
+                            <button special="cancel" string="Cancel"/>
+                        </footer>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="view_exception_member_wizard_form" model="ir.ui.view">
+            <field name="name">exception.member.wizard.form</field>
+            <field name="model">exception.wizard</field>
+            <field name="arch" type="xml">
+               <form>
+                    <sheet>
+                        <group>
+                            <field name="exception_type" required="1"/>
+                            <field name="exception_reason"/>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="exception_start_date" attrs="{'invisible': [('exception_type','=','permanent_exception')]}"/>
+                                <field name="exception_description"/>
+                             </group>
+                            <group>
+                                <field name="exception_end_date" attrs="{'invisible': [('exception_type','=','permanent_exception')]}"/>
+                                <field name="exception_attachment"/>
+                            </group>
+                        </group>
+                        <footer>
+                            <button name="action_member_submit" type="object" string="Submit" class="oe_highlight"/>
+                            or
+                            <button special="cancel" string="Cancel"/>
+                        </footer>
+                    </sheet>
+            </form>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,77 @@
+$color_1: linear-gradient(270deg, rgb(14, 62, 52) 0%, rgb(0, 136, 126) 75%);
+
+.o_rtl {
+	.card {
+		.card-body {
+			.box-2 {
+				.btn-group {
+					position: absolute;
+					bottom: -50px;
+					left: 10px;
+					right: auto;
+					transition: all .4s;
+				}
+			}
+		}
+	}
+	.card3 {
+		padding: 0 5px;
+		.card-body {
+			.box-1 {
+				h4 {
+					margin-bottom: 0;
+					font-size: 16px;
+					text-overflow: ellipsis;
+					overflow: hidden;
+					white-space: nowrap;
+					color: $color_1;
+					padding-top: 10px !important;
+					padding-bottom: 0 !important;
+				}
+			}
+			.box-2 {
+				&:hover {
+					.btn-group {
+						bottom: 10px;
+					}
+				}
+				i {
+					float: left;
+				}
+				span {
+					float: right;
+				}
+			}
+		}
+	}
+	.card2 {
+		.card-container {
+			.card-header {
+				img {
+					margin-right: unset;
+					margin-left: 10px;
+				}
+			}
+			.card-body {
+				table {
+					tr {
+						td {
+							&:last-child {
+								div {
+									float: left;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		padding-left: inherit;
+	}
+	.profile-container {
+		padding-right: 0;
+	}
+	.p0 {
+		padding: 0;
+	}
+}

@@ -1,0 +1,122 @@
+<odoo>
+    <record id="view_config_settings_form" model="ir.ui.view">
+        <field name="name">view.config.settings.form</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="project.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='project_time']" position="after">
+                <h2>Odex25 Projects Management</h2>
+                <div class="row mt16 o_settings_container" name="main_currency_setting_container">
+                    <div class="col-12 col-lg-6 o_setting_box" id="project_invoice" title="Project invoicing method.">
+                        <div class="o_setting_left_pane"/>
+                        <div class="o_setting_right_pane">
+                            <span class="o_form_label">Project Invoicing Method</span>
+                            <span class="fa fa-lg fa-building-o" title="Values set here are company-specific." aria-label="Values set here are company-specific." groups="base.group_multi_company" role="img"/>
+                            <div class="text-muted">
+                                Create Invoice for project per stage or every specific period
+                            </div>
+                             <div class="content-group">
+                                <field name="invoice_method" required="1" class="o_light_label mt16" widget="radio"/>
+                            </div>
+                            <div class="row" attrs="{'invisible': [('invoice_method','!=','per_period')],'required': [('invoice_method','=','per_period')]}">
+                                <label string="Invoice Every" for="invoice_period" class="col-lg-3 o_light_label"/>
+                                <div class="content-group">
+                                    <field name="invoice_period" class="text-center oe_inline"/> days
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-6 o_setting_box" id="project_budget">
+                        <div class="o_setting_left_pane">
+                            <field name="module_project_budget"/>
+                        </div>
+                        <div class="o_setting_right_pane" name="intrastat_right_pane">
+                            <label for="module_project_budget"/>
+                            <div class="text-muted">
+                                Project Budget
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-6 o_setting_box" id="risk_register">
+                        <div class="o_setting_left_pane">
+                            <field name="module_project_risk_register"/>
+                        </div>
+                        <div class="o_setting_right_pane" name="intrastat_right_pane">
+                            <label for="module_project_risk_register"/>
+                            <div class="text-muted">
+                                Add Risk Register Log in your Projects
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-6 o_setting_box" id="customer_team">
+                        <div class="o_setting_left_pane">
+                            <field name="module_project_customer_team"/>
+                        </div>
+                        <div class="o_setting_right_pane" name="intrastat_right_pane">
+                            <label for="module_project_customer_team"/>
+                            <div class="text-muted">
+                                Add Customer Team Details in your Projects
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-6 o_setting_box" id="scrum_agile">
+                        <div class="o_setting_left_pane">
+                            <field name="module_project_scrum_agile"/>
+                        </div>
+                        <div class="o_setting_right_pane" name="intrastat_right_pane">
+                            <label for="module_project_scrum_agile"/>
+                            <div class="text-muted">
+                                Use Scrum Agile Methodology in your Projects
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-6 o_setting_box" id="helpdisk_task">
+                        <div class="o_setting_left_pane">
+                            <field name="module_project_helpdisk_task"/>
+                        </div>
+                        <div class="o_setting_right_pane" name="intrastat_right_pane">
+                            <label for="module_project_helpdisk_task"/>
+                            <div class="text-muted">
+                                Link Task with its associated ticket
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-6 o_setting_box" id="variation_order">
+                        <div class="o_setting_left_pane">
+                            <field name="module_project_variation_order"/>
+                        </div>
+                        <div class="o_setting_right_pane" name="intrastat_right_pane">
+                            <label for="module_project_variation_order"/>
+                            <div class="text-muted">
+                                Add Variation Order to your Projects
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-6 o_setting_box" id="project_metrics">
+                        <div class="o_setting_left_pane">
+                            <field name="module_project_metrics"/>
+                        </div>
+                        <div class="o_setting_right_pane" name="intrastat_right_pane">
+                            <label for="module_project_metrics"/>
+                            <div class="text-muted">
+                                Project Metrics
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 o_setting_box" id="project_type">
+                    <div class="o_setting_left_pane"/>
+                    <div class="o_setting_right_pane">
+                        <span class="o_form_label">Project Type</span>
+                        <div class="text-muted">
+                            Project Type
+                        </div>
+                        <div class="content-group">
+                            <field name="type" class="o_light_label mt16" widget="radio"/>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>

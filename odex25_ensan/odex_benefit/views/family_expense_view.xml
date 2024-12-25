@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Tree View -->
+    <record id="view_confirm_benefit_expense_tree" model="ir.ui.view">
+        <field name="name">confirm.benefit.expense.tree</field>
+        <field name="model">confirm.benefit.expense</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="family_expense_seq"/>
+                <field name="name" string="Process Details"/>
+                <field name="expense_type"/>
+                <field name="date"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_confirm_benefit_expense_form" model="ir.ui.view">
+        <field name="name">confirm.benefit.expense.form</field>
+        <field name="model">confirm.benefit.expense</field>
+        <field name="arch" type="xml">
+            <form string="Confirm Benefit Expense">
+                <header>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,depart_manager,account_manager,confirm"/>
+                    <button string="Cancel" type="object" name="action_cancel" class="oe_highlight"
+                            states="depart_manager,account_manager"/>
+                    <button string="Reset" type="object" name="action_reset_to_draft" class="oe_highlight"
+                            states="cancel"/>
+                    <button string="Confirm" type="object" name="action_depart_manager" class="oe_highlight"
+                            states="draft" groups="odex25_account_payment_fix.group_depart_manager"/>
+                    <button string="Confirm" type="object" name="action_accounting_manager" class="oe_highlight"
+                            states="depart_manager" groups="odex25_account_payment_fix.group_accounting_manager"/>
+                    <button string="Confirm" type="object" name="action_confirm_selected" class="oe_highlight"
+                            states="account_manager" groups="odex25_account_payment_fix.group_general_manager"/>
+                </header>
+                <sheet>
+                    <group invisible="1">
+                        <field name="family_domain_ids" widget="many2many_tags" />
+                        <field name="journal_domain_ids" widget="many2many_tags"/>
+                    </group>
+                    <div class="oe_button_box" name="button_box">
+                        <button icon="fa-usd" name="action_open_related_move_records" type="object"
+                                attrs="{'invisible':[('expense_type','!=','family_expense')]}">
+                            <field name="total_moves" string="Moves" widget="statinfo"/>
+                        </button>
+                        <button icon="fa-usd" name="action_open_related_move_line_records" type="object"
+                                attrs="{'invisible':[('expense_type','!=','family_expense')]}">
+                            <field name="total_move_lines" string="Move Lines" widget="statinfo"/>
+                        </button>
+                        <button icon="fa-usd" name="action_open_related_invoice_records" type="object"
+                                attrs="{'invisible':[('expense_type','!=','family_invoice')]}">
+                            <field name="total_invoices" string="Invoices" widget="statinfo"/>
+                        </button>
+                    </div>
+                    <group>
+                          <div class="oe_title">
+                            <h1>
+                                <field name="family_expense_seq" readonly="1"/>
+                            </h1>
+                          </div>
+                    </group>
+                    <group>
+                        <field name="expense_type" required="1"/>
+                        <field name="journal_id" required="1" domain="[('id', 'in', journal_domain_ids)]" attrs="{'invisible': [('expense_type', '!=', 'family_invoice')],'readonly':[('state', '=', 'confirm')]}" forec_save="1"/>
+<!--                        <field name="payment_method_id" attrs="{'invisible': [('expense_type', '=', 'family_invoice')],'required': [('expense_type', '=', 'family_expense')]}"/>-->
+                    </group>
+                    <group>
+                        <field name="name" required="1" string="Process Details"/>
+                        <field name="date" required="1"/>
+                        <field name="branch_custom_id" required="1"/>
+                    </group>
+
+                    <!-- Conditional fields based on expense_type -->
+                    <group>
+                        <group>
+                        <field name="available_payment_method_line_ids" invisible="1"/>
+                        <field name="cash_expense"
+                               attrs="{'invisible': [('expense_type', '=', 'family_invoice')]}"/>
+                        <field name="meal_expense"
+                               attrs="{'invisible': [('expense_type', '=', 'family_invoice')]}"/>
+                        <field name="cloth_expense"
+                               attrs="{'invisible': [('expense_type', '=', 'family_invoice')]}"/>
+                    </group>
+                    <group>
+                        <field name="family_monthly_income"
+                               attrs="{'invisible': ['|',('expense_type', '=', 'family_invoice'),('cash_expense', '=', False)]}"/>
+                        <field name="family_monthly_meals"  attrs="{'invisible': [('expense_type', '=', 'family_expense'),('meal_expense', '=', False)]}"/>
+                        <field name="family_monthly_clotting" attrs="{'invisible': ['|',('expense_type', '=', 'family_invoice'),('cloth_expense', '=', False)]}"/>
+                    </group>
+                    </group>
+                    <!-- Notebook with Families page -->
+                    <notebook>
+                        <page string="Families">
+                            <field name="family_ids" domain="[('id', 'in', family_domain_ids)]">
+                                <tree string="Family">
+                                    <field name="name"/>
+                                    <field name="code"/>
+                                    <field name="meal_card"/>
+                                    <field name="family_monthly_income"/>
+                                    <field name="family_monthly_meals"/>
+                                    <field name="family_monthly_clotting"/>
+                                    <field name="total_family_expenses"/>
+                                    <field name="father_id_number"/>
+                                    <field name="sms_phone"/>
+                                    <field name="benefit_member_count"/>
+                                    <field name="non_member_count"/>
+                                    <field name="researcher_id"/>
+                                    <field name="last_visit_date"/>
+                                    <field name="state"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                 <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="activity_ids" />
+                        <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="view_confirm_benefit_expense_search">
+            <field name="name">confirm.benefit.expense</field>
+            <field name="model">confirm.benefit.expense</field>
+            <field name="arch" type="xml">
+                <search>
+                    <group string="Group By">
+                    <filter string="Branch" name="branch_custom_id" context="{'group_by': 'branch_custom_id'}"/>
+                    </group>
+                    <separator/>
+                       <filter string="Draft" name="draft"  domain="[('state','=','draft')]"/>
+                    <separator/>
+                    <separator/>
+                        <filter string="Depart Manager" name="depart_manager" domain="[('state', '=', 'depart_manager')]"/>
+                    <separator/>
+                    <separator/>
+                        <filter string="Account Manager" name="account_manager" domain="[('state', '=', 'account_manager')]"/>
+                    <separator/>
+                    <separator/>
+                        <filter string="Cancel" name="cancel" domain="[('state', '=', 'cancel')]"/>
+                    <separator/>
+                    <separator/>
+                        <filter string="Confirm" name="confirm" domain="[('state', '=', 'confirm')]"/>
+                    <separator/>
+                </search>
+            </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_confirm_benefit_expense" model="ir.actions.act_window">
+        <field name="name">Confirm Benefit Expenses</field>
+        <field name="res_model">confirm.benefit.expense</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_confirm_benefit_expense_tree"/>
+    </record>
+
+    <!-- Menu Item -->
+    <menuitem id="menu_confirm_benefit_expense" name="Benefit Expense Flow" parent="account.menu_finance_payables"
+              action="action_confirm_benefit_expense" sequence="11"/>
+
+    <record id="view_move_line_tree_new_code" model="ir.ui.view">
+        <field name="name">account.move.line.form</field>
+        <field name="model">account.move.line</field>
+        <field name="inherit_id" ref="account.view_move_line_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='ref']" position="after">
+                <field name="family_code"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_move_line_tree_grouped_inherit_more" model="ir.ui.view">
+        <field name="name">account.move.line.form</field>
+        <field name="model">account.move.line</field>
+        <field name="inherit_id" ref="account.view_move_line_tree_grouped"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='ref']" position="after">
+                <field name="family_code"/>
+            </xpath>
+        </field>
+    </record>
+
+
+</odoo>

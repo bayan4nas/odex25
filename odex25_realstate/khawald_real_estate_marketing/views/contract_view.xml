@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!-- Inherit Form View to Modify it -->
+    <record id="contract_contract_inherit_sale_marketing_form" model="ir.ui.view">
+        <field name="name">contract.contract.inherit.sale.marketing</field>
+        <field name="model">contract.contract</field>
+        <field name="inherit_id" ref="contract.contract_contract_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='total_amount']" position="before">
+                <field name="total_sale_amount" readonly="1" force_save="1"
+                       groups="real_estate_marketing.group_sale_marketer_manager_user"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

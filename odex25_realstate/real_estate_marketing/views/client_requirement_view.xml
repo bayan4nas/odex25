@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <!-- Clients Request -->
+    <record id="view_clients_request_tree" model="ir.ui.view">
+        <field name="name">clients.request.tree</field>
+        <field name="model">re.clients.requirement</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="action_type"/>
+                <field name="search_type"/>
+                <field name="partner_id"/>
+                <field name="request_date"/>
+                <field name="user_id"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="view_client_requirements_form" model="ir.ui.view">
+        <field name="name">clients requirement</field>
+        <field name="model">re.clients.requirement</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button string="Get Satisfied Properties" name="get_satisfied_property" type="object"
+                            states="draft"/>
+                    <button name="action_register" string="Register" states="draft" type="object"/>
+                    <button name="action_approve" string="Approve" states="register" type="object"/>
+                    <button name="action_draft" string="Set To Draft" states="register" type="object"/>
+                    <button name="action_cancel" string="Cancel" states="draft,register" type="object"/>
+
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" readonly="1" force_save="1"/>
+                            <field name="action_type" required="1"/>
+                            <field name="search_type" required="1"/>
+                            <field name="property_type_ids" widget="many2many_tags"
+                                   attrs="{'invisible': [('search_type', '!=', 'property')], 'required': [('search_type', '=', 'property')]}"/>
+                            <field name="unit_type_id"
+                                   attrs="{'invisible': [('search_type', '!=', 'unit')], 'required': [('search_type', '=', 'unit')]}"/>
+                            <field name="city_id"/>
+                            <field name="user_id" readonly="1" force_save="1"/>
+                            <field name="district" widget="many2many_tags" domain="[('city_id','=',city_id)]"/>
+                            <field name="region" invisible="1"/>
+                            <field name="company_id" invisible="1"/>
+                        </group>
+                        <group>
+                            <field name="request_date" readonly="1" force_save="1"/>
+                            <field name="size_from"/>
+                            <field name="size_to"/>
+                            <field name="value_from"/>
+                            <field name="value_to"/>
+                            <label for="room_from" attrs="{'invisible': [('search_type', '!=', 'unit')]}"/>
+                            <div>
+                                <field name="room_from"
+                                       attrs="{'invisible': [('search_type', '!=', 'unit')]}"
+                                       class="oe_inline"/>
+                                <label for="room_to" attrs="{'invisible': [('search_type', '!=', 'unit')]}"/>
+                                <field name="room_to" attrs="{'invisible': [('search_type', '!=', 'unit')]}"/>
+                            </div>
+
+                            <label for="bath_room_from" attrs="{'invisible': [('search_type', '!=', 'unit')]}"/>
+                            <div>
+                                <field name="bath_room_from" attrs="{'invisible': [('search_type', '!=', 'unit')]}"
+                                       class="oe_inline"/>
+                                <label for="bath_room_to" attrs="{'invisible': [('search_type', '!=', 'unit')]}"/>
+                                <field name="bath_room_to" attrs="{'invisible': [('search_type', '!=', 'unit')]}"/>
+                            </div>
+                            <label for="kitchen_number_from" attrs="{'invisible': [('search_type', '!=', 'unit')]}"/>
+                            <div>
+                                <field name="kitchen_number_from" attrs="{'invisible': [('search_type', '!=', 'unit')]}"
+                                       class="oe_inline"/>
+                                <label for="kitchen_number_to" attrs="{'invisible': [('search_type', '!=', 'unit')]}"/>
+                                <field name="kitchen_number_to" attrs="{'invisible': [('search_type', '!=', 'unit')]}"/>
+                            </div>
+                        </group>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="partner_id" required="1"/>
+                            <field name="mobile" readonly="1" force_save="1"/>
+                            <field name="phone" readonly="1" force_save="1"/>
+                        </group>
+                        <group>
+                            <field name="request_from"/>
+                            <field name="request_to"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="search_result" string="Search Result">
+                            <field name="client_line_ids">
+                                <tree create="false" delete="false" editable="top">
+                                    <field name="property_id" readonly="1" domain="[('name','=',False)]"/>
+                                    <field name="request_id" invisible="1"/>
+                                    <field name="unit_id" readonly="1"/>
+                                    <field name="property_city" readonly="1"/>
+                                    <field name="property_district" readonly="1"/>
+                                    <field name="price" readonly="1"/>
+                                    <field name="size" readonly="1"/>
+                                    <field name="room" readonly="1"/>
+                                    <button name="create_sale_request" type="object" string="Create Sale Request"
+                                            class="oe_highlight"
+                                            attrs="{'invisible':['|','|',('flag', '=', True),('state','!=','register'),('parent.action_type','!=','sale')]}"/>
+                                    <field name="flag" readonly="1" force_save="1"/>
+                                    <field name="sale_contract_id" readonly="1"
+                                           attrs="{'invisible': [('sale_contract_id', '=', False)]}"/>
+                                    <field name="state" invisible="1"/>
+                                    <field name="search_type" invisible="1"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="open_view_clients_requirement" model="ir.actions.act_window">
+        <field name="name">Clients Requirement</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">re.clients.requirement</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('user_id', '=', uid)]</field>
+    </record>
+
+
+    <menuitem id="menu_real_estate_marketing"
+              name="Real Estate Marketing"
+              sequence="4"
+              groups="real_estate_marketing.group_marketer_normal_user"
+              web_icon="real_estate_marketing,static/description/icon.png"/>
+
+
+    <menuitem id="menu_client_requirement" sequence="1"
+              parent="menu_real_estate_marketing"
+              name="Clients Requirement"
+              action="open_view_clients_requirement"
+              groups="real_estate_marketing.group_marketer_normal_user"/>
+
+</odoo>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Used to bring a menu inside action menu  -->
+        <record id="server_action_exchange_orders" model="ir.actions.server">
+            <field name="name">Exchange orders</field>
+            <field name="model_id" ref="odex_benefit.model_service_request"/>
+            <field name="binding_model_id" ref="odex_benefit.model_service_request"/>
+            <field name="state">code</field>
+            <field name="code">action = records.action_open_exchange_order_wizard()</field>
+        </record>
+        <record id="server_action_vendor_bill" model="ir.actions.server">
+            <field name="name">Create Vendor Bill</field>
+            <field name="model_id" ref="odex_benefit.model_service_request"/>
+            <field name="binding_model_id" ref="odex_benefit.model_service_request"/>
+            <field name="state">code</field>
+            <field name="code">action = records.create_vendor_bill()</field>
+        </record>
+    </data>
+</odoo>
