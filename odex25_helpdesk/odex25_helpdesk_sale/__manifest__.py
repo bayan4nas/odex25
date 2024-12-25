@@ -2,10 +2,10 @@
 
 {
     'name': 'Helpdesk After Sales',
+    'category': 'Odex25 Services/helpdesk',
     'summary': 'Project, Tasks, After Sales',
-    'author': "Expert Co Ltd",
-    'website': "http://www.ex.com",
-    'category': 'Odex25-Helpdesk/Odex25-Helpdesk',
+    'author': "Expert Co. Ltd.",
+    'website': "http://www.exp-sa.com",
     'depends': ['odex25_helpdesk', 'sale_management'],
     'auto_install': True,
     'description': """

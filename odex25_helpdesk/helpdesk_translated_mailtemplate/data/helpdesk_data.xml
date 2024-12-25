@@ -1,0 +1,671 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="0">
+
+    <record id="odex25_helpdesk.new_ticket_request_email_template" model="mail.template">
+        <field name="name">New Ticket Request</field>
+        <field name="email_from">${object.user_id.email_formatted | safe}</field>
+        <field name="subject">${object.display_name}</field>
+        <field name="model_id" ref="odex25_helpdesk.model_odex25_helpdesk_ticket"/>
+        <field name="email_to">
+            ${('' if object.partner_id and object.sudo().partner_id.email and object.sudo().partner_id.email==object.partner_email else object.partner_email|safe)}
+        </field>
+        <field name="partner_to">
+            ${object.partner_id and object.sudo().partner_id.email and object.sudo().partner_id.email==object.partner_email and object.sudo().partner_id.id or False}
+        </field>
+        <field name="auto_delete" eval="False"/>
+        <field name="body_html" type="xml">
+            <style>
+                @font-face {
+                font-family: almarai;
+                src: url("/helpdesk_translated_mailtemplate/static/src/fonts/Almarai-Regular.ttf")
+                }
+
+                @font-face {
+                font-family: almarai;
+                src: url("/helpdesk_translated_mailtemplate/static/src/fonts/Almarai-Light.ttf");
+                font-weight: 300
+                }
+
+                @font-face {
+                font-family: almarai;
+                src: url("/helpdesk_translated_mailtemplate/static/src/fonts/Almarai-Bold.ttf");
+                font-weight: 700
+                }
+
+                @font-face {
+                font-family: almarai;
+                src: url("/helpdesk_translated_mailtemplate/static/src/fonts/Almarai-ExtraBold.ttf");
+                font-weight: 900
+                }
+            </style>
+
+            <table align="center" style="width: 800px;margin:5px auto;direction:initial;">
+                <tbody>
+                    <tr>
+                        <td>
+                            <div style="width: 800px;margin:5px auto;">
+                                <div clas="logo-section">
+                                    <img src="/helpdesk_translated_mailtemplate/static/src/img/taqeem.png"
+                                         class="float-left" height="100px"
+                                         style="height: 100px; margin-top:20px;margin-bottom:20px;" alt="Logo"/>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <table align="center" style="width:700px;margin:5px auto;direction:initial;">
+                <tbody>
+                    <tr>
+                        <td dir="ltr" style="text-align:left;width: 50%;color:#757575;vertical-align: baseline;">
+                            <h4 style="font-weight: bold;font-family:almarai, Arial, Helvetica, sans-serif !important;">
+                                <span>HI</span>
+                                ,
+                                <span>${object.sudo().partner_id.name or 'Madam, Sir'}</span>
+                            </h4>
+                            <p style="font-family:almarai, Arial, Helvetica, sans-serif !important;margin-top:50px;line-height: 30px;font-size:14px;">
+                                <span>This is an automatic message :</span>
+                                <br/>
+                                <span>Your request</span>
+                                % if object.access_token:
+                                <!-- <a href="/helpdesk/ticket/${object.id}/${object.access_token}"> -->
+                                <span style="font-weight: bold;">" ${object.name} "</span>
+                                <!-- </a> -->
+                                % endif
+                                <span>has been received and reviewed by
+                                    <br/>
+                                    our
+                                    <span style="font-weight: bold;">${object.team_id.name or ''}</span>
+                                </span>
+                                <br/>
+                                <span>The reference of your ticket is
+                                    <span style="font-weight: bold;">${object.id}</span>
+                                </span>
+                                <br/>
+                                <span>To additional comments reply to this email.</span>
+                            </p>
+                            <p style="font-family:almarai, Arial, Helvetica, sans-serif !important;margin-top: 50px;font-weight: bold;line-height: 30px;">
+                                <span style="">Best Regards,</span>
+                                <br/>
+                                <span style="">${object.team_id.name or 'Helpdesk'} Team</span>
+                            </p>
+                        </td>
+                        <!-- Arabic -->
+                        <td dir="rtl" style="text-align:right;width: 50%;color:#757575;display: contents;">
+                            <h4 style="font-family:almarai, Arial, Helvetica, sans-serif !important;color:#6d6d6d;">
+                                <span>مرحباً</span>
+                                ,
+                                <span>${object.sudo().partner_id.name or 'سيدي، سيدتي'}</span>
+                            </h4>
+                            <p style="font-family:almarai, Arial, Helvetica, sans-serif !important;margin-top:50px;line-height: 30px;font-size:14px;">
+                                <span>هذه الرسالة تلقائية ، نفيدكم أنه تم استلام</span>
+                                <br/>
+                                <span>طلبك</span>
+                                % if object.access_token:
+                                <!-- <a href="/helpdesk/ticket/${object.id}/${object.access_token}"> -->
+                                <span style="font-weight: bold;color:#6d6d6d;">${object.name}</span>
+                                <!-- </a> -->
+                                % endif
+                                <span>
+                                    <span>و هو قيد المراجعة الآن، من قبل فريق</span>
+                                    <span style="font-weight: bold;">${object.team_id.name or ''}</span>
+                                </span>
+                                <br/>
+                                <span>
+                                    <span>الرقم المرجعي لطلبك هو :</span>
+                                    <span style="font-weight: bold;">${object.id}</span>
+                                </span>
+                                <br/>
+                                <span>لإضافة المزيد من التعليقات، الرجاء الرد على هذا البريد الإلكتروني.</span>
+                                <br/>
+                            </p>
+                            <p style="font-family:almarai, Arial, Helvetica, sans-serif !important;margin-top: 50px;line-height: 30px;font-size:14px;">
+                                <span>اطيب التحايا</span>
+                                <br/>
+                                <span>فريق</span>
+                                <span style="font-weight: bold;">${object.team_id.name or 'Helpdesk'}</span>
+                            </p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+
+            <table align="center" style="width:700px;margin:5px auto;direction:initial;">
+                <tbody>
+                    <tr>
+                        <td>
+                            <div style="width: 100px;background-color:#45AE54;padding: 10px 0;text-align: center;margin:5px auto;margin-top:50px"
+                                 bgcolor="#45AE54">
+                                % if object.access_token:
+                                <a href="/helpdesk/ticket/${object.id}/${object.access_token}"
+                                   style="color:white !important">Ticket
+                                </a>
+                                % endif
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </field>
+    </record>
+
+    <record id="odex25_helpdesk.solved_ticket_request_email_template" model="mail.template">
+        <field name="name">Solved Ticket Request</field>
+        <field name="email_from">${object.user_id.email_formatted | safe}</field>
+        <field name="subject">${object.display_name}</field>
+        <field name="model_id" ref="odex25_helpdesk.model_odex25_helpdesk_ticket"/>
+        <field name="email_to">
+            ${('' if object.partner_id and object.sudo().partner_id.email and object.sudo().partner_id.email==object.partner_email else object.partner_email|safe)}
+        </field>
+        <field name="partner_to">
+            ${object.partner_id and object.sudo().partner_id.email and object.sudo().partner_id.email==object.partner_email and object.sudo().partner_id.id or False}
+        </field>
+        <field name="auto_delete" eval="False"/>
+        <field name="body_html" type="xml">
+
+
+            <table align="center" style="width: 800px;margin:5px auto;direction:initial;">
+                <tbody>
+                    <tr>
+                        <td>
+                            <div style="width: 800px;margin:5px auto;">
+                                <div clas="logo-section">
+                                    <img src="/helpdesk_translated_mailtemplate/static/src/img/taqeem.png"
+                                         class="float-left" height="100px"
+                                         style="height: 100px; margin-top:20px;margin-bottom:20px;" alt="Logo"/>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <table align="center" style="width:700px;margin:5px auto;direction:initial;">
+                <tbody>
+                    <tr>
+                        <td dir="ltr" style="text-align:left;width: 50%;color:#757575;vertical-align: baseline;">
+                            <h4 style="font-weight: bold;font-family:almarai, Arial, Helvetica, sans-serif !important;">
+                                <span>HI</span>
+                                ,
+                                <span>${object.sudo().partner_id.name or 'Madam, Sir'}</span>
+                            </h4>
+                            <p style="font-family:almarai, Arial, Helvetica, sans-serif !important;margin-top:50px;line-height: 30px;font-size:14px;">
+                                This automatic message informs you that we have closed your ticket (reference
+                                ${object.id}).
+                            </p>
+                            <p style="font-family:almarai, Arial, Helvetica, sans-serif !important;margin-top: 0;line-height: 30px;">
+                                <span>We hope that the services provided have met your expectations.</span>
+                                <br/>
+                                <span>If you have any more questions or comments, don't hesitate to reply to this e-mail
+                                    to re-open your ticket.
+                                </span>
+                            </p>
+                            <p style="font-family:almarai, Arial, Helvetica, sans-serif !important;margin-top: 0;line-height: 30px;">
+                                Thank you for your cooperation.
+                            </p>
+                            <p style="font-family:almarai, Arial, Helvetica, sans-serif !important;margin-top: 30px;line-height: 30px;">
+                                ${object.team_id.name or 'Helpdesk'} Team.
+                            </p>
+                        </td>
+                        <td dir="rtl" style="text-align:right;width: 50%;color:#757575;display: contents;">
+                            <h4 style="font-family:almarai, Arial, Helvetica, sans-serif !important;color:#6d6d6d;">
+                                <span>مرحباً</span>
+                                ,
+                                <span>${object.sudo().partner_id.name or 'سيدي، سيدتي'}</span>
+                            </h4>
+                            <p style="font-family:almarai, Arial, Helvetica, sans-serif !important;margin-top:50px;line-height: 30px;font-size:14px;">
+                                هذه الرسالة تلقائية تفيد بأننا قد قمنا بإنهاء طلبك (المرجع ${object.id}) بنجاح.
+                            </p>
+                            <p style="font-family:almarai, Arial, Helvetica, sans-serif !important;margin-top: 0;line-height: 30px;">
+                                <span>نأمل أن تكون خدمتنا المقدمة قد وافقت توقعاتكم.</span>
+                                <br/>
+                                <span>إذا كان هناك المزيد من الأسئلة أو التعليقات، لا تتردد في الرد على هذا البريد
+                                    الإلكتروني لإعادة فتح التذكرة.
+                                </span>
+                            </p>
+                            <p style="font-family:almarai, Arial, Helvetica, sans-serif !important;margin-top: 0;line-height: 30px;">
+                                <span>شكراً لتعاونكم</span>
+                            </p>
+                            <p style="font-family:almarai, Arial, Helvetica, sans-serif !important;margin-top: 30px;line-height: 30px;">
+                                <span>أطيب التحايا</span>
+                                <span>فريق ${object.team_id.name or 'Helpdesk'}.</span>
+                            </p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <table align="center" style="width:700px;margin:5px auto;direction:initial;">
+                <tbody>
+                    <tr>
+                        <td>
+                            <div style="width: 100px;background-color:#45AE54;padding: 10px 0;text-align: center;margin:5px auto;margin-top:50px"
+                                 bgcolor="#45AE54">
+                                % if object.access_token:
+                                <a href="/helpdesk/ticket/${object.id}/${object.access_token}"
+                                   style="color:white !important">Ticket
+                                </a>
+                                % endif
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </field>
+    </record>
+
+    <record id="odex25_helpdesk.rating_ticket_request_email_template" model="mail.template">
+        <field name="name">Ticket: Rating Request (requires rating enabled on team)</field>
+        <field name="email_from">${object.rating_get_rated_partner_id().email_formatted | safe}</field>
+        <field name="subject">${object.company_id.name or object.user_id.company_id.name or 'Helpdesk'}: Service Rating
+            Request
+        </field>
+        <field name="model_id" ref="odex25_helpdesk.model_odex25_helpdesk_ticket"/>
+        <field name="email_to">
+            ${('' if object.partner_id and object.sudo().partner_id.email and object.sudo().partner_id.email==object.partner_email else object.partner_email|safe)}
+        </field>
+        <field name="partner_to">
+            ${object.partner_id and object.sudo().partner_id.email and object.sudo().partner_id.email==object.partner_email and object.sudo().partner_id.id or False}
+        </field>
+        <field name="auto_delete" eval="True"/>
+        <field name="body_html" type="xml">
+            <style>
+                @font-face {
+                font-family: almarai;
+                src: url("/helpdesk_translated_mailtemplate/static/src/fonts/Almarai-Regular.ttf")
+                }
+
+                @font-face {
+                font-family: almarai;
+                src: url("/helpdesk_translated_mailtemplate/static/src/fonts/Almarai-Light.ttf");
+                font-weight: 300
+                }
+
+                @font-face {
+                font-family: almarai;
+                src: url("/helpdesk_translated_mailtemplate/static/src/fonts/Almarai-Bold.ttf");
+                font-weight: 700
+                }
+
+                @font-face {
+                font-family: almarai;
+                src: url("/helpdesk_translated_mailtemplate/static/src/fonts/Almarai-ExtraBold.ttf");
+                font-weight: 900
+                }
+                svg {
+                height: 15px;
+                margin-right: 10px;
+                }
+                svg path{
+                fill: #fff;
+                }
+            </style>
+
+            <table align="center" style="width: 800px;margin:5px auto;direction:initial;">
+                <tbody>
+                    <tr>
+                        <td>
+                            <div style="width: 800px;margin:5px auto;">
+                                <div clas="logo-section">
+                                    <img src="/helpdesk_translated_mailtemplate/static/src/img/taqeem.png"
+                                         class="float-left" height="100px"
+                                         style="height: 100px; margin-top:20px;margin-bottom:20px;" alt="Logo"/>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <table align="center" style="width:700px;margin:5px auto;direction:initial;">
+                <tbody>
+                    <tr>
+                        <td dir="ltr" style="text-align:left;width: 50%;color:#757575;vertical-align: baseline;">
+                            <h4 style="font-weight: bold;font-family:almarai, Arial, Helvetica, sans-serif !important;font-size:14px;">
+                                <span>HI</span>
+                                ,
+                                <span>${object.sudo().partner_id.name or 'Madam, Sir'}</span>
+                            </h4>
+                            <p style="font-family:almarai, Arial, Helvetica, sans-serif !important;margin-top:30px;line-height: 30px;font-size:14px;">
+                                <span>Please take a moment to rate our services related to the ticket</span>
+                                % if object.access_token:
+                                <!-- <a href="/helpdesk/ticket/${object.id}/${object.access_token}"> -->
+                                <span style="font-weight: bold;">" ${object.name} "</span>
+                                <!-- </a> -->
+                                % endif
+                            </p>
+                            <p style="font-family:almarai, Arial, Helvetica, sans-serif !important;line-height: 30px;font-size:14px;">
+                                <span>assigned to</span>
+                                <span>${(object.rating_get_rated_partner_id().name or ' our employee') | safe}</span>
+                            </p>
+                            <p style="font-family:almarai, Arial, Helvetica, sans-serif !important;line-height: 30px;font-size:14px;">
+                                <span style="">We appreciate your feedback. It helps us to improve continuously.</span>
+                                <br/>
+                                <span>Tell us how you feel about our service</span>
+                            </p>
+                        </td>
+                        <!-- Arabic -->
+                        <td dir="rtl" style="text-align:right;width: 50%;color:#757575;display: contents;">
+                            <h4 style="font-family:almarai, Arial, Helvetica, sans-serif !important;color:#6d6d6d;font-size:14px;">
+                                <span>مرحباً</span>
+                                ,
+                                <span>${object.sudo().partner_id.name or 'سيدي، سيدتي'}</span>
+                            </h4>
+                            <p style="font-family:almarai, Arial, Helvetica, sans-serif !important;margin-top:30px;line-height: 30px;font-size:14px;">
+                                <span>نأمل منك إعطائنا لحظات من وقتك لتقييم خدمتنا</span>
+                                <br/>
+                                <span>المرتبطة بالتذكرة</span>
+                                % if object.access_token:
+                                <!-- <a href="/helpdesk/ticket/${object.id}/${object.access_token}"> -->
+                                <span style="font-weight: bold;color:#6d6d6d;">${object.name}</span>
+                                <!-- </a> -->
+                                % endif
+                            </p>
+                            <p style="font-family:almarai, Arial, Helvetica, sans-serif !important;line-height: 30px;font-size:14px;">
+                                <span>المسندة إلى</span>
+                                <span>${(object.rating_get_rated_partner_id().name or ' our employee') | safe}</span>
+                            </p>
+                            <p style="font-family:almarai, Arial, Helvetica, sans-serif !important;line-height: 30px;font-size:14px;">
+                                <span>تأكد أن تقييمك محل التقدير، و يساعدنا على تحسين خدمتنا بشكل مستمر.</span>
+                                <br/>
+                                <span>أخبرنا كيف تشعر اتجاه خدمتنا</span>
+                            </p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <table align="center" summary="o_mail_notification"
+                   style="width:700px;margin:5px auto;direction:rtl;margin-top:50px">
+                <tr>
+                    <td style="border-width: 5px 0 0 0;border-style: solid;border-color: #c53213;width:33.3%;">
+                        <a href="/rating/${object.rating_get_access_token()}/1"
+                           style="width: 100%;background-color: #fee6e6;padding: 30px 0; text-align: center;color:#6d6d6d;text-decoration: none;display: block;">
+                            <span style="font-family:almarai, Arial, Helvetica, sans-serif !important;">سيئة</span>
+                            /
+                            <span>Bad</span>
+                        </a>
+                    </td>
+                    <td style="border-width: 5px 0 0 0;border-style: solid;border-color: #dba658;width:33.3%;">
+                        <a href="/rating/${object.rating_get_access_token()}/5"
+                           style="width: 100%;background-color: #fff3e2;padding: 30px 0; text-align: center;color:#6d6d6d;text-decoration: none;display: block;">
+                            <span style="font-family:almarai, Arial, Helvetica, sans-serif !important;">متوسطة</span>
+                            /
+                            <span>Good</span>
+                        </a>
+                    </td>
+                    <td style="border-width: 5px 0 0 0;border-style: solid;border-color: #39a759;width:33.3%;">
+                        <a href="/rating/${object.rating_get_access_token()}/10"
+                           style="width: 100%;background-color: #f1fdf7;padding: 30px 0; text-align: center;color:#6d6d6d;text-decoration: none;display: block;">
+                            <span style="font-family:almarai, Arial, Helvetica, sans-serif !important;">ممتازة</span>
+                            /
+                            <span>Excellent</span>
+                        </a>
+                    </td>
+                </tr>
+            </table>
+
+            <table align="center" style="width:700px;margin:5px auto;direction:initial;">
+                <tbody>
+                    <tr>
+                        <td>
+                            <div style="width: 100px;background-color:#45AE54;padding: 10px 0;text-align: center;margin:5px auto;margin-top:50px"
+                                 bgcolor="#45AE54">
+                                % if object.access_token:
+                                <a href="/helpdesk/ticket/${object.id}/${object.access_token}"
+                                   style="color:white !important">Ticket
+                                </a>
+                                % endif
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </field>
+    </record>
+
+<!--    <template id="odex25_helpdesk.mail_template_ticket_merge">-->
+<!--        <t t-if="target">-->
+<!--            <t t-if="len(tickets) == 1">-->
+<!--                <p>The following ticket has been merged into this one:</p>-->
+<!--            </t>-->
+<!--            <t t-if="len(tickets) &gt; 1">-->
+<!--                <p>The following tickets have been merged into this one:</p>-->
+<!--            </t>-->
+<!--            <ul>-->
+<!--                <t t-foreach="tickets" t-as="ticket">-->
+<!--                    <li>-->
+<!--                        <a href="#" t-att-data-oe-model="ticket._name" t-att-data-oe-id="ticket.id">-->
+<!--                            <t t-esc="ticket.name"/>-->
+<!--                        </a>-->
+<!--                    </li>-->
+<!--                </t>-->
+<!--            </ul>-->
+<!--        </t>-->
+<!--        <t t-if="not target">-->
+<!--            <p>This ticket has been merged into the following ticket:</p>-->
+<!--            <ul>-->
+<!--                <li>-->
+<!--                    <a href="#" t-att-data-oe-model="ticket._name" t-att-data-oe-id="ticket.id">-->
+<!--                        <t t-esc="ticket.name"/>-->
+<!--                    </a>-->
+<!--                </li>-->
+<!--            </ul>-->
+<!--        </t>-->
+<!--    </template>-->
+
+    <!-- in progress mail template -->
+<!--    <record id="odex25_helpdesk.ticket_inprogress_email_template" model="mail.template">-->
+<!--        <field name="name">Ticket In Progress</field>-->
+<!--        <field name="email_from">${object.user_id.email_formatted | safe}</field>-->
+<!--        <field name="subject">${object.display_name}</field>-->
+<!--        <field name="model_id" ref="odex25_helpdesk.model_odex25_helpdesk_ticket"/>-->
+<!--        <field name="email_to">-->
+<!--            ${('' if object.partner_id and object.sudo().partner_id.email and object.sudo().partner_id.email==object.partner_email else object.partner_email|safe)}-->
+<!--        </field>-->
+<!--        <field name="partner_to">-->
+<!--            ${object.partner_id and object.sudo().partner_id.email and object.sudo().partner_id.email==object.partner_email and object.sudo().partner_id.id or False}-->
+<!--        </field>-->
+<!--        <field name="auto_delete" eval="False"/>-->
+<!--        <field name="body_html" type="xml">-->
+
+<!--            <table align="center" style="width: 800px;margin:5px auto;direction:initial;">-->
+<!--                <tbody>-->
+<!--                    <tr>-->
+<!--                        <td>-->
+<!--                            <div style="width: 800px;margin:5px auto;">-->
+<!--                                <div clas="logo-section">-->
+<!--                                    <img src="/helpdesk_translated_mailtemplate/static/src/img/taqeem.png"-->
+<!--                                         class="float-left" height="100px"-->
+<!--                                         style="height: 100px; margin-top:20px;margin-bottom:20px;" alt="Logo"/>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </td>-->
+<!--                    </tr>-->
+<!--                </tbody>-->
+<!--            </table>-->
+
+<!--            <table align="center" style="width:700px;margin:5px auto;direction:initial;">-->
+<!--                <tbody>-->
+<!--                    <tr>-->
+<!--                        <td dir="ltr" style="text-align:left;width: 50%;color:#757575;vertical-align: baseline;">-->
+<!--                            <h4 style="font-weight: bold;font-family:almarai, Arial, Helvetica, sans-serif !important;">-->
+<!--                                Dear ${object.sudo().partner_id.name or 'Madam, Sir'},-->
+<!--                            </h4>-->
+<!--                            <p style="font-family:almarai, Arial, Helvetica, sans-serif !important;margin-top:50px;line-height: 30px;font-size:14px;">-->
+<!--                                Your ticket-->
+<!--                                % if object.access_token:-->
+<!--                                &lt;!&ndash; <a href="/helpdesk/ticket/${object.id}/${object.access_token}"> &ndash;&gt;-->
+<!--                                ${object.name}-->
+<!--                                &lt;!&ndash; </a> &ndash;&gt;-->
+<!--                                % endif-->
+<!--                                status has been updated to ${object.stage_id.name or ''}.-->
+<!--                            </p>-->
+<!--                            <p style="font-family:almarai, Arial, Helvetica, sans-serif !important;0;line-height: 30px;font-size:14px;">-->
+<!--                                The reference of your ticket is ${object.id}.-->
+<!--                            </p>-->
+<!--                            <p style="font-family:almarai, Arial, Helvetica, sans-serif !important;0;line-height: 30px;font-size:14px;">-->
+<!--                                To add additional comments, reply to this email.-->
+<!--                            </p>-->
+<!--                            <p style="font-family:almarai, Arial, Helvetica, sans-serif !important;0;line-height: 30px;font-size:14px;">-->
+<!--                                Regards, ${object.team_id.name or 'Helpdesk'} team-->
+<!--                            </p>-->
+<!--                        </td>-->
+<!--                        <td dir="rtl" style="text-align:right;width: 50%;color:#757575;display: contents;">-->
+<!--                            <h4 style="font-weight: bold;font-family:almarai, Arial, Helvetica, sans-serif !important;">-->
+<!--                                عزيزي ${object.sudo().partner_id.name or 'سيدي، سيدتي'}-->
+<!--                            </h4>-->
+<!--                            <p style="font-family:almarai, Arial, Helvetica, sans-serif !important;margin-top:50px;line-height: 30px;font-size:14px;">-->
+<!--                                تذكرتك-->
+<!--                                % if object.access_token:-->
+<!--                                &lt;!&ndash; <a href="/helpdesk/ticket/${object.id}/${object.access_token}"> &ndash;&gt;-->
+<!--                                ${object.name}-->
+<!--                                &lt;!&ndash; </a> &ndash;&gt;-->
+<!--                                % endif-->
+<!--                                تم تحديث حالتها إلى ${object.stage_id.name or ''}-->
+<!--                            </p>-->
+<!--                            <p style="font-family:almarai, Arial, Helvetica, sans-serif !important;0;line-height: 30px;font-size:14px;">-->
+<!--                                الرقم المرجعي لتذكرتك ${object.id}.-->
+<!--                            </p>-->
+<!--                            <p style="font-family:almarai, Arial, Helvetica, sans-serif !important;0;line-height: 30px;font-size:14px;">-->
+<!--                                لإضافة المزيد من التعليقات، الرجاء الرد على هذا البريد الإلكتروني.-->
+<!--                            </p>-->
+<!--                            <p style="font-family:almarai, Arial, Helvetica, sans-serif !important;0;line-height: 30px;font-size:14px;">-->
+<!--                                اطيب التحايا، فريق ${object.team_id.name or 'Helpdesk'}-->
+<!--                            </p>-->
+<!--                        </td>-->
+<!--                    </tr>-->
+<!--                </tbody>-->
+<!--            </table>-->
+
+<!--            <table align="center" style="width:700px;margin:5px auto;direction:initial;">-->
+<!--                <tbody>-->
+<!--                    <tr>-->
+<!--                        <td>-->
+<!--                            <div style="width: 100px;background-color:#45AE54;padding: 10px 0;text-align: center;margin:5px auto;margin-top:50px"-->
+<!--                                 bgcolor="#45AE54">-->
+<!--                                % if object.access_token:-->
+<!--                                <a href="/helpdesk/ticket/${object.id}/${object.access_token}"-->
+<!--                                   style="color:white !important">Ticket-->
+<!--                                </a>-->
+<!--                                % endif-->
+<!--                            </div>-->
+<!--                        </td>-->
+<!--                    </tr>-->
+<!--                </tbody>-->
+<!--            </table>-->
+
+<!--        </field>-->
+<!--    </record>-->
+
+    <template id="rating.rating_external_page_view" name="Rating Page Done">
+        <t t-call="web.layout">
+            <t t-set="head">
+                <link rel='stylesheet' href='/web/static/lib/bootstrap/css/bootstrap.css'/>
+                <link rel='stylesheet' href='/web/static/lib/fontawesome/css/font-awesome.css'/>
+            </t>
+            <div class="container">
+                <div class="text-center" style="margin-top:128px">
+                    <i class="fa fa-check-circle fa-5x text-success"/>
+                </div>
+                <h2 class="text-center">We appreciate your feedback!</h2>
+                <h2 class="text-center">نحن نقدر ملاحظاتك!</h2>
+                <div class="text-center">
+                    <a href="https://socpa.org.sa/" class="btn btn-primary">Go to our website</a>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <!-- rated -->
+    <template id="rating_external_page_view_rated" name="Rating Page Done">
+        <t t-call="web.layout">
+            <t t-set="head">
+                <link rel='stylesheet' href='/web/static/lib/bootstrap/css/bootstrap.css'/>
+                <link rel='stylesheet' href='/web/static/lib/fontawesome/css/font-awesome.css'/>
+            </t>
+            <div class="container">
+                <div class="text-center" style="margin-top:128px">
+                    <i class="fa fa-warning fa-5x" style="color:#f3a207;"/>
+                </div>
+                <h2 class="text-center">You have already rated this ticket!</h2>
+                <h2 class="text-center">!لقد قمت بإرسال تقييمك لهذه التذكره مسبقاً</h2>
+                <div class="text-center">
+                    <a href="https://socpa.org.sa/" class="btn btn-primary" style="margin-top:30px;">Go to our website
+                    </a>
+                </div>
+            </div>
+        </t>
+    </template>
+    <!--  -->
+    <template id="rating.rating_external_page_submit" name="Rating Page Submit">
+        <t t-call="web.layout">
+            <t t-set="head">
+                <link rel='stylesheet' href='/web/static/lib/bootstrap/css/bootstrap.css'/>
+            </t>
+            <div class="container">
+                <div class="row">
+                    <h1 class="text-center" style="direction:ltr;">Thanks! We appreciate your feedback.</h1>
+                    <h1 class="text-center" style="direction:rtl;">شكر! نحن نقدر ملاحظاتك.</h1>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6" style="direction:ltr;">
+                        <div class="pull-left">
+                            <img t-attf-src='/rating/static/src/img/rating_#{rate}.png'/>
+                        </div>
+                        <div style="margin-left: 80px;direction:ltr">
+                            you are
+                            <b t-esc="rate_name[0]"></b>
+                            <br/>
+                            on our services on "<b t-esc="rating.res_name"></b>"
+                            <br/>
+                        </div>
+                    </div>
+                    <div class="col-xs-6" style="direction:ltr;">
+                        <div class="pull-right">
+                            <img t-attf-src='/rating/static/src/img/rating_#{rate}.png'/>
+                        </div>
+                        <div style="margin-right: 80px;direction:rtl">
+                            انت
+                            <b t-esc="rate_name[1]"></b>
+                            <br/>
+                            على خدماتنا على "<b t-esc="rating.res_name"></b>"
+                            <br/>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="row">
+                    <div class="col-xs-6">
+                        <p style="margin-top:32px;direction:ltr">
+                            Would be great if you can provide more information:
+                        </p>
+                    </div>
+                    <div class="col-xs-6">
+                        <p style="margin-top:32px;direction:rtl">
+                            سيكون من الرائع إذا كنت تستطيع تقديم المزيد من المعلومات:
+                        </p>
+                    </div>
+                </div>
+                <div clas="row">
+                    <form class="form-horizontal" t-attf-action="/rating/#{token}/#{rate}/submit_feedback"
+                          method="post">
+                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                        <textarea class="form-control" name="feedback" rows="8"
+                                  t-att-value="rating.feedback"></textarea>
+                        <button type="submit" class="btn btn-primary" style="margin-top:8px;margin-right:930px;">Send
+                            Feedback
+                        </button>
+                        <button type="submit" class="btn btn-primary" style="margin-top:8px;">إرسال التقييم</button>
+                    </form>
+                </div>
+
+
+            </div>
+        </t>
+    </template>
+</odoo>

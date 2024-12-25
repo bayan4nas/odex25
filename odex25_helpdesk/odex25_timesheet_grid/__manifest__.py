@@ -8,7 +8,7 @@
     """,
     'version': '1.0',
     'depends': ['odex25_web_grid', 'hr_timesheet', 'odex25_timer'],
-    'category': 'Services/Timesheets',
+    'category': 'Odex25 Services/Timesheets',
     'sequence': 65,
     'data': [
         'data/mail_data.xml',

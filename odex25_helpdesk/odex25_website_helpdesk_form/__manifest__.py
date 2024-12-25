@@ -2,11 +2,11 @@
 
 {
     'name': 'Online Ticket Submission',
+    'category': 'Website/Website',
     'sequence': 58,
     'summary': 'Qualify helpdesk queries with a website form',
-     'author': "Expert Co Ltd",
-    'website': "http://www.ex.com",
-    'category': 'Odex25-Helpdesk/Odex25-Helpdesk',
+    'author': "Expert Co. Ltd.",
+    'website': "http://www.exp-sa.com",
     'depends': [
         'website_form',
         'odex25_website_helpdesk',

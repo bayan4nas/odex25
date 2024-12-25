@@ -3,10 +3,10 @@
 
 {
     'name': 'EXP Helpdesk Assignation methods',
+    'category': 'Hidden',
     'summary': 'Ticket Assignation methods for team members considering ticket types',
-    'author': "Expert Co Ltd",
-    'website': "http://www.ex.com",
-    'category': 'Odex25-Helpdesk/Odex25-Helpdesk',
+    'author': "Expert Co. Ltd.",
+    'website': "http://www.exp-sa.com",
     'depends': ['odex25_helpdesk_security'],
     'description': """
         Ticket Assignation methods for team members considering ticket types

@@ -4,9 +4,8 @@
 {
     'name': 'EXP Helpdesk Reopen',
     'summary': 'adding reopen feature to helpdesk',
-    'author': "Expert Co Ltd",
-    'website': "http://www.ex.com",
-    'category': 'Odex25-Helpdesk/Odex25-Helpdesk',
+    'author': "Expert Co. Ltd.",
+    'website': "http://www.exp-sa.com",
     'depends': ['odex25_helpdesk'],
     'description': """
         ODEX system is over than 200+ modules developed by love of Expert Company, based on ODOO system

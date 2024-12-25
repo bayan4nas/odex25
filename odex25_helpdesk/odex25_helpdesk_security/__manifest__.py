@@ -3,11 +3,11 @@
 
 {
     'name': 'EXP Helpdesk Security',
+    'category': 'Hidden',
     'summary': 'Ticket Security',
-    'author': "Expert Co Ltd",
-    'website': "http://www.ex.com",
-    'category': 'Odex25-Helpdesk/Odex25-Helpdesk',
-    'depends': ['odex25_helpdesk', 'odex25_helpdesk_reopen'],
+    'author': "Expert Co. Ltd.",
+    'website': "http://www.exp-sa.com",
+    'depends': ['odex25_helpdesk','odex25_helpdesk_reopen'],
     'description': """
         Ticket Security
     """,

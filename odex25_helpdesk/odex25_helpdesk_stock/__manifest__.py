@@ -2,10 +2,10 @@
 
 {
     'name': 'Helpdesk Stock',
+    'category': 'Odex25 Services/Helpdesk',
     'summary': 'Project, Tasks, Stock',
-    'author': "Expert Co Ltd",
-    'website': "http://www.ex.com",
-    'category': 'Odex25-Helpdesk/Odex25-Helpdesk',
+    'author': "Expert Co. Ltd.",
+    'website': "http://www.exp-sa.com",
     'depends': ['odex25_helpdesk_sale', 'stock'],
     'auto_install': False,
     'description': """
