@@ -1,0 +1,76 @@
+name: Upgrade Module
+
+on:
+  workflow_dispatch:
+    inputs:
+      database_name:
+        description: 'Database Name'
+        required: true
+        type: string
+      module_name:
+        description: 'Module Name'
+        required: true
+        type: string
+      environment:
+        description: 'Select Server'
+        required: true
+        type: choice
+        options:
+          - test
+          - preprod
+          - client-stage
+          - client-production
+        default: test
+
+jobs:
+  upgrade_stage_master:
+    name: Upgrade Master Client stage server
+    runs-on: client_server_trahum_stage_project
+    if: github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'client-stage'
+    steps:
+      - name: Upgrade
+        env:
+            DATABASE_NAME: ${{ github.event.inputs.database_name }}
+            MODULE_NAME: ${{ github.event.inputs.module_name }}
+        run: | 
+            chmod +x /home/${{ secrets.CLIENT_USER }}/scripts/upgrade/trahum-master-upgrade.sh
+            /home/${{ secrets.CLIENT_USER }}/scripts/upgrade/trahum-master-upgrade.sh "$DATABASE_NAME" "$MODULE_NAME"
+
+  upgrade_prod_master:
+    name: Upgrade Master Client prod server
+    runs-on: client_server_trahum_prod_project
+    if: github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'production'
+    steps:
+      - name: Upgrade
+        env:
+            DATABASE_NAME: ${{ github.event.inputs.database_name }}
+            MODULE_NAME: ${{ github.event.inputs.module_name }}
+        run: | 
+            chmod +x /home/${{ secrets.CLIENT_USER }}/scripts/upgrade/trahum-master-upgrade.sh
+            /home/${{ secrets.CLIENT_USER }}/scripts/upgrade/trahum-master-upgrade.sh "$DATABASE_NAME" "$MODULE_NAME"
+
+  upgrade_preprod:
+    name: Upgrade Preprod server
+    runs-on: app_server_trahum_project_runner
+    if: github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'preprod'
+    steps:
+      - name: Upgrade
+        env:
+          DATABASE_NAME: ${{ github.event.inputs.database_name }}
+          MODULE_NAME: ${{ github.event.inputs.module_name }}
+        run: | 
+          chmod +x /home/${{ secrets.CLIENT_USER }}/scripts/upgrade/trahum-preprod-upgrade.sh
+          /home/${{ secrets.CLIENT_USER }}/scripts/upgrade/trahum-preprod-upgrade.sh "$DATABASE_NAME" "$MODULE_NAME"
+    
+  upgrade_test:
+    name: Upgrade Test server
+    runs-on: app_server_trahum_project_runner
+    if: github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'test'
+    steps:
+      - name: Upgrade
+        env:
+          DATABASE_NAME: ${{ github.event.inputs.database_name }}
+          MODULE_NAME: ${{ github.event.inputs.module_name }}
+        run: | 
+          chmod +x /home/${{ secrets.CLIENT_USER }}/scripts/upgrade/trahum-test-upgrade.sh
+          /home/${{ secrets.CLIENT_USER }}/scripts/upgrade/trahum-test-upgrade.sh "$DATABASE_NAME" "$MODULE_NAME"
