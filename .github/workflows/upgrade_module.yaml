@@ -25,7 +25,7 @@ on:
 jobs:
   upgrade_stage_master:
     name: Upgrade Master Client stage server
-    runs-on: client_server_trahum_stage_project
+    runs-on: client_stage_server_trahum_project
     if: github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'client-stage'
     steps:
       - name: Upgrade
@@ -38,7 +38,7 @@ jobs:
 
   upgrade_prod_master:
     name: Upgrade Master Client prod server
-    runs-on: client_server_trahum_prod_project
+    runs-on: client_prod_server_trahum_project
     if: github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'production'
     steps:
       - name: Upgrade
