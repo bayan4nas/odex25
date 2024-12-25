@@ -3,10 +3,10 @@
 
 {
     'name': 'EXP Helpdesk SLA Escalation Reminder',
+    'category': 'Hidden',
     'summary': 'Reminder in SLA Policy to reminde the team leader of the task depending on configuration',
-    'author': "Expert Co Ltd",
-    'website': "http://www.ex.com",
-    'category': 'Odex25-Helpdesk/Odex25-Helpdesk',
+    'author': "Expert Co. Ltd.",
+    'website': "http://www.exp-sa.com",
     'depends': ['odex25_helpdesk'],
     'description': """
         Reminder in SLA Policy to reminde the team leader of the task depending on configuration

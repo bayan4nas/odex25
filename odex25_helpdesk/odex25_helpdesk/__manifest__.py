@@ -3,11 +3,11 @@
 {
     'name': 'Helpdesk',
     'version': '1.3',
+    'category': 'Odex25 Services/helpdesk',
     'sequence': 110,
     'summary': 'Track, prioritize, and solve customer tickets',
-    'author': "Expert Co Ltd",
-    'website': "http://www.ex.com",
-    'category': 'Odex25-Helpdesk/Odex25-Helpdesk',
+    'author': "Expert Co. Ltd.",
+    'website': "http://www.exp-sa.com",
     'depends': [
         'base_setup',
         'mail',

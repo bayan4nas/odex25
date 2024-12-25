@@ -2,11 +2,11 @@
 
 {
     'name': 'Website IM Livechat Helpdesk',
+    'category': 'Odex25 Services/Helpdesk',
     'sequence': 58,
     'summary': 'Ticketing, Support, Livechat',
-    'author': "Expert Co Ltd",
-    'website': "http://www.ex.com",
-    'category': 'Odex25-Helpdesk/Odex25-Helpdesk',
+    'author': "Expert Co. Ltd.",
+    'website': "http://www.exp-sa.com",
     'depends': [
         'odex25_website_helpdesk',
         'website_livechat',
