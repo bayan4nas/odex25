@@ -10,7 +10,7 @@
     'website': "http://www.exp-sa.com",
     'category': 'Odex25 Accounting/Accounting',
     # any module necessary for this one to work correctly
-    'depends': ['account_budget_custom','purchase_requisition_custom','exp_budget_check'],
+    'depends': ['account_budget_custom','purchase_requisition_custom','exp_budget_check','odex25_account_budget','exp_budget_check'],
     # always loaded
     'data': [
         'views/account_budget_views.xml',
