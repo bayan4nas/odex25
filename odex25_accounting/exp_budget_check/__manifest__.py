@@ -20,7 +20,7 @@
         'account',
         'account_configuration',
         'account_budget_custom',
-        'hr_expense',
+        'hr_expense'
 
     ],
 

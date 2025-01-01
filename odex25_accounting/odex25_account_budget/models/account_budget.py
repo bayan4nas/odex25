@@ -268,10 +268,13 @@ class CrossoveredBudgetLines(models.Model):
                     theo_amt = line.planned_amount
             line.theoritical_amount = theo_amt
 
+    final_amount = fields.Float(string='Final Amount', compute='_compute_percentage',
+                                help=_('Final amount of money that has been provided'), store=False)
+    @api.depends('theoritical_amount', 'practical_amount', 'final_amount')
     def _compute_percentage(self):
         for line in self:
             if line.theoritical_amount != 0.00:
-                line.percentage = float((line.practical_amount or 0.0) / line.theoritical_amount)
+                line.percentage = float((line.practical_amount or 0.0) / line.final_amount)
             else:
                 line.percentage = 0.00
 
