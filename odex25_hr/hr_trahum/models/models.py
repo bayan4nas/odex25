@@ -2,8 +2,9 @@
 
 
 from odoo import models, fields, api, _, exceptions
-
 import logging
+_logger = logging.getLogger(__name__)
+
 
 
 class HrContractTrahum(models.Model):
@@ -137,3 +138,34 @@ class TerminationpPatchinherit(models.Model):
 
     def action_secretary_general(self):
         self.state = "secretary_general"
+
+
+class EmployeeHrhierarchy(models.Model):
+    _inherit = "hr.employee"
+
+    @api.model
+    def create(self, vals):
+        employee = super(EmployeeHrhierarchy, self).create(vals)
+        employee.update_manager_hierarchy()
+        return employee
+
+    def write(self, vals):
+        result = super(EmployeeHrhierarchy, self).write(vals)
+        for employee in self:
+            employee.update_manager_hierarchy()
+        return result
+
+    def update_manager_hierarchy(self):
+        for employee in self:
+            _logger.info(f"Checking parent_id for employee: {employee.id}")
+            if employee.parent_id.id == employee.id:
+                _logger.info(f"Found that parent_id is the same as employee id: {employee.id}")
+                parent_employee = self.env['hr.employee'].search([('id', '!=', employee.id)], limit=1)
+                if parent_employee:
+                    _logger.info(f"Assigning parent_id to: {parent_employee.id}")
+                    employee.parent_id = parent_employee
+                    employee.coach_id = parent_employee
+                else:
+                    _logger.warning("No manager found to assign.")
+            else:
+                _logger.info(f"Parent_id is different from employee id: {employee.id}")
