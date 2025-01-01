@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="account_move_form_inherit" model="ir.ui.view">
+            <field name="name">account.move.form.inherit</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='invoice_line_ids']//tree//field[@name='account_id']" position="replace">
+                    <field name="account_id" groups="account.group_account_readonly" options="{'no_create': True}"
+                           domain="[('deprecated', '=', False), ('user_type_id.type', 'not in', ('receivable', 'payable')), ('company_id', '=', parent.company_id), ('is_off_balance', '=', False),('type','!=','view')]"
+                           attrs="{'required': [('display_type', '=', False)]}"/>
+                </xpath>
+
+                <xpath expr="//field[@name='line_ids']/tree/field[@name='account_id']" position="replace">
+                    <field name="account_id"
+                           attrs="{'required': [('display_type', 'not in', ('line_section', 'line_note'))], 'invisible': [('display_type', 'in', ('line_section', 'line_note'))]}"
+                           domain="[('deprecated', '=', False), ('company_id', '=', parent.company_id),('type','!=','view')]"/>
+                </xpath>
+
+            </field>
+        </record>
+
+        <record id="view_account_payment_search_deposit_domain" model="ir.ui.view">
+            <field name="name">account.payment.search.deposit.domain</field>
+            <field name="model">account.payment</field>
+            <field name="inherit_id" ref="account.view_account_payment_search"/>
+            <field name="arch" type="xml">
+                <filter name="outbound_filter" position="after">
+                    <filter string="General Ledger"
+                            name="gl_filter"
+                            domain="[('partner_type', '=', 'GL'), ('is_internal_transfer', '=', False)]"/>
+                </filter>
+            </field>
+        </record>
+
+    </data>
+</odoo>
