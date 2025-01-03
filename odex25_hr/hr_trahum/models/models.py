@@ -150,46 +150,76 @@ class EmployeeHrhierarchy(models.Model):
     #     for employee in self:
     #         employee.update_all_managers()
     #     return result
-    def action_update_hierarchy(self):
-        """
-        زر لتحديث الحقول parent_id و coach_id.
-        """
-        self.update_hierarchy()
+    parent_id = fields.Many2one('hr.employee', string="Manager")
+    coach_id = fields.Many2one('hr.employee', string="Coach")
 
-    def update_hierarchy(self):
+    @api.depends('department_id', 'department_id.manager_id')
+    def _compute_hierarchy(self):
+        """
+        تحديث الحقول parent_id و coach_id بشكل تلقائي بناءً على القسم والمدير.
+        """
         for employee in self:
-            # Step 1: تحديد `parent_id`
+            # Step 1: تحديث `parent_id`
             if employee.department_id and employee.department_id.manager_id:
-                # إذا كان الموظف هو مدير القسم، نبحث عن المدير الأعلى
                 if employee == employee.department_id.manager_id:
+                    # إذا كان الموظف هو مدير القسم، نبحث عن المدير الأعلى
                     higher_manager = employee.department_id.parent_id.manager_id
                     if higher_manager:
-                        employee.parent_id = higher_manager
-                        print(f"Updated parent_id for {employee.name}: {higher_manager.name}")
+                        if employee.parent_id != higher_manager:
+                            employee.parent_id = higher_manager
+                            print(f"Updated parent_id for {employee.name}: {higher_manager.name}")
                     else:
-                        employee.parent_id = False
-                        print(f"No higher manager found for {employee.name}. parent_id set to False.")
+                        if employee.parent_id != False:
+                            employee.parent_id = False
+                            print(f"No higher manager found for {employee.name}. parent_id set to False.")
                 else:
                     # الموظف ليس مدير القسم
-                    employee.parent_id = employee.department_id.manager_id
-                    print(f"Updated parent_id for {employee.name}: {employee.parent_id.name}")
+                    if employee.parent_id != employee.department_id.manager_id:
+                        employee.parent_id = employee.department_id.manager_id
+                        print(f"Updated parent_id for {employee.name}: {employee.parent_id.name}")
             else:
-                employee.parent_id = False
-                print(f"No manager found for {employee.name}. parent_id set to False.")
+                if employee.parent_id != False:
+                    employee.parent_id = False
+                    print(f"No manager found for {employee.name}. parent_id set to False.")
 
-            # Step 2: تحديد `coach_id`
+            # Step 2: تحديث `coach_id`
             current_manager = employee.parent_id
-            while current_manager and current_manager.parent_id:
+            seen_managers = set()
+
+            while current_manager:
+                # تحقق من التكرار في التسلسل الإداري
+                if current_manager.id in seen_managers:
+                    print(f"Cycle detected for {employee.name}. Breaking the loop.")
+                    break
+
+                seen_managers.add(current_manager.id)
+
+                # إذا كان `parent_id` يساوي `coach_id` أو الاسم متكرر، استمر في البحث
+                if current_manager.name != employee.parent_id.name:
+                    if employee.coach_id != current_manager:
+                        employee.coach_id = current_manager
+                        print(f"Updated coach_id for {employee.name}: {current_manager.name}")
+                    break
                 current_manager = current_manager.parent_id
 
-            if current_manager:
-                employee.coach_id = current_manager
-                print(f"Updated coach_id for {employee.name}: {current_manager.name}")
-            else:
-                # إذا لم يتم العثور على مدير أعلى في التسلسل الإداري
-                employee.coach_id = employee.parent_id
-                print(f"No higher coach found for {employee.name}. coach_id set to {employee.parent_id.name if employee.parent_id else 'False'}.")
+            # إذا لم يتم العثور على مدير أعلى، تعيين `coach_id` إلى `parent_id`
+            if not employee.coach_id:
+                if employee.coach_id != employee.parent_id:
+                    employee.coach_id = employee.parent_id
+                    print(
+                        f"No higher coach found for {employee.name}. coach_id set to {employee.parent_id.name if employee.parent_id else 'False'}.")
 
-            # Step 3: التأكد من أن `coach_id` و `parent_id` متطابقان إذا كانا في نهاية التسلسل الإداري
+            # Step 3: التأكد من أن `coach_id` و `parent_id` متطابقان في نهاية التسلسل
             if employee.coach_id == employee.parent_id:
                 print(f"coach_id and parent_id are the same for {employee.name}: {employee.coach_id.name}")
+
+    @api.model
+    def create(self, vals):
+        employee = super(EmployeeHrhierarchy, self).create(vals)
+        employee._compute_hierarchy()  # تحديث الحقول تلقائيًا عند إنشاء موظف جديد
+        return employee
+
+    def write(self, vals):
+        result = super(EmployeeHrhierarchy, self).write(vals)
+        self._compute_hierarchy()  # تحديث الحقول تلقائيًا عند تعديل موظف
+        return result
