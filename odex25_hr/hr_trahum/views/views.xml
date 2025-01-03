@@ -7,7 +7,7 @@
         <field name="arch" type="xml">
             <xpath expr="//header" position="inside">
                 <button name="action_sector_head_approval" string="Sector Head Approval" type="object"
-                        states="hr_head_approval" class="oe_highlight" groups="hr_base.group_sector_head_approval"/>
+                        states="hr_head_approval" class="oe_highlight" groups="hr_trahum.group_sector_head_approval"/>
 
             </xpath>
             <xpath expr="//button[@name='program_directory']" position="attributes">
@@ -21,35 +21,27 @@
         </field>
     </record>
 
-    <record model="ir.ui.view" id="employee_official_mission_form_view">
+    <record model="ir.ui.view" id="employee_official_mission_form_view_inherit">
         <field name="name">Inherited Employee Official form Mission</field>
         <field name="model">hr.official.mission</field>
         <field name="inherit_id" ref="exp_official_mission.employee_official_mission_form_view"/>
         <field name="arch" type="xml">
-            <!-- Your custom XML changes here -->
+
             <xpath expr="//header" position="inside">
                 <button name="action_sector_head_approval" string="Sector Head Approval" type="object"
-                        states="depart_manager" class="oe_highlight" groups="hr_base.group_sector_head_approval"/>
-            </xpath>
-            <xpath expr="//header" position="inside">
-                <button name="action_secretary_general" string="Secretary General" type="object"
-                        states="sector_head_approval" class="oe_highlight" groups="hr_base.group_secretary_general"/>
+                        states="depart_manager" class="oe_highlight" groups="hr_trahum.group_sector_head_approval"/>
             </xpath>
 
             <xpath expr="//button[@name='hr_aaproval']" position="attributes">
-                <attribute name="states">secretary_general</attribute>
-            </xpath>
-            <xpath expr="//button[@name='refused']" position="attributes">
                 <attribute name="states">sector_head_approval</attribute>
             </xpath>
-            <xpath expr="//button[@name='refused']" position="attributes">
-                <attribute name="states">depart_manager</attribute>
+
+            <xpath expr="//button[@name='hr_aaproval']" position="after">
+                <button name="refused" string="Refused" class="oe_highlight" type="object"
+                        states="sector_head_approval"
+                        groups="hr_base.group_general_manager,hr_base.group_executive_manager"/>
             </xpath>
 
-            <!--            <xpath expr="//sheet/group" position="inside">-->
-            <!--                <field name="state" widget="statusbar"-->
-            <!--                       statusbar_visible="draft,send,direct_manager,depart_manager,sector_head_approval,secretary_general,hr_aaproval,approve,refused"/>-->
-            <!--            </xpath>-->
         </field>
     </record>
 
@@ -93,30 +85,30 @@
         </field>
     </record>
 
-    <record id="employee_overtime_request_inherit" model="ir.ui.view">
-        <field name="name">Employee Overtime Request trahum Form Inherit</field>
-        <field name="model">employee.overtime.request</field>
-        <field name="inherit_id" ref="employee_requests.employee_overtime_request_form_view"/>
-        <field name="arch" type="xml">
-            <xpath expr="//header" position="inside">
-                <button name="action_sector_head_approval" string="Sector Head Approval" type="object"
-                        states="financial_manager" class="oe_highlight" groups="hr_base.group_sector_head_approval"/>
-            </xpath>
-            <xpath expr="//header" position="inside">
-                <button name="action_secretary_general" string="Secretary General" type="object"
-                        states="sector_head_approval" class="oe_highlight" groups="hr_base.group_secretary_general"/>
-            </xpath>
-            <xpath expr="//button[@name='hr_aaproval']" position="attributes">
-                <attribute name="states">secretary_general</attribute>
-            </xpath>
-            <xpath expr="//button[@name='refused']" position="attributes">
-                <attribute name="states">sector_head_approval</attribute>
-            </xpath>
-            <xpath expr="//button[@name='refused']" position="attributes">
-                <attribute name="states">financial_manager</attribute>
-            </xpath>
-        </field>
-    </record>
+    <!--    <record id="employee_overtime_request_inherit" model="ir.ui.view">-->
+    <!--        <field name="name">Employee Overtime Request trahum Form Inherit</field>-->
+    <!--        <field name="model">employee.overtime.request</field>-->
+    <!--        <field name="inherit_id" ref="employee_requests.employee_overtime_request_form_view"/>-->
+    <!--        <field name="arch" type="xml">-->
+    <!--            <xpath expr="//header" position="inside">-->
+    <!--                <button name="action_sector_head_approval" string="Sector Head Approval" type="object"-->
+    <!--                        states="financial_manager" class="oe_highlight" groups="hr_trahum.group_sector_head_approval"/>-->
+    <!--            </xpath>-->
+    <!--            <xpath expr="//header" position="inside">-->
+    <!--                <button name="action_secretary_general" string="Secretary General" type="object"-->
+    <!--                        states="sector_head_approval" class="oe_highlight" groups="hr_trahum.group_secretary_general"/>-->
+    <!--            </xpath>-->
+    <!--            <xpath expr="//button[@name='executive_office']" position="attributes">-->
+    <!--                <attribute name="states">sector_head_approval</attribute>-->
+    <!--            </xpath>-->
+    <!--            <xpath expr="//button[@name='refused']" position="attributes">-->
+    <!--                <attribute name="states">sector_head_approval</attribute>-->
+    <!--            </xpath>-->
+    <!--            <xpath expr="//button[@name='refused']" position="attributes">-->
+    <!--                <attribute name="states">financial_manager</attribute>-->
+    <!--            </xpath>-->
+    <!--        </field>-->
+    <!--    </record>-->
     <record id="employee_loan_salary_form_view_action_inherit" model="ir.ui.view">
         <field name="name">hr loan salary advance Form Inherit</field>
         <field name="model">hr.loan.salary.advance</field>
@@ -124,14 +116,15 @@
         <field name="arch" type="xml">
             <xpath expr="//header" position="inside">
                 <button name="action_sector_head_approval" string="Sector Head Approval" type="object"
-                        states="direct_manager" class="oe_highlight" groups="hr_base.group_sector_head_approval"/>
+                        states="direct_manager" class="oe_highlight" groups="hr_trahum.group_sector_head_approval"/>
             </xpath>
-            <xpath expr="//header" position="inside">
-                <button name="action_secretary_general" string="Secretary General" type="object"
-                        states="sector_head_approval" class="oe_highlight" groups="hr_base.group_secretary_general"/>
+                    <xpath expr="//button[@name='hr_manager']" position="attributes">
+                <attribute name="states">sector_head_approval</attribute>
             </xpath>
-            <xpath expr="//button[@name='hr_manager']" position="attributes">
-                <attribute name="states">secretary_general</attribute>
+
+            <xpath expr="//button[@name='hr_manager']" position="after">
+                <button name="refused" string="Refuse"  states="sector_head_approval" type="object"
+                                groups="hr.group_hr_manager" class="oe_highlight"/>
             </xpath>
         </field>
     </record>
@@ -142,22 +135,22 @@
         <field name="arch" type="xml">
             <xpath expr="//header" position="inside">
                 <button name="action_sector_head_approval" string="Sector Head Approval" type="object"
-                        states="confirm" class="oe_highlight" groups="hr_base.group_sector_head_approval"/>
+                        states="confirm" class="oe_highlight" groups="hr_trahum.group_sector_head_approval"/>
             </xpath>
             <xpath expr="//header" position="inside">
                 <button name="action_secretary_general" string="Secretary General" type="object"
-                        states="sector_head_approval" class="oe_highlight" groups="hr_base.group_secretary_general"/>
+                        states="sector_head_approval" class="oe_highlight" groups="hr_trahum.group_secretary_general"/>
             </xpath>
             <xpath expr="//button[@name='action_secretary_general']" position="after">
 
                 <button string="Refuse" name="act_refuse" states="hr_officer" type="object" class="oe_highlight"
                         groups="hr.group_hr_manager"/>
             </xpath>
-<!--            <xpath expr="//button[@name='action_sector_head_approval']" position="before">-->
+            <!--            <xpath expr="//button[@name='action_sector_head_approval']" position="before">-->
 
-<!--              <button string="Refuse" name="act_refuse" states="act_approve" type="object" class="oe_highlight"-->
-<!--                                groups="hr.group_hr_manager"/>-->
-<!--                </xpath>-->
+            <!--              <button string="Refuse" name="act_refuse" states="act_approve" type="object" class="oe_highlight"-->
+            <!--                                groups="hr.group_hr_manager"/>-->
+            <!--                </xpath>-->
 
             <xpath expr="//button[@name='act_refuse']" position="attributes">
                 <attribute name="states">sector_head_approval</attribute>
@@ -170,24 +163,35 @@
     </record>
 
 
-        <record id="termination_resignation_inherit_form_view" model="ir.ui.view">
+    <record id="termination_resignation_inherit_form_view" model="ir.ui.view">
         <field name="name">Employee Raise eos inherit FormInherit</field>
         <field name="model">hr.termination</field>
         <field name="inherit_id" ref="hr_termination.termination_resignation_eos_form_view"/>
         <field name="arch" type="xml">
             <xpath expr="//header" position="inside">
                 <button name="action_sector_head_approval" string="Sector Head Approval" type="object"
-                        states="finance_manager" class="oe_highlight" groups="hr_base.group_sector_head_approval"/>
+                        states="finance_manager" class="oe_highlight" groups="hr_trahum.group_sector_head_approval"/>
             </xpath>
             <xpath expr="//header" position="inside">
                 <button name="action_secretary_general" string="Secretary General" type="object"
-                        states="sector_head_approval" class="oe_highlight" groups="hr_base.group_secretary_general"/>
+                        states="sector_head_approval" class="oe_highlight" groups="hr_trahum.group_secretary_general"/>
             </xpath>
 
-              <xpath expr="//button[@name='general_manager']" position="attributes">
+            <xpath expr="//button[@name='general_manager']" position="attributes">
                 <attribute name="states">secretary_general</attribute>
             </xpath>
 
         </field>
     </record>
+
+
+
+
+
+
+
+
+<record id="account.action_account_payments" model="ir.actions.act_window">
+    <field name="name">Payments</field>
+</record>
 </odoo>

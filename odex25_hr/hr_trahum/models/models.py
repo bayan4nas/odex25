@@ -39,7 +39,6 @@ class HrOfficialMissionTrahum(models.Model):
                               ('direct_manager', _('Waiting Department Manager')),
                               ('depart_manager', _('Wait HR Department')),
                               ('sector_head_approval', _('Sector Head Approval')),
-                              ('secretary_general', _('Secretary General')),
                               ('hr_aaproval', _('Wait Approval')),
                               ('approve', _('Approved')),
                               ('refused', _('Refused'))], default="draft", tracking=True)
@@ -47,28 +46,27 @@ class HrOfficialMissionTrahum(models.Model):
     def action_sector_head_approval(self):
         self.state = "sector_head_approval"
 
-    def action_secretary_general(self):
-        self.state = "secretary_general"
+    # def action_secretary_general(self):
+    #     self.state = "secretary_general"
 
 
-class EmployeeOvertimeRequestTrahum(models.Model):
-    _inherit = 'employee.overtime.request'
+# class EmployeeOvertimeRequestTrahum(models.Model):
+#     _inherit = 'employee.overtime.request'
+#
+#
+#     state = fields.Selection(
+#         [('draft', _('Draft')),
+#          ('submit', _('Waiting Direct Manager')),
+#          ('direct_manager', _('Waiting Department Manager')),
+#          ('financial_manager', _('Wait HR Department')),
+#          ('sector_head_approval', _('Sector Head Approval')),
+#          ('hr_aaproval', _('Wait Approval')),
+#          ('executive_office', _('Wait Transfer')),
+#          ('validated', _('Transferred')),
+#          ('refused', _('Refused'))], default="draft", tracking=True)
 
-
-    state = fields.Selection(
-        [('draft', _('Draft')),
-         ('submit', _('Waiting Direct Manager')),
-         ('direct_manager', _('Waiting Department Manager')),
-         ('financial_manager', _('Wait HR Department')),
-         ('sector_head_approval', _('Sector Head Approval')),
-         ('secretary_general', _('Secretary General')),
-         ('hr_aaproval', _('Wait Approval')),
-         ('executive_office', _('Wait Transfer')),
-         ('validated', _('Transferred')),
-         ('refused', _('Refused'))], default="draft", tracking=True)
-
-    def action_sector_head_approval(self):
-        self.state = "sector_head_approval"
+    # def action_sector_head_approval(self):
+    #     self.state = "sector_head_approval"
 
 
     def action_secretary_general(self):
@@ -84,7 +82,6 @@ class HrLoanSalaryAdvanceInherit(models.Model):
                  ('submit', _('Waiting Payroll Officer')),
                  ('direct_manager', _('Wait HR Department')),
                  ('sector_head_approval', _('Sector Head Approval')),
-                 ('secretary_general', _('Secretary General')),
                  ('hr_manager', _('Wait GM Approval')),
                  ('executive_manager', _('Wait Transfer')),
                  ('pay', _('Transferred')), ('refused', _('Refused')),
@@ -95,8 +92,6 @@ class HrLoanSalaryAdvanceInherit(models.Model):
         self.state = "sector_head_approval"
 
 
-    def action_secretary_general(self):
-        self.state = "secretary_general"
 
 class HrSalaryAdvanceInherit(models.Model):
     _inherit = 'hr.payroll.raise'
@@ -146,23 +141,26 @@ class EmployeeHrhierarchy(models.Model):
     @api.model
     def create(self, vals):
         employee = super(EmployeeHrhierarchy, self).create(vals)
-        employee.update_manager_hierarchy()
+        employee.update_all_managers()
         return employee
 
     def write(self, vals):
         result = super(EmployeeHrhierarchy, self).write(vals)
         for employee in self:
-            employee.update_manager_hierarchy()
+            employee.update_all_managers()
         return result
 
-    def update_manager_hierarchy(self):
-        for employee in self:
-            _logger.info(f"Checking parent_id for employee: {employee.id}")
+    @api.model
+    def update_all_managers(self):
+        employees = self.env['hr.employee'].search([])
+        for employee in employees:
+            _logger.info(f"Checking parent_id and coach_id for employee: {employee.id}")
+
             if employee.parent_id.id == employee.id:
                 _logger.info(f"Found that parent_id is the same as employee id: {employee.id}")
                 parent_employee = self.env['hr.employee'].search([('id', '!=', employee.id)], limit=1)
                 if parent_employee:
-                    _logger.info(f"Assigning parent_id to: {parent_employee.id}")
+                    _logger.info(f"Assigning parent_id and coach_id to: {parent_employee.id}")
                     employee.parent_id = parent_employee
                     employee.coach_id = parent_employee
                 else:
