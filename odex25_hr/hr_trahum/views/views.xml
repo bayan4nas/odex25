@@ -118,13 +118,13 @@
                 <button name="action_sector_head_approval" string="Sector Head Approval" type="object"
                         states="direct_manager" class="oe_highlight" groups="hr_trahum.group_sector_head_approval"/>
             </xpath>
-                    <xpath expr="//button[@name='hr_manager']" position="attributes">
+            <xpath expr="//button[@name='hr_manager']" position="attributes">
                 <attribute name="states">sector_head_approval</attribute>
             </xpath>
 
             <xpath expr="//button[@name='hr_manager']" position="after">
-                <button name="refused" string="Refuse"  states="sector_head_approval" type="object"
-                                groups="hr.group_hr_manager" class="oe_highlight"/>
+                <button name="refused" string="Refuse" states="sector_head_approval" type="object"
+                        groups="hr.group_hr_manager" class="oe_highlight"/>
             </xpath>
         </field>
     </record>
@@ -184,14 +184,16 @@
         </field>
     </record>
 
+    <record id="view_employee_form_inherit_hierarchy" model="ir.ui.view">
+        <field name="name">hr.employee.form.inherit.hierarchy</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+            <button name="draft_state" position="after">
+                <button name="action_update_hierarchy" type="object" string="Update Hierarchy" class="btn-primary"/>
+            </button>
+        </field>
+    </record>
 
 
-
-
-
-
-
-<record id="account.action_account_payments" model="ir.actions.act_window">
-    <field name="name">Payments</field>
-</record>
 </odoo>

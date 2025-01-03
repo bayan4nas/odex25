@@ -3,6 +3,7 @@
 
 from odoo import models, fields, api, _, exceptions
 import logging
+from odoo.exceptions import ValidationError
 _logger = logging.getLogger(__name__)
 
 
@@ -138,32 +139,57 @@ class TerminationpPatchinherit(models.Model):
 class EmployeeHrhierarchy(models.Model):
     _inherit = "hr.employee"
 
-    @api.model
-    def create(self, vals):
-        employee = super(EmployeeHrhierarchy, self).create(vals)
-        employee.update_all_managers()
-        return employee
+    # @api.model
+    # def create(self, vals):
+    #     employee = super(EmployeeHrhierarchy, self).create(vals)
+    #     employee.update_all_managers()
+    #     return employee
+    #
+    # def write(self, vals):
+    #     result = super(EmployeeHrhierarchy, self).write(vals)
+    #     for employee in self:
+    #         employee.update_all_managers()
+    #     return result
+    def action_update_hierarchy(self):
+        """
+        زر لتحديث الحقول parent_id و coach_id.
+        """
+        self.update_hierarchy()
 
-    def write(self, vals):
-        result = super(EmployeeHrhierarchy, self).write(vals)
+    def update_hierarchy(self):
         for employee in self:
-            employee.update_all_managers()
-        return result
-
-    @api.model
-    def update_all_managers(self):
-        employees = self.env['hr.employee'].search([])
-        for employee in employees:
-            _logger.info(f"Checking parent_id and coach_id for employee: {employee.id}")
-
-            if employee.parent_id.id == employee.id:
-                _logger.info(f"Found that parent_id is the same as employee id: {employee.id}")
-                parent_employee = self.env['hr.employee'].search([('id', '!=', employee.id)], limit=1)
-                if parent_employee:
-                    _logger.info(f"Assigning parent_id and coach_id to: {parent_employee.id}")
-                    employee.parent_id = parent_employee
-                    employee.coach_id = parent_employee
+            # Step 1: تحديد `parent_id`
+            if employee.department_id and employee.department_id.manager_id:
+                # إذا كان الموظف هو مدير القسم، نبحث عن المدير الأعلى
+                if employee == employee.department_id.manager_id:
+                    higher_manager = employee.department_id.parent_id.manager_id
+                    if higher_manager:
+                        employee.parent_id = higher_manager
+                        print(f"Updated parent_id for {employee.name}: {higher_manager.name}")
+                    else:
+                        employee.parent_id = False
+                        print(f"No higher manager found for {employee.name}. parent_id set to False.")
                 else:
-                    _logger.warning("No manager found to assign.")
+                    # الموظف ليس مدير القسم
+                    employee.parent_id = employee.department_id.manager_id
+                    print(f"Updated parent_id for {employee.name}: {employee.parent_id.name}")
             else:
-                _logger.info(f"Parent_id is different from employee id: {employee.id}")
+                employee.parent_id = False
+                print(f"No manager found for {employee.name}. parent_id set to False.")
+
+            # Step 2: تحديد `coach_id`
+            current_manager = employee.parent_id
+            while current_manager and current_manager.parent_id:
+                current_manager = current_manager.parent_id
+
+            if current_manager:
+                employee.coach_id = current_manager
+                print(f"Updated coach_id for {employee.name}: {current_manager.name}")
+            else:
+                # إذا لم يتم العثور على مدير أعلى في التسلسل الإداري
+                employee.coach_id = employee.parent_id
+                print(f"No higher coach found for {employee.name}. coach_id set to {employee.parent_id.name if employee.parent_id else 'False'}.")
+
+            # Step 3: التأكد من أن `coach_id` و `parent_id` متطابقان إذا كانا في نهاية التسلسل الإداري
+            if employee.coach_id == employee.parent_id:
+                print(f"coach_id and parent_id are the same for {employee.name}: {employee.coach_id.name}")
