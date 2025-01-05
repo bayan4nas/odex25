@@ -39,8 +39,14 @@
                         <button name="dep_manager_refused" string="Refuse" class="oe_highlight" type="object"
                                 states="direct_manager" groups="hr_base.group_department_manager"/>
 
+
+                         <button name="action_sector_head_approval" string="Sector Head Approval" type="object"
+                        states="financial_manager" class="oe_highlight" groups="hr_base.group_division_manager"/>
+                        <button name="direct_manager_refused" string="Refuse" class="oe_highlight" type="object"
+                                states="sector_head_approval" groups="hr_trahum.group_sector_head_approval"/>
+
                         <button name="hr_aaproval" string="HR Approval" class="oe_highlight" type="object"
-                                states="financial_manager" groups="hr.group_hr_user, hr.group_hr_manager"/>
+                                states="sector_head_approval" groups="hr.group_hr_user, hr.group_hr_manager"/>
                         <button name="refused" string="Refuse" class="oe_highlight" type="object"
                                 states="financial_manager" groups="hr.group_hr_user, hr.group_hr_manager"/>
 
