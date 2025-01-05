@@ -13,50 +13,36 @@
             <field name="arch" type="xml">
                 <form>
                     <header>
-                        <button name="submit" string="Submit" class="oe_highlight" type="object"
-                                states="draft" groups="base.group_user"/>
-
+                        <button name="submit" string="Submit" class="oe_highlight" type="object" states="draft"
+                                groups="base.group_user"/>
                         <button name="direct_manager" string="Payroll Officer Approve" class="oe_highlight"
-                                type="object"
-                                states="submit" groups="hr_loans_salary_advance.group_loan_manager"/>
+                                type="object" states="submit" groups="hr_loans_salary_advance.group_loan_manager"/>
                         <button name="refused" string="Refuse" states="submit" type="object"
                                 groups="hr_loans_salary_advance.group_loan_manager" class="oe_highlight"/>
-
-                        <button name="action_sector_head_approval" string="Sector Head Approval" type="object"
-                                states="direct_manager" class="oe_highlight"
-                                groups="hr_trahum.group_sector_head_approval"/>
-                        <button name="refused" string="Refuse" states="direct_manager" type="object"
-                                groups="hr_loans_salary_advance.group_loan_manager" class="oe_highlight"/>
-
                         <button name="hr_manager" string="HR Manager Approve" class="oe_highlight" type="object"
-                                states="sector_head_approval" groups="hr.group_hr_manager"/>
-                        <button name="refused" string="Refuse" states="sector_head_approval" type="object"
+                                states="direct_manager" groups="hr.group_hr_manager"/>
+                        <button name="refused" string="Refuse" states="direct_manager" type="object"
                                 groups="hr.group_hr_manager" class="oe_highlight"/>
-
                         <button name="executive_manager" string="GM Manager Approve" class="oe_highlight" type="object"
                                 states="hr_manager" groups="hr_base.group_general_manager"/>
                         <button name="refused" string="Refuse" states="hr_manager" type="object"
                                 groups="hr_base.group_general_manager" class="oe_highlight"/>
-
                         <button name="pay" string="Transfer" class="oe_highlight" type="object"
                                 states="executive_manager" groups="hr_base.group_account_manager"/>
                         <button name="refused" string="Refuse" states="executive_manager" type="object"
                                 groups="hr_base.group_account_manager" class="oe_highlight"/>
-
-                        <button name="closed" string="Loan Suspension" class="oe_highlight" type="object"
-                                states="pay" groups="hr.group_hr_manager" confirm="Are you Sure To Loan Suspension?"/>
-                        <button name="refused" string="Refuse" class="oe_highlight" type="object"
-                                states="pay" groups="hr.group_hr_manager"/>
-
+                        <button name="closed" string="Loan Suspension" class="oe_highlight" type="object" states="pay"
+                                groups="hr.group_hr_manager" confirm="Are you Sure To Loan Suspension?"/>
+                        <button name="refused" string="Refuse" class="oe_highlight" type="object" states="pay"
+                                groups="hr.group_hr_manager"/>
                         <button name="draft_state" string="RE-Draft" class="oe_highlight" type="object" states="refused"
                                 groups="hr.group_hr_manager,hr_loans_salary_advance.group_loan_manager"
                                 confirm="Are you sure to Reset To Draft This Record?"/>
                         <button name="to_re_paid" string="Return To Deduct" class="oe_highlight" type="object"
-                                states="closed"
-                                groups="hr.group_hr_manager,hr_loans_salary_advance.group_loan_manager"
+                                states="closed" groups="hr.group_hr_manager,hr_loans_salary_advance.group_loan_manager"
                                 confirm="Are you Sure To Re Deduction?"/>
                         <field name="state" widget="statusbar"
-                               statusbar_visible="draft,submit,direct_manager,sector_head_approval,hr_manager,executive_manager,pay,closed,refused"/>
+                               statusbar_visible="draft,submit,direct_manager,hr_manager,executive_manager,pay,closed,refused"/>
                     </header>
                     <sheet>
                         <group>
