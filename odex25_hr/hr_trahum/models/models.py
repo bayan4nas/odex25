@@ -15,7 +15,7 @@ class HrContractTrahum(models.Model):
         ('draft', 'Draft'),
         ('employeed_aproval', 'Employeed Approval'),
         ('hr_head_approval', 'HR Head Approval'),
-        ('sector_head_approval', 'Sector Head Approval'),
+        ('sector_head_approval', _('Sector Head Approval')),
         ('program_directory', 'Executive Approval'),
         ('end_contract', 'End Contract')
     ], default='draft', tracking=True)
@@ -78,19 +78,19 @@ class HrOfficialMissionTrahum(models.Model):
 class HrLoanSalaryAdvanceInherit(models.Model):
     _inherit = 'hr.loan.salary.advance'
 
-    state = fields.Selection(
-                [('draft', _('Draft')),
-                 ('submit', _('Waiting Payroll Officer')),
-                 ('direct_manager', _('Wait HR Department')),
-                 ('sector_head_approval', _('Sector Head Approval')),
-                 ('hr_manager', _('Wait GM Approval')),
-                 ('executive_manager', _('Wait Transfer')),
-                 ('pay', _('Transferred')), ('refused', _('Refused')),
-                 ('closed', _('Loan Suspended'))],
-            default="draft", tracking=True)
+    # state = fields.Selection(
+    #             [('draft', _('Draft')),
+    #              ('submit', _('Waiting Payroll Officer')),
+    #              ('direct_manager', _('Wait HR Department')),
+    #              ('sector_head_approval', _('Sector Head Approval')),
+    #              ('hr_manager', _('Wait GM Approval')),
+    #              ('executive_manager', _('Wait Transfer')),
+    #              ('pay', _('Transferred')), ('refused', _('Refused')),
+    #              ('closed', _('Loan Suspended'))],
+    #         default="draft", tracking=True)
 
-    def action_sector_head_approval(self):
-        self.state = "sector_head_approval"
+    # def action_sector_head_approval(self):
+    #     self.state = "sector_head_approval"
 
 
 

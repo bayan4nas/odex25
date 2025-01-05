@@ -5,7 +5,7 @@
             <field name="name">Employee loan salary advance</field>
             <field name="res_model">hr.loan.salary.advance</field>
             <field name="view_mode">tree,form</field>
-            <field name= "context">{"search_default_my_request":1}</field>		
+            <field name="context">{"search_default_my_request":1}</field>
         </record>
         <record model="ir.ui.view" id="employee_loan_salary_form_view">
             <field name="name">Employee loan salary advance</field>
@@ -16,24 +16,31 @@
                         <button name="submit" string="Submit" class="oe_highlight" type="object"
                                 states="draft" groups="base.group_user"/>
 
-                        <button name="direct_manager" string="Payroll Officer Approve" class="oe_highlight" type="object"
+                        <button name="direct_manager" string="Payroll Officer Approve" class="oe_highlight"
+                                type="object"
                                 states="submit" groups="hr_loans_salary_advance.group_loan_manager"/>
-                        <button name="refused" string="Refuse"  states="submit" type="object"
+                        <button name="refused" string="Refuse" states="submit" type="object"
+                                groups="hr_loans_salary_advance.group_loan_manager" class="oe_highlight"/>
+
+                        <button name="action_sector_head_approval" string="Sector Head Approval" type="object"
+                                states="direct_manager" class="oe_highlight"
+                                groups="hr_trahum.group_sector_head_approval"/>
+                        <button name="refused" string="Refuse" states="direct_manager" type="object"
                                 groups="hr_loans_salary_advance.group_loan_manager" class="oe_highlight"/>
 
                         <button name="hr_manager" string="HR Manager Approve" class="oe_highlight" type="object"
-                                states="direct_manager" groups="hr.group_hr_manager"/>
-                        <button name="refused" string="Refuse"  states="direct_manager" type="object"
+                                states="sector_head_approval" groups="hr.group_hr_manager"/>
+                        <button name="refused" string="Refuse" states="sector_head_approval" type="object"
                                 groups="hr.group_hr_manager" class="oe_highlight"/>
 
                         <button name="executive_manager" string="GM Manager Approve" class="oe_highlight" type="object"
                                 states="hr_manager" groups="hr_base.group_general_manager"/>
-                        <button name="refused" string="Refuse"  states="hr_manager" type="object"
+                        <button name="refused" string="Refuse" states="hr_manager" type="object"
                                 groups="hr_base.group_general_manager" class="oe_highlight"/>
 
                         <button name="pay" string="Transfer" class="oe_highlight" type="object"
                                 states="executive_manager" groups="hr_base.group_account_manager"/>
-                        <button name="refused" string="Refuse"  states="executive_manager" type="object"
+                        <button name="refused" string="Refuse" states="executive_manager" type="object"
                                 groups="hr_base.group_account_manager" class="oe_highlight"/>
 
                         <button name="closed" string="Loan Suspension" class="oe_highlight" type="object"
@@ -44,10 +51,12 @@
                         <button name="draft_state" string="RE-Draft" class="oe_highlight" type="object" states="refused"
                                 groups="hr.group_hr_manager,hr_loans_salary_advance.group_loan_manager"
                                 confirm="Are you sure to Reset To Draft This Record?"/>
-                        <button name="to_re_paid" string="Return To Deduct" class="oe_highlight" type="object" states="closed"
-                                groups="hr.group_hr_manager,hr_loans_salary_advance.group_loan_manager" confirm="Are you Sure To Re Deduction?"/>
+                        <button name="to_re_paid" string="Return To Deduct" class="oe_highlight" type="object"
+                                states="closed"
+                                groups="hr.group_hr_manager,hr_loans_salary_advance.group_loan_manager"
+                                confirm="Are you Sure To Re Deduction?"/>
                         <field name="state" widget="statusbar"
-                               statusbar_visible="draft,submit,direct_manager,hr_manager,executive_manager,pay,closed,refused"/>
+                               statusbar_visible="draft,submit,direct_manager,sector_head_approval,hr_manager,executive_manager,pay,closed,refused"/>
                     </header>
                     <sheet>
                         <group>
@@ -69,7 +78,7 @@
                             </group>
                             <group>
                                 <field name="is_old" string="Is Old" attrs="{'readonly':[('state','!=','draft')]}"/>
-<!--                                <field name="evaluation_grade" string="Evaluation Grad"/>-->
+                                <!--                                <field name="evaluation_grade" string="Evaluation Grad"/>-->
                                 <field name="company_id" string="Company" readonly="1"/>
                                 <field name="contract_duration_date" string="contract Start Date" readonly="1"/>
                                 <field name="emp_hiring_date" string="Hiring Date" readonly="1"/>
@@ -77,13 +86,13 @@
                                 <field name="months_employeed" string="working duration(months)" readonly="1"/>
                             </group>
                             <group>
-                                <field name="exception_loan" string="Exception Loan" groups="hr.group_hr_manager" 
+                                <field name="exception_loan" string="Exception Loan" groups="hr.group_hr_manager"
                                        attrs="{'readonly':[('state','!=','draft')]}"/>
                                 <field name="basic_amount" string="Basic Amount" readonly="1" force_save="1"/>
                                 <field name="emp_expect_amount" string="Request Employee Amount" required="True"
                                        attrs="{'readonly':[('state','!=','draft')]}"/>
-<!--                                <field name="finance_propos_amount" string="Finance proposed Amount"-->
-<!--                                       attrs="{'readonly':[('state','!=','draft')]}"/>-->
+                                <!--                                <field name="finance_propos_amount" string="Finance proposed Amount"-->
+                                <!--                                       attrs="{'readonly':[('state','!=','draft')]}"/>-->
                                 <field name="gm_propos_amount" string="Approved Amount"
                                        attrs="{'readonly':[('state','!=','draft')]}"/>
                                 <field name="months" string="Number of months"
@@ -110,7 +119,8 @@
                                     <tree editable="bottom" default_order="installment_date asc,sequence asc">
                                         <field name="sequence" string="Sequence" readonly="1"/>
                                         <field name="installment_date" string="installment Date" readonly="1"/>
-                                        <button name="postpone_of_installment" string="Postpone of installment" type="object"
+                                        <button name="postpone_of_installment" string="Postpone of installment"
+                                                type="object"
                                                 groups="hr.group_hr_manager"
                                                 attrs="{'invisible':['|',('paid','=',True),('parent.state','=','draft')]}"/>
                                         <field name="installment_amount" string="installment Amount" readonly="1"/>
@@ -171,16 +181,19 @@
             <field name="type">search</field>
             <field name="arch" type="xml">
                 <search>
-                  <field name="employee_id"/>
-                  <field name="employee_no"/>
-                  <field name="department_id" />
+                    <field name="employee_id"/>
+                    <field name="employee_no"/>
+                    <field name="department_id"/>
                     <group expand="0" string="Group By">
-                        <filter name="group_employee" string="Employee" domain="[]" context="{'group_by': 'employee_id'}"/>
-                        <filter name="group_loan" string="Loan Type" domain="[]" context="{'group_by': 'request_type'}"/>
-                        <filter name="group_department" string="Department" domain="[]" context="{'group_by': 'department_id'}"/>
+                        <filter name="group_employee" string="Employee" domain="[]"
+                                context="{'group_by': 'employee_id'}"/>
+                        <filter name="group_loan" string="Loan Type" domain="[]"
+                                context="{'group_by': 'request_type'}"/>
+                        <filter name="group_department" string="Department" domain="[]"
+                                context="{'group_by': 'department_id'}"/>
                     </group>
                     <separator/>
-                        <filter string="My Requests" name="my_request" domain="[('employee_id.user_id', '=', uid)]"/>
+                    <filter string="My Requests" name="my_request" domain="[('employee_id.user_id', '=', uid)]"/>
                     <separator/>
                 </search>
             </field>
