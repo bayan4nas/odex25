@@ -77,6 +77,7 @@ class HrTermination(models.Model):
         ("direct_manager", "Waiting Department Manager"),
         ("hr_manager", "Wait HR Officer"),
         ("finance_manager", "Wait HR Manager"),
+        ('sector_head_approval', _('Sector Head Approval')),
         ("gm_manager", "Wait CEO Manager"),
         ("done", "Wait Transfer"),
         ("pay", "Transferred"),
