@@ -18,16 +18,16 @@ class HrEmployee(models.Model):
         res = super(HrEmployee, self).open_sate()
         return res
 
-    @api.constrains('job_id', 'department_id')
-    def constrain_on_job_creation(self):
-        for rec in self:
-            if rec.job_id.state != 'recruit':
-                raise ValidationError(_("You need To open recruitment Before create New employee"))
-            if rec.job_id.department_ids:
-                if rec.department_id and rec.department_id not in rec.job_id.department_ids:
-                    raise ValidationError(_("This Job not available for this department"))
-            if rec.job_id.no_of_employee >= rec.job_id.expected_employees:
-                raise ValidationError(_("No empty job position for this employee"))
+    # @api.constrains('job_id', 'department_id')
+    # def constrain_on_job_creation(self):
+    #     for rec in self:
+    #         if rec.job_id.state != 'recruit':
+    #             # raise ValidationError(_("You need To open recruitment Before create New employee"))
+    #         if rec.job_id.department_ids:
+    #             if rec.department_id and rec.department_id not in rec.job_id.department_ids:
+    #                 raise ValidationError(_("This Job not available for this department"))
+    #         if rec.job_id.no_of_employee >= rec.job_id.expected_employees:
+    #             raise ValidationError(_("No empty job position for this employee"))
 
 
 # Hr_job
