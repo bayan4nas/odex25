@@ -26,7 +26,6 @@ class employee_overtime_request(models.Model):
          ('submit', _('Waiting Direct Manager')),
          ('direct_manager', _('Waiting Department Manager')),
          ('financial_manager', _('Wait HR Department')),
-         ('sector_head_approval', _('Sector Head Approval')),
          ('hr_aaproval', _('Wait Approval')),
          ('executive_office', _('Wait Transfer')),
          ('validated', _('Transferred')),
@@ -242,9 +241,6 @@ class employee_overtime_request(models.Model):
 
     def refused(self):
         self.state = "refused"
-
-    def action_sector_head_approval(self):
-        self.state = "sector_head_approval"
 
     #Refuse For The Direct Manager Only
     def direct_manager_refused(self):

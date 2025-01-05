@@ -18,7 +18,6 @@ class HrSalaryAdvance(models.Model):
             [('draft', _('Draft')), 
              ('submit', _('Waiting Payroll Officer')),
              ('direct_manager', _('Wait HR Department')),
-             ('sector_head_approval', _('Sector Head Approval')),
              ('hr_manager', _('Wait GM Approval')),
              ('executive_manager', _('Wait Transfer')),
              ('pay', _('Transferred')), ('refused', _('Refused')),
@@ -58,8 +57,7 @@ class HrSalaryAdvance(models.Model):
     exception_loan = fields.Boolean(help='Exception The Required Loan Amount Or The Number Of Installments,For The Human Resources Manager')
 
     # change state to piad
-    def action_sector_head_approval(self):
-        self.state = "sector_head_approval"
+
 
     @api.onchange('employee_id', 'request_type')
     def check_hiring_date(self):
