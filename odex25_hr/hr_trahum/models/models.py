@@ -12,12 +12,12 @@ class HrContractTrahum(models.Model):
     _inherit = 'hr.contract'
 
     state = fields.Selection(selection=[
-        ('draft', 'Draft'),
-        ('employeed_aproval', 'Employeed Approval'),
-        ('hr_head_approval', 'HR Head Approval'),
+        ('draft', _('Draft')),
+        ('employeed_aproval', _('Employeed Approval')),
+        ('hr_head_approval', _('HR Head Approval')),
         ('sector_head_approval', _('Sector Head Approval')),
-        ('program_directory', 'Executive Approval'),
-        ('end_contract', 'End Contract')
+        ('program_directory', _('Executive Approval')),
+        ('end_contract', _('End Contract'))
     ], default='draft', tracking=True)
 
     # def action_sector_head_approval(self):
@@ -51,46 +51,46 @@ class HrOfficialMissionTrahum(models.Model):
     #     self.state = "secretary_general"
 
 
-# class EmployeeOvertimeRequestTrahum(models.Model):
-#     _inherit = 'employee.overtime.request'
-#
-#
-#     state = fields.Selection(
-#         [('draft', _('Draft')),
-#          ('submit', _('Waiting Direct Manager')),
-#          ('direct_manager', _('Waiting Department Manager')),
-#          ('financial_manager', _('Wait HR Department')),
-#          ('sector_head_approval', _('Sector Head Approval')),
-#          ('hr_aaproval', _('Wait Approval')),
-#          ('executive_office', _('Wait Transfer')),
-#          ('validated', _('Transferred')),
-#          ('refused', _('Refused'))], default="draft", tracking=True)
-
-    # def action_sector_head_approval(self):
-    #     self.state = "sector_head_approval"
+class EmployeeOvertimeRequestTrahum(models.Model):
+    _inherit = 'employee.overtime.request'
 
 
-    def action_secretary_general(self):
-        self.state = "secretary_general"
+    state = fields.Selection(
+        [('draft', _('Draft')),
+         ('submit', _('Waiting Direct Manager')),
+         ('direct_manager', _('Waiting Department Manager')),
+         ('financial_manager', _('Wait HR Department')),
+         ('sector_head_approval', _('Sector Head Approval')),
+         ('hr_aaproval', _('Wait Approval')),
+         ('executive_office', _('Wait Transfer')),
+         ('validated', _('Transferred')),
+         ('refused', _('Refused'))], default="draft", tracking=True)
+
+    def action_sector_head_approval(self):
+        self.state = "sector_head_approval"
+
+
+    # def action_secretary_general(self):
+    #     self.state = "secretary_general"
 
 
 
 class HrLoanSalaryAdvanceInherit(models.Model):
     _inherit = 'hr.loan.salary.advance'
 
-    # state = fields.Selection(
-    #             [('draft', _('Draft')),
-    #              ('submit', _('Waiting Payroll Officer')),
-    #              ('direct_manager', _('Wait HR Department')),
-    #              ('sector_head_approval', _('Sector Head Approval')),
-    #              ('hr_manager', _('Wait GM Approval')),
-    #              ('executive_manager', _('Wait Transfer')),
-    #              ('pay', _('Transferred')), ('refused', _('Refused')),
-    #              ('closed', _('Loan Suspended'))],
-    #         default="draft", tracking=True)
+    state = fields.Selection(
+                [('draft', _('Draft')),
+                 ('submit', _('Waiting Payroll Officer')),
+                 ('direct_manager', _('Wait HR Department')),
+                 ('sector_head_approval', _('Sector Head Approval')),
+                 ('hr_manager', _('Wait GM Approval')),
+                 ('executive_manager', _('Wait Transfer')),
+                 ('pay', _('Transferred')), ('refused', _('Refused')),
+                 ('closed', _('Loan Suspended'))],
+            default="draft", tracking=True)
 
-    # def action_sector_head_approval(self):
-    #     self.state = "sector_head_approval"
+    def action_sector_head_approval(self):
+        self.state = "sector_head_approval"
 
 
 

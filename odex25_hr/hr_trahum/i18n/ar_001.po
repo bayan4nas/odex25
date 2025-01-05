@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-05 09:32+0000\n"
-"PO-Revision-Date: 2025-01-05 09:32+0000\n"
+"POT-Creation-Date: 2025-01-05 19:13+0000\n"
+"PO-Revision-Date: 2025-01-05 19:13+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,6 +16,7 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: hr_trahum
+#: model:ir.model.fields.selection,name:hr_trahum.selection__employee_overtime_request__state__refused
 #: model:ir.model.fields.selection,name:hr_trahum.selection__hr_loan_salary_advance__state__refused
 #: model:ir.model.fields.selection,name:hr_trahum.selection__hr_official_mission__state__refused
 msgid " مرفوض"
@@ -27,6 +28,11 @@ msgstr ""
 #, python-format
 msgid "Approved"
 msgstr "تم التصديق"
+
+#. module: hr_trahum
+#: model_terms:ir.ui.view,arch_db:hr_trahum.hr_payslip_run_inherit_form_inherit
+msgid "Are you sure to Delete Compute Salaries?"
+msgstr ""
 
 #. module: hr_trahum
 #: model:ir.model.fields.selection,name:hr_trahum.selection__hr_payslip_run__state__close
@@ -51,7 +57,8 @@ msgstr "تم التأكيد"
 #. module: hr_trahum
 #: code:addons/hr_trahum/models/models.py:0
 #: code:addons/hr_trahum/models/models.py:0
-#: model:ir.model.fields.selection,name:hr_trahum.selection__hr_contract__state__draft
+#: code:addons/hr_trahum/models/models.py:0
+#: code:addons/hr_trahum/models/models.py:0
 #: model:ir.model.fields.selection,name:hr_trahum.selection__hr_payroll_raise__state__draft
 #: model:ir.model.fields.selection,name:hr_trahum.selection__hr_termination__state__draft
 #, python-format
@@ -79,24 +86,35 @@ msgid "Employee annual raises"
 msgstr "علاوات الموظف السنوية"
 
 #. module: hr_trahum
-#: model:ir.model.fields.selection,name:hr_trahum.selection__hr_contract__state__employeed_aproval
+#: code:addons/hr_trahum/models/models.py:0
+#, python-format
 msgid "Employeed Approval"
-msgstr "الموافقة على العقد"
+msgstr ""
 
 #. module: hr_trahum
-#: model:ir.model.fields.selection,name:hr_trahum.selection__hr_contract__state__end_contract
+#: code:addons/hr_trahum/models/models.py:0
+#, python-format
 msgid "End Contract"
-msgstr "نهاية التعاقد"
+msgstr ""
 
 #. module: hr_trahum
-#: model:ir.model.fields.selection,name:hr_trahum.selection__hr_contract__state__program_directory
+#: code:addons/hr_trahum/models/models.py:0
+#, python-format
 msgid "Executive Approval"
-msgstr "اعتماد عقد الموظف"
+msgstr "اعتماد الامين العام"
+
+#. module: hr_contract_custom
+#: code:addons/hr_contract_custom/models/hr_contract.py:0
+#: model:ir.model.fields.selection,name:hr_contract_custom.selection__hr_contract__state__program_directory
+#, python-format
+msgid "Executive Approval"
+msgstr "اعتماد الامين العام"
 
 #. module: hr_trahum
-#: model:ir.model.fields.selection,name:hr_trahum.selection__hr_contract__state__hr_head_approval
+#: code:addons/hr_trahum/models/models.py:0
+#, python-format
 msgid "HR Head Approval"
-msgstr "موافقة  الموارد البشرية"
+msgstr ""
 
 #. module: hr_trahum
 #: model:ir.model.fields.selection,name:hr_trahum.selection__hr_payroll_raise__state__confirm
@@ -130,12 +148,15 @@ msgid "Payslip Batches"
 msgstr "حساب رواتب الموظفين"
 
 #. module: hr_trahum
-#: model_terms:ir.ui.view,arch_db:hr_trahum.employee_loan_salary_form_view_action_inherit
+#: model_terms:ir.ui.view,arch_db:hr_trahum.employee_loan_salary_form_view_inherit
+#: model_terms:ir.ui.view,arch_db:hr_trahum.employee_overtime_request_inherit
 #: model_terms:ir.ui.view,arch_db:hr_trahum.hr_payroll_raise_form_view_inherit
+#: model_terms:ir.ui.view,arch_db:hr_trahum.termination_resignation_inherit_form_view
 msgid "Refuse"
 msgstr "رفض"
 
 #. module: hr_trahum
+#: code:addons/hr_trahum/models/models.py:0
 #: code:addons/hr_trahum/models/models.py:0
 #: code:addons/hr_trahum/models/models.py:0
 #: model:ir.model.fields.selection,name:hr_trahum.selection__hr_payroll_raise__state__refuse
@@ -153,7 +174,7 @@ msgstr "مرفوض"
 #: model_terms:ir.ui.view,arch_db:hr_trahum.hr_payslip_run_inherit_form_inherit
 #, python-format
 msgid "Secretary General"
-msgstr "الأمين العام"
+msgstr "موافقة الأمين العام"
 
 #. module: hr_trahum
 #: code:addons/hr_trahum/models/models.py:0
@@ -161,10 +182,12 @@ msgstr "الأمين العام"
 #: code:addons/hr_trahum/models/models.py:0
 #: code:addons/hr_trahum/models/models.py:0
 #: code:addons/hr_trahum/models/models.py:0
-#: model:ir.model.fields.selection,name:hr_trahum.selection__hr_contract__state__sector_head_approval
+#: code:addons/hr_trahum/models/models.py:0
+#: code:addons/hr_trahum/models/models.py:0
 #: model:res.groups,name:hr_trahum.group_sector_head_approval
-#: model_terms:ir.ui.view,arch_db:hr_trahum.employee_loan_salary_form_view_action_inherit
+#: model_terms:ir.ui.view,arch_db:hr_trahum.employee_loan_salary_form_view_inherit
 #: model_terms:ir.ui.view,arch_db:hr_trahum.employee_official_mission_form_view_inherit
+#: model_terms:ir.ui.view,arch_db:hr_trahum.employee_overtime_request_inherit
 #: model_terms:ir.ui.view,arch_db:hr_trahum.hr_payroll_raise_form_view_inherit
 #: model_terms:ir.ui.view,arch_db:hr_trahum.hr_payslip_run_inherit_form_inherit
 #: model_terms:ir.ui.view,arch_db:hr_trahum.termination_resignation_inherit_form_view
@@ -183,6 +206,7 @@ msgstr ""
 "ليس للـ \"مدرب\" أي حقوق محددة أو مسؤوليات افتراضياً. "
 
 #. module: hr_trahum
+#: model:ir.model.fields,field_description:hr_trahum.field_employee_overtime_request__state
 #: model:ir.model.fields,field_description:hr_trahum.field_hr_loan_salary_advance__state
 #: model:ir.model.fields,field_description:hr_trahum.field_hr_official_mission__state
 #: model:ir.model.fields,field_description:hr_trahum.field_hr_payroll_raise__state
@@ -229,6 +253,7 @@ msgstr "ترحيل القيد"
 
 #. module: hr_trahum
 #: code:addons/hr_trahum/models/models.py:0
+#: code:addons/hr_trahum/models/models.py:0
 #: model:ir.model.fields.selection,name:hr_trahum.selection__hr_termination__state__pay
 #, python-format
 msgid "Transferred"
@@ -236,9 +261,26 @@ msgstr "تم الترحيل"
 
 #. module: hr_trahum
 #: code:addons/hr_trahum/models/models.py:0
+#: code:addons/hr_trahum/models/models.py:0
 #, python-format
 msgid "Wait Approval"
 msgstr "موافقه الامين العام"
+
+#. module: exp_official_mission
+#: model:ir.model.fields.selection,name:exp_official_mission.selection__hr_official_mission__state__hr_aaproval
+#, python-format
+msgid "Wait Approval"
+msgstr "موافقه الامين العام"
+
+#. module: employee_requests
+#: model:ir.model.fields.selection,name:employee_requests.selection__employee_overtime_request__state__hr_aaproval
+msgid "Wait Approval"
+msgstr "موافقه الامين العام"
+
+#. module: hr_holidays_workflow
+#: model_terms:ir.ui.view,arch_db:hr_holidays_workflow.hr_holidays_ext_form_view_workflow
+msgid "Last Approve"
+msgstr "اخصائى عمليات الموارد البشريه"
 
 #. module: hr_trahum
 #: model:ir.model.fields.selection,name:hr_trahum.selection__hr_termination__state__gm_manager
@@ -249,9 +291,10 @@ msgstr "إنتظار الامين العام"
 #: code:addons/hr_trahum/models/models.py:0
 #, python-format
 msgid "Wait GM Approval"
-msgstr ""
+msgstr "موافقه الامين العام"
 
 #. module: hr_trahum
+#: code:addons/hr_trahum/models/models.py:0
 #: code:addons/hr_trahum/models/models.py:0
 #: code:addons/hr_trahum/models/models.py:0
 #, python-format
@@ -270,6 +313,7 @@ msgstr "إنتظار مسؤول الموارد البشرية"
 
 #. module: hr_trahum
 #: code:addons/hr_trahum/models/models.py:0
+#: code:addons/hr_trahum/models/models.py:0
 #: model:ir.model.fields.selection,name:hr_trahum.selection__hr_termination__state__done
 #, python-format
 msgid "Wait Transfer"
@@ -277,12 +321,14 @@ msgstr "إنتظار الترحيل"
 
 #. module: hr_trahum
 #: code:addons/hr_trahum/models/models.py:0
+#: code:addons/hr_trahum/models/models.py:0
 #: model:ir.model.fields.selection,name:hr_trahum.selection__hr_termination__state__direct_manager
 #, python-format
 msgid "Waiting Department Manager"
 msgstr "إنتظار مدير الإدارة"
 
 #. module: hr_trahum
+#: code:addons/hr_trahum/models/models.py:0
 #: code:addons/hr_trahum/models/models.py:0
 #: model:ir.model.fields.selection,name:hr_trahum.selection__hr_termination__state__submit
 #, python-format
@@ -296,11 +342,28 @@ msgid "Waiting Payroll Officer"
 msgstr ""
 
 #. module: hr_trahum
+#: model_terms:ir.ui.view,arch_db:hr_trahum.hr_payslip_run_inherit_form_inherit
+msgid "Withdraw"
+msgstr ""
+
+#. module: hr_trahum
+#: model:ir.model,name:hr_trahum.model_employee_overtime_request
+msgid "employee.overtime.request"
+msgstr "العمل الاضافي"
+
+#. module: hr_trahum
+#: model:ir.model.fields.selection,name:hr_trahum.selection__hr_contract__state__program_directory
+msgid "إعتماد التنفيذي"
+msgstr ""
+
+#. module: hr_trahum
+#: model:ir.model.fields.selection,name:hr_trahum.selection__employee_overtime_request__state__executive_office
 #: model:ir.model.fields.selection,name:hr_trahum.selection__hr_loan_salary_advance__state__executive_manager
 msgid "إنتظار الترحيل"
 msgstr ""
 
 #. module: hr_trahum
+#: model:ir.model.fields.selection,name:hr_trahum.selection__employee_overtime_request__state__hr_aaproval
 #: model:ir.model.fields.selection,name:hr_trahum.selection__hr_official_mission__state__hr_aaproval
 msgid "إنتظار التصديق"
 msgstr ""
@@ -311,17 +374,20 @@ msgid "إنتظار المدير العام"
 msgstr ""
 
 #. module: hr_trahum
+#: model:ir.model.fields.selection,name:hr_trahum.selection__employee_overtime_request__state__submit
 #: model:ir.model.fields.selection,name:hr_trahum.selection__hr_official_mission__state__send
 msgid "إنتظار المدير المباشر"
 msgstr ""
 
 #. module: hr_trahum
+#: model:ir.model.fields.selection,name:hr_trahum.selection__employee_overtime_request__state__financial_manager
 #: model:ir.model.fields.selection,name:hr_trahum.selection__hr_loan_salary_advance__state__direct_manager
 #: model:ir.model.fields.selection,name:hr_trahum.selection__hr_official_mission__state__depart_manager
 msgid "إنتظار الموارد البشرية"
 msgstr ""
 
 #. module: hr_trahum
+#: model:ir.model.fields.selection,name:hr_trahum.selection__employee_overtime_request__state__direct_manager
 #: model:ir.model.fields.selection,name:hr_trahum.selection__hr_official_mission__state__direct_manager
 msgid "إنتظار مدير الادارة"
 msgstr ""
@@ -343,11 +409,19 @@ msgid "القرض معلق"
 msgstr ""
 
 #. module: hr_trahum
+#: model:ir.model.fields.selection,name:hr_trahum.selection__hr_contract__state__employeed_aproval
+msgid "الموافقة على العقد"
+msgstr ""
+
+#. module: hr_trahum
+#: model:ir.model.fields.selection,name:hr_trahum.selection__employee_overtime_request__state__validated
 #: model:ir.model.fields.selection,name:hr_trahum.selection__hr_loan_salary_advance__state__pay
 msgid "تم الترحيل"
 msgstr ""
 
 #. module: hr_trahum
+#: model:ir.model.fields.selection,name:hr_trahum.selection__employee_overtime_request__state__draft
+#: model:ir.model.fields.selection,name:hr_trahum.selection__hr_contract__state__draft
 #: model:ir.model.fields.selection,name:hr_trahum.selection__hr_loan_salary_advance__state__draft
 #: model:ir.model.fields.selection,name:hr_trahum.selection__hr_official_mission__state__draft
 msgid "مسوده"
@@ -359,10 +433,22 @@ msgid "معتمد"
 msgstr ""
 
 #. module: hr_trahum
+#: model:ir.model.fields.selection,name:hr_trahum.selection__hr_contract__state__hr_head_approval
+msgid "موافقة  الموارد البشرية"
+msgstr ""
+
+#. module: hr_trahum
+#: model:ir.model.fields.selection,name:hr_trahum.selection__employee_overtime_request__state__sector_head_approval
+#: model:ir.model.fields.selection,name:hr_trahum.selection__hr_contract__state__sector_head_approval
 #: model:ir.model.fields.selection,name:hr_trahum.selection__hr_loan_salary_advance__state__sector_head_approval
 #: model:ir.model.fields.selection,name:hr_trahum.selection__hr_official_mission__state__sector_head_approval
 #: model:ir.model.fields.selection,name:hr_trahum.selection__hr_payroll_raise__state__sector_head_approval
 #: model:ir.model.fields.selection,name:hr_trahum.selection__hr_payslip_run__state__sector_head_approval
 #: model:ir.model.fields.selection,name:hr_trahum.selection__hr_termination__state__sector_head_approval
 msgid "موافقة رئيس القطاع"
+msgstr ""
+
+#. module: hr_trahum
+#: model:ir.model.fields.selection,name:hr_trahum.selection__hr_contract__state__end_contract
+msgid "نهاية التعاقد"
 msgstr ""
