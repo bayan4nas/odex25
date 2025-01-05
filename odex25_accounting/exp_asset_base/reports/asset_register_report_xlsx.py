@@ -112,9 +112,15 @@ class AssetRegisterReportXslx(models.AbstractModel):
             posted_depreciation_move_ids = asset.depreciation_move_ids.filtered(
                 lambda x: x.state == 'posted' and not x.asset_value_change and not x.reversal_move_id).sorted(
                 key=lambda l: l.date)
-            calc_date = posted_depreciation_move_ids[-1].date
+            if posted_depreciation_move_ids:
+                calc_date = posted_depreciation_move_ids[-1].date
+            else:
+                calc_date = None
             report_data["sheet"].write_string(report_data["row_pos"], 18, calc_date and calc_date.strftime("%d/%m/%Y") or '', report_data["formats"]["format_center"])
-            first_dept = asset.first_depreciation_date_import or asset.receive_date or asset.date
+            if hasattr(asset, 'date'):
+                first_dept = asset.first_depreciation_date_import or asset.receive_date or asset.date
+            else:
+                first_dept = asset.first_depreciation_date_import or asset.receive_date
             delta = calc_date and first_dept and calc_date-first_dept
             days = delta and delta.days or 0
             report_data["sheet"].write_number(report_data["row_pos"], 19, float(days), report_data["formats"]["format_amount"])

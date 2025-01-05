@@ -139,7 +139,7 @@
             </xpath>
             <xpath expr="//header" position="inside">
                 <button name="action_secretary_general" string="Secretary General" type="object"
-                        states="sector_head_approval" class="oe_highlight" groups="hr_trahum.group_secretary_general"/>
+                        states="sector_head_approval" class="oe_highlight"/>
             </xpath>
             <xpath expr="//button[@name='action_secretary_general']" position="after">
 
@@ -172,28 +172,36 @@
                 <button name="action_sector_head_approval" string="Sector Head Approval" type="object"
                         states="finance_manager" class="oe_highlight" groups="hr_trahum.group_sector_head_approval"/>
             </xpath>
-            <xpath expr="//header" position="inside">
-                <button name="action_secretary_general" string="Secretary General" type="object"
-                        states="sector_head_approval" class="oe_highlight" groups="hr_trahum.group_secretary_general"/>
-            </xpath>
+<!--            <xpath expr="//header" position="inside">-->
+<!--                <button name="action_secretary_general" string="Secretary General" type="object"-->
+<!--                        states="sector_head_approval" class="oe_highlight"/>-->
+<!--            </xpath>-->
 
             <xpath expr="//button[@name='general_manager']" position="attributes">
-                <attribute name="states">secretary_general</attribute>
+                <attribute name="states">sector_head_approval</attribute>
             </xpath>
 
         </field>
     </record>
 
-<!--    <record id="view_employee_form_inherit_hierarchy" model="ir.ui.view">-->
-<!--        <field name="name">hr.employee.form.inherit.hierarchy</field>-->
-<!--        <field name="model">hr.employee</field>-->
-<!--        <field name="inherit_id" ref="hr.view_employee_form"/>-->
-<!--        <field name="arch" type="xml">-->
-<!--            <button name="draft_state" position="after">-->
-<!--                <button name="action_update_hierarchy" type="object" string="Update Hierarchy" class="btn-primary"/>-->
-<!--            </button>-->
-<!--        </field>-->
-<!--    </record>-->
 
+ <record id="hr_payslip_run_inherit_form_inherit" model="ir.ui.view">
+        <field name="name">hr.payslip.run.form.inherit.inherit</field>
+        <field name="model">hr.payslip.run</field>
+        <field name="inherit_id" ref="exp_hr_payroll.hr_payslip_run_form"/>
+        <field name="arch" type="xml">
+          <xpath expr="//header" position="inside">
+                <button name="action_sector_head_approval" string="Sector Head Approval" type="object"
+                        states="confirmed" class="oe_highlight"/>
+            </xpath>
+              <xpath expr="//header" position="inside">
+                <button name="action_secretary_general" string="Secretary General" type="object"
+                        states="sector_head_approval" class="oe_highlight"/>
+            </xpath>
+             <xpath expr="//button[@name='transfer']" position="attributes">
+                <attribute name="states">secretary_general</attribute>
+            </xpath>
+        </field>
+    </record>
 
 </odoo>

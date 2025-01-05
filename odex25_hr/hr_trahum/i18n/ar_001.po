@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-02 09:30+0000\n"
-"PO-Revision-Date: 2025-01-02 09:30+0000\n"
+"POT-Creation-Date: 2025-01-05 07:40+0000\n"
+"PO-Revision-Date: 2025-01-05 07:40+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -27,6 +27,26 @@ msgstr ""
 #, python-format
 msgid "Approved"
 msgstr "تم التصديق"
+
+#. module: hr_trahum
+#: model:ir.model.fields.selection,name:hr_trahum.selection__hr_payslip_run__state__close
+msgid "Close"
+msgstr "إلغـــاء"
+
+#. module: hr_trahum
+#: model:ir.model.fields,field_description:hr_trahum.field_hr_employee__coach_id
+msgid "Coach"
+msgstr "مدرب"
+
+#. module: hr_trahum
+#: model:ir.model.fields.selection,name:hr_trahum.selection__hr_payslip_run__state__computed
+msgid "Computed"
+msgstr "تم الحساب"
+
+#. module: hr_trahum
+#: model:ir.model.fields.selection,name:hr_trahum.selection__hr_payslip_run__state__confirmed
+msgid "Confirmed"
+msgstr "تم التأكيد"
 
 #. module: hr_trahum
 #: code:addons/hr_trahum/models/models.py:0
@@ -95,11 +115,22 @@ msgid "Loan Suspended"
 msgstr ""
 
 #. module: hr_trahum
+#: model:ir.model.fields,field_description:hr_trahum.field_hr_employee__parent_id
+msgid "Manager"
+msgstr "المدير"
+
+#. module: hr_trahum
 #: model:ir.model,name:hr_trahum.model_hr_official_mission
 msgid "Official mission"
 msgstr "الانتدابات ومهام العمل"
 
 #. module: hr_trahum
+#: model:ir.model,name:hr_trahum.model_hr_payslip_run
+msgid "Payslip Batches"
+msgstr "حساب رواتب الموظفين"
+
+#. module: hr_trahum
+#: model_terms:ir.ui.view,arch_db:hr_trahum.employee_loan_salary_form_view_action_inherit
 #: model_terms:ir.ui.view,arch_db:hr_trahum.hr_payroll_raise_form_view_inherit
 msgid "Refuse"
 msgstr "رفض"
@@ -117,15 +148,15 @@ msgstr "مرفوض"
 #. module: hr_trahum
 #: code:addons/hr_trahum/models/models.py:0
 #: code:addons/hr_trahum/models/models.py:0
-#: code:addons/hr_trahum/models/models.py:0
 #: model:res.groups,name:hr_trahum.group_secretary_general
 #: model_terms:ir.ui.view,arch_db:hr_trahum.hr_payroll_raise_form_view_inherit
-#: model_terms:ir.ui.view,arch_db:hr_trahum.termination_resignation_inherit_form_view
+#: model_terms:ir.ui.view,arch_db:hr_trahum.hr_payslip_run_inherit_form_inherit
 #, python-format
 msgid "Secretary General"
-msgstr "الأمين العام"
+msgstr "مواففه الامين العام"
 
 #. module: hr_trahum
+#: code:addons/hr_trahum/models/models.py:0
 #: code:addons/hr_trahum/models/models.py:0
 #: code:addons/hr_trahum/models/models.py:0
 #: code:addons/hr_trahum/models/models.py:0
@@ -135,11 +166,21 @@ msgstr "الأمين العام"
 #: model_terms:ir.ui.view,arch_db:hr_trahum.employee_loan_salary_form_view_action_inherit
 #: model_terms:ir.ui.view,arch_db:hr_trahum.employee_official_mission_form_view_inherit
 #: model_terms:ir.ui.view,arch_db:hr_trahum.hr_payroll_raise_form_view_inherit
+#: model_terms:ir.ui.view,arch_db:hr_trahum.hr_payslip_run_inherit_form_inherit
 #: model_terms:ir.ui.view,arch_db:hr_trahum.termination_resignation_inherit_form_view
 #: model_terms:ir.ui.view,arch_db:hr_trahum.view_hr_contract_form
 #, python-format
 msgid "Sector Head Approval"
 msgstr "موافقة رئيس القطاع"
+
+#. module: hr_trahum
+#: model:ir.model.fields,help:hr_trahum.field_hr_employee__coach_id
+msgid ""
+"Select the \"Employee\" who is the coach of this employee.\n"
+"The \"Coach\" has no specific rights or responsibilities by default."
+msgstr ""
+"قم باختيار \"الموظِّف\" الذي سيكون مدرب هذا الموظَّف. \n"
+"ليس للـ \"مدرب\" أي حقوق محددة أو مسؤوليات افتراضياً. "
 
 #. module: hr_trahum
 #: model:ir.model.fields,field_description:hr_trahum.field_hr_loan_salary_advance__state
@@ -151,6 +192,7 @@ msgstr "الحالة"
 
 #. module: hr_trahum
 #: model:ir.model.fields,field_description:hr_trahum.field_hr_contract__state
+#: model:ir.model.fields,field_description:hr_trahum.field_hr_payslip_run__state
 msgid "Status"
 msgstr "الحالة"
 
@@ -181,6 +223,11 @@ msgid ""
 msgstr ""
 
 #. module: hr_trahum
+#: model:ir.model.fields.selection,name:hr_trahum.selection__hr_payslip_run__state__transfered
+msgid "Transfer"
+msgstr "ترحيل القيد"
+
+#. module: hr_trahum
 #: code:addons/hr_trahum/models/models.py:0
 #: model:ir.model.fields.selection,name:hr_trahum.selection__hr_termination__state__pay
 #, python-format
@@ -191,12 +238,12 @@ msgstr "تم الترحيل"
 #: code:addons/hr_trahum/models/models.py:0
 #, python-format
 msgid "Wait Approval"
-msgstr "انتظار موافقه الامين العام"
+msgstr ""
 
 #. module: hr_trahum
 #: model:ir.model.fields.selection,name:hr_trahum.selection__hr_termination__state__gm_manager
 msgid "Wait CEO Manager"
-msgstr "إنتظار المدير العام"
+msgstr "إنتظار الامين العام"
 
 #. module: hr_trahum
 #: code:addons/hr_trahum/models/models.py:0
@@ -285,9 +332,8 @@ msgid "إنتظار مسؤول الرواتب"
 msgstr ""
 
 #. module: hr_trahum
-#: model:ir.model.fields.selection,name:hr_trahum.selection__hr_loan_salary_advance__state__secretary_general
 #: model:ir.model.fields.selection,name:hr_trahum.selection__hr_payroll_raise__state__secretary_general
-#: model:ir.model.fields.selection,name:hr_trahum.selection__hr_termination__state__secretary_general
+#: model:ir.model.fields.selection,name:hr_trahum.selection__hr_payslip_run__state__secretary_general
 msgid "الأمين العام"
 msgstr ""
 
@@ -316,11 +362,7 @@ msgstr ""
 #: model:ir.model.fields.selection,name:hr_trahum.selection__hr_loan_salary_advance__state__sector_head_approval
 #: model:ir.model.fields.selection,name:hr_trahum.selection__hr_official_mission__state__sector_head_approval
 #: model:ir.model.fields.selection,name:hr_trahum.selection__hr_payroll_raise__state__sector_head_approval
+#: model:ir.model.fields.selection,name:hr_trahum.selection__hr_payslip_run__state__sector_head_approval
 #: model:ir.model.fields.selection,name:hr_trahum.selection__hr_termination__state__sector_head_approval
 msgid "موافقة رئيس القطاع"
 msgstr ""
-
-#. module: hr_trahum
-#: model:ir.model,name:branch.model_account_payment
-msgid "Payments"
-msgstr "الداعمين"

@@ -122,7 +122,6 @@ class TerminationpPatchinherit(models.Model):
         ("hr_manager", "Wait HR Officer"),
         ("finance_manager", "Wait HR Manager"),
         ('sector_head_approval', _('Sector Head Approval')),
-        ('secretary_general', _('Secretary General')),
         ("gm_manager", "Wait CEO Manager"),
         ("done", "Wait Transfer"),
         ("pay", "Transferred"),
@@ -132,6 +131,19 @@ class TerminationpPatchinherit(models.Model):
         self.state = "sector_head_approval"
 
 
+
+
+class HrPayslipRuninhirt(models.Model):
+    _inherit = 'hr.payslip.run'
+
+    state = fields.Selection(selection_add=[('computed', 'Computed'),
+                                            ('confirmed', 'Confirmed'),
+                                            ('sector_head_approval', _('Sector Head Approval')),
+                                            ('secretary_general', _('Secretary General')),
+                                            ('transfered', 'Transfer'), ('close', 'Close')], tracking=True)
+    def action_sector_head_approval(self):
+        self.state = "sector_head_approval"
+
     def action_secretary_general(self):
         self.state = "secretary_general"
 
@@ -139,87 +151,65 @@ class TerminationpPatchinherit(models.Model):
 class EmployeeHrhierarchy(models.Model):
     _inherit = "hr.employee"
 
-    # @api.model
-    # def create(self, vals):
-    #     employee = super(EmployeeHrhierarchy, self).create(vals)
-    #     employee.update_all_managers()
-    #     return employee
-    #
-    # def write(self, vals):
-    #     result = super(EmployeeHrhierarchy, self).write(vals)
-    #     for employee in self:
-    #         employee.update_all_managers()
-    #     return result
+
+
     parent_id = fields.Many2one('hr.employee', string="Manager")
     coach_id = fields.Many2one('hr.employee', string="Coach")
 
-    @api.depends('department_id', 'department_id.manager_id')
-    def _compute_hierarchy(self):
+    def _assign_manager_and_coach(self, department):
         """
-        تحديث الحقول parent_id و coach_id بشكل تلقائي بناءً على القسم والمدير.
+        Helper function to traverse department hierarchy and assign manager and coach.
         """
-        for employee in self:
-            # Step 1: تحديث `parent_id`
-            if employee.department_id and employee.department_id.manager_id:
-                if employee == employee.department_id.manager_id:
-                    # إذا كان الموظف هو مدير القسم، نبحث عن المدير الأعلى
-                    higher_manager = employee.department_id.parent_id.manager_id
-                    if higher_manager:
-                        if employee.parent_id != higher_manager:
-                            employee.parent_id = higher_manager
-                            print(f"Updated parent_id for {employee.name}: {higher_manager.name}")
-                    else:
-                        if employee.parent_id != False:
-                            employee.parent_id = False
-                            print(f"No higher manager found for {employee.name}. parent_id set to False.")
-                else:
-                    # الموظف ليس مدير القسم
-                    if employee.parent_id != employee.department_id.manager_id:
-                        employee.parent_id = employee.department_id.manager_id
-                        print(f"Updated parent_id for {employee.name}: {employee.parent_id.name}")
-            else:
-                if employee.parent_id != False:
-                    employee.parent_id = False
-                    print(f"No manager found for {employee.name}. parent_id set to False.")
+        assigned_manager = None
+        assigned_coach = None
 
-            # Step 2: تحديث `coach_id`
-            current_manager = employee.parent_id
-            seen_managers = set()
+        visited_departments = set()
+        while department:
+            if department.id in visited_departments:
+                raise exceptions.ValidationError("Cyclic department hierarchy detected.")
+            visited_departments.add(department.id)
 
-            while current_manager:
-                # تحقق من التكرار في التسلسل الإداري
-                if current_manager.id in seen_managers:
-                    print(f"Cycle detected for {employee.name}. Breaking the loop.")
-                    break
+            manager = department.manager_id
+            if manager:
+                if not assigned_manager and manager.id != self.id:
+                    assigned_manager = manager
+                elif not assigned_coach and manager.id != self.id and manager.id != (
+                assigned_manager.id if assigned_manager else None):
+                    assigned_coach = manager
 
-                seen_managers.add(current_manager.id)
+            if assigned_manager and assigned_coach:
+                break
 
-                # إذا كان `parent_id` يساوي `coach_id` أو الاسم متكرر، استمر في البحث
-                if current_manager.name != employee.parent_id.name:
-                    if employee.coach_id != current_manager:
-                        employee.coach_id = current_manager
-                        print(f"Updated coach_id for {employee.name}: {current_manager.name}")
-                    break
-                current_manager = current_manager.parent_id
+            department = department.parent_id
 
-            # إذا لم يتم العثور على مدير أعلى، تعيين `coach_id` إلى `parent_id`
-            if not employee.coach_id:
-                if employee.coach_id != employee.parent_id:
-                    employee.coach_id = employee.parent_id
-                    print(
-                        f"No higher coach found for {employee.name}. coach_id set to {employee.parent_id.name if employee.parent_id else 'False'}.")
+        # If no separate coach is found, assign coach as the manager
+        if not assigned_coach:
+            assigned_coach = assigned_manager
 
-            # Step 3: التأكد من أن `coach_id` و `parent_id` متطابقان في نهاية التسلسل
-            if employee.coach_id == employee.parent_id:
-                print(f"coach_id and parent_id are the same for {employee.name}: {employee.coach_id.name}")
+        return assigned_manager, assigned_coach
 
     @api.model
     def create(self, vals):
-        employee = super(EmployeeHrhierarchy, self).create(vals)
-        employee._compute_hierarchy()  # تحديث الحقول تلقائيًا عند إنشاء موظف جديد
-        return employee
+        if 'department_id' in vals:
+            department = self.env['hr.department'].browse(vals['department_id'])
+            manager, coach = self._assign_manager_and_coach(department)
+            if manager:
+                vals['parent_id'] = manager.id
+            if coach:
+                vals['coach_id'] = coach.id
+        return super(EmployeeHrhierarchy, self).create(vals)
 
     def write(self, vals):
-        result = super(EmployeeHrhierarchy, self).write(vals)
-        self._compute_hierarchy()  # تحديث الحقول تلقائيًا عند تعديل موظف
-        return result
+        if 'department_id' in vals:
+            department = self.env['hr.department'].browse(vals['department_id'])
+            manager, coach = self._assign_manager_and_coach(department)
+            print(department,"department",coach,manager)
+            # print(department,"department")
+            if manager:
+                vals['parent_id'] = manager.id
+            if coach:
+                vals['coach_id'] = coach.id
+        return super(EmployeeHrhierarchy, self).write(vals)
+
+
+
