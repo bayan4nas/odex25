@@ -147,6 +147,24 @@ class HrPayslipRuninhirt(models.Model):
     def action_secretary_general(self):
         self.state = "secretary_general"
 
+class HrEmployeePromotions(models.Model):
+    _inherit = 'employee.promotions'
+
+
+    state = fields.Selection(selection=[('draft', _('Draft')),
+                                        ('confirm', _('HR Officer')),
+                                        ('hr_manager', _('HR Manager')),
+                                        ('sector_head_approval', _('Sector Head Approval')),
+                                        ('secretary_general', _('Secretary General')),
+                                        ('approved', _('Approved')), ('refuse', 'Refused')],
+                             default='draft', tracking=True)
+
+    def action_sector_head_approval(self):
+        self.state = "sector_head_approval"
+
+    def action_secretary_general(self):
+        self.state = "secretary_general"
+
 
 class EmployeeHrhierarchy(models.Model):
     _inherit = "hr.employee"
