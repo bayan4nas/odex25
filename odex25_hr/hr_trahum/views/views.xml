@@ -186,8 +186,8 @@
             <xpath expr="//header" position="inside">
                 <button name="action_sector_head_approval" string="Sector Head Approval" type="object"
                         states="finance_manager" class="oe_highlight" groups="hr_trahum.group_sector_head_approval"/>
-                  <button class="oe_highlight" string="Refuse" type="object" name="refused"
-                                states="sector_head_approval" groups="hr.group_hr_user"/>
+                <button class="oe_highlight" string="Refuse" type="object" name="refused"
+                        states="sector_head_approval" groups="hr.group_hr_user"/>
             </xpath>
             <xpath expr="//button[@name='general_manager']" position="attributes">
                 <attribute name="states">sector_head_approval</attribute>
@@ -205,22 +205,53 @@
             <xpath expr="//header" position="inside">
                 <button name="action_sector_head_approval" string="Sector Head Approval" type="object"
                         states="confirmed" class="oe_highlight" groups="hr_trahum.group_sector_head_approval"/>
-<!--                <button name="withdraw" type="object" states="confirmed" string="Withdraw" class="oe_highlight"-->
-<!--                                groups="hr.group_hr_manager" confirm="Are you sure to Delete Compute Salaries?"/>-->
+                <!--                <button name="withdraw" type="object" states="confirmed" string="Withdraw" class="oe_highlight"-->
+                <!--                                groups="hr.group_hr_manager" confirm="Are you sure to Delete Compute Salaries?"/>-->
             </xpath>
             <xpath expr="//header" position="inside">
                 <button name="action_secretary_general" string="Secretary General" type="object"
                         states="sector_head_approval" class="oe_highlight" groups="hr_trahum.group_secretary_general"/>
-                <button name="withdraw" type="object" states="sector_head_approval" string="Withdraw" class="oe_highlight"
-                                groups="hr.group_hr_manager" confirm="Are you sure to Delete Compute Salaries?"/>
+                <button name="withdraw" type="object" states="sector_head_approval" string="Withdraw"
+                        class="oe_highlight"
+                        groups="hr.group_hr_manager" confirm="Are you sure to Delete Compute Salaries?"/>
             </xpath>
             <xpath expr="//button[@name='transfer']" position="attributes">
                 <attribute name="states">secretary_general</attribute>
             </xpath>
             <xpath expr="//header/field[@name='state']" position="replace">
-                    <field name="state" widget="statusbar"
-                           statusbar_visible="draft,computed,confirmed,sector_head_approval,secretary_general,transfered,close"/>
-                </xpath>
+                <field name="state" widget="statusbar"
+                       statusbar_visible="draft,computed,confirmed,sector_head_approval,secretary_general,transfered,close"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="employee_promotions_custom_form_view_form" model="ir.ui.view">
+        <field name="name">employee.promotions.form</field>
+        <field name="model">employee.promotions</field>
+        <field name="inherit_id" ref="exp_payroll_custom.employee_promotions_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button name="action_sector_head_approval" string="Sector Head Approval" type="object"
+                        states="hr_manager" class="oe_highlight" groups="hr_trahum.group_sector_head_approval"/>
+            </xpath>
+
+            <xpath expr="//header" position="inside">
+                <button name="action_secretary_general" string="Secretary General" type="object"
+                        states="sector_head_approval" class="oe_highlight" groups="hr_trahum.group_secretary_general"/>
+                <button string="Refused" name="act_refuse" states="sector_head_approval" type="object" class="oe_highlight"
+                                groups="hr.group_hr_manager"/>
+                 <button string="Refused" name="act_refuse" states="secretary_general" type="object" class="oe_highlight"
+                                groups="hr.group_hr_manager"/>
+            </xpath>
+
+            <xpath expr="//button[@name='approved']" position="attributes">
+                <attribute name="states">secretary_general</attribute>
+            </xpath>
+            <xpath expr="//header/field[@name='state']" position="replace">
+                <field name="state" widget="statusbar"
+                       statusbar_visible="draft,confirm,hr_manager,sector_head_approval,secretary_general,approved,refuse"/>
+            </xpath>
+
         </field>
     </record>
 
