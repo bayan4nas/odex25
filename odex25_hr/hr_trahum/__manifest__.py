@@ -20,7 +20,7 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base','hr_contract_custom','employee_requests','exp_ticket_request','exp_official_mission','exp_payroll_promotion','account'],
+    'depends': ['base','hr_contract_custom','employee_requests','exp_ticket_request','exp_official_mission','exp_payroll_promotion','account','hr'],
 
     # always loaded
     'data': [
