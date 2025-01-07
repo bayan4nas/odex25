@@ -12,11 +12,13 @@
     'data': [
         'security/security_view.xml',
         'security/ir.model.access.csv',
-        'views/actions_and_menus.xml',
+        
         'data/scheduled_actions.xml',
         'data/server_actions.xml',
         'data/email_temps.xml',
-
+        
+        'views/benefit_config_view.xml',
+        'views/actions_and_menus.xml',
         'views/benefit_view.xml',
         'views/users_inherit.xml',
         'views/committees_view.xml',
@@ -45,7 +47,7 @@
         'views/family_expense_view.xml',
         'views/services_settings.xml',
         'views/service_request.xml',
-        'views/benefit_config_view.xml',
+        
         'views/generate_reports.xml',
 
         'views/res_country.xml',
