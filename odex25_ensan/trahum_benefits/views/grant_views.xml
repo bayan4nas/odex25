@@ -1,0 +1,63 @@
+<odoo>
+  <data>
+      <record id="view_grant_benefit_tree" model="ir.ui.view">
+        <field name="name">grant.benefit.tree</field>
+        <field name="model">grant.benefit</field>
+        <field name="arch" type="xml">
+            <tree string="Profiles">
+                <field name="name"/>
+            </tree>
+        </field>
+      </record>
+
+    <record id="view_grant_benefit_form" model="ir.ui.view">
+        <field name="name">grant.benefit.form</field>
+        <field name="model">grant.benefit</field>
+        <field name="arch" type="xml">
+            <form string="Family Profile">
+                <sheet>
+                    <group>
+                        <field name="inmate_member_id"/>
+                        <field name="breadwinner_member_id"/>
+                    </group>
+                    <notebook>
+                    <page string="Members">
+                        <field name="member_ids" nolabel="1" domian="[('benifit_type','=', 'member')]">
+                            <tree>
+                                <field name="name" />
+                                <field name="relation_id" />
+                            </tree>
+                        </field>
+                    </page>
+                    <page string="Housing">
+                        <group>
+                            <group>
+                                <field name="housing_type"/>
+                                <field name="property_type"/>
+                            </group>
+                        </group>
+                    </page>
+                </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_grant_benefit" model="ir.actions.act_window">
+        <field name="name">Family Profile</field>
+        <field name="res_model">grant.benefit</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_grant_benefit_tree"/>
+        <field name="view_ids" eval="[(5, 0, 0), 
+                                       (0, 0, {'view_mode': 'tree', 'view_id': ref('view_grant_benefit_tree')}), 
+                                       (0, 0, {'view_mode': 'form', 'view_id': ref('view_grant_benefit_form')})]"/>
+    </record>
+
+    <menuitem id="menu_grant_benefit" name="Families Profiles"
+              action="action_grant_benefit"
+              parent="odex_benefit.benefits_root_menu"
+              sequence="1"/>
+              
+
+  </data>
+</odoo>
