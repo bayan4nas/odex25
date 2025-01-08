@@ -101,70 +101,115 @@ class GrantBenefit(models.Model):
     #             record.education_ids = education_records
     #
 
+    # @api.model
+    # def create(self, vals):
+    #     if not vals.get('name'):
+    #         vals['name'] = 'Grant Benefit'
+    #
+    #     record = super(GrantBenefit, self).create(vals)
+    #
+    #     record.rehabilitation_ids = [(5, 0, 0)]
+    #     record.education_ids = [(5, 0, 0)]
+    #
+    #     members = [record.inmate_member_id, record.breadwinner_member_id]
+    #
+    #     rehabilitation_records = []
+    #     education_records = []
+    #     for member in members:
+    #         if member:
+    #             for rehab in member.rehabilitation_ids:
+    #                 existing_rehab = any(
+    #                     r['income_value'] == rehab.income_value and
+    #                     r['disability_type_id'] == rehab.disability_type_id.id and
+    #                     r['disability_date'] == rehab.disability_date
+    #                     for r in rehabilitation_records
+    #                 )
+    #                 if not existing_rehab:
+    #                     rehabilitation_records.append({
+    #                         'income_value': rehab.income_value,
+    #                         'disability_type_id': rehab.disability_type_id.id,
+    #                         'disability_date': rehab.disability_date,
+    #                     })
+    #             for education in member.education_ids:
+    #                 if not any(edu['level_id'] == education.level_id.id and
+    #                            edu['school_name'] == education.school_name for edu in education_records):
+    #                     education_records.append({
+    #                         'level_id': education.level_id.id,
+    #                         'school_name': education.school_name,
+    #                         'path': education.path,
+    #                         'education_department_id': education.education_department_id.id,
+    #                         'grade': education.grade,
+    #                         'graduate_date': education.graduate_date,
+    #                     })
+    #     if not any(members):
+    #         all_rehabilitations = self.env['comprehensive.rehabilitation'].search([])
+    #         for rehab in all_rehabilitations:
+    #             existing_rehab = any(
+    #                 r['income_value'] == rehab.income_value and
+    #                 r['disability_type_id'] == rehab.disability_type_id.id and
+    #                 r['disability_date'] == rehab.disability_date
+    #                 for r in rehabilitation_records
+    #             )
+    #             if not existing_rehab:
+    #                 rehabilitation_records.append({
+    #                     'income_value': rehab.income_value,
+    #                     'disability_type_id': rehab.disability_type_id.id,
+    #                     'disability_date': rehab.disability_date,
+    #                 })
+    #
+    #         all_educations = self.env['family.profile.learn'].search([])
+    #         for education in all_educations:
+    #             if not any(edu['level_id'] == education.level_id.id and
+    #                        edu['school_name'] == education.school_name for edu in education_records):
+    #                 education_records.append({
+    #                     'level_id': education.level_id.id,
+    #                     'school_name': education.school_name,
+    #                     'path': education.path,
+    #                     'education_department_id': education.education_department_id.id,
+    #                     'grade': education.grade,
+    #                     'graduate_date': education.graduate_date,
+    #                 })
+    #     if rehabilitation_records:
+    #         record.rehabilitation_ids = [(0, 0, rec) for rec in rehabilitation_records]
+    #     if education_records:
+    #         record.education_ids = [(0, 0, rec) for rec in education_records]
+    #
+    #     return record
+
     @api.model
     def create(self, vals):
-        # التحقق من وجود اسم في السجلات، وإذا لم يكن موجودًا، تعيين اسم افتراضي
         if not vals.get('name'):
             vals['name'] = 'Grant Benefit'
 
         record = super(GrantBenefit, self).create(vals)
 
-        record.rehabilitation_ids = [(5, 0, 0)]
-        record.education_ids = [(5, 0, 0)]
+        record.with_context(skip_update_related=True)._update_related_data(all_records=True)
 
-        members = [record.inmate_member_id, record.breadwinner_member_id]
+        return record
 
-        rehabilitation_records = []
+    def write(self, vals):
+        if self.env.context.get('skip_update_related'):
+            return super(GrantBenefit, self).write(vals)
+
+        result = super(GrantBenefit, self).write(vals)
+
+        self.with_context(skip_update_related=True)._update_related_data(all_records=True)
+
+        return result
+
+    def _update_related_data(self, all_records=False):
+        self.education_ids = [(5, 0, 0)]
+        self.rehabilitation_ids = [(5, 0, 0)]  
+
         education_records = []
+        rehabilitation_records = []
 
-        for member in members:
-            if member:
-                for rehab in member.rehabilitation_ids:
-                    existing_rehab = any(
-                        r['income_value'] == rehab.income_value and
-                        r['disability_type_id'] == rehab.disability_type_id.id and
-                        r['disability_date'] == rehab.disability_date
-                        for r in rehabilitation_records
-                    )
-                    if not existing_rehab:
-                        rehabilitation_records.append({
-                            'income_value': rehab.income_value,
-                            'disability_type_id': rehab.disability_type_id.id,
-                            'disability_date': rehab.disability_date,
-                        })
-
-                for education in member.education_ids:
-                    if not any(edu['level_id'] == education.level_id.id and
-                               edu['school_name'] == education.school_name for edu in education_records):
-                        education_records.append({
-                            'level_id': education.level_id.id,
-                            'school_name': education.school_name,
-                            'path': education.path,
-                            'education_department_id': education.education_department_id.id,
-                            'grade': education.grade,
-                            'graduate_date': education.graduate_date,
-                        })
-
-        if not any(members):
-            all_rehabilitations = self.env['comprehensive.rehabilitation'].search([])
-            for rehab in all_rehabilitations:
-                existing_rehab = any(
-                    r['income_value'] == rehab.income_value and
-                    r['disability_type_id'] == rehab.disability_type_id.id and
-                    r['disability_date'] == rehab.disability_date
-                    for r in rehabilitation_records
-                )
-                if not existing_rehab:
-                    rehabilitation_records.append({
-                        'income_value': rehab.income_value,
-                        'disability_type_id': rehab.disability_type_id.id,
-                        'disability_date': rehab.disability_date,
-                    })
-
+        if all_records:
             all_educations = self.env['family.profile.learn'].search([])
             for education in all_educations:
-                if not any(edu['level_id'] == education.level_id.id and
-                           edu['school_name'] == education.school_name for edu in education_records):
+                if not any(e['level_id'] == education.level_id.id and
+                           e['school_name'] == education.school_name
+                           for e in education_records):
                     education_records.append({
                         'level_id': education.level_id.id,
                         'school_name': education.school_name,
@@ -174,12 +219,25 @@ class GrantBenefit(models.Model):
                         'graduate_date': education.graduate_date,
                     })
 
-        if rehabilitation_records:
-            record.rehabilitation_ids = [(0, 0, rec) for rec in rehabilitation_records]
-        if education_records:
-            record.education_ids = [(0, 0, rec) for rec in education_records]
+            all_rehabilitations = self.env['comprehensive.rehabilitation'].search([])
+            for rehabilitation in all_rehabilitations:
+                if not any(r['income_value'] == rehabilitation.income_value and
+                           r['disability_type_id'] == rehabilitation.disability_type_id.id and
+                           r['disability_date'] == rehabilitation.disability_date
+                           for r in rehabilitation_records):
+                    rehabilitation_records.append({
+                        'income_value': rehabilitation.income_value,
+                        'disability_type_id': rehabilitation.disability_type_id.id,
+                        'disability_date': rehabilitation.disability_date,
+                    })
 
-        return record
+        self.education_ids = [(0, 0, rec) for rec in education_records]
+        self.rehabilitation_ids = [(0, 0, rec) for rec in rehabilitation_records]
+
+
+
+
+
 
 
 
