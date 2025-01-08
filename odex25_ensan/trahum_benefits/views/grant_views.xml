@@ -1,63 +1,151 @@
 <odoo>
-  <data>
-      <record id="view_grant_benefit_tree" model="ir.ui.view">
-        <field name="name">grant.benefit.tree</field>
-        <field name="model">grant.benefit</field>
-        <field name="arch" type="xml">
-            <tree string="Profiles">
-                <field name="name"/>
-            </tree>
-        </field>
-      </record>
+    <data>
+        <record id="view_grant_benefit_tree" model="ir.ui.view">
+            <field name="name">grant.benefit.tree</field>
+            <field name="model">grant.benefit</field>
+            <field name="arch" type="xml">
+                <tree string="Profiles">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
 
-    <record id="view_grant_benefit_form" model="ir.ui.view">
-        <field name="name">grant.benefit.form</field>
-        <field name="model">grant.benefit</field>
-        <field name="arch" type="xml">
-            <form string="Family Profile">
-                <sheet>
-                    <group>
-                        <field name="inmate_member_id"/>
-                        <field name="breadwinner_member_id"/>
-                    </group>
-                    <notebook>
-                    <page string="Members">
-                        <field name="member_ids" nolabel="1" domian="[('benifit_type','=', 'member')]">
-                            <tree>
-                                <field name="name" />
-                                <field name="relation_id" />
-                            </tree>
-                        </field>
-                    </page>
-                    <page string="Housing">
+        <record id="view_grant_benefit_form" model="ir.ui.view">
+            <field name="name">grant.benefit.form</field>
+            <field name="model">grant.benefit</field>
+            <field name="arch" type="xml">
+                <form string="Family Profile">
+                    <sheet>
                         <group>
-                            <group>
-                                <field name="housing_type"/>
-                                <field name="property_type"/>
-                            </group>
+                            <field name="inmate_member_id"/>
+                            <field name="breadwinner_member_id"/>
                         </group>
-                    </page>
-                </notebook>
-                </sheet>
-            </form>
-        </field>
-    </record>
+                        <notebook>
+                            <page string="Members">
+                                <field name="member_ids" nolabel="1" domian="[('benifit_type','=', 'member')]">
+                                    <tree>
+                                        <field name="name"/>
+                                        <field name="relation_id"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Housing">
+                                <group>
+                                    <group>
+                                        <field name="housing_type"/>
+                                        <field name="property_type"/>
+                                    </group>
+                                </group>
+                            </page>
+                            <page string="expenses">
+                                <group>
+                                    <field name="expenses_ids">
+                                        <tree editable="top">
+                                            <field name="benefit_id" invisible="1"/>
+                                            <field name="expenses_type" invisible="1"/>
+                                            <field name="expenses_type_custom"/>
+                                            <field name="note"/>
+                                            <field name="amount" sum="amount"/>
+                                            <button name="action_accept" type="object" string="Accept"
+                                                    class="oe_highlight"
+                                                    groups="odex_benefit.group_accept_income_and_expenses"/>
+                                            <button name="action_refuse" type="object" string="Refuse"
+                                                    class="oe_highlight"
+                                                    groups="odex_benefit.group_accept_income_and_expenses"/>
+                                            <field name="state" readonly="1" force_save="1" widget="badge"
+                                                   decoration-success="state in ['accepted']"
+                                                   decoration-danger="state in ['refused']"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                            </page>
+                            <page string="Income and salary">
+                                <field name="salary_ids">
+                                    <tree editable="bottom" delete="0">
+                                        <field name="benefit_id" invisible="1"/>
+                                        <field name="income_type"/>
+                                        <field name="salary_amount"/>
+                                        <field name="salary_attach" widget="many2many_attachment_preview"/>
+                                        <field name="attach_start_date"/>
+                                        <field name="attach_end_date"/>
+                                        <button name="action_accept" type="object" string="Accept" class="oe_highlight"
+                                                groups="odex_benefit.group_accept_income_and_expenses"/>
+                                        <button name="action_refuse" type="object" string="Refuse" class="oe_highlight"
+                                                groups="odex_benefit.group_accept_income_and_expenses"/>
+                                        <field name="state" readonly="1" force_save="1" widget="badge"
+                                               decoration-success="state in ['accepted']"
+                                               decoration-danger="state in ['refused']"/>
+                                        <field name="is_required" invisible="1"/>
+                                        <field name="is_default" invisible="1"/>
+                                    </tree>
+                                </field>
+                                <group>
+                                    <field name="income_required_attach"/>
+                                </group>
+                            </page>
+                            <page string="Banking information">
+                                <group>
+                                    <group>
+                                        <label for="acc_number"/>
+                                        <div class="o_row">
+                                            <field name="acc_number" width="100%"/>
+                                            <field name="sa_iban"/>
+                                        </div>
+                                        <field name="acc_holder_name"/>
+                                        <field name="account_status"/>
+                                    </group>
+                                    <group attrs="{'invisible': [('account_status', '!=', 'inactive')]}">
+                                        <field name="stop_reason"/>
+                                        <field name="stop_proof"/>
+                                        <field name="delegate_id_number"/>
+                                        <field name="delegate_mobile"/>
+                                        <field name="delegate_name"/>
+                                        <field name="delegate_iban"/>
+                                        <field name="delegate_document"/>
+                                    </group>
+                                </group>
+                            </page>
+                            <page string="Education History">
+                                <field name="education_ids" nolabel="1">
+                                    <tree editable="bottom">
+                                        <field name="level_id" string="Education Level"/>
+                                        <field name="school_name" string="School Name"/>
+                                        <field name="path" string="Path"/>
+                                        <field name="education_department_id" string="Department"/>
+                                        <field name="grade" string="Grade"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Comprehensive Rehabilitation">
+                                <field name="rehabilitation_ids">
+                                    <tree>
+                                        <field name="income_value"/>
+                                        <field name="disability_type_id"/>
+                                        <field name="disability_date"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
 
-    <record id="action_grant_benefit" model="ir.actions.act_window">
-        <field name="name">Family Profile</field>
-        <field name="res_model">grant.benefit</field>
-        <field name="view_mode">tree,form</field>
-        <field name="view_id" ref="view_grant_benefit_tree"/>
-        <field name="view_ids" eval="[(5, 0, 0), 
+        <record id="action_grant_benefit" model="ir.actions.act_window">
+            <field name="name">Family Profile</field>
+            <field name="res_model">grant.benefit</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_grant_benefit_tree"/>
+            <field name="view_ids" eval="[(5, 0, 0),
                                        (0, 0, {'view_mode': 'tree', 'view_id': ref('view_grant_benefit_tree')}), 
                                        (0, 0, {'view_mode': 'form', 'view_id': ref('view_grant_benefit_form')})]"/>
-    </record>
+        </record>
 
-    <menuitem id="menu_grant_benefit" name="Families Profiles"
-              action="action_grant_benefit"
-              parent="odex_benefit.benefits_root_menu"
-              sequence="1"/>
-              
+        <menuitem id="menu_grant_benefit" name="Families Profiles"
+                  action="action_grant_benefit"
+                  parent="odex_benefit.benefits_root_menu"
+                  sequence="1"/>
 
-  </data>
+
+    </data>
 </odoo>
