@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 from odoo import models, fields,_ , api
+from odoo.exceptions import ValidationError
+
 
 class GrantBenefit(models.Model):
     _inherit = 'grant.benefit'
@@ -7,12 +9,13 @@ class GrantBenefit(models.Model):
     inmate_member_id = fields.Many2one('family.member', string='Inmate', domain="[('benefit_type', '=', 'inmate')]")
     breadwinner_member_id = fields.Many2one('family.member', string='Breadwinner', domain="[('benefit_type', '=', 'breadwinner')]")
     education_ids = fields.One2many('family.profile.learn', 'grant_benefit_id', string='Education History')
-
+    member_ids = fields.One2many('family.member', 'benefit_id')
     rehabilitation_ids = fields.One2many('comprehensive.rehabilitation', 'grant_benefit_id', string='Comprehensive Rehabilitation')
 
     account_status = fields.Selection(
         [('active', 'Active'), ('inactive', 'Inactive')],
         string="Account status",
+        default='active',
         help="Account status to determine whether the account is active or suspended.")
 
     stop_reason = fields.Text(string="Reason", help="Reason for account suspension.")
@@ -24,6 +27,13 @@ class GrantBenefit(models.Model):
     delegate_name = fields.Char(string="Name of the delegate")
     delegate_iban = fields.Char(string="Authorized IBAN")
     delegate_document = fields.Binary(string="Authorization form", attachment=True)
+
+    @api.constrains('delegate_mobile')
+    def _check_delegate_mobile(self):
+        for record in self:
+            if record.delegate_mobile:
+                if len(record.delegate_mobile) != 10 or not record.delegate_mobile.isdigit():
+                    raise ValidationError("The authorized mobile number must contain exactly 10 digits.")
 
     # @api.model
     # def create(self, vals):
