@@ -57,12 +57,16 @@ class ComprehensiveRehabilitation(models.Model):
     disability_type_id = fields.Many2one('disability.type', string='Disability Type')
     disability_date = fields.Date(string='Disability Date')
     member_id = fields.Many2one('family.member', string='Family Member', ondelete='cascade')
+    grant_benefit_id = fields.Many2one('grant.benefit', string='Grant Benefit')  # حقل جديد
+    name = fields.Char(string="Name", required=True, default="Rehabilitation Record")
+
 
 class FamilyProfileLearn(models.Model):
     _name = 'family.profile.learn'
     _description = 'Family Profile Learning'
 
     member_id = fields.Many2one('family.member', string='Family Member')
+    grant_benefit_id = fields.Many2one('grant.benefit', string='Grant Benefit')  # حقل جديد
     level_id = fields.Many2one('family.education.level', string='Education Level')
     school_name = fields.Char(string='School Name')
     path = fields.Char(string='Path')
