@@ -11,6 +11,7 @@ class GrantBenefit(models.Model):
     education_ids = fields.One2many('family.profile.learn', 'grant_benefit_id', string='Education History')
     member_ids = fields.One2many('family.member', 'benefit_id')
     rehabilitation_ids = fields.One2many('comprehensive.rehabilitation', 'grant_benefit_id', string='Comprehensive Rehabilitation')
+    salary_ids = fields.One2many('salary.line', 'benefit_id', string='')
 
     account_status = fields.Selection(
         [('active', 'Active'), ('inactive', 'Inactive')],
@@ -27,6 +28,13 @@ class GrantBenefit(models.Model):
     delegate_name = fields.Char(string="Name of the delegate")
     delegate_iban = fields.Char(string="Authorized IBAN")
     delegate_document = fields.Binary(string="Authorization form", attachment=True)
+    attachment_name = fields.Char(string="Attachment name")
+    classification = fields.Selection(
+        [('active', 'Active'), ('inactive', 'Inactive')],
+        string="Account status",
+        default='active',
+        help="Account status to determine whether the account is active or suspended.")
+
 
     @api.constrains('delegate_mobile')
     def _check_delegate_mobile(self):
@@ -209,7 +217,7 @@ class GrantBenefit(models.Model):
 
     def _update_related_data(self, all_records=False):
         self.education_ids = [(5, 0, 0)]
-        self.rehabilitation_ids = [(5, 0, 0)]  
+        self.rehabilitation_ids = [(5, 0, 0)]
 
         education_records = []
         rehabilitation_records = []
@@ -243,11 +251,5 @@ class GrantBenefit(models.Model):
 
         self.education_ids = [(0, 0, rec) for rec in education_records]
         self.rehabilitation_ids = [(0, 0, rec) for rec in rehabilitation_records]
-
-
-
-
-
-
 
 
