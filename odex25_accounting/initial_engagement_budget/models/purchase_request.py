@@ -62,9 +62,9 @@ class PurchaseRequest(models.Model):
         for order in self:
             for rec in order.line_ids:
                 account_id = rec.product_id.property_account_expense_id and rec.product_id.property_account_expense_id or rec.product_id.categ_id.property_account_expense_categ_id
-                # if not account_id:
-                #     raise ValidationError(
-                #         _("This product has no expense account") + ': {}'.format(rec.product_id.name))
+                if not account_id:
+                    raise ValidationError(
+                        _("This product has no expense account") + ': {}'.format(rec.product_id.name))
 
                 budget_post = self.env['account.budget.post'].search([]).filtered(lambda x:  account_id in x.account_ids)
                 if len(budget_post.ids) > 1:
