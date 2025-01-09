@@ -22,7 +22,7 @@
                         </group>
                         <notebook>
                             <page string="Members">
-                                <field name="member_ids" nolabel="1" context="{'form_view_ref': 'trahum_benefits.view_family_member_form'}" domian="[('benifit_type','=', 'member')]">
+                                <field name="member_ids" nolabel="1" context="{'form_view_ref': 'trahum_benefits.view_family_member_form'}">
                                     <tree>
                                         <field name="name"/>
                                         <field name="relation_id"/>
@@ -45,16 +45,19 @@
                                             <field name="expenses_type" invisible="1"/>
                                             <field name="expenses_type_custom"/>
                                             <field name="note"/>
+                                            <field name="revenue_periodicity"/>
                                             <field name="amount" sum="amount"/>
-                                            <button name="action_accept" type="object" string="Accept"
-                                                    class="oe_highlight"
-                                                    groups="odex_benefit.group_accept_income_and_expenses"/>
-                                            <button name="action_refuse" type="object" string="Refuse"
-                                                    class="oe_highlight"
-                                                    groups="odex_benefit.group_accept_income_and_expenses"/>
-                                            <field name="state" readonly="1" force_save="1" widget="badge"
-                                                   decoration-success="state in ['accepted']"
-                                                   decoration-danger="state in ['refused']"/>
+                                            <field name="side"/>
+                                            <field name="attachment"/>
+<!--                                            <button name="action_accept" type="object" string="Accept"-->
+<!--                                                    class="oe_highlight"-->
+<!--                                                    groups="odex_benefit.group_accept_income_and_expenses"/>-->
+<!--                                            <button name="action_refuse" type="object" string="Refuse"-->
+<!--                                                    class="oe_highlight"-->
+<!--                                                    groups="odex_benefit.group_accept_income_and_expenses"/>-->
+<!--                                            <field name="state" readonly="1" force_save="1" widget="badge"-->
+<!--                                                   decoration-success="state in ['accepted']"-->
+<!--                                                   decoration-danger="state in ['refused']"/>-->
                                         </tree>
                                     </field>
                                 </group>
@@ -77,6 +80,7 @@
                                                decoration-danger="state in ['refused']"/>
                                         <field name="is_required" invisible="1"/>
                                         <field name="is_default" invisible="1"/>
+                                        <field name="ambola"/>
                                     </tree>
                                 </field>
                                 <group>
@@ -119,12 +123,21 @@
                             <page string="Comprehensive Rehabilitation">
                                 <field name="rehabilitation_ids">
                                     <tree>
-                                        <field name="income_value"/>
-                                        <field name="disability_type_id"/>
                                         <field name="disability_date"/>
+                                        <field name="disability_type_id"/>
+                                        <field name="income_value" sum="amount"/>
                                     </tree>
                                 </field>
                             </page>
+<!--                             <page string="Attachment">-->
+<!--                                <field name="attachment_ids">-->
+<!--                                    <tree>-->
+<!--                                        <field name="attachment_name"/>-->
+<!--                                        <field name="classification"/>-->
+<!--                                        <field name="attachment_attachment"/>-->
+<!--                                    </tree>-->
+<!--                                </field>-->
+<!--                            </page>-->
                         </notebook>
                     </sheet>
                 </form>
