@@ -6,12 +6,16 @@ from odoo.exceptions import ValidationError
 class GrantBenefit(models.Model):
     _inherit = 'grant.benefit'
 
+    attachment_id = fields.One2many('attachment', 'benefit_id', string='')
+
     inmate_member_id = fields.Many2one('family.member', string='Inmate', domain="[('benefit_type', '=', 'inmate')]")
     breadwinner_member_id = fields.Many2one('family.member', string='Breadwinner', domain="[('benefit_type', '=', 'breadwinner')]")
     education_ids = fields.One2many('family.profile.learn', 'grant_benefit_id', string='Education History')
     member_ids = fields.One2many('family.member', 'benefit_id')
     rehabilitation_ids = fields.One2many('comprehensive.rehabilitation', 'grant_benefit_id', string='Comprehensive Rehabilitation')
     salary_ids = fields.One2many('salary.line', 'benefit_id', string='')
+    health_data_ids = fields.One2many('family.member', 'benefit_id', string='Health Data')
+
 
     account_status = fields.Selection(
         [('active', 'Active'), ('inactive', 'Inactive')],
@@ -28,12 +32,12 @@ class GrantBenefit(models.Model):
     delegate_name = fields.Char(string="Name of the delegate")
     delegate_iban = fields.Char(string="Authorized IBAN")
     delegate_document = fields.Binary(string="Authorization form", attachment=True)
-    attachment_name = fields.Char(string="Attachment name")
-    classification = fields.Selection(
-        [('active', 'Active'), ('inactive', 'Inactive')],
-        string="Account status",
-        default='active',
-        help="Account status to determine whether the account is active or suspended.")
+    # attachment_name = fields.Char(string="Attachment name")
+    # classification = fields.Selection(
+    #     [('active', 'Active'), ('inactive', 'Inactive')],
+    #     string="Account status",
+    #     default='active',
+    #     help="Account status to determine whether the account is active or suspended.")
 
 
     @api.constrains('delegate_mobile')
@@ -194,62 +198,74 @@ class GrantBenefit(models.Model):
     #
     #     return record
 
-    @api.model
-    def create(self, vals):
-        if not vals.get('name'):
-            vals['name'] = 'Grant Benefit'
+    # @api.model
+    # def create(self, vals):
+    #     if not vals.get('name'):
+    #         vals['name'] = 'Grant Benefit'
+    #
+    #     record = super(GrantBenefit, self).create(vals)
+    #
+    #     record.with_context(skip_update_related=True)._update_related_data(all_records=True)
+    #
+    #     return record
+    #
+    # def write(self, vals):
+    #     if self.env.context.get('skip_update_related'):
+    #         return super(GrantBenefit, self).write(vals)
+    #
+    #     result = super(GrantBenefit, self).write(vals)
+    #
+    #     self.with_context(skip_update_related=True)._update_related_data(all_records=True)
+    #
+    #     return result
+    #
+    # def _update_related_data(self, all_records=False):
+    #     self.education_ids = [(5, 0, 0)]
+    #     self.rehabilitation_ids = [(5, 0, 0)]
+    #
+    #     education_records = []
+    #     rehabilitation_records = []
+    #
+    #     if all_records:
+    #         all_educations = self.env['family.profile.learn'].search([])
+    #         for education in all_educations:
+    #             if not any(e['level_id'] == education.level_id.id and
+    #                        e['school_name'] == education.school_name
+    #                        for e in education_records):
+    #                 education_records.append({
+    #                     'level_id': education.level_id.id,
+    #                     'school_name': education.school_name,
+    #                     'path': education.path,
+    #                     'education_department_id': education.education_department_id.id,
+    #                     'grade': education.grade,
+    #                     'graduate_date': education.graduate_date,
+    #                 })
+    #
+    #         all_rehabilitations = self.env['comprehensive.rehabilitation'].search([])
+    #         for rehabilitation in all_rehabilitations:
+    #             if not any(r['income_value'] == rehabilitation.income_value and
+    #                        r['disability_type_id'] == rehabilitation.disability_type_id.id and
+    #                        r['disability_date'] == rehabilitation.disability_date
+    #                        for r in rehabilitation_records):
+    #                 rehabilitation_records.append({
+    #                     'income_value': rehabilitation.income_value,
+    #                     'disability_type_id': rehabilitation.disability_type_id.id,
+    #                     'disability_date': rehabilitation.disability_date,
+    #                 })
+    #
+    #     self.education_ids = [(0, 0, rec) for rec in education_records]
+    #     self.rehabilitation_ids = [(0, 0, rec) for rec in rehabilitation_records]
 
-        record = super(GrantBenefit, self).create(vals)
 
-        record.with_context(skip_update_related=True)._update_related_data(all_records=True)
+class attachment(models.Model):
+    _name = 'attachment'
 
-        return record
-
-    def write(self, vals):
-        if self.env.context.get('skip_update_related'):
-            return super(GrantBenefit, self).write(vals)
-
-        result = super(GrantBenefit, self).write(vals)
-
-        self.with_context(skip_update_related=True)._update_related_data(all_records=True)
-
-        return result
-
-    def _update_related_data(self, all_records=False):
-        self.education_ids = [(5, 0, 0)]
-        self.rehabilitation_ids = [(5, 0, 0)]
-
-        education_records = []
-        rehabilitation_records = []
-
-        if all_records:
-            all_educations = self.env['family.profile.learn'].search([])
-            for education in all_educations:
-                if not any(e['level_id'] == education.level_id.id and
-                           e['school_name'] == education.school_name
-                           for e in education_records):
-                    education_records.append({
-                        'level_id': education.level_id.id,
-                        'school_name': education.school_name,
-                        'path': education.path,
-                        'education_department_id': education.education_department_id.id,
-                        'grade': education.grade,
-                        'graduate_date': education.graduate_date,
-                    })
-
-            all_rehabilitations = self.env['comprehensive.rehabilitation'].search([])
-            for rehabilitation in all_rehabilitations:
-                if not any(r['income_value'] == rehabilitation.income_value and
-                           r['disability_type_id'] == rehabilitation.disability_type_id.id and
-                           r['disability_date'] == rehabilitation.disability_date
-                           for r in rehabilitation_records):
-                    rehabilitation_records.append({
-                        'income_value': rehabilitation.income_value,
-                        'disability_type_id': rehabilitation.disability_type_id.id,
-                        'disability_date': rehabilitation.disability_date,
-                    })
-
-        self.education_ids = [(0, 0, rec) for rec in education_records]
-        self.rehabilitation_ids = [(0, 0, rec) for rec in rehabilitation_records]
+    benefit_id = fields.Many2one('grant.benefit')
+    note = fields.Char()
+    attachment_name = fields.Char(string='Attachment name')
+    classification = fields.Selection(
+        [('active', 'Active'), ('inactive', 'Inactive')],
+        string="Classification")
+    attachment_attachment = fields.Binary(string='Attachment')
 
 
