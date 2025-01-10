@@ -129,15 +129,31 @@
                                     </tree>
                                 </field>
                             </page>
-<!--                             <page string="Attachment">-->
-<!--                                <field name="attachment_ids">-->
-<!--                                    <tree>-->
-<!--                                        <field name="attachment_name"/>-->
-<!--                                        <field name="classification"/>-->
-<!--                                        <field name="attachment_attachment"/>-->
-<!--                                    </tree>-->
-<!--                                </field>-->
-<!--                            </page>-->
+                             <page string="Attachment">
+                                <field name="attachment_id">
+                                    <tree>
+                                        <field name="attachment_name"/>
+                                        <field name="classification"/>
+                                        <field name="attachment_attachment"/>
+                                    </tree>
+                                </field>
+                            </page>
+                              <page string="Health Data">
+                        <group>
+                            <field name="health_data_ids" nolabel="1" context="{'form_view_ref': 'trahum_benefits.view_family_member_form'}">
+                                <tree editable="bottom">
+                                    <field name="name" string="Name"/>
+                                    <field name="blood_type" string="Blood Type"/>
+                                    <field name="member_diseases_ids" string="Diseases">
+                                        <tree editable="bottom">
+                                            <field name="disease_id" string="Disease"/>
+                                            <field name="disease_type" string="Disease Type" readonly="1"/>
+                                        </tree>
+                                    </field>
+                                </tree>
+                            </field>
+                        </group>
+                    </page>
                         </notebook>
                     </sheet>
                 </form>
