@@ -17,6 +17,8 @@ class GrantBenefit(models.Model):
     health_data_ids = fields.One2many('family.member', 'benefit_id', string='Health Data')
 
 
+
+
     account_status = fields.Selection(
         [('active', 'Active'), ('inactive', 'Inactive')],
         string="Account status",
@@ -25,7 +27,16 @@ class GrantBenefit(models.Model):
 
     stop_reason = fields.Text(string="Reason", help="Reason for account suspension.")
     stop_proof = fields.Binary(string="Proof of suspension document", attachment=True)
-
+    exchange_period = fields.Selection(
+        [],
+        string="Exchange Period")
+    housing_status = fields.Selection(
+        [],
+        string="Housing status")
+    housing_value = fields.Selection(
+        [],
+        string="Housing Value")
+    accommodation_attachments = fields.Binary(string="Accommodation Attachments ", attachment=True)
 
     delegate_id_number = fields.Char(string="Proof of suspension document")
     delegate_mobile = fields.Char(string="Authorized mobile number")
@@ -269,3 +280,9 @@ class attachment(models.Model):
     attachment_attachment = fields.Binary(string='Attachment')
 
 
+class ExpensesInheritLine(models.Model):
+    _inherit = 'expenses.line'
+
+    revenue_periodicity = fields.Selection(string='Revenue Periodicity', selection=[])
+    side = fields.Char(string='The side')
+    attachment = fields.Binary(string="Attachments", attachment=True)
