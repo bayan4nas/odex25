@@ -300,7 +300,7 @@ class Salary(models.Model):
     is_default = fields.Boolean(string='Is Default?')
     state = fields.Selection(string='Status',selection=[('accepted', 'Accepted'),('refused', 'Refused')])
     # total_salary = fields.Float(string="Total Salary", compute='_compute_total_salary',store=True)
-    ambola = fields.Char("Ambola")
+
 
     # @api.depends('salary_amount','state')
     # def _compute_total_salary(self):
@@ -425,9 +425,9 @@ class ExpensesLine(models.Model):
     amount = fields.Float()
     note = fields.Char()
     state = fields.Selection(string='Status', selection=[('accepted', 'Accepted'), ('refused', 'Refused')])
-    revenue_periodicity = fields.Selection(string='Revenue Periodicity', selection=[('test', 'Test')])
-    side = fields.Char(string='The side')
-    attachment = fields.Binary(string="Attachments", attachment=True)
+    # revenue_periodicity = fields.Selection(string='Revenue Periodicity', selection=[])
+    # side = fields.Char(string='The side')
+    # attachment = fields.Binary(string="Attachments", attachment=True)
 
 
     def action_accept(self):
