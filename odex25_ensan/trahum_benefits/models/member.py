@@ -98,6 +98,8 @@ class MemberDisease(models.Model):
 class FamilyMember(models.Model):
     _inherit = 'family.member'
 
+
+    benefit_id = fields.Many2one('grant.benefit', string='Family Profile')
     name = fields.Char(string="Name", compute='get_partner_name', store=True, readonly=False)
     benefit_type = fields.Selection([
         ('inmate', 'Inmate'),

@@ -8,11 +8,35 @@
             <field name="model">purchase.request</field>
             <field name="inherit_id" ref="purchase_requisition_custom.purchase_request_form"/>
             <field name="arch" type="xml">
+                <xpath expr="//header" position="inside">
+                    <button name="action_secretary_general"
+                            string="Secretary General"
+                            type="object"
+                            states="secretary_general"
+                            class="oe_highlight"
+                            groups="hr_trahum.group_secretary_general"
+                    />
+                    <button name="action_refuse" type="object" string="Refuse"
+                                groups="hr_trahum.group_secretary_general"
+                                states="sector_head_approval"/>
+                    <button name="action_sector_head_approval"
+                            string="Sector Head Approval"
+                            type="object"
+                            states="sector_head_approval"
+                            class="oe_highlight"
+                            groups="hr_trahum.group_sector_head_approval"
+                    />
+                        <button name="action_refuse" type="object" string="Refuse"
+                                groups="hr_trahum.group_sector_head_approval"
+                                states="secretary_general"/>
+                </xpath>
+
                 <xpath expr="/form/header/button[@name='action_done']" position="replace">
                     <button name="action_done" type="object" string="Delivery Done" class="oe_highlight"
-                                groups="purchase_requisition_custom.create_purchase_request" attrs="{'invisible':[('show_emp_button' , '=' , False)]}" />
+                            groups="purchase_requisition_custom.create_purchase_request"
+                            attrs="{'invisible': [('show_emp_button', '=', False)]}"/>
                 </xpath>
-                   <xpath expr="//field[@name='use_analytic']" position="attributes">
+                <xpath expr="//field[@name='use_analytic']" position="attributes">
                     <attribute name="attrs">{'readonly':[('state','!=','draft')]}</attribute>
                 </xpath>
                 <xpath expr="//group[1]" position="after">
@@ -23,12 +47,16 @@
                         <field name="show_approve_warehouse" invisible="0"/>
                         <div>
                             <label for="warehouse_id"/>
-                            <field name="warehouse_id"  attrs="{'readonly':['|',('edit_locations' , '=' , False),('state' , '!=' , 'warehouse')]}"  groups="stock.group_stock_user,stock.group_stock_manager"/>
+                            <field name="warehouse_id"
+                                   attrs="{'readonly':['|',('edit_locations' , '=' , False),('state' , '!=' , 'warehouse')]}"
+                                   groups="stock.group_stock_user,stock.group_stock_manager"/>
 
                         </div>
                         <div>
                             <label for="location_id"/>
-                            <field name="location_id"  attrs="{'readonly':['|',('edit_locations' , '=' , False),('state' , '!=' , 'warehouse')]}"   groups="stock.group_stock_user,stock.group_stock_manager" />
+                            <field name="location_id"
+                                   attrs="{'readonly':['|',('edit_locations' , '=' , False),('state' , '!=' , 'warehouse')]}"
+                                   groups="stock.group_stock_user,stock.group_stock_manager"/>
 
                         </div>
                     </group>
@@ -44,14 +72,20 @@
                 <xpath expr="//button[@name='action_confirm']" position="after">
                     <button name="action_confirm_picking"
                             type="object" string="Confirm"
-                            attrs="{'invisible':[('show_approve_warehouse' , '=' , False)]}" class="oe_highlight" groups="stock.group_stock_user,stock.group_stock_manager"/>
+                            attrs="{'invisible':[('show_approve_warehouse' , '=' , False)]}" class="oe_highlight"
+                            groups="stock.group_stock_user,stock.group_stock_manager"/>
                     <button name="action_available_qty"
-                            type="object" string="Available Quantity" attrs="{'invisible':[('show_approve_warehouse' , '=' , False)]}" class="oe_highlight" groups="stock.group_stock_user,stock.group_stock_manager"/>
+                            type="object" string="Available Quantity"
+                            attrs="{'invisible':[('show_approve_warehouse' , '=' , False)]}" class="oe_highlight"
+                            groups="stock.group_stock_user,stock.group_stock_manager"/>
                 </xpath>
                 <xpath expr="//field[@name='line_ids']/tree[1]/field[@name='qty']" position="after">
-                    <field name="available_qty" readonly="1" attrs="{'column_invisible': [('parent.state', '!=', 'warehouse')]}"/>
-                    <field name="qty_purchased" readonly="1" attrs="{'column_invisible': [('parent.state', '!=', 'waiting')]}"/>
+                    <field name="available_qty" readonly="1"
+                           attrs="{'column_invisible': [('parent.state', '!=', 'warehouse')]}"/>
+                    <field name="qty_purchased" readonly="1"
+                           attrs="{'column_invisible': [('parent.state', '!=', 'waiting')]}"/>
                 </xpath>
+
             </field>
         </record>
 
