@@ -23,7 +23,7 @@
             <xpath expr="//field[@name='state']" position="replace">
                 <field name="state" invisible="1"/>
                 <field name="state_a" widget="statusbar"
-                       statusbar_visible="draft,direct_manager,wait_for_send,initial,waiting,done"
+                       statusbar_visible="draft,direct_manager,sector_head_approval,wait_for_send,initial,waiting,done"
                        attrs="{'invisible': [('initial_engagement_activate', '=', False)]}"/>
                 <field name="state_b" widget="statusbar" statusbar_visible="draft,direct_manager,waiting,done"
                        attrs="{'invisible': [('initial_engagement_activate', '=', True)]}"/>

@@ -15,12 +15,34 @@ class PurchaseRequest(models.Model):
     picking_id=fields.Many2one("stock.picking",copy=False)
     edit_locations=fields.Boolean(string="Edit Locations",compute='compute_edit_locations',copy=False)
     state = fields.Selection(
-        [('draft', 'Draft'), ('direct_manager', 'Direct Manager'),('warehouse', 'Warehouses Department'),('wait_for_send', 'Wait For Sent'),
+        [('draft', 'Draft'), ('direct_manager', 'Direct Manager'),('secretary_general', 'Secretary General'),
+         ('sector_head_approval', 'Sector Head Approval'),('warehouse', 'Warehouses Department'),('wait_for_send', 'Wait For Sent'),
          ('initial', 'Initial Engagement'),
          ('waiting', 'In Purchase'),('employee', 'Employee Delivery'),('done', 'Done'), ('cancel', 'Cancel'), ('refuse', 'Refuse')], default="draft",
         tracking=True,copy=False )
     show_emp_button=fields.Boolean(compute='show_employee_button',copy=False)
     show_approve_warehouse=fields.Boolean("Approve Warehouse",compute='show_approve_warehouse_button')
+    total_sum = fields.Float(string="Total Sum", compute="_compute_total_sum", store=True)
+
+    @api.depends('line_ids.line_total')
+    def _compute_total_sum(self):
+        for record in self:
+            record.total_sum = sum(line.line_total for line in record.line_ids)
+
+    def action_secretary_general(self):
+        self.state = "sector_head_approval"
+
+    def action_sector_head_approval(self):
+        if any(self.line_ids.filtered(lambda line: line.product_id.type == "product")):
+            self.write({'state': 'warehouse'})
+        else:
+            for rec in self.line_ids:
+                rec.write({"qty_purchased": rec.qty})
+
+            init_active = self.env['ir.module.module'].search(
+                [('name', '=', 'initial_engagement_budget'), ('state', '=', 'installed')], limit=1)
+            init_budget = True if init_active else False
+            self.write({'state': 'wait_for_send' if init_budget else 'waiting'})
 
     def show_employee_button(self):
         """show only for the create employee"""
@@ -48,24 +70,23 @@ class PurchaseRequest(models.Model):
                 rec.edit_locations = False
 
     def action_confirm(self):
-        init_active = self.env['ir.module.module'].search([('name', '=', 'initial_engagement_budget'), ('state', '=', 'installed')], limit=1)
+        init_active = self.env['ir.module.module'].search(
+            [('name', '=', 'initial_engagement_budget'), ('state', '=', 'installed')], limit=1)
         init_budget = True if init_active else False
+
         if len(self.line_ids) == 0:
             raise ValidationError(_("Can't Confirm Request With No Item!"))
         if not self.department_id:
             raise ValidationError(_("Please Select department for employee"))
+
         direct_manager = self.sudo().department_id.manager_id
         if direct_manager and direct_manager.user_id and self.env.user.id != direct_manager.user_id.id:
-            raise ValidationError(_("only %s Direct Manager can approve the order"%self.sudo().employee_id.name))
-        if any(self.line_ids.filtered(lambda line: line.product_id.type == "product")):
-            self.write({'state': 'warehouse'})
+            raise ValidationError(_("only %s Direct Manager can approve the order" % self.sudo().employee_id.name))
+
+        if self.total_sum > 10000:
+            self.state = 'secretary_general'
         else:
-            for rec in self.line_ids:
-                rec.write({"qty_purchased":rec.qty})
-            self.write({'state': 'wait_for_send' if init_budget else 'waiting'})
-
-
-
+            self.state = 'sector_head_approval'
 
     def create_requisition(self):
         """inherit for take in considiration available qty """
@@ -229,71 +250,59 @@ class PurchaseRequest(models.Model):
                     [('product_id', '=', line.product_id.id), ('location_id', '=', rec.location_id.id)],
                     limit=1).available_quantity
                 line.qty_purchased=line.qty-line.available_qty
-    def write(self,vals):
-        """Ovveride Send Notification On state"""
-        res=super(PurchaseRequest,self).write(vals)
-        if 'state' in vals :
+
+    def write(self, vals):
+        """Override Send Notification On state"""
+        res = super(PurchaseRequest, self).write(vals)
+
+        if 'state' in vals:
             if vals['state'] == 'direct_manager':
-                    direct_manager = self.sudo().department_id.manager_id
-                    if direct_manager and direct_manager.user_id:
-                        if self.env.user.partner_id.lang == 'ar_001':
-                            body = 'عزيزى  %s موافقتك مطلوبة على %s ' % (direct_manager.name, self.name)
-                        else:
-                            body = 'Dear %s your approval is required on %s ' % (direct_manager.name, self.name)
-                        self.message_notify(body=body,
-                                          partner_ids=[direct_manager.user_id.partner_id.id])
+                direct_manager = self.sudo().department_id.manager_id
+                if direct_manager and direct_manager.user_id:
+                    if self.env.user.partner_id.lang == 'ar_001':
+                        body = 'عزيزى  %s موافقتك مطلوبة على %s ' % (direct_manager.name, self.name)
+                    else:
+                        body = 'Dear %s your approval is required on %s ' % (direct_manager.name, self.name)
+                    self.message_notify(body=body,
+                                        partner_ids=[direct_manager.user_id.partner_id.id])
 
             elif vals['state'] == 'warehouse':
-                    # stock_group = self.env.ref('stock.group_stock_manager')
-                    warehouse=self.env['stock.warehouse'].sudo().search([('department_id', '=', self.department_id.id)])
-                    stock_employee=False
-                    if warehouse and warehouse.manager_id:
-                         stock_employee = warehouse.manager_id
+                warehouse = self.env['stock.warehouse'].sudo().search([('department_id', '=', self.department_id.id)])
+                stock_employee = False
+                if warehouse and warehouse.manager_id:
+                    stock_employee = warehouse.manager_id
 
-                    if stock_employee and stock_employee.user_id.partner_id.id:
-                            if self.env.user.partner_id.lang=='ar_001':
-                                    body = 'عزيزى  %s موافقتك مطلوبة على %s ' % (stock_employee.name, self.name)
-                            else:
-                                     body='Dear %s your approval is required on %s ' % (stock_employee.name, self.name)
-                            self.message_notify(body=body,
-                                                partner_ids=[stock_employee.user_id.partner_id.id])
-                            # self.message_post(body=body,
-                            #                   message_type='notification',
-                            #                   author_id=self.env.user.partner_id.id, sticky=True,
-                            #                   subtype_id=self.env.ref("mail.mt_comment").id,
-                            #                   partner_ids=[stock_employee.user_id.partner_id.id])
+                if stock_employee and stock_employee.user_id.partner_id.id:
+                    if self.env.user.partner_id.lang == 'ar_001':
+                        body = 'عزيزى  %s موافقتك مطلوبة على %s ' % (stock_employee.name, self.name)
+                    else:
+                        body = 'Dear %s your approval is required on %s ' % (stock_employee.name, self.name)
+                    self.message_notify(body=body,
+                                        partner_ids=[stock_employee.user_id.partner_id.id])
+
             elif vals['state'] == 'waiting':
-                    purchase_group = self.env.ref('purchase.group_purchase_manager')
-                    purchase_users = self.env['res.users'].search([('groups_id', '=', purchase_group.id)])
-                    for user in purchase_users:
-                        purchase_employee = self.env['hr.employee'].search([('user_id', '=', user.id)], limit=1)
-                        if self.env.user.partner_id.lang == 'ar_001':
-                            body = 'عزيزى  %s موافقتك مطلوبة على %s ' % (purchase_employee.name, self.name)
-                        else:
-                            body = 'Dear %s your approval is required on %s ' % (purchase_employee.name, self.name)
-                        if purchase_employee and user.partner_id.id:
-                            self.message_notify(body=body,
-                                               partner_ids=[user.partner_id.id])
-                            # self.message_post(body=body,
-                            #                   message_type='notification',
-                            #                   author_id=self.env.user.partner_id.id, sticky=True,
-                            #                   subtype_id=self.env.ref("mail.mt_comment").id,
-                            #                   partner_ids=[user.partner_id.id])
-            elif vals['state'] == 'employee':
-                        if self.sudo().employee_id and self.sudo().employee_id.user_id:
-                            if self.env.user.partner_id.lang == 'ar_001':
-                                body = 'عزيزى  %s يرجى تاكيد استلامك على  %s ' % (self.sudo().employee_id.name, self.name)
-                            else:
-                                body = 'Dear %s please confirm Your receipt on %s ' % (self.sudo().employee_id.name, self.name)
+                purchase_group = self.env.ref('purchase.group_purchase_manager')
+                purchase_users = self.env['res.users'].search([('groups_id', '=', purchase_group.id)])
+                for user in purchase_users:
+                    purchase_employee = self.env['hr.employee'].search([('user_id', '=', user.id)], limit=1)
+                    if self.env.user.partner_id.lang == 'ar_001':
+                        body = 'عزيزى  %s موافقتك مطلوبة على %s ' % (purchase_employee.name, self.name)
+                    else:
+                        body = 'Dear %s your approval is required on %s ' % (purchase_employee.name, self.name)
+                    if purchase_employee and user.partner_id.id:
+                        self.message_notify(body=body,
+                                            partner_ids=[user.partner_id.id])
 
-                            self.message_notify(body=body,
-                                                partner_ids=[self.sudo().employee_id.user_id.partner_id.id])
-                            # self.message_post(
-                            #     body=body,
-                            #     message_type='notification',
-                            #     author_id=self.env.user.partner_id.id, sticky=True,
-                            #     subtype_id=self.env.ref("mail.mt_comment").id,
-                            #     partner_ids=[self.sudo().employee_id.user_id.partner_id.id])
+            elif vals['state'] == 'employee':
+                if self.sudo().employee_id and self.sudo().employee_id.user_id:
+                    if self.env.user.partner_id.lang == 'ar_001':
+                        body = 'عزيزى  %s يرجى تاكيد استلامك على  %s ' % (self.sudo().employee_id.name, self.name)
+                    else:
+                        body = 'Dear %s please confirm Your receipt on %s ' % (self.sudo().employee_id.name, self.name)
+
+                    self.message_notify(body=body,
+                                        partner_ids=[self.sudo().employee_id.user_id.partner_id.id])
+
         return res
 
 
