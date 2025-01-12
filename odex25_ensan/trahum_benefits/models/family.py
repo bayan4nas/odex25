@@ -284,3 +284,13 @@ class ExpensesInheritLine(models.Model):
     revenue_periodicity = fields.Selection(string='Revenue Periodicity', selection=[])
     side = fields.Char(string='The side')
     attachment = fields.Binary(string="Attachments", attachment=True)
+
+class SalaryInheritLine(models.Model):
+    _inherit = 'salary.line'
+
+    side = fields.Char(string='side')
+    revenue_periodicity = fields.Selection(
+        [],
+        string="Revenue periodicity")
+
+
