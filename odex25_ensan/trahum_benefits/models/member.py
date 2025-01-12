@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
 from odoo import models, fields, api
+from odoo.exceptions import ValidationError
+
+
 
 class FamilyMemberMaritalStatus(models.Model):
     _name = 'family.member.maritalstatus'
@@ -61,6 +64,7 @@ class ComprehensiveRehabilitation(models.Model):
     name = fields.Char(string="Name", required=True, default="Rehabilitation Record")
 
 
+
 class FamilyProfileLearn(models.Model):
     _name = 'family.profile.learn'
     _description = 'Family Profile Learning'
@@ -73,6 +77,15 @@ class FamilyProfileLearn(models.Model):
     education_department_id = fields.Many2one('family.education.department', string='Education Department')
     grade = fields.Char(string='Grade')
     graduate_date = fields.Date(string='Graduation Date')
+    name = fields.Char(string="Name", required=True, default="Rehabilitation Record")
+    identity_number = fields.Integer(string="Identity Number")
+    graduation_year = fields.Date(string="Graduation Year")
+
+    @api.constrains('identity_number')
+    def _check_identity_number_length(self):
+        for record in self:
+            if record.identity_number and (len(str(record.identity_number)) != 10):
+                raise ValidationError("Identity Number must be exactly 10 digits.")
 
 
 class Disease(models.Model):
@@ -93,6 +106,27 @@ class MemberDisease(models.Model):
     member_id = fields.Many2one('family.member', string='Family Member', ondelete='cascade')
     disease_id = fields.Many2one('disease', string='Disease', required=True)
     disease_type = fields.Selection(related='disease_id.disease_type', string='Disease Type', store=True, readonly=True)
+
+class PrisonBenefit(models.Model):
+    _name = 'prison.benefit'
+
+    prison_id =fields.Char(string="Prison")
+
+
+class IssuesInformation(models.Model):
+    _name = 'issues.information'
+
+    member_id = fields.Many2one('family.member', string='Family Member')
+    case_name = fields.Text(string="Case")
+    record_start_date = fields.Date(string="Record Start Date")
+    record_end_date = fields.Date(string="Record End Date")
+    release_date = fields.Date(string="Release Date")
+    account_status = fields.Selection(
+        [('active', 'Active'), ('inactive', 'Inactive')],
+        string="status")
+    prison_prison_id = fields.Many2one('prison.benefit','prison_id')
+
+
 
 
 class FamilyMember(models.Model):
@@ -131,6 +165,7 @@ class FamilyMember(models.Model):
         ('o+', 'O+'), ('o-', 'O-')
     ], string='Blood Type')
     member_diseases_ids = fields.One2many('member.disease', 'member_id', string='Member Diseases')
+    issues_ids = fields.One2many('issues.information', 'member_id', string='issues information')
     social_insurance_income = fields.Float(string='Social Insurance Income')
     social_insurance_status = fields.Selection([
         ('active', 'Active'),
