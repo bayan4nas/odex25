@@ -105,6 +105,7 @@
                                         </div>
                                         <field name="acc_holder_name"/>
                                         <field name="account_status"/>
+                                        <field name="Add_appendix"/>
                                     </group>
                                     <group attrs="{'invisible': [('account_status', '!=', 'inactive')]}">
                                         <field name="stop_reason"/>
@@ -120,11 +121,14 @@
                             <page string="Education History">
                                 <field name="education_ids" nolabel="1">
                                     <tree editable="bottom">
+                                        <field name="name"/>
+                                        <field name="identity_number"/>
                                         <field name="level_id" string="Education Level"/>
                                         <field name="school_name" string="School Name"/>
                                         <field name="path" string="Path"/>
                                         <field name="education_department_id" string="Department"/>
                                         <field name="grade" string="Grade"/>
+                                        <field name="graduation_year"/>
                                     </tree>
                                 </field>
                             </page>
