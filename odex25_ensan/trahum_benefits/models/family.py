@@ -16,15 +16,13 @@ class GrantBenefit(models.Model):
     salary_ids = fields.One2many('salary.line', 'benefit_id', string='')
     health_data_ids = fields.One2many('family.member', 'benefit_id', string='Health Data')
 
-
-
-
     account_status = fields.Selection(
         [('active', 'Active'), ('inactive', 'Inactive')],
         string="Account status",
         default='active',
         help="Account status to determine whether the account is active or suspended.")
 
+    Add_appendix = fields.Binary(string="IBAN", attachment=True)
     stop_reason = fields.Text(string="Reason", help="Reason for account suspension.")
     stop_proof = fields.Binary(string="Proof of suspension document", attachment=True)
     exchange_period = fields.Selection(
