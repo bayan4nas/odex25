@@ -7,7 +7,7 @@ class GrantBenefit(models.Model):
     _inherit = 'grant.benefit'
 
     attachment_id = fields.One2many('attachment', 'benefit_id', string='')
-
+    partner_id = fields.Many2one('res.partner', required=True, ondelete='cascade')
     inmate_member_id = fields.Many2one('family.member', string='Inmate', domain="[('benefit_type', '=', 'inmate')]")
     breadwinner_member_id = fields.Many2one('family.member', string='Breadwinner', domain="[('benefit_type', '=', 'breadwinner')]")
     education_ids = fields.One2many('family.profile.learn', 'grant_benefit_id', string='Education History')
@@ -41,13 +41,13 @@ class GrantBenefit(models.Model):
     delegate_name = fields.Char(string="Name of the delegate")
     delegate_iban = fields.Char(string="Authorized IBAN")
     delegate_document = fields.Binary(string="Authorization form", attachment=True)
-    # attachment_name = fields.Char(string="Attachment name")
-    # classification = fields.Selection(
-    #     [('active', 'Active'), ('inactive', 'Inactive')],
-    #     string="Account status",
-    #     default='active',
-    #     help="Account status to determine whether the account is active or suspended.")
 
+
+    @api.model
+    def create(self, vals):
+        if 'name' not in vals or not vals['name']:
+            vals['name'] = 'Unnamed Contact'
+        return super(GrantBenefit, self).create(vals)
 
     @api.constrains('delegate_mobile')
     def _check_delegate_mobile(self):
@@ -292,5 +292,14 @@ class SalaryInheritLine(models.Model):
     revenue_periodicity = fields.Selection(
         [],
         string="Revenue periodicity")
+
+# class FamilyMember(models.Model):
+#     _inherit = 'res.partner'
+#
+#     @api.model
+#     def create(self, vals):
+#         if 'name' not in vals or not vals['name']:
+#             vals['name'] = 'Unnamed Contact'
+#         return super(FamilyMember, self).create(vals)
 
 
