@@ -154,7 +154,7 @@ class FamilyMember(models.Model):
     sub_number = fields.Char(string='Sub Number')
     street_name = fields.Char(string='Street Name')
     district = fields.Char(string='District')
-    city = fields.Many2one("res.city",string='City')
+    city = fields.Many2one("res.country.city",string='City')
     postal_code = fields.Char(string='Postal Code')
     building_number = fields.Char(string='Building Number')
     rehabilitation_ids = fields.One2many('comprehensive.rehabilitation', 'member_id', string='Comprehensive Rehabilitation')

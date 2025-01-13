@@ -20,7 +20,7 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['odex_benefit'],
+    'depends': ['base','odex_benefit'],
 
     # always loaded
     'data': [
