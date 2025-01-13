@@ -2,10 +2,10 @@
     <record id="group_sector_head_approval" model="res.groups">
         <field name="name">Sector Head Approval</field>
         <field name="category_id" ref="base.module_category_human_resources_employees"/>
-<!--        <field name="implied_ids" eval="[-->
-<!--        (4, ref('hr.group_hr_user')),-->
-<!--        (4, ref('hr.group_hr_manager')),-->
-<!--        (4, ref('hr_base.group_general_manager'))]"/>-->
+        <field name="implied_ids" eval="[
+        (4, ref('hr.group_hr_user')),
+        (4, ref('hr.group_hr_manager')),
+        (4, ref('hr_base.group_general_manager'))]"/>
         <field name="comment">This group grants Sector Head Approval permissions with HR User, HR Manager, and General
             Manager privileges.
         </field>
