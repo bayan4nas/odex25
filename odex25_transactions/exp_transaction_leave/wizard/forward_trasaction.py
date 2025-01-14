@@ -9,6 +9,8 @@ class ForwardTransactionWizard(models.TransientModel):
     def action_forward(self):
         transaction = ''
         name = ''
+        if self.to_delegate:
+            self.employee = self.employee.delegate_employee_id.id
         to_id = self.employee.id
         unit_id = self.employee.parent_id.id
 
@@ -24,8 +26,8 @@ class ForwardTransactionWizard(models.TransientModel):
 
         forward_user_id = self.employee.user_id.id
         if self.forward_type != 'employee':
-            forward_user_id = self.internal_unit.secretary_id.user_id.id
-            to_id = self.internal_unit.secretary_id.id
+            forward_user_id = self.internal_unit.secretary_id.user_id.id or self.internal_unit.manager_id.user_id.id
+            to_id = self.internal_unit.secretary_id.id or self.internal_unit.manager_id.id
             unit_id = self.internal_unit.id
 
         transaction.forward_user_id = forward_user_id
@@ -101,16 +103,22 @@ class ForwardTransactionWizard(models.TransientModel):
         # Add mail notification
         partner_ids = []
         if self.forward_type == 'unit':
-            partner_ids.append(self.internal_unit.secretary_id.user_id.partner_id.id)
+            forward_partner_id = self.internal_unit.secretary_id.user_id.partner_id.id or self.internal_unit.manager_id.user_id.partner_id.id
+            partner_ids.append(forward_partner_id)
         elif self.forward_type == 'employee':
             partner_ids.append(self.employee.user_id.partner_id.id)
         for partner in self.cc_ids:
             if partner.type == 'unit':
-                partner_ids.append(partner.secretary_id.user_id.partner_id.id)
+                partner_id = partner.secretary_id.user_id.partner_id.id or partner.manager_id.user_id.partner_id.id
+                partner_ids.append(partner_id)
             elif partner.type == 'employee':
                 partner_ids.append(partner.user_id.partner_id.id)
 
         transaction.action_send_notification(subj, msg, partner_ids)
+
+        user_id = transaction.env.user.id
+        if user_id not in transaction.seen_user_ids.ids:
+            transaction.seen_user_ids = [(6, 0, [user_id])]
 
         if self.incoming_transaction_id:
             if transaction.state == 'draft':
