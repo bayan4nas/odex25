@@ -223,14 +223,24 @@ class Holidays(models.Model):
                                          help='This area is automaticly filled by the user who validate the leave with second level (If Leave type need second validation)')
     double_validation = fields.Boolean('Apply Double Validation', related='holiday_status_id.double_validation')
     can_reset = fields.Boolean('Can reset', compute='_compute_can_reset')
+    duration = fields.Integer(string="Duration", compute="_compute_duration", store=True)
 
-    @api.depends('number_of_days_temp', 'type')
+    @api.depends('date_from', 'date_to')
+    def _compute_duration(self):
+        for record in self:
+            if record.date_from and record.date_to:
+                delta = (record.date_to - record.date_from).days
+                record.duration = delta
+            else:
+                record.duration = 0
+
+    @api.depends('duration', 'type')
     def _compute_number_of_days(self):
         for holiday in self:
             if holiday.type == 'remove':
-                holiday.number_of_days = -holiday.number_of_days_temp
+                holiday.number_of_days = -holiday.duration
             else:
-                holiday.number_of_days = holiday.number_of_days_temp
+                holiday.number_of_days = holiday.duration
 
     def _compute_can_reset(self):
         """ User can reset a leave request if it is its own leave request
