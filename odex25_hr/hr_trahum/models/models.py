@@ -4,6 +4,7 @@
 from odoo import models, fields, api, _, exceptions
 import logging
 from odoo.exceptions import ValidationError
+from datetime import date
 _logger = logging.getLogger(__name__)
 
 
@@ -173,6 +174,38 @@ class EmployeeHrhierarchy(models.Model):
 
     parent_id = fields.Many2one('hr.employee', string="Manager")
     coach_id = fields.Many2one('hr.employee', string="Coach")
+    emp_no = fields.Char(string="Employee Number", default="new", tracking=True)
+
+    @api.model
+    def _generate_emp_no(self):
+        seq = self.env['ir.sequence'].next_by_code('hr.employee.emp_no.sequence')
+        return seq
+
+    def complete_state(self):
+        for employee in self:
+            if employee.emp_no == "new":
+                employee.emp_no = self._generate_emp_no()
+            employee.state = "complete"
+
+    @api.constrains("emp_no", "birthday", 'attachment_ids')
+    def e_unique_field_name_constrains(self):
+        for item in self:
+            if item.emp_no != 'new':
+                items = self.search([("emp_no", "=", item.emp_no)])
+                if len(items) > 1:
+                    raise ValidationError(
+                        _("You cannot create Employee with the same employee number")
+                    )
+
+            if item.birthday >= date.today():
+                raise Warning(_("Sorry, The Birthday Must Be Less than Date Today"))
+
+            if item.attachment_ids:
+                for rec in item.attachment_ids:
+                    if not rec.doc_name:
+                        raise exceptions.Warning(_('Attach the attachment to the Document %s') % (rec.name))
+
+
 
     def _assign_manager_and_coach(self, department):
         """
