@@ -15,13 +15,33 @@ class Leave(models.Model):
     state = fields.Selection(selection=[('draft', 'Draft'), ('request', 'Request'), ('refuse', 'Refuse'),
                                         ('approve', 'Approved'), ('expired', 'Expired')], string='State',
                              default='draft')
-    from_date = fields.Date(string='From Date', default=fields.Date.today)
-    to_date = fields.Date(string='To Date')
+    from_date = fields.Datetime(string='From Date', default=lambda self: fields.Datetime.now())
+    to_date = fields.Datetime(string='To Date')
     employee_id = fields.Many2one(comodel_name='cm.entity', string='Employee',
                                   default=lambda self: self.default_employee_id(), readonly=True)
     alternative_employee_ids = fields.One2many('employee.leave.line', 'leave_id', string='Alternative Employees')
     alternative_manager_ids = fields.One2many('manager.leave.line', 'leave_id', string='Alternative Mangers')
     current_is_manager = fields.Boolean(string='Is Manager', compute="set_is_manager")
+    to_delegate = fields.Boolean(string='To Delegate?', compute="_compute_to_delegate")
+
+    def _compute_to_delegate(self):
+        for rec in self:
+            rec.to_delegate = False
+            if rec.from_date and rec.to_date:
+                if rec.from_date <= fields.Datetime.now() < rec.to_date:
+                    rec.to_delegate = True
+                else:
+                    rec.to_delegate = False
+                    if rec.state == 'approve':
+                        rec.state = 'expired'
+    @api.model
+    def search(self, args, offset=0, limit=None, order=None, count=False):
+        unit_id = self.env['cm.entity'].search([('user_id','=',self.env.uid)],limit=1).parent_id
+        if self.env['cm.entity'].search([('user_id','=',self.env.uid)],limit=1).parent_id.manager_id.user_id.id == self.env.uid:
+            args += [('employee_id.parent_id', '=', unit_id.id)]
+        else:
+            args += [('employee_id.user_id', '=', self.env.user.id)]
+        return super(Leave, self).search(args, offset, limit, order, count)
 
     def default_employee_id(self):
         user = self.env.user
@@ -40,9 +60,9 @@ class Leave(models.Model):
     def set_is_manager(self):
         user_id = self.env['res.users'].browse(self.env.uid)
         if self.employee_id.parent_id.manager_id.user_id == user_id:
-            self.current_is_manager = False
-        else:
             self.current_is_manager = True
+        else:
+            self.current_is_manager = False
 
     ####################################################
     # Business methods
@@ -87,6 +107,9 @@ class Leave(models.Model):
         template_id = self.env.ref('exp_transaction_leave.email_template_delegation_accepted').id
         for rec in self:
             rec.state = 'approve'
+            rec.employee_id.from_date = rec.from_date
+            rec.employee_id.to_date = rec.to_date
+            rec.employee_id.delegate_employee_id = rec.alternative_employee_ids.employee_id.id
             self.env['mail.template'].browse(template_id).send_mail(rec.id, force_send=True)
 
     def action_expired(self):
@@ -111,9 +134,9 @@ class LeaveLine(models.Model):
     def onchange_leave_id(self):
         domain = {}
         if self.leave_id:
-            domain = {'unit_id': [('id', 'in', self.env['cm.entity'].search([('type', '=', 'unit'),
-                                                                             ('secretary_id', '=',
-                                                                              self.leave_id.employee_id.id)]).ids)]}
+            domain = {'unit_id': [('id', 'in', self.env['cm.entity'].search([('type', '=', 'employee'),
+                                                                             ('employee_id', '=',
+                                                                              self.leave_id.employee_id.employee_id.id)]).parent_id.ids)]}
         return {'domain': domain}
 
     @api.onchange('unit_id')
@@ -179,7 +202,7 @@ class Transaction(models.Model):
         record = self.env['employee.leave'].search([('employee_id', '=', employee_id),
                                                     ('from_date', '<=', transaction_date),
                                                     ('to_date', '>=', transaction_date),
-                                                    ('state', '=', 'approve')])
+                                                    ('state', '=', 'approve')],limit=1)
         if record:
             employee_records = self.env['employee.leave.line'].search([('leave_id', '=', record.id),
                                                                        ('unit_id', '=',
@@ -191,6 +214,7 @@ class Transaction(models.Model):
         for rec in self:
             employee_id, unit_id = self.get_employee_id(rec)
             rec.receive_id = employee_id
+            rec.receive_user_id = rec.receive_id.user_id
             employee_records = self.get_employee_leave(employee_id, unit_id, rec.transaction_date)
             if employee_records:
                 rec.receive_id = employee_records
