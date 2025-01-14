@@ -90,33 +90,61 @@
                 </header>
                 <sheet>
                     <div class="oe_title">
-                        <h1><field name="display_name"/></h1>
+                        <h1>
+                            <field name="display_name"/>
+                        </h1>
                     </div>
                     <group>
                         <group>
                             <field name="name" attrs="{'readonly':[('state','!=','draft'),('state','!=','confirm')]}"/>
                             <field name="holiday_status_id" context="{'employee_id':employee_id}"/>
-                            <label for="number_of_days_temp" string="Duration"/>
-                            <div>
-                                <div attrs="{'invisible': [('type', '=', 'add')]}">
-                                    <field name="date_from" attrs="{'required':[('type', '=', 'remove')]}" class="oe_inline"/>
-                                    <label for="date_to"  string="-" class="oe_inline"/>
-                                    <field name="date_to"  attrs="{'required':[('type', '=', 'remove')]}" class="oe_inline"/>
+                            <field name="date_from"/>
+                            <field name="date_to"/>
+                            <field name="duration"/>
+                            <label for="number_of_days_temp" string="Duration" attrs="{'invisible': True}"/>
+                            <div attrs="{'invisible': True}">
+                                <div attrs="{'invisible': True}">
+                                    <field name="date_from"
+                                           attrs="{'invisible': True, 'required': [('type', '=', 'remove')]}"
+                                           class="oe_inline"/>
+                                    <label for="date_to" string="-" class="oe_inline" attrs="{'invisible': True}"/>
+                                    <field name="date_to"
+                                           attrs="{'invisible': True, 'required': [('type', '=', 'remove')]}"
+                                           class="oe_inline"/>
                                 </div>
-                                <div>
-                                    <field name="number_of_days_temp" class="oe_inline"/> days
+                                <div attrs="{'invisible': True}">
+                                    <field name="number_of_days_temp" class="oe_inline"/>
+                                    days
                                 </div>
                             </div>
+
+                        </group>
+
+                        <group>
+                            <field name="holiday_type"
+                                   attrs="{'readonly':[('type', '=', 'remove'),('state','!=','draft')]}" string="Mode"
+                                   groups="hr_holidays_community.group_hr_holidays_user"
+                                   context="{'employee_id':employee_id}"/>
+                            <field name="employee_id"
+                                   attrs="{'required':[('holiday_type','=','employee')],'invisible':[('holiday_type','=','category')]}"
+                                   groups="hr_holidays_community.group_hr_holidays_user"/>
+                            <field name="category_id"
+                                   attrs="{'required':[('holiday_type','=','category')], 'readonly': [('type', '=', 'remove'),('state','!=','draft'), ('state','!=','confirm')], 'invisible':[('holiday_type','=','employee')]}"/>
+                            <field name="department_id" groups="hr_holidays_community.group_hr_holidays_user"
+                                   attrs="{'readonly':['|','|' ,('type','=','add'),('holiday_type','=','category'),('state','=', 'validate')],'invisible':[('holiday_type','=','category')]}"/>
+                            <field name="payslip_status" groups="hr_holidays_community.group_hr_holidays_manager"
+                                   attrs="{'invisible':[('type','=','add')]}" widget="toggle_button"/>
                         </group>
                         <group>
-                            <field name="holiday_type" attrs="{'readonly':[('type', '=', 'remove'),('state','!=','draft')]}" string="Mode" groups="hr_holidays_community.group_hr_holidays_user" context="{'employee_id':employee_id}" />
-                            <field name="employee_id" attrs="{'required':[('holiday_type','=','employee')],'invisible':[('holiday_type','=','category')]}" groups="hr_holidays_community.group_hr_holidays_user"/>
-                            <field name="category_id" attrs="{'required':[('holiday_type','=','category')], 'readonly': [('type', '=', 'remove'),('state','!=','draft'), ('state','!=','confirm')], 'invisible':[('holiday_type','=','employee')]}"/>
-                            <field name="department_id" groups="hr_holidays_community.group_hr_holidays_user" attrs="{'readonly':['|','|' ,('type','=','add'),('holiday_type','=','category'),('state','=', 'validate')],'invisible':[('holiday_type','=','category')]}"/>
-                            <field name="payslip_status" groups="hr_holidays_community.group_hr_holidays_manager" attrs="{'invisible':[('type','=','add')]}" widget="toggle_button"/>
+                            <div>
+                                <p class="oe_inline">
+ Note: Return must be the first working day after the end date                               </p>
+                            </div>
                         </group>
-                        <field name="notes" nolabel="1" colspan="4" placeholder="Add a reason..." attrs="{'invisible': [('type', '=', 'remove')]}"/>
-                        <div groups="hr_holidays_community.group_hr_holidays_manager" attrs="{'invisible':[('type','=','add')]}">
+                        <field name="notes" nolabel="1" colspan="4" placeholder="Add a reason..."
+                               attrs="{'invisible': [('type', '=', 'remove')]}"/>
+                        <div groups="hr_holidays_community.group_hr_holidays_manager"
+                             attrs="{'invisible':[('type','=','add')]}">
                             <separator string="Comment by Manager"/>
                             <field name="report_note" placeholder="e.g. Report to the next month..."/>
                         </div>
@@ -127,10 +155,9 @@
                     <field name="activity_ids" widget="mail_activity"/>
                     <field name="message_ids" widget="mail_thread"/>
                 </div>
-                </form>
-            </field>
-        </record>
-
+            </form>
+        </field>
+    </record>
         <record id="view_holiday_allocation_tree" model="ir.ui.view">
             <field name="name">hr.holidays.allocation.tree</field>
             <field name="model">hr.holidays</field>
@@ -184,7 +211,7 @@
                     <field name="department_id" invisible="1"/>
                     <field name="type"/>
                     <field name="name"/>
-                    <field name="number_of_days" string="Number of Days" sum="Remaining Days"/>
+<!--                    <field name="number_of_days" string="Number of Days" sum="Remaining Days"/>-->
                     <field name="date_from"/>
                     <field name="date_to"/>
                     <field name="holiday_status_id"/>
@@ -204,7 +231,7 @@
                     <field name="date_from"/>
                     <field name="date_to"/>
                     <field name="name"/>
-                    <field name="number_of_days"/>
+<!--                    <field name="number_of_days"/>-->
                     <templates>
                         <t t-name="kanban-box">
                             <div t-attf-class="oe_kanban_global_click">
