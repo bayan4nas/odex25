@@ -20,11 +20,11 @@ class ResUsers(models.Model):
             letter_record = self.env['letters.letters'].browse(letter_id)
             if letter_record.exists():
                 letter_record.new_signature = vals.get('sign_signature') if vals.get('sign_signature') else self.env.user.sign_signature
-                letter_record.action_generate_attachment()
-        if attachment_id:
-            attachment_record = self.env['cm.attachment.rule'].browse(attachment_id)
-            if attachment_record:
-                attachment_record.signed = True
+                new_attachment = letter_record.action_generate_attachment()
+                if new_attachment:
+                    attachment_record = self.env['cm.attachment.rule'].browse(new_attachment.id)
+                    if attachment_record:
+                        attachment_record.signed = True
 
 
         # Call the super method to perform the standard write operation

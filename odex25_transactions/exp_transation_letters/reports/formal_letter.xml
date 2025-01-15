@@ -4,19 +4,19 @@
         <template id="custom_external_formal_layout_standard">
             <style type="text/css">
                 @font-face {
-                font-family: 'DroidKufi';
-                src: url("/exp_transation_letters/static/src/fonts/DroidKufi-Regular.ttf") format("truetype");
+                font-family: 'Al-Mohanad';
+                src: url("/exp_transation_letters/static/src/fonts/Al-Mohanad.ttf") format("truetype");
                 font-weight: normal;
                 font-style: normal;
                 }
 
-                .droidkufi-font {
-                font-family: 'DroidKufi', sans-serif;
+                * {
+                font-family: 'Al-Mohanad', sans-serif !important;
                 }
             </style>
             <t t-if="o.incoming_transaction_id">
-                <div class="header droidkufi-font">
-                    <div class="row">
+                <div class="header mohanad-font">
+                    <div class="row" style="direction: ltr; margin-top: 0px; margin-left: -50px">
                         <br/>
                         <div class="col-6 text-right">
                             <table align="left"
@@ -26,21 +26,21 @@
                                         <t t-esc="o.incoming_transaction_id.name"/>
                                     </td>
                                 </tr>
-                                <tr style="border:0px">
-                                    <td colspan="2" style="border:0px;padding-right:30px !important;">
-                                        <span style="font-weight:bold;font-stretch: expanded;">
-                                            Date:
-                                        </span>
+<!--                                <tr style="border:0px">-->
+<!--                                    <td colspan="2" style="border:0px;padding-right:30px !important;">-->
+<!--                                        <span style="font-weight:bold;font-stretch: expanded;">-->
+<!--                                            Date:-->
+<!--                                        </span>-->
 
-                                        <t t-set="date_hijri"
-                                           t-value="o.incoming_transaction_id.transaction_date_hijri"/>
+<!--                                        <t t-set="date_hijri"-->
+<!--                                           t-value="o.incoming_transaction_id.transaction_date_hijri"/>-->
 
-                                        <t t-set="date_hijri2" t-value="date_hijri.split('-')"/>
+<!--                                        <t t-set="date_hijri2" t-value="date_hijri.split('-')"/>-->
 
-                                        <t t-esc="date_hijri2[0]"/>/<t t-esc="date_hijri2[1]"/>/
-                                        <t t-esc="date_hijri2[2]"/>
-                                    </td>
-                                </tr>
+<!--                                        <t t-esc="date_hijri2[0]"/>/<t t-esc="date_hijri2[1]"/>/-->
+<!--                                        <t t-esc="date_hijri2[2]"/>-->
+<!--                                    </td>-->
+<!--                                </tr>-->
                                 <tr>
                                     <td colspan="2" style="border:0px;padding-right:30px !important;">
                                         <span style="font-weight:bold;">Reference:</span>
@@ -58,8 +58,8 @@
                                 </tr>
                                 <tr style="border:0px">
                                     <td colspan="2" style="border:0px">
-                                        <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%`s&amp;height=%s' % ('Code128', o.incoming_transaction_id.name, 600, 100)"
-                                             style="width:250px;height:40px;margin-top:5px;"/>
+                                        <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', o.incoming_transaction_id.name, 600, 100)"
+                                             style="width:250px;height:40px;margin-top:5px;margin-left:-40px;"/>
                                     </td>
                                 </tr>
                             </table>
@@ -80,14 +80,14 @@
             </t>
 
             <t t-if="o.internal_transaction_id">
-                <div class="header droidkufi-font">
+                <div class="header mohanad-font">
                     <div class="row" style="direction: ltr; margin-top: 0px; margin-left: -50px">
                         <br/>
                         <div class="col-6 text-right" style="direction: rtl;">
                             <table align="left"
                                    style="border:1px solid white;width:50;margin-left:60px;margin-top:0px;margin-right:5px;margin-bottom:40px;text-align: justify;">
                                 <tr style="border:0px">
-                                    <td style="font-weight: bold;border:0px;padding-right:30px !important;">Number:
+                                    <td style="font-weight: bold;border:0px;padding-right:30px !important;">Transaction Number:
                                         <t t-esc="o.internal_transaction_id.name"/>
                                     </td>
                                 </tr>
@@ -106,15 +106,13 @@
                                 <!--    </td>-->
                                 <!--</tr>-->
                                 <tr>
-                                    <td colspan="2" style="border:0px;padding-right:30px !important;">
-                                        <span style="font-weight:bold;">Reference:</span>
+                                    <td colspan="2" style="font-weight:bold;border:0px;padding-right:30px !important;">Subject:
                                         <span t-field="o.internal_transaction_id.subject"
                                               t-field-options="{&quot;format&quot;: &quot;yyyy/MM/dd&quot;}"/>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td colspan="2" style="border:0px;padding-right:30px !important;">
-                                        <span style="font-weight:bold;"></span>
+                                    <td colspan="2" style="font-weight:bold;border:0px;padding-right:30px !important;">Transaction Date:
                                         <span t-field="o.internal_transaction_id.transaction_date"
                                               t-field-options="{&quot;format&quot;: &quot;yyyy/MM/dd&quot;}"/>
                                     </td>
@@ -140,7 +138,7 @@
                         <!--        <tr style="border:0px">-->
                         <!--            <td>-->
                         <!--                <img t-att-src="'/logo.png?company=%s' % (o.env.user.company_id.id or 0)" t-att-alt="'%s' % company.name" style="width:80px;height:80px;"/>-->
-                        <!--            </td>-->
+                        <!--        Transaction    </td>-->
                         <!--        </tr>-->
                         <!--    </table>-->
                         <!--</div>-->
@@ -149,14 +147,14 @@
             </t>
 
             <t t-if="o.outgoing_transaction_id">
-                <div class="header droidkufi-font">
+                <div class="header mohanad-font">
                     <div class="row" style="direction: ltr; margin-top: 0px; margin-left: -50px">
                         <!--<br/>-->
                         <div class="col-6 text-right" style="direction: rtl;">
                             <table align="left"
                                    style="border:1px solid white;width:50;margin-left:60px;margin-top:0px;margin-right:5px;margin-bottom:40px;text-align: justify;">
                                 <tr style="border:0px">
-                                    <td style="font-weight: bold;border:0px;padding-right:30px !important;">Number:
+                                    <td style="font-weight: bold;border:0px;padding-right:30px !important;">Transaction Number:
                                         <t t-esc="o.outgoing_transaction_id.name"/>
                                     </td>
                                 </tr>
@@ -175,15 +173,13 @@
                                 <!--    </td>-->
                                 <!--</tr>-->
                                 <tr>
-                                    <td colspan="2" style="border:0px;padding-right:30px !important;">
-                                        <span style="font-weight:bold;">Reference:</span>
+                                    <td colspan="2" style="font-weight: bold;border:0px;padding-right:30px !important;">Subject:
                                         <span t-field="o.outgoing_transaction_id.subject"
                                               t-field-options="{&quot;format&quot;: &quot;yyyy/MM/dd&quot;}"/>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td colspan="2" style="border:0px;padding-right:30px !important;">
-                                        <span style="font-weight:bold;"></span>
+                                    <td colspan="2" style="font-weight:bold;border:0px;padding-right:30px !important;">Transaction Date:
                                         <span t-field="o.outgoing_transaction_id.transaction_date"
                                               t-field-options="{&quot;format&quot;: &quot;yyyy/MM/dd&quot;}"/>
                                     </td>
@@ -218,7 +214,7 @@
             </t>
 
             <t t-if="o.outgoing_transaction_id =='' and o.internal_transaction_id=='' and o.incoming_transaction_id ==''">
-                <div class="header droidkufi-font">
+                <div class="header mohanad-font">
                     <div class="row">
                         <div class="col-6 text-right">
 
@@ -236,7 +232,7 @@
                     </div>
                 </div>
             </t>
-            <div class="article o_report_layout_standard droidkufi-font">
+            <div class="article o_report_layout_standard mohanad-font">
                 <t t-raw="0"/>
             </div>
             <!--<div class="footer">-->
@@ -274,31 +270,43 @@
                     <t t-call="exp_transation_letters.formal_letter_external_layout">
                         <style type="text/css">
                             @font-face {
-                            font-family: 'DroidKufi';
-                            src: url("/exp_transation_letters/static/src/fonts/DroidKufi-Bold.ttf") format("truetype");
+                            font-family: 'Al-Mohanad';
+                            src: url("/exp_transation_letters/static/src/fonts/Al-Mohanad.ttf") format("truetype");
                             font-weight: normal;
                             font-style: normal;
                             }
 
-                            .droidkufi-font {
-                            font-family: 'DroidKufi', sans-serif;
+                            * {
+                            font-family: 'Al-Mohanad', sans-serif !important;
                             }
                         </style>
-                        <div class="page droidkufi-font">
+                        <div class="page mohanad-font">
                             <!--                            <h4 style="text-align:center;margin-top:20px;font-weight:bold;font-size:20pt">Letter <t t-esc="o.name"/>-->
                             <!--                            </h4>-->
                             <!--                            <strong style="margin: 10px;margin-left:30px"> Date </strong>: <span t-esc="o.date" />-->
                             <br/>
                             <br/>
                             <div style="margin-bottom: 0px">
-                                <p class="droidkufi-font" style="line-height: 16 !important" t-raw="o.content">
+                                <p class="mohanad-font" style="line-height: 16 !important" t-raw="o.content">
                                 </p>
                             </div>
                             <br/>
                             <br/>
-                            <div style="margin-top: 0px;" dir="ltr">
-                                <img t-if="o.signature" t-attf-src="data:image/*;base64,{{o.signature}}"
-                                     style="margin-top:50px;height:100px;width:100px; border: 0px;margin-left:25px"/>
+                             <div style="margin-top: 0px; page-break-inside: avoid;" dir="ltr">
+                                <div style="margin-bottom: 10px; text-align: left;margin-left:25px">
+<!--                                    <strong t-if="o.signed_user_id">اﻹسم:</strong>-->
+                                    <span t-esc="o.signed_user_id.name"/>
+                                </div>
+                                <div style="margin-bottom: 10px; text-align: left;margin-left:25px">
+                                    <span t-esc="o.signed_user_id.employee_id.job_id.name"/>
+                                </div>
+
+                                <div style="margin-top: 10px; text-align: left;">
+                                    <img t-if="o.new_signature" t-attf-src="data:image/*;base64,{{o.new_signature}}"
+                                         style="height:200px;width:200px; border: 0px;margin-left:0px"/>
+                                </div>
+<!--                                <img t-if="o.signature" t-attf-src="data:image/*;base64,{{o.signature}}"-->
+<!--                                     style="margin-top:50px;height:100px;width:100px; border: 0px;margin-left:25px"/>-->
                             </div>
                         </div>
 

@@ -22,6 +22,9 @@ class Letters(models.Model):
     incoming_transaction_id = fields.Many2one(comodel_name='incoming.transaction', string='Incoming Transaction')
     internal_transaction_id = fields.Many2one(comodel_name='internal.transaction', string='Internal Transaction')
     outgoing_transaction_id = fields.Many2one(comodel_name='outgoing.transaction', string='Outgoing Transaction')
+    attachment_generated = fields.Boolean()
+    signed_user_id = fields.Many2one('res.users')
+
 
     @api.depends('transaction_type','name')
     def compute_img(self):
@@ -87,12 +90,9 @@ class Letters(models.Model):
         elif self.transaction_type == "incoming":
             res_id = self.incoming_transaction_id.id
             field_name = 'incoming_transaction_id'
-        file_exists = self.env['cm.attachment.rule'].search([(field_name, '=', res_id)])
+        file_exists = self.env['cm.attachment.rule'].search([(field_name, '=', res_id),('created_from_system','=',True)])
         if file_exists:
             file_exists.unlink()
-            self.is_sign = True
-        else:
-            self.is_sign = False
         ATTACHMENT_NAME = "Letter"
         attach_id = self.env['ir.attachment'].create({
             'name': ATTACHMENT_NAME + '.pdf',
@@ -102,6 +102,7 @@ class Letters(models.Model):
             'store_fname': ATTACHMENT_NAME,
             'mimetype': 'application/pdf'
         })
+        self.attachment_generated = True
         return self.env['cm.attachment.rule'].sudo().create({
             'employee_id': self.unite.id,
             'entity_id': self.unite.id,
@@ -110,7 +111,8 @@ class Letters(models.Model):
             field_name: res_id,
             'date': datetime.datetime.now(),
             'description': self.name,
-            'signed' : True if self.is_sign else False
+            'created_from_system': True,
+            # 'signed' : True if self.is_sign else False
         })
 
     def write(self, values):

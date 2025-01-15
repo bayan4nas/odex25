@@ -46,7 +46,7 @@ class Transaction(models.Model):
     body = fields.Html(string='Transaction Details')
     state = fields.Selection(selection=TRANSACTION_STATE, string='state', default='draft',tracking=True)
     need_approve = fields.Boolean(related='preparation_id.need_approve', string='NEED approve', )
-    due_date = fields.Date(string='Deadline', compute='compute_due_date')
+    due_date = fields.Date(string='Deadline', compute='compute_due_date', store=True)
     send_date = fields.Date(string='Send Date')
     send_attach = fields.Many2many(
         comodel_name='ir.attachment',
@@ -64,8 +64,7 @@ class Transaction(models.Model):
     secret_reason = fields.Text(string="Secret reason")
     secret_forward_user = fields.Many2one(comodel_name='cm.entity', string='User')
     current_is_secret_user = fields.Boolean(string='Is Manager', compute="set_is_secret_user")
-    receive_user_id = fields.Many2one(related='receive_id.user_id',
-                                      comodel_name='res.users', string='Receiver', store=True)
+    receive_user_id = fields.Many2one(comodel_name='res.users', string='Receiver')
     receive_manger_id = fields.Many2one(comodel_name='cm.entity', string='Receiver',
                                         compute='compute_receive_manger_id')
     current_is_receive_manger = fields.Boolean(string='Is Manager', compute="set_to_is_manager")
@@ -78,6 +77,11 @@ class Transaction(models.Model):
     signature = fields.Binary("Signature image",compute='compute_img',store=True)
     tran_tag = fields.Many2many(comodel_name='transaction.tag', string='Tags')
     add_rank = fields.Integer(string='Transaction Rank')
+    seen_user_ids = fields.Many2many('res.users')
+    seen_before = fields.Boolean(compute="_compute_seen_before")
+    to_ids = fields.Many2one(comodel_name='cm.entity', string='Send To')
+    to_delegate = fields.Boolean(string='To Delegate?')
+
     
     @api.depends('type','subject')
     def compute_img(self):
@@ -89,10 +93,16 @@ class Transaction(models.Model):
     def action_read(self):
         for rec in self:
             rec.is_reade = True
+            user_id = rec.env.user.id
+            if user_id not in rec.seen_user_ids.ids:
+                rec.seen_user_ids = [(4, user_id)]
 
     def action_unread(self):
         for rec in self:
             rec.is_reade = False
+            user_id = rec.env.user.id
+            if user_id in rec.seen_user_ids.ids:
+                rec.seen_user_ids = [(3, user_id)]
 
     def add_to_favorite(self):
         for rec in self:
@@ -139,7 +149,7 @@ class Transaction(models.Model):
             record.due_date = False
             if not len(record.important_id) or not record.transaction_date:
                 continue
-            rank = record.important_id.rank or 1
+            rank = record.important_id.rank
             final_rank = rank + record.add_rank
             date = datetime.strptime(str(record.transaction_date), DEFAULT_SERVER_DATE_FORMAT)
             due = date
@@ -234,28 +244,49 @@ class Transaction(models.Model):
     def action_draft(self):
         for record in self:
             if record.subject_type_id.transaction_need_approve or record.preparation_id.need_approve:
+                record.to_delegate = record.to_ids.to_delegate
+                if record.to_delegate:
+                    record.to_ids = record.to_ids.delegate_employee_id.id
                 record.state = 'to_approve'
             else:
                 record.action_send()
+            user_id = record.env.user.id
+            if user_id not in record.seen_user_ids.ids:
+                record.seen_user_ids = [(6, 0, [user_id])]
 
     def action_send(self):
         for record in self:
             record.state = 'send'
             record.send_date = datetime.today()
             record.is_reade = False
+            user_id = record.env.user.id
+            if user_id not in record.seen_user_ids.ids:
+                record.seen_user_ids = [(6, 0, [user_id])]
+            record.to_delegate = record.to_ids.to_delegate
+            if record.to_delegate:
+                record.to_ids = record.to_ids.delegate_employee_id.id
 
     def action_approve(self):
         for record in self:
             record.state = 'send'
             record.is_reade = False
+            user_id = record.env.user.id
+            if user_id not in record.seen_user_ids.ids:
+                record.seen_user_ids = [(6, 0, [user_id])]
 
     def action_cancel(self):
         for record in self:
             record.state = 'canceled'
+            user_id = record.env.user.id
+            if user_id not in record.seen_user_ids.ids:
+                record.seen_user_ids = [(6, 0, [user_id])]
 
     def action_reopen(self):
         for record in self:
             record.state = 'send'
+            user_id = record.env.user.id
+            if user_id not in record.seen_user_ids.ids:
+                record.seen_user_ids = [(6, 0, [user_id])]
             params = record.env.context.get('params', {})
             model = params.get('model', False)
             if model == 'incoming.transaction':
@@ -280,6 +311,9 @@ class Transaction(models.Model):
     def set_to_draft(self):
         for record in self:
             record.state = 'draft'
+            user_id = record.env.user.id
+            if user_id not in record.seen_user_ids.ids:
+                record.seen_user_ids = [(6, 0, [user_id])]
 
     def trace_create_ids(self, name, transaction, action):
         ''' method to create log trace in transaction'''
@@ -434,3 +468,11 @@ class Transaction(models.Model):
         #                      partner_ids=partner_ids,
         #                      subtype_xmlid="mail.mt_comment")
         return True
+    
+    def _compute_seen_before(self):
+        for rec in self:
+            rec.seen_before = rec.env.user.id in rec.seen_user_ids.ids
+    
+    def create(self, vals):
+        vals['seen_user_ids'] = [(4, self.env.user.id)]
+        return super(Transaction, self).create(vals)

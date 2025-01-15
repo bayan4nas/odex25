@@ -9,11 +9,17 @@
                 <search string="internal transaction">
                     <field name="subject"/>
                     <field name="to_ids"/>
-                    <field name="name" string="Transaction" filter_domain="[('name','ilike',self)]"/>
+                    <field name="name" string="Transaction Number" filter_domain="[('name','ilike',self)]"/>
                     <field name="tran_tag" string="tag" filter_domain="[('tran_tag','ilike',self)]"/>
                     <field name="is_reade"/>
                     <field name="is_favorite"/>
-                    <filter string="Unread Transaction" name="unread" domain="[('is_reade','=',False)]"/>
+                    <field name="due_date" invisible="1"/>
+                    <field name="seen_user_ids" invisible="1"/>
+                    <filter string="Unread Transaction" name="unread" domain="[('seen_user_ids','!=',uid)]"/>
+                    <filter string="Late Transactions" name="lates" domain="[
+                        ('due_date', '&lt;', context_today().strftime('%Y-%m-%d')),
+                        ('state', 'in', ['to_approve', 'send'])
+                    ]"/>
                     <filter string="Favorite" name="favorite" domain="[('is_favorite','=','1')]"/>
                      <filter string="Subject Type" name="subject_type" domain="[('subject_type_id','=',False)]"/>
                      <filter string="State" name="state"   domain="[('state', 'in', ('complete','draft'))]"/>
@@ -39,7 +45,7 @@
             <field name="model">internal.transaction</field>
             <field name="priority" eval="1"/>
             <field name="arch" type="xml">
-                <tree default_order="transaction_date desc" decoration-info="is_reade == False"
+                <tree default_order="transaction_date desc" decoration-info="seen_before == False"
                       string="Internal Transaction" create="false" edit="false">
                     <field name="name"/>
                     <field name="transaction_date"/>
@@ -51,6 +57,7 @@
                     <field name="state" optional="show"/>
                     <field name="is_favorite" string=" " widget="priority"/>
                     <field name="is_reade" invisible="1"/>
+                    <field name="seen_before" invisible="1"/>
                 </tree>
             </field>
         </record>
@@ -107,6 +114,12 @@
                 </xpath>
                 <xpath expr="//field[@name='need_approve']" position="after">
                     <field name="current_is_forward_user" invisible="1"/>
+                </xpath>
+                 <xpath expr="//field[@name='tran_tag']" position="after">
+                    <field name="to_delegate" readonly="1" force_save="1"/>
+<!--                    <field name="delegate_employee_id"/>-->
+<!--                    <field name="from_date"/>-->
+<!--                    <field name="to_date"/>-->
                 </xpath>
             </field>
         </record>
@@ -180,6 +193,10 @@
                 </xpath>
                 <xpath expr="//field[@name='to_ids']" position="after">
                     <field name="partner_id"/>
+                    <field name="to_delegate" readonly="1" force_save="1"/>
+<!--                    <field name="delegate_employee_id"/>-->
+<!--                    <field name="from_date"/>-->
+<!--                    <field name="to_date"/>-->
                 </xpath>
                 <xpath expr="//field[@name='to_ids']" position="before">
                     <field name="type_sender" attrs="{'readonly':[('state','not in', ['draft'])]}"/>

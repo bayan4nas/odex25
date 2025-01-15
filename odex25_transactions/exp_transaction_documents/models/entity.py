@@ -71,7 +71,7 @@ class Entity(models.Model):
     department_id = fields.Many2one('hr.department')
     manager_id = fields.Many2one(comodel_name='cm.entity', string='Unit Manager')
     secretary_id = fields.Many2one(comodel_name='cm.entity', string='Employee in charge of transactions')
-    user_id = fields.Many2one(comodel_name='res.users', string='Related User', related='employee_id.user_id')
+    user_id = fields.Many2one(comodel_name='res.users', string='Related User', related='employee_id.user_id', store=True)
     # job_title_id = fields.Many2one(comodel_name='cm.job.title', string='Job Title')
     job_title_id = fields.Many2one(comodel_name='hr.job', string='Job Title')
     need_approve = fields.Boolean(string='Need Aprove')
@@ -93,6 +93,19 @@ class Entity(models.Model):
     year_increment = fields.Boolean(string='Continue Increment every year?', help='''
                 Check if you want to continue incrementing in the start of every new year.
             ''', default=True)
+    delegate_employee_id = fields.Many2one('cm.entity')
+    from_date = fields.Datetime(string='Delegation From Date')
+    to_date = fields.Datetime(string='Delegation To Date')
+    to_delegate = fields.Boolean(string='To Delegate?', compute="_compute_to_delegate")
+
+    def _compute_to_delegate(self):
+        for rec in self:
+            rec.to_delegate = False
+            if rec.from_date and rec.to_date:
+                if rec.from_date <= fields.Datetime.now() < rec.to_date:
+                    rec.to_delegate = True
+                else:
+                    rec.to_delegate = False
 
     @api.onchange('department_id')
     def onchange_department_id(self):

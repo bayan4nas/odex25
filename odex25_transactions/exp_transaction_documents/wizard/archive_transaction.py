@@ -26,6 +26,9 @@ class ArchiveTransactionWizard(models.TransientModel):
             transaction = self.outgoing_transaction_id
             name = 'outgoing_transaction_id'
         transaction.state = 'closed'
+        user_id = transaction.env.user.id
+        if user_id not in transaction.seen_user_ids.ids:
+            transaction.seen_user_ids = [(6, 0, [user_id])]
         transaction.archive_user_id = from_id.id
         transaction.trace_ids.create({
             'from_id': from_id.id,
