@@ -163,10 +163,22 @@
             <field name="name">Incoming Internal Transaction</field>
             <field name="res_model">internal.transaction</field>
             <field name="view_mode">tree,form</field>
-            <field name='domain'>['&amp;',('state','=','send'),'|','|',('to_ids.secretary_id.user_id', '=', uid),
-                ('to_ids.user_id', '=',
-                uid),'|',('trace_ids.to_id.user_id','=',uid),'|',('trace_ids.to_id.secretary_id.user_id','=',uid),('receive_user_id','=',uid)]
-            </field>
+            <field name='domain'>[
+                '&amp;',
+                ('state', '=', 'send'),
+                '|',
+                '&amp;',
+                    ('is_forward', '=', False),
+                    '|',
+                        ('to_ids.secretary_id.user_id', '=', uid),
+                        ('to_ids.user_id', '=', uid),
+                '&amp;',
+                    ('to_ids.user_id', '!=', uid),
+                    '|', '|',
+                        ('trace_ids.to_id.user_id', '=', uid),
+                        ('trace_ids.to_id.secretary_id.user_id', '=', uid),
+                        ('receive_user_id', '=', uid)
+            ]</field>
             <field name="view_id" ref="exp_transaction_documents.common_transaction_internal_tree"/>
             <field name="view_ids" eval="[(5, 0, 0),
             (0, 0, {'view_mode': 'tree','view_id':ref('exp_transaction_documents.common_transaction_internal_tree')}),
@@ -182,7 +194,13 @@
             <field name="res_model">internal.transaction</field>
 
             <field name="view_mode">tree,form</field>
-            <field name='domain'>[('state','=','reply'),('forward_user_id','=',uid)]</field>
+            <field name='domain'>[
+                ('state', '=', 'reply'), 
+                '|', '|', 
+                ('employee_id.user_id', '=', uid), 
+                ('forward_user_id', '=', uid), 
+                ('to_ids.user_id', '=', uid)
+            ]</field>
             <field name="view_id" ref="exp_transaction_documents.common_transaction_internal_tree"/>
             <field name="view_ids" eval="[(5, 0, 0),
             (0, 0, {'view_mode': 'tree','view_id':ref('exp_transaction_documents.common_transaction_internal_tree')}),
@@ -197,7 +215,7 @@
             <field name="name">Outgoing Internal Transaction</field>
             <field name="res_model">internal.transaction</field>
             <field name="view_mode">tree,form</field>
-            <field name='domain'>[('state', '!=', 'closed'),('employee_id.user_id','=',uid)]</field>
+            <field name='domain'>[('employee_id.user_id', '=', uid)]</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">Create the first Outgoing Internal Transaction
                 </p>
@@ -254,7 +272,7 @@
             <field name="res_model">internal.transaction</field>
 
             <field name="view_mode">tree,form</field>
-            <field name='domain'>[('is_forward','=',True),('last_forwarded_user','=',uid)]</field>
+            <field name='domain'>[('is_forward', '=', True), '|', ('last_forwarded_user', '=', uid), ('employee_id.user_id', '=', uid)]</field>
             <field name="view_id" ref="exp_transaction_documents.forward_transaction_view"/>
             <field name="view_ids" eval="[(5, 0, 0),
             (0, 0, {'view_mode': 'tree','view_id':ref('exp_transaction_documents.common_transaction_internal_tree')}),
@@ -268,7 +286,7 @@
             <field name="res_model">internal.transaction</field>
 
             <field name="view_mode">tree,form</field>
-            <field name='domain'>[('state','=','canceled'),('employee_id.user_id','=',uid)]</field>
+            <field name='domain'>[('state', '=', 'closed'), '|', ('employee_id.user_id', '=', uid), ('to_ids.user_id', '=', uid)]</field>
             <field name="view_id" ref="exp_transaction_documents.common_transaction_internal_tree"/>
             <field name="view_ids" eval="[(5, 0, 0),
             (0, 0, {'view_mode': 'tree','view_id':ref('exp_transaction_documents.common_transaction_internal_tree')}),
@@ -290,7 +308,7 @@
             <field name="res_model">outgoing.transaction</field>
 
             <field name="view_mode">tree,form</field>
-            <field name='domain'>[('state', '!=', 'closed'),('employee_id.user_id','=',uid)]</field>
+            <field name='domain'>[('employee_id.user_id', '=', uid)]</field>
             <field name="view_id" ref="exp_transaction_documents.outgoing_transaction_external_tree"/>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">Create the first External outgoing Transaction
@@ -346,7 +364,7 @@
             <field name="res_model">outgoing.transaction</field>
 
             <field name="view_mode">tree,form</field>
-            <field name='domain'>[('state','=','canceled'),('employee_id.user_id','=',uid)]</field>
+            <field name='domain'>[('state', 'in', ['canceled', 'closed']), '|', ('employee_id.user_id', '=', uid), ('to_ids.user_id', '=', uid)]</field>
             <field name="view_ids" eval="[(5, 0, 0),
             (0, 0, {'view_mode': 'tree','view_id':ref('exp_transaction_documents.common_outgoing_transaction_external_tree')}),
             (0, 0, {'view_mode': 'form', 'view_id': ref('exp_transaction_documents.common_outgoing_external_transaction_form')})]"/>
@@ -364,7 +382,7 @@
             <field name="res_model">incoming.transaction</field>
 
             <field name="view_mode">tree,form</field>
-            <field name='domain'>[('state', '!=', 'closed'),('employee_id.user_id','=',uid)]</field>
+            <field name="domain">[('employee_id.user_id', '=', uid)]</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">Create the first External Incoming Transaction
                 </p>
@@ -382,10 +400,24 @@
             <field name="name">Forward External Transaction</field>
             <field name="res_model">incoming.transaction</field>
             <field name="view_mode">tree,form</field>
-            <field name='domain'>['&amp;',('state','=','send'),'|','|',('to_ids.secretary_id.user_id', '=', uid),
-                ('to_ids.user_id', '=',
-                uid),'|',('trace_ids.to_id.user_id','=',uid),'|',('trace_ids.to_id.secretary_id.user_id','=',uid),('receive_user_id','=',uid)]
-            </field>
+            <field name='domain'>[
+                '&amp;',
+                ('state', '=', 'send'),
+                '|', '|',
+                '&amp;',
+                    ('is_forward', '=', False),
+                    '|',
+                        ('to_ids.secretary_id.user_id', '=', uid),
+                        ('to_ids.user_id', '=', uid),
+                '&amp;',
+                    ('to_ids.user_id', '!=', uid),
+                    '|', '|', '|',
+                        ('trace_ids.to_id.user_id', '=', uid),
+                        ('trace_ids.to_id.secretary_id.user_id', '=', uid),
+                        ('receive_user_id', '=', uid),
+                        ('employee_id.user_id', '=', uid),
+                ('last_forwarded_user', '=', uid)
+            ]</field>
             <field name="view_ids" eval="[(5, 0, 0),
             (0, 0, {'view_mode': 'tree','view_id':ref('exp_transaction_documents.common_transaction_external_tree')}),
             (0, 0, {'view_mode': 'form', 'view_id': ref('exp_transaction_documents.common_transaction_external_form')})]"/>
@@ -401,7 +433,13 @@
             <field name="res_model">incoming.transaction</field>
 
             <field name="view_mode">tree,form</field>
-            <field name='domain'>[('state','=','reply'),('forward_user_id','=',uid)]</field>
+            <field name='domain'>[
+                ('state', '=', 'reply'), 
+                '|', '|', 
+                ('employee_id.user_id', '=', uid), 
+                ('forward_user_id', '=', uid), 
+                ('to_ids.user_id', '=', uid)
+            ]</field>
             <field name="view_ids" eval="[(5, 0, 0),
             (0, 0, {'view_mode': 'tree','view_id':ref('exp_transaction_documents.common_transaction_external_tree')}),
             (0, 0, {'view_mode': 'form', 'view_id': ref('exp_transaction_documents.common_transaction_external_form')})]"/>
@@ -438,7 +476,7 @@
             <field name="res_model">internal.transaction</field>
 
             <field name="view_mode">tree,form</field>
-            <field name='domain'>[('state','=','closed'),('archive_user_id.user_id','=',uid)]</field>
+            <field name='domain'>['&amp;', ('state','=','closed'), '|', ('archive_user_id.user_id','=',uid), ('employee_id.user_id', '=', uid)]</field>
             <field name="view_id" ref="exp_transaction_documents.common_transaction_internal_tree"/>
             <field name="view_ids" eval="[(5, 0, 0),
             (0, 0, {'view_mode': 'tree','view_id':ref('exp_transaction_documents.common_transaction_internal_tree')}),
@@ -452,7 +490,7 @@
             <field name="res_model">incoming.transaction</field>
 
             <field name="view_mode">tree,form</field>
-            <field name='domain'>[('state','=','closed'),('archive_user_id.user_id','=',uid)]</field>
+            <field name='domain'>['&amp;', ('state','=','closed'), '|', ('archive_user_id.user_id','=',uid), ('employee_id.user_id', '=', uid)]</field>
             <field name="view_ids" eval="[(5, 0, 0),
             (0, 0, {'view_mode': 'tree','view_id':ref('exp_transaction_documents.common_transaction_external_tree')}),
             (0, 0, {'view_mode': 'form', 'view_id': ref('exp_transaction_documents.common_transaction_external_form')})]"/>

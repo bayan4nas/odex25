@@ -59,7 +59,7 @@
                     </sheet>
                     <div class="oe_chatter">
                         <field name="message_follower_ids" widget="mail_followers"/>
-                        <field name="message_ids" widget="mail_thread"/>
+                        <field name="message_ids" widget="mail_thread" options="{'resize': True, 'crop': True}" class="oe_avatar"/>
                     </div>
                 </form>
             </field>
@@ -129,10 +129,12 @@
                                             type="object"
                                             string="Sign"
                                             class="btn-link"
-                                            icon="fa-signature" attrs="{'invisible':[('signed','=',True)]}"/>
+                                            icon="fa-signature" attrs="{'invisible':['|',('signed','=',True), ('created_from_system', '!=', True)]}"/>
                                          <field name="signed"/>
                                         <field name="external_drive_link" widget="url"/>
                                         <field name="attachment_filename" invisible="True"/>
+                                        <field name="created_from_system" invisible="1"/>
+                                        <field name="signed_user_id" invisible="1"/>
                                     </tree>
                                 </field>
                                 <field name="attachment_num"/>
@@ -240,8 +242,16 @@
                                         <field name="date" readonly="True"/>
                                         <field name="description" required="False"/>
                                         <field name="file_save" filename="attachment_filename" widget="many2many_attachment_preview"/>
-                                         <field name="external_drive_link" widget="url"/>
+                                        <button name="action_signature"
+                                            type="object"
+                                            string="Sign"
+                                            class="btn-link"
+                                            icon="fa-signature" attrs="{'invisible':['|',('signed','=',True), ('created_from_system', '!=', True)]}"/>
+                                        <field name="signed"/>
+                                        <field name="external_drive_link" widget="url"/>
                                         <field name="attachment_filename" invisible="True"/>
+                                        <field name="created_from_system" invisible="1"/>
+                                        <field name="signed_user_id" invisible="1"/>
                                     </tree>
                                 </field>
                                 <field name="attachment_num"/>
@@ -353,8 +363,16 @@
                                         <field name="date" readonly="True"/>
                                         <field name="description" required="False"/>
                                         <field name="file_save" filename="attachment_filename" widget="many2many_attachment_preview"/>
-                                         <field name="external_drive_link" widget="url"/>
+                                        <button name="action_signature"
+                                            type="object"
+                                            string="Sign"
+                                            class="btn-link"
+                                            icon="fa-signature" attrs="{'invisible':['|',('signed','=',True), ('created_from_system', '!=', True)]}"/>
+                                        <field name="signed"/>
+                                        <field name="external_drive_link" widget="url"/>
                                         <field name="attachment_filename" invisible="True"/>
+                                        <field name="created_from_system" invisible="1"/>
+                                        <field name="signed_user_id" invisible="1"/>
                                     </tree>
                                 </field>
                                 <field name="attachment_num"/>

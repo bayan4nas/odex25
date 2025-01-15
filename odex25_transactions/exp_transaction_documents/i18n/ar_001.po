@@ -3006,7 +3006,6 @@ msgstr "سجل التتبع"
 #. module: exp_transaction_documents
 #: model_terms:ir.ui.view,arch_db:exp_transaction_documents.common_transactions_form
 #: model_terms:ir.ui.view,arch_db:exp_transaction_documents.view_incoming_transaction_filter
-#: model_terms:ir.ui.view,arch_db:exp_transaction_documents.view_internal_transaction_filter
 #: model_terms:ir.ui.view,arch_db:exp_transaction_documents.view_outgoing_transaction_filter
 msgid "Transaction"
 msgstr "المعاملة"
@@ -3042,6 +3041,11 @@ msgid "Transaction Details"
 msgstr "تفاصيل المعاملة"
 
 #. module: exp_transaction_documents
+#: model:ir.model.fields,field_description:exp_transaction_documents.field_cm_transaction_important__rank
+msgid "Transaction Duration"
+msgstr "مدة المعاملة"
+
+#. module: exp_transaction_documents
 #: model:res.groups,name:exp_transaction_documents.group_transaction_manager
 msgid "Transaction Manager"
 msgstr "مدير المعاملة"
@@ -3052,11 +3056,14 @@ msgstr "مدير المعاملة"
 #: model:ir.model.fields,field_description:exp_transaction_documents.field_outgoing_transaction__name
 #: model:ir.model.fields,field_description:exp_transaction_documents.field_transaction_transaction__name
 #: model_terms:ir.ui.view,arch_db:exp_transaction_documents.common_transactions_form
+#: model_terms:ir.ui.view,arch_db:exp_transaction_documents.transaction_details_report_temp
+#: model_terms:ir.ui.view,arch_db:exp_transaction_documents.view_incoming_transaction_filter
+#: model_terms:ir.ui.view,arch_db:exp_transaction_documents.view_internal_transaction_filter
+#: model_terms:ir.ui.view,arch_db:exp_transaction_documents.view_outgoing_transaction_filter
 msgid "Transaction Number"
 msgstr "رقم المعاملة"
 
 #. module: exp_transaction_documents
-#: model:ir.model.fields,field_description:exp_transaction_documents.field_cm_transaction_important__rank
 #: model:ir.model.fields,field_description:exp_transaction_documents.field_incoming_transaction__add_rank
 #: model:ir.model.fields,field_description:exp_transaction_documents.field_internal_transaction__add_rank
 #: model:ir.model.fields,field_description:exp_transaction_documents.field_outgoing_transaction__add_rank
@@ -3539,3 +3546,35 @@ msgstr "تم التوقيع"
 #: model_terms:ir.ui.view,arch_db:exp_transaction_documents.common_transactions_internal_form
 msgid "Sign"
 msgstr "توقيع"
+
+#. module: exp_transaction_documents
+#: model:ir.model.fields,field_description:exp_transaction_documents.field_cm_entity__to_delegate
+#: model:ir.model.fields,field_description:exp_transaction_documents.field_forward_transaction_wizard__to_delegate
+#: model:ir.model.fields,field_description:exp_transaction_documents.field_incoming_transaction__to_delegate
+#: model:ir.model.fields,field_description:exp_transaction_documents.field_internal_transaction__to_delegate
+#: model:ir.model.fields,field_description:exp_transaction_documents.field_outgoing_transaction__to_delegate
+#: model:ir.model.fields,field_description:exp_transaction_documents.field_transaction_transaction__to_delegate
+msgid "To Delegate?"
+msgstr "تفويض"
+
+#. module: exp_transaction_documents
+#: model:ir.model.fields,field_description:exp_transaction_documents.field_cm_entity__delegate_employee_id
+msgid "Delegate Employee"
+msgstr "المفوض عنه"
+
+#. module: exp_transaction_documents
+#: model:ir.model.fields,field_description:exp_transaction_documents.field_cm_entity__from_date
+msgid "Delegation From Date"
+msgstr "تاريخ بداية التفويض"
+
+#. module: exp_transaction_documents
+#: model:ir.model.fields,field_description:exp_transaction_documents.field_cm_entity__to_date
+msgid "Delegation To Date"
+msgstr "تاريخ نهاية التفويض"
+
+#. module: exp_transaction_documents
+#: model_terms:ir.ui.view,arch_db:exp_transaction_documents.view_incoming_transaction_filter
+#: model_terms:ir.ui.view,arch_db:exp_transaction_documents.view_internal_transaction_filter
+#: model_terms:ir.ui.view,arch_db:exp_transaction_documents.view_outgoing_transaction_filter
+msgid "Late Transactions"
+msgstr "المعاملات المتأخرة"

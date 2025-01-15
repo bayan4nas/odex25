@@ -19,7 +19,8 @@ class OutgoingTransaction(models.Model):
     is_partner = fields.Boolean()
     partner_id = fields.Many2one('res.partner')
     incoming_transaction_id = fields.Many2one('incoming.transaction', string='Related Incoming')
-    to_ids = fields.Many2one(comodel_name='cm.entity',string='Send To')
+    # to_ids = fields.Many2one(comodel_name='cm.entity',string='Send To')
+    # to_delegate = fields.Boolean(string='To Delegate?', related='to_ids.to_delegate')
     company_name = fields.Many2one('res.partner',string='Delivery Company')
 
     to_users = fields.Many2many(comodel_name='res.users', string="To Users",relation='your_out_to_users_rel',column1='your_out_id',column2='user_id2',)

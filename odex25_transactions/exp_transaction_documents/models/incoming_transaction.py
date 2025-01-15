@@ -55,7 +55,8 @@ class IncomingTransaction(models.Model):
     attachment_rule_ids = fields.One2many('cm.attachment.rule', 'incoming_transaction_id', string='Attaches')
     attachment_ids = fields.One2many('cm.attachment', 'incoming_transaction_id', string='Attachments')
     trace_ids = fields.One2many('cm.transaction.trace', 'incoming_transaction_id', string='Trace Log')
-    to_ids = fields.Many2one(comodel_name='cm.entity',string='Send To')
+    # to_ids = fields.Many2one(comodel_name='cm.entity',string='Send To')
+    # to_delegate = fields.Boolean(string='To Delegate?', related='to_ids.to_delegate')
     
     cc_ids = fields.Many2many(comodel_name='cm.entity', relation='incoming_entity_cc_rel',
                               column1='incoming_id', column2='entity_id', string='CC To',)

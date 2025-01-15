@@ -34,7 +34,7 @@ class ImportantDegree(models.Model):
     _name = 'cm.transaction.important'
 
     name = fields.Char(string='Important Degree')
-    rank = fields.Integer(string='Transaction Rank')
+    rank = fields.Integer(string='Transaction Duration')
 
 
 class Procedure(models.Model):
@@ -89,10 +89,20 @@ class AttachmentRule(models.Model):
     date = fields.Datetime(string='Date', default=fields.Datetime.now)
     description = fields.Char(string='Description')
     signed = fields.Boolean(string='Signed',readonly=True)
+    created_from_system = fields.Boolean(readonly=True)
+    signed_user_id = fields.Many2one('res.users')
 
     def action_signature(self):
         for rec in self:
-            x = self.env['letters.letters'].search([('internal_transaction_id','=',rec.internal_transaction_id.id)],limit=1)
+            if rec.internal_transaction_id:
+                x = self.env['letters.letters'].search([('internal_transaction_id','=',rec.internal_transaction_id.id)],limit=1)
+            elif rec.incoming_transaction_id:
+                x = self.env['letters.letters'].search([('incoming_transaction_id','=',rec.incoming_transaction_id.id)],limit=1)
+            elif rec.outgoing_transaction_id:
+                x = self.env['letters.letters'].search([('outgoing_transaction_id','=',rec.outgoing_transaction_id.id)],limit=1)
+
+            rec.signed_user_id = self.env.user.id
+            x.signed_user_id = self.env.user.id
             return {
                 'type': 'ir.actions.act_window',
                 'name': 'Preferences',
