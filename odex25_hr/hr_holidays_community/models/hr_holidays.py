@@ -229,7 +229,7 @@ class Holidays(models.Model):
     def _compute_duration(self):
         for record in self:
             if record.date_from and record.date_to:
-                delta = (record.date_to - record.date_from).days
+                delta = (record.date_to - record.date_from).days + 1
                 record.duration = delta
             else:
                 record.duration = 0
