@@ -100,8 +100,8 @@ class HrSalaryAdvanceInherit(models.Model):
     state = fields.Selection([('draft', 'Draft'),
                               ('hr_officer', 'HR Officer'),
                               ('confirm', 'HR Manager'),
-                              ('sector_head_approval', _('Sector Head Approval')),
-                              ('secretary_general', _('Secretary General')),
+                              ('sector_head_approval', 'Sector Head Approval'),
+                              ('secretary_general', 'Secretary General'),
                               ('approve', 'Approved'),
                               ('refuse', 'Refused')], 'State', default='draft')
     def action_sector_head_approval(self):
@@ -121,7 +121,7 @@ class TerminationpPatchinherit(models.Model):
         ("direct_manager", "Waiting Department Manager"),
         ("hr_manager", "Wait HR Officer"),
         ("finance_manager", "Wait HR Manager"),
-        ('sector_head_approval', _('Sector Head Approval')),
+        ('sector_head_approval',"Sector Head Approval"),
         ("gm_manager", "Wait CEO Manager"),
         ("done", "Wait Transfer"),
         ("pay", "Transferred"),
