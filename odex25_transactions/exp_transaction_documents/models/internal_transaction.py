@@ -23,7 +23,11 @@ class InternalTransaction(models.Model):
                    ],
         required=False, default='unit')
 
-    to_ids = fields.Many2one(comodel_name='cm.entity', string='Send To')
+    # to_ids = fields.Many2one(comodel_name='cm.entity', string='Send To')
+    # delegate_employee_id = fields.Many2one('cm.entity', related='to_ids.delegate_employee_id',store=True)
+    # from_date = fields.Datetime(string='Delegation From Date', related='to_ids.from_date')
+    # to_date = fields.Datetime(string='Delegation To Date', related='to_ids.to_date')
+    # to_delegate = fields.Boolean(string='To Delegate?', related='to_ids.to_delegate')
     
     @api.onchange('type_sender')
     def _onchange_type_sender(self):

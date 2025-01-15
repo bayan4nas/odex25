@@ -10,8 +10,9 @@
                 <search string="incoming transaction">
                     <field name="subject"/>
                     <field name="to_ids"/>
-                    <field name="name" string="Transaction" filter_domain="[('name','ilike',self)]"/>
+                    <field name="name" string="Transaction Number" filter_domain="[('name','ilike',self)]"/>
                     <field name="project_id" string="Project" filter_domain="[('project_id','ilike',self)]"/>
+                    <field name="due_date" invisible="1"/>
                     <field name="sale_order_id" string="Proposal" filter_domain="[('sale_order_id','ilike',self)]"/>
                     <field name="incoming_number" string="Incoming Number"
                            filter_domain="[('incoming_number','ilike',self)]"/>
@@ -20,7 +21,12 @@
                     <field name="is_favorite"/>
                      <filter string="Subject Type" name="subject_type" domain="[('subject_type_id','=',False)]"/>
                      <filter string="State" name="state"   domain="[('state', 'in', ('complete','draft'))]"/>
-                    <filter string="Unread Transaction" name="unread" domain="[('is_reade','=',False)]"/>
+                    <field name="seen_user_ids" invisible="1"/>
+                    <filter string="Unread Transaction" name="unread" domain="[('seen_user_ids','!=',uid)]"/>
+                    <filter string="Late Transactions" name="lates" domain="[
+                        ('due_date', '&lt;', context_today().strftime('%Y-%m-%d')),
+                        ('state', 'in', ['to_approve', 'send'])
+                    ]"/>
                     <filter string="Favorite" name="favorite" domain="[('is_favorite','=','1')]"/>
                     <group expand="1" string="Group By">
                         <filter string="State" name="group_by_state" context="{'group_by':'state'}"/>
@@ -40,7 +46,7 @@
             <field name="name">common.incoming.transaction.tree</field>
             <field name="model">incoming.transaction</field>
             <field name="arch" type="xml">
-                <tree default_order="transaction_date desc" decoration-info="is_reade == False"
+                <tree default_order="transaction_date desc" decoration-info="seen_before == False"
                       string="Incoming Transaction" create="false" edit="false">
                     <field name="from_id"/>
                     <field name="partner_id"/>
@@ -60,6 +66,7 @@
                     <field name="attachment_count"/>
                     <field name="is_favorite" string=" " widget="priority"/>
                     <field name="is_reade" invisible="1"/>
+                    <field name="seen_before" invisible="1"/>
                 </tree>
             </field>
         </record>
