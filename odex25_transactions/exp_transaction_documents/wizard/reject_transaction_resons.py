@@ -25,6 +25,9 @@ class RejectReasonWizard(models.TransientModel):
         employee = transaction.current_employee()
         transaction.reason = self.reason
         transaction.state = 'canceled'
+        user_id = transaction.env.user.id
+        if user_id not in transaction.seen_user_ids.ids:
+            transaction.seen_user_ids = [(6, 0, [user_id])]
         transaction.trace_ids.create({
             'action': 'refuse',
             'to_id': transaction.employee_id.id,
