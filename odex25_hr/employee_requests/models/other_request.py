@@ -87,15 +87,13 @@ class EmployeeOtherRequest(models.Model):
             if item.employee_id:
                 if not item.employee_id.first_hiring_date:
                     raise exceptions.Warning(
-                        _('You can not Request Other Request The Employee have Not First Hiring Date'))
+                        _('You can not Request Other Request The Employee has Not First Hiring Date'))
             if item.request_type == 'dependent':
                 if not item.employee_dependant:
                     raise exceptions.Warning(_('Please The dependents were not Included'))
 
                 if item.employee_id.contract_id.contract_status == 'single':
-                    raise exceptions.Warning(_('You can not Add Fimaly record Because Employee is Single'))
-                else:
-                    item.state = "submit"
+                    raise exceptions.Warning(_('You can not Add Family record Because Employee is Single'))
 
             if item.request_type == 'qualification':
                 if not item.qualification_employee:
@@ -104,8 +102,6 @@ class EmployeeOtherRequest(models.Model):
                 for rec in item.qualification_employee:
                     if not rec.attachment:
                         raise exceptions.Warning(_('Please Insert Attachments Files Below!'))
-                    else:
-                        item.state = "submit"
 
             if item.request_type == 'certification':
                 if not item.certification_employee:
@@ -114,11 +110,8 @@ class EmployeeOtherRequest(models.Model):
                 for rec in item.certification_employee:
                     if not rec.attachment:
                         raise exceptions.Warning(_('Please Insert Attachments Files Below!'))
-                    else:
-                        item.state = "submit"
-            else:
-                item.state = "submit"
 
+            item.state = "confirm"
     def confirm(self):
         #self.state = 'confirm'
         for rec in self:
