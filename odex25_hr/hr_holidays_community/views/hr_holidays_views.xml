@@ -100,7 +100,7 @@
                             <field name="holiday_status_id" context="{'employee_id':employee_id}"/>
                             <field name="date_from"/>
                             <field name="date_to"/>
-                            <field name="duration"/>
+                            <field name="number_of_days_temp" class="oe_inline" string="Duration"/>
                             <label for="number_of_days_temp" string="Duration" attrs="{'invisible': True}"/>
                             <div attrs="{'invisible': True}">
                                 <div attrs="{'invisible': True}">
@@ -211,7 +211,7 @@
                     <field name="department_id" invisible="1"/>
                     <field name="type"/>
                     <field name="name"/>
-<!--                    <field name="number_of_days" string="Number of Days" sum="Remaining Days"/>-->
+                    <field name="number_of_days" string="Number of Days" sum="Remaining Days"/>
                     <field name="date_from"/>
                     <field name="date_to"/>
                     <field name="holiday_status_id"/>
@@ -231,7 +231,7 @@
                     <field name="date_from"/>
                     <field name="date_to"/>
                     <field name="name"/>
-<!--                    <field name="number_of_days"/>-->
+                    <field name="number_of_days"/>
                     <templates>
                         <t t-name="kanban-box">
                             <div t-attf-class="oe_kanban_global_click">
