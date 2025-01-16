@@ -23,4 +23,14 @@
             and Sector Head Approval privileges.
         </field>
     </record>
+
+        <record id="group_Director_Financial_Management" model="res.groups">
+        <field name="name">Director Financial Management</field>
+        <field name="category_id" ref="base.module_category_human_resources_employees"/>
+        <field name="implied_ids" eval="[
+        (4, ref('hr.group_hr_user')),
+        (4, ref('hr.group_hr_manager')),
+        (4, ref('hr_base.group_general_manager')
+        )]"/>
+    </record>
 </odoo>
