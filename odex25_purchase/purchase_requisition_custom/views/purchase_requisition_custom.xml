@@ -46,9 +46,14 @@
                             <field name="name" required="1"/>
                             <field name="committe_head"/>
                             <field name="type_cat" widget="many2many_tags"/>
+                            <field name="purchase_requisition_id"/>
+                            <field name="type"/>
                         </group>
                         <notebook>
                             <page string="Committee Members">
+                                <field name="committe_members"/>
+                            </page>
+                               <page string="Committee Members">
                                 <field name="committe_members"/>
                             </page>
                         </notebook>
