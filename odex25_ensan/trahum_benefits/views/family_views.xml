@@ -1,154 +1,160 @@
 <odoo>
-  <data>
-      <record id="view_family_member_tree" model="ir.ui.view">
-        <field name="name">family.member.tree</field>
-        <field name="model">family.member</field>
-        <field name="arch" type="xml">
-            <tree string="Members">
-                <field name="name"/>
-                <field name="member_id_number"/>
-                <field name="member_phone"/>
-                <field name="benefit_type"/>
-            </tree>
-        </field>
-      </record>
+    <data>
+        <record id="view_family_member_tree" model="ir.ui.view">
+            <field name="name">family.member.tree</field>
+            <field name="model">family.member</field>
+            <field name="arch" type="xml">
+                <tree string="Members">
+                    <field name="name"/>
+                    <field name="member_id_number"/>
+                    <field name="member_phone"/>
+                    <field name="benefit_type"/>
+                </tree>
+            </field>
+        </record>
 
-    <record id="view_family_member_form" model="ir.ui.view">
-        <field name="name">family.member.form</field>
-        <field name="model">family.member</field>
-        <field name="arch" type="xml">
-            <form string="Members">
-                <sheet>
-                    <group>
+        <record id="view_family_member_form" model="ir.ui.view">
+            <field name="name">family.member.form</field>
+            <field name="model">family.member</field>
+            <field name="arch" type="xml">
+                <form string="Members">
+                    <sheet>
                         <group>
-                        <h1>
-                        <label for="name" string="Name" />
-                            <field name="name" required="1"/>
-                        </h1>
+                            <group>
+                                <h1>
+                                    <label for="name" string="Name"/>
+                                    <field name="name" required="1"/>
+                                </h1>
+                            </group>
                         </group>
-                    </group>
-                  <group>
-                    <group>
-                        <field name="benefit_type"/>
-                        <field name="inmate_status" attrs="{'invisible': [('benefit_type', '!=', 'inmate')]}"/>
-                         <field name="entitlement_status" attrs="{'invisible': [('benefit_type', 'not in', ['breadwinner', 'member'])]}"/>
-                         <field name="released_status" attrs="{'invisible': [('benefit_type', '!=', 'released')]}"/>
-                        <field name="code" readonly="1"/>
-                    </group>
-                    <group>
-                        <field name="benefit_id" attrs="{'invisible' : [('benefit_type','=', 'inmate')]}" string="Family Profile"/>
-                    </group>
-                  </group>
-                  <notebook>
-                        <page string="Personal Details">
+                        <group>
                             <group>
+                                <field name="benefit_type"/>
+                                <field name="inmate_status" attrs="{'invisible': [('benefit_type', '!=', 'inmate')]}"/>
+                                <field name="entitlement_status"
+                                       attrs="{'invisible': [('benefit_type', 'not in', ['breadwinner', 'member'])]}"/>
+                                <field name="released_status"
+                                       attrs="{'invisible': [('benefit_type', '!=', 'released')]}"/>
+                                <field name="code" readonly="1"/>
+                            </group>
+                            <group>
+                                <field name="benefit_id" attrs="{'invisible' : [('benefit_type','=', 'inmate')]}"
+                                       string="Family Profile"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Personal Details">
                                 <group>
-                                    <field name="member_id_number"/>
-                                    <field name="birth_date"/>
-                                    <field name="gender"/>
-                                    <field name="qualification_id"/>
-                                    <field name="nationality_id"/>
+                                    <group>
+                                        <field name="member_id_number"/>
+                                        <field name="birth_date"/>
+                                        <field name="gender"/>
+                                        <field name="qualification_id"/>
+                                        <field name="nationality_id"/>
+                                    </group>
+                                    <group>
+                                        <field name="member_phone"/>
+                                        <field name="birth_place"/>
+                                        <field name="relation_id"/>
+                                        <field name="marital_status_id"/>
+                                    </group>
                                 </group>
-                                <group>
-                                    <field name="member_phone"/>
-                                    <field name="birth_place"/>
-                                    <field name="relation_id"/>
-                                    <field name="marital_status_id"/>
-                                </group>
-                            </group>
-                        </page>
-                        <page string="Education History">
-                            <field name="education_ids">
-                                <tree editable="bottom">
-                                    <field name="level_id"/>
-                                    <field name="school_name"/>
-                                    <field name="path"/>
-                                    <field name="education_department_id"/>
-                                    <field name="grade"/>
-                                    <field name="graduation_year"/>
-                                </tree>
-                            </field>
-                        </page>
-                        <page string="National Address">
-                            <group>
-                                <field name="building_number"/>
-                                <field name="sub_number"/>
-                                <field name="street_name"/>
-                                <field name="district"/>
-                                <field name="city"/>
-                                <field name="postal_code"/>
-                            </group>
-                        </page>
-                        <page string="Comprehensive Rehabilitation">
-                            <field name="rehabilitation_ids">
-                                <tree>
-                                    <field name="income_value"/>
-                                    <field name="disability_type_id"/>
-                                    <field name="disability_date"/>
-                                </tree>
-                            </field>
-                        </page>
-                        <page string="Health Data">
-                            <group>
-                                <group>
-                                    <field name="blood_type"/>
-                                </group> 
-                            </group>
-                            <group string="Diseases">
-                               <field name="member_diseases_ids" nolabel="1">
+                            </page>
+                            <page string="Education History">
+                                <field name="education_ids">
                                     <tree editable="bottom">
-                                        <field name="disease_id"/>
-                                        <field name="disease_type" readonly="1"/>
+                                        <field name="name"/>
+                                        <field name="identity_number"/>
+                                        <field name="level_id"/>
+                                        <field name="school_name"/>
+                                        <field name="path" string="Path"/>
+                                        <field name="education_department_id"/>
+                                        <field name="grade" string="Grade"/>
+                                        <field name="graduation_year"/>
+                                        <field name="attachments"/>
                                     </tree>
                                 </field>
-                            </group>
-                        </page>
-                        <page string="Social Insurance and Security">
-                            <group>
-                                <group string="Social Insurance">
-                                    <field name="social_insurance_income"/>
-                                    <field name="social_insurance_status"/>
+                            </page>
+                            <page string="National Address">
+                                <group>
+                                    <field name="building_number"/>
+                                    <field name="sub_number"/>
+                                    <field name="street_name"/>
+                                    <field name="district"/>
+                                    <field name="city"/>
+                                    <field name="postal_code"/>
                                 </group>
-                                <group string="Social Security">
-                                    <field name="social_security_income"/>
-                                    <field name="social_security_status"/>
-                                </group>
-                            </group>
-                        </page>
-                       <page string="Issues Information" attrs="{'invisible': [('benefit_type', '!=', 'inmate')]}">
-                            <group>
-                               <field name="issues_ids">
+                            </page>
+                            <page string="Comprehensive Rehabilitation">
+                                <field name="rehabilitation_ids">
                                     <tree>
-                                        <field name="case_name"/>
-                                        <field name="record_start_date"/>
-                                        <field name="record_end_date"/>
-                                        <field name="prison_prison_id"/>
-                                        <field name="release_date"/>
+                                        <field name="income_value"/>
+                                        <field name="disability_type_id"/>
+                                        <field name="disability_date"/>
                                     </tree>
                                 </field>
-                            </group>
-                        </page>
-                  </notebook>
-                </sheet>
-            </form>
-        </field>
-    </record>
+                            </page>
+                            <page string="Health Data">
+                                <group>
+                                    <group>
+                                        <field name="blood_type"/>
+                                    </group>
+                                </group>
+                                <group string="Diseases">
+                                    <field name="member_diseases_ids" nolabel="1">
+                                        <tree editable="bottom">
+                                            <field name="disease_id"/>
+                                            <field name="disease_type" readonly="1"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                            </page>
+                            <page string="Social Insurance and Security">
+                                <group>
+                                    <group string="Social Insurance">
+                                        <field name="social_insurance_income"/>
+                                        <field name="social_insurance_status"/>
+                                    </group>
+                                    <group string="Social Security">
+                                        <field name="social_security_income"/>
+                                        <field name="social_security_status"/>
+                                    </group>
+                                </group>
+                            </page>
+                            <page string="Issues Information" attrs="{'invisible': [('benefit_type', '!=', 'inmate')]}">
+                                <group>
+                                    <field name="issues_ids">
+                                        <tree>
+                                            <field name="case_name"/>
+                                            <field name="record_start_date"/>
+                                            <field name="record_end_date"/>
+                                            <field name="prison_prison_id"/>
+                                            <field name="release_date"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
 
-    <record id="action_family_member" model="ir.actions.act_window">
-        <field name="name">Members</field>
-        <field name="res_model">family.member</field>
-        <field name="view_mode">tree,form</field>
-        <field name="view_id" ref="view_family_member_tree"/>
-        <field name="view_ids" eval="[(5, 0, 0), 
+        <record id="action_family_member" model="ir.actions.act_window">
+            <field name="name">Members</field>
+            <field name="res_model">family.member</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_family_member_tree"/>
+            <field name="view_ids" eval="[(5, 0, 0),
                                        (0, 0, {'view_mode': 'tree', 'view_id': ref('view_family_member_tree')}), 
                                        (0, 0, {'view_mode': 'form', 'view_id': ref('view_family_member_form')})]"/>
-    </record>
+        </record>
 
-    <menuitem id="menu_family_member" name="Members"
-              action="action_family_member"
-              parent="odex_benefit.benefits_root_menu"
-              sequence="1"/>
-              
+        <menuitem id="menu_family_member" name="Members"
+                  action="action_family_member"
+                  parent="odex_benefit.benefits_root_menu"
+                  sequence="1"/>
 
-  </data>
+
+    </data>
 </odoo>
