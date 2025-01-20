@@ -26,14 +26,33 @@ class GrantBenefit(models.Model):
     stop_reason = fields.Text(string="Reason", help="Reason for account suspension.")
     stop_proof = fields.Binary(string="Proof of suspension document", attachment=True)
     exchange_period = fields.Selection(
-        [],
-        string="Exchange Period")
+        [
+            ('monthly', 'Monthly'),
+            ('every_three_months', 'Every Three Months'),
+            ('every_six_months', 'Every Six Months'),
+            ('every_nine_months', 'Every Nine Months'),
+            ('annually', 'Annually'),
+            ('two_years', 'Two Years'),
+        ],
+        string="Exchange Period",
+        attrs="{'readonly': [('housing_status', 'not in', ['usufruct', 'rent'])]}"
+    )
+
     housing_status = fields.Selection(
-        [],
-        string="Housing status")
-    housing_value = fields.Selection(
-        [],
-        string="Housing Value")
+        [
+            ('owned', 'Owned'),
+            ('shared', 'Shared'),
+            ('usufruct', 'Usufruct'),
+            ('rent', 'Rent'),
+        ],
+        string="Housing Status"
+    )
+
+    housing_value = fields.Integer(
+        string="Housing Value",
+        attrs="{'readonly': [('housing_status', 'not in', ['usufruct', 'rent'])]}"
+    )
+
     accommodation_attachments = fields.Binary(string="Accommodation Attachments ", attachment=True)
 
     delegate_id_number = fields.Char(string="Proof of suspension document")
@@ -281,7 +300,16 @@ class attachment(models.Model):
 class ExpensesInheritLine(models.Model):
     _inherit = 'expenses.line'
 
-    revenue_periodicity = fields.Selection(string='Revenue Periodicity', selection=[])
+    revenue_periodicity = fields.Selection(
+        [
+            ('monthly', 'Monthly'),
+            ('every_three_months', 'Every Three Months'),
+            ('every_six_months', 'Every Six Months'),
+            ('every_nine_months', 'Every Nine Months'),
+            ('annually', 'Annually'),
+            ('two_years', 'Two Years'),
+        ],
+        string="Revenue periodicity")
     side = fields.Char(string='The side')
     attachment = fields.Binary(string="Attachments", attachment=True)
 
@@ -290,7 +318,14 @@ class SalaryInheritLine(models.Model):
 
     side = fields.Char(string='side')
     revenue_periodicity = fields.Selection(
-        [],
+        [
+            ('monthly', 'Monthly'),
+            ('every_three_months', 'Every Three Months'),
+            ('every_six_months', 'Every Six Months'),
+            ('every_nine_months', 'Every Nine Months'),
+            ('annually', 'Annually'),
+            ('two_years', 'Two Years'),
+        ],
         string="Revenue periodicity")
 
 # class FamilyMember(models.Model):

@@ -574,6 +574,15 @@ class CommitteeTypes(models.Model):
             res.committe_members = [(4, res.committe_head.id)]
         return res
 
+    @api.model
+    def create(self, vals):
+        res = super(CommitteeTypes, self).create(vals)
+        # تحقق من أن committe_head يحتوي على قيمة صالحة
+        if res.committe_head and res.committe_head.id not in res.committe_members.ids:
+            # إضافة committe_head إلى committe_members
+            res.committe_members = [(4, res.committe_head.id)]
+        return res
+
     def write(self, vals):
         current_head = self.committe_head.id
         if 'committe_head' in vals and current_head in self.committe_members.ids:

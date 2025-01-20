@@ -35,12 +35,12 @@
                                     <group>
                                         <field name="housing_type"/>
                                         <field name="property_type"/>
-                                        <field name="exchange_period"/>
+                                          <field name="exchange_period" attrs="{'readonly': [('housing_status', 'not in', ['usufruct', 'rent'])]}"/>
 
                                     </group>
                                     <group>
                                         <field name="housing_status"/>
-                                        <field name="housing_value"/>
+                                        <field name="housing_value" attrs="{'readonly': [('housing_status', 'not in', ['usufruct', 'rent'])]}"/>
                                         <field name="accommodation_attachments"/>
                                     </group>
                                 </group>
