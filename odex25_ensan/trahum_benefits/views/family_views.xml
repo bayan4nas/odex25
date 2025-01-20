@@ -30,6 +30,9 @@
                   <group>
                     <group>
                         <field name="benefit_type"/>
+                        <field name="inmate_status" attrs="{'invisible': [('benefit_type', '!=', 'inmate')]}"/>
+                         <field name="entitlement_status" attrs="{'invisible': [('benefit_type', 'not in', ['breadwinner', 'member'])]}"/>
+                         <field name="released_status" attrs="{'invisible': [('benefit_type', '!=', 'released')]}"/>
                         <field name="code" readonly="1"/>
                     </group>
                     <group>
@@ -62,6 +65,7 @@
                                     <field name="path"/>
                                     <field name="education_department_id"/>
                                     <field name="grade"/>
+                                    <field name="graduation_year" invisible="1"/>
                                 </tree>
                             </field>
                         </page>

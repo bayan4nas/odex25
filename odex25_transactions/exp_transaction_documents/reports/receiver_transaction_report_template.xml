@@ -251,10 +251,22 @@
                             .droidkufi-font {
                             font-family: 'DroidKufi', sans-serif;
                             }
+
+                            .droidkufi-font h2 {
+                            margin-bottom: 20px;
+                            }
+
+                            .droidkufi-font p {
+                            margin-bottom: 10px;
+                            }
+
+                            .droidkufi-font img {
+                            margin-top: 10px;
+                            }
                         </style>
 
                         <div class="droidkufi-font" dir="rtl"
-                             style="border: 2px solid black; padding: 20px; margin-bottom: 50px; height: 90%;">
+                             style="padding: 20px; margin-bottom: 50px; height: 90%;">
                             <h2>تفاصيل المعاملة</h2>
                             <p>رقم المعاملة:
                                 <t t-esc="doc.name"/>
@@ -266,7 +278,7 @@
                                 <t t-esc="doc.transaction_date"/>
                             </p>
                             <p>عدد الصفحات:
-                                <t t-esc="doc.num_page"/>
+                                <t t-esc="doc.attachment_ids.num_page"/>
                             </p>
                             <p>
                                 <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', doc.name, 600, 100)"
@@ -300,8 +312,20 @@
                             font-style: normal;
                             }
 
-                            .droidkufi-font {
+                           .droidkufi-font {
                             font-family: 'DroidKufi', sans-serif;
+                            }
+
+                            .droidkufi-font h2 {
+                            margin-bottom: 20px;
+                            }
+
+                            .droidkufi-font p {
+                            margin-bottom: 10px;
+                            }
+
+                            .droidkufi-font img {
+                            margin-top: 10px;
                             }
                         </style>
 

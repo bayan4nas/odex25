@@ -138,8 +138,28 @@ class FamilyMember(models.Model):
     benefit_type = fields.Selection([
         ('inmate', 'Inmate'),
         ('breadwinner', 'Breadwinner'),
-        ('member', 'Member')
+        ('member', 'Member'),
+        ('released', 'Released')
     ], string='Benefit Type')
+    inmate_status = fields.Selection([
+        ('convicted', 'Convicted'),
+        ('not_convicted', 'Not Convicted')
+    ], string='Inmate Status',
+       attrs="{'invisible': [('benefit_type', '!=', 'inmate')]}"
+    )
+    entitlement_status = fields.Selection([
+        ('beneficiary', 'Beneficiary'),
+        ('non_beneficiary', 'Non Beneficiary')
+    ], string='Entitlement Status',
+        attrs="{'invisible': [('benefit_type', 'not in', ['breadwinner', 'member'])]}"
+    )
+    released_status = fields.Selection([
+        ('convicted', 'Convicted'),
+        ('not_convicted', ' Not Convicted')
+    ], string='Released Status',
+       attrs="{'invisible': [('benefit_type', '!=', 'released')]}"
+    )
+
     code = fields.Char("File No")
     marital_status_id = fields.Many2one('family.member.maritalstatus', string='Marital Status')
     birth_place = fields.Char(string='Birth Place')
@@ -169,7 +189,8 @@ class FamilyMember(models.Model):
     social_insurance_income = fields.Float(string='Social Insurance Income')
     social_insurance_status = fields.Selection([
         ('active', 'Active'),
-        ('inactive', 'Inactive')
+        ('inactive', 'Inactive'),
+        ('active_inactive', 'Active Inactive')
     ], string='Social Insurance Status')
     social_security_income = fields.Float(string='Social Security Income')
     social_security_status = fields.Selection([
