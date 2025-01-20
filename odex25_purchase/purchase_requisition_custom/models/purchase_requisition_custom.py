@@ -59,7 +59,7 @@ class PurchaseRequisitionCustom(models.Model):
         ('checked', 'Waiting Approval'),
         ('approve', 'Approved'),
         ('cancel', 'cancelled')])
-    type = fields.Selection([('project', 'Project'), ('operational', 'Operational'),('strategic', 'Strategic')], default='operational')
+    type = fields.Selection([('project', 'Project'), ('operational', 'Operational')], default='operational')
     project_id = fields.Many2one('project.project', string='Project')
     sent_to_commitee = fields.Boolean('Is Sent to Commitee?', default=False)
     ordering_date = fields.Date(default=fields.Datetime.now)
@@ -566,22 +566,20 @@ class CommitteeTypes(models.Model):
     committe_members = fields.Many2many('res.users', string='Committee Members')
     committe_head = fields.Many2one('res.users', string='Committee Head')
     type_cat = fields.Many2many('product.category', string='Product Category')
-    purchase_requisition_id = fields.Many2one(
-        'purchase.requisition',
-        string='Purchase Requisition',
-        domain=[('type', 'in', ['project', 'strategic'])]
-    )
-    type = fields.Selection(
-        related='purchase_requisition_id.type',
-        string='Type',
-        store=True,
-        readonly= False
-    )
 
     @api.model
     def create(self, vals):
         res = super(CommitteeTypes, self).create(vals)
         if res.committe_head.id not in res.committe_members.ids:
+            res.committe_members = [(4, res.committe_head.id)]
+        return res
+
+    @api.model
+    def create(self, vals):
+        res = super(CommitteeTypes, self).create(vals)
+        # تحقق من أن committe_head يحتوي على قيمة صالحة
+        if res.committe_head and res.committe_head.id not in res.committe_members.ids:
+            # إضافة committe_head إلى committe_members
             res.committe_members = [(4, res.committe_head.id)]
         return res
 

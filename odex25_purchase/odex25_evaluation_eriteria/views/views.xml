@@ -1,3 +1,23 @@
 <odoo>
-
+    <record id="purchase_committe_type_form_view_inherit" model="ir.ui.view">
+        <field name="name">purchase.committe.type.inherit</field>
+        <field name="model">purchase.committee.type</field>
+        <field name="inherit_id" ref="purchase_requisition_custom.purchase_committe_type_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='type_cat']" position="after">
+                <field name="type"/>
+            </xpath>
+            <xpath expr="//notebook//page[1]" position="after">
+                <page string="Evaluation criteria">
+                    <field name="purchase_committee_type_line" widget="one2many_list">
+                        <tree editable="bottom">
+                            <field name="sequence" widget="handle"/>
+                            <field name="evaluation_criteria"/>
+                            <field name="degree"/>
+                        </tree>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
 </odoo>
