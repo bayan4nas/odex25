@@ -56,6 +56,10 @@
                         type="object" groups="account.group_account_invoice"
                         attrs="{'invisible': ['|', '|', ('state', '!=', 'draft'), ('auto_post', '=', True),
                                  ('move_type', 'in', ('entry','in_invoice'))]}"/>
+                <button name="action_accountant" type="object" string="Accountant" class="oe_highlight"
+                   attrs="{'invisible': ['|', '|', ('state', '!=', 'accountant'),
+                                         ('auto_post', '=', True),
+                                         ('move_type', 'in', ('entry', 'in_invoice'))]}"/>
             </xpath>
 
 
@@ -64,10 +68,10 @@
                 <button name="action_confirm" type="object" string="Confirm Bill" class="oe_highlight"
                         attrs="{'invisible': ['|',  ('state', '!=', 'draft'),('move_type', '!=', 'in_invoice')]}"/>
 
-                   <button name="action_accountant" type="object" string="Confirm Bill" class="oe_highlight"
+                   <button name="action_accountant" type="object" string="Accountant" class="oe_highlight"
                    attrs="{'invisible': [('state', '!=', 'accountant')]}"/>
 
-                   <button name="action_department" type="object" string="Confirm Bill" class="oe_highlight"
+                   <button name="action_department" type="object" string="head of department" class="oe_highlight"
                    attrs="{'invisible': [('state', '!=', 'head_department')]}"/>
                 <button name="action_budget" type="object" string="Check Budget" class="oe_highlight"
                         attrs="{'invisible': ['|','|',('move_type', '!=', 'in_invoice'), ('state', '!=', 'confirm'),('hide_budget','=',True)]}"/>
