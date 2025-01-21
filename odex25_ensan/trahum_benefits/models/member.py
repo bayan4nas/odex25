@@ -79,7 +79,8 @@ class FamilyProfileLearn(models.Model):
     graduate_date = fields.Date(string='Graduation Date')
     name = fields.Char(string="Name", required=True, default="Rehabilitation Record")
     identity_number = fields.Integer(string="Identity Number")
-    graduation_year = fields.Date(string="Graduation Year")
+    graduation_year = fields.Char(string="Graduation Year")
+    attachments = fields.Binary(string="Attachments")
 
     @api.constrains('identity_number')
     def _check_identity_number_length(self):
