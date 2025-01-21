@@ -46,6 +46,8 @@ class AccountMove(models.Model):
         ('draft', 'Draft'),
         ('confirm', 'Confirm'),
         ('wait_budget', 'Wait Budget'),
+        ('accountant', 'Accountant'),
+        ('head_department', 'Head of department'),
         ('budget_approve', 'Approved'),
         ('posted', 'Posted'),
         ('cancel', 'Cancelled'),
@@ -88,6 +90,8 @@ class AccountMove(models.Model):
         # self.write({'is_check':False})
         return super(AccountMove, self).copy()
 
+
+
     def action_confirm(self):
         if not self.invoice_date:
             raise ValidationError(_('Please insert Bill Date'))
@@ -100,7 +104,7 @@ class AccountMove(models.Model):
                 break
             else:
                 self.write({
-                    'state': 'budget_approve'
+                    'state': 'accountant'
                 })
         if self.purchase_id:
             confirm_budget = self.env['budget.confirmation'].search([('po_id', '=', self.purchase_id.id)], limit=1,
@@ -109,9 +113,15 @@ class AccountMove(models.Model):
                 confirm_budget.invoice_id = self.id
                 self.write({
                     'is_check': True,
-                    'state': 'budget_approve' if confirm_budget.state == 'done' else 'wait_budget'
+                    'state': 'accountant' if confirm_budget.state == 'done' else 'wait_budget'
                 })
                 return True
+
+    def action_accountant(self):
+        self.state = "head_department"
+
+    def action_department(self):
+        self.state = "posted"
 
     def button_cancel(self):
         res = super(AccountMove, self).button_cancel()
@@ -148,6 +158,7 @@ class AccountMove(models.Model):
                 amount += (line.price_subtotal + line.price_tax)
                 budget_lines.write({'confirm': amount})
                 budget_lines.write({'reserve': abs((line.price_subtotal + line.price_tax) - budget_lines.reserve)})
+            self.write({'state': 'accountant'})
         return res
 
     def button_draft(self):
