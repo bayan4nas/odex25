@@ -23,6 +23,7 @@ class AccountPayment(models.Model):
         ('draft', 'Draft'),
         ('depart_manager', 'Department Manager'),
         ('accounting_manager', 'Accounting Manager'),
+        ('sector_head_approval', 'Sector Head Approval'),
         ('general_manager', 'General Manager'),
         ('posted', 'Posted'),
         ('cancel', 'Cancelled'),
@@ -99,6 +100,18 @@ class AccountPayment(models.Model):
         self.state = 'accounting_manager'
 
     def action_general_manager(self):
-        self._check_permission('odex25_account_payment_fix.group_general_manager')
+        if self.payment_type == 'outbound':
+            self._check_permission('odex25_account_payment_fix.group_general_manager')
+        res = super(AccountPayment, self).action_post()
+        for payment in self:
+            payment.state = 'posted'
+            if payment.analytic_account_id and payment.move_id:
+                for line in payment.move_id.line_ids:
+                    if line.account_id.id == payment.destination_account_id.id:
+                        line.analytic_account_id = payment.analytic_account_id.id
+        return res
+
+    def action_sector_head_approval(self):
+        # self._check_permission('odex25_account_payment_fix.group_accounting_manager')
         self.state_history = self.state
-        self.state = 'general_manager'
+        self.state = 'sector_head_approval'

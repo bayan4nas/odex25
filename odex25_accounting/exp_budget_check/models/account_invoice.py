@@ -158,6 +158,7 @@ class AccountMove(models.Model):
                 amount += (line.price_subtotal + line.price_tax)
                 budget_lines.write({'confirm': amount})
                 budget_lines.write({'reserve': abs((line.price_subtotal + line.price_tax) - budget_lines.reserve)})
+            self.write({'state': 'accountant'})
         return res
 
     def button_draft(self):
