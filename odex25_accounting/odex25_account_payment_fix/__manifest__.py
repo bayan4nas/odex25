@@ -9,7 +9,7 @@
 """,
     'author': "Expert Co. Ltd.",
     'website': "http://www.exp-sa.com",
-    'depends': ['account', 'odex25_account_accountant'],
+    'depends': ['account', 'odex25_account_accountant','hr_trahum'],
     'data': [
         'security/ir.model.access.csv',
         'security/security.xml',

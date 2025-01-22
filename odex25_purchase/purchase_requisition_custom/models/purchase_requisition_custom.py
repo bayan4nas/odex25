@@ -609,6 +609,8 @@ class SelectReason(models.TransientModel):
     select_reason = fields.Text("select reason")
     order_id = fields.Integer("order id")
 
+
+
     def action_select(self):
         self.env['committe.member'].create({
             'po_id': self.order_id,

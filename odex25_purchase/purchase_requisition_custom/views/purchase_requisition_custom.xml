@@ -469,8 +469,7 @@
                 <xpath expr="//field[@name='company_id']" position="after">
                     <field name="is_purchase_budget" invisible="1"/>
                     <field name="purchase_commitee"/>
-                    <field name="committee_type_id" attrs="{'invisible' : [('purchase_commitee' , '!=' , True)]}"
-                           domain="[('type_cat', '=', category_ids)]"/>
+                    <field name="committee_type_id" attrs="{'invisible' : [('purchase_commitee' , '!=' , True)]}"/>
                     <field name="committe_head"
                            attrs="{'invisible' : [('purchase_commitee' , '!=' , True)], 'required' : [('purchase_commitee' , '=' , True)]}"/>
 

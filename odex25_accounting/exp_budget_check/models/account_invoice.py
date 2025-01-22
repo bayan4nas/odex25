@@ -48,6 +48,7 @@ class AccountMove(models.Model):
         ('wait_budget', 'Wait Budget'),
         ('accountant', 'Accountant'),
         ('head_department', 'Head of department'),
+        ('head_of_department', 'Head department'),
         ('budget_approve', 'Approved'),
         ('posted', 'Posted'),
         ('cancel', 'Cancelled'),
@@ -122,6 +123,8 @@ class AccountMove(models.Model):
 
     def action_department(self):
         self.state = "posted"
+    def action_head_of_department(self):
+        self.state = "posted"
 
     def button_cancel(self):
         res = super(AccountMove, self).button_cancel()
@@ -158,7 +161,7 @@ class AccountMove(models.Model):
                 amount += (line.price_subtotal + line.price_tax)
                 budget_lines.write({'confirm': amount})
                 budget_lines.write({'reserve': abs((line.price_subtotal + line.price_tax) - budget_lines.reserve)})
-            self.write({'state': 'accountant'})
+        self.write({'state': 'accountant'})
         return res
 
     def button_draft(self):
