@@ -56,6 +56,8 @@
                         type="object" groups="account.group_account_invoice"
                         attrs="{'invisible': ['|', '|', ('state', '!=', 'draft'), ('auto_post', '=', True),
                                  ('move_type', 'in', ('entry','in_invoice'))]}" />
+                  <button name="action_accountant" type="object" string="Accountant" class="oe_highlight"
+                   attrs="{'invisible': [('state', '!=', 'accountant')]}" groups="exp_budget_check.group_asset_accountant"/>
                  <button name="action_head_of_department" type="object" string="Head department" class="oe_highlight"
                    attrs="{'invisible': ['|', '|', ('state', '!=', 'head_of_department'),
                                          ('auto_post', '=', True),
@@ -68,11 +70,10 @@
                 <button name="action_confirm" type="object" string="Confirm Bill" class="oe_highlight"
                         attrs="{'invisible': ['|',  ('state', '!=', 'draft'),('move_type', '!=', 'in_invoice')]}"/>
 
-                   <button name="action_accountant" type="object" string="Accountant" class="oe_highlight"
-                   attrs="{'invisible': [('state', '!=', 'accountant')]}" groups="exp_budget_check.group_asset_accountant"/>
+
 
                    <button name="action_department" type="object" string="head of department" class="oe_highlight"
-                   attrs="{'invisible': [('state', '!=', 'head_department')]}"/>
+                   attrs="{'invisible': [('state', '!=', 'head_department')]}" groups="exp_budget_check.group_asset_head_department"/>
                 <button name="action_budget" type="object" string="Check Budget" class="oe_highlight"
                         attrs="{'invisible': ['|','|',('move_type', '!=', 'in_invoice'), ('state', '!=', 'confirm'),('hide_budget','=',True)]}"/>
                 <button name="action_post" string="Confirm" class="oe_highlight"
