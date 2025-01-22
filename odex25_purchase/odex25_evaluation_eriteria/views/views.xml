@@ -5,8 +5,9 @@
         <field name="inherit_id" ref="purchase_requisition_custom.purchase_committe_type_form"/>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='type_cat']" position="after">
-                <field name="type"/>
+                <field name="available_types"/>
             </xpath>
+
             <xpath expr="//notebook//page[1]" position="after">
                 <page string="Evaluation criteria">
                     <field name="purchase_committee_type_line" widget="one2many_list">
@@ -20,4 +21,28 @@
             </xpath>
         </field>
     </record>
+
+<!--    <record id="select_wizard_view" model="ir.ui.view">-->
+<!--    <field name="name">select.reason.wizard.view</field>-->
+<!--    <field name="model">select.reason</field>-->
+<!--    <field name="inherit_id" ref="odex25_evaluation_eriteria.select_wizard_view"/>-->
+<!--    <field name="arch" type="xml">-->
+<!--        &lt;!&ndash; إضافة محتوى التقييم بعد حقل السبب الرئيسي &ndash;&gt;-->
+<!--        <xpath expr="//field[@name='select_reason']" position="after">-->
+<!--            <notebook>-->
+<!--                <page string="Evaluation Criteria">-->
+<!--                    <field name="evaluation_criteria_lines">-->
+<!--                        <tree editable="bottom">-->
+<!--                            <field name="sequence" widget="handle"/>-->
+<!--                            <field name="criteria" readonly="1"/>-->
+<!--                            <field name="degree" readonly="1"/>-->
+<!--                            <field name="evaluation" required="1"/>-->
+<!--                        </tree>-->
+<!--                    </field>-->
+<!--                </page>-->
+<!--            </notebook>-->
+<!--        </xpath>-->
+<!--    </field>-->
+<!--    </record>-->
+
 </odoo>
