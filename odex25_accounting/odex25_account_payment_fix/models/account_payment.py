@@ -112,6 +112,6 @@ class AccountPayment(models.Model):
         return res
 
     def action_sector_head_approval(self):
-        # self._check_permission('odex25_account_payment_fix.group_accounting_manager')
+        self._check_permission('hr_trahum.group_sector_head_approval')
         self.state_history = self.state
         self.state = 'sector_head_approval'
