@@ -105,7 +105,7 @@ class AccountMove(models.Model):
                 break
             else:
                 self.write({
-                    'state': 'accountant'
+                    'state': 'head_department'
                 })
         if self.purchase_id:
             confirm_budget = self.env['budget.confirmation'].search([('po_id', '=', self.purchase_id.id)], limit=1,
@@ -114,7 +114,7 @@ class AccountMove(models.Model):
                 confirm_budget.invoice_id = self.id
                 self.write({
                     'is_check': True,
-                    'state': 'accountant' if confirm_budget.state == 'done' else 'wait_budget'
+                    'state': 'head_department' if confirm_budget.state == 'done' else 'wait_budget'
                 })
                 return True
 
