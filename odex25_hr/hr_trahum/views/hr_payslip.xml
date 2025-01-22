@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_hr_payslip_form_inherit" model="ir.ui.view">
+            <field name="name">view_hr_payslip_form_inherit</field>
+            <field name="model">hr.payslip</field>
+            <field name="inherit_id" ref="exp_hr_payroll.view_hr_payslip_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//header/field[@name='state']" position="replace">
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,verify,done,computed,confirmed,accounting_head_approval,sector_head_approval,secretary_general,cancel,transfered"/>
+                </xpath>
+                <xpath expr="//header" position="inside">
+                    <button name="action_sector_head_approval" string="Sector Head Approval" type="object"
+                            states="accounting_head_approval" class="oe_highlight"
+                            groups="hr_trahum.group_sector_head_approval"/>
+                    <button name="action_accounting_head_approval" string="Head Accounting Approval" type="object"
+                            states="confirmed" class="oe_highlight"
+                            groups="hr_trahum.group_Director_Financial_Management"/>
+                    <button name="action_secretary_general" string="Secretary General" type="object"
+                            states="sector_head_approval" class="oe_highlight"
+                            groups="hr_trahum.group_secretary_general"/>
+                </xpath>
+                <xpath expr="//button[@name='transfer']" position="attributes">
+                    <attribute name="states">secretary_general</attribute>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

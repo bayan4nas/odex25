@@ -212,11 +212,9 @@
         <field name="arch" type="xml">
             <xpath expr="//header" position="inside">
                 <button name="action_sector_head_approval" string="Sector Head Approval" type="object"
-                        states="confirmed" class="oe_highlight" groups="hr_trahum.group_sector_head_approval"/>
-                <!--                <button name="withdraw" type="object" states="confirmed" string="Withdraw" class="oe_highlight"-->
-                <!--                                groups="hr.group_hr_manager" confirm="Are you sure to Delete Compute Salaries?"/>-->
-            </xpath>
-            <xpath expr="//header" position="inside">
+                        states="accounting_head_approval" class="oe_highlight" groups="hr_trahum.group_sector_head_approval"/>
+                <button name="action_accounting_head_approval" string="Head Accounting Approval" type="object"
+                        states="confirmed" class="oe_highlight" groups="hr_trahum.group_Director_Financial_Management"/>
                 <button name="action_secretary_general" string="Secretary General" type="object"
                         states="sector_head_approval" class="oe_highlight" groups="hr_trahum.group_secretary_general"/>
                 <button name="withdraw" type="object" states="sector_head_approval" string="Withdraw"
@@ -233,7 +231,7 @@
             </xpath>
             <xpath expr="//header/field[@name='state']" position="replace">
                 <field name="state" widget="statusbar"
-                       statusbar_visible="draft,computed,confirmed,sector_head_approval,secretary_general,transfered,close"/>
+                       statusbar_visible="draft,computed,confirmed,accounting_head_approval,sector_head_approval,secretary_general,transfered,close"/>
             </xpath>
         </field>
     </record>
