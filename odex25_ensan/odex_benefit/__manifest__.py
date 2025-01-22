@@ -7,12 +7,12 @@
     'website': 'http://exp-sa.com',
     'license': 'GPL-3',
     'author': 'Expert Ltd',
-    'depends': ['base', 'takaful_core', 'website', 'account', 'report_xlsx', 'sale', 'product', 'stock', 'hr',
+    'depends': ['base', 'takaful_core', 'website', 'account', 'report_xlsx', 'sale', 'product','trahum_benefits', 'stock', 'hr',
                 'purchase','web_google_maps','odex25_account_payment_fix'],
     'data': [
         'security/security_view.xml',
         'security/ir.model.access.csv',
-        
+
         'data/scheduled_actions.xml',
         'data/server_actions.xml',
         'data/email_temps.xml',
