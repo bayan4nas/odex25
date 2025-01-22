@@ -138,14 +138,39 @@ class TerminationpPatchinherit(models.Model):
 
 
 
+class HrPayslip(models.Model):
+    _inherit = 'hr.payslip'
+
+    state = fields.Selection(selection_add=[('accounting_head_approval', _('Accounting Head Approval')),
+                                            ('sector_head_approval', _('Sector Head Approval')),
+                                            ('secretary_general', _('Secretary General')),
+                                            ('transfered', 'Transfer')
+                                            ], tracking=True)
+
+
+    def action_accounting_head_approval(self):
+        self.state = "accounting_head_approval"
+
+    def action_sector_head_approval(self):
+        self.state = "sector_head_approval"
+
+    def action_secretary_general(self):
+        self.state = "secretary_general"
+
 class HrPayslipRuninhirt(models.Model):
     _inherit = 'hr.payslip.run'
 
     state = fields.Selection(selection_add=[('computed', 'Computed'),
                                             ('confirmed', 'Confirmed'),
+                                            ('accounting_head_approval', _('Accounting Head Approval')),
                                             ('sector_head_approval', _('Sector Head Approval')),
                                             ('secretary_general', _('Secretary General')),
                                             ('transfered', 'Transfer'), ('close', 'Close')], tracking=True)
+
+
+    def action_accounting_head_approval(self):
+        self.state = "accounting_head_approval"
+
     def action_sector_head_approval(self):
         self.state = "sector_head_approval"
 
