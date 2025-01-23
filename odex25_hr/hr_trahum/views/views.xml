@@ -217,14 +217,17 @@
                         states="confirmed" class="oe_highlight" groups="hr_trahum.group_Director_Financial_Management"/>
                 <button name="action_secretary_general" string="Secretary General" type="object"
                         states="sector_head_approval" class="oe_highlight" groups="hr_trahum.group_secretary_general"/>
-                <button name="withdraw" type="object" states="sector_head_approval" string="Withdraw"
-                        class="oe_highlight"
-                        groups="hr.group_hr_manager" confirm="Are you sure to Delete Compute Salaries?"/>
-                  <button name="withdraw" type="object" states="secretary_general" string="Withdraw"
-                        class="oe_highlight"
-                        groups="hr.group_hr_manager" confirm="Are you sure to Delete Compute Salaries?"/>
-                <button name="close_payslip_run" type="object" string="Close" states="sector_head_approval" groups="hr_trahum.group_secretary_general"/>
+<!--                <button name="withdraw" type="object"  string="Withdraw"-->
+<!--                        class="oe_highlight"-->
+<!--                        groups="hr.group_hr_manager" confirm="Are you sure to Delete Compute Salaries?"/>-->
+<!--                  <button name="withdraw" type="object"  string="Withdraw"-->
+<!--                        class="oe_highlight"-->
+<!--                        groups="hr.group_hr_manager" confirm="Are you sure to Delete Compute Salaries?"/>-->
+                <button name="close_payslip_run" type="object" string="Close" states="sector_head_approval,accounting_head_approval,secretary_general" groups="hr_trahum.group_secretary_general"/>
                 <button name="close_payslip_run" type="object" string="Close" states="confirmed" groups="hr_trahum.group_sector_head_approval"/>
+            </xpath>
+            <xpath expr="//button[@name='return_button']" position="attributes">
+                <attribute name="states">confirmed,transfered,accounting_head_approval,sector_head_approval,secretary_general</attribute>
             </xpath>
             <xpath expr="//button[@name='transfer']" position="attributes">
                 <attribute name="states">secretary_general</attribute>
