@@ -28,6 +28,7 @@
         'security/ir.model.access.csv',
         'views/family_views.xml',
         'views/grant_views.xml',
+        'views/menuitems.xml',
     ],
     # only loaded in demonstration mode
     'demo': [
