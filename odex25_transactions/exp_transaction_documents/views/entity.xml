@@ -47,7 +47,7 @@
                                 <field name="manager_id"
                                        attrs="{'invisible': [('type','!=','unit')], 'required': [('type','=','unit')]}"
                                        domain="[('type','in',['employee'])]"/>
-                                <field name="secretary_id" attrs="{'invisible': [('type', 'not in', ['unit'])]}" widget="many2many_tags"
+                                <field name="secretary_id" attrs="{'invisible': [('type', 'not in', ['unit'])]}" widget="many2one"
                                        domain="[('type', 'in', ['employee'])]"/>
                                 <field name="child_ids" attrs="{'invisible': [('type', '!=', 'employee')]}"
                                        widget="many2many_tags" domain="[('type', 'in', ['unit'])]"/>
