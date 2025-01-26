@@ -1,4 +1,4 @@
-from odoo import fields, models, _
+from odoo import fields, models, _, api
 
 
 class BudgetConfirmationCustom(models.Model):
@@ -14,6 +14,34 @@ class BudgetConfirmationCustom(models.Model):
     unavailable = fields.Boolean(string="Unavailable")
     specifications_conform = fields.Boolean(string="Technical specifications conform")
     specifications_not_conform = fields.Boolean(string="Technical specifications do not match")
+
+    attachment_count = fields.Integer(
+        string='Documents',
+        compute='_compute_attachment_count'
+    )
+
+    @api.depends('po_id')
+    def _compute_attachment_count(self):
+        for record in self:
+            if record.po_id:
+                record.attachment_count = self.env['ir.attachment'].search_count([
+                    ('res_model', '=', 'purchase.order'),
+                    ('res_id', '=', record.po_id.id)
+                ])
+            else:
+                record.attachment_count = 0
+
+    def action_view_attachments(self):
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Purchase Order Attachments',
+            'view_mode': 'tree,form',
+            'res_model': 'ir.attachment',
+            'domain': [('res_model', '=', 'purchase.order'), ('res_id', '=', self.po_id.id)],
+            'context': dict(self.env.context, default_res_model='purchase.order', default_res_id=self.po_id.id),
+        }
+
 
     def cancel(self):
         super(BudgetConfirmationCustom, self).cancel()
