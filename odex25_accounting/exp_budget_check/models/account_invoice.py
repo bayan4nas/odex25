@@ -119,10 +119,12 @@ class AccountMove(models.Model):
                 return True
 
     def action_accountant(self):
+        self.action_confirm()
         self.state = "head_department"
 
     def action_department(self):
         self.state = "posted"
+
     def action_head_of_department(self):
         self.state = "posted"
 
