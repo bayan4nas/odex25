@@ -288,7 +288,7 @@ class HrEmployee(models.Model):
     def _check_parent_id(self):
         for employee in self:
             if not employee._check_recursion():
-                parent_id = employee.sudo().department_id.parent_id.manager_id
+                parent_id = employee.sudo().department_id.manager_id
                 if parent_id:
                    employee.parent_id = parent_id
                 else:
