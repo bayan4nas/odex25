@@ -21,7 +21,7 @@
         'account_configuration',
         'account_budget_custom',
         'hr_expense'
-
+        # 'odex25_account_payment_fix'
     ],
 
     # always loaded
@@ -29,6 +29,7 @@
         'security/security.xml',
         'views/account_invoice_view.xml',
         'views/hr_expense_view.xml',
+        'views/account_payment_register.xml',
     ],
     # only loaded in demonstration mode
     'demo': [
