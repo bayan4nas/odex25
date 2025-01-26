@@ -84,6 +84,7 @@
                     <field name="state" widget="statusbar" statusbar_visible="draft,bdgt_dep_mngr,confirmed,done"/>
                 </header>
                 <sheet>
+
                     <div class="oe_title">
                         <h1>
                             <field name="name" readonly="1"/>
@@ -93,7 +94,7 @@
                         <group>
                             <field name="date" readonly="1"/>
                             <field name="beneficiary_id" options="{'no_create': True, 'no_open': True}"
-                                  readonly="1"/>
+                                   readonly="1"/>
                             <field name="department_id" options="{'no_create': True, 'no_open': True}"
                                    readonly="1"/>
                             <field name="exceed_budget" groups="account_budget_custom.group_manager_budget"/>
@@ -140,7 +141,7 @@
         </field>
     </record>
 
-   <record id="action_budget_confirmation_form" model="ir.actions.act_window">
+    <record id="action_budget_confirmation_form" model="ir.actions.act_window">
         <field name="name">Budget Confirmations</field>
         <field name="res_model">budget.confirmation</field>
         <field name="view_mode">tree,kanban,form</field>

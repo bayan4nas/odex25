@@ -51,15 +51,19 @@
         <field name="inherit_id" ref="account.view_move_form"/>
         <field name="arch" type="xml">
 
+            <button name="action_register_payment" position="attributes">
+                <attribute name="groups">exp_budget_check.group_asset_head_department,odex25_account_payment_fix.group_accounting_manager,odex25_account_payment_fix.group_general_manager</attribute>
+            </button>
+
             <xpath expr="//button[2]" position="replace">
-                <button name="action_post" string="Confirm" class="oe_highlight"
-                        type="object" groups="account.group_account_invoice"
-                        attrs="{'invisible': ['|', '|', ('state', '!=', 'draft'), ('auto_post', '=', True),
-                                 ('move_type', 'in', ('entry','in_invoice'))]}" />
+<!--                <button name="action_post" string="Confirm" class="oe_highlight"-->
+<!--                        type="object" groups="account.group_account_invoice"-->
+<!--                        attrs="{'invisible': ['|', '|', ('state', '!=', 'draft'), ('auto_post', '=', True),-->
+<!--                                 ('move_type', 'in', ('entry','in_invoice'))]}" />-->
                   <button name="action_accountant" type="object" string="Accountant" class="oe_highlight"
-                   attrs="{'invisible': [('state', '!=', 'accountant')]}" groups="exp_budget_check.group_asset_accountant"/>
+                   attrs="{'invisible': [('state', '!=', 'draft')]}" groups="exp_budget_check.group_asset_accountant"/>
                  <button name="action_head_of_department" type="object" string="Head department" class="oe_highlight"
-                   attrs="{'invisible': ['|', '|', ('state', '!=', 'head_of_department'),
+                   attrs="{'invisible': ['|', '|', ('state', '!=', 'head_department'),
                                          ('auto_post', '=', True),
                                          ('move_type', 'in', ('entry', 'in_invoice'))]}" groups="exp_budget_check.group_asset_head_department"/>
             </xpath>
@@ -68,8 +72,7 @@
             <xpath expr="//button[@name='action_post']" position="before">
                 <field name="hide_budget" invisible="1"/>
                 <button name="action_confirm" type="object" string="Confirm Bill" class="oe_highlight"
-                        attrs="{'invisible': ['|',  ('state', '!=', 'draft'),('move_type', '!=', 'in_invoice')]}" groups="exp_budget_check.group_asset_accountant"/>
-
+                        invisible="1" groups="exp_budget_check.group_asset_accountant"/>
 
 
                    <button name="action_department" type="object" string="head of department" class="oe_highlight"
