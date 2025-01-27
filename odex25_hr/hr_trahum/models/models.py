@@ -269,16 +269,14 @@ class EmployeeHrhierarchy(models.Model):
     #     return assigned_manager, assigned_coach
 
     def _assign_manager_and_coach(self, department):
-        current_department = department
-        next_department = department
         manager_id = False
         top_manager_id = False
+        current_department = department
         while current_department.parent_id :
             if current_department.manager_id.id != self.id : break
-            current_department = current_department
-            next_department = current_department.parent_id and current_department.parent_id or current_department
+            current_department = current_department.parent_id
         manager_id = current_department.manager_id
-        top_manager_id = next_department.manager_id
+        top_manager_id = current_department.parent_id and current_department.parent_id.manager_id or manager_id
         return manager_id , top_manager_id
 
     
