@@ -242,13 +242,13 @@ class EmployeeHrhierarchy(models.Model):
     #     """
     #     assigned_manager = None
     #     assigned_coach = None
-    #
+    
     #     visited_departments = set()
     #     while department:
     #         if department.id in visited_departments:
     #             raise exceptions.ValidationError("Cyclic department hierarchy detected.")
     #         visited_departments.add(department.id)
-    #
+    
     #         manager = department.manager_id
     #         if manager:
     #             if not assigned_manager and manager.id != self.id:
@@ -256,40 +256,54 @@ class EmployeeHrhierarchy(models.Model):
     #             elif not assigned_coach and manager.id != self.id and manager.id != (
     #             assigned_manager.id if assigned_manager else None):
     #                 assigned_coach = manager
-    #
+    
     #         if assigned_manager and assigned_coach:
     #             break
-    #
+    
     #         department = department.parent_id
-    #
+    
     #     # If no separate coach is found, assign coach as the manager
     #     if not assigned_coach:
     #         assigned_coach = assigned_manager
-    #
+    
     #     return assigned_manager, assigned_coach
-    #
-    # @api.model
-    # def create(self, vals):
-    #     if 'department_id' in vals:
-    #         department = self.env['hr.department'].browse(vals['department_id'])
-    #         manager, coach = self._assign_manager_and_coach(department)
-    #         if manager:
-    #             vals['parent_id'] = manager.id
-    #         if coach:
-    #             vals['coach_id'] = coach.id
-    #     return super(EmployeeHrhierarchy, self).create(vals)
-    #
-    # def write(self, vals):
-    #     if 'department_id' in vals:
-    #         department = self.env['hr.department'].browse(vals['department_id'])
-    #         manager, coach = self._assign_manager_and_coach(department)
-    #         print(department,"department",coach,manager)
-    #         # print(department,"department")
-    #         if manager:
-    #             vals['parent_id'] = manager.id
-    #         if coach:
-    #             vals['coach_id'] = coach.id
-    #     return super(EmployeeHrhierarchy, self).write(vals)
+
+    def _assign_manager_and_coach(self, department):
+        current_department = department
+        next_department = department
+        manager_id = False
+        top_manager_id = False
+        while current_department.parent_id :
+            if current_department.manager_id.id != self.id : break
+            current_department = current_department
+            next_department = current_department.parent_id and current_department.parent_id or current_department
+        manager_id = current_department.manager_id
+        top_manager_id = next_department.manager_id
+        return manager_id , top_manager_id
+
+    
+    @api.model
+    def create(self, vals):
+        if 'department_id' in vals:
+            department = self.env['hr.department'].browse(vals['department_id'])
+            manager, coach = self._assign_manager_and_coach(department)
+            if manager:
+                vals['parent_id'] = manager.id
+            if coach:
+                vals['coach_id'] = coach.id
+        return super(EmployeeHrhierarchy, self).create(vals)
+    
+    def write(self, vals):
+        if 'department_id' in vals:
+            department = self.env['hr.department'].browse(vals['department_id'])
+            manager, coach = self._assign_manager_and_coach(department)
+            print(department,"department",coach,manager)
+            # print(department,"department")
+            if manager:
+                vals['parent_id'] = manager.id
+            if coach:
+                vals['coach_id'] = coach.id
+        return super(EmployeeHrhierarchy, self).write(vals)
 
 
 
