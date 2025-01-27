@@ -236,37 +236,51 @@ class EmployeeHrhierarchy(models.Model):
 
 
 
+    # def _assign_manager_and_coach(self, department):
+    #     """
+    #     Helper function to traverse department hierarchy and assign manager and coach.
+    #     """
+    #     assigned_manager = None
+    #     assigned_coach = None
+    
+    #     visited_departments = set()
+    #     while department:
+    #         if department.id in visited_departments:
+    #             raise exceptions.ValidationError("Cyclic department hierarchy detected.")
+    #         visited_departments.add(department.id)
+    
+    #         manager = department.manager_id
+    #         if manager:
+    #             if not assigned_manager and manager.id != self.id:
+    #                 assigned_manager = manager
+    #             elif not assigned_coach and manager.id != self.id and manager.id != (
+    #             assigned_manager.id if assigned_manager else None):
+    #                 assigned_coach = manager
+    
+    #         if assigned_manager and assigned_coach:
+    #             break
+    
+    #         department = department.parent_id
+    
+    #     # If no separate coach is found, assign coach as the manager
+    #     if not assigned_coach:
+    #         assigned_coach = assigned_manager
+    
+    #     return assigned_manager, assigned_coach
+
     def _assign_manager_and_coach(self, department):
-        """
-        Helper function to traverse department hierarchy and assign manager and coach.
-        """
-        assigned_manager = None
-        assigned_coach = None
-    
-        visited_departments = set()
-        while department:
-            if department.id in visited_departments:
-                raise exceptions.ValidationError("Cyclic department hierarchy detected.")
-            visited_departments.add(department.id)
-    
-            manager = department.manager_id
-            if manager:
-                if not assigned_manager and manager.id != self.id:
-                    assigned_manager = manager
-                elif not assigned_coach and manager.id != self.id and manager.id != (
-                assigned_manager.id if assigned_manager else None):
-                    assigned_coach = manager
-    
-            if assigned_manager and assigned_coach:
-                break
-    
-            department = department.parent_id
-    
-        # If no separate coach is found, assign coach as the manager
-        if not assigned_coach:
-            assigned_coach = assigned_manager
-    
-        return assigned_manager, assigned_coach
+        current_department = department
+        next_department = department
+        manager_id = False
+        top_manager_id = False
+        while current_department.parent_id :
+            if current_department.manager_id.id != self.id : break
+            current_department = current_department
+            next_department = current_department.parent_id and current_department.parent_id or current_department
+        manager_id = current_department.manager_id
+        top_manager_id = next_department.manager_id
+        return manager_id , top_manager_id
+
     
     @api.model
     def create(self, vals):
