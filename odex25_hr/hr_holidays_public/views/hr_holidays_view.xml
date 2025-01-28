@@ -40,7 +40,7 @@
                     <field name="emp_id" invisible="1" attrs="{'readonly':[('state','!=','draft')]}"/>
                     <field name="last_employee_contract" string="Last Employee Contract"/>
                     <field name="employee_type" string="Employee Type" readonly="1"/>
-                    <field name="replace_by" string="Replace By"
+                    <field name="replace_by" string="Replace By" required="1"
                            attrs="{'invisible':['|',('holiday_type','=','category'),('type','!=','remove')],
                                   'readonly':[('state','not in',('draft','confirm','validate'))]}"
                            groups="hr_holidays_community.group_hr_holidays_user,hr_base.group_division_manager"

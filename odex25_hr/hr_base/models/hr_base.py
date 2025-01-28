@@ -284,25 +284,25 @@ class HrEmployee(models.Model):
                 age = today.year - dob.year - ((today.month, today.day) < (dob.month, dob.day))
             emp.employee_age = str(age)
 
-    @api.constrains('parent_id')
-    def _check_parent_id(self):
-        for employee in self:
-            if not employee._check_recursion():
-                parent_id = employee.sudo().department_id.manager_id
-                if parent_id:
-                   employee.parent_id = parent_id
-                else:
-                   employee.parent_id = False
+    # @api.constrains('parent_id')
+    # def _check_parent_id(self):
+    #     for employee in self:
+    #         if not employee._check_recursion():
+    #             parent_id = employee.sudo().department_id.parent_id.manager_id
+    #             if parent_id:
+    #                employee.parent_id = parent_id
+    #             else:
+    #                employee.parent_id = False
 
-    @api.constrains('coach_id')
-    def _check_coach_id(self):
-        for employee in self:
-            if not employee._check_recursion():
-                parent_id = employee.sudo().department_id.parent_id.manager_id
-                if parent_id:
-                   employee.parent_id = parent_id
-                else:
-                   employee.coach_id = False
+    # @api.constrains('coach_id')
+    # def _check_coach_id(self):
+    #     for employee in self:
+    #         if not employee._check_recursion():
+    #             parent_id = employee.sudo().department_id.parent_id.manager_id
+    #             if parent_id:
+    #                employee.parent_id = parent_id
+    #             else:
+    #                employee.coach_id = False
 
     @api.onchange('department_id')
     def _onchange_department(self):
