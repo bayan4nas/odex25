@@ -282,7 +282,7 @@ class EmployeeHrhierarchy(models.Model):
         manager_id = False
         current_department = department.parent_id and department.parent_id or department
         while current_department.parent_id :
-            if current_department.manager_id.id != self.id and department.manager_id != current_department.manager_id.id: break
+            if current_department.manager_id.id != self.id and department.manager_id.id != current_department.manager_id.id: break
             current_department = current_department.parent_id
         manager_id = current_department.manager_id
         return manager_id
