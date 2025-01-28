@@ -268,23 +268,32 @@ class EmployeeHrhierarchy(models.Model):
     
     #     return assigned_manager, assigned_coach
 
-    def _assign_manager_and_coach(self, department):
+    def _assign_manager(self, department):
         manager_id = False
-        top_manager_id = False
         current_department = department
         while current_department.parent_id :
             if current_department.manager_id.id != self.id : break
             current_department = current_department.parent_id
         manager_id = current_department.manager_id
-        top_manager_id = current_department.parent_id and current_department.parent_id.manager_id or manager_id
-        return manager_id , top_manager_id
+        return manager_id 
+
+    
+    def _assign_top_manager(self, department, direct_manager):
+        manager_id = False
+        current_department = department.parent_id and department.parent_id or department
+        while current_department.parent_id :
+            if current_department.manager_id.id != self.id and direct_manager.id != current_department.manager_id.id: break
+            current_department = current_department.parent_id
+        manager_id = current_department.manager_id
+        return manager_id
 
     
     @api.model
     def create(self, vals):
         if 'department_id' in vals:
             department = self.env['hr.department'].browse(vals['department_id'])
-            manager, coach = self._assign_manager_and_coach(department)
+            manager = self._assign_manager(department)
+            coach = self._assign_top_manager(department, manager)
             if manager:
                 vals['parent_id'] = manager.id
             if coach:
@@ -294,9 +303,8 @@ class EmployeeHrhierarchy(models.Model):
     def write(self, vals):
         if 'department_id' in vals:
             department = self.env['hr.department'].browse(vals['department_id'])
-            manager, coach = self._assign_manager_and_coach(department)
-            print(department,"department",coach,manager)
-            # print(department,"department")
+            manager = self._assign_manager(department)
+            coach = self._assign_top_manager(department, manager)
             if manager:
                 vals['parent_id'] = manager.id
             if coach:
