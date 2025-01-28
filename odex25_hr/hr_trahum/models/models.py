@@ -278,11 +278,11 @@ class EmployeeHrhierarchy(models.Model):
         return manager_id 
 
     
-    def _assign_top_manager(self, department):
+    def _assign_top_manager(self, department, direct_manager):
         manager_id = False
         current_department = department.parent_id and department.parent_id or department
         while current_department.parent_id :
-            if current_department.manager_id.id != self.id and department.manager_id.id != current_department.manager_id.id: break
+            if current_department.manager_id.id != self.id and direct_manager.id != current_department.manager_id.id: break
             current_department = current_department.parent_id
         manager_id = current_department.manager_id
         return manager_id
@@ -293,7 +293,7 @@ class EmployeeHrhierarchy(models.Model):
         if 'department_id' in vals:
             department = self.env['hr.department'].browse(vals['department_id'])
             manager = self._assign_manager(department)
-            coach = self._assign_top_manager(department)
+            coach = self._assign_top_manager(department, manager)
             if manager:
                 vals['parent_id'] = manager.id
             if coach:
@@ -304,7 +304,7 @@ class EmployeeHrhierarchy(models.Model):
         if 'department_id' in vals:
             department = self.env['hr.department'].browse(vals['department_id'])
             manager = self._assign_manager(department)
-            coach = self._assign_top_manager(department)
+            coach = self._assign_top_manager(department, manager)
             if manager:
                 vals['parent_id'] = manager.id
             if coach:
