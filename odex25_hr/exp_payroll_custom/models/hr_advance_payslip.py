@@ -2946,6 +2946,7 @@ class HrPayslipRun(models.Model):
         if self.salary_scale.transfer_type == 'all':
             total_of_list = []
             for line in self.slip_ids:
+                emp_type =  line.employee_id.employee_type_id.id
                 total_allow, total_ded, total_loan = 0.0, 0.0, 0.0
                 total_list = []
                 move_vals = dict()
@@ -2957,25 +2958,25 @@ class HrPayslipRun(models.Model):
                             break
                 for l in line.allowance_ids:
                     amount_allow = l.total
-                    account = l.salary_rule_id.rule_debit_account_id
+                    account = l.salary_rule_id.get_debit_account_id(emp_type)
                     total_list.append({
                         'name': l.name,
                         'debit': amount_allow,
                         'journal_id': journal.id,
                         'credit': 0,
-                        'account_id': account.id,
+                        'account_id': account,
                     })
                     total_allow += amount_allow
 
                 for ded in line.deduction_ids:
                     amount_ded = -ded.total
-                    account = ded.salary_rule_id.rule_credit_account_id
+                    account = ded.salary_rule_id.get_credit_account_id(emp_type)
                     total_list.append({
                         'name': ded.name,
                         'credit': amount_ded,
                         'journal_id': journal.id,
                         'debit': 0,
-                        'account_id': account.id,
+                        'account_id': account,
                     })
                     total_ded += amount_ded
 
@@ -3026,32 +3027,33 @@ class HrPayslipRun(models.Model):
 
         elif self.salary_scale.transfer_type == 'one_by_one':
             for line in self.slip_ids:
+                emp_type =  line.employee_id.employee_type_id.id
                 total_allow, total_ded, total_loan = 0.0, 0.0, 0.0
                 total_list = []
                 move_vals = dict()
                 journal = line.contract_id.journal_id
                 for l in line.allowance_ids:
                     amount_allow = l.total
-                    account = l.salary_rule_id.rule_debit_account_id
+                    account = l.salary_rule_id.get_debit_account_id(emp_type)
                     total_list.append({
                         'name': l.name,
                         'debit': amount_allow,
                         'partner_id': line.employee_id.user_id.partner_id.id,
                         'credit': 0,
-                        'account_id': account.id,
+                        'account_id': account,
                         'analytic_account_id': line.employee_id.contract_id.analytic_account_id.id,
                     })
                     total_allow += amount_allow
 
                 for ded in line.deduction_ids:
                     amount_ded = -ded.total
-                    account = ded.salary_rule_id.rule_credit_account_id
+                    account = ded.salary_rule_id.get_credit_account_id(emp_type)
                     total_list.append({
                         'name': ded.name,
                         'credit': amount_ded,
                         'partner_id': line.employee_id.user_id.partner_id.id,
                         'debit': 0,
-                        'account_id': account.id,
+                        'account_id': account,
                     })
                     total_ded += amount_ded
 
@@ -3101,6 +3103,7 @@ class HrPayslipRun(models.Model):
         else:
             bank_id = ''
             for line in self.slip_ids:
+                emp_type =  line.employee_id.employee_type_id.id
                 total_allow, total_ded, total_loan = 0.0, 0.0, 0.0
                 total_list = []
                 move_vals = dict()
@@ -3123,7 +3126,7 @@ class HrPayslipRun(models.Model):
                             'debit': amount_allow,
                             'journal_id': journal.id,
                             'credit': 0,
-                            'account_id': l.salary_rule_id.rule_debit_account_id.id,
+                            'account_id': l.salary_rule_id.get_debit_account_id(emp_type),
                         })
                         total_allow += amount_allow
 
@@ -3134,7 +3137,7 @@ class HrPayslipRun(models.Model):
                             'credit': amount_ded,
                             'journal_id': journal.id,
                             'debit': 0,
-                            'account_id': ded.salary_rule_id.rule_credit_account_id.id,
+                            'account_id': ded.salary_rule_id.get_credit_account_id(emp_type),
                         })
                         total_ded += amount_ded
 
@@ -3171,10 +3174,10 @@ class HrPayslipRun(models.Model):
 
                     for l in line.allowance_ids:
                         amount_allow = l.total
-                        account = l.salary_rule_id.rule_debit_account_id
+                        account = l.salary_rule_id.get_debit_account_id(emp_type)
                         total_list.append({
                             'name': l.name,
-                            'account_id': account.id,
+                            'account_id': account,
                             'debit': amount_allow,
                             'credit': 0,
                             'partner_id': line.employee_id.user_id.partner_id.id
@@ -3184,10 +3187,10 @@ class HrPayslipRun(models.Model):
 
                     for ded in line.deduction_ids:
                         amount_ded = -ded.total
-                        account = ded.salary_rule_id.rule_credit_account_id
+                        account = ded.salary_rule_id.get_credit_account_id(emp_type)
                         total_list.append({
                             'name': ded.name,
-                            'account_id': account.id,
+                            'account_id': account,
                             'credit': amount_ded,
                             'debit': 0,
                             'partner_id': line.employee_id.user_id.partner_id.id
