@@ -7,10 +7,22 @@ from odoo.exceptions import UserError
 from odoo.exceptions import Warning
 from odoo.tools.safe_eval import safe_eval
 
+class HrSalaryRuleAccount(models.Model):
+    _name = 'hr.salary.rule.account'
+    _description = 'Salary Rule Account Mapping'
+
+    rule_id = fields.Many2one('hr.salary.rule', string="Salary Rule", required=True, ondelete="cascade")
+    emp_type_id = fields.Many2one('hr.contract.type', string="Employee Type", required=True)
+    credit_account_id = fields.Many2one('account.account', string="Credit Account", required=True)
+    debit_account_id = fields.Many2one('account.account', string="Debit Account", required=True)
+
 
 class HrSalaryRules(models.Model):
     _inherit = 'hr.salary.rule'
 
+    account_ids = fields.One2many('hr.salary.rule.account', 'rule_id')
+    transfer_by_emp_type = fields.Boolean('Transfer By Emp Type')
+    
     start_date = fields.Date(string='Start Date', default=fields.date.today())
     end_date = fields.Date(string='End Date')
     salary_type = fields.Selection([('fixed', _('Fixed for all')),
