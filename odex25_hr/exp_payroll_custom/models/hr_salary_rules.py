@@ -22,7 +22,7 @@ class HrSalaryRules(models.Model):
 
     account_ids = fields.One2many('hr.salary.rule.account', 'rule_id')
     transfer_by_emp_type = fields.Boolean('Transfer By Emp Type')
-    
+
     start_date = fields.Date(string='Start Date', default=fields.date.today())
     end_date = fields.Date(string='End Date')
     salary_type = fields.Selection([('fixed', _('Fixed for all')),
@@ -57,6 +57,16 @@ class HrSalaryRules(models.Model):
                                    ('insurnce', _('Insurnce Deduction')),
                                    ('other', _('Other'))
                                    ], string='Rules Type')
+
+    def get_debit_account_id(self, emp_type):
+        if not self.transfer_by_emp_type :  return self.rule_debit_account_id.id
+        account_mapping = self.account_ids.filtered(lambda a: a.emp_type_id == emp_type)
+        return account_mapping[0].debit_account_id.id if account_mapping else False
+    
+    def get_credit_account_id(self, emp_type):
+        if not self.transfer_by_emp_type :  return self.rule_credit_account_id.id
+        account_mapping = self.account_ids.filtered(lambda a: a.emp_type_id == emp_type)
+        return account_mapping[0].credit_account_id.id if account_mapping else False
 
     @api.constrains('rules_type', 'category_id')
     def _check_dates(self):
