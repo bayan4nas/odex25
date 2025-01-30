@@ -197,6 +197,11 @@ class HrEmployeePromotions(models.Model):
 
 
 class EmployeeHrhierarchy(models.Model):
+    _inherit = "hr.department"
+
+    employee_type_id = fields.Many2one('hr.contract.type', string="Employee Type")
+
+class EmployeeHrhierarchy(models.Model):
     _inherit = "hr.employee"
 
 
@@ -205,6 +210,9 @@ class EmployeeHrhierarchy(models.Model):
     coach_id = fields.Many2one('hr.employee', string="Coach")
     emp_no = fields.Char(string="Employee Number", default="new", tracking=True)
 
+    def get_emp_type_id(self):
+        return self.department_id.employee_type_id.id
+    
     @api.model
     def _generate_emp_no(self):
         seq = self.env['ir.sequence'].next_by_code('hr.employee.emp_no.sequence')
