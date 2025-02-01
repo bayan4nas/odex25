@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Tree and Form Views for identity.proof -->
+        <record id="view_identity_proof_tree" model="ir.ui.view">
+            <field name="name">identity.proof.tree</field>
+            <field name="model">identity.proof</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_identity_proof_form" model="ir.ui.view">
+            <field name="name">identity.proof.form</field>
+            <field name="model">identity.proof</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Tree and Form Views for work.type -->
+        <record id="view_work_type_tree" model="ir.ui.view">
+            <field name="name">work.type.tree</field>
+            <field name="model">work.type</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_work_type_form" model="ir.ui.view">
+            <field name="name">work.type.form</field>
+            <field name="model">work.type</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Menu Items and Actions -->
+
+        <!-- Actions for identity.proof -->
+        <record id="action_identity_proof" model="ir.actions.act_window">
+            <field name="name">Identity Proofs</field>
+            <field name="res_model">identity.proof</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- Actions for work.type -->
+        <record id="action_work_type" model="ir.actions.act_window">
+            <field name="name">Work Types</field>
+            <field name="res_model">work.type</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem id="menu_identity_proof_root" name="Identity Proof" parent="odex_benefit.benefit_tools"/>
+
+        <menuitem id="menu_identity_proof" name="Identity Proofs" parent="menu_identity_proof_root"
+                  action="action_identity_proof"/>
+        <menuitem id="menu_work_type" name="Work Types" parent="menu_identity_proof_root" action="action_work_type"/>
+
+    </data>
+</odoo>
