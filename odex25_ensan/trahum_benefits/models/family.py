@@ -15,6 +15,7 @@ class GrantBenefit(models.Model):
     rehabilitation_ids = fields.One2many('comprehensive.rehabilitation', 'grant_benefit_id', string='Comprehensive Rehabilitation')
     salary_ids = fields.One2many('salary.line', 'benefit_id', string='')
     health_data_ids = fields.One2many('family.member', 'benefit_id', string='Health Data')
+    branch_details_id = fields.Many2one(comodel_name='branch.details', string='Branch Name')
 
     account_status = fields.Selection(
         [('active', 'Active'), ('inactive', 'Inactive')],

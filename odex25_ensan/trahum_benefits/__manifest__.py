@@ -29,6 +29,9 @@
         'views/family_views.xml',
         'views/grant_views.xml',
         'views/menuitems.xml',
+        'views/res_prison.xml',
+        'views/identity_proof.xml',
+        'views/branch_details.xml',
     ],
     # only loaded in demonstration mode
     'demo': [
