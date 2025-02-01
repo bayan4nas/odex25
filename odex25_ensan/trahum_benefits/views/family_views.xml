@@ -31,6 +31,7 @@
                             <group>
                                 <field name="benefit_type"/>
                                 <field name="inmate_status" attrs="{'invisible': [('benefit_type', '!=', 'inmate')]}"/>
+                                <field name="prison_id" attrs="{'invisible': [('benefit_type', '!=', 'inmate')]}"/>
                                 <field name="entitlement_status"
                                        attrs="{'invisible': [('benefit_type', 'not in', ['breadwinner', 'member'])]}"/>
                                 <field name="released_status"
@@ -40,6 +41,9 @@
                             <group>
                                 <field name="benefit_id"
                                        string="Family Profile"/>
+                                <field name="prison_country_id"
+                                       attrs="{'invisible': [('benefit_type', '!=', 'inmate')]}"/>
+
                             </group>
                         </group>
                         <notebook>
@@ -47,6 +51,7 @@
                                 <group>
                                     <group>
                                         <field name="member_id_number"/>
+                                        <field name="identity_proof_id"/>
                                         <field name="birth_date"/>
                                         <field name="gender"/>
                                         <field name="qualification_id"/>
@@ -54,6 +59,7 @@
                                     </group>
                                     <group>
                                         <field name="member_phone"/>
+                                        <field name="work_type_id"/>
                                         <field name="birth_place"/>
                                         <field name="relation_id"/>
                                         <field name="marital_status_id"/>
@@ -100,14 +106,38 @@
                                         <field name="blood_type"/>
                                     </group>
                                 </group>
-                                <group string="Diseases">
-                                    <field name="member_diseases_ids" nolabel="1">
-                                        <tree editable="bottom">
-                                            <field name="disease_id"/>
-                                            <field name="disease_type" readonly="1"/>
-                                        </tree>
-                                    </field>
-                                </group>
+                                <group>
+                                    <!-- Hereditary Disease -->
+                                    <div class="o_row">
+                                        <label for="has_hereditary_disease" string="Hereditary Disease" class="col-6"/>
+                                        <field name="has_hereditary_disease" class="col-6"/>
+                                        <field name="hereditary_details" class="col-6"
+                                               attrs="{'readonly': [('has_hereditary_disease', '=', False)]}"/>
+                                    </div>
+
+                                    <!-- Chronic Disease -->
+                                    <div class="o_row">
+                                        <label for="has_chronic_disease" string="Chronic Disease" class="col-6"/>
+                                        <field name="has_chronic_disease" class="col-6"/>
+                                        <field name="chronic_details" class="col-6"
+                                               attrs="{'readonly': [('has_chronic_disease', '=', False)]}"/>
+                                    </div>
+
+                                    <!-- Mental Illness -->
+                                    <div class="o_row">
+                                        <label for="has_mental_illness" string="Mental Illness" class="col-6"/>
+                                        <field name="has_mental_illness" class="col-6"/>
+                                        <field name="mental_details" class="col-6"
+                                               attrs="{'readonly': [('has_mental_illness', '=', False)]}"/>
+                                    </div>
+                                </group>                                <!--                                <group string="Diseases">-->
+                                <!--                                    <field name="member_diseases_ids" nolabel="1">-->
+                                <!--                                        <tree editable="bottom">-->
+                                <!--                                            <field name="disease_id"/>-->
+                                <!--                                            <field name="disease_type" readonly="1"/>-->
+                                <!--                                        </tree>-->
+                                <!--                                    </field>-->
+                                <!--                                </group>-->
                             </page>
                             <page string="Social Insurance and Security">
                                 <group>

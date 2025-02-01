@@ -199,4 +199,14 @@ class FamilyMember(models.Model):
         ('inactive', 'Inactive')
     ], string='Social Security Status')
 
-    
+    prison_id = fields.Many2one('res.prison', string='Prison Name')
+    prison_country_id = fields.Many2one('res.prison.country', string='Prison Country')
+    work_type_id = fields.Many2one('work.type', string='Work Type')
+    identity_proof_id = fields.Many2one('identity.proof', string='Identity Proof')
+
+    has_hereditary_disease = fields.Boolean(string="Has a hereditary disease?")
+    has_chronic_disease = fields.Boolean(string="He has a chronic disease?")
+    has_mental_illness = fields.Boolean(string="He has a mental illness?")
+    hereditary_details = fields.Char(string="Hereditary")
+    chronic_details = fields.Char(string="chronic")
+    mental_details = fields.Char(string="mental")
