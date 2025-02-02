@@ -138,8 +138,8 @@ class IncomingTransaction(models.Model):
             if record.to_ids:
                 employee = self.current_employee()
                 to_ids = record.to_ids.id
-                # if record.to_ids.type != 'employee':
-                #     to_ids = record.to_ids.secretary_id.id
+                if record.to_ids.type != 'employee':
+                    to_ids = record.to_ids.secretary_id.id
                 record.trace_ids.create({
                     'action': 'sent',
                     'to_id': to_ids,
@@ -149,11 +149,8 @@ class IncomingTransaction(models.Model):
                 })
                 partner_ids = []
                 if record.to_ids.type == 'unit':
-                    for s in record.to_ids.secretary_ids : 
-                        partner_ids.append(s.user_id.partner_id.id)
-                        record.forward_entity_id = record.to_ids.id
-                    # record.forward_user_id = record.to_ids.secretary_id.user_id.id
-
+                    partner_ids.append(record.to_ids.secretary_id.user_id.partner_id.id)
+                    record.forward_user_id = record.to_ids.secretary_id.user_id.id
                 elif record.to_ids.type == 'employee':
                     partner_ids.append(record.to_ids.user_id.partner_id.id)
                     record.forward_user_id = record.to_ids.user_id.id
@@ -166,7 +163,7 @@ class IncomingTransaction(models.Model):
 
                 self.action_send_notification(subj, msg, partner_ids)
                 template = 'exp_transaction_documents.incoming_notify_send_send_email'
-                # self.send_message(template=template)
+                self.send_message(template=template)
 
             return res
 
