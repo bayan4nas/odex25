@@ -71,6 +71,13 @@ class Entity(models.Model):
     department_id = fields.Many2one('hr.department')
     manager_id = fields.Many2one(comodel_name='cm.entity', string='Unit Manager')
     secretary_id = fields.Many2one(comodel_name='cm.entity',string='Employee in charge of transactions')
+    secretary_ids = fields.Many2many(
+    'cm.entity',
+    'entity_secretaries_rel',  
+    'entity_id',              
+    'secretary_id',           
+    string='Secretaries'
+)
     user_id = fields.Many2one(comodel_name='res.users', string='Related User', related='employee_id.user_id', store=True)
     # job_title_id = fields.Many2one(comodel_name='cm.job.title', string='Job Title')
     job_title_id = fields.Many2one(comodel_name='hr.job', string='Job Title')

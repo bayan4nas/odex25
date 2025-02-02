@@ -601,15 +601,12 @@ class CommitteMembers(models.Model):
     select = fields.Boolean(string="Select")
     refusing_reason = fields.Char("Refusing Reason")
 
-
 class SelectReason(models.TransientModel):
     _name = "select.reason"
     _description = "select.reason"
 
     select_reason = fields.Text("select reason")
     order_id = fields.Integer("order id")
-
-
 
     def action_select(self):
         self.env['committe.member'].create({
