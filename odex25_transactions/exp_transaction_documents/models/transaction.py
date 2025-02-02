@@ -56,6 +56,7 @@ class Transaction(models.Model):
     current_user = fields.Boolean("current user", compute='_default_current_user')
     reason = fields.Text(string="Reject Reason")
     forward_user_id = fields.Many2one(comodel_name='res.users', string='Forward User')
+    forward_entity_id = fields.Many2one(comodel_name='cm.entity', string='Forward Entity')
     archive_user_id = fields.Many2one(comodel_name='cm.entity', string='Archive Entity')
     last_forwarded_user = fields.Many2one(comodel_name='res.users', string='Forwarded User')
     is_forward = fields.Boolean(string="Is Forward")
@@ -161,7 +162,14 @@ class Transaction(models.Model):
 
     def set_is_forward_user(self):
         user_id = self.env['res.users'].browse(self.env.uid)
-        if self.forward_user_id.id == user_id.id:
+        if self.forward_entity_id :
+            current_is_forward_user = False
+            for s in self.forward_entity_id.secretary_ids : 
+                if s.user_id.id == user_id.id :
+                    current_is_forward_user = True
+                    break
+            self.current_is_forward_user = current_is_forward_user
+        elif self.forward_user_id.id == user_id.id:
             self.current_is_forward_user = True
         else:
             self.current_is_forward_user = False
