@@ -105,17 +105,17 @@
             <field name="inherit_id" ref="purchase.purchase_order_form"/>
             <field eval="100" name="priority"/>
             <field name="arch" type="xml">
-                 <xpath expr="//div[@name='button_box']" position="inside">
+                <xpath expr="//div[@name='button_box']" position="inside">
                     <button name="get_attachments" type="object"
                             class="oe_stat_button"
                             icon="fa-file-text-o">
                         <field name="attach_no" widget="statinfo" string="Documents"/>
                     </button>
-            </xpath>
-            <xpath expr="//field[@name='payment_term_id']" position="after">
+                </xpath>
+                <xpath expr="//field[@name='payment_term_id']" position="after">
                     <field invisible="1" readonly="1" name='res_model'/>
                     <field invisible="1" readonly="1" name='res_id'/>
-            </xpath>
+                </xpath>
 
                 <xpath expr="//div[hasclass('oe_button_box')]" position="inside">
                     <button class="oe_stat_button" name="open_confirmation" type="object" string="Budget Confirmation"
@@ -139,9 +139,12 @@
                     <button type="object" name="action_approve_po" string="Confirm Purchase" class="oe_highlight"
                             attrs="{'invisible':['|',('requisition_id','=',False),'|',('state','not in',('to approve')),('is_purchase_budget','=',False)]}"/>
 
-                    <button type="object" name="action_select" groups="purchase_requisition_custom.committe_member"
+                    <button type="object" name="action_select" string="Select"
+                            groups="purchase_requisition_custom.committe_member"
                             attrs="{'invisible':['|',('state','in',['draft','done','purchase','wait_for_send','sent','waiting','cancel']),('already_voted','=',True)]}"
-                            string="Select"/>
+
+                    />
+
                     <button type="object" name="action_refuse" groups="purchase_requisition_custom.committe_member"
                             attrs="{'invisible':['|',('state','in',['draft','done','purchase','wait_for_send','sent','waiting','cancel']),('already_voted','=',True)]}"
                             string="Refuse"/>
@@ -151,14 +154,18 @@
                             states="sign"/>
                     <button type="object" name="budget_resend" string="Resend To Budget Check" class="oe_highlight"
                             states="budget_rejected"/>
-                    <button type="object" name="action_budget" string="Send To Budget Check" class="oe_highlight" groups="purchase.group_purchase_manager"
+                    <button type="object" name="action_budget" string="Send To Budget Check" class="oe_highlight"
+                            groups="purchase.group_purchase_manager"
                             attrs="{'invisible':['|',('requisition_id','!=',False),'|',('state','not in',('wait','sent')),('is_purchase_budget','=',False)]}"/>
-                    <button name="action_skip_budget" type="object" string="Skip Budget"  attrs="{'invisible':['|',('requisition_id','!=',False),'|',('state','not in',('wait','sent')),('is_purchase_budget','=',False)]}"
+                    <button name="action_skip_budget" type="object" string="Skip Budget"
+                            attrs="{'invisible':['|',('requisition_id','!=',False),'|',('state','not in',('wait','sent')),('is_purchase_budget','=',False)]}"
                             groups="purchase_requisition_custom.group_skip_purchase_budget"/>
                     <!--                    <button name="button_draft" states="cancel" string="Set to Draft" type="object"/>-->
                 </xpath>
                 <xpath expr="//button[@name='button_approve']" position="replace">
-                    <button name="button_approve" type="object" attrs="{'invisible':['|',('requisition_id','!=',False),('state','not in',('to approve'))]}"  string="Approve Order" class="oe_highlight" groups="purchase.group_purchase_manager"/>
+                    <button name="button_approve" type="object"
+                            attrs="{'invisible':['|',('requisition_id','!=',False),('state','not in',('to approve'))]}"
+                            string="Approve Order" class="oe_highlight" groups="purchase.group_purchase_manager"/>
                 </xpath>
 
                 <xpath expr="//button[@name='button_draft']" position="after">
@@ -177,7 +184,8 @@
                     <attribute name="groups">purchase.group_purchase_manager</attribute>
                     <attribute name="states">""</attribute>
                     <attribute name="attrs">
-                        {'invisible':[('state','in',('wait','wait_for_send','sign','sent','to approve','waiting','purchase','cancel'))]}
+                        {'invisible':[('state','in',('wait','wait_for_send','sign','sent','to
+                        approve','waiting','purchase','cancel'))]}
                     </attribute>
                 </xpath>
                 <xpath expr="/form/header/button[@id='bid_confirm']" position="attributes">
@@ -290,7 +298,8 @@
                 </xpath>
                 <!-- i edit here readonly="1"-->
                 <xpath expr="//notebook//page[1]" position="after">
-                    <page string="Committe Members" groups="purchase_requisition_custom.committe_member"  attrs="{'invisible':[('requisition_id','=', False)]}">
+                    <page string="Committe Members" groups="purchase_requisition_custom.committe_member"
+                          attrs="{'invisible':[('requisition_id','=', False)]}">
                         <field name="committe_members">
                             <tree>
                                 <field name="user_id"/>
@@ -314,17 +323,17 @@
                 <xpath expr="//form" position="attributes">
                     <attribute name="delete">0</attribute>
                 </xpath>
-                  <xpath expr="//div[@name='button_box']" position="inside">
+                <xpath expr="//div[@name='button_box']" position="inside">
                     <button name="get_attachments" type="object"
                             class="oe_stat_button"
                             icon="fa-file-text-o">
                         <field name="attach_no" widget="statinfo" string="Documents"/>
                     </button>
-            </xpath>
-            <xpath expr="//field[@name='name']" position="after">
+                </xpath>
+                <xpath expr="//field[@name='name']" position="after">
                     <field invisible="1" readonly="1" name='res_model'/>
                     <field invisible="1" readonly="1" name='res_id'/>
-            </xpath>
+                </xpath>
                 <!-- header modificaton -->
                 <xpath expr="/form/header/button[@name='action_open']" position="after">
                     <button type="object" groups="purchase_requisition_custom.group_accept_purchase_requisition"
@@ -454,7 +463,10 @@
                 </xpath>
                 <xpath expr="//notebook/page[1]/field[@name='line_ids']/tree[1]/field[@name='account_analytic_id']"
                        position="replace">
-                    <field name="account_analytic_id"  attrs="{'column_invisible':[('parent.is_purchase_budget','=',False)]}" domain="['|', ('company_id', '=', False), ('company_id', '=', parent.company_id)]" groups="analytic.group_analytic_accounting"/>
+                    <field name="account_analytic_id"
+                           attrs="{'column_invisible':[('parent.is_purchase_budget','=',False)]}"
+                           domain="['|', ('company_id', '=', False), ('company_id', '=', parent.company_id)]"
+                           groups="analytic.group_analytic_accounting"/>
                 </xpath>
                 <xpath expr="//notebook/page[1]/field[@name='line_ids']/tree[1]/field[@name='account_analytic_id']"
                        position="after">
