@@ -54,8 +54,8 @@ class InternalTransaction(models.Model):
     project_domain = fields.Many2many('project.project', string='Project Domain')
     processing_ids = fields.Many2many(comodel_name='internal.transaction', relation='transaction_internal_rel',
                                       column1='transaction_id', column2='internal_id', string='Process Transactions')
-    reply_user_ids = fields.Many2many('res.users', 'transaction_reply_user_rel', 'user_id', string='Reply Users')
-    forward_user_ids = fields.Many2many('res.users', 'transaction_forward_user_rel', 'user_id', string='Forward Users')
+    reply_user_ids = fields.Many2many('res.users', 'transaction_reply_user_rel', 'transaction_id', 'user_id', string='Reply Users')
+    forward_user_ids = fields.Many2many('res.users', 'transaction_forward_user_rel', 'transaction_id', 'user_id', string='Forward Users')
 
     def _normalize_arabic_text(self, text):
         translation_map = str.maketrans({
