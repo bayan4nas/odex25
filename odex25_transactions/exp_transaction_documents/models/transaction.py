@@ -57,7 +57,7 @@ class Transaction(models.Model):
     reason = fields.Text(string="Reject Reason")
     forward_user_id = fields.Many2one(comodel_name='res.users', string='Forward User')
     current_entity_id = fields.Many2one(comodel_name='cm.entity', string='Forward Entity')
-    replay_user_ids = fields.Many2many('res.users', 'trans_user_replay_rel', 'transaction_id', 'user_id')
+    # reply_user_ids = fields.Many2many('res.users', 'trans_user_reply_rel', 'transaction_id', 'user_id')
     archive_user_id = fields.Many2one(comodel_name='cm.entity', string='Archive Entity')
     last_forwarded_user = fields.Many2one(comodel_name='res.users', string='Forwarded User')
     is_forward = fields.Boolean(string="Is Forward")
@@ -83,6 +83,7 @@ class Transaction(models.Model):
     seen_before = fields.Boolean(compute="_compute_seen_before")
     to_ids = fields.Many2one(comodel_name='cm.entity', string='Send To')
     to_delegate = fields.Boolean(string='To Delegate?')
+    
 
     
     @api.depends('type','subject')
