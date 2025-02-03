@@ -54,13 +54,9 @@ class InternalTransaction(models.Model):
     project_domain = fields.Many2many('project.project', string='Project Domain')
     processing_ids = fields.Many2many(comodel_name='internal.transaction', relation='transaction_internal_rel',
                                       column1='transaction_id', column2='internal_id', string='Process Transactions')
-    reply_user_ids = fields.Many2many(
-        'res.users', 
-        'transaction_reply_user_rel',  # Name of the relation table
-        'transaction_id',  # Foreign key in the relation table pointing to transaction.internal
-        'user_id',  # Foreign key in the relation table pointing to res.users
-        string='Reply Users'
-    )
+    reply_user_ids = fields.Many2many('res.users', 'transaction_reply_user_rel', 'user_id', string='Reply Users')
+    forward_user_ids = fields.Many2many('res.users', 'transaction_forward_user_rel', 'user_id', string='Forward Users')
+
     def _normalize_arabic_text(self, text):
         translation_map = str.maketrans({
             # Define a dictionary to replace different forms of characters
@@ -135,6 +131,7 @@ class InternalTransaction(models.Model):
             elif record.to_ids.type == 'employee':
                 partner_ids.append(record.to_ids.user_id.partner_id.id)
                 record.forward_user_id = record.to_ids.user_id.id
+                record.current_entity_id = record.to_ids.id
             
             if record.to_user_have_leave:
                 record.forward_user_id = record.receive_id.user_id.id

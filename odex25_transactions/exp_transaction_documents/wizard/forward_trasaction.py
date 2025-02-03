@@ -93,13 +93,20 @@ class ForwardTransactionWizard(models.TransientModel):
                                                       _(u'Action Taken'), self.procedure_id.name,
                                                       u'<a href="%s" >رابط المعاملة</a> ' % (
                                                           transaction.get_url()))
+        if name == 'internal_transaction_id' and transaction.current_entity_id :
+            if transaction.current_entity_id.type == 'employee' :
+                transaction.forward_user_ids = [(4, transaction.current_entity_id.user_id.id)]
+            else  :
+                transaction.forward_user_ids = [(4, s.user_id.id) for s in  transaction.current_entity_id.secretary_ids]
         # add mail notification
         partner_ids = []
         if self.forward_type == 'unit':
             forward_partner_id = self.internal_unit.secretary_id.user_id.partner_id.id or self.internal_unit.manager_id.user_id.partner_id.id
             partner_ids.append(forward_partner_id)
+            transaction.current_entity_id = self.internal_unit.id
         elif self.forward_type == 'employee':
             partner_ids.append(self.employee.user_id.partner_id.id)
+            transaction.current_entity_id = self.employee.id
         for partner in self.cc_ids:
             if partner.type == 'unit':
                 partner_id = partner.secretary_id.user_id.partner_id.id or partner.manager_id.user_id.partner_id.id
