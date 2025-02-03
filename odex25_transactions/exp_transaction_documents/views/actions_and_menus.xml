@@ -198,7 +198,7 @@
                 ('state', '=', 'reply'), 
                 '|', '|', 
                 ('employee_id.user_id', '=', uid), 
-                ('forward_user_id', '=', uid), 
+                ('reply_user_ids', 'in', uid), 
                 ('to_ids.user_id', '=', uid)
             ]</field>
             <field name="view_id" ref="exp_transaction_documents.common_transaction_internal_tree"/>
