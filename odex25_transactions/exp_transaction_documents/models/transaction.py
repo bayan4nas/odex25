@@ -57,7 +57,7 @@ class Transaction(models.Model):
     reason = fields.Text(string="Reject Reason")
     forward_user_id = fields.Many2one(comodel_name='res.users', string='Forward User')
     current_entity_id = fields.Many2one(comodel_name='cm.entity', string='Forward Entity')
-    reply_user_ids = fields.Many2many('res.users', 'trans_user_reply_rel') 
+    reply_user_ids = fields.Many2many('res.users', 'trans_user_reply_rel', 'transaction_id', 'user_id') 
     archive_user_id = fields.Many2one(comodel_name='cm.entity', string='Archive Entity')
     last_forwarded_user = fields.Many2one(comodel_name='res.users', string='Forwarded User')
     is_forward = fields.Boolean(string="Is Forward")
