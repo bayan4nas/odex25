@@ -46,7 +46,7 @@ class TransactionReturnWizard(models.TransientModel):
         if user_id not in transaction.seen_user_ids.ids:
             transaction.seen_user_ids = [(6, 0, [user_id])]
         forward_entity = self.env['cm.entity'].search([('user_id', '=', transaction.forward_user_id.id)], limit=1)
-
+        transaction.current_entity_id = False
         # Check if attachment_id and filename are not empty before creating attachment
         if self.attachment_id and self.filename:
             attachment = self.env['ir.attachment'].create({

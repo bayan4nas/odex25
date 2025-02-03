@@ -55,8 +55,8 @@ class ForwardTransactionWizard(models.TransientModel):
             name = 'outgoing_transaction_id'
         forward_user_id = self.employee.user_id
         if self.forward_type != 'employee':
-            forward_user_id = self.internal_unit.secretary_id.user_id.id or self.internal_unit.manager_id.user_id.id
-            to_id = self.internal_unit.secretary_id.id or self.internal_unit.manager_id.id
+            forward_user_id = False
+            to_id = self.internal_unit.id 
         transaction.forward_user_id = forward_user_id
         transaction.last_forwarded_user = self.env.uid
         if self.is_secret:
@@ -79,7 +79,7 @@ class ForwardTransactionWizard(models.TransientModel):
             'procedure_id': self.procedure_id.id or False,
             'note': self.note,
             'cc_ids': [(6, 0, self.cc_ids.ids)],
-            name: transaction.id
+            'name': transaction.id
         })
         if self.internal_transaction_id or self.incoming_transaction_id:
             transaction.action_send_forward()
