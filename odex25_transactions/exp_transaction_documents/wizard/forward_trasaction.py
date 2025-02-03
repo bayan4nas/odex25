@@ -98,6 +98,7 @@ class ForwardTransactionWizard(models.TransientModel):
                 transaction.forward_user_ids = [(4, transaction.current_entity_id.user_id.id)]
             else  :
                 transaction.forward_user_ids = [(4, s.user_id.id) for s in  transaction.current_entity_id.secretary_ids]
+        transaction.sender_entity_id = transaction.current_entity_id.id
         # add mail notification
         partner_ids = []
         if self.forward_type == 'unit':
