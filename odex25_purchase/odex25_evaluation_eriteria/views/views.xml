@@ -22,27 +22,74 @@
         </field>
     </record>
 
-<!--    <record id="select_wizard_view" model="ir.ui.view">-->
-<!--    <field name="name">select.reason.wizard.view</field>-->
-<!--    <field name="model">select.reason</field>-->
-<!--    <field name="inherit_id" ref="odex25_evaluation_eriteria.select_wizard_view"/>-->
-<!--    <field name="arch" type="xml">-->
-<!--        &lt;!&ndash; إضافة محتوى التقييم بعد حقل السبب الرئيسي &ndash;&gt;-->
-<!--        <xpath expr="//field[@name='select_reason']" position="after">-->
-<!--            <notebook>-->
-<!--                <page string="Evaluation Criteria">-->
-<!--                    <field name="evaluation_criteria_lines">-->
-<!--                        <tree editable="bottom">-->
-<!--                            <field name="sequence" widget="handle"/>-->
-<!--                            <field name="criteria" readonly="1"/>-->
-<!--                            <field name="degree" readonly="1"/>-->
-<!--                            <field name="evaluation" required="1"/>-->
-<!--                        </tree>-->
-<!--                    </field>-->
-<!--                </page>-->
-<!--            </notebook>-->
-<!--        </xpath>-->
-<!--    </field>-->
-<!--    </record>-->
+    <record id="inherit_purchase_order_form" model="ir.ui.view">
+        <field name="name">inherit_purchase_order_form</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook//page[1]" position="after">
+                <page string="Initial Evaluation criteria">
+                    <field name="initial_evaluation_lines" widget="one2many_list">
+                        <tree editable="bottom">
+                            <field name="sequence" widget="handle"/>
+                            <field name="evaluation"/>
+                            <field name="user_id"/>
+                            <field name="degree"/>
+                        </tree>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Inherit Form View to Modify it -->
+    <record id="select_reason_wizard_view_inherit" model="ir.ui.view">
+        <field name="name">select_reason_wizard_view_inherit</field>
+        <field name="model">select.reason</field>
+        <field name="inherit_id" ref="purchase_requisition_custom.select_wizard_view"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='select_reason']" position="after">
+                <!-- Add your fields or attributes here -->
+                <field name="purchase_committee_type" invisible="1"/>
+                <notebook>
+                    <page string="Evaluation criteria">
+                        <field name="purchase_committee_type_line" widget="one2many_list">
+                            <tree editable="bottom">
+                                <field name="sequence" widget="handle"/>
+                                <field name="evaluation_criteria" readonly="1"/>
+                                <field name="evaluation"/>
+                                <field name="degree" readonly="1"/>
+                            </tree>
+                        </field>
+                    </page>
+                </notebook>
+            </xpath>
+
+        </field>
+    </record>
+
+    <!--    <record id="select_wizard_view" model="ir.ui.view">-->
+    <!--    <field name="name">select.reason.wizard.view</field>-->
+    <!--    <field name="model">select.reason</field>-->
+    <!--    <field name="inherit_id" ref="odex25_evaluation_eriteria.select_wizard_view"/>-->
+    <!--    <field name="arch" type="xml">-->
+    <!--        &lt;!&ndash; إضافة محتوى التقييم بعد حقل السبب الرئيسي &ndash;&gt;-->
+    <!--        <xpath expr="//field[@name='select_reason']" position="after">-->
+    <!--            <notebook>-->
+    <!--                <page string="Evaluation Criteria">-->
+    <!--                    <field name="evaluation_criteria_lines">-->
+    <!--                        <tree editable="bottom">-->
+    <!--                            <field name="sequence" widget="handle"/>-->
+    <!--                            <field name="criteria" readonly="1"/>-->
+    <!--                            <field name="degree" readonly="1"/>-->
+    <!--                            <field name="evaluation" required="1"/>-->
+    <!--                        </tree>-->
+    <!--                    </field>-->
+    <!--                </page>-->
+    <!--            </notebook>-->
+    <!--        </xpath>-->
+    <!--    </field>-->
+    <!--    </record>-->
 
 </odoo>
