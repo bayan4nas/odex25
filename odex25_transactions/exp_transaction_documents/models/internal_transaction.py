@@ -127,13 +127,13 @@ class InternalTransaction(models.Model):
                     for s in record.to_ids.secretary_ids : 
                         partner_ids.append(s.user_id.partner_id.id)
                         record.current_entity_id = record.to_ids.id
-                        record.sender_entity_id = record.employee.id
+                        record.sender_entity_id = record.employee_id.id
                     # record.forward_user_id = record.to_ids.secretary_id.user_id.id
             elif record.to_ids.type == 'employee':
                 partner_ids.append(record.to_ids.user_id.partner_id.id)
                 record.forward_user_id = record.to_ids.user_id.id
                 record.current_entity_id = record.to_ids.id
-                record.sender_entity_id = record.employee.id
+                record.sender_entity_id = record.employee_id.id
 
             if record.to_user_have_leave:
                 record.forward_user_id = record.receive_id.user_id.id
