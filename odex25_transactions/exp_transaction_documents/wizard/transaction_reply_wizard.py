@@ -51,7 +51,7 @@ class TransactionReturnWizard(models.TransientModel):
                 transaction.reply_user_ids = [(4, transaction.current_entity_id.user_id.id)]
             else  :
                 transaction.reply_user_ids = [(4, s.user_id.id) for s in  transaction.current_entity_id.secretary_ids]
-            transaction.current_entity_id = False
+            transaction.current_entity_id = transaction.employee_id.id
         # Check if attachment_id and filename are not empty before creating attachment
         if self.attachment_id and self.filename:
             attachment = self.env['ir.attachment'].create({
