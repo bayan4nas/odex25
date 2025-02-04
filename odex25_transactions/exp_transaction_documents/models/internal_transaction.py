@@ -2,7 +2,6 @@
 from datetime import datetime
 from odoo import models, api, fields, _
 from odoo.exceptions import ValidationError
-
 class InternalTransaction(models.Model):
     _name = 'internal.transaction'
     _inherit = ['transaction.transaction', 'mail.thread']
@@ -54,9 +53,6 @@ class InternalTransaction(models.Model):
     project_domain = fields.Many2many('project.project', string='Project Domain')
     processing_ids = fields.Many2many(comodel_name='internal.transaction', relation='transaction_internal_rel',
                                       column1='transaction_id', column2='internal_id', string='Process Transactions')
-    reply_user_ids = fields.Many2many('res.users', 'transaction_reply_user_rel', 'transaction_id', 'user_id', string='Reply Users')
-    forward_user_ids = fields.Many2many('res.users', 'transaction_forward_user_rel', 'transaction_id', 'user_id', string='Forward Users')
-
     def _normalize_arabic_text(self, text):
         translation_map = str.maketrans({
             # Define a dictionary to replace different forms of characters
@@ -124,17 +120,12 @@ class InternalTransaction(models.Model):
             partner_ids = []
             
             if record.to_ids.type == 'unit':
-                    for s in record.to_ids.secretary_ids : 
-                        partner_ids.append(s.user_id.partner_id.id)
-                        record.current_entity_id = record.to_ids.id
-                        record.sender_entity_id = record.employee_id.id
-                    # record.forward_user_id = record.to_ids.secretary_id.user_id.id
+                partner_ids.append(record.to_ids.secretary_id.user_id.partner_id.id)
+                record.forward_user_id = record.to_ids.secretary_id.user_id.id
             elif record.to_ids.type == 'employee':
                 partner_ids.append(record.to_ids.user_id.partner_id.id)
                 record.forward_user_id = record.to_ids.user_id.id
-                record.current_entity_id = record.to_ids.id
-                record.sender_entity_id = record.employee_id.id
-
+            
             if record.to_user_have_leave:
                 record.forward_user_id = record.receive_id.user_id.id
     
