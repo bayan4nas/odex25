@@ -161,8 +161,15 @@ class Transaction(models.Model):
 
     def set_is_forward_user(self):
         user_id = self.env.uid
-        if self.last_received_entity_id :
-            self.current_is_forward_user = (user_id == self.last_received_entity_id.user_id.id or user_id in self.last_received_entity_id.secretary_ids.user_id.id)
+        if self.last_received_entity_id and self.last_received_entity_id.type == 'employee' :
+            self.current_is_forward_user = user_id == self.last_received_entity_id.user_id.id
+        elif self.last_received_entity_id and self.last_received_entity_id.type != 'employee' :
+            current_is_forward_user = False
+            for s in self.last_received_entity_id.secretary_ids :
+                if s.user_id.id == user_id :
+                    current_is_forward_user = True
+                    break
+            self.current_is_forward_user = current_is_forward_user
         else :
             if self.forward_user_id.id == user_id:
                 self.current_is_forward_user = True
