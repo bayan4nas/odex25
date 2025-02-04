@@ -142,7 +142,6 @@
                     <button type="object" name="action_select" string="Select"
                             groups="purchase_requisition_custom.committe_member"
                             attrs="{'invisible':['|',('state','in',['draft','done','purchase','wait_for_send','sent','waiting','cancel']),('already_voted','=',True)]}"
-
                     />
 
                     <button type="object" name="action_refuse" groups="purchase_requisition_custom.committe_member"
@@ -184,8 +183,7 @@
                     <attribute name="groups">purchase.group_purchase_manager</attribute>
                     <attribute name="states">""</attribute>
                     <attribute name="attrs">
-                        {'invisible':[('state','in',('wait','wait_for_send','sign','sent','to
-                        approve','waiting','purchase','cancel'))]}
+                        {'invisible':[('state','in',('wait','wait_for_send','sign','sent','to approve','waiting','purchase','cancel'))]}
                     </attribute>
                 </xpath>
                 <xpath expr="/form/header/button[@id='bid_confirm']" position="attributes">
