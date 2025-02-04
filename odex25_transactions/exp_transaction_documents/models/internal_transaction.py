@@ -17,6 +17,7 @@ class InternalTransaction(models.Model):
     attachment_ids = fields.One2many('cm.attachment', 'internal_transaction_id', string='Attachments')
     trace_ids = fields.One2many('cm.transaction.trace', 'internal_transaction_id', string='Trace Log')
     last_received_entity_id = fields.Many2one('cm.entity', compute="_compute_last_received_entity", store=True)
+    replayed_entity_ids = fields.Many2many('cm.entity', compute="_compute_replayed_entities", store=True)
     type_sender = fields.Selection(
         string='',
         selection=[('unit', 'Department'),
@@ -30,6 +31,19 @@ class InternalTransaction(models.Model):
     # to_date = fields.Datetime(string='Delegation To Date', related='to_ids.to_date')
     # to_delegate = fields.Boolean(string='To Delegate?', related='to_ids.to_delegate')
     
+    @api.depends('trace_ids')
+    def _compute_replayed_entities(self):
+        for transaction in self:
+            existing_entity_ids = set(transaction.replayed_entity_ids.ids)  # Get already stored entity IDs
+            new_entities = transaction.trace_ids.filtered(lambda t: t.action == 'reply').mapped('to_id.id')
+
+            # Keep only unique values (combine existing and new)
+            updated_entities = list(existing_entity_ids.union(set(new_entities)))
+
+            # Update the Many2many field
+            transaction.replayed_entity_ids = [(6, 0, updated_entities)] if updated_entities else [(5, 0, 0)]
+
+
     @api.depends('trace_ids')
     def _compute_last_received_entity(self):
         for transaction in self:
