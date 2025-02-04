@@ -16,7 +16,7 @@ class InternalTransaction(models.Model):
     attachment_rule_ids = fields.One2many('cm.attachment.rule', 'internal_transaction_id', string='Attaches')
     attachment_ids = fields.One2many('cm.attachment', 'internal_transaction_id', string='Attachments')
     trace_ids = fields.One2many('cm.transaction.trace', 'internal_transaction_id', string='Trace Log')
-    is_current_reciever = fields.Boolean(string='Is Manager', compute="check_current_reciever")
+    is_incoming = fields.Boolean(compute="_compute_is_incoming", store=False)
     type_sender = fields.Selection(
         string='',
         selection=[('unit', 'Department'),
@@ -30,20 +30,26 @@ class InternalTransaction(models.Model):
     # to_date = fields.Datetime(string='Delegation To Date', related='to_ids.to_date')
     # to_delegate = fields.Boolean(string='To Delegate?', related='to_ids.to_delegate')
     
-    def check_current_reciever(self):
-        user_id = self.env.uid
-        for trans in self:
-            last_track_id = trans.trace_ids.search([('internal_transaction_id', '=', trans.id)], order='create_date desc', limit=1)
-            if last_track_id :
-                if last_track_id.to_id.type == 'employee' :
-                    trans.is_current_reciever = last_track_id.to_id.user_id.id == user_id
-                else :
-                    is_current_reciever = False
-                    for s in last_track_id.to_id.secretary_id :
-                        if s.user_id.id == user_id : 
-                            is_current_reciever = True
-                            break 
-                    trans.is_current_reciever = is_current_reciever
+    @api.depends('trace_ids')  
+    def _compute_is_incoming(self):
+        current_user = self.env.user
+        for transaction in self:
+            last_track = transaction.trace_ids.sorted('create_date', reverse=True)[:1]  # Get the last track
+            if last_track and last_track.to_id:
+                to_entity = last_track.to_id
+                if to_entity.type == 'employee' : transaction.is_incoming = to_entity.user_id.id == current_user.id
+                else : 
+                    is_incoming = False
+                    for s in to_entity.secretary_ids :
+                        if s.user_id.id == current_user.id :
+                            is_incoming = True
+                            break
+                    transaction.is_incoming = is_incoming
+                    
+                        
+            else:
+                transaction.is_incoming = False
+
 
     @api.onchange('type_sender')
     def _onchange_type_sender(self):
