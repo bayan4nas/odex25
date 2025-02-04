@@ -1,0 +1,29 @@
+<odoo>
+    <data>
+        <record id="group_cm_user_letter" model="res.groups">
+            <field name="name">Letter User</field>
+            <field name="category_id" ref="exp_transaction_documents.module_category_cm"/>
+        </record>
+
+        <record id="group_cm_letter" model="res.groups">
+            <field name="name">Letter</field>
+            <field name="category_id" ref="exp_transaction_documents.module_category_cm"/>
+            <field name="implied_ids" eval="[(4, ref('exp_transation_letters.group_cm_user_letter'))]"/>
+        </record>
+
+
+        <record id="cm_user_letter_rule" model="ir.rule">
+            <field name="name">Personal Letters</field>
+            <field name="model_id" ref="model_letters_letters"/>
+            <field name="domain_force">[('create_uid', '=', user.id)]</field>
+            <field name="groups" eval="[(4, ref('exp_transation_letters.group_cm_user_letter'))]"/>
+        </record>
+
+        <record id="cm_manager_letter_rule" model="ir.rule">
+            <field name="name">Manager Letters</field>
+            <field name="model_id" ref="model_letters_letters"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('exp_transation_letters.group_cm_letter'))]"/>
+        </record>
+    </data>
+</odoo>

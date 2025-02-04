@@ -1,0 +1,37 @@
+<odoo>
+    <data>
+        <record model="ir.cron" id="state_change_leave">
+            <field name="name">التغيير التلقائى لحالة التفويض</field>
+            <field name="active">True</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False"/>
+            <field name="model_id" ref="model_employee_leave"/>
+            <field name="state">code</field>
+            <field name="code">model.action_expired()</field>
+        </record>
+        <record id="email_template_delegation_accepted" model="mail.template">
+            <field name="name">Delegation Accepted Notification</field>
+            <field name="model_id" ref="model_employee_leave"/>
+            <field name="subject">Delegation Accepted</field>
+            <field name="email_from">${(user.email or user.company_id.email) | safe}</field>
+            <field name="email_to">${object.employee_id.email}</field>
+            <field name="body_html">
+                <![CDATA[
+                    <p>Hello ${object.employee_id.name},</p>
+                    <p>Your delegation ${object.name} has been accepted.</p>
+                    <p>Thank you.</p>
+                ]]>
+            </field>
+        </record>
+
+        <record id="email_template_delegation_notification2" model="mail.template">
+            <field name="name">Delegation Users Notification</field>
+            <field name="model_id" ref="model_employee_leave"/>
+            <field name="subject">Delegation Notification</field>
+            <field name="email_from">${(user.email or user.company_id.email) | safe}</field>
+        </record>
+
+    </data>
+</odoo>
