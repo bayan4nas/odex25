@@ -21,6 +21,11 @@ class HrContractTrahum(models.Model):
         ('end_contract', _('End Contract'))
     ], default='draft', tracking=True)
 
+    delgiation_status_type = fields.Selection(selection=[
+        ('employee','Employee'),
+        ('manager', 'Manager'),
+        ('gm', 'General Manager'),])
+
     # def action_sector_head_approval(self):
     #     """Approve contract by Sector Head"""
     #     if self.state != 'hr_head_approval':
