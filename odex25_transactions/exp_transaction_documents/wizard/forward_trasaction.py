@@ -55,8 +55,8 @@ class ForwardTransactionWizard(models.TransientModel):
             name = 'outgoing_transaction_id'
         forward_user_id = self.employee.user_id
         if self.forward_type != 'employee':
-            forward_user_id = False
-            to_id = self.internal_unit.id 
+            forward_user_id = self.internal_unit.secretary_id.user_id.id or self.internal_unit.manager_id.user_id.id
+            to_id = self.internal_unit.secretary_id.id or self.internal_unit.manager_id.id
         transaction.forward_user_id = forward_user_id
         transaction.last_forwarded_user = self.env.uid
         if self.is_secret:
@@ -79,7 +79,7 @@ class ForwardTransactionWizard(models.TransientModel):
             'procedure_id': self.procedure_id.id or False,
             'note': self.note,
             'cc_ids': [(6, 0, self.cc_ids.ids)],
-            'name': transaction.id
+            name: transaction.id
         })
         if self.internal_transaction_id or self.incoming_transaction_id:
             transaction.action_send_forward()
@@ -93,21 +93,13 @@ class ForwardTransactionWizard(models.TransientModel):
                                                       _(u'Action Taken'), self.procedure_id.name,
                                                       u'<a href="%s" >رابط المعاملة</a> ' % (
                                                           transaction.get_url()))
-        if name == 'internal_transaction_id' and transaction.current_entity_id :
-            if transaction.current_entity_id.type == 'employee' :
-                transaction.forward_user_ids = [(4, transaction.current_entity_id.user_id.id)]
-            else  :
-                transaction.forward_user_ids = [(4, s.user_id.id) for s in  transaction.current_entity_id.secretary_ids]
-        transaction.sender_entity_id = transaction.current_entity_id.id
         # add mail notification
         partner_ids = []
         if self.forward_type == 'unit':
             forward_partner_id = self.internal_unit.secretary_id.user_id.partner_id.id or self.internal_unit.manager_id.user_id.partner_id.id
             partner_ids.append(forward_partner_id)
-            transaction.current_entity_id = self.internal_unit.id
         elif self.forward_type == 'employee':
             partner_ids.append(self.employee.user_id.partner_id.id)
-            transaction.current_entity_id = self.employee.id
         for partner in self.cc_ids:
             if partner.type == 'unit':
                 partner_id = partner.secretary_id.user_id.partner_id.id or partner.manager_id.user_id.partner_id.id
