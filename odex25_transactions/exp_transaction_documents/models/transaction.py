@@ -319,8 +319,8 @@ class Transaction(models.Model):
         ''' method to create log trace in transaction'''
         employee = self.current_employee()
         to_id = transaction.to_ids[0].id
-        if transaction.to_ids[0].type != 'employee':
-            to_id = transaction.to_ids[0].secretary_id.id
+        # if transaction.to_ids[0].type != 'employee':
+        #     to_id = transaction.to_ids[0].secretary_id.id
         if transaction.subject_type_id.transaction_need_approve or transaction.preparation_id.need_approve and transaction.state == 'to_approve':
             to_id = transaction.preparation_id.manager_id.id
         transaction.trace_ids.create({
