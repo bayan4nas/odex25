@@ -29,6 +29,7 @@
         'views/views.xml',
         'wizard/intial_evaluation_wizard.xml',
         'reports/initial_evaluation_view.xml',
+        'reports/initial_evaluation_report.xml',
     ],
     # only loaded in demonstration mode
     'demo': [
