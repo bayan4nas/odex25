@@ -150,6 +150,8 @@ class TransactionTrace(models.Model):
     date = fields.Datetime(string='Date', default=fields.Datetime.now)
     from_id = fields.Many2one(comodel_name='cm.entity', string='From')
     to_id = fields.Many2one(comodel_name='cm.entity', string='To')
+    from_secretary_id = fields.Many2one(comodel_name='cm.entity', string='From Secretary')
+    to_secretary_id = fields.Many2one(comodel_name='cm.entity', string='To Secretary')
     procedure_id = fields.Many2one(comodel_name='cm.procedure', string='Action Taken')
     note = fields.Char(string='Notes')
     archive_type_id = fields.Many2one(comodel_name='cm.archive.type', string='Archive Type')
