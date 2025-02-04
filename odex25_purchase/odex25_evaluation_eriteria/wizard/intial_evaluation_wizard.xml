@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<odoo>
+    <record id="initial_evaluation_wizard_view" model="ir.ui.view">
+        <field name="name">initial.evaluation.wizard.view</field>
+        <field name="model">initial.evaluation.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Purchase Report">
+                <group>
+                    <group>
+                        <field name="purchase_requisition" widget="many2many_tags"
+                               options="{'no_edit': True, 'no_create': True, 'no_open': True}"/>
+                    </group>
+                    <group>
+                        <field name="start_date"/>
+                        <field name="end_date"/>
+                    </group>
+                </group>
+                <footer>
+                    <button name="action_create_search_html" string="View" target="_blank" type="object"
+                            class="btn-primary"/>
+                    <button name="action_create_search_pdf" string="Pdf" type="object"
+                            class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="initial_evaluation_wizard_action" model="ir.actions.act_window">
+        <field name="name">Initial Evaluation Report</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">initial.evaluation.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="initial_evaluation_wizard_view"/>
+        <field name="target">new</field>
+    </record>
+
+    <!-- This Menu Item must have a parent and an action -->
+    <menuitem id="initial_evaluation_wizard_menu"
+              name="Initial Evaluation Report"
+              parent="purchase_requisition_custom.reports"
+              action="initial_evaluation_wizard_action"
+              sequence="3"/>
+</odoo>

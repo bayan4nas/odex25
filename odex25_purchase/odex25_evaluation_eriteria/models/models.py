@@ -21,7 +21,7 @@ class CommitteeTypesInherit(models.Model):
     @api.constrains('purchase_committee_type_line', 'purchase_committee_type_line.degree')
     def _check_degree(self):
         for rec in self:
-            if rec.purchase_committee_type_line and sum(rec.purchase_committee_type_line.mapped('degree')) >= 100:
+            if rec.purchase_committee_type_line and sum(rec.purchase_committee_type_line.mapped('degree')) > 100:
                 raise ValidationError(_("The Sum of all degrees can't be equal or greater than 100"))
 
     # @api.onchange('available_types')
@@ -83,6 +83,35 @@ class PurchaseOrderCustomSelect(models.Model):
 
     initial_evaluation_lines = fields.One2many(comodel_name='initial.evaluation.criteria', inverse_name='po_id', string='Initial Evaluation Criteria',)
 
+    total_evaluation = fields.Float(string='Total Evaluation', compute='_compute_evaluation')
+    avg_evaluation = fields.Float(string='Average Evaluation', compute='_compute_evaluation')
+
+    committee_members = fields.Many2many(comodel_name='res.users', compute='_compute_committee_members', string='Committee Members')
+
+
+    @api.depends('initial_evaluation_lines', 'initial_evaluation_lines.user_id')
+    def _compute_committee_members(self):
+        for rec in self:
+            members = []
+            rec.committee_members = False
+            if rec.initial_evaluation_lines:
+                members = rec.initial_evaluation_lines.mapped('user_id')
+            if members:
+                rec.committee_members = members.ids
+
+
+    @api.depends('initial_evaluation_lines', 'initial_evaluation_lines.evaluation')
+    def _compute_evaluation(self):
+        for rec in self:
+            total = 0
+            avg = 0
+            if rec.initial_evaluation_lines:
+                evaluations = rec.initial_evaluation_lines.mapped('evaluation')
+                total = sum(evaluations)
+                avg = sum(evaluations)/len(evaluations)
+            rec.total_evaluation = total
+            rec.avg_evaluation = avg
+
     def action_select(self):
         for member in self.committe_members:
             if member.user_id.id == self.env.user.id and member.select == True:
@@ -117,6 +146,7 @@ class SelectReason(models.TransientModel):
             self.env['initial.evaluation.criteria'].create({
                 'po_id': self.order_id,
                 'user_id': self.env.user.id,
+                'evaluation_criteria': rec.evaluation_criteria,
                 'evaluation': rec.evaluation,
                 'degree': rec.degree
             })
@@ -130,8 +160,11 @@ class InitialEvaluationCriteria(models.Model):
     req_id = fields.Many2one('purchase.request')
     user_id = fields.Many2one('res.users', "Member Name")
     sequence = fields.Integer(string="Sequence")
+    evaluation_criteria = fields.Char(string="Evaluation criteria")
     evaluation = fields.Float(string="Evaluation")
     degree = fields.Float(string="Degree")
+        
+    
 
 
 

@@ -25,7 +25,10 @@
     # always loaded
     'data': [
         'security/ir.model.access.csv',
+        'security/groups.xml',
         'views/views.xml',
+        'wizard/intial_evaluation_wizard.xml',
+        'reports/initial_evaluation_view.xml',
     ],
     # only loaded in demonstration mode
     'demo': [
