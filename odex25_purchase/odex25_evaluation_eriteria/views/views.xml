@@ -29,14 +29,21 @@
         <field name="arch" type="xml">
             <xpath expr="//notebook//page[1]" position="after">
                 <page string="Initial Evaluation criteria">
+                    <field name="select" readonly="0"/>
                     <field name="initial_evaluation_lines" widget="one2many_list">
                         <tree editable="bottom">
                             <field name="sequence" widget="handle"/>
-                            <field name="evaluation"/>
                             <field name="user_id"/>
+                            <field name="evaluation_criteria"/>
+                            <field name="evaluation"/>
                             <field name="degree"/>
                         </tree>
                     </field>
+                    <group class="oe_subtotal_footer oe_right">
+                        <field name="committee_members"/>
+                        <field name="avg_evaluation"/>
+                        <field name="total_evaluation"/>
+                    </group>
                 </page>
             </xpath>
         </field>

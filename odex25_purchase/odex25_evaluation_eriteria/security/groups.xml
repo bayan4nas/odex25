@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="see_your_employee_evaluation" model="ir.rule">
+        <field name="name">See your employee Evaluation</field>
+        <field name="model_id" ref="odex25_evaluation_eriteria.model_initial_evaluation_criteria"/>
+        <field name="groups" eval="[(4, ref('purchase.group_purchase_user'))]"/>
+        <field name="domain_force">[(1,'=',1)]</field>
+    </record>
+
+    <record id="see_your_own_resignation" model="ir.rule">
+        <field name="name">See your own evaluation</field>
+        <field name="model_id" ref="odex25_evaluation_eriteria.model_initial_evaluation_criteria"/>
+        <field name="groups" eval="[(4, ref('purchase.group_purchase_manager'))]"/>
+        <field name="domain_force">[('user_id', '=', user.id)]</field>
+    </record>
+
+</odoo>
