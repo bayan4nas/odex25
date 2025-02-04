@@ -170,13 +170,13 @@
                 '&amp;',
                     ('is_forward', '=', False),
                     '|',
-                        ('to_ids.secretary_ids.user_id', '=', uid),
+                        ('to_ids.secretary_id.user_id', '=', uid),
                         ('to_ids.user_id', '=', uid),
                 '&amp;',
                     ('to_ids.user_id', '!=', uid),
                     '|', '|',
                         ('trace_ids.to_id.user_id', '=', uid),
-                        ('trace_ids.to_id.secretary_ids.user_id', '=', uid),
+                        ('trace_ids.to_id.secretary_id.user_id', '=', uid),
                         ('receive_user_id', '=', uid)
             ]</field>
             <field name="view_id" ref="exp_transaction_documents.common_transaction_internal_tree"/>
