@@ -16,6 +16,7 @@ class InternalTransaction(models.Model):
     attachment_rule_ids = fields.One2many('cm.attachment.rule', 'internal_transaction_id', string='Attaches')
     attachment_ids = fields.One2many('cm.attachment', 'internal_transaction_id', string='Attachments')
     trace_ids = fields.One2many('cm.transaction.trace', 'internal_transaction_id', string='Trace Log')
+    last_received_entity_id = fields.Many2one('cm.entity', compute="_compute_last_received_entity", store=True)
     type_sender = fields.Selection(
         string='',
         selection=[('unit', 'Department'),
@@ -29,6 +30,13 @@ class InternalTransaction(models.Model):
     # to_date = fields.Datetime(string='Delegation To Date', related='to_ids.to_date')
     # to_delegate = fields.Boolean(string='To Delegate?', related='to_ids.to_delegate')
     
+    @api.depends('trace_ids')
+    def _compute_last_received_entity(self):
+        for transaction in self:
+            last_track = transaction.trace_ids.sorted('create_date', reverse=True)[:1]  # Get the last track
+            transaction.last_received_entity_id = last_track.to_id.id if last_track else False
+
+
     @api.onchange('type_sender')
     def _onchange_type_sender(self):
         self.ensure_one() 
