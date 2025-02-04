@@ -1,5 +1,5 @@
 from datetime import date, datetime
-
+from odoo.exceptions import ValidationError
 from odoo import api, fields, models, _
 
 
@@ -16,7 +16,8 @@ class InitialEvaluationWizard(models.TransientModel):
 
     def action_create_search(self):
         self.move_ids = False
-
+        if not self.start_date or not self.end_date or self.purchase_requisition or self.committee_member:
+            raise ValidationError(_('You Should Select Parameters'))
         domain = []
         purchase_requisition = self.purchase_requisition
         if purchase_requisition:
@@ -38,6 +39,9 @@ class InitialEvaluationWizard(models.TransientModel):
 
         self.move_ids = self.env['purchase.order'].search(domain)
         print('move_lines >>>>>>>>>>>', self.move_ids.mapped('name'))
+
+        if not self.move_ids:
+            raise ValidationError(_('There is No Data to present'))
         # return self.move_ids
     
     def action_create_search_html(self):
