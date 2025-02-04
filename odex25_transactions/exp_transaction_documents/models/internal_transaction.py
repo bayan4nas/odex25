@@ -35,7 +35,7 @@ class InternalTransaction(models.Model):
     def _compute_replayed_entities(self):
         for transaction in self:
             existing_entity_ids = set(transaction.replayed_entity_ids.ids)  # Get already stored entity IDs
-            new_entities = transaction.trace_ids.filtered(lambda t: t.action == 'reply').mapped('to_id.id')
+            new_entities = transaction.trace_ids.filtered(lambda t: t.action == 'reply').mapped('from_id.id')
 
             # Keep only unique values (combine existing and new)
             updated_entities = list(existing_entity_ids.union(set(new_entities)))
