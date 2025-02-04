@@ -18,7 +18,7 @@ class InternalTransaction(models.Model):
     trace_ids = fields.One2many('cm.transaction.trace', 'internal_transaction_id', string='Trace Log')
     last_received_entity_id = fields.Many2one('cm.entity', compute="_compute_last_received_entity", store=True)
     replayed_entity_ids = fields.Many2many('cm.entity', compute="_compute_replayed_entities", store=True)
-    forward_entity_ids = fields.Many2many('cm.entity', compute="_compute_forward_entities", store=True)
+    forward_entity_ids = fields.Many2many('cm.entity')
     type_sender = fields.Selection(
         string='',
         selection=[('unit', 'Department'),
