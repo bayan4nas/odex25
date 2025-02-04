@@ -17,7 +17,7 @@ class InternalTransaction(models.Model):
     attachment_ids = fields.One2many('cm.attachment', 'internal_transaction_id', string='Attachments')
     trace_ids = fields.One2many('cm.transaction.trace', 'internal_transaction_id', string='Trace Log')
     last_received_entity_id = fields.Many2one('cm.entity', compute="_compute_last_received_entity", store=True)
-    replayed_user_ids = fields.Many2many('res.users', compute="_compute_replayed_users", store=True)
+    replayed_entity_ids = fields.Many2many('cm.entity', compute="_compute_replayed_entities", store=True)
     type_sender = fields.Selection(
         string='',
         selection=[('unit', 'Department'),
@@ -32,22 +32,16 @@ class InternalTransaction(models.Model):
     # to_delegate = fields.Boolean(string='To Delegate?', related='to_ids.to_delegate')
     
     @api.depends('trace_ids')
-    def _compute_replayed_users(self):
+    def _compute_replayed_entities(self):
         for transaction in self:
-            user_ids = set(transaction.replayed_user_ids.ids)  # Existing user IDs (avoid duplicates)
+            existing_entity_ids = set(transaction.replayed_entity_ids.ids)  # Get already stored entity IDs
+            new_entities = transaction.trace_ids.filtered(lambda t: t.action == 'reply').mapped('to_id.id')
 
-            for track in transaction.track_ids.filtered(lambda t: t.action == 'reply'):
-                from_entity = track.to_id
-
-                if from_entity.type == 'employee':
-                    if from_entity.user_id:
-                        user_ids.add(from_entity.user_id.id)
-                else:
-                    # Add user_ids of all scretaries
-                    user_ids.update(from_entity.secretary_ids.mapped('user_id.id'))
+            # Keep only unique values (combine existing and new)
+            updated_entities = list(existing_entity_ids.union(set(new_entities)))
 
             # Update the Many2many field
-            transaction.replayed_user_ids = [(6, 0, list(user_ids))] if user_ids else [(5, 0, 0)]
+            transaction.replayed_entity_ids = [(6, 0, updated_entities)] if updated_entities else [(5, 0, 0)]
 
 
     @api.depends('trace_ids')
