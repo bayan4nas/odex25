@@ -16,7 +16,7 @@ class InternalTransaction(models.Model):
     attachment_rule_ids = fields.One2many('cm.attachment.rule', 'internal_transaction_id', string='Attaches')
     attachment_ids = fields.One2many('cm.attachment', 'internal_transaction_id', string='Attachments')
     trace_ids = fields.One2many('cm.transaction.trace', 'internal_transaction_id', string='Trace Log')
-    is_incoming = fields.Boolean(compute="_compute_is_incoming", store=False)
+    last_received_entity_id = fields.Many2one('cm.entity', compute="_compute_last_received_entity", store=True)
     type_sender = fields.Selection(
         string='',
         selection=[('unit', 'Department'),
@@ -30,25 +30,11 @@ class InternalTransaction(models.Model):
     # to_date = fields.Datetime(string='Delegation To Date', related='to_ids.to_date')
     # to_delegate = fields.Boolean(string='To Delegate?', related='to_ids.to_delegate')
     
-    @api.depends('trace_ids')  
-    def _compute_is_incoming(self):
-        current_user = self.env.user
+    @api.depends('trace_ids')
+    def _compute_last_received_entity(self):
         for transaction in self:
             last_track = transaction.trace_ids.sorted('create_date', reverse=True)[:1]  # Get the last track
-            if last_track and last_track.to_id:
-                to_entity = last_track.to_id
-                if to_entity.type == 'employee' : transaction.is_incoming = to_entity.user_id.id == current_user.id
-                else : 
-                    is_incoming = False
-                    for s in to_entity.secretary_ids :
-                        if s.user_id.id == current_user.id :
-                            is_incoming = True
-                            break
-                    transaction.is_incoming = is_incoming
-                    
-                        
-            else:
-                transaction.is_incoming = False
+            transaction.last_received_entity_id = last_track.to_id.id if last_track else False
 
 
     @api.onchange('type_sender')
