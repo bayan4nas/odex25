@@ -74,9 +74,7 @@ class ForwardTransactionWizard(models.TransientModel):
                 'attachment_filename': self.filename,
             })
         if self.internal_transaction_id :
-            last_trace_id = self.env['cm.transaction.trace'].search(
-            [('name', '=', str(transaction.id)), ('action', 'not in', ('archive', 'reopen'))],
-            order="create_date desc", limit=1)
+            last_trace_id = transaction.trace_ids.sorted('create_date', reverse=True)[:1]
             transaction.trace_ids.create({
                 'action': 'forward',
                 'to_id': self.internal_unit.id,
