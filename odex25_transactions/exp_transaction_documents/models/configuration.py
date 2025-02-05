@@ -156,6 +156,15 @@ class TransactionTrace(models.Model):
     note = fields.Char(string='Notes')
     archive_type_id = fields.Many2one(comodel_name='cm.archive.type', string='Archive Type')
     cc_ids = fields.Many2many('cm.entity', string='CC To')
+    from_label = fields.Char(compute="_compute_from_label", store=True)  # Store if needed for filtering/searching
+
+    @api.depends('from_id', 'from_secretary_id')
+    def _compute_from_label(self):
+        for trace in self:
+            if trace.from_secretary_id:
+                trace.from_label = f"{trace.from_id.name} بواسطة {trace.from_secretary_id.name}"
+            else:
+                trace.from_label = trace.from_id.name
 
 
 class ProjectType(models.Model):
