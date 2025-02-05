@@ -74,7 +74,7 @@ class ForwardTransactionWizard(models.TransientModel):
             })
         if self.internal_transaction_id :
             last_trace_id = self.env['cm.transaction.trace'].search(
-            [('name', '=', transaction.id), ('action', 'not in', ('archive', 'reopen'))],
+            [('name', '=', str(transaction.id)), ('action', 'not in', ('archive', 'reopen'))],
             order="create_date desc", limit=1)
             transaction.trace_ids.create({
                 'action': 'forward',
