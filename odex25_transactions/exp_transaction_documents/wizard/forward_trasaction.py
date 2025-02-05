@@ -82,7 +82,7 @@ class ForwardTransactionWizard(models.TransientModel):
                 'procedure_id': self.procedure_id.id or False,
                 'note': self.note,
                 'cc_ids': [(6, 0, self.cc_ids.ids)],
-                'name': transaction.id
+                name: transaction.id
             })
         else:    
             transaction.trace_ids.create({
@@ -92,7 +92,7 @@ class ForwardTransactionWizard(models.TransientModel):
                 'procedure_id': self.procedure_id.id or False,
                 'note': self.note,
                 'cc_ids': [(6, 0, self.cc_ids.ids)],
-                'name': transaction.id
+                name: transaction.id
             })
         if self.internal_transaction_id or self.incoming_transaction_id:
             transaction.action_send_forward()
