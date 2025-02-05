@@ -163,22 +163,7 @@
             <field name="name">Incoming Internal Transaction</field>
             <field name="res_model">internal.transaction</field>
             <field name="view_mode">tree,form</field>
-            <field name='domain'>[
-                '&amp;',
-                ('state', '=', 'send'),
-                '|',
-                '&amp;',
-                    ('is_forward', '=', False),
-                    '|',
-                        ('to_ids.secretary_id.user_id', '=', uid),
-                        ('to_ids.user_id', '=', uid),
-                '&amp;',
-                    ('to_ids.user_id', '!=', uid),
-                    '|', '|',
-                        ('trace_ids.to_id.user_id', '=', uid),
-                        ('trace_ids.to_id.secretary_id.user_id', '=', uid),
-                        ('receive_user_id', '=', uid)
-            ]</field>
+            <field name='domain'>['|', ('last_received_entity_id.user_id','=', uid),('last_received_entity_id.secretary_ids.user_id','=', uid)]</field>
             <field name="view_id" ref="exp_transaction_documents.common_transaction_internal_tree"/>
             <field name="view_ids" eval="[(5, 0, 0),
             (0, 0, {'view_mode': 'tree','view_id':ref('exp_transaction_documents.common_transaction_internal_tree')}),
@@ -194,13 +179,7 @@
             <field name="res_model">internal.transaction</field>
 
             <field name="view_mode">tree,form</field>
-            <field name='domain'>[
-                ('state', '=', 'reply'), 
-                '|', '|', 
-                ('employee_id.user_id', '=', uid), 
-                ('forward_user_id', '=', uid), 
-                ('to_ids.user_id', '=', uid)
-            ]</field>
+            <field name='domain'>['|', ('replayed_entity_ids.user_id','=', uid),('replayed_entity_ids.secretary_ids.user_id','=', uid)]</field>
             <field name="view_id" ref="exp_transaction_documents.common_transaction_internal_tree"/>
             <field name="view_ids" eval="[(5, 0, 0),
             (0, 0, {'view_mode': 'tree','view_id':ref('exp_transaction_documents.common_transaction_internal_tree')}),
@@ -272,7 +251,7 @@
             <field name="res_model">internal.transaction</field>
 
             <field name="view_mode">tree,form</field>
-            <field name='domain'>[('is_forward', '=', True), '|', ('last_forwarded_user', '=', uid), ('employee_id.user_id', '=', uid)]</field>
+            <field name='domain'>['|', ('forward_entity_ids.user_id','=', uid),('forward_entity_ids.secretary_ids.user_id','=', uid)]</field>
             <field name="view_id" ref="exp_transaction_documents.forward_transaction_view"/>
             <field name="view_ids" eval="[(5, 0, 0),
             (0, 0, {'view_mode': 'tree','view_id':ref('exp_transaction_documents.common_transaction_internal_tree')}),

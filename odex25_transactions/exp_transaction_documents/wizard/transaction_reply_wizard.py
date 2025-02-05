@@ -61,16 +61,27 @@ class TransactionReturnWizard(models.TransientModel):
                 'description': self.att_description,
                 'attachment_filename': self.filename,
             })
-
-        transaction.trace_ids.create({
+        if self.internal_transaction_id :
+            transaction.trace_ids.create({
             'action': 'reply',
-            'to_id': forward_entity.id,
-            'from_id': from_id.id,
+            'to_id': transaction_id.from_id.id,
+            'from_id': transaction_id.to_id.id,
+            'from_secretary_id' : transaction_id.to_id.type == 'unit' and from_id.id,
             'procedure_id': self.procedure_id.id or False,
             'note': self.note,
             'cc_ids': [(6, 0, self.cc_ids.ids)],
             name: transaction.id
         })
+        else :
+            transaction.trace_ids.create({
+                'action': 'reply',
+                'to_id': forward_entity.id,
+                'from_id': from_id.id,
+                'procedure_id': self.procedure_id.id or False,
+                'note': self.note,
+                'cc_ids': [(6, 0, self.cc_ids.ids)],
+                name: transaction.id
+            })
 
         employee = transaction.current_employee()
         subj = _('Message Has been replied!')
