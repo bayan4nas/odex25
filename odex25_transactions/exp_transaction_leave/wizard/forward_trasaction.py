@@ -83,7 +83,7 @@ class ForwardTransactionWizard(models.TransientModel):
                 'procedure_id': self.procedure_id.id or False,
                 'note': self.note,
                 'cc_ids': [(6, 0, self.cc_ids.ids)],
-                'name': transaction.id
+                name: transaction.id
             })
         else :    
             # Create trace record
