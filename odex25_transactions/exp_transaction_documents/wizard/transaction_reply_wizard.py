@@ -66,7 +66,7 @@ class TransactionReturnWizard(models.TransientModel):
             'action': 'reply',
             'to_id': transaction_id.from_id.id,
             'from_id': transaction_id.to_id.id,
-            'from_secretary_id' : transaction_id.to_id.type == 'unit' and forward_entity.id,
+            'from_secretary_id' : transaction_id.to_id.type == 'unit' and from_id.id,
             'procedure_id': self.procedure_id.id or False,
             'note': self.note,
             'cc_ids': [(6, 0, self.cc_ids.ids)],
