@@ -375,7 +375,7 @@ class Transaction(models.Model):
             'target': 'new',
             'type': 'ir.actions.act_window',
             'context': {
-                name: transaction.id
+                'name': transaction.id
             },
         }
 
@@ -391,7 +391,7 @@ class Transaction(models.Model):
             'target': 'new',
             'type': 'ir.actions.act_window',
             'context': {
-                name: transaction.id
+                'name': transaction.id
             },
         }
 
@@ -407,7 +407,7 @@ class Transaction(models.Model):
             'target': 'new',
             'type': 'ir.actions.act_window',
             'context': {
-                name: transaction.id
+                'name': transaction.id
             },
         }
 
