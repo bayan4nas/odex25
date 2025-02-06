@@ -72,7 +72,7 @@ class ForwardTransactionWizard(models.TransientModel):
                 'description': self.att_description,
                 'attachment_filename': self.filename,
             })
-        if self.internal_transaction_id :
+        if self.internal_transaction_id and self.forward_type == 'unit':
             last_trace_id = transaction.trace_ids.sorted('create_date', reverse=True)[:1]
             transaction.trace_ids.create({
                 'action': 'forward',
