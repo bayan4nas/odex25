@@ -311,7 +311,7 @@ class Employee(models.Model):
                 vals['parent_id'] = manager.id
             if coach:
                 vals['coach_id'] = coach.id
-        return super(EmployeeHrhierarchy, self).create(vals)
+        return super(Employee, self).create(vals)
     
     def write(self, vals):
         if 'department_id' in vals:
@@ -322,7 +322,7 @@ class Employee(models.Model):
                 vals['parent_id'] = manager.id
             if coach:
                 vals['coach_id'] = coach.id
-        return super(EmployeeHrhierarchy, self).write(vals)
+        return super(Employee, self).write(vals)
 
 
 
