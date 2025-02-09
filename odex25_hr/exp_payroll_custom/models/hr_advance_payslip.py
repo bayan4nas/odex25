@@ -2983,7 +2983,7 @@ class HrPayslipRun(models.Model):
                         raise exceptions.Warning(
                             _('Sorry The Allowance %s is Not account Set') % l.name)
                     total_list.append({
-                        'name': l.name,
+                        'name': account.name,
                         'debit': amount_allow,
                         'journal_id': journal.id,
                         'credit': 0,
@@ -2998,7 +2998,7 @@ class HrPayslipRun(models.Model):
                         raise exceptions.Warning(
                             _('Sorry The Deduction %s is Not account Set') % ded.name)
                     total_list.append({
-                        'name': ded.name,
+                        'name': account.name,
                         'credit': amount_ded,
                         'journal_id': journal.id,
                         'debit': 0,
@@ -3094,7 +3094,7 @@ class HrPayslipRun(models.Model):
                         raise exceptions.Warning(
                             _('Sorry The Allowance %s is Not account Set') % l.name)
                     total_list.append({
-                        'name': l.name,
+                        'name': account.name,
                         'debit': amount_allow,
                         'journal_id': journal.id,
                         'credit': 0,
@@ -3110,7 +3110,7 @@ class HrPayslipRun(models.Model):
                         raise exceptions.Warning(
                             _('Sorry The Deduction %s is Not account Set') % ded.name)
                     total_list.append({
-                        'name': ded.name,
+                        'name': account.name,
                         'credit': amount_ded,
                         'journal_id': journal.id,
                         'debit': 0,
@@ -3212,7 +3212,7 @@ class HrPayslipRun(models.Model):
                         raise exceptions.Warning(
                             _('Sorry The Allowance %s is Not account Set') % l.name)
                     total_list.append({
-                        'name': l.name,
+                        'name': account.name,
                         'debit': amount_allow,
                         'partner_id': line.employee_id.user_id.partner_id.id,
                         'credit': 0,
@@ -3228,7 +3228,7 @@ class HrPayslipRun(models.Model):
                         raise exceptions.Warning(
                             _('Sorry The Deduction %s is Not account Set') % ded.name)
                     total_list.append({
-                        'name': ded.name,
+                        'name': account.name,
                         'credit': amount_ded,
                         'partner_id': line.employee_id.user_id.partner_id.id,
                         'debit': 0,
