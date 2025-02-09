@@ -2979,7 +2979,7 @@ class HrPayslipRun(models.Model):
                 for l in line.allowance_ids:
                     amount_allow = l.total
                     account = l.salary_rule_id.get_debit_account_id(emp_type)
-                    if not account.id:
+                    if not account:
                         raise exceptions.Warning(
                             _('Sorry The Allowance %s is Not account Set') % l.name)
                     total_list.append({
@@ -2994,7 +2994,7 @@ class HrPayslipRun(models.Model):
                 for ded in line.deduction_ids:
                     amount_ded = -ded.total
                     account = ded.salary_rule_id.get_credit_account_id(emp_type)
-                    if not account.id:
+                    if not account:
                         raise exceptions.Warning(
                             _('Sorry The Deduction %s is Not account Set') % ded.name)
                     total_list.append({
@@ -3090,7 +3090,7 @@ class HrPayslipRun(models.Model):
                 for l in line.allowance_ids:
                     amount_allow = l.total
                     account = l.salary_rule_id.get_debit_account_id(emp_type)
-                    if not account.id:
+                    if not account:
                         raise exceptions.Warning(
                             _('Sorry The Allowance %s is Not account Set') % l.name)
                     total_list.append({
@@ -3106,7 +3106,7 @@ class HrPayslipRun(models.Model):
                     amount_ded = -ded.total
                     
                     account = ded.salary_rule_id.get_credit_account_id(emp_type)
-                    if not account.id:
+                    if not account:
                         raise exceptions.Warning(
                             _('Sorry The Deduction %s is Not account Set') % ded.name)
                     total_list.append({
@@ -3208,7 +3208,7 @@ class HrPayslipRun(models.Model):
                 for l in line.allowance_ids:
                     amount_allow = l.total
                     account = l.salary_rule_id.get_debit_account_id(emp_type)
-                    if not account.id:
+                    if not account:
                         raise exceptions.Warning(
                             _('Sorry The Allowance %s is Not account Set') % l.name)
                     total_list.append({
@@ -3224,7 +3224,7 @@ class HrPayslipRun(models.Model):
                 for ded in line.deduction_ids:
                     amount_ded = -ded.total
                     account = ded.salary_rule_id.get_credit_account_id(emp_type)
-                    if not account.id:
+                    if not account:
                         raise exceptions.Warning(
                             _('Sorry The Deduction %s is Not account Set') % ded.name)
                     total_list.append({
@@ -3306,7 +3306,7 @@ class HrPayslipRun(models.Model):
                     for l in line.allowance_ids:
                         amount_allow = l.total
                         account = l.salary_rule_id.rule_debit_account_id
-                        if not account.id:
+                        if not account:
                            raise exceptions.Warning(
                                _('Sorry The Allowance %s is Not account Set') % l.name)
                         total_list.append({
@@ -3321,7 +3321,7 @@ class HrPayslipRun(models.Model):
                     for ded in line.deduction_ids:
                         amount_ded = -ded.total
                         account = ded.salary_rule_id.rule_credit_account_id
-                        if not account.id:
+                        if not account:
                            raise exceptions.Warning(
                                _('Sorry The Deduction %s is Not account Set') % ded.name)
                         total_list.append({
@@ -3372,7 +3372,7 @@ class HrPayslipRun(models.Model):
                     for l in line.allowance_ids:
                         amount_allow = l.total
                         account = l.salary_rule_id.rule_debit_account_id
-                        if not account.id:
+                        if not account:
                            raise exceptions.Warning(
                                _('Sorry The Allowance %s is Not account Set') % l.name)
                         total_list.append({
@@ -3388,7 +3388,7 @@ class HrPayslipRun(models.Model):
                     for ded in line.deduction_ids:
                         amount_ded = -ded.total
                         account = ded.salary_rule_id.rule_credit_account_id
-                        if not account.id:
+                        if not account:
                            raise exceptions.Warning(
                                _('Sorry The Deduction %s is Not account Set') % ded.name)
                         total_list.append({
