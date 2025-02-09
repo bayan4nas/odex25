@@ -14,6 +14,7 @@ class HrSalaryScale(models.Model):
     type = fields.Selection(selection=[('scale', _('Scale')), ('level', _('Level')),
                                        ('group', _('Group')), ('degree', _('Degree'))], default='scale', string='Type')
     transfer_type = fields.Selection(selection=[('all', _('All Employee')),
+                                                ('per_analytic_account', _('Per Analytic Account')),
                                                 ('one_by_one', _('Per Employee')),
                                                 ('per_bank', _('Per Bank'))], string='Transfer type')
 
