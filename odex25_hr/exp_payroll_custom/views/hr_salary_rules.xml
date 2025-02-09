@@ -88,8 +88,7 @@
                             <field name="rule_credit_account_id" string="Credit account" attrs="{'invisible' : [('transfer_by_emp_type', '=', True)]}"/>
                             <field name="transfer_by_emp_type" />
                         </group>
-
-                         <field name="account_ids" attrs="{'invisible' : [('transfer_by_emp_type', '=', False)]}">
+                        <field name="account_ids" attrs="{'invisible' : [('transfer_by_emp_type', '=', False)]}">
                             <tree editable="bottom">
                                 <field name="emp_type_id"/>
                                 <field name="credit_account_id"/>

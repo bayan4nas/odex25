@@ -201,12 +201,12 @@ class HrEmployeePromotions(models.Model):
         self.state = "secretary_general"
 
 
-class EmployeeHrhierarchy(models.Model):
+class DepartmentHrhierarchy(models.Model):
     _inherit = "hr.department"
 
     employee_type_id = fields.Many2one('hr.contract.type', string="Employee Type")
 
-class EmployeeHrhierarchy(models.Model):
+class Employee(models.Model):
     _inherit = "hr.employee"
 
 
@@ -216,7 +216,7 @@ class EmployeeHrhierarchy(models.Model):
     emp_no = fields.Char(string="Employee Number", default="new", tracking=True)
 
     def get_emp_type_id(self):
-        return self.department_id.employee_type_id.id
+        return self.department_id.employee_type_id
     
     @api.model
     def _generate_emp_no(self):
@@ -311,7 +311,7 @@ class EmployeeHrhierarchy(models.Model):
                 vals['parent_id'] = manager.id
             if coach:
                 vals['coach_id'] = coach.id
-        return super(EmployeeHrhierarchy, self).create(vals)
+        return super(Employee, self).create(vals)
     
     def write(self, vals):
         if 'department_id' in vals:
@@ -322,7 +322,7 @@ class EmployeeHrhierarchy(models.Model):
                 vals['parent_id'] = manager.id
             if coach:
                 vals['coach_id'] = coach.id
-        return super(EmployeeHrhierarchy, self).write(vals)
+        return super(Employee, self).write(vals)
 
 
 

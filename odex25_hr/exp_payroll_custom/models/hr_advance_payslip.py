@@ -65,6 +65,8 @@ class SalaryRuleInput(models.Model):
     employee_insurnce = fields.Float(string='Employee Insurnce', compute='compute_allowances_',store=True)
     company_insurnce = fields.Float(string='Company Insurnce', compute='compute_allowances_',store=True)
 
+    employee_no = fields.Char(related='employee_id.emp_no', readonly=True,string='Employee Number', store=True)
+
     def compute_allowances_(self):
         for item in self:
             item.basic_allowances, item.house_allowances, trans_allowances, employee_insurnce, company_insurnce = 0.0, 0.0, 0.0, 0.0, 0.0
@@ -348,7 +350,7 @@ class SalaryRuleInput(models.Model):
                                 payslip_loans.append({
                                     'name': loan.request_type.name,
                                     'code': loan.code,
-                                    'amount': (-l.installment_amount),
+                                    'amount': round((-l.installment_amount),2),
                                     'date': l.installment_date,
                                     'account_id': loan.request_type.account_id.id,
                                     'loan_id': loan.id
@@ -485,9 +487,10 @@ class SalaryRuleInput(models.Model):
                                         'contract_id': payslip.contract_id.id})]
 
                     elif holiday.holiday_status_id.payslip_type == 'percentage':
-                        if payslip.date_from >= holiday.date_from and payslip.date_to >= holiday.date_to:
-                            start_date = datetime.strptime(str(payslip.date_from), "%Y-%m-%d").date()
-                            end_date = datetime.strptime(str(holiday.date_to), "%Y-%m-%d %H:%M:%S").date() + timedelta(
+                        #if payslip.date_from >= holiday.date_from and payslip.date_to >= holiday.date_to:
+                        if payslip_date_from >= holiday_date_from and payslip_date_to >= holiday_date_to:
+                            start_date = datetime.strptime(payslip_date_from, "%Y-%m-%d").date()
+                            end_date = datetime.strptime(holiday_date_to, "%Y-%m-%d").date() + timedelta(
                                 days=1)
                             number_of_days = relativedelta(end_date, start_date).days
                             if number_of_days >= 0:  # number_of_days <= 0
@@ -499,7 +502,7 @@ class SalaryRuleInput(models.Model):
                                     'number_of_days': number_of_days,
                                     'number_of_hours': holiday.holiday_status_id.percentage,
                                     'contract_id': payslip.contract_id.id})]
-                        elif payslip.date_to >= holiday.date_to and holiday.date_from >= payslip.date_from:
+                        elif payslip_date_to >= holiday_date_to and holiday_date_from >= payslip_date_from:
                             if holiday.number_of_days_temp >= 0:  # holiday.number_of_days_temp <= 0
                                 payslip.worked_days_line_ids = [(0, 0, {
                                     'name': "Paid Holidays By percentage",
@@ -509,9 +512,9 @@ class SalaryRuleInput(models.Model):
                                     'number_of_days': holiday.number_of_days_temp,
                                     'number_of_hours': holiday.holiday_status_id.percentage,
                                     'contract_id': payslip.contract_id.id})]
-                        elif holiday.date_from >= payslip.date_from and payslip.date_to <= holiday.date_to:
-                            start_date = datetime.strptime(str(holiday.date_from), "%Y-%m-%d %H:%M:%S").date()
-                            end_date = datetime.strptime(str(payslip.date_to), "%Y-%m-%d").date()
+                        elif holiday_date_from >= payslip_date_from and payslip_date_to <= holiday_date_to:
+                            start_date = datetime.strptime(holiday_date_from, "%Y-%m-%d %H:%M:%S").date()
+                            end_date = datetime.strptime(payslip_date_to, "%Y-%m-%d").date()
                             number_of_days = relativedelta(end_date, start_date).days + 1
                             if number_of_days >= 0:  # number_of_days <= 0
                                 payslip.worked_days_line_ids = [(0, 0, {
@@ -523,9 +526,9 @@ class SalaryRuleInput(models.Model):
                                     'number_of_hours': holiday.holiday_status_id.percentage,
                                     'contract_id': payslip.contract_id.id})]
                         else:
-                            if payslip.date_to <= holiday.date_to:
-                                start_date = datetime.strptime(str(payslip.date_from), "%Y-%m-%d").date()
-                                end_date = datetime.strptime(str(payslip.date_to), "%Y-%m-%d").date() + timedelta(
+                            if payslip_date_to <= holiday_date_to:
+                                start_date = datetime.strptime(payslip_date_from, "%Y-%m-%d").date()
+                                end_date = datetime.strptime(payslip_date_to, "%Y-%m-%d").date() + timedelta(
                                     days=1)
                                 number_of_days = relativedelta(end_date, start_date).days
                                 if number_of_days >= 0:  # number_of_days <= 0
@@ -2169,9 +2172,9 @@ class HrPayslipLine(models.Model):
                             total_days_after_holiday = 30 - work_days
                             total_days = total_days_after_holiday
                         if line.salary_rule_id.special == False:
-                            line.total = ((line.amount / 30) * total_days_after_holiday) * line.percentage / 100
+                            line.total = round(((line.amount / 30) * total_days_after_holiday) * line.percentage / 100,2)
                         else:
-                            line.total = ((line.amount) * line.percentage / 100)
+                            line.total = round(((line.amount) * line.percentage / 100),2)
                         # line.total = ((line.amount / 30) * total_days_after_holiday) * line.percentage / 100
                     #################################################### Holidays percentage  #######################################
                     elif wo.name == "Paid Holidays By percentage":
@@ -2188,9 +2191,9 @@ class HrPayslipLine(models.Model):
                         per += (allow * percentage / 100)
                         actual_allow_tot = (line.amount / 30) * total_days_after_holiday
                         if line.salary_rule_id.special == False:
-                            line.total = (actual_allow_tot + per) * line.percentage / 100
+                            line.total = round((actual_allow_tot + per) * line.percentage / 100,2)
                         else:
-                            line.total = ((line.amount) * line.percentage / 100)
+                            line.total = round(((line.amount) * line.percentage / 100),2)
                         # line.total = (actual_allow_tot + per) * line.percentage / 100
                     ##################################################### Holidays Additional  ########################################
                     elif wo.name == "Additional Paid Holidays":
@@ -2204,9 +2207,9 @@ class HrPayslipLine(models.Model):
                             total_days_after_holiday = 30 - work_days
                             total_days = total_days_after_holiday
                         if line.leave_request_case or line.salary_rule_id.special == True:
-                            line.total = (line.amount) * line.percentage / 100
+                            line.total = round((line.amount) * line.percentage / 100,2)
                         else:
-                            line.total = ((line.amount / 30) * total_days_after_holiday) * line.percentage / 100
+                            line.total = round(((line.amount / 30) * total_days_after_holiday) * line.percentage / 100,2)
                     ################################################### Holidays Reconcile and Exclusion  ###############################
                     elif wo.name == "Exclusion or Reconcile Paid Holidays":
                         work_days = wo.number_of_days
@@ -2218,20 +2221,20 @@ class HrPayslipLine(models.Model):
                             total_days_after_holiday = 30 - work_days
                             total_days = total_days_after_holiday
                         if not line.leave_request_case or line.salary_rule_id.special == True:
-                            line.total = (line.amount) * line.percentage / 100
+                            line.total = round((line.amount) * line.percentage / 100,2)
                         else:
-                            line.total = ((line.amount / 30) * total_days_after_holiday) * line.percentage / 100
+                            line.total = round(((line.amount / 30) * total_days_after_holiday) * line.percentage / 100,2)
                     ################################################### Working days for this month ######################################
                     else:
                         work_days = wo.number_of_days
                         total_days = work_days
                         if line.leave_request_case or line.salary_rule_id.special == True:
-                            line.total = (line.amount) * line.percentage / 100
+                            line.total = round((line.amount) * line.percentage / 100,2)
                         else:
-                            line.total = ((line.amount / 30) * work_days) * line.percentage / 100
+                            line.total = round(((line.amount / 30) * work_days) * line.percentage / 100,2)
             ################################################### End IF Then else #################################################
             else:
-                line.total = (line.amount) * line.percentage / 100
+                line.total = round((line.amount) * line.percentage / 100,2)
         #print("compute_shee_computee_total payslips_Run %s" % (time.time() - start_time))
 
 
@@ -2274,7 +2277,7 @@ class HrPayslipRun(models.Model):
 
     @api.depends('salary_scale.transfer_type')
     def compute_type(self):
-        if self.salary_scale.transfer_type == 'all':
+        if self.salary_scale.transfer_type == 'all' or self.salary_scale.transfer_type == 'per_analytic_account':
             self.required_condition = True
         else:
             self.required_condition = False
@@ -2936,6 +2939,21 @@ class HrPayslipRun(models.Model):
             res.append({
                 'name': v[0],
                 'account_id': v[1],
+                'debit': round(sum(dicc['debit'] for dicc in new_items),2),
+                'credit': round(sum(dicc2['credit'] for dicc2 in new_items),2)
+            })
+        return res
+
+    def new_merge_lists(self, l1, key1, key2, key3):
+        # groups = it.groupby(sorted(l1, key=itemgetter(key)), key=itemgetter(key, key2, key3))
+        groups = it.groupby(sorted(l1, key=itemgetter(key1, key2, key3)), key=itemgetter(key1, key2, key3))
+        res = []
+        for v, items in groups:
+            new_items = list(items)
+            res.append({
+                'name': v[0],
+                'account_id': v[1],
+                'analytic_account_id': v[2],
                 'debit': sum(dicc['debit'] for dicc in new_items),
                 'credit': sum(dicc2['credit'] for dicc2 in new_items)
             })
@@ -2943,12 +2961,14 @@ class HrPayslipRun(models.Model):
 
     def transfer(self):
         list_of_vals = []
+        
         if self.salary_scale.transfer_type == 'all':
             total_of_list = []
             for line in self.slip_ids:
-                emp_type =  line.employee_id.employee_type_id.id
+                emp_type =  line.employee_id.get_emp_type_id()
                 total_allow, total_ded, total_loan = 0.0, 0.0, 0.0
                 total_list = []
+                total_loan_list = []
                 move_vals = dict()
                 journal = self.journal_id
                 if list_of_vals:
@@ -2959,75 +2979,228 @@ class HrPayslipRun(models.Model):
                 for l in line.allowance_ids:
                     amount_allow = l.total
                     account = l.salary_rule_id.get_debit_account_id(emp_type)
+                    if not account:
+                        raise exceptions.Warning(
+                            _('Sorry The Allowance %s is Not account Set') % l.name)
                     total_list.append({
                         'name': l.name,
                         'debit': amount_allow,
                         'journal_id': journal.id,
                         'credit': 0,
-                        'account_id': account,
+                        'account_id': account.id,
                     })
                     total_allow += amount_allow
 
                 for ded in line.deduction_ids:
                     amount_ded = -ded.total
                     account = ded.salary_rule_id.get_credit_account_id(emp_type)
+                    if not account:
+                        raise exceptions.Warning(
+                            _('Sorry The Deduction %s is Not account Set') % ded.name)
                     total_list.append({
                         'name': ded.name,
                         'credit': amount_ded,
                         'journal_id': journal.id,
                         'debit': 0,
-                        'account_id': account,
+                        'account_id': account.id,
                     })
                     total_ded += amount_ded
 
                 for lo in line.loan_ids:
                     amount_loans = -lo.amount
-                    credit_loans_vals = {
+                    if not lo.account_id:
+                        raise exceptions.Warning(
+                            _('Sorry The Loan %s is Not account Set') % lo.name)
+                    loan_line_vals = {
                         'name': lo.name,
                         'credit': amount_loans,
-                        'journal_id': journal.id,
                         'debit': 0,
+                        'journal_id': journal.id,
                         'account_id': lo.account_id.id,
+                        'partner_id': line.employee_id.user_id.partner_id.id,
                     }
+                    total_loan_list.append(loan_line_vals)
                     total_loan += amount_loans
-                    total_list.append(credit_loans_vals)
+
+                    # credit_loans_vals = {
+                    #     'name': lo.name,
+                    #     'credit': amount_loans,
+                    #     'journal_id': journal.id,
+                    #     'debit': 0,
+                    #     'account_id': lo.account_id.id,
+                    # }
+                    # total_list.append(credit_loans_vals)
                 # create line for total of all allowance, deduction, loans of all employees
                 total_of_list.append({
                     'name': "Total",
                     'journal_id': journal.id,
+                    'partner_id': line.employee_id.user_id.partner_id.id,
                     'account_id': journal.default_account_id.id,
-                    'credit': total_allow - total_ded - total_loan,
+                    'credit': round(total_allow,2) - round(total_ded,2) - round(total_loan,2),
                     'debit': 0,
                 })
                 if not move_vals:
-                    move_vals.update({'move': journal.id, 'list_ids': total_list})
+                    move_vals.update({'move': journal.id, 'list_ids': total_list, 'loans': total_loan_list})
                     list_of_vals.append(move_vals)
                 else:
                     new_list = move_vals.get('list_ids')
                     new_list.extend(total_list)
-                    move_vals.update({'list_ids': new_list})
+                    new_loan_list = move_vals.get('loans')
+                    new_loan_list.extend(total_loan_list)
+                    move_vals.update({'list_ids': new_list, 'loans': new_loan_list})
 
             for record in list_of_vals:
                 new_record_list = record.get('list_ids') + [d for d in total_of_list if
                                                             d['journal_id'] == record.get('move')]
-                #print('new record list', new_record_list)
+                new_rec_loan_list = record.get('loans')
+
                 merged_list = self.merge_lists(new_record_list, 'name', 'account_id')
-                #print('merged', merged_list)
-                record_final_item = merged_list
-                #print('record lines', record_final_item)
+                record_final_item = merged_list + new_rec_loan_list
                 move = self.env['account.move'].create({
                     'state': 'draft',
                     'journal_id': record.get('move'),
                     # 'date': fields.Date.context_today(self),
                     'date': self.date_end,
                     'ref': self.name,
-                    'line_ids': [(0, 0, item) for item in record_final_item]
+                    'line_ids': [(0, 0, item) for item in record_final_item],
+                    'res_model': 'hr.payslip.run',
+                    'res_id': self.id
                 })
                 self.move_id = move.id
 
+        
+        ########################## per_analytic_account ###########
+
+        elif self.salary_scale.transfer_type == 'per_analytic_account':
+            total_of_list = []
+            journal = self.journal_id
+            department_totals = {}  # Dictionary to store department-wise totals
+            total_allow, total_ded, total_loan = 0.0, 0.0, 0.0
+            for line in self.slip_ids:
+                emp_type =  line.employee_id.get_emp_type_id()
+                total_list = []
+                total_loan_list = []
+                move_vals = dict()
+                journal = self.journal_id
+                if list_of_vals:
+                    for item in list_of_vals:
+                        if item.get('move') == journal.id:
+                            move_vals = item
+                            break
+                for l in line.allowance_ids:
+                    amount_allow = l.total
+                    account = l.salary_rule_id.get_debit_account_id(emp_type)
+                    if not account:
+                        raise exceptions.Warning(
+                            _('Sorry The Allowance %s is Not account Set') % l.name)
+                    total_list.append({
+                        'name': l.name,
+                        'debit': amount_allow,
+                        'journal_id': journal.id,
+                        'credit': 0,
+                        'account_id': account.id,
+                        'analytic_account_id': line.employee_id.department_id.analytic_account_id.id,
+                    })
+                    total_allow += amount_allow
+                for ded in line.deduction_ids:
+                    amount_ded = -ded.total
+                    
+                    account = ded.salary_rule_id.get_credit_account_id(emp_type)
+                    if not account:
+                        raise exceptions.Warning(
+                            _('Sorry The Deduction %s is Not account Set') % ded.name)
+                    total_list.append({
+                        'name': ded.name,
+                        'credit': amount_ded,
+                        'journal_id': journal.id,
+                        'debit': 0,
+                        'account_id': account.id,
+                        'analytic_account_id': None,
+                    })
+                    total_ded += amount_ded
+                    
+                for lo in line.loan_ids:
+                    amount_loans = -lo.amount
+                    if not lo.account_id:
+                        raise exceptions.Warning(
+                            _('Sorry The Loan %s is Not account Set') % lo.name)
+                    credit_loans_vals = {
+                        'name': lo.name,
+                        'credit': amount_loans,
+                        'journal_id': journal.id,
+                        'debit': 0,
+                        'account_id': lo.account_id.id,
+                        'analytic_account_id': None,
+                    }
+                    total_loan += amount_loans
+                    total_loan_list.append(credit_loans_vals)
+
+                # Get the department of the employee
+                department = line.employee_id.department_id
+
+                # Add allowance amount to the department total
+                if department in department_totals:
+                    department_totals[department] += total_allow
+                else:
+                    department_totals[department] = total_allow
+                if not move_vals:
+                    move_vals.update({'move': journal.id, 'list_ids': total_list, 'loans': total_loan_list})
+                    list_of_vals.append(move_vals)
+                else:
+                    new_list = move_vals.get('list_ids')
+                    new_list.extend(total_list)
+                    new_loan_list = move_vals.get('loans')
+                    new_loan_list.extend(total_loan_list)
+                    move_vals.update({'list_ids': new_list, 'loans': new_loan_list})
+                
+
+            total_of_list.append({
+                    'name': "Total",
+                    'journal_id': journal.id,
+                    'account_id': journal.default_account_id.id,
+                    'credit': total_allow - total_ded - total_loan,
+                    'debit': 0,
+                    'analytic_account_id': None,
+
+                })
+
+            # for department, allowance_total in department_totals.items():
+            
+            #     total_of_list.append({
+            #         'name': f"Total ({department.analytic_account_id.name})",
+            #         'journal_id': journal.id,
+            #         'account_id': journal.default_credit_account_id.id,
+            #         'credit': allowance_total - total_ded - total_loan,
+            #         'analytic_account_id': department.analytic_account_id.id,
+            #         'debit': 0,
+            #     })
+            
+            for record in list_of_vals:
+                new_record_list = record.get('list_ids') + [d for d in total_of_list if
+                                                            d['journal_id'] == record.get('move')]
+                new_rec_loan_list = record.get('loans')
+                merged_list = self.new_merge_lists(new_record_list, 'name', 'account_id', 'analytic_account_id')
+                record_final_item = merged_list + new_rec_loan_list
+                move = self.env['account.move'].create({
+                    'state': 'draft',
+                    'journal_id': record.get('move'),
+                    'date': self.date_end,
+
+                    'ref': self.name,
+                    'line_ids': [(0, 0, item) for item in record_final_item],
+                    'res_model': 'hr.payslip.run',
+                    'res_id': self.id
+                })
+                self.move_id = move.id
+
+
+            # import pdb
+            # pdb.set_trace()
+        #####################################
+
         elif self.salary_scale.transfer_type == 'one_by_one':
             for line in self.slip_ids:
-                emp_type =  line.employee_id.employee_type_id.id
+                emp_type =  line.employee_id.get_emp_type_id()
                 total_allow, total_ded, total_loan = 0.0, 0.0, 0.0
                 total_list = []
                 move_vals = dict()
@@ -3035,12 +3208,15 @@ class HrPayslipRun(models.Model):
                 for l in line.allowance_ids:
                     amount_allow = l.total
                     account = l.salary_rule_id.get_debit_account_id(emp_type)
+                    if not account:
+                        raise exceptions.Warning(
+                            _('Sorry The Allowance %s is Not account Set') % l.name)
                     total_list.append({
                         'name': l.name,
                         'debit': amount_allow,
                         'partner_id': line.employee_id.user_id.partner_id.id,
                         'credit': 0,
-                        'account_id': account,
+                        'account_id': account.id,
                         'analytic_account_id': line.employee_id.contract_id.analytic_account_id.id,
                     })
                     total_allow += amount_allow
@@ -3048,17 +3224,23 @@ class HrPayslipRun(models.Model):
                 for ded in line.deduction_ids:
                     amount_ded = -ded.total
                     account = ded.salary_rule_id.get_credit_account_id(emp_type)
+                    if not account:
+                        raise exceptions.Warning(
+                            _('Sorry The Deduction %s is Not account Set') % ded.name)
                     total_list.append({
                         'name': ded.name,
                         'credit': amount_ded,
                         'partner_id': line.employee_id.user_id.partner_id.id,
                         'debit': 0,
-                        'account_id': account,
+                        'account_id': account.id,
                     })
                     total_ded += amount_ded
 
                 for lo in line.loan_ids:
                     amount_loans = -lo.amount
+                    if not lo.account_id:
+                        raise exceptions.Warning(
+                            _('Sorry The Loan %s is Not account Set') % lo.name)
                     credit_loans_vals = {
                         'name': lo.name,
                         'credit': amount_loans,
@@ -3096,16 +3278,18 @@ class HrPayslipRun(models.Model):
                     # 'date': fields.Date.context_today(self),
                     'date': self.date_end,
                     'ref': line.name,
-                    'line_ids': [(0, 0, item) for item in new_record_list]
+                    'line_ids': [(0, 0, item) for item in new_record_list],
+                    'res_model': 'hr.payslip.run',
+                    'res_id': self.id
                 })
                 line.move_id = move.id
 
         else:
             bank_id = ''
             for line in self.slip_ids:
-                emp_type =  line.employee_id.employee_type_id.id
                 total_allow, total_ded, total_loan = 0.0, 0.0, 0.0
                 total_list = []
+                total_loan_list = []
                 move_vals = dict()
                 if line.employee_id.payment_method == 'bank':
                     journal = self.env['account.journal'].search([('type', '=', line.employee_id.payment_method),
@@ -3121,28 +3305,39 @@ class HrPayslipRun(models.Model):
                                 break
                     for l in line.allowance_ids:
                         amount_allow = l.total
+                        account = l.salary_rule_id.rule_debit_account_id
+                        if not account:
+                           raise exceptions.Warning(
+                               _('Sorry The Allowance %s is Not account Set') % l.name)
                         total_list.append({
                             'name': l.name,
                             'debit': amount_allow,
                             'journal_id': journal.id,
                             'credit': 0,
-                            'account_id': l.salary_rule_id.get_debit_account_id(emp_type),
+                            'account_id': account.id,
                         })
                         total_allow += amount_allow
 
                     for ded in line.deduction_ids:
                         amount_ded = -ded.total
+                        account = ded.salary_rule_id.rule_credit_account_id
+                        if not account:
+                           raise exceptions.Warning(
+                               _('Sorry The Deduction %s is Not account Set') % ded.name)
                         total_list.append({
                             'name': ded.name,
                             'credit': amount_ded,
                             'journal_id': journal.id,
                             'debit': 0,
-                            'account_id': ded.salary_rule_id.get_credit_account_id(emp_type),
+                            'account_id': account.id,
                         })
                         total_ded += amount_ded
 
                     for lo in line.loan_ids:
                         amount_loans = -lo.amount
+                        if not lo.account_id:
+                           raise exceptions.Warning(
+                            _('Sorry The Loan %s is Not account Set') % lo.name)
                         credit_loans_vals = {
                             'name': lo.name,
                             'credit': amount_loans,
@@ -3151,7 +3346,7 @@ class HrPayslipRun(models.Model):
                             'account_id': lo.account_id.id,
                         }
                         total_loan += amount_loans
-                        total_list.append(credit_loans_vals)
+                        total_loan_list.append(credit_loans_vals)
                     # create line for total of all allowance, deduction, loans of all employees
                     total_list.append({
                         'name': "Total",
@@ -3161,12 +3356,14 @@ class HrPayslipRun(models.Model):
                         'debit': 0,
                     })
                     if not move_vals:
-                        move_vals.update({'move': journal.id, 'list_ids': total_list})
+                        move_vals.update({'move': journal.id, 'list_ids': total_list, 'loans': total_loan_list})
                         list_of_vals.append(move_vals)
                     else:
                         new_list = move_vals.get('list_ids')
                         new_list.extend(total_list)
-                        move_vals.update({'list_ids': new_list})
+                        new_loan_list = move_vals.get('loans')
+                        new_loan_list.extend(total_loan_list)
+                        move_vals.update({'list_ids': new_list, 'loans': new_loan_list})
                     bank_id = line.employee_id.bank_account_id.bank_id.name
 
                 elif line.employee_id.payment_method == 'cash':
@@ -3174,10 +3371,13 @@ class HrPayslipRun(models.Model):
 
                     for l in line.allowance_ids:
                         amount_allow = l.total
-                        account = l.salary_rule_id.get_debit_account_id(emp_type)
+                        account = l.salary_rule_id.rule_debit_account_id
+                        if not account:
+                           raise exceptions.Warning(
+                               _('Sorry The Allowance %s is Not account Set') % l.name)
                         total_list.append({
                             'name': l.name,
-                            'account_id': account,
+                            'account_id': account.id,
                             'debit': amount_allow,
                             'credit': 0,
                             'partner_id': line.employee_id.user_id.partner_id.id
@@ -3187,10 +3387,13 @@ class HrPayslipRun(models.Model):
 
                     for ded in line.deduction_ids:
                         amount_ded = -ded.total
-                        account = ded.salary_rule_id.get_credit_account_id(emp_type)
+                        account = ded.salary_rule_id.rule_credit_account_id
+                        if not account:
+                           raise exceptions.Warning(
+                               _('Sorry The Deduction %s is Not account Set') % ded.name)
                         total_list.append({
                             'name': ded.name,
-                            'account_id': account,
+                            'account_id': account.id,
                             'credit': amount_ded,
                             'debit': 0,
                             'partner_id': line.employee_id.user_id.partner_id.id
@@ -3200,6 +3403,9 @@ class HrPayslipRun(models.Model):
 
                     for lo in line.loan_ids:
                         amount_loans = -lo.amount
+                        if not lo.account_id:
+                           raise exceptions.Warning(
+                            _('Sorry The Loan %s is Not account Set') % lo.name)
                         total_list.append({
                             'name': lo.name,
                             'account_id': lo.account_id.id,
@@ -3229,17 +3435,21 @@ class HrPayslipRun(models.Model):
 
             for record in list_of_vals:
                 new_record_list = record.get('list_ids')
+                new_rec_loan_list = record.get('loans')
                 merged_list = self.merge_lists(new_record_list, 'name', 'account_id')
-                record_final_item = merged_list
+                record_final_item = merged_list + new_rec_loan_list
                 move = self.env['account.move'].create({
                     'state': 'draft',
                     'journal_id': record.get('move'),
                     # 'date': fields.Date.context_today(self),
                     'date': self.date_end,
                     'ref': bank_id,
-                    'line_ids': [(0, 0, item) for item in record_final_item]
+                    'line_ids': [(0, 0, item) for item in record_final_item],
+                    'res_model': 'hr.payslip.run',
+                    'res_id': self.id
                 })
                 line.move_id = move.id
+
         for line in self.slip_ids:
             payslip = self.env['hr.payslip'].search([('state', '=', line.state)])
             if payslip:
