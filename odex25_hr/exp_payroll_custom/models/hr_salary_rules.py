@@ -7,21 +7,9 @@ from odoo.exceptions import UserError
 from odoo.exceptions import Warning
 from odoo.tools.safe_eval import safe_eval
 
-class HrSalaryRuleAccount(models.Model):
-    _name = 'hr.salary.rule.account'
-    _description = 'Salary Rule Account Mapping'
-
-    rule_id = fields.Many2one('hr.salary.rule', string="Salary Rule", required=True, ondelete="cascade")
-    emp_type_id = fields.Many2one('hr.contract.type', string="Employee Type", required=True)
-    credit_account_id = fields.Many2one('account.account', string="Credit Account", required=True)
-    debit_account_id = fields.Many2one('account.account', string="Debit Account", required=True)
-
 
 class HrSalaryRules(models.Model):
     _inherit = 'hr.salary.rule'
-
-    account_ids = fields.One2many('hr.salary.rule.account', 'rule_id')
-    transfer_by_emp_type = fields.Boolean('Transfer By Emp Type')
 
     start_date = fields.Date(string='Start Date', default=fields.date.today())
     end_date = fields.Date(string='End Date')
@@ -57,16 +45,6 @@ class HrSalaryRules(models.Model):
                                    ('insurnce', _('Insurnce Deduction')),
                                    ('other', _('Other'))
                                    ], string='Rules Type')
-
-    def get_debit_account_id(self, emp_type):
-        if not self.transfer_by_emp_type :  return self.rule_debit_account_id.id
-        account_mapping = self.account_ids.filtered(lambda a: a.emp_type_id.id == emp_type)
-        return account_mapping[0].debit_account_id.id if account_mapping else False
-    
-    def get_credit_account_id(self, emp_type):
-        if not self.transfer_by_emp_type :  return self.rule_credit_account_id.id
-        account_mapping = self.account_ids.filtered(lambda a: a.emp_type_id.id == emp_type)
-        return account_mapping[0].credit_account_id.id if account_mapping else False
 
     @api.constrains('rules_type', 'category_id')
     def _check_dates(self):
