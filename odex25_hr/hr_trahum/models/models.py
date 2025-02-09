@@ -201,7 +201,7 @@ class HrEmployeePromotions(models.Model):
         self.state = "secretary_general"
 
 
-class EmployeeHrhierarchy(models.Model):
+class DepartmentHrhierarchy(models.Model):
     _inherit = "hr.department"
 
     employee_type_id = fields.Many2one('hr.contract.type', string="Employee Type")
