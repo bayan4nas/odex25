@@ -84,9 +84,17 @@
                 <xpath expr="//page[1]" position="after">
                     <page string="Accounting Info">
                         <group>
-                            <field name="rule_debit_account_id" string="Debit account"/>
-                            <field name="rule_credit_account_id" string="Credit account"/>
+                            <field name="rule_debit_account_id" string="Debit account" attrs="{'invisible' : [('transfer_by_emp_type', '=', True)]}"/>
+                            <field name="rule_credit_account_id" string="Credit account" attrs="{'invisible' : [('transfer_by_emp_type', '=', True)]}"/>
+                            <field name="transfer_by_emp_type" />
                         </group>
+                        <field name="account_ids" attrs="{'invisible' : [('transfer_by_emp_type', '=', False)]}">
+                            <tree editable="bottom">
+                                <field name="emp_type_id"/>
+                                <field name="credit_account_id"/>
+                                <field name="debit_account_id"/>
+                            </tree>
+                        </field>
                     </page>
                 </xpath>
                 <xpath expr="//notebook/page[1]" position="after">
