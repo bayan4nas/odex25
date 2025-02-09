@@ -2987,7 +2987,7 @@ class HrPayslipRun(models.Model):
                         'debit': amount_allow,
                         'journal_id': journal.id,
                         'credit': 0,
-                        'account_id': account,
+                        'account_id': account.id,
                     })
                     total_allow += amount_allow
 
@@ -3002,7 +3002,7 @@ class HrPayslipRun(models.Model):
                         'credit': amount_ded,
                         'journal_id': journal.id,
                         'debit': 0,
-                        'account_id': account,
+                        'account_id': account.id,
                     })
                     total_ded += amount_ded
 
@@ -3098,7 +3098,7 @@ class HrPayslipRun(models.Model):
                         'debit': amount_allow,
                         'journal_id': journal.id,
                         'credit': 0,
-                        'account_id': account,
+                        'account_id': account.id,
                         'analytic_account_id': line.employee_id.department_id.analytic_account_id.id,
                     })
                     total_allow += amount_allow
@@ -3216,7 +3216,7 @@ class HrPayslipRun(models.Model):
                         'debit': amount_allow,
                         'partner_id': line.employee_id.user_id.partner_id.id,
                         'credit': 0,
-                        'account_id': account,
+                        'account_id': account.id,
                         'analytic_account_id': line.employee_id.contract_id.analytic_account_id.id,
                     })
                     total_allow += amount_allow
@@ -3232,7 +3232,7 @@ class HrPayslipRun(models.Model):
                         'credit': amount_ded,
                         'partner_id': line.employee_id.user_id.partner_id.id,
                         'debit': 0,
-                        'account_id': account,
+                        'account_id': account.id,
                     })
                     total_ded += amount_ded
 
