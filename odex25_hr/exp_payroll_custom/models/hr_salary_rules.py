@@ -60,12 +60,12 @@ class HrSalaryRules(models.Model):
     
     def get_debit_account_id(self, emp_type):
         if not self.transfer_by_emp_type :  return self.rule_debit_account_id
-        account_mapping = self.account_ids.filtered(lambda a: a.emp_type_id == emp_type)
+        account_mapping = self.account_ids.filtered(lambda a: a.emp_type_id.id == emp_type.id)
         return account_mapping[0].debit_account_id if account_mapping else False
 
     def get_credit_account_id(self, emp_type):
         if not self.transfer_by_emp_type :  return self.rule_credit_account_id
-        account_mapping = self.account_ids.filtered(lambda a: a.emp_type_id == emp_type)
+        account_mapping = self.account_ids.filtered(lambda a: a.emp_type_id.id == emp_type.id)
         return account_mapping[0].credit_account_id if account_mapping else False
 
     @api.constrains('rules_type', 'category_id')
