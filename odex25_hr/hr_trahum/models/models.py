@@ -216,7 +216,7 @@ class Employee(models.Model):
     emp_no = fields.Char(string="Employee Number", default="new", tracking=True)
 
     def get_emp_type_id(self):
-        return self.department_id.employee_type_id.id
+        return self.department_id.employee_type_id
     
     @api.model
     def _generate_emp_no(self):
