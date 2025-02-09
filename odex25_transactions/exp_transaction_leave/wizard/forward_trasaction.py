@@ -77,7 +77,7 @@ class ForwardTransactionWizard(models.TransientModel):
             last_trace_id = transaction.trace_ids.sorted('create_date', reverse=True)[:1]
             transaction.trace_ids.create({
                 'action': 'forward',
-                'to_id': last_trace_id.to_id.type == 'unit' and self.internal_unit.id or self.employee.id,
+                'to_id': self.forward_type == 'unit' and self.internal_unit.id or self.employee.id,
                 'from_id': last_trace_id.to_id.id,
                 'from_secretary_id' : last_trace_id.to_id.type == 'unit' and from_id.id,
                 'procedure_id': self.procedure_id.id or False,
