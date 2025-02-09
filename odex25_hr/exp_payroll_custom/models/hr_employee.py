@@ -10,3 +10,6 @@ class HrEmployeeSalaryScale(models.Model):
     salary_level = fields.Many2one(related='contract_id.salary_level', string='Salary Level', store=True)
     salary_group = fields.Many2one(related='contract_id.salary_group', string='Salary Group', store=True)
     salary_degree = fields.Many2one(related='contract_id.salary_degree', string='Salary Degree', store=True)
+
+    def get_emp_type_id(self):
+        return self.employee_type_id.id

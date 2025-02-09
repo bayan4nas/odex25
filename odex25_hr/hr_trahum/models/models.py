@@ -206,7 +206,7 @@ class DepartmentHrhierarchy(models.Model):
 
     employee_type_id = fields.Many2one('hr.contract.type', string="Employee Type")
 
-class EmployeeHrhierarchy(models.Model):
+class Employee(models.Model):
     _inherit = "hr.employee"
 
 
