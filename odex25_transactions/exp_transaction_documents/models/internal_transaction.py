@@ -66,7 +66,7 @@ class InternalTransaction(models.Model):
             if last_track :
                 transaction.last_received_entity_id = last_track.to_id.id 
                 transaction.last_sender_entity_id = last_track.from_id.id 
-                transaction.last_from_label = last_track.from_label 
+                transaction.last_sender_label = last_track.from_label 
             else :
                 transaction.last_received_entity_id = False
                 transaction.last_sender_entity_id = False
