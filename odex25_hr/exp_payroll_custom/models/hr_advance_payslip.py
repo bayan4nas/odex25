@@ -2936,12 +2936,20 @@ class HrPayslipRun(models.Model):
         res = []
         for v, items in grupos:
             new_items = list(items)
-            res.append({
+            item = {
                 'name': v[0],
                 'account_id': v[1],
                 'debit': round(sum(dicc['debit'] for dicc in new_items),2),
                 'credit': round(sum(dicc2['credit'] for dicc2 in new_items),2)
-            })
+            }
+            if item['debit'] > 0 and item['credit'] > 0 :
+                if item['debit'] > item['credit'] :
+                    item['debit'] = item['debit'] - item['credit']
+                    item['credit'] = 0
+                else : 
+                    item['credit'] = item['credit'] - item['debit']
+                    item['debit'] = 0
+            res.append(item)
         return res
 
     def new_merge_lists(self, l1, key1, key2, key3):
