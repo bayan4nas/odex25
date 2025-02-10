@@ -17,7 +17,9 @@ class InternalTransaction(models.Model):
     attachment_ids = fields.One2many('cm.attachment', 'internal_transaction_id', string='Attachments')
     trace_ids = fields.One2many('cm.transaction.trace', 'internal_transaction_id', string='Trace Log')
     last_received_entity_id = fields.Many2one('cm.entity', compute="_compute_last_received_entity", store=True)
+    last_sender_entity_id = fields.Many2one('cm.entity', compute="_compute_last_received_entity", store=True)
     replayed_entity_ids = fields.Many2many('cm.entity', compute="_compute_replayed_entities", store=True)
+    last_sender_label = fields.Char('From', compute="_compute_last_received_entity", store=True)
     forward_entity_ids = fields.Many2many('cm.entity','internal_trans_forward_entity_rel', 'transaction_id', 'user_id', compute="_compute_forward_entities", store=True)
     type_sender = fields.Selection(
         string='',
@@ -61,7 +63,14 @@ class InternalTransaction(models.Model):
     def _compute_last_received_entity(self):
         for transaction in self:
             last_track = transaction.trace_ids.sorted('create_date', reverse=True)[:1]  # Get the last track
-            transaction.last_received_entity_id = last_track.to_id.id if last_track else False
+            if last_track :
+                transaction.last_received_entity_id = last_track.to_id.id 
+                transaction.last_sender_entity_id = last_track.from_id.id 
+                transaction.last_sender_label = last_track.from_label 
+            else :
+                transaction.last_received_entity_id = False
+                transaction.last_sender_entity_id = False
+                transaction.last_sender_label = False
 
 
     @api.onchange('type_sender')
