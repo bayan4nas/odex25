@@ -105,10 +105,10 @@
                                             </tr>
                                             <tr>
                                                 <td style="border: 1px solid black;">
-
+                                                    <t t-esc="time.strftime('%Y-%m-%d')"/>
                                                 </td>
                                                 <td style="border: 1px solid black;">
-
+                                                    <span t-esc="doc._fields['state'].selection"/>
                                                 </td>
                                                 <td style="border: 1px solid black;">
                                                     <span>
