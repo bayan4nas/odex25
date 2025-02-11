@@ -40,7 +40,7 @@
                         </tree>
                     </field>
                     <group class="oe_subtotal_footer oe_right">
-                        <field name="committee_members"/>
+<!--                        <field name="committee_members"/>-->
                         <field name="avg_evaluation"/>
                         <field name="total_evaluation"/>
                     </group>
@@ -61,7 +61,7 @@
                 <field name="purchase_committee_type" invisible="1"/>
                 <notebook>
                     <page string="Evaluation criteria">
-                        <field name="purchase_committee_type_line" widget="one2many_list">
+                        <field name="purchase_committee_type_line" create="0" widget="one2many_list" >
                             <tree editable="bottom">
                                 <field name="sequence" widget="handle"/>
                                 <field name="evaluation_criteria" readonly="1"/>

@@ -22,7 +22,7 @@ class EmployeesAppraisal(models.Model):
 
     # Relational fields
     department_id = fields.Many2one('hr.department')
-    manager_id = fields.Many2one('hr.employee', related='department_id.manager_id')
+    manager_id = fields.Many2one('hr.employee')
     employee_ids = fields.Many2many('hr.employee')
     appraisal_id = fields.One2many('hr.employee.appraisal', 'employee_appraisal')
     appraisal_plan_id = fields.Many2one('appraisal.plan')
@@ -50,8 +50,9 @@ class EmployeesAppraisal(models.Model):
                 employee_list = []
 
                 # Domain for manager_id
+                if item.department_id.manager_id:
+                    item.manager_id = item.department_id.manager_id.id
                 if not item.department_id.manager_id:
-                    item.manager_id = False
                     for line in employee_ids:
                         if line.department_id:
                             if line.department_id == item.department_id:
