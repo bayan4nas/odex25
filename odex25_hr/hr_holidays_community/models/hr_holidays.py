@@ -223,7 +223,7 @@ class Holidays(models.Model):
                                          help='This area is automaticly filled by the user who validate the leave with second level (If Leave type need second validation)')
     double_validation = fields.Boolean('Apply Double Validation', related='holiday_status_id.double_validation')
     can_reset = fields.Boolean('Can reset', compute='_compute_can_reset')
-    duration = fields.Integer(string="Duration", compute="_compute_duration", store=True)
+    duration = fields.Integer(string="Duration")
 
     # @api.depends('date_from', 'date_to')
     # def _compute_duration(self):

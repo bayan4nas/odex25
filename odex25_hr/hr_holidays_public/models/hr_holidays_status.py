@@ -116,23 +116,35 @@ class HrHolidaysStatus(models.Model):
             sort_key = lambda l: (l.leave_type, l.sickness_severity, l.virtual_remaining_leaves)
             employee_id = self._context.get('employee_id')
             type_holiday = self._context.get('type')
+
             if type_holiday == "remove":
+                # Fetching non-sick leave balances
                 balance = self.env['hr.holidays'].search([
                     ('employee_id', '=', int(employee_id)),
                     ('holiday_status_id.leave_type', '!=', 'sick'),
                     ('type', '=', 'add'),
                     ('check_allocation_view', '=', 'balance')
                 ]).mapped('holiday_status_id')
+
+                # Fetching sick leave balances
                 balance_sick = self.env['hr.holidays'].search([
                     ('employee_id', '=', int(employee_id)),
                     ('holiday_status_id.leave_type', '=', 'sick'),
                     ('type', '=', 'add'),
                     ('check_allocation_view', '=', 'balance'),
                     ('remaining_leaves', '>', 0)
-                ]).mapped('holiday_status_id').sorted(key=lambda eval: eval.sickness_severity, reverse=False)
-                balance_sick = balance_sick and balance_sick[0] or balance_sick
-                leaves = balance | balance_sick
-            return leaves.sorted(key=sort_key, reverse=False).ids
+                ]).mapped('holiday_status_id')  # Convert to hr.holidays.status
+
+                if balance_sick:
+                    balance_sick = balance_sick.sorted(key=lambda eval: eval.sickness_severity, reverse=False)
+                    balance_sick = balance_sick[0] if balance_sick else balance_sick  # Keep only the first sick leave status
+
+                # Ensure both are the same model before union
+                leaves = balance | balance_sick if balance_sick else balance
+
+            if leaves and sort_key:
+                return leaves.sorted(key=sort_key, reverse=False).ids
+
         return leave_ids
 
     @api.onchange('number_of_years', 'duration')
