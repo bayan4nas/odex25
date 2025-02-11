@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <odoo>
-    <record id="initial_evaluation_wizard_view" model="ir.ui.view">
-        <field name="name">initial.evaluation.wizard.view</field>
-        <field name="model">initial.evaluation.wizard</field>
+    <record id="final_evaluation_wizard_view" model="ir.ui.view">
+        <field name="name">final.evaluation.wizard.view</field>
+        <field name="model">final.evaluation.wizard</field>
         <field name="arch" type="xml">
             <form string="Purchase Report">
                 <group>
@@ -10,6 +10,8 @@
                         <field name="purchase_requisition" widget="many2many_tags"
                                options="{'no_edit': True, 'no_create': True, 'no_open': True}"/>
                         <field name="committee_member"
+                               options="{'no_edit': True, 'no_create': True, 'no_open': True}"/>
+                        <field name="hr_department_id"
                                options="{'no_edit': True, 'no_create': True, 'no_open': True}"/>
                     </group>
                     <group>
@@ -30,19 +32,19 @@
         </field>
     </record>
 
-    <record id="initial_evaluation_wizard_action" model="ir.actions.act_window">
-        <field name="name">Initial Evaluation Report</field>
+    <record id="final_evaluation_wizard_action" model="ir.actions.act_window">
+        <field name="name">final Evaluation Report</field>
         <field name="type">ir.actions.act_window</field>
-        <field name="res_model">initial.evaluation.wizard</field>
+        <field name="res_model">final.evaluation.wizard</field>
         <field name="view_mode">form</field>
-        <field name="view_id" ref="initial_evaluation_wizard_view"/>
+        <field name="view_id" ref="final_evaluation_wizard_view"/>
         <field name="target">new</field>
     </record>
 
     <!-- This Menu Item must have a parent and an action -->
-    <menuitem id="initial_evaluation_wizard_menu"
-              name="Initial Evaluation Report"
+    <menuitem id="final_evaluation_wizard_menu"
+              name="final Evaluation Report"
               parent="purchase_requisition_custom.reports"
-              action="initial_evaluation_wizard_action"
+              action="final_evaluation_wizard_action"
               sequence="3"/>
 </odoo>

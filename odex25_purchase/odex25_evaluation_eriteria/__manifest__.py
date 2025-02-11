@@ -28,8 +28,11 @@
         'security/groups.xml',
         'views/views.xml',
         'wizard/intial_evaluation_wizard.xml',
+        'wizard/final_evaluation_wizard.xml',
         'reports/initial_evaluation_view.xml',
         'reports/initial_evaluation_report.xml',
+        'reports/final_evaluation_view.xml',
+        'reports/final_evaluation_report.xml',
     ],
     # only loaded in demonstration mode
     'demo': [
