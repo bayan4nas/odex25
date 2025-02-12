@@ -80,7 +80,8 @@ class IncomingTransaction(models.Model):
                                        column1='transaction_id', column2='outgoing_id',
                                        string='Process Transactions Outgoing')
     attachment_count = fields.Integer(compute='count_attachments')
-    
+    last_received_entity_id = fields.Many2one('cm.entity')
+
     # attachment_file = fields.Many2many(
     #     comodel_name='ir.attachment',
     #     string='')
