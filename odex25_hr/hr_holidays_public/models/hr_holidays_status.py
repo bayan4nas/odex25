@@ -113,7 +113,13 @@ class HrHolidaysStatus(models.Model):
                                                           count=count, access_rights_uid=access_rights_uid)
         if not count and not order and self._context.get('employee_id'):
             leaves = self.browse(leave_ids)
-            sort_key = lambda l: (l.leave_type, l.sickness_severity, l.virtual_remaining_leaves)
+            # sort_key = lambda l: (l.leave_type, l.sickness_severity, l.virtual_remaining_leaves)
+            sort_key = lambda l: (
+                l.leave_type or "",
+                l.sickness_severity or "",
+                l.virtual_remaining_leaves if isinstance(l.virtual_remaining_leaves, (int, float)) else 0.0
+            )
+
             employee_id = self._context.get('employee_id')
             type_holiday = self._context.get('type')
 
