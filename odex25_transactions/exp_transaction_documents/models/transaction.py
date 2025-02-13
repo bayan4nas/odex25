@@ -81,7 +81,7 @@ class Transaction(models.Model):
     seen_before = fields.Boolean(compute="_compute_seen_before")
     to_ids = fields.Many2one(comodel_name='cm.entity', string='Send To')
     to_delegate = fields.Boolean(string='To Delegate?')
-
+    last_received_entity_id = fields.Many2one('cm.entity')
     
     @api.depends('type','subject')
     def compute_img(self):
