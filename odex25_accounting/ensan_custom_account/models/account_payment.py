@@ -15,10 +15,11 @@ class AccountPayment(models.Model):
         ('supplier', 'Vendor'),
         ('GL', 'GL'),  
     ], default='customer', tracking=True, required=True)
+
+
     destination_account_id = fields.Many2one(
         comodel_name='account.account',
         string='Destination Account',
-        compute='_compute_destination_account_id',
         check_company=True)
 
     def _prepare_payment_display_name(self):
@@ -44,18 +45,6 @@ class AccountPayment(models.Model):
         else:
             domain = [('user_type_id.type', 'not in', ('receivable', 'payable')), ('company_id', '=', self.company_id.id)]
         return {'domain': {'destination_account_id': domain}}
-
-    @api.onchange('journal_id', 'partner_id', 'partner_type', 'is_internal_transfer')
-    @api.depends('journal_id', 'partner_id', 'partner_type', 'is_internal_transfer')
-    def _compute_destination_account_id(self):
-        for rec in self:
-            if rec.destination_account_id and rec.partner_type == 'GL':
-                return super()._compute_destination_account_id()
-        print('self >>>>>>>>>>>>>>', self)
-        for pay in self:
-            if pay.partner_type == 'GL' and not pay.destination_account_id:
-                domain = [('user_type_id.type', 'not in', ('receivable', 'payable','view','liquidity')), ('company_id', '=', self.company_id.id)]
-                pay.destination_account_id = self.env['account.account'].search(domain, limit=1)
 
     def _synchronize_from_moves(self, changed_fields):
         ''' Update the account.payment regarding its related account.move.
@@ -138,14 +127,14 @@ class AccountPayment(models.Model):
                 payment_vals_to_write.update({
                     'amount': abs(liquidity_amount),
                     'currency_id': liquidity_lines.currency_id.id,
-                    'destination_account_id': counterpart_lines.account_id.id,
+                    'destination_account_id': pay.destination_account_id.id,
                     'partner_id': liquidity_lines.partner_id.id,
                 })
                 if liquidity_amount > 0.0:
                     payment_vals_to_write.update({'payment_type': 'inbound'})
                 elif liquidity_amount < 0.0:
                     payment_vals_to_write.update({'payment_type': 'outbound'})
-
+            print('move_vals_to_write >>>>>>>>>>>>>', move_vals_to_write)
             move.write(move._cleanup_write_orm_values(move, move_vals_to_write))
             pay.write(move._cleanup_write_orm_values(pay, payment_vals_to_write))
 
