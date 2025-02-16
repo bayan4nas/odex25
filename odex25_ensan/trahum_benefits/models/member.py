@@ -135,7 +135,12 @@ class FamilyMember(models.Model):
 
 
     benefit_id = fields.Many2one('grant.benefit', string='Family Profile')
-    name = fields.Char(string="Name", compute='get_partner_name', store=True, readonly=False)
+    name = fields.Char(
+        string="Name",
+        compute="_compute_full_name",
+        store=True,  # Store it in the database so it appears on page load
+        readonly=True
+    )
     first_name = fields.Char("First Name")
     father_name = fields.Char("Father Name")
     grand_name = fields.Char("Grand Name")
@@ -216,12 +221,18 @@ class FamilyMember(models.Model):
     chronic_details = fields.Char(string="chronic")
     mental_details = fields.Char(string="mental")
 
+    @api.depends('first_name', 'father_name', 'grand_name', 'family_name')
+    def _compute_full_name(self):
+        """Computes 'name' field on page load and when related fields change."""
+        for record in self:
+            record.name = " ".join(filter(None, [
+                record.first_name,
+                record.father_name,
+                record.grand_name,
+                record.family_name
+            ]))
+
     @api.onchange('first_name', 'father_name', 'grand_name', 'family_name')
     def _onchange_full_name(self):
-        """Automatically updates the 'name' field when any of the name parts change."""
-        self.name = " ".join(filter(None, [
-            self.first_name,
-            self.father_name,
-            self.grand_name,
-            self.family_name
-        ]))
+        """Ensures 'name' updates dynamically in the form view when fields change."""
+        self._compute_full_name()
