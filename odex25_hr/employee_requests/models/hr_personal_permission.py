@@ -40,7 +40,16 @@ class HrPersonalPermission(models.Model):
     type_exit = fields.Selection([('early_exit', _('Early Exit')), ('late entry', _('Late Entry')), ('during work', _('During Work'))],default="early_exit")
     company_id = fields.Many2one('res.company',string="Company", default=lambda self: self.env.user.company_id)
     is_branch = fields.Many2one(related='department_id.branch_name', store=True, readonly=True)
+    name = fields.Char(compute='_compute_name', store=True)
 
+    @api.depends('employee_id', 'type_exit', 'date_from')
+    def _compute_name(self):
+        for record in self:
+            record.name = False
+            emp_name = record.employee_id.name if record.employee_id else 'Unknown'
+            exit_type = dict(self._fields['type_exit'].selection).get(record.type_exit, 'Unknown')
+            date = record.date_from.strftime('%Y-%m-%d') if record.date_from else 'No Date'
+            record.name = f"{emp_name} - {exit_type} - {date}"
     # time_permission_from = fields.Float(string="Permission From (24h format)", help="Time in 24-hour format (e.g., 13.5 for 1:30 PM)")
     # time_permission_to = fields.Float(string="Permission To (24h format)", help="Time in 24-hour format (e.g., 15.75 for 3:45 PM)")
     
@@ -146,10 +155,10 @@ class HrPersonalPermission(models.Model):
     def permission_number_decrement(self):
         for item in self:
             # item._onchange_time() 
-            if item.employee_id:
-                if not item.employee_id.first_hiring_date:
-                    raise exceptions.Warning(
-                        _('You can not Request Permission The Employee have Not First Hiring Date'))
+            # if item.employee_id:
+            #     if not item.employee_id.first_hiring_date:
+            #         raise exceptions.Warning(
+            #             _('You can not Request Permission The Employee have Not First Hiring Date'))
             if item.date_to:
                 current_date = datetime.strptime(str(item.date_to), DEFAULT_SERVER_DATETIME_FORMAT)
                 current_month = current_date.month
