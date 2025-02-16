@@ -135,7 +135,16 @@ class FamilyMember(models.Model):
 
 
     benefit_id = fields.Many2one('grant.benefit', string='Family Profile')
-    name = fields.Char(string="Name", compute='get_partner_name', store=True, readonly=False)
+    name = fields.Char(
+        string="Name",
+        compute="_compute_full_name",
+        store=True,  # Store it in the database so it appears on page load
+        readonly=True
+    )
+    first_name = fields.Char("First Name")
+    father_name = fields.Char("Father Name")
+    grand_name = fields.Char("Grand Name")
+    family_name = fields.Char("Family Name")
     benefit_type = fields.Selection([
         ('inmate', 'Inmate'),
         ('breadwinner', 'Breadwinner'),
@@ -173,6 +182,7 @@ class FamilyMember(models.Model):
     qualification_id = fields.Many2one('family.member.qualification', string='Qualification')
     education_ids = fields.One2many('family.profile.learn', 'member_id', string='Education History')
     sub_number = fields.Char(string='Sub Number')
+    additional_number = fields.Char(string='Additional Number')
     street_name = fields.Char(string='Street Name')
     district = fields.Char(string='District')
     city = fields.Many2one("res.country.city",string='City')
@@ -210,3 +220,19 @@ class FamilyMember(models.Model):
     hereditary_details = fields.Char(string="Hereditary")
     chronic_details = fields.Char(string="chronic")
     mental_details = fields.Char(string="mental")
+
+    @api.depends('first_name', 'father_name', 'grand_name', 'family_name')
+    def _compute_full_name(self):
+        """Computes 'name' field on page load and when related fields change."""
+        for record in self:
+            record.name = " ".join(filter(None, [
+                record.first_name,
+                record.father_name,
+                record.grand_name,
+                record.family_name
+            ]))
+
+    @api.onchange('first_name', 'father_name', 'grand_name', 'family_name')
+    def _onchange_full_name(self):
+        """Ensures 'name' updates dynamically in the form view when fields change."""
+        self._compute_full_name()

@@ -23,8 +23,25 @@
                             <group>
                                 <h1>
                                     <label for="name" string="Name"/>
-                                    <field name="name" required="1"/>
+                                    <field name="name" readonly="1"/>
                                 </h1>
+                                <br/>
+                                <h3>
+                                    <label for="first_name" string="First Name"/>
+                                    <field name="first_name" required="1" class="update_full_name"/>
+                                </h3>
+                                <h3>
+                                    <label for="father_name" string="Father Name"/>
+                                    <field name="father_name" required="1" class="update_full_name"/>
+                                </h3>
+                                <h3>
+                                    <label for="grand_name" string="Grand Name"/>
+                                    <field name="grand_name" required="1" class="update_full_name"/>
+                                </h3>
+                                <h3>
+                                    <label for="family_name" string="Family Name"/>
+                                    <field name="family_name" required="1" class="update_full_name"/>
+                                </h3>
                             </group>
                         </group>
                         <group>
@@ -85,6 +102,7 @@
                                 <group>
                                     <field name="building_number"/>
                                     <field name="sub_number"/>
+                                    <field name="additional_number"/>
                                     <field name="street_name"/>
                                     <field name="district"/>
                                     <field name="city"/>
