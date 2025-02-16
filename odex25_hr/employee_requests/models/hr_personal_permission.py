@@ -155,10 +155,10 @@ class HrPersonalPermission(models.Model):
     def permission_number_decrement(self):
         for item in self:
             # item._onchange_time() 
-            # if item.employee_id:
-            #     if not item.employee_id.first_hiring_date:
-            #         raise exceptions.Warning(
-            #             _('You can not Request Permission The Employee have Not First Hiring Date'))
+            if item.employee_id:
+                if not item.employee_id.first_hiring_date:
+                    raise exceptions.Warning(
+                        _('You can not Request Permission The Employee have Not First Hiring Date'))
             if item.date_to:
                 current_date = datetime.strptime(str(item.date_to), DEFAULT_SERVER_DATETIME_FORMAT)
                 current_month = current_date.month
