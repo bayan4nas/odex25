@@ -1773,9 +1773,9 @@ class HRHolidays(models.Model):
                 date_to_value = datetime.strptime(str(item.date_to), "%Y-%m-%d %H:%M:%S")
                 if date_to_value < date_from_value:
                     raise exceptions.Warning(_('Sorry Date TO must be bigger than Date From'))
-                if (date_from_value - current_date).days + 1 < item.holiday_status_id.request_before:
-                    raise exceptions.Warning(_('Sorry your request must be before  %s Days of your leave') \
-                                             % item.holiday_status_id.request_before)
+                # if (date_from_value - current_date).days + 1 < item.holiday_status_id.request_before:
+                #     raise exceptions.Warning(_('Sorry your request must be before  %s Days of your leave') \
+                #                              % item.holiday_status_id.request_before)
                 self.number_of_days_temp = self._get_number_of_days(item.date_from, item.date_to, self.employee_id.id,
                                                                     self.holiday_status_id.official_holidays,
                                                                     self.holiday_status_id.working_days)
