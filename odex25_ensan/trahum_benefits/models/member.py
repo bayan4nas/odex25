@@ -220,6 +220,7 @@ class FamilyMember(models.Model):
     hereditary_details = fields.Char(string="Hereditary")
     chronic_details = fields.Char(string="chronic")
     mental_details = fields.Char(string="mental")
+    external_guid = fields.Char(string='External GUID')
 
     @api.depends('first_name', 'father_name', 'grand_name', 'family_name')
     def _compute_full_name(self):
