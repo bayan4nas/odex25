@@ -117,6 +117,8 @@ class Project(models.Model):
                                                  string="Allowed Internal Users", default=lambda self: self.env.user, domain=[('share', '=', False)])
     allowed_portal_user_ids = fields.Many2many('res.users', 'project_allowed_portal_users_rel', string="Allowed Portal Users", domain=[('share', '=', True)])
 
+    owner_employee_id = fields.Many2one('hr.employee', string="Owner Employee")
+
     allow_timesheets = fields.Boolean(
         "Timesheets", compute='_compute_allow_timesheets', store=True, readonly=False,
         default=False, help="Enable timesheeting on the project.")
