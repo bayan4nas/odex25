@@ -38,11 +38,12 @@
         <field name="model">employee.overtime.request</field>
         <field name="inherit_id" ref="employee_requests.employee_overtime_request_form_view"/>
         <field name="arch" type="xml">
+            <!-- Add a button for sector head approval -->
             <xpath expr="//header" position="inside">
                 <button name="action_sector_head_approval"
                         string="Sector Head Approval"
                         type="object"
-                        states="sector_head_approval"
+                        states="financial_manager"
                         class="oe_highlight"
                         groups="hr_trahum.group_sector_head_approval"/>
                 <button name="direct_manager_refused"
@@ -59,7 +60,7 @@
 
             <xpath expr="//header/field[@name='state']" position="replace">
                 <field name="state" widget="statusbar"
-                       statusbar_visible="draft,submit,direct_manager,financial_manager,sector_head_approval,executive_office,validated,refused"/>
+                       statusbar_visible="draft,submit,direct_manager,financial_manager,sector_head_approval,hr_aaproval,executive_office,validated,refused"/>
             </xpath>
         </field>
     </record>
