@@ -183,6 +183,7 @@ class FamilyMember(models.Model):
     education_ids = fields.One2many('family.profile.learn', 'member_id', string='Education History')
     sub_number = fields.Char(string='Sub Number')
     additional_number = fields.Char(string='Additional Number')
+    additional_mobile_number = fields.Char(string='Additional Mobile Number')
     street_name = fields.Char(string='Street Name')
     district = fields.Char(string='District')
     city = fields.Many2one("res.country.city",string='City')
