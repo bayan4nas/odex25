@@ -39,7 +39,7 @@
         <field name="inherit_id" ref="employee_requests.employee_overtime_request_form_view"/>
         <field name="arch" type="xml">
             <!-- Add a button for sector head approval -->
-            <xpath expr="//header" position="inside">
+            <!-- <xpath expr="//header" position="inside">
                 <button name="action_sector_head_approval"
                         string="Sector Head Approval"
                         type="object"
@@ -61,7 +61,7 @@
             <xpath expr="//header/field[@name='state']" position="replace">
                 <field name="state" widget="statusbar"
                        statusbar_visible="draft,submit,direct_manager,financial_manager,sector_head_approval,hr_aaproval,executive_office,validated,refused"/>
-            </xpath>
+            </xpath> -->
         </field>
     </record>
 
