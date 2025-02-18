@@ -222,6 +222,9 @@ class FamilyMember(models.Model):
     mental_details = fields.Char(string="mental")
     external_guid = fields.Char(string='External GUID')
 
+    house_ids = fields.One2many('family.member.house', 'member_id', string='House Profile')
+    
+
     @api.depends('first_name', 'father_name', 'grand_name', 'family_name')
     def _compute_full_name(self):
         """Computes 'name' field on page load and when related fields change."""
@@ -237,3 +240,54 @@ class FamilyMember(models.Model):
     def _onchange_full_name(self):
         """Ensures 'name' updates dynamically in the form view when fields change."""
         self._compute_full_name()
+
+
+class MemberHouse(models.Model):
+    _name = 'family.member.house'
+
+    member_id = fields.Many2one('family.member', string='Member', ondelete='cascade', required=True)
+
+    housing_type = fields.Selection([
+        ('apartment', 'apartment'),
+        ('villa', 'villa'),
+        ('popular_house', 'popular house'),
+        ('tent', 'tent'),
+        ('Appendix', 'Appendix'), ], default='apartment')
+    
+    property_type = fields.Selection([
+        ('ownership', 'ownership'),
+        ('rent', 'rent'),
+        ('charitable', 'charitable'),
+        ('ownership_shared', 'Ownership Shared'),
+        ('rent_shared', 'Rent Shared')])
+    
+    exchange_period = fields.Selection(
+        [
+            ('monthly', 'Monthly'),
+            ('every_three_months', 'Every Three Months'),
+            ('every_six_months', 'Every Six Months'),
+            ('every_nine_months', 'Every Nine Months'),
+            ('annually', 'Annually'),
+            ('two_years', 'Two Years'),
+        ],
+        string="Exchange Period",
+        attrs="{'readonly': [('housing_status', 'not in', ['usufruct', 'rent'])]}"
+    )
+
+    housing_status = fields.Selection(
+        [
+            ('owned', 'Owned'),
+            ('shared', 'Shared'),
+            ('usufruct', 'Usufruct'),
+            ('rent', 'Rent'),
+        ],
+        string="Housing Status"
+    )
+
+    housing_value = fields.Integer(
+        string="Housing Value",
+        attrs="{'readonly': [('housing_status', 'not in', ['usufruct', 'rent'])]}"
+    )
+
+    accommodation_attachments = fields.Binary(string="Accommodation Attachments ", attachment=True)
+    
