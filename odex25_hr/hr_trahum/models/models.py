@@ -36,7 +36,6 @@ class HrContractTrahum(models.Model):
         self.state = "sector_head_approval"
 
 
-
 class HrOfficialMissionTrahum(models.Model):
     _inherit = 'hr.official.mission'
 #
@@ -55,35 +54,6 @@ class HrOfficialMissionTrahum(models.Model):
 
     # def action_secretary_general(self):
     #     self.state = "secretary_general"
-
-
-class EmployeeOvertimeRequestTrahum(models.Model):
-    _inherit = 'employee.overtime.request'
-
-
-    state = fields.Selection(
-        [('draft', _('Draft')),
-         ('submit', _('Waiting Direct Manager')),
-         ('direct_manager', _('Waiting Department Manager')),
-         ('financial_manager', _('Wait HR Department')),
-         ('sector_head_approval', _('Sector Head Approval')),
-         ('hr_aaproval', _('Wait Approval')),
-         ('executive_office', _('Wait Transfer')),
-         ('validated', _('Transferred')),
-         ('refused', _('Refused'))], default="draft", tracking=True)
-
-    # def action_sector_head_approval(self):
-    #     self.state = "sector_head_approval"
-
-
-    # def action_secretary_general(self):
-    #     self.state = "secretary_general"
-
-    def action_sector_head_approval(self):
-        self.state = "executive_office" 
-
-    def hr_aaproval(self):
-        self.state = "sector_head_approval"
 
 
 
