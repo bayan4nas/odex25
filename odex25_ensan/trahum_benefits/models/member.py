@@ -289,5 +289,7 @@ class MemberHouse(models.Model):
         attrs="{'readonly': [('housing_status', 'not in', ['usufruct', 'rent'])]}"
     )
 
-    accommodation_attachments = fields.Binary(string="Accommodation Attachments ", attachment=True)
+    accommodation_attachments = fields.Binary(string="Accommodation Attachments", attachment=True)
+
+    benefit_id = fields.Many2one('grant.benefit', string="Profile", related='member_id.benefit_id' , store=True)
     
