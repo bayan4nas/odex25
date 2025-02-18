@@ -62,18 +62,18 @@ class EmployeeOvertimeRequestTrahum(models.Model):
 
 
     state = fields.Selection(
-        [('draft', _('Draft')),
-         ('submit', _('Waiting Direct Manager')),
-         ('direct_manager', _('Waiting Department Manager')),
-         ('financial_manager', _('Wait HR Department')),
-         ('sector_head_approval', _('Sector Head Approval')),
-         ('hr_aaproval', _('Wait Approval')),
-         ('executive_office', _('Wait Transfer')),
-         ('validated', _('Transferred')),
-         ('refused', _('Refused'))], default="draft", tracking=True)
+        [('draft', 'Draft'),
+         ('submit', 'Waiting Direct Manager'),
+         ('direct_manager', 'Waiting Department Manager'),
+         ('financial_manager', 'Wait HR Department'),
+        #  ('sector_head_approval', _('Sector Head Approval')),
+         ('hr_aaproval', 'Wait Sector Head Approval'),
+         ('executive_office', 'Wait General Manager'),
+         ('validated', 'Approved'),
+         ('refused', 'Refused')], default="draft", tracking=True)
 
-    def action_sector_head_approval(self):
-        self.state = "sector_head_approval"
+    # def action_sector_head_approval(self):
+    #      self.state = "sector_head_approval"
 
 
     # def action_secretary_general(self):
