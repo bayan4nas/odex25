@@ -393,7 +393,9 @@ class ProjectInvoiceLine(models.Model):
                 'discount': self.discount,
                 'price_unit': self.price_unit,
                 'tax_ids': [(6, 0, self.tax_id.ids)],
-                'analytic_account_id': self.project_invoice_id.project_id.analytic_account_id.id}
+                'analytic_account_id': self.project_invoice_id.project_id.category_id.analytic_account_id and  self.project_invoice_id.project_id.category_id.analytic_account_id.id or False,
+                # 'analytic_account_id': self.project_invoice_id.project_id.analytic_account_id.id
+                }
         if self.project_invoice_id.project_id.purchase_order_id and self.project_invoice_id.project_id.type == 'expense'  :
             res['analytic_account_id'] =  self.project_invoice_id.project_id.purchase_line_id.account_analytic_id.id
             res['purchase_line_id'] = self.project_invoice_id.project_id.purchase_line_id.id
