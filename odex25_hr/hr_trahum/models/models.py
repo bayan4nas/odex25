@@ -95,21 +95,19 @@ class HrLoanSalaryAdvanceInherit(models.Model):
                  ('submit', _('Waiting Payroll Officer')),
                  ('direct_manager', _('Wait HR Department')),
                  ('director_financial_management', _('Director Financial Management')),
-                 ('sector_head_approval', _('Wait Sector Head Approval')),
-                 ('hr_manager', _('Wait HR')),
-                 ('executive_manager', _('Wait GM Approval')),
+                 ('sector_head_approval', _('Sector Head Approval')),
+                 ('hr_manager', _('Wait GM Approval')),
+                 ('executive_manager', _('Wait Transfer')),
                  ('pay', _('Transferred')), ('refused', _('Refused')),
                  ('closed', _('Loan Suspended'))],
             default="draft", tracking=True)
 
-    # def action_director_financial_management(self):
-    #     self.state = "director_financial_management"
+    def action_director_financial_management(self):
+        self.state = "director_financial_management"
 
     def action_sector_head_approval(self):
-        self.state = "executive_office" 
-
-    def hr_aaproval(self):
         self.state = "sector_head_approval"
+
 
 
 class HrSalaryAdvanceInherit(models.Model):
