@@ -79,6 +79,8 @@ class EmployeeOvertimeRequestTrahum(models.Model):
     # def action_secretary_general(self):
     #     self.state = "secretary_general"
 
+    def hr_aaproval(self):
+        self.state = "hr_aaproval"
 
 
 class HrLoanSalaryAdvanceInherit(models.Model):
