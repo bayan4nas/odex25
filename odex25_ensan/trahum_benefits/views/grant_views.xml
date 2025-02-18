@@ -47,7 +47,7 @@
                                 </group> -->
                                 <field name="house_ids">
                                     <tree editable="bottom">
-                                        <field name="member_id" domain="['|', ('member_id', 'in', parent.member_ids), ('member_id', '=', parent.breadwinner_member_id)]"/>
+                                        <field name="member_id" domain="['|', ('id', 'in', parent.member_ids), ('id', '=', parent.breadwinner_member_id)]"/>
                                         <field name="housing_type"/>
                                         <field name="property_type"/>
                                         <field name="exchange_period"/>
