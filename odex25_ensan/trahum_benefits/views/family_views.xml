@@ -183,18 +183,16 @@
                                 </group>
                             </page>
                             <page string="House Profile" attrs="{'invisible': [('benefit_type', '=', 'inmate')]}">
-                                <group>
-                                    <field name="house_ids">
-                                        <tree editable="bottom">
-                                            <field name="housing_type"/>
-                                            <field name="property_type"/>
-                                            <field name="exchange_period"/>
-                                            <field name="housing_status"/>
-                                            <field name="housing_value"/>
-                                            <field name="accommodation_attachments"/>
-                                        </tree>
-                                    </field>
-                                </group>
+                                <field name="house_ids">
+                                    <tree editable="bottom">
+                                        <field name="housing_type"/>
+                                        <field name="property_type"/>
+                                        <field name="exchange_period"/>
+                                        <field name="housing_status"/>
+                                        <field name="housing_value"/>
+                                        <field name="accommodation_attachments"/>
+                                    </tree>
+                                </field>
                             </page>
                         </notebook>
                     </sheet>

@@ -62,6 +62,8 @@ class GrantBenefit(models.Model):
     delegate_iban = fields.Char(string="Authorized IBAN")
     delegate_document = fields.Binary(string="Authorization form", attachment=True)
 
+    house_ids = fields.One2many('family.member.house','benefit_id' ,string="House Profile")
+
 
     @api.model
     def create(self, vals):

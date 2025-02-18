@@ -32,7 +32,7 @@
                                 </field>
                             </page>
                             <page string="Housing">
-                                <group>
+                                <!-- <group>
                                     <group>
                                         <field name="housing_type"/>
                                         <field name="property_type"/>
@@ -44,7 +44,18 @@
                                         <field name="housing_value" attrs="{'readonly': [('housing_status', 'not in', ['usufruct', 'rent'])]}"/>
                                         <field name="accommodation_attachments"/>
                                     </group>
-                                </group>
+                                </group> -->
+                                <field name="house_ids">
+                                    <tree editable="bottom">
+                                        <field name="member_id" domain="['|', ('member_id', 'in', parent.member_ids), ('member_id', '=', parent.breadwinner_member_id)]"/>
+                                        <field name="housing_type"/>
+                                        <field name="property_type"/>
+                                        <field name="exchange_period"/>
+                                        <field name="housing_status"/>
+                                        <field name="housing_value"/>
+                                        <field name="accommodation_attachments"/>
+                                    </tree>
+                                </field>
                             </page>
                             <page string="expenses">
                                 <group>
