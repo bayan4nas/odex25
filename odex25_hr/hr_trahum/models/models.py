@@ -7,6 +7,11 @@ from odoo.exceptions import ValidationError
 from datetime import date
 _logger = logging.getLogger(__name__)
 
+class EmployeeOvertimeRequestTrahum(models.Model):
+    _inherit = 'employee.overtime.request'
+
+    def hr_aaproval(self):
+        self.state = "hr_aaproval"
 
 
 class HrContractTrahum(models.Model):
