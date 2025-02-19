@@ -195,11 +195,66 @@
                                     </tree>
                                 </field>
                             </page>
+                            <!-- Expenses Page -->
+                            <page string="Expenses">
+                                <field name="expenses_ids">
+                                    <tree editable="top">
+                                        <field name="benefit_id" invisible="1" context="{'default_benefit_id': benefit_id}"/>
+                                        <field name="expenses_type" invisible="1"/>
+                                        <field name="expenses_type_custom"/>
+                                        <field name="revenue_periodicity"/>
+                                        <field name="amount" sum="amount"/>
+                                        <field name="side"/>
+                                        <field name="attachment"/>
+                                    </tree>
+                                    <form>
+                                        <group>
+                                            <field name="expenses_type"/>
+                                            <field name="expenses_type_custom"/>
+                                            <field name="revenue_periodicity"/>
+                                            <field name="amount"/>
+                                            <field name="side"/>
+                                            <field name="attachment"/>
+                                        </group>
+                                    </form>
+                                </field>
+                            </page>
+
+                            <!-- Income and Salary Page -->
+                            <page string="Income and Salary">
+                                <field name="salary_ids">
+                                    <tree editable="bottom">
+                                        <field name="benefit_id" invisible="1" context="{'default_benefit_id': benefit_id}"/>
+                                        <field name="income_type"/>
+                                        <field name="side"/>
+                                        <field name="salary_amount"/>
+                                        <field name="salary_attach" widget="many2many_attachment_preview"/>
+                                        <field name="revenue_periodicity"/>
+                                        <field name="is_required" invisible="1"/>
+                                        <field name="is_default" invisible="1"/>
+                                    </tree>
+                                    <form>
+                                        <group>
+                                            <field name="income_type"/>
+                                            <field name="side"/>
+                                            <field name="salary_amount"/>
+                                            <field name="salary_attach" widget="many2many_attachment_preview"/>
+                                            <field name="revenue_periodicity"/>
+                                            <field name="is_required"/>
+                                            <field name="is_default"/>
+                                        </group>
+                                    </form>
+                                </field>
+                            </page>
                         </notebook>
                     </sheet>
                 </form>
             </field>
         </record>
+
+        
+
+
 
         <record id="action_family_member" model="ir.actions.act_window">
             <field name="name">Members</field>
