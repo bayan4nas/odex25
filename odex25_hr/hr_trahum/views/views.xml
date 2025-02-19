@@ -38,36 +38,40 @@
         <field name="model">employee.overtime.request</field>
         <field name="inherit_id" ref="employee_requests.employee_overtime_request_form_view"/>
         <field name="arch" type="xml">
-            <!-- Add a button for sector head approval -->
-            <button name="submit" string="Submit" class="oe_highlight" type="object" states="draft"
-                                groups="base.group_user"/>
-            <button name="direct_manager" string="Direct Manager Approve" class="oe_highlight" type="object"
-                    states="submit" groups="hr_base.group_division_manager"/>
-            <button name="direct_manager_refused" string="Refuse" class="oe_highlight" type="object"
-                    states="submit" groups="hr_base.group_division_manager"/>
-            <button name="financial_manager" string="Department Manager" class="oe_highlight" type="object"
-                    states="direct_manager" groups="hr_base.group_department_manager"/>
-            <button name="dep_manager_refused" string="Refuse" class="oe_highlight" type="object"
-                    states="direct_manager" groups="hr_base.group_department_manager"/>
-            <button name="hr_aaproval" string="HR Approval" class="oe_highlight" type="object"
-                    states="financial_manager" groups="hr.group_hr_user,hr.group_hr_manager"/>
-            <button name="refused" string="Refuse" class="oe_highlight" type="object"
-                    states="financial_manager" groups="hr.group_hr_user, hr.group_hr_manager"/>
-            <button name="executive_office" string="Executive Approval" class="oe_highlight" type="object"
-                    groups="hr_base.group_general_manager,hr_base.group_executive_manager,group_sector_head_approval"
-                    attrs="{'invisible':[('state','!=','hr_aaproval')]}"/>
-            <button name="refused" string="Refuse" class="oe_highlight" type="object"
-                    groups="hr_base.group_general_manager,hr_base.group_executive_manager,group_sector_head_approval"
-                    attrs="{'invisible':[('state','!=','hr_aaproval')]}"/>
-            <button name="validated" string="Approval" class="oe_highlight" type="object"
-                    groups="hr_base.group_services_manager,group_secretary_general" states="executive_office"/>
-            <button name="refused" string="Refuse" class="oe_highlight" type="object"
-                    states="executive_office" groups="hr_base.group_services_manager,group_secretary_general"/>
-            <button name="re_draft" string="RE-Draft" class="oe_highlight" type="object"
-                    states="refused,validated" groups="hr.group_hr_user"
-                    confirm="Are you sure to Reset To Draft This Record?"/>
+            <xpath expr="//header" position="replace">
+                </header>
+                    <!-- Add a button for sector head approval -->
+                    <button name="submit" string="Submit" class="oe_highlight" type="object" states="draft"
+                                        groups="base.group_user"/>
+                    <button name="direct_manager" string="Direct Manager Approve" class="oe_highlight" type="object"
+                            states="submit" groups="hr_base.group_division_manager"/>
+                    <button name="direct_manager_refused" string="Refuse" class="oe_highlight" type="object"
+                            states="submit" groups="hr_base.group_division_manager"/>
+                    <button name="financial_manager" string="Department Manager" class="oe_highlight" type="object"
+                            states="direct_manager" groups="hr_base.group_department_manager"/>
+                    <button name="dep_manager_refused" string="Refuse" class="oe_highlight" type="object"
+                            states="direct_manager" groups="hr_base.group_department_manager"/>
+                    <button name="hr_aaproval" string="HR Approval" class="oe_highlight" type="object"
+                            states="financial_manager" groups="hr.group_hr_user,hr.group_hr_manager"/>
+                    <button name="refused" string="Refuse" class="oe_highlight" type="object"
+                            states="financial_manager" groups="hr.group_hr_user, hr.group_hr_manager"/>
+                    <button name="executive_office" string="Executive Approval" class="oe_highlight" type="object"
+                            groups="hr_base.group_general_manager,hr_base.group_executive_manager,group_sector_head_approval"
+                            attrs="{'invisible':[('state','!=','hr_aaproval')]}"/>
+                    <button name="refused" string="Refuse" class="oe_highlight" type="object"
+                            groups="hr_base.group_general_manager,hr_base.group_executive_manager,group_sector_head_approval"
+                            attrs="{'invisible':[('state','!=','hr_aaproval')]}"/>
+                    <button name="validated" string="Approval" class="oe_highlight" type="object"
+                            groups="hr_base.group_services_manager,group_secretary_general" states="executive_office"/>
+                    <button name="refused" string="Refuse" class="oe_highlight" type="object"
+                            states="executive_office" groups="hr_base.group_services_manager,group_secretary_general"/>
+                    <button name="re_draft" string="RE-Draft" class="oe_highlight" type="object"
+                            states="refused,validated" groups="hr.group_hr_user"
+                            confirm="Are you sure to Reset To Draft This Record?"/>
 
-            <field name="state" widget="statusbar"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+            </xpath>
         </field>
     </record>
 
