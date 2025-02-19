@@ -117,6 +117,8 @@ class Project(models.Model):
                                                  string="Allowed Internal Users", default=lambda self: self.env.user, domain=[('share', '=', False)])
     allowed_portal_user_ids = fields.Many2many('res.users', 'project_allowed_portal_users_rel', string="Allowed Portal Users", domain=[('share', '=', True)])
 
+    owner_employee_id = fields.Many2one('hr.employee', string="Owner Employee")
+
     allow_timesheets = fields.Boolean(
         "Timesheets", compute='_compute_allow_timesheets', store=True, readonly=False,
         default=False, help="Enable timesheeting on the project.")
@@ -545,6 +547,7 @@ class ProjectCategory(models.Model):
     name = fields.Char(string="Name")
     company_id = fields.Many2one('res.company', string="Company", default=lambda self: self.env.user.company_id)
     account_id = fields.Many2one('account.account', string="Account")
+    analytic_account_id = fields.Many2one('account.analytic.account', string="Analytic Account")
 
 
 class ProjectHoldReason(models.Model):

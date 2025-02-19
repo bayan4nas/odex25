@@ -84,6 +84,7 @@
                     </group>
                     <group>
                         <field name="department_id" attrs="{'readonly':[('state','not in',['draft','confirm'])]}" />
+                        <field name="owner_employee_id"/>
                         <field name="department_execute_id"/>
                         <field name="user_id" widget="many2one_avatar_user" attrs="{'readonly':[('state','not in',['draft'])],'required':True}" />
                         <label for="start" string="Period" />
@@ -660,6 +661,7 @@
                             <field name="name" required="1" />
                             <field name="company_id" groups="base.group_multi_company" readonly="1" />
                             <field name="account_id"/>
+                            <field name="analytic_account_id"/>
                         </group>
                     </group>
                 </sheet>

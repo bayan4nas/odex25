@@ -37,15 +37,15 @@
                         <button name="dep_manager_refused" string="Refuse" class="oe_highlight" type="object"
                                 states="direct_manager" groups="hr_base.group_department_manager"/>
                         <button name="hr_aaproval" string="HR Approval" class="oe_highlight" type="object"
-                                states="financial_manager" groups="hr.group_hr_user, hr.group_hr_manager"/>
+                                states="financial_manager" groups="hr.group_hr_user,hr.group_hr_manager"/>
                         <button name="refused" string="Refuse" class="oe_highlight" type="object"
                                 states="financial_manager" groups="hr.group_hr_user, hr.group_hr_manager"/>
                         <button name="executive_office" string="Executive Approval" class="oe_highlight" type="object"
                                 groups="hr_base.group_general_manager,hr_base.group_executive_manager"
-                                attrs="{'invisible':['|',('state','!=','hr_aaproval'),('exception','!=',True)]}"/>
+                                attrs="{'invisible':[('state','!=','hr_aaproval')]}"/>
                         <button name="refused" string="Refuse" class="oe_highlight" type="object"
                                 groups="hr_base.group_general_manager,hr_base.group_executive_manager"
-                                attrs="{'invisible':['|',('state','!=','hr_aaproval'),('exception','!=',True)]}"/>
+                                attrs="{'invisible':[('state','!=','hr_aaproval')]}"/>
                         <button name="validated" string="Approval" class="oe_highlight" type="object"
                                 groups="hr_base.group_services_manager" states="executive_office"/>
                         <button name="refused" string="Refuse" class="oe_highlight" type="object"
