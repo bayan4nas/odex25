@@ -10,7 +10,7 @@ from dateutil.relativedelta import relativedelta
 
 from odoo import api, fields, models, tools, _, exceptions
 from odoo.exceptions import UserError, except_orm
-
+from calendar import monthrange
 
 # New object for loans lines in payslip
 class PayslipLoans(models.Model):
@@ -76,8 +76,9 @@ class SalaryRuleInput(models.Model):
     @api.depends('date_from', 'date_to')
     def _compute_num_days(self):
         for record in self:
-            if record.date_from and record.date_to:
-                record.month_days = (record.date_to - record.date_from).days + 1
+            if record.date_from :
+                month_range = monthrange(record.date_from.year, record.date_from.month)[1]
+                record.month_days = month_range
             else:
                 raise UserError(_('Please Enter start date and end date'))
 
@@ -2512,7 +2513,7 @@ class HrPayslipRun(models.Model):
                             #     payslips += item_payslip
                     else:
                        
-                        from calendar import monthrange
+                        
                         month_range = monthrange(datetime.now().date().year, month_date.month)[1]
                         contract_end_date = datetime.strptime(str(to_date), "%Y-%m-%d").date()
                         duration = relativedelta(contract_end_date, contract_start_date).days + 1
