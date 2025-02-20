@@ -190,6 +190,9 @@
                             <field name="department_ids" nolabel="1" widget="many2many"
                                    attrs="{'readonly': [('state','!=','draft')]}"/>
                         </page>
+                        <page name="other" string="Other">
+                            <field name="month_days" readonly="0"/>
+                        </page>
                     </notebook>
                 </xpath>
             </field>
