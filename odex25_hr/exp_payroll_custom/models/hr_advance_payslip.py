@@ -2270,9 +2270,9 @@ class HrPayslipRun(models.Model):
     def _compute_num_days(self):
         for record in self:
             if record.date_start and record.date_end:
-                record.num_days = (record.date_end - record.date_start).days + 1
+                record.month_days = (record.date_end - record.date_start).days + 1
             else:
-                record.num_days = 0
+                record.month_days = 0
 
     @api.onchange('date_start')
     def check_date_start(self):
