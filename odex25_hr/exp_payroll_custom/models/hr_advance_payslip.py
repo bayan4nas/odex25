@@ -2511,9 +2511,8 @@ class HrPayslipRun(models.Model):
                             #             payslips += item_payslip
                             # else:
                             #     payslips += item_payslip
-                    else:
-                       
-                        
+                    else:   
+                        from calendar import monthrange
                         month_range = monthrange(datetime.now().date().year, month_date.month)[1]
                         contract_end_date = datetime.strptime(str(to_date), "%Y-%m-%d").date()
                         duration = relativedelta(contract_end_date, contract_start_date).days + 1
