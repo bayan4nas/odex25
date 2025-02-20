@@ -2231,7 +2231,8 @@ class HrPayslipLine(models.Model):
                         if line.leave_request_case or line.salary_rule_id.special == True:
                             line.total = round((line.amount) * line.percentage / 100,2)
                         else:
-                            line.total = round(((line.amount / 30) * work_days) * line.percentage / 100,2)
+                            month_days = line.slip_id.payslip_run_id.month_days
+                            line.total = round(((line.amount / month_days) * work_days) * line.percentage / 100,2)
             ################################################### End IF Then else #################################################
             else:
                 line.total = round((line.amount) * line.percentage / 100,2)
@@ -2258,6 +2259,20 @@ class HrPayslipRun(models.Model):
     move_id = fields.Many2one('account.move', string="Move Number")
     company_id = fields.Many2one('res.company', string='Company', default=lambda self: self.env.company)
     employee_value_ids = fields.Many2many(comodel_name="hr.employee", compute="_compute_allowed_value_ids")
+    
+    month_days = fields.Integer(
+        string="Number of Days", 
+        compute="_compute_num_days",
+        store=True
+    )
+
+    @api.depends('date_start', 'date_end')
+    def _compute_num_days(self):
+        for record in self:
+            if record.date_start and record.date_end:
+                record.num_days = (record.date_end - record.date_start).days + 1
+            else:
+                record.num_days = 0
 
     @api.onchange('date_start')
     def check_date_start(self):
