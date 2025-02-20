@@ -67,6 +67,20 @@ class SalaryRuleInput(models.Model):
 
     employee_no = fields.Char(related='employee_id.emp_no', readonly=True,string='Employee Number', store=True)
 
+    month_days = fields.Integer(
+        string="Number of Days", 
+        compute="_compute_num_days",
+        store=True
+    )
+
+    @api.depends('date_from', 'date_to')
+    def _compute_num_days(self):
+        for record in self:
+            if record.date_from and record.date_to:
+                record.month_days = (record.date_to - record.date_from).days + 1
+            else:
+                raise UserError(_('Please Enter start date and end date'))
+
     def compute_allowances_(self):
         for item in self:
             item.basic_allowances, item.house_allowances, trans_allowances, employee_insurnce, company_insurnce = 0.0, 0.0, 0.0, 0.0, 0.0
@@ -2231,7 +2245,7 @@ class HrPayslipLine(models.Model):
                         if line.leave_request_case or line.salary_rule_id.special == True:
                             line.total = round((line.amount) * line.percentage / 100,2)
                         else:
-                            month_days = line.slip_id.payslip_run_id.month_days
+                            month_days = line.slip_id.month_days
                             line.total = round(((line.amount / month_days) * work_days) * line.percentage / 100,2)
             ################################################### End IF Then else #################################################
             else:
