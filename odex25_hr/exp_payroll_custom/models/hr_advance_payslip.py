@@ -2736,17 +2736,18 @@ class HrPayslipRun(models.Model):
                         from calendar import monthrange
                         month_range = monthrange(datetime.now().date().year, month_date.month)[1]
                         contract_end_date = datetime.strptime(str(to_date), "%Y-%m-%d").date()
-
-                        if month_range == 30 and contract_end_date.day == 30:
-                            duration = relativedelta(contract_end_date, contract_start_date).days + 1
-                        elif month_range > 30 and contract_end_date.day > 30:
-                            duration = relativedelta(contract_end_date, contract_start_date).days
-                        elif month_range == 28 and contract_end_date.day == 28:
-                            duration = relativedelta(contract_end_date, contract_start_date).days + 3
-                        elif month_range == 29 and contract_end_date.day == 29:
-                            duration = relativedelta(contract_end_date, contract_start_date).days + 2
-                        else:
-                            duration = relativedelta(contract_end_date, contract_start_date).days + 1
+                        duration = relativedelta(contract_end_date, contract_start_date).days + 1
+                        
+                        # if month_range == 30 and contract_end_date.day == 30:
+                        #     duration = relativedelta(contract_end_date, contract_start_date).days + 1
+                        # elif month_range > 30 and contract_end_date.day > 30:
+                        #     duration = relativedelta(contract_end_date, contract_start_date).days
+                        # elif month_range == 28 and contract_end_date.day == 28:
+                        #     duration = relativedelta(contract_end_date, contract_start_date).days + 3
+                        # elif month_range == 29 and contract_end_date.day == 29:
+                        #     duration = relativedelta(contract_end_date, contract_start_date).days + 2
+                        # else:
+                        #     duration = relativedelta(contract_end_date, contract_start_date).days + 1
                         hours = (float((contract_end_date - contract_start_date).seconds) / 86400) * 24
                         if not employee_slip_line:
                             res = {
