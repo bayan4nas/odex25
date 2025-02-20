@@ -4,6 +4,7 @@ import itertools as it
 import time
 from datetime import datetime, timedelta
 from operator import itemgetter
+import math
 
 import babel
 from dateutil.relativedelta import relativedelta
@@ -2247,7 +2248,10 @@ class HrPayslipLine(models.Model):
                             line.total = round((line.amount) * line.percentage / 100,2)
                         else:
                             month_days = line.slip_id.month_days
-                            line.total = round(((line.amount / month_days) * work_days) * line.percentage / 100,2)
+                            line_total = (line.amount / month_days) * work_days * line.percentage / 100
+                            if line.salary_rule_id.rules_type == 'salary' or line.salary_rule_id.rules_type == 'house' :
+                                line.total = math.ceil(line_total)
+                            else : line.total = round(line_total,2)
             ################################################### End IF Then else #################################################
             else:
                 line.total = round((line.amount) * line.percentage / 100,2)
