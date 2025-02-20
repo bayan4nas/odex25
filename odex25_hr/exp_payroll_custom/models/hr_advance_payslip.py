@@ -4,13 +4,13 @@ import itertools as it
 import time
 from datetime import datetime, timedelta
 from operator import itemgetter
+import math
 
 import babel
 from dateutil.relativedelta import relativedelta
 
 from odoo import api, fields, models, tools, _, exceptions
 from odoo.exceptions import UserError, except_orm
-
 
 # New object for loans lines in payslip
 class PayslipLoans(models.Model):
@@ -76,8 +76,10 @@ class SalaryRuleInput(models.Model):
     @api.depends('date_from', 'date_to')
     def _compute_num_days(self):
         for record in self:
-            if record.date_from and record.date_to:
-                record.month_days = (record.date_to - record.date_from).days + 1
+            if record.date_from :
+                from calendar import monthrange
+                month_range = monthrange(record.date_from.year, record.date_from.month)[1]
+                record.month_days = month_range
             else:
                 raise UserError(_('Please Enter start date and end date'))
 
@@ -2246,7 +2248,10 @@ class HrPayslipLine(models.Model):
                             line.total = round((line.amount) * line.percentage / 100,2)
                         else:
                             month_days = line.slip_id.month_days
-                            line.total = round(((line.amount / month_days) * work_days) * line.percentage / 100,2)
+                            line_total = (line.amount / month_days) * work_days * line.percentage / 100
+                            if line.salary_rule_id.rules_type == 'salary' or line.salary_rule_id.rules_type == 'house' :
+                                line.total = math.ceil(line_total)
+                            else : line.total = round(line_total,2)
             ################################################### End IF Then else #################################################
             else:
                 line.total = round((line.amount) * line.percentage / 100,2)
@@ -2510,25 +2515,25 @@ class HrPayslipRun(models.Model):
                             #             payslips += item_payslip
                             # else:
                             #     payslips += item_payslip
-                    else:
-
+                    else:   
                         from calendar import monthrange
                         month_range = monthrange(datetime.now().date().year, month_date.month)[1]
                         contract_end_date = datetime.strptime(str(to_date), "%Y-%m-%d").date()
+                        duration = relativedelta(contract_end_date, contract_start_date).days + 1
+                        
+                        # if month_range == 30 and contract_end_date.day == 30:
+                        #     duration = relativedelta(contract_end_date, contract_start_date).days + 1
 
-                        if month_range == 30 and contract_end_date.day == 30:
-                            duration = relativedelta(contract_end_date, contract_start_date).days + 1
+                        # elif month_range > 30 and contract_end_date.day > 30:
+                        #     duration = relativedelta(contract_end_date, contract_start_date).days
+                        # elif month_range == 28 and contract_end_date.day == 28:
+                        #     duration = relativedelta(contract_end_date, contract_start_date).days + 3
 
-                        elif month_range > 30 and contract_end_date.day > 30:
-                            duration = relativedelta(contract_end_date, contract_start_date).days
-                        elif month_range == 28 and contract_end_date.day == 28:
-                            duration = relativedelta(contract_end_date, contract_start_date).days + 3
+                        # elif month_range == 29 and contract_end_date.day == 29:
+                        #     duration = relativedelta(contract_end_date, contract_start_date).days + 2
 
-                        elif month_range == 29 and contract_end_date.day == 29:
-                            duration = relativedelta(contract_end_date, contract_start_date).days + 2
-
-                        else:
-                            duration = relativedelta(contract_end_date, contract_start_date).days + 1
+                        # else:
+                        #     duration = relativedelta(contract_end_date, contract_start_date).days + 1
 
                         hours = (float((contract_end_date - contract_start_date).seconds) / 86400) * 24
                         if not employee_slip_line:
@@ -2735,17 +2740,18 @@ class HrPayslipRun(models.Model):
                         from calendar import monthrange
                         month_range = monthrange(datetime.now().date().year, month_date.month)[1]
                         contract_end_date = datetime.strptime(str(to_date), "%Y-%m-%d").date()
-
-                        if month_range == 30 and contract_end_date.day == 30:
-                            duration = relativedelta(contract_end_date, contract_start_date).days + 1
-                        elif month_range > 30 and contract_end_date.day > 30:
-                            duration = relativedelta(contract_end_date, contract_start_date).days
-                        elif month_range == 28 and contract_end_date.day == 28:
-                            duration = relativedelta(contract_end_date, contract_start_date).days + 3
-                        elif month_range == 29 and contract_end_date.day == 29:
-                            duration = relativedelta(contract_end_date, contract_start_date).days + 2
-                        else:
-                            duration = relativedelta(contract_end_date, contract_start_date).days + 1
+                        duration = relativedelta(contract_end_date, contract_start_date).days + 1
+                        
+                        # if month_range == 30 and contract_end_date.day == 30:
+                        #     duration = relativedelta(contract_end_date, contract_start_date).days + 1
+                        # elif month_range > 30 and contract_end_date.day > 30:
+                        #     duration = relativedelta(contract_end_date, contract_start_date).days
+                        # elif month_range == 28 and contract_end_date.day == 28:
+                        #     duration = relativedelta(contract_end_date, contract_start_date).days + 3
+                        # elif month_range == 29 and contract_end_date.day == 29:
+                        #     duration = relativedelta(contract_end_date, contract_start_date).days + 2
+                        # else:
+                        #     duration = relativedelta(contract_end_date, contract_start_date).days + 1
                         hours = (float((contract_end_date - contract_start_date).seconds) / 86400) * 24
                         if not employee_slip_line:
                             res = {
