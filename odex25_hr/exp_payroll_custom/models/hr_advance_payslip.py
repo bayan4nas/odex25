@@ -10,7 +10,6 @@ from dateutil.relativedelta import relativedelta
 
 from odoo import api, fields, models, tools, _, exceptions
 from odoo.exceptions import UserError, except_orm
-from calendar import monthrange
 
 # New object for loans lines in payslip
 class PayslipLoans(models.Model):
@@ -77,6 +76,7 @@ class SalaryRuleInput(models.Model):
     def _compute_num_days(self):
         for record in self:
             if record.date_from :
+                from calendar import monthrange
                 month_range = monthrange(record.date_from.year, record.date_from.month)[1]
                 record.month_days = month_range
             else:
