@@ -2272,7 +2272,7 @@ class HrPayslipRun(models.Model):
             if record.date_start and record.date_end:
                 record.month_days = (record.date_end - record.date_start).days + 1
             else:
-                record.month_days = 0
+                raise UserError(_('Please Enter start date and end date'))
 
     @api.onchange('date_start')
     def check_date_start(self):
