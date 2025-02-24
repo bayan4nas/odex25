@@ -218,9 +218,18 @@ class FamilyMember(models.Model):
     has_hereditary_disease = fields.Boolean(string="Has a hereditary disease?")
     has_chronic_disease = fields.Boolean(string="He has a chronic disease?")
     has_mental_illness = fields.Boolean(string="He has a mental illness?")
-    hereditary_details = fields.Char(string="Hereditary")
-    chronic_details = fields.Char(string="chronic")
-    mental_details = fields.Char(string="mental")
+    hereditary_details = fields.Many2one(
+        'health.genetic.diseases',  # Reference to the main table
+        string="Hereditary Disease",
+    )
+    chronic_details = fields.Many2one(
+        'health.chronic.diseases',  # Reference to the main table
+        string="Chronic Disease",
+    )
+    mental_details = fields.Many2one(
+        'health.mental.illnesses',  # Reference to the main table
+        string="Mental Illness",
+    )
     external_guid = fields.Char(string='External GUID')
 
     house_ids = fields.One2many('family.member.house', 'member_id', string='House Profile')
