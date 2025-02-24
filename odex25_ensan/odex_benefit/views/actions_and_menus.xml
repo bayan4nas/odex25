@@ -487,12 +487,40 @@
                 </p>
             </field>
         </record>
+        
         <record model="ir.actions.act_window" id="loan_reason_action">
             <field name="name">Loan Reason</field>
             <field name="res_model">loan.reason</field>
             <field name="view_mode">tree,form</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">Create the Loan Reason
+                </p>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="health_genetic_diseases_action">
+            <field name="name">Health Genetic Diseases</field>
+            <field name="res_model">health.genetic.diseases</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Create Health Genetic Diseases
+                </p>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="health_mental_illnesses_action">
+            <field name="name">Health Mental Illnesses</field>
+            <field name="res_model">health.mental.illnesses</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Create Health Mental Illnesses
+                </p>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="health_chronic_diseases_action">
+            <field name="name">Health Chronic Diseases</field>
+            <field name="res_model">health.chronic.diseases</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Create Health Chronic Diseases
                 </p>
             </field>
         </record>
@@ -976,6 +1004,15 @@
                   parent="menu_benefits_config_benefits" action="loan_giver_action" sequence="9"/>
         <menuitem id="loan_reason_menu" name="Loan Reason"
                   parent="menu_benefits_config_benefits" action="loan_reason_action" sequence="10"/>
+
+        <menuitem id="health_genetic_diseases_menu" name="Health Genetic Diseases"
+                parent="menu_benefits_config_benefits" action="health_genetic_diseases_action" sequence="11"/>
+
+        <menuitem id="health_mental_illnesses_menu" name="Health Mental Illnesses"
+                parent="menu_benefits_config_benefits" action="health_mental_illnesses_action" sequence="12"/>
+
+        <menuitem id="health_chronic_diseases_menu" name="Health Chronic Diseases"
+                parent="menu_benefits_config_benefits" action="health_chronic_diseases_action" sequence="13"/>
 <!--        <menuitem id="sport_type_menu" name="Sport Type"-->
 <!--                  parent="menu_benefits_config_benefits" action="sport_type_action" sequence="5"/>-->
 <!--        <menuitem id="needs_categories_menu" name="Needs Categories"-->
