@@ -419,7 +419,7 @@ class HrTermination(models.Model):
             if self.paid_duration == 31:
                 duration_percentage = 30 / 30
             else:
-                duration_percentage = 30 / self.paid_duration
+                duration_percentage = 28 / self.paid_duration
         else:
             duration_percentage = 1
 
