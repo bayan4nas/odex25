@@ -1,0 +1,33 @@
+<odoo>
+    <data>
+        <!-- Genetic Diseases Setting Entity -->
+        <record id="genetic_diseases_setting_form" model="ir.ui.view">
+            <field name="name">health.genetic.diseases.form</field>
+            <field name="model">health.genetic.diseases</field>
+            <field name="arch" type="xml">
+                <form string="Genetic Diseases Setting">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="health_genetic_diseases_tree" model="ir.ui.view">
+            <field name="name">health.genetic.diseases.tree</field>
+            <field name="model">health.genetic.diseases</field>
+            <field name="arch" type="xml">
+                <tree string="Genetic Diseases Setting">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+        <!-- Action-->
+        <record model="ir.actions.act_window" id="health_genetic_diseases_action">
+            <field name="name">Genetic Diseases Setting</field>
+            <field name="res_model">health.genetic.diseases</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+    </data>
+</odoo>

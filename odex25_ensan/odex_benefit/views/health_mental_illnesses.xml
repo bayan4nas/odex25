@@ -1,0 +1,33 @@
+<odoo>
+    <data>
+        <!-- Genetic Diseases Setting Entity -->
+        <record id="health_mental_illnesses_form" model="ir.ui.view">
+            <field name="name">health.mental.illnesses.form</field>
+            <field name="model">health.mental.illnesses</field>
+            <field name="arch" type="xml">
+                <form string="Health Mental Illnesses">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="health_mental_illnesses_tree" model="ir.ui.view">
+            <field name="name">health.mental.illnesses.tree</field>
+            <field name="model">health.mental.illnesses</field>
+            <field name="arch" type="xml">
+                <tree string="Health Mental Illnesses">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+        <!-- Action-->
+        <record model="ir.actions.act_window" id="health_mental_illnesses_action">
+            <field name="name">Health Mental Illnesses</field>
+            <field name="res_model">health.mental.illnesses</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+    </data>
+</odoo>

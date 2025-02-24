@@ -38,6 +38,7 @@
         'views/ir_attachment_inherit.xml',
         'views/changes_requests.xml',
         'views/education_settings.xml',
+        'views/health_genetic_diseases.xml',
         'views/payment_order.xml',
         # 'views/res_config_settings_view.xml',
         # 'views/benefit_expenses_view.xml',

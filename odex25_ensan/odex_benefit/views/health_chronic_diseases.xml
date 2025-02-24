@@ -1,0 +1,33 @@
+<odoo>
+    <data>
+        <!-- Genetic Diseases Setting Entity -->
+        <record id="health_chronic_diseases_form" model="ir.ui.view">
+            <field name="name">health.chronic.diseases.form</field>
+            <field name="model">health.chronic.diseases</field>
+            <field name="arch" type="xml">
+                <form string="Health Chronic Diseases">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="health_chronic_diseases_tree" model="ir.ui.view">
+            <field name="name">health.chronic.diseases.tree</field>
+            <field name="model">health.chronic.diseases</field>
+            <field name="arch" type="xml">
+                <tree string="Health Chronic Diseases">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+        <!-- Action-->
+        <record model="ir.actions.act_window" id="health_chronic_diseases_action">
+            <field name="name">Health Chronic Diseases</field>
+            <field name="res_model">health.chronic.diseases</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+    </data>
+</odoo>
