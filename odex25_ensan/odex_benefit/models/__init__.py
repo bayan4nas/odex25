@@ -27,4 +27,7 @@ from . import res_country_inherit
 from . import service_request
 from . import payment_order
 from . import family_complaints
+from . import health_genetic_diseases
+from . import health_mental_illnesses
+from . import health_chronic_diseases
 # from . import res_config_settings
