@@ -286,8 +286,7 @@ class Salary(models.Model):
     _name = 'salary.line'
     _description = "Benefits - Salary line"
 
-    benefit_id = fields.Many2one(
-        'grant.benefit')
+    benefit_id = fields.Many2one('family.member', string="Benefit")  
     salary_type = fields.Char()
     income_type = fields.Many2one('attachments.settings',string='Income Type',domain="[('attach_type','=','income_attach')]")
     salary_amount = fields.Float(
