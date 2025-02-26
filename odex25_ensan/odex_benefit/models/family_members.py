@@ -257,11 +257,11 @@ class FamilyMemberProfile(models.Model):
     is_mother = fields.Boolean('Is Mother?')
 
     expenses_ids = fields.One2many(
-        "expenses.line", "benefit_id", string="Expenses"
+        "expenses.line", "member_id", string="Expenses"
     )
 
     salary_ids = fields.One2many(
-        "salary.line", "benefit_id", string="Salaries"
+        "salary.line", "member_id", string="Salaries"
     )
 
     
