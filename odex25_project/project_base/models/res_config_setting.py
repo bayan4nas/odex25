@@ -15,3 +15,18 @@ class ResConfigSettings(models.TransientModel):
     module_project_budget = fields.Boolean(string="Project Budget",related='company_id.module_project_budget',readonly=False)
     type = fields.Selection([('revenue', 'Revenue'),
                              ('expense', 'Expense')], string='Type',related='company_id.type',readonly=False)
+    account_id = fields.Many2one(
+    'account.account',
+    string="Account",
+    related='company_id.account_id',
+    readonly=False,  
+    store=True  
+    )
+
+    analytic_account_id = fields.Many2one(
+        'account.analytic.account',
+        string="Analytic Account",
+        related='company_id.analytic_account_id',
+        readonly=False,
+        store=True
+    )
