@@ -381,19 +381,21 @@ class ProjectInvoiceLine(models.Model):
         :param optional_values: any parameter that should be added to the returned invoice line
         """
         self.ensure_one()
+        company_account_id = self.env.user.company_id.account_id.id if self.env.user.company_id.account_id else False
+        company_analytic_account_id = self.env.user.company_id.analytic_account_id.id if self.env.user.company_id.analytic_account_id else False
         # Convert to string to avoid TypeError
         name = str(self.name) if self.name else ''
         project_name = str(self.project_invoice_id.project_id.name) if self.project_invoice_id and self.project_invoice_id.project_id.name else ''
         res = {
                 'name': name + '/' + project_name,
-                'account_id': self.project_invoice_id.project_id.category_id.account_id and  self.project_invoice_id.project_id.category_id.account_id.id or False,
+                'account_id': company_account_id,
                 'product_id': self.product_id.id,
                 'product_uom_id': self.product_uom.id,
                 'quantity': self.product_uom_qty,
                 'discount': self.discount,
                 'price_unit': self.price_unit,
                 'tax_ids': [(6, 0, self.tax_id.ids)],
-                'analytic_account_id': self.project_invoice_id.project_id.category_id.analytic_account_id and  self.project_invoice_id.project_id.category_id.analytic_account_id.id or False,
+                'analytic_account_id': company_analytic_account_id,
                 # 'analytic_account_id': self.project_invoice_id.project_id.analytic_account_id.id
                 }
         if self.project_invoice_id.project_id.purchase_order_id and self.project_invoice_id.project_id.type == 'expense'  :
