@@ -381,8 +381,8 @@ class ProjectInvoiceLine(models.Model):
         :param optional_values: any parameter that should be added to the returned invoice line
         """
         self.ensure_one()
-        company_account_id = self.env.company_id.account_id.id if self.env.company_id.account_id else False
-        company_analytic_account_id = self.env.company_id.analytic_account_id.id if self.env.company_id.analytic_account_id else False
+        company_account_id = self.env.user.company_id.account_id.id if self.env.user.company_id.account_id else False
+        company_analytic_account_id = self.env.user.company_id.analytic_account_id.id if self.env.user.company_id.analytic_account_id else False
         # Convert to string to avoid TypeError
         name = str(self.name) if self.name else ''
         project_name = str(self.project_invoice_id.project_id.name) if self.project_invoice_id and self.project_invoice_id.project_id.name else ''
