@@ -53,6 +53,14 @@ class ProjectInvoice(models.Model):
     allowed_internal_user_ids = fields.Many2many('res.users', 'project_invoice_allowed_internal_users_rel',
                                                  string="Allowed Internal Users", default=lambda self: self.env.user, domain=[('share', '=', False)])
     allowed_portal_user_ids = fields.Many2many('res.users', 'project_invoice_allowed_portal_users_rel', string="Allowed Portal Users", domain=[('share', '=', True)])
+    attachment_ids = fields.Many2many(
+        'ir.attachment',
+        'project_invoice_attachment_rel',
+        'invoice_id',
+        'attachment_id',
+        string="Attachments",
+        help="Attach invoice-related documents"
+    )
     
     @api.onchange("project_invline_ids")
     def get_price_unit_value_test(self):
