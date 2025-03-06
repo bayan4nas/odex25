@@ -18,31 +18,45 @@
             <field name="model">family.member</field>
             <field name="arch" type="xml">
                 <form string="Members">
-                    <sheet>
+                    <header>
+                        <button name="action_completed" type="object" string="Completed"
+                            states="draft" class="oe_highlight"/>
+                        <button name="action_draft" type="object" string="Reset"
+                            states="completed" class="oe_highlight"/>
+                        <field name="state" widget="statusbar" attrs="{'invisible': [('state', 'in', ['draft', 'completed'])]}"/>
+                    </header>
+                    <sheet attrs="{'readonly': [('state', '=', 'completed')]}">
                         <group>
-                            <group>
-                                <h1>
-                                    <label for="name" string="Name"/>
-                                    <field name="name" readonly="1"/>
-                                </h1>
-                                <br/>
-                                <h3>
-                                    <label for="first_name" string="First Name"/>
-                                    <field name="first_name" required="1" class="update_full_name"/>
-                                </h3>
-                                <h3>
-                                    <label for="father_name" string="Father Name"/>
-                                    <field name="father_name" required="1" class="update_full_name"/>
-                                </h3>
-                                <h3>
-                                    <label for="grand_name" string="Grand Name"/>
-                                    <field name="grand_name" required="1" class="update_full_name"/>
-                                </h3>
-                                <h3>
-                                    <label for="family_name" string="Family Name"/>
-                                    <field name="family_name" required="1" class="update_full_name"/>
-                                </h3>
-                            </group>
+                            <h1>
+                                <field name="name" placeholder="الأسم" readonly="1"/>
+                            </h1>
+                        </group>
+                        <group>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <h3>
+                                        <field name="first_name" placeholder="الاسم الاول" required="1" class="update_full_name"/>
+                                    </h3>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <h3>
+                                        <field name="father_name" placeholder="اسم الاب" required="1" class="update_full_name"/>
+                                    </h3>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <h3>
+                                        <field name="grand_name" placeholder="اسم الجد" required="1" class="update_full_name"/>
+                                    </h3>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <h3>
+                                        <field name="family_name" placeholder="اسم العائلة" required="1" class="update_full_name"/>
+                                    </h3>
+                                </div>
+                            </div>
                         </group>
                         <group>
                             <group>
