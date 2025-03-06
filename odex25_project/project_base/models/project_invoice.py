@@ -194,10 +194,8 @@ class ProjectInvoice(models.Model):
                 'res_id':self.id
             }
         elif self.project_id.type == 'expense':
-            journal = self.env['account.move'].sudo().with_context(default_move_type='in_invoice')._get_default_journal()
-            #
-            #
-            # ////
+            # journal = self.env['account.move'].sudo().with_context(default_move_type='in_invoice')._get_default_journal()
+            journal = self.env['account.journal'].sudo().search([('type','=', 'purchase')], limit=1)
             invoice_vals = {
                 'move_type': 'in_invoice',
                 'currency_id': self.currency_id.id,
