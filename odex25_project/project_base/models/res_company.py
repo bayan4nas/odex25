@@ -19,6 +19,4 @@ class ResCompany(models.Model):
     type = fields.Selection([('revenue', 'Revenue'),
                              ('expense', 'Expense'),
                              ('internal', 'Internal')], default='revenue',string='Type')
-    account_id = fields.Many2one('account.account', string="Account")
-    analytic_account_id = fields.Many2one('account.analytic.account', string="Analytic Account")
 

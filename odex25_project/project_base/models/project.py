@@ -546,6 +546,8 @@ class ProjectCategory(models.Model):
 
     name = fields.Char(string="Name")
     company_id = fields.Many2one('res.company', string="Company", default=lambda self: self.env.user.company_id)
+    account_id = fields.Many2one('account.account', string="Account")
+    analytic_account_id = fields.Many2one('account.analytic.account', string="Analytic Account")
 
 
 class ProjectHoldReason(models.Model):

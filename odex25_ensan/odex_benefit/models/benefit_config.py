@@ -286,9 +286,8 @@ class Salary(models.Model):
     _name = 'salary.line'
     _description = "Benefits - Salary line"
 
-    member_id = fields.Many2one('family.member', string='Member', ondelete='cascade', required=True)
-
-    benefit_id = fields.Many2one('grant.benefit', string="Benefit", related='member_id.benefit_id' , store=True)  
+    benefit_id = fields.Many2one(
+        'grant.benefit')
     salary_type = fields.Char()
     income_type = fields.Many2one('attachments.settings',string='Income Type',domain="[('attach_type','=','income_attach')]")
     salary_amount = fields.Float(
@@ -407,11 +406,9 @@ class ClothSize(models.Model):
 class ExpensesLine(models.Model):
     _name = 'expenses.line'
 
-    member_id = fields.Many2one('family.member', string='Member', ondelete='cascade', required=True)
-
     category_id = fields.Many2one(
         'benefit.category')
-    benefit_id = fields.Many2one('grant.benefit', string="Benefit", related='member_id.benefit_id' , store=True)
+    benefit_id = fields.Many2one('grant.benefit')
     expenses_type_custom = fields.Many2one('expenses.type')
     expenses_type = fields.Selection(
         string='',
@@ -432,8 +429,7 @@ class ExpensesLine(models.Model):
     # side = fields.Char(string='The side')
     # attachment = fields.Binary(string="Attachments", attachment=True)
 
-    
-    
+
     def action_accept(self):
         self.state = 'accepted'
 
