@@ -12,4 +12,4 @@ class ResPrison(models.Model):
     _description = 'Prison'
 
     name = fields.Char(string='Prison Name', required=True)
-    country_id = fields.Many2one('res.prison.country', string='Country', required=True)
+    country_id = fields.Many2one('res.prison.country', string='Country', required=False)
