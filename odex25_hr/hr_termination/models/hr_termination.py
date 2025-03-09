@@ -8,6 +8,7 @@ import logging
 from num2words import num2words
 from hijri_converter import convert
 import math
+import calendar
 
 _logger = logging.getLogger(__name__)
 
@@ -415,11 +416,18 @@ class HrTermination(models.Model):
         #     itemss.net -= abs(itemss.total_loans)
         # for item in self:
         # Make the maximum paid duration is 30
+        _, number_of_days = calendar.monthrange(self.last_work_date.year, self.last_work_date.month)
         if self.paid_duration > 0:
-            if self.paid_duration == 31:
-                duration_percentage = 30 / 30
+            if number_of_days == 31:
+                duration_percentage = 31 / self.paid_duration
+
+            elif number_of_days == 28:
+                   duration_percentage = 28 / self.paid_duration
+
+            elif number_of_days == 29:
+                   duration_percentage = 29 / self.paid_duration
             else:
-                duration_percentage = 28 / self.paid_duration
+                duration_percentage = 30 / self.paid_duration
         else:
             duration_percentage = 1
 
