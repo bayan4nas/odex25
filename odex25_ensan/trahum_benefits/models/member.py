@@ -233,19 +233,7 @@ class FamilyMember(models.Model):
     external_guid = fields.Char(string='External GUID')
 
     house_ids = fields.One2many('family.member.house', 'member_id', string='House Profile')
-
-    state = fields.Selection([
-        ('draft', 'Draft'),
-        ('completed', 'Completed')
-    ], default='draft',tracking=True, string="State")
     
-
-
-    def action_completed(self):
-        self.write({'state': 'completed'})
-
-    def action_draft(self):
-        self.write({'state': 'draft'})
 
     @api.depends('first_name', 'father_name', 'grand_name', 'family_name')
     def _compute_full_name(self):

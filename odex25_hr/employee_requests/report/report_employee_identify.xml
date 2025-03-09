@@ -59,26 +59,6 @@
                         font-weight: bold;
                         width: 25%;
                         }
-                        .connsign{
-                            width: 450px;
-                            height:90px;
-                            float:left;
-                            margin-top:-66px;
-                            margin-left:-140px !important;
-                            text-align:right;
-                            padding:0px;
-                            }
-                            .con{
-                            width: 400px;
-                            height:25px;
-                            text-align:right;
-                            }
-                            .sign{
-                            width: 400px;
-                            height:50px;
-                            margin-top:5px;
-                            text-align:right;
-                            }
                     </style>
                     <div class="OutlineElement Rtl SCXW182515882 BCX2">
                         <h3 style="font-weight:bold;margin-bottom: 40px;text-align:center;font-family: 'Sakkal Majalla'!important;color:rgb(77, 168, 178);font-size: 20pt;margin-top: 0;">
@@ -245,15 +225,6 @@
                             <span  t-esc="env.user.sudo().company_id.hr_manager_id.name"/>
 
                         </h4>
-
-                        <div class="connsign">
-                            <div class="con"> <span t-esc="user.name"></span> </div>
-                            <div class="sign">
-                                <img t-if="user.sign_signature" class="image" t-att-src="'data:image/png;base64,%s' % to_text(user.sign_signature)" style="width:300px; height:165px;margin-top:-40px !important"/>
-                            </div>
-                        </div>
-
-                        
                         <!--                        <div class="column">-->
                         <!--                            <div align="center">-->
                         <!--                                <span t-field="env.user.sudo().company_id.hr_manager_id.user_id.sign_signature"-->
