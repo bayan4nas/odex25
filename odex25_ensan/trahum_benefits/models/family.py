@@ -18,6 +18,7 @@ class GrantBenefit(models.Model):
     branch_details_id = fields.Many2one(comodel_name='branch.details', string='Branch Name')
     external_guid = fields.Char(string='External GUID')
 
+
     account_status = fields.Selection(
         [('active', 'Active'), ('inactive', 'Inactive')],
         string="Account status",
