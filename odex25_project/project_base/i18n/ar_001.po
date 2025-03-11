@@ -925,6 +925,13 @@ msgid "Kindly Enter Planned Issue Date For this Invoice Request"
 msgstr "يرجى إدخال تاريخ الاستحقاق لطلب الفاتورة هذا"
 
 #. module: project_base
+#: code:addons/project_base/models/project_invoice.py:0
+#, python-format
+msgid "Kindly Incloud Certificate Of Completion Of The Phase Date For this Invoice Request"
+msgstr "يرجى تضمين شهادة انجاز المرحلة لطلب الفاتورة هذا"
+
+
+#. module: project_base
 #: code:addons/project_base/models/project.py:0
 #, python-format
 msgid "Kindly Enter project Stage first."
@@ -1441,6 +1448,14 @@ msgstr ""
 msgid "Project Phases"
 msgstr "مراحل المشروع"
 
+
+
+#. module: project_base
+#: model:ir.model,name:project_certificate.model_completion_certificate
+msgid "Completion Certificate"
+msgstr "شهادة الإنجاز"
+
+
 #. module: project_base
 #: model:ir.model.fields,field_description:project_base.field_res_company__module_project_risk_register
 #: model:ir.model.fields,field_description:project_base.field_res_config_settings__module_project_risk_register
@@ -1462,6 +1477,10 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:project_base.view_edit_project_inherit_form
 msgid "Project Team"
 msgstr "فريق المشروع"
+
+
+
+
 
 #. module: project_base
 #: model_terms:ir.ui.view,arch_db:project_base.view_config_settings_form
@@ -2208,3 +2227,63 @@ msgid "Partner"
 msgstr "الجهة"
 
 
+
+
+
+
+
+
+
+
+
+
+
+#. module: project_base
+#: model:ir.model.fields,field_description:project_base.field_completion_certificate__description
+msgid "Description"
+msgstr "الوصف"
+
+
+
+#. module: project_base
+#: model:ir.model.fields,field_description:project_base.field_completion_certificate__project_id
+msgid "Project"
+msgstr "المشروع"
+
+#. module: project_base
+#: model:ir.model.fields,field_description:project_base.field_completion_certificate__phase_id4
+msgid "Project Phase"
+msgstr "مرحلة المشروع"
+
+
+#. module: project_base
+#: model:ir.model.fields,field_description:project_base.field_completion_certificate__date
+msgid "Date"
+msgstr "التاريخ"
+
+#. module: project_base
+#: model:ir.model.fields,field_description:project_base.field_completion_certificate__name_certificate
+msgid "Certificate Name"
+msgstr "اسم الشهادة"
+
+
+#. module: project_base
+#: code:addons/project_base/models/project.py:0
+#: model:ir.model.fields,field_description:project_base.field_completion_certificate__completion_certificate_ids
+#: model:ir.model,name:project_base.model_completion_certificate___description
+#: model_terms:ir.ui.view,arch_db:project_base.view_edit_project_inherit_form
+#: model_terms:ir.ui.view,arch_db:project_base.view_completion_certificate_form
+msgid "Completion Certificate"
+msgstr "شهادة الانجاز"
+
+
+
+#. module: project_base
+#: model:ir.model.fields,field_description:project_base.field_completion_certificate__attachment
+msgid "Attachment"
+msgstr "المرفق"
+
+#. module: project_base
+#: model:ir.model.fields,field_description:project_base.field_completion_certificate__attachment_filename
+msgid "Attachment Filename"
+msgstr "اسم ملف المرفق"

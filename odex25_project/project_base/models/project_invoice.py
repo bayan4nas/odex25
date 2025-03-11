@@ -218,12 +218,21 @@ class ProjectInvoice(models.Model):
 
 
     def action_confirm(self):
-        self.ensure_one()
-        self._set_qty_invoiced()
-        if not self.plan_date:
-            raise UserError(_("Kindly Enter Planned Issue Date For this Invoice Request"))
-        self.state = 'confirm'
-        # for rec in self:
+        print("action_confirm",self)
+        for rec in self:
+            print('rec,',rec.phase_id)
+            if rec.phase_id:
+                certificate = self.env['completion.certificate'].search([('phase_id4', '=', rec.phase_id.id)], limit=1)
+                if certificate:
+                    self.ensure_one()
+                    self._set_qty_invoiced()
+                    if not self.plan_date:
+                        raise UserError(_("Kindly Enter Planned Issue Date For this Invoice Request"))
+                    self.state = 'confirm'
+                    print("certificate",certificate)
+                else:
+                    raise UserError(_("Kindly Incloud Certificate Of Completion Of The Phase Date For this Invoice Request"))
+
         #     return rec.message_post(body=f'Invoice Data /: {rec.name},{rec.state}')
 
 
@@ -254,6 +263,8 @@ class ProjectInvoice(models.Model):
     def _set_qty_invoiced(self):
         for rec in self:
             for line in rec.project_invline_ids:
+                print("this _set_qty_invoiced",line)
+
                 line.qty_invoiced = line.order_line_id.qty_invoiced
 
     def action_cancel(self):

@@ -1,0 +1,39 @@
+<odoo>
+<record id="view_completion_certificate_form" model="ir.ui.view">
+    <field name="name">completion.certificate.form</field>
+    <field name="model">completion.certificate</field>
+    <field name="arch" type="xml">
+        <form string="Completion Certificate">
+
+            <sheet>
+                <group>
+                    <group>
+                        <field name="name_certificate" />
+                        <field name="phase_id4" />
+                    </group>
+                    <group>
+                        <field name="date" />
+                        <field name="project_id" invisible="1"/>
+                    </group>
+                </group>
+
+                <group>
+                    <field name="description"  nolabel="1"/>
+                </group>
+
+                <group>
+                    <field name="attachment" />
+                </group>
+            </sheet>
+        </form>
+    </field>
+</record>
+
+    <record id="action_completion_certificate" model="ir.actions.act_window">
+    <field name="name"></field>
+    <field name="res_model">completion.certificate</field>
+    <field name="view_mode">tree,form</field>
+</record>
+
+
+</odoo>
