@@ -61,6 +61,42 @@ class ProjectInvoice(models.Model):
         string="Attachments",
         help="Attach invoice-related documents"
     )
+
+    @api.model
+    def create(self, vals):
+        """Ensure attachments are synced when a new invoice is created."""
+        record = super(ProjectInvoice, self).create(vals)
+        record._sync_attachments_to_invoice()
+        return record
+
+    def write(self, vals):
+        """Ensure attachments are synced when attachments are updated."""
+        res = super(ProjectInvoice, self).write(vals)
+        if 'attachment_ids' in vals:
+            self._sync_attachments_to_invoice()
+        return res
+
+    def _sync_attachments_to_invoice(self):
+        """Sync attachments from project.invoice to its related account.move."""
+        for record in self:
+            if record.invoice_id:  # Ensure there is an invoice to sync with
+                for attachment in record.attachment_ids:
+                    # Check if the attachment already exists for the invoice
+                    existing_attachment = self.env['ir.attachment'].search([
+                        ('res_model', '=', 'account.move'),
+                        ('res_id', '=', record.invoice_id.id),
+                        ('datas', '=', attachment.datas)
+                    ], limit=1)
+
+                    if not existing_attachment:
+                        # Copy attachment to invoice
+                        attachment.copy({
+                            'res_model': 'account.move',
+                            'res_id': record.invoice_id.id
+                        })
+
+                # Update the attachment count on the invoice
+                record.invoice_id._compute_attach_no()
     
     @api.onchange("project_invline_ids")
     def get_price_unit_value_test(self):
