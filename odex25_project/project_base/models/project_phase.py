@@ -140,6 +140,14 @@ class ProjectPhase(models.Model):
     @api.constrains('start_date', 'end_date')
     def _check_dates(self):
         for rec in self:
+            # Ensure that the fields are not None or False before comparison
+            if not rec.end_date or not rec.project_id.start or not rec.project_id.date:
+                continue  # Skip validation if any date field is missing
+            
+            # Perform the date comparison safely
+            if rec.end_date < rec.project_id.start or rec.end_date > rec.project_id.date:
+                raise ValidationError("End date must be between the project's start and end dates.")
+            
             if rec.filtered(lambda c: c.end_date and c.start_date > c.end_date):
                 raise ValidationError(_('Phase start date must be earlier than Phase end date.'))
             if rec.project_id.start and rec.project_id.date and (rec.start_date < rec.project_id.start or rec.start_date > rec.project_id.date) or \
