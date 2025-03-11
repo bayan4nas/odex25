@@ -257,11 +257,11 @@ class FamilyMemberProfile(models.Model):
     is_mother = fields.Boolean('Is Mother?')
 
     expenses_ids = fields.One2many(
-        "expenses.line", "benefit_id", string="Expenses"
+        "expenses.line", "member_id", string="Expenses"
     )
 
     salary_ids = fields.One2many(
-        "salary.line", "benefit_id", string="Salaries"
+        "salary.line", "member_id", string="Salaries"
     )
 
     
@@ -702,13 +702,7 @@ class FamilyMemberProfile(models.Model):
                 if exist:
                     raise ValidationError(
                         _("The phone Number already exists in Family with code %s") % exist.benefit_id.code)
-    
-    @api.onchange("benefit_id")
-    def _onchange_benefit_id(self):
-        """Ensures the expenses and salary records are linked to the correct benefit_id"""
-        for record in self:
-            record.expenses_ids = self.env["expenses.line"].search([("benefit_id", "=", record.benefit_id.id)])
-            record.salary_ids = self.env["salary.line"].search([("benefit_id", "=", record.benefit_id.id)])
+
 
 
 
