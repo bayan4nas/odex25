@@ -167,10 +167,10 @@
                                 <th style="border: 1px solid gray; padding: 1px; font-size:0.8em;background-color: #b9d7d4;color: black;width:10%;text-align:center;">
                                     اليوم
                                 </th>
-                                <th style=" border: 1px solid gray; padding: 1px; font-size:0.8em;background-color: #b9d7d4;color: black;width:10%;text-align:center;">
+                                <th style=" border: 1px solid gray; padding: 1px; font-size:0.8em;background-color: #b9d7d4;color: black;width:8%;text-align:center;">
                                     وقت الدخول
                                 </th>
-                                <th style=" border: 1px solid gray; padding: 1px;font-size:0.8em;background-color: #b9d7d4;color: black;width:10%;text-align:center;">
+                                <th style=" border: 1px solid gray; padding: 1px;font-size:0.8em;background-color: #b9d7d4;color: black;width:8%;text-align:center;">
                                     وفت الخروج
                                 </th>
                                 <th style=" border: 1px solid gray; padding: 1px;font-size:0.8em;background-color: #b9d7d4;color: black;width:5%;text-align:center;">
@@ -182,10 +182,13 @@
                                 <th style=" border: 1px solid gray; padding: 1px;font-size:0.8em;background-color: #b9d7d4;color: black;width:5%;text-align:center;">
                                     الاضافى
                                 </th>
-                                <th style=" border: 1px solid gray; padding: 1px;font-size:0.8em;background-color: #b9d7d4;color: black;width:10%;text-align:center;">
+                                <th style=" border: 1px solid gray; padding: 1px;font-size:0.8em;background-color: #b9d7d4;color: black;width:8%;text-align:center;">
                                     ساعات العمل
                                 </th>
-                                <th style=" border: 1px solid gray; padding: 1px;font-size:0.8em;background-color: #b9d7d4;color: black;width:15%;text-align:center;">
+                                  <th style=" border: 1px solid gray; padding: 1px;font-size:0.8em;background-color: #b9d7d4;color: black;width:8%;text-align:center;">
+                                     ساعات الاذن
+                                </th>
+                                <th style=" border: 1px solid gray; padding: 1px;font-size:0.8em;background-color: #b9d7d4;color: black;width:13%;text-align:center;">
                                     ملاحظة
                                 </th>
                                 <th style=" border: 1px solid gray; padding: 1px;font-size:0.8em;background-color: #b9d7d4;color: black;width:20%;text-align:center;">
@@ -202,10 +205,10 @@
                                     <td style="border: 1px solid gray;padding: 1px;font-size:0.8em;background-color:white;color: black;width:10%;text-align:center">
                                         <t t-esc="line['day']"/>
                                     </td>
-                                    <td style="border:1px solid gray;padding: 1px;font-size:0.8em;background-color: white;color: black;width:10%;text-align:center">
+                                    <td style="border:1px solid gray;padding: 1px;font-size:0.8em;background-color: white;color: black;width:8%;text-align:center">
                                         <t t-esc="'%02d:%02d' % (int(str(line['sig_in']).split('.')[0]), int(float(str('%.2f' % line['sig_in']).split('.')[1])/100*60))"/>
                                     </td>
-                                    <td style="border: 1px solid gray;padding: 1px;font-size:0.8em;background-color: white;color: black;width:10%;text-align:center">
+                                    <td style="border: 1px solid gray;padding: 1px;font-size:0.8em;background-color: white;color: black;width:8%;text-align:center">
                                         <t t-esc="'%02d:%02d' % (int(str(line['sig_out']).split('.')[0]), int(float(str('%.2f' % line['sig_out']).split('.')[1])/100*60))"/>
                                     </td>
                                     <t t-if=" line['lateness'] > 0">
@@ -244,7 +247,10 @@
                                         <t t-esc="'%02d:%02d' % (int(str(line['office_hours']).split('.')[0]), int(float(str('%.2f' % line['office_hours']).split('.')[1])/100*60))"/>
                                     </td>
 
-                                    <td style="border: 1px solid gray;padding: 1px;font-size:0.8em;background-color: white;color: black;width:15%;text-align:center">
+                                    <td style="border: 1px solid gray;padding: 1px;font-size:0.8em;background-color: white;color: black;width:8%;text-align:center">
+                                        <t t-esc="line['permission_hours']"/>
+                                    </td>
+                                      <td style="border: 1px solid gray;padding: 1px;font-size:0.8em;background-color: white;color: black;width:13%;text-align:center">
                                         <t t-esc="line['note']"/>
                                     </td>
                                     <td style="border: 1px solid gray;padding: 1px;font-size:0.8em;background-color: white;color: black;width:20%;text-align:center">
@@ -270,7 +276,11 @@
                                 <td style="border: 1px solid gray;padding: 1px;font-size:0.8em;">
                                     <t t-esc="'%02d:%02d' % (int(str(sum(line['office_hours'] for line in data[key])).split('.')[0]), int(float(str('%.2f' % sum(line['office_hours'] for line in data[key])).split('.')[1])/100*60))"/>
                                 </td>
-                                <td colspan="2" style="border: 1px solid gray;padding: 1px;font-size:0.8em;">--</td>
+                                <td style="border: 1px solid gray;padding: 1px;font-size:0.8em;">
+                                     <t t-esc="total[key]['total_permission_hours']"/>
+
+                                </td>
+
                             </tr>
                         </tfoot>
                     </table>
