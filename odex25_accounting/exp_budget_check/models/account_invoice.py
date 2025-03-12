@@ -94,7 +94,7 @@ class AccountMove(models.Model):
 
 
     def action_confirm(self):
-        if not self.invoice_date:
+        if not self.date:
             raise ValidationError(_('Please insert Bill Date'))
         for rec in self.invoice_line_ids:
             if rec.analytic_account_id.is_analytic_budget and not rec.analytic_account_id.is_auto_check:
