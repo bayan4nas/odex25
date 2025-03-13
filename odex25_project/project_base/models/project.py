@@ -607,34 +607,3 @@ class CompletionCertificate(models.Model):
 
 
 
-    # def check_phase_certificate(self, phase):
-    #     """ التحقق مما إذا كانت المرحلة تحتوي على شهادة إنجاز """
-    #     if not phase:
-    #         raise ValidationError(_('No phase provided for certificate check.'))
-    #
-    #     if not phase.certificate_id:
-    #         raise ValidationError(_('The selected phase does not have a Completion Certificate.'))
-    #
-    #     return phase.certificate_id
-#     < page
-#     string = "Completion Certificate" >
-#     < field
-#     name = "completion_certificate_ids" >
-#     < tree
-#     editable = "bottom" >
-#     < field
-#     name = "name_certificate"
-#     string = "Certificate Name" / >
-#     < field
-#     name = "phase_id4"
-#     string = "Phase" / >
-#     < field
-#     name = "attachment" / >
-#     < field
-#     name = "description" / >
-#     < field
-#     name = "date" / >
-#
-# < / tree >
-# < / field >
-# < / page >
