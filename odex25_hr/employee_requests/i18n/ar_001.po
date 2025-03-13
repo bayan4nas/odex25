@@ -490,7 +490,7 @@ msgstr "إخلاء الطرف من البنك"
 #: model_terms:ir.ui.view,arch_db:employee_requests.employee_personal_permission_form_view
 #, python-format
 msgid "HR Approve"
-msgstr "تصديق الموارد البشرية"
+msgstr "موافقة الموارد البشرية"
 
 #. module: employee_requests
 #: code:addons/employee_requests/models/house_allowance_advance.py:0
@@ -939,7 +939,7 @@ msgstr "مدير الهيكل الإداري :"
 #: model_terms:ir.ui.view,arch_db:employee_requests.employee_overtime_request_form_view
 #, python-format
 msgid "Department Manager"
-msgstr "تصديق مدير الإدارة"
+msgstr "موافقة مدير الإدارة"
 
 #. module: employee_requests
 #: code:addons/employee_requests/models/employee_department_jobs.py:0
@@ -1005,7 +1005,7 @@ msgstr "انتظار الموارد البشرية :"
 #: model_terms:ir.ui.view,arch_db:employee_requests.employee_request_effective_form_view
 #: model_terms:ir.ui.view,arch_db:employee_requests.employee_other_request_form_view
 msgid "Direct Manager Approve"
-msgstr "تصديق المدير المباشر"
+msgstr "موافقة المدير المباشر"
 
 #. module: employee_requests
 #: model:ir.model.fields,field_description:employee_requests.field_hr_clearance_form__direct_mg
@@ -1433,6 +1433,12 @@ msgid "Filename"
 msgstr "اسم الملف"
 
 #. module: employee_requests
+#: code:addons/employee_requests/models/hr_clearance_form.py:0
+#, python-format
+msgid "Final Clearance"
+msgstr "خروج نهائية"
+
+#. module: employee_requests
 #: model_terms:ir.ui.view,arch_db:employee_requests.clearance_report_template
 msgid "Finance Control."
 msgstr ""
@@ -1548,7 +1554,7 @@ msgstr "الكفالة"
 #: model_terms:ir.ui.view,arch_db:employee_requests.employee_other_request_form_view
 #, python-format
 msgid "HR Approval"
-msgstr "تصديق الموارد البشرية"
+msgstr "موافقة الموارد البشرية"
 
 #. module: employee_requests
 #: model:ir.model,name:employee_requests.model_hr_certification
@@ -1558,12 +1564,13 @@ msgstr ""
 #. module: employee_requests
 #: model_terms:ir.ui.view,arch_db:employee_requests.employee_request_effective_form_view
 msgid "HR M Approve"
-msgstr "تصديق الموارد البشرية"
+msgstr "موافقة الموارد البشرية"
 
 #. module: employee_requests
 #: code:addons/employee_requests/models/employee_department_jobs.py:0
 #: code:addons/employee_requests/models/other_request.py:0
 #: model_terms:ir.ui.view,arch_db:employee_requests.employee_department_jobs_form_view
+#: model:ir.model.fields.selection,name:employee_requests.selection__hr_personal_permission_type__approval_by__hr_manager
 #, python-format
 msgid "HR Manager"
 msgstr "مدير الموارد البشرية"
@@ -3401,6 +3408,7 @@ msgid "Submit"
 msgstr "إرســـال"
 
 #. module: employee_requests
+#:model:ir.model.fields.selection,name:employee_requests.selection__hr_personal_permission_type__approval_by__direct_manager
 #: model_terms:ir.ui.view,arch_db:employee_requests.employee_clearance_form_form_view
 msgid "Direct Manager"
 msgstr "موافقة المدير المباشر"
@@ -3454,12 +3462,12 @@ msgstr "إنتظار المدير المباشر"
 #. module: employee_requests
 #: model:ir.model.fields.selection,name:employee_requests.selection__hr_clearance_form__state__direct_manager
 msgid "Waiting IT Department"
-msgstr "إنتظار التقنية"
+msgstr "إنتظار النىتىتىتىﻻتﻻاﻻقنية"
 
 #. module: employee_requests
-#: model:ir.model.fields.selection,name:employee_requests.selection__hr_clearance_form__state__info_system
-msgid "Waiting Cyber ​​Security"
-msgstr "إنتظار الآمن السيبراني"
+#: model:ir.model.fields.selection,name:employee_requests.selection__hr_clearance_form__state__INFO
+msgid "إنتظار الآمن السيبراني"
+msgstr "Waiting Cyber Security"
 
 #. module: employee_requests
 #: model:ir.model.fields.selection,name:employee_requests.selection__hr_clearance_form__state__cyber_security
@@ -3529,7 +3537,7 @@ msgstr "مسودة"
 #: model:ir.model.fields.selection,name:employee_requests.selection__employee_overtime_request__state__submit
 #: model:ir.model.fields.selection,name:employee_requests.selection__employee_other_request__state__submit
 msgid "Waiting Direct Manager"
-msgstr "إنتظار المدير المباشر"
+msgstr "إنتظنتالبؤار المدير المباشر"
 
 #. module: employee_requests
 #: model:ir.model.fields.selection,name:employee_requests.selection__hr_personal_permission__state__direct_manager
@@ -3559,7 +3567,7 @@ msgstr "إنتظار مدير الادارة"
 #. module: employee_requests
 #: model:ir.model.fields.selection,name:employee_requests.selection__employee_overtime_request__state__hr_aaproval
 msgid "Wait Approval"
-msgstr ""إنتظار التصديق""
+msgstr "إنتظار التصديق"
 
 #. module: employee_requests
 #: model:ir.model.fields.selection,name:employee_requests.selection__employee_overtime_request__state__executive_office
@@ -3626,7 +3634,7 @@ msgstr ""
 #: model:ir.model.fields.selection,name:employee_requests.selection__hr_clearance_form__hr_mg__approve
 #: model:ir.model.fields.selection,name:employee_requests.selection__hr_clearance_form__it_mg__approve
 #: model:ir.model.fields.selection,name:employee_requests.selection__hr_clearance_form__super_mg__approve
-msgid "تصديق الموارد البشرية"
+msgid "موافقة الموارد البشرية"
 msgstr ""
 
 #. module: employee_requests
@@ -3921,6 +3929,13 @@ msgstr "لايمكن طلب عمل إضافي للموظف %s بقيمة عمل 
 #, python-format
 msgid "You can not Request Overtime The Employee %s The Overtime Amount Zero"
 msgstr "لايمكن طلب عمل إضافي للموظف %s بقيمة عمل إضافي صفر."
+
+
+#. module: employee_requests
+#: code:addons/employee_requests/models/employee_overtime_request.py:0
+#, python-format
+msgid "Sorry, Cannot Be Request after %s Days From The End Of The Overtime Month"
+msgstr "للأسف,لا يمكن طلب العمل الإضافى بعد أكثر من %s يوم من نهاية شهر العمل الأضافي"
 
 #. module: employee_requests
 #: model:ir.model.fields,field_description:employee_requests.field_hr_personal_permission_type__approval_by
