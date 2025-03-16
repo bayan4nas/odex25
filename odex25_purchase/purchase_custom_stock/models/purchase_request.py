@@ -24,7 +24,7 @@ class PurchaseRequest(models.Model):
     show_approve_warehouse=fields.Boolean("Approve Warehouse",compute='show_approve_warehouse_button')
     total_sum = fields.Float(string="Total Sum", compute="_compute_total_sum", store=True)
 
-    # @api.depends('line_ids.line_total')
+    @api.depends('line_ids.line_total')
     def _compute_total_sum(self):
         for record in self:
             record.total_sum = sum(line.line_total for line in record.line_ids)
