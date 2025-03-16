@@ -16,7 +16,6 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: odex25_account_payment_fix
-#: model:ir.model.fields.selection,name:odex25_account_payment_fix.selection__account_payment__state__accounting_manager
 #: model:res.groups,name:odex25_account_payment_fix.group_accounting_manager
 #: model_terms:ir.ui.view,arch_db:odex25_account_payment_fix.view_account_payment_form_inherit_odex25_account_accountant
 msgid "Accounting Manager"
@@ -48,7 +47,6 @@ msgid "Cancelled"
 msgstr "ملغي"
 
 #. module: odex25_account_payment_fix
-#: model:ir.model.fields.selection,name:odex25_account_payment_fix.selection__account_payment__state__depart_manager
 #: model:res.groups,name:odex25_account_payment_fix.group_depart_manager
 #: model_terms:ir.ui.view,arch_db:odex25_account_payment_fix.view_account_payment_form_inherit_odex25_account_accountant
 msgid "Department Manager"
@@ -56,11 +54,25 @@ msgstr "رئيس القسم"
 
 #. module: odex25_account_payment_fix
 #: model:ir.model.fields.selection,name:odex25_account_payment_fix.selection__account_payment__state__draft
-msgid "Draft"
-msgstr "مسودة"
+msgid "Department Manager"
+msgstr "رئيس القسم"
+
+#. module: odex25_account_payment_fix
+#: model:ir.model.fields.selection,name:odex25_account_payment_fix.selection__account_payment__state__depart_manager
+msgid "Accounting Manager"
+msgstr "المدير المالي"
+
+#. module: odex25_account_payment_fix
+#: model:ir.model.fields.selection,name:odex25_account_payment_fix.selection__account_payment__state__accounting_manager
+msgid "Sector Head Approval"
+msgstr "موافقة رئيس القطاع"
 
 #. module: odex25_account_payment_fix
 #: model:ir.model.fields.selection,name:odex25_account_payment_fix.selection__account_payment__state__general_manager
+msgid "Confirm"
+msgstr "موافقة"
+
+#. module: odex25_account_payment_fix
 #: model:res.groups,name:odex25_account_payment_fix.group_general_manager
 #: model_terms:ir.ui.view,arch_db:odex25_account_payment_fix.view_account_payment_form_inherit_odex25_account_accountant
 msgid "General Manager"
@@ -116,7 +128,12 @@ msgid "You do not have the necessary permissions (%s) to perform this action."
 msgstr "ليس لديك الصلاحيات اللازمة (%s) لأداء هذا الإجراء."
 
 #. module: odex25_account_payment_fix
-#: model:ir.model.fields.selection,name:odex25_account_payment_fix.selection__account_payment__state__sector_head_approval
 #: model_terms:ir.ui.view,arch_db:odex25_account_payment_fix.view_account_payment_form_inherit_odex25_account_accountant
 msgid "Sector Head Approval"
 msgstr "موافقة رئيس الفطاع"
+
+
+#. module: odex25_account_payment_fix
+#: model:ir.model.fields.selection,name:odex25_account_payment_fix.selection__account_payment__state__sector_head_approval
+msgid "General Manager"
+msgstr "المدير العام"
