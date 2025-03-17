@@ -18,7 +18,7 @@ class HrSalaryAdvance(models.Model):
             [('draft', _('Draft')), 
              ('submit', _('Waiting Payroll Officer')),
              ('direct_manager', _('Wait HR Department')),
-             ('hr_manager', _('Wait GM Approval')),
+             ('hr_manager', _('Wait Secretary-General Approval')),
              ('executive_manager', _('Wait Transfer')),
              ('pay', _('Transferred')), ('refused', _('Refused')),
              ('closed', _('Loan Suspended'))],
