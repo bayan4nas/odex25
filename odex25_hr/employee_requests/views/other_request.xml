@@ -79,6 +79,7 @@
                                        attrs="{'readonly': ['|',('from_hr','=',False),('state','!=','draft')],'required':True}"/>
                                 <field name="employee_no" string="Employee Number" readonly="1"/>
 
+                                <field name="passport_number" attrs="{'invisible': [('request_type', '!=', 'salary_define')]}"/>
                                 <field name="department_id" string="Department"/>
                                 <field name="job_id" string="Job"/>
                                 <!--field name="type_contract" string="Type Of Contract" /-->
