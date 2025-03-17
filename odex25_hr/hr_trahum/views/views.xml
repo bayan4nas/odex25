@@ -42,7 +42,7 @@
                 <header>
                     <!-- Add a button for sector head approval -->
                     <button name="submit" string="Submit" class="oe_highlight" type="object" states="draft"
-                                        groups="base.group_user"/>
+                            groups="base.group_user"/>
                     <button name="direct_manager" string="Direct Manager Approve" class="oe_highlight" type="object"
                             states="submit" groups="hr_base.group_division_manager"/>
                     <button name="direct_manager_refused" string="Refuse" class="oe_highlight" type="object"
@@ -81,7 +81,7 @@
         <field name="inherit_id" ref="hr_loans_salary_advance.employee_loan_salary_form_view"/>
         <field name="arch" type="xml">
             <xpath expr="//header" position="inside">
-                 <button name="action_director_financial_management"
+                <button name="action_director_financial_management"
                         string="Director Financial Management"
                         type="object"
                         states="direct_manager"
@@ -101,7 +101,13 @@
 
             <xpath expr="//button[@name='hr_manager']" position="attributes">
                 <attribute name="states">sector_head_approval</attribute>
+                <attribute name="groups">hr_trahum.group_secretary_general</attribute>
             </xpath>
+
+            <xpath expr="//button[@name='refused'][2]" position="attributes">
+                <attribute name="groups">hr_trahum.group_secretary_general</attribute>
+            </xpath>
+
             <xpath expr="//header/field[@name='state']" position="replace">
                 <field name="state" widget="statusbar"
                        statusbar_visible="draft,submit,direct_manager,director_financial_management,sector_head_approval,hr_manager,executive_manager,pay,closed,refused"/>
@@ -178,7 +184,7 @@
         <field name="model">hr.payroll.raise</field>
         <field name="inherit_id" ref="exp_payroll_promotion.hr_payroll_raise_form_view"/>
         <field name="arch" type="xml">
-           <xpath expr="//header" position="inside">
+            <xpath expr="//header" position="inside">
                 <button name="action_sector_head_approval" string="Sector Head Approval" type="object"
                         states="confirm" class="oe_highlight" groups="hr_trahum.group_sector_head_approval"/>
             </xpath>
@@ -234,22 +240,28 @@
         <field name="arch" type="xml">
             <xpath expr="//header" position="inside">
                 <button name="action_sector_head_approval" string="Sector Head Approval" type="object"
-                        states="accounting_head_approval" class="oe_highlight" groups="hr_trahum.group_sector_head_approval"/>
+                        states="accounting_head_approval" class="oe_highlight"
+                        groups="hr_trahum.group_sector_head_approval"/>
                 <button name="action_accounting_head_approval" string="Head Accounting Approval" type="object"
                         states="confirmed" class="oe_highlight" groups="hr_trahum.group_Director_Financial_Management"/>
                 <button name="action_secretary_general" string="Secretary General" type="object"
                         states="sector_head_approval" class="oe_highlight" groups="hr_trahum.group_secretary_general"/>
-<!--                <button name="withdraw" type="object"  string="Withdraw"-->
-<!--                        class="oe_highlight"-->
-<!--                        groups="hr.group_hr_manager" confirm="Are you sure to Delete Compute Salaries?"/>-->
-<!--                  <button name="withdraw" type="object"  string="Withdraw"-->
-<!--                        class="oe_highlight"-->
-<!--                        groups="hr.group_hr_manager" confirm="Are you sure to Delete Compute Salaries?"/>-->
-                <button name="close_payslip_run" type="object" string="Close" states="sector_head_approval,accounting_head_approval,secretary_general" groups="hr_trahum.group_secretary_general"/>
-                <button name="close_payslip_run" type="object" string="Close" states="confirmed" groups="hr_trahum.group_sector_head_approval"/>
+                <!--                <button name="withdraw" type="object"  string="Withdraw"-->
+                <!--                        class="oe_highlight"-->
+                <!--                        groups="hr.group_hr_manager" confirm="Are you sure to Delete Compute Salaries?"/>-->
+                <!--                  <button name="withdraw" type="object"  string="Withdraw"-->
+                <!--                        class="oe_highlight"-->
+                <!--                        groups="hr.group_hr_manager" confirm="Are you sure to Delete Compute Salaries?"/>-->
+                <button name="close_payslip_run" type="object" string="Close"
+                        states="sector_head_approval,accounting_head_approval,secretary_general"
+                        groups="hr_trahum.group_secretary_general"/>
+                <button name="close_payslip_run" type="object" string="Close" states="confirmed"
+                        groups="hr_trahum.group_sector_head_approval"/>
             </xpath>
             <xpath expr="//button[@name='return_button']" position="attributes">
-                <attribute name="states">confirmed,transfered,accounting_head_approval,sector_head_approval,secretary_general</attribute>
+                <attribute name="states">
+                    confirmed,transfered,accounting_head_approval,sector_head_approval,secretary_general
+                </attribute>
             </xpath>
             <xpath expr="//button[@name='transfer']" position="attributes">
                 <attribute name="states">secretary_general</attribute>
@@ -274,10 +286,11 @@
             <xpath expr="//header" position="inside">
                 <button name="action_secretary_general" string="Secretary General" type="object"
                         states="sector_head_approval" class="oe_highlight" groups="hr_trahum.group_secretary_general"/>
-                <button string="Refused" name="act_refuse" states="sector_head_approval" type="object" class="oe_highlight"
-                                groups="hr.group_hr_manager"/>
-                 <button string="Refused" name="act_refuse" states="secretary_general" type="object" class="oe_highlight"
-                                groups="hr.group_hr_manager"/>
+                <button string="Refused" name="act_refuse" states="sector_head_approval" type="object"
+                        class="oe_highlight"
+                        groups="hr.group_hr_manager"/>
+                <button string="Refused" name="act_refuse" states="secretary_general" type="object" class="oe_highlight"
+                        groups="hr.group_hr_manager"/>
             </xpath>
 
             <xpath expr="//button[@name='approved']" position="attributes">
@@ -290,24 +303,24 @@
 
         </field>
     </record>
-        <record id="account.action_account_payments" model="ir.actions.act_window">
-            <field name="name">Payment</field> <!-- تغيير الاسم إلى "Payment" -->
-        </record>
+    <record id="account.action_account_payments" model="ir.actions.act_window">
+        <field name="name">Payment</field> <!-- تغيير الاسم إلى "Payment" -->
+    </record>
     <record id="menu_action_account_payments_receivable" model="ir.ui.menu">
-            <field name="name">payments</field>
-        </record>
+        <field name="name">payments</field>
+    </record>
 
     <record id="employee_other_request_form_view_inherit" model="ir.ui.view">
-    <field name="name">employee.other.request.form.view.inherit</field>
-    <field name="model">employee.other.request</field>
-    <field name="inherit_id" ref="employee_requests.employee_other_request_form_view"/>
-   <field name="arch" type="xml">
-        <xpath expr="//header/field[@name='state']" position="replace">
-            <field name="state" widget="statusbar" statusbar_visible="draft,confirm,approved,refuse"/>
-        </xpath>
+        <field name="name">employee.other.request.form.view.inherit</field>
+        <field name="model">employee.other.request</field>
+        <field name="inherit_id" ref="employee_requests.employee_other_request_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header/field[@name='state']" position="replace">
+                <field name="state" widget="statusbar" statusbar_visible="draft,confirm,approved,refuse"/>
+            </xpath>
 
-    </field>
-</record>
+        </field>
+    </record>
 
     <record id="hr_contract_form_view" model="ir.ui.view">
         <field name="name">hr.contract.form.trahum</field>
@@ -316,7 +329,7 @@
         <field name="inherit_id" ref="hr_contract_custom.hr_contract_form_view"/>
         <field name="arch" type="xml">
             <field name="class_contract" position="after">
-                <field name="delgiation_status_type" />
+                <field name="delgiation_status_type"/>
             </field>
         </field>
     </record>

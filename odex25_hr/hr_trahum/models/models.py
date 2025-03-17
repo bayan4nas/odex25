@@ -71,7 +71,7 @@ class HrLoanSalaryAdvanceInherit(models.Model):
                  ('direct_manager', _('Wait HR Department')),
                  ('director_financial_management', _('Director Financial Management')),
                  ('sector_head_approval', _('Sector Head Approval')),
-                 ('hr_manager', _('Wait GM Approval')),
+                 ('hr_manager', _('Wait Secretary-General Approval')),
                  ('executive_manager', _('Wait Transfer')),
                  ('pay', _('Transferred')), ('refused', _('Refused')),
                  ('closed', _('Loan Suspended'))],
