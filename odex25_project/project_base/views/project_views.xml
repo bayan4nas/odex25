@@ -16,6 +16,11 @@
                     <field name="close_reason" attrs="{'readonly': True}" />
                 </div>
             </xpath>
+
+
+
+
+
             <div class="oe_button_box" position="inside">
                 <!-- TODO : open if use sub-project 
                 <button class="d-none d-md-inline oe_stat_button" type="object" name="action_view_subproject" icon="fa-code-fork" attrs="{'invisible': [('sub_project_id', '=', [])]}" string="Sub-Projects">
@@ -34,6 +39,7 @@
                 <button class="d-none d-md-inline oe_stat_button" type="object" name="action_view_purchase" icon="fa-credit-card" string="Purchase">
                 </button>
             </div>
+
 
             <!-- Project status -->
             <xpath expr="//widget[@name='web_ribbon']" position="before">
@@ -149,8 +155,14 @@
             </xpath>
 
 
+
+
+
+
             <xpath expr="//page[@name='description_page']" position="before">
-                <page name="project_phase" attrs="{'invisible':[('state','in',['draft'])]}" string="Project Phases">
+
+
+                <page name="project_phase" attrs="{'invisible':[('state','in',['draft'])]}" string="Project Phase">
                     <field name="project_phase_ids" nolabel="1" attrs="{'readonly':[('state','not in',['confirm'])]}">
                         <tree>
 
@@ -171,10 +183,26 @@
                         </tree>
                     </field>
                 </page>
-            </xpath>
-            <xpath expr="//page[@name='description_page']" position="after">
 
+
+
+            </xpath>
+
+            <xpath expr="//page[@name='description_page']" position="after">
+                <page  string="Completion Certificate">
+                            <field name="completion_certificate_ids">
+                                <tree editable="bottom">
+                                    <field name="name_certificate" />
+                                    <field name="phase_id4" />
+                                    <field name="attachment"/>
+                                    <field name="description"/>
+                                    <field name="date"/>
+                                    <field name="project_id" invisible="1"/>
+                                </tree>
+                            </field>
+                </page>
                 <page name="team" string="Project Team">
+
                     <field name="project_team_ids" nolabel="1">
                         <tree editable="top">
                             <field name="employee_id" required="1" />
@@ -185,6 +213,8 @@
                         </tree>
                     </field>
                 </page>
+
+
                 <page name="invoice" string="Invoicing" attrs="{'invisible':['|',('state','in',['draft']),('type','=','internal')]}">
                     <group>
                         <group>
@@ -275,6 +305,8 @@
             
         </field>
     </record>
+
+
     <!-- Inherit Project Search -->
     <record id="view_project_project_filter_inherit" model="ir.ui.view">
         <field name="name">project.project.select</field>

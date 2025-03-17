@@ -3,7 +3,6 @@ import ast
 import calendar
 from datetime import datetime, time, timedelta
 from dateutil import relativedelta
-from odoo.addons.resource.models.resource import float_to_time, HOURS_PER_DAY
 from odoo.osv import expression
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError, ValidationError
@@ -24,6 +23,7 @@ class Project(models.Model):
     name = fields.Char("Name", index=True, tracking=True, required=False)
     project_no = fields.Char("Project Number", default=lambda self: self._get_next_projectno(), tracking=True,
                              copy=False)
+    completion_certificate_ids =fields.One2many('completion.certificate','project_id')
     category_id = fields.Many2one('project.category', string='Project Category', tracking=True)
     parent_id = fields.Many2one('project.project', index=True, string='Parent Project', tracking=True)
     sub_project_id = fields.One2many('project.project', 'parent_id', string='Sub-Project', tracking=True)
@@ -586,3 +586,24 @@ class ProjectTeam(models.Model):
             self.project_job = self.job_id and self.job_id.name or ''
 # project_base.group_project_department_manager
 #             <field name="user_id" string="Project Manager" widget="many2one_avatar_user" attrs="{'readonly':[('active','=',False)]}" domain="[('share', '=', False)]"/>
+
+
+class CompletionCertificate(models.Model):
+    _name = 'completion.certificate'
+    _description = _('Completion Certificate')
+    name_certificate = fields.Char(string='Certificate Name', required=True)
+    description = fields.Text(string='Description')
+    project_id = fields.Many2one('project.project', string='Project', required=True)
+
+    phase_id4 = fields.Many2one(
+        'project.phase',
+        string='Project Phase',
+        domain="[('project_id', '=', project_id)]" if project_id else [('id', '=', '')],
+        required=True
+    )
+    date = fields.Date(string='Date', required=True)
+    attachment = fields.Binary(string="Attachment", attachment=True)
+
+
+
+

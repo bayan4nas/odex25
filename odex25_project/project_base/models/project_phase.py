@@ -32,6 +32,8 @@ class ProjectPhase(models.Model):
     weight = fields.Float(string="Weight")
     progress = fields.Float(compute="get_progress", store=True, string="Progress")
     notes = fields.Text(string='Notes',copy=False)
+    certificate_id = fields.Many2one('completion.certificate',string='Completion Certificate')
+
     state = fields.Selection([
         ('draft', 'Draft'),
         ('open', 'Running'),

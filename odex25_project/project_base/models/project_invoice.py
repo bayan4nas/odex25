@@ -61,6 +61,42 @@ class ProjectInvoice(models.Model):
         string="Attachments",
         help="Attach invoice-related documents"
     )
+
+    @api.model
+    def create(self, vals):
+        """Ensure attachments are synced when a new invoice is created."""
+        record = super(ProjectInvoice, self).create(vals)
+        record._sync_attachments_to_invoice()
+        return record
+
+    def write(self, vals):
+        """Ensure attachments are synced when attachments are updated."""
+        res = super(ProjectInvoice, self).write(vals)
+        if 'attachment_ids' in vals:
+            self._sync_attachments_to_invoice()
+        return res
+
+    def _sync_attachments_to_invoice(self):
+        """Sync attachments from project.invoice to its related account.move."""
+        for record in self:
+            if record.invoice_id:  # Ensure there is an invoice to sync with
+                for attachment in record.attachment_ids:
+                    # Check if the attachment already exists for the invoice
+                    existing_attachment = self.env['ir.attachment'].search([
+                        ('res_model', '=', 'account.move'),
+                        ('res_id', '=', record.invoice_id.id),
+                        ('datas', '=', attachment.datas)
+                    ], limit=1)
+
+                    if not existing_attachment:
+                        # Copy attachment to invoice
+                        attachment.copy({
+                            'res_model': 'account.move',
+                            'res_id': record.invoice_id.id
+                        })
+
+                # Update the attachment count on the invoice
+                record.invoice_id._compute_attach_no()
     
     @api.onchange("project_invline_ids")
     def get_price_unit_value_test(self):
@@ -218,12 +254,21 @@ class ProjectInvoice(models.Model):
 
 
     def action_confirm(self):
-        self.ensure_one()
-        self._set_qty_invoiced()
-        if not self.plan_date:
-            raise UserError(_("Kindly Enter Planned Issue Date For this Invoice Request"))
-        self.state = 'confirm'
-        # for rec in self:
+        print("action_confirm",self)
+        for rec in self:
+            print('rec,',rec.phase_id)
+            if rec.phase_id:
+                certificate = self.env['completion.certificate'].search([('phase_id4', '=', rec.phase_id.id)], limit=1)
+                if certificate:
+                    self.ensure_one()
+                    self._set_qty_invoiced()
+                    if not self.plan_date:
+                        raise UserError(_("Kindly Enter Planned Issue Date For this Invoice Request"))
+                    self.state = 'confirm'
+                    print("certificate",certificate)
+                else:
+                    raise UserError(_("Kindly Incloud Certificate Of Completion Of The Phase Date For this Invoice Request"))
+
         #     return rec.message_post(body=f'Invoice Data /: {rec.name},{rec.state}')
 
 
@@ -254,6 +299,8 @@ class ProjectInvoice(models.Model):
     def _set_qty_invoiced(self):
         for rec in self:
             for line in rec.project_invline_ids:
+                print("this _set_qty_invoiced",line)
+
                 line.qty_invoiced = line.order_line_id.qty_invoiced
 
     def action_cancel(self):

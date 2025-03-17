@@ -55,6 +55,19 @@ class ReportAttendancePublic(models.AbstractModel):
     _name = 'report.attendances.general_attendances_report_temp'
     _description = "General Attendances Report"
 
+    def get_permission_data(self, from_date, to_date, employee_ids):
+        domain = [('date', '>=', from_date), ('date', '<=', to_date), ('employee_id', 'in',  [emp.id for emp in employee_ids])]
+        leave_data = self.env['hr.personal.permission'].search(domain)
+
+        permission_hours_dict = {}
+        for leave in leave_data:
+            leave_date = leave.date_from.date()
+            print('leave_date',leave_date)
+            permission_hours_dict[(leave_date, leave.employee_id.id)] = leave.duration
+        return permission_hours_dict
+
+
+
     def get_value(self, data):
         type = data['form']['type']
         employee_ids = data['form']['employee_ids']
@@ -83,6 +96,9 @@ class ReportAttendancePublic(models.AbstractModel):
         attendance_transaction_ids = self.env['hr.attendance.transaction'].search(domain)
         employees = attendance_transaction_ids.mapped('employee_id.name')
         employee_ids = attendance_transaction_ids.mapped('employee_id')
+
+        permission_hours_dict = self.get_permission_data(from_date, to_date, employee_ids)
+        print("leave_hours_dict",permission_hours_dict)
         emp_data=[]
         for emp in employee_ids:
             emp_data.append({'job': emp.sudo().job_id.name, 'department': emp.department_id.name,
@@ -107,6 +123,15 @@ class ReportAttendancePublic(models.AbstractModel):
                 elif resource.approve_personal_permission:
                     note = resource.personal_permission_id.name
 
+                permission_hours_hours = permission_hours_dict.get((resource.date, resource.employee_id.id), 0)
+                if permission_hours_hours:
+                    hours = int(permission_hours_hours)
+                    minutes = int((permission_hours_hours - hours) * 60)
+                    print('leave_hours', hours, minutes)
+                    permission_hours = f'{hours}:{minutes} '
+                else:
+                    permission_hours = '0:0'
+
                 data.append({
                     'date': resource.date,
                     'day': week_dayS_arabic[resource.date.weekday()],
@@ -122,6 +147,7 @@ class ReportAttendancePublic(models.AbstractModel):
                     'calendar_id':resource.calendar_id.name,
                     'employee_id': resource.employee_id,
                     'employee_name': resource.employee_id.name,
+                    'permission_hours':permission_hours
                 })
 
             data=sorted(data, key=lambda d: d['date'])
@@ -144,9 +170,23 @@ class ReportAttendancePublic(models.AbstractModel):
                     lambda r: r.employee_id.name == emp and (r.normal_leave or r.approve_personal_permission ))
                 total_not_sig_out = len(list_not_log_out)
                 total_leave = len(list_leave)
+                total_permission_hours = sum(
+                    [permission_hours_dict.get((resource.date, resource.employee_id.id), 0) for resource in list_cat])
+                # total_permission_hours = convert_to_hours_and_minutes(total_permission_hours)
+                if total_permission_hours > 0:
+                    hours = int(total_permission_hours)
+                    minutes = int((total_permission_hours - hours) * 60)
+                    permission_total_hours =f"{hours}:{minutes}"
+                else:
+                    permission_total_hours =f"{0}:{0}"
+
+                print('total_permission_hours',total_permission_hours)
+
                 total_dic[emp] = {'total_lateness': total_lateness, 'total_early_exit': total_early_exit,
                                   "total_extra_hours":total_extra_hours, "total_late_early":total_late_early,"total_leave":total_leave,'total_absent': total_absent, 'total_not_sig_in': total_not_sig_in,
-                                  'total_not_sig_out': total_not_sig_out}
+                                  'total_not_sig_out': total_not_sig_out,
+                                  'total_permission_hours':permission_total_hours
+                                  }
             grouped = collections.defaultdict(list)
             for item in data:
                 grouped[item['employee_name']].append(item)
@@ -184,6 +224,7 @@ class ReportAttendancePublic(models.AbstractModel):
             mykey = list(dict.fromkeys(key_list))
             print("mk",mykey,total_dic)
             return '', mykey, total_dic,emp_data_dict
+
 
     @api.model
     def _get_report_values(self, docids, data=None):
