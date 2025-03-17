@@ -11,6 +11,8 @@ class EmployeeOtherRequest(models.Model):
     _inherit = ['mail.thread', 'mail.activity.mixin']
 
     from_hr = fields.Boolean()
+    # add new field
+    passport_number = fields.Char(related='employee_id.passport_id.passport_id', readonly=True,string='Passport Number', store=True)
     date = fields.Date(default=lambda self: fields.Date.today())
     comment = fields.Text()
     state = fields.Selection(selection=[('draft', _('Draft')), 
