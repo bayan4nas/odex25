@@ -416,7 +416,8 @@ class HrTermination(models.Model):
         #     itemss.net -= abs(itemss.total_loans)
         # for item in self:
         # Make the maximum paid duration is 30
-        _, number_of_days = calendar.monthrange(self.last_work_date.year, self.last_work_date.month)
+        if self.last_work_date:
+           _, number_of_days = calendar.monthrange(self.last_work_date.year, self.last_work_date.month)
         if self.paid_duration > 0:
             if number_of_days == 31:
                 duration_percentage = 31 / self.paid_duration
