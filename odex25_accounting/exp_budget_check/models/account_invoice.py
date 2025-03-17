@@ -123,7 +123,9 @@ class AccountMove(models.Model):
         self.state = "head_department"
 
     def action_department(self):
+        res = super(AccountMove, self).action_post()
         self.state = "posted"
+        return res
 
     def action_head_of_department(self):
         self.state = "posted"

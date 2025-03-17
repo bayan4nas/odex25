@@ -56,9 +56,9 @@ class AccountAssetAsset(models.Model):
         states={'draft': [('readonly', False)], 'unlock': [('readonly', False)]},
         readonly=True,
     )
-    model = fields.Char(
+    model = fields.Many2one('account.asset',
         states={'draft': [('readonly', False)], 'unlock': [('readonly', False)]},
-        readonly=True,
+        readonly=True,domain=[('asset_type', '=', 'purchase'), ('state', '=', 'model')],
     )
     manufacturer_id = fields.Many2one(
         comodel_name='account.asset.manufacturer',
