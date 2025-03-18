@@ -158,6 +158,14 @@
                                             <td>Name</td>
                                         </tr>
 
+                                        <tr t-if="doc.passport_number">
+                                            <td>رقم الجواز</td>
+                                            <td colspan="2">
+                                                <span t-esc="doc.passport_number"/>
+                                            </td>
+                                            <td>Passport No.</td>
+                                        </tr>
+
                                         <tr>
                                             <td>الوظيفة الحالية</td>
                                             <td colspan="2">

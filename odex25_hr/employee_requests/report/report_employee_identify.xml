@@ -60,25 +60,25 @@
                         width: 25%;
                         }
                         .connsign{
-                            width: 450px;
-                            height:90px;
-                            float:left;
-                            margin-top:-66px;
-                            margin-left:-140px !important;
-                            text-align:right;
-                            padding:0px;
-                            }
-                            .con{
-                            width: 400px;
-                            height:25px;
-                            text-align:right;
-                            }
-                            .sign{
-                            width: 400px;
-                            height:50px;
-                            margin-top:5px;
-                            text-align:right;
-                            }
+                        width: 450px;
+                        height:90px;
+                        float:left;
+                        margin-top:-66px;
+                        margin-left:-140px !important;
+                        text-align:right;
+                        padding:0px;
+                        }
+                        .con{
+                        width: 400px;
+                        height:25px;
+                        text-align:right;
+                        }
+                        .sign{
+                        width: 400px;
+                        height:50px;
+                        margin-top:5px;
+                        text-align:right;
+                        }
                     </style>
                     <div class="OutlineElement Rtl SCXW182515882 BCX2">
                         <h3 style="font-weight:bold;margin-bottom: 40px;text-align:center;font-family: 'Sakkal Majalla'!important;color:rgb(77, 168, 178);font-size: 20pt;margin-top: 0;">
@@ -87,7 +87,8 @@
                             <span>Employment Certificate</span>
                         </h3>
                     </div>
-                    <table class="table table-borderless" style="margin-bottom: 10px;font-family: 'Sakkal Majalla'!important;font-size: 14pt;                             background-size: 35%; background-position: right;background-repeat: no-repeat;">
+                    <table class="table table-borderless"
+                           style="margin-bottom: 10px;font-family: 'Sakkal Majalla'!important;font-size: 14pt;                             background-size: 35%; background-position: right;background-repeat: no-repeat;">
                         <tr style="border:0;">
                             <td style="text-align:right;width:50%;padding-left:50px;padding-right: 20px;">
                                 <p style="font-weight: bold;color: #333;margin-bottom: 20px;">
@@ -95,7 +96,8 @@
                                     <span t-esc="doc.destination.name"/>
                                 </p>
                                 <span>نفيدكم بأن الموظف الموضح هويته أدناه يعمل لدى</span>
-                                <span style="font-weight: bold;"><span t-esc="env.user.sudo().company_id.name"/>-</span>
+                                <span style="font-weight: bold;"><span t-esc="env.user.sudo().company_id.name"/>-
+                                </span>
                                 <span>ولا يزال على رأس العمل حتى تاريخه و أعطيت له هذه الشهادة بناء على</span>
                                 <span>طلبه دون أدنى مسئولية.</span>
                             </td>
@@ -120,7 +122,9 @@
                     <div class="OutlineElement Rtl SCXW182515882 BCX2">
                         <div class="TableContainer SCXW182515882 BCX2">
                             <center>
-                                <table id="content-table" aria-rowcount="12" border="1" class="Table  Rtl TableWordWrap SCXW182515882 BCX2" data-tablelook="1184" data-tablestyle="MsoTableGrid" style="margin-right:13%;">
+                                <table id="content-table" aria-rowcount="12" border="1"
+                                       class="Table  Rtl TableWordWrap SCXW182515882 BCX2" data-tablelook="1184"
+                                       data-tablestyle="MsoTableGrid" style="margin-right:13%;">
                                     <thead>
                                         <tr>
                                             <th colspan="2">تعريف عمل</th>
@@ -153,7 +157,13 @@
                                             </td>
                                             <td>Name</td>
                                         </tr>
-
+                                        <tr t-if="doc.passport_number">
+                                            <td>رقم الجواز</td>
+                                            <td colspan="2">
+                                                <span t-esc="doc.passport_number"/>
+                                            </td>
+                                            <td>Passport No.</td>
+                                        </tr>
                                         <tr>
                                             <td>الوظيفة الحالية</td>
                                             <td colspan="2">
@@ -227,33 +237,37 @@
                             </center>
                         </div>
                         <br/>
-<!--                        todo start -->
-<!--                        <div class="">-->
-<!--                            <div style="float:left;margin-left:15px;" class="left">-->
-<!--                                <span t-field="env.user.sudo().company_id.hr_manager_id.user_id.sign_signature" t-options="{&quot;widget&quot;: &quot;image&quot;,&quot;style&quot;:&quot;width: 90px;height:90px;&quot;}"/>-->
-<!--                            </div>-->
-<!--                            <div style="float:right" class="signature right">-->
-<!--                                <span t-field="env.user.sudo().company_id.hr_manager_id.user_id.sign_initials" t-options="{&quot;widget&quot;: &quot;image&quot;,&quot;style&quot;:&quot;width: 200px;height:70px;&quot;}"/>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                        todo end -->
+                        <!--                        todo start -->
+                        <!--                        <div class="">-->
+                        <!--                            <div style="float:left;margin-left:15px;" class="left">-->
+                        <!--                                <span t-field="env.user.sudo().company_id.hr_manager_id.user_id.sign_signature" t-options="{&quot;widget&quot;: &quot;image&quot;,&quot;style&quot;:&quot;width: 90px;height:90px;&quot;}"/>-->
+                        <!--                            </div>-->
+                        <!--                            <div style="float:right" class="signature right">-->
+                        <!--                                <span t-field="env.user.sudo().company_id.hr_manager_id.user_id.sign_initials" t-options="{&quot;widget&quot;: &quot;image&quot;,&quot;style&quot;:&quot;width: 200px;height:70px;&quot;}"/>-->
+                        <!--                            </div>-->
+                        <!--                        </div>-->
+                        <!--                        todo end -->
                         <h4 style="text-align: center;">
                             <span>مدير إدارة الموارد البشرية</span>
                             <br/>
                             <span>Director of Human Resource</span>
                             <br/>
-                            <span  t-esc="env.user.sudo().company_id.hr_manager_id.name"/>
+                            <span t-esc="env.user.sudo().company_id.hr_manager_id.name"/>
 
                         </h4>
 
                         <div class="connsign">
-                            <div class="con"> <span t-esc="user.name"></span> </div>
+                            <div class="con">
+                                <span t-esc="user.name"></span>
+                            </div>
                             <div class="sign">
-                                <img t-if="user.sign_signature" class="image" t-att-src="'data:image/png;base64,%s' % to_text(user.sign_signature)" style="width:300px; height:165px;margin-top:-40px !important"/>
+                                <img t-if="user.sign_signature" class="image"
+                                     t-att-src="'data:image/png;base64,%s' % to_text(user.sign_signature)"
+                                     style="width:300px; height:165px;margin-top:-40px !important"/>
                             </div>
                         </div>
 
-                        
+
                         <!--                        <div class="column">-->
                         <!--                            <div align="center">-->
                         <!--                                <span t-field="env.user.sudo().company_id.hr_manager_id.user_id.sign_signature"-->
