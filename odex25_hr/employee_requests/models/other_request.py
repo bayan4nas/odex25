@@ -2,7 +2,7 @@
 
 from odoo import api, fields, models, _, exceptions
 from hijri_converter import convert
-
+from typing import List, Dict
 
 class EmployeeOtherRequest(models.Model):
     _name = 'employee.other.request'
@@ -11,6 +11,33 @@ class EmployeeOtherRequest(models.Model):
     _inherit = ['mail.thread', 'mail.activity.mixin']
 
     from_hr = fields.Boolean()
+
+    def get_employee_allowances(self) -> List[Dict[str, float]]:
+        """
+        Retrieve allowance names and amounts for the same employee
+        and the same payslip period (date_from, date_to).
+
+        Returns:
+            List[Dict[str, float]]: A list of dictionaries containing
+            allowance name and amount.
+        """
+        self.ensure_one()  # Ensure the method is called on a single record
+
+        # Search for payslips with the same employee and period
+        allowance_records = self.env['hr.payslip'].search([
+            ('employee_id', '=', self.employee_id.id),
+            ('contract_id', '=', self.employee_id.contract_id.id),
+        ],limit=1).mapped('allowance_ids')
+
+        # Extract allowance name and amount into a list of dictionaries
+        allowances_data = [
+            {'name': allowance.name, 'amount': allowance.amount}
+            for allowance in allowance_records
+            if allowance.code != 'basic'  # Exclude allowances with code 'basic'
+        ]
+
+        return allowances_data
+
     # add new field
     passport_number = fields.Char(related='employee_id.passport_id.passport_id', readonly=True,string='Passport Number', store=True)
     date = fields.Date(default=lambda self: fields.Date.today())
