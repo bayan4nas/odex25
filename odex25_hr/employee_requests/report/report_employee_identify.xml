@@ -197,23 +197,47 @@
                                             <td>Basic Salary</td>
                                         </tr>
 
-                                        <tr>
-                                            <td>بدل السكن</td>
-                                            <td colspan="2">
-                                                <span t-esc="round(doc.employee_id.contract_id.house_allowance_temp,2)"/>
-                                                <span>ريال</span>
-                                            </td>
-                                            <td>Housing Allowance</td>
-                                        </tr>
+                                        <t t-set="allowances" t-value="doc.get_employee_allowances()"/>
 
-                                        <tr>
-                                            <td>بدل النقل</td>
-                                            <td colspan="2">
-                                                <span t-esc="round(doc.employee_id.contract_id.transport_allowance,2)"/>
-                                                <span>ريال</span>
-                                            </td>
-                                            <td>Transportation Allowance</td>
-                                        </tr>
+                                        <t t-foreach="allowances" t-as="allowance">
+                                            <tr>
+                                                <!-- Arabic Allowance Name -->
+                                                <td t-esc="allowance['name']"/>
+
+                                                <!-- Allowance Amount -->
+                                                <td colspan="2">
+                                                    <span t-esc="round(allowance['amount'], 2)"/>
+                                                    <span>ريال</span>
+                                                </td>
+
+                                                <!-- English Allowance Name -->
+                                                <td>
+                                                    <t t-if="allowance['name'] == 'بدل السكن'">Housing Allowance</t>
+                                                    <t t-elif="allowance['name'] == 'بدل النقل'">Transportation
+                                                        Allowance
+                                                    </t>
+                                                    <t t-else="" t-esc="allowance['name']"/>
+                                                </td>
+                                            </tr>
+                                        </t>
+
+<!--                                                                                <tr>-->
+<!--                                                                                    <td>بدل السكن</td>-->
+<!--                                                                                    <td colspan="2">-->
+<!--                                                                                        <span t-esc="round(doc.employee_id.contract_id.house_allowance_temp,2)"/>-->
+<!--                                                                                        <span>ريال</span>-->
+<!--                                                                                    </td>-->
+<!--                                                                                    <td>Housing Allowance</td>-->
+<!--                                                                                </tr>-->
+
+                                        <!--                                        <tr>-->
+                                        <!--                                            <td>بدل النقل</td>-->
+                                        <!--                                            <td colspan="2">-->
+                                        <!--                                                <span t-esc="round(doc.employee_id.contract_id.transport_allowance,2)"/>-->
+                                        <!--                                                <span>ريال</span>-->
+                                        <!--                                            </td>-->
+                                        <!--                                            <td>Transportation Allowance</td>-->
+                                        <!--                                        </tr>-->
 
                                         <tr>
                                             <td>الراتب الشهري الإجمالي</td>

@@ -17,7 +17,7 @@ class HrSalaryAdvance(models.Model):
     state = fields.Selection(
             [('draft', _('Draft')), 
              ('submit', _('Waiting Payroll Officer')),
-             ('direct_manager', _('Wait HR Department')),
+             ('direct_manager', _('Finance Department')),
              ('hr_manager', _('Wait Secretary-General Approval')),
              ('executive_manager', _('Wait Transfer')),
              ('pay', _('Transferred')), ('refused', _('Refused')),
@@ -266,6 +266,7 @@ class HrSalaryAdvance(models.Model):
 
     @api.depends('contract_duration_date', 'end_date')
     def _get_month_no(self):
+        self.months_employeed =0
         for item in self:
             if item.employee_id.contract_id:
                 if item.contract_duration_date and item.end_date:
@@ -283,6 +284,7 @@ class HrSalaryAdvance(models.Model):
                     relative_years = relativedelta.relativedelta(current_date, start_contract_date).years
                     item.months_employeed = relative_months + (relative_years * 12)
             else:
+
                 raise exceptions.Warning(_('Employee %s has no contract') % item.employee_id.name)
 
     @api.depends('deduction_lines','deduction_lines.paid')

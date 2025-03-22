@@ -1,3 +1,4 @@
+import io
 import qrcode
 import base64
 from io import BytesIO
@@ -5,6 +6,8 @@ from odoo import models, fields, api, _
 from odoo.exceptions import UserError
 import datetime
 from odoo.tools import DEFAULT_SERVER_DATE_FORMAT
+
+
 
 
 class AccountMoveLine(models.Model):
@@ -33,28 +36,35 @@ class AccountMove(models.Model):
     def _compute_qr_code_str(self):
 
         def get_qr_encoding(tag, field):
-            company_name_byte_array = field.encode('UTF-8')
-            company_name_tag_encoding = tag.to_bytes(length=1, byteorder='big')
-            company_name_length_encoding = len(company_name_byte_array).to_bytes(length=1, byteorder='big')
-            return company_name_tag_encoding + company_name_length_encoding + company_name_byte_array
+            field_bytes = field.encode('UTF-8')
+            return tag.to_bytes(1, 'big') + len(field_bytes).to_bytes(1, 'big') + field_bytes
 
         for record in self:
-            qr_code_str = ''
             if record.invoice_date and record.company_id.vat:
-                invoice_date = datetime.datetime.strptime(str(record.invoice_date), DEFAULT_SERVER_DATE_FORMAT)
+                invoice_date = datetime.strptime(str(record.invoice_date), DEFAULT_SERVER_DATE_FORMAT)
+                time_sa = fields.Datetime.context_timestamp(record.with_context(tz='Asia/Riyadh'), invoice_date)
+                
+                # Construct TLV data
                 seller_name_enc = get_qr_encoding(1, record.company_id.name)
                 company_vat_enc = get_qr_encoding(2, record.company_id.vat)
-                time_sa = fields.Datetime.context_timestamp(self.with_context(tz='Asia/Riyadh'),
-                                                            invoice_date)
                 timestamp_enc = get_qr_encoding(3, time_sa.isoformat())
                 invoice_total_enc = get_qr_encoding(4, str(record.amount_total))
-                total_vat_enc = get_qr_encoding(5, str(record.currency_id.round(
-                    record.amount_total - record.amount_untaxed)))
+                total_vat_enc = get_qr_encoding(5, str(record.currency_id.round(record.amount_total - record.amount_untaxed)))
 
-                str_to_encode = seller_name_enc + company_vat_enc + timestamp_enc + invoice_total_enc + total_vat_enc
-                qr_code_str = base64.b64encode(str_to_encode).decode('UTF-8')
-            record.qr_string = qr_code_str
-            record.l10n_sa_qr_code_str = qr_code_str
+                tlv_data = seller_name_enc + company_vat_enc + timestamp_enc + invoice_total_enc + total_vat_enc
+                encoded_data = base64.b64encode(tlv_data).decode()
+
+                # Generate QR code
+                qr = qrcode.QRCode(version=1, error_correction=qrcode.constants.ERROR_CORRECT_L, box_size=4, border=1)
+                qr.add_data(encoded_data)
+                qr.make(fit=True)
+                img = qr.make_image()
+
+                buffer = io.BytesIO()
+                img.save(buffer, format="PNG")
+                record.qr_string = base64.b64encode(buffer.getvalue()).decode()
+            else:
+                record.qr_string = False
 
     @api.depends('line_ids.sale_line_ids')
     def _get_sale_orders(self):
