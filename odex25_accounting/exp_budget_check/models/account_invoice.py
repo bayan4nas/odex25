@@ -21,7 +21,7 @@ class BudgetConfirmationCustom(models.Model):
         super(BudgetConfirmationCustom, self).done()
         if self.invoice_id and self.type == 'vendor.bill':
             self.invoice_id.write({'is_approve': True})
-            self.invoice_id.write({'state': 'budget_approve'})
+            self.invoice_id.write({'state': 'head_department'})
             for rec in self:
                 for line in rec.lines_ids:
                     budget_post = self.env['account.budget.post'].search([]).filtered(
@@ -120,7 +120,6 @@ class AccountMove(models.Model):
 
     def action_accountant(self):
         self.action_confirm()
-        self.state = "head_department"
 
     def action_department(self):
         res = super(AccountMove, self).action_post()
@@ -165,7 +164,6 @@ class AccountMove(models.Model):
                 amount += (line.price_subtotal + line.price_tax)
                 budget_lines.write({'confirm': amount})
                 budget_lines.write({'reserve': abs((line.price_subtotal + line.price_tax) - budget_lines.reserve)})
-        self.write({'state': 'accountant'})
         return res
 
     def button_draft(self):
