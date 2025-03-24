@@ -66,11 +66,11 @@ class AccountAsset(models.Model):
         string='Prorata Date',
         readonly=True, states={'draft': [('readonly', False)]}, tracking=True)
     account_asset_id = fields.Many2one('account.account', string='Fixed Asset Account', tracking=True,
-                                    compute='_compute_value',
-                                    help="Account used to record the purchase of the asset at its original price.",
-                                    store=True,
-                                    states={'draft': [('readonly', False)], 'model': [('readonly', False)]},
-                                    domain="[('company_id', '=', company_id), ('is_off_balance', '=', False),('internal_type','!=','view')]")
+                                       compute='_compute_value',
+                                       help="Account used to record the purchase of the asset at its original price.",
+                                       store=True,
+                                       states={'draft': [('readonly', False)], 'model': [('readonly', False)]},
+                                       domain="[('company_id', '=', company_id), ('is_off_balance', '=', False),('internal_type','!=','view')]")
     account_depreciation_id = fields.Many2one('account.account', string='Depreciation Account', tracking=True,
                                               readonly=True,
                                               states={'draft': [('readonly', False)], 'model': [('readonly', False)]},
@@ -155,11 +155,18 @@ class AccountAsset(models.Model):
             else:
                 asset.disposal_date = False
 
-    @api.depends('original_move_line_ids', 'original_move_line_ids.account_id', 'asset_type')
+    def compute_asset_default_values(self, record):
+        if not record.depreciation_move_ids:
+            record.account_asset_id = record.model.account_asset_id
+            record.account_depreciation_expense_id = record.model.account_depreciation_expense_id
+            record.journal_id = record.model.journal_id
+
+    @api.depends('original_move_line_ids', 'original_move_line_ids.account_id', 'asset_type', 'model')
     def _compute_value(self):
         for record in self:
             misc_journal_id = self.env['account.journal'].search(
                 [('type', '=', 'general'), ('company_id', '=', record.company_id.id)], limit=1)
+            record.compute_asset_default_values(record)
             if not record.original_move_line_ids:
                 record.account_asset_id = record.account_asset_id or False
                 if not record.account_asset_id and (
@@ -694,7 +701,8 @@ class AccountAsset(models.Model):
                 if changes:
                     asset.message_post(body=_('Asset sold or disposed. Accounting entry awaiting for validation.'),
                                        tracking_value_ids=tracking_value_ids)
-                move_ids += self.env['account.move'].sudo().search([('asset_id', '=', asset.id), ('state', '=', 'draft')]).ids
+                move_ids += self.env['account.move'].sudo().search(
+                    [('asset_id', '=', asset.id), ('state', '=', 'draft')]).ids
 
         return move_ids
 
