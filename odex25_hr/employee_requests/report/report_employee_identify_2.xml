@@ -210,16 +210,6 @@
                         <br/>
                         <br/>
                    
-<!--                        todo start -->
-<!--                        <div class="">-->
-<!--                            <div style="float:left;margin-left:15px;" class="left">-->
-<!--                                <span t-field="env.user.sudo().company_id.hr_manager_id.user_id.sign_signature" t-options="{&quot;widget&quot;: &quot;image&quot;,&quot;style&quot;:&quot;width: 90px;height:90px;&quot;}"/>-->
-<!--                            </div>-->
-<!--                            <div style="float:right" class="signature right">-->
-<!--                                <span t-field="env.user.sudo().company_id.hr_manager_id.user_id.sign_initials" t-options="{&quot;widget&quot;: &quot;image&quot;,&quot;style&quot;:&quot;width: 200px;height:70px;&quot;}"/>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                        todo end -->
                         <h4 style="text-align: center;">
                             <span>مدير إدارة الموارد البشرية</span>
                             <br/>
@@ -229,7 +219,7 @@
                         </h4>
                     
                         <div class="connsign">
-                            <div class="con"> <span t-esc="user.name"></span> </div>
+<!--                            <div class="con"> <span t-esc="user.name"></span> </div>-->
                             <div class="sign">
                                 <img t-if="user.sign_signature" class="image" t-att-src="'data:image/png;base64,%s' % to_text(user.sign_signature)" style="width:300px; height:165px;margin-top:-40px !important"/>
                             </div>

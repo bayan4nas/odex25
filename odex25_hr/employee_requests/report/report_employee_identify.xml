@@ -220,25 +220,6 @@
                                                 </td>
                                             </tr>
                                         </t>
-
-<!--                                                                                <tr>-->
-<!--                                                                                    <td>بدل السكن</td>-->
-<!--                                                                                    <td colspan="2">-->
-<!--                                                                                        <span t-esc="round(doc.employee_id.contract_id.house_allowance_temp,2)"/>-->
-<!--                                                                                        <span>ريال</span>-->
-<!--                                                                                    </td>-->
-<!--                                                                                    <td>Housing Allowance</td>-->
-<!--                                                                                </tr>-->
-
-                                        <!--                                        <tr>-->
-                                        <!--                                            <td>بدل النقل</td>-->
-                                        <!--                                            <td colspan="2">-->
-                                        <!--                                                <span t-esc="round(doc.employee_id.contract_id.transport_allowance,2)"/>-->
-                                        <!--                                                <span>ريال</span>-->
-                                        <!--                                            </td>-->
-                                        <!--                                            <td>Transportation Allowance</td>-->
-                                        <!--                                        </tr>-->
-
                                         <tr>
                                             <td>الراتب الشهري الإجمالي</td>
                                             <td colspan="2">
@@ -261,16 +242,6 @@
                             </center>
                         </div>
                         <br/>
-                        <!--                        todo start -->
-                        <!--                        <div class="">-->
-                        <!--                            <div style="float:left;margin-left:15px;" class="left">-->
-                        <!--                                <span t-field="env.user.sudo().company_id.hr_manager_id.user_id.sign_signature" t-options="{&quot;widget&quot;: &quot;image&quot;,&quot;style&quot;:&quot;width: 90px;height:90px;&quot;}"/>-->
-                        <!--                            </div>-->
-                        <!--                            <div style="float:right" class="signature right">-->
-                        <!--                                <span t-field="env.user.sudo().company_id.hr_manager_id.user_id.sign_initials" t-options="{&quot;widget&quot;: &quot;image&quot;,&quot;style&quot;:&quot;width: 200px;height:70px;&quot;}"/>-->
-                        <!--                            </div>-->
-                        <!--                        </div>-->
-                        <!--                        todo end -->
                         <h4 style="text-align: center;">
                             <span>مدير إدارة الموارد البشرية</span>
                             <br/>
@@ -281,39 +252,12 @@
                         </h4>
 
                         <div class="connsign">
-                            <div class="con">
-                                <span t-esc="user.name"></span>
-                            </div>
                             <div class="sign">
                                 <img t-if="user.sign_signature" class="image"
                                      t-att-src="'data:image/png;base64,%s' % to_text(user.sign_signature)"
                                      style="width:300px; height:165px;margin-top:-40px !important"/>
                             </div>
                         </div>
-
-
-                        <!--                        <div class="column">-->
-                        <!--                            <div align="center">-->
-                        <!--                                <span t-field="env.user.sudo().company_id.hr_manager_id.user_id.sign_signature"-->
-                        <!--                                      t-field-options='{"widget": "image","style":"width: 90px;height:90px;"}'/>-->
-                        <!--                            </div>-->
-                        <!--                        </div>-->
-                        <!--                        <br/>-->
-                        <!--                        <table class="table table-borderless"-->
-                        <!--                               style="border-spacing: 0px;padding:0px;margin:0px;margin-top:115px;font-family:'Sakkal Majalla'!important;font-size:9pt"-->
-                        <!--                               dir="rtl">-->
-                        <!--                            <tr style="border:0;">-->
-                        <!--                                <td style="text-align:right;border:0;width:50%;padding:0px;margin:0px;">-->
-                        <!--                                    <span>طبع بواسطة :</span>-->
-                        <!--                                    <span t-esc="user.name"/>-->
-                        <!--                                </td>-->
-                        <!--                                <td style="text-align:left;border:0;width:50%;padding:0px;margin:0px;direction:ltr">-->
-                        <!--                                    <span>Printed By :</span>-->
-                        <!--                                    <span t-esc="user.name"/>-->
-                        <!--                                </td>-->
-                        <!--                            </tr>-->
-
-                        <!--                        </table>-->
 
                     </div>
 
