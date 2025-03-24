@@ -155,20 +155,6 @@
                 </t>
             </t>
         </template>
-
-        <!--         <record model="report.paperformat" id="paperformat_transaction_receive_report">
-                    <field name="name">paperformat.transaction.receive.report</field>
-                    <field name="default" eval="True"/>
-                    <field name="format">A4</field>
-                    <field name="orientation">Portrait</field>
-                    <field name="margin_top">59</field>
-                    <field name="margin_right">10</field>
-                    <field name="margin_bottom">30</field>
-                    <field name="margin_left">10</field>
-                    <field name="header_line" eval="False"/>
-                    <field name="header_spacing">35</field>
-                    <field name="dpi">90</field>
-                </record> -->
         <record model="report.paperformat" id="paperformat_transaction_receive_report">
             <field name="name">paperformat.transaction.receive.report</field>
             <field name="default" eval="True"/>
@@ -226,15 +212,6 @@
             <field name="header_spacing">35</field>
             <field name="dpi">125</field>
         </record>
-        <report
-                id="action_report_internal_transaction"
-                model="internal.transaction"
-                string="Print Transaction"
-                report_type="qweb-pdf"
-                name="exp_transaction_documents.report_internal_transaction"
-                file="exp_transaction_documents.report_internal_transaction"
-                paperformat="paperformat_card"
-                menu="True"/>
 
         <template id="report_internal_transaction">
             <t t-call="web.html_container">
@@ -250,6 +227,7 @@
 
                             .droidkufi-font {
                             font-family: 'DroidKufi', sans-serif;
+                            text-align: center;
                             }
 
                             .droidkufi-font h2 {
@@ -257,16 +235,34 @@
                             }
 
                             .droidkufi-font p {
-                            margin-bottom: 10px;
+                            margin-bottom:8px;
                             }
 
                             .droidkufi-font img {
-                            margin-top: 10px;
+                            margin-top:8px;
                             }
-                        </style>
 
-                        <div class="droidkufi-font" dir="rtl"
-                             style="padding: 20px; margin-bottom: 50px; height: 90%;">
+                            .header-container {
+                            display: flex;
+                            align-items: center;
+                            justify-content: space-between;
+                            padding: 10px;
+                            border-bottom: 2px solid #000;
+                            }
+
+                        </style>
+                        <t t-set="company" t-value="user.company_id"/>
+                        <div class="droidkufi-font" dir="rtl" style=";">
+                            <div class="header-container">
+                                <img t-if="company.logo" t-att-src="image_data_uri(company.logo)"
+                                     style="max-height:68px;" alt="Logo"/>
+                                <div class="title">
+                                    <br/>
+                                    <h3>اللجنة الوطنية لرعاية السجناء "تراحم" الأمانة العامة
+                                    </h3>
+                                </div>
+                            </div>
+                            <br/>
                             <h2>تفاصيل المعاملة</h2>
                             <p>رقم المعاملة:
                                 <t t-esc="doc.name"/>
@@ -277,8 +273,8 @@
                             <p>التاريخ:
                                 <t t-esc="doc.transaction_date"/>
                             </p>
-                            <p>عدد الصفحات:
-                                <t t-esc="doc.attachment_ids.num_page"/>
+                            <p>المرفقات:
+                                <t t-esc="doc.attachment_num"/>
                             </p>
                             <p>
                                 <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', doc.name, 600, 100)"
@@ -286,6 +282,91 @@
                             </p>
                             <!-- Add more details as needed -->
                         </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+        <report
+                id="action_report_internal_transaction"
+                model="internal.transaction"
+                string="Print Transaction"
+                report_type="qweb-pdf"
+                name="exp_transaction_documents.report_internal_transaction"
+                file="exp_transaction_documents.report_internal_transaction"
+                paperformat="paperformat_card"
+                menu="True"/>
+
+
+        <template id="report_out_transaction">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-call="web.basic_layout">
+                        <style type="text/css">
+                            @font-face {
+                            font-family: 'DroidKufi';
+                            src: url("/exp_transaction_report/static/src/fonts/DroidKufi-Bold.ttf") format("truetype");
+                            font-weight: normal;
+                            font-style: normal;
+                            }
+
+                            .droidkufi-font {
+                            font-family: 'DroidKufi', sans-serif;
+                            text-align: center;
+                            }
+
+                            .droidkufi-font h2 {
+                            margin-bottom: 20px;
+                            }
+
+                            .droidkufi-font p {
+                            margin-bottom:8px;
+                            }
+
+                            .droidkufi-font img {
+                            margin-top:8px;
+                            }
+
+                            .header-container {
+                            display: flex;
+                            align-items: center;
+                            justify-content: space-between;
+                            padding: 10px;
+                            border-bottom: 2px solid #000;
+                            }
+
+                        </style>
+                        <t t-set="company" t-value="user.company_id"/>
+                        <div class="droidkufi-font" dir="rtl" style=";">
+                            <div class="header-container">
+                                <img t-if="company.logo" t-att-src="image_data_uri(company.logo)"
+                                     style="max-height:68px;" alt="Logo"/>
+                                <div class="title">
+                                    <br/>
+                                    <h3>اللجنة الوطنية لرعاية السجناء "تراحم" الأمانة العامة
+                                    </h3>
+                                </div>
+                            </div>
+                            <br/>
+                            <h2>تفاصيل المعاملة</h2>
+                            <p>رقم المعاملة:
+                                <t t-esc="doc.name"/>
+                            </p>
+                            <p>الموضوع:
+                                <t t-esc="doc.subject"/>
+                            </p>
+                            <p>التاريخ:
+                                <t t-esc="doc.transaction_date"/>
+                            </p>
+                            <p>المرفقات:
+                                <t t-esc="doc.attachment_num"/>
+                            </p>
+                            <p>
+                                <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', doc.name, 600, 100)"
+                                     style="width:250px;height:40px;margin-top:5px;"/>
+                            </p>
+                            <!-- Add more details as needed -->
+                        </div>
+
                     </t>
                 </t>
             </t>
@@ -300,7 +381,8 @@
                 paperformat="paperformat_card"
                 menu="True"/>
 
-        <template id="report_out_transaction">
+
+        <template id="report_income_transaction">
             <t t-call="web.html_container">
                 <t t-foreach="docs" t-as="doc">
                     <t t-call="web.basic_layout">
@@ -312,8 +394,9 @@
                             font-style: normal;
                             }
 
-                           .droidkufi-font {
+                            .droidkufi-font {
                             font-family: 'DroidKufi', sans-serif;
+                            text-align: center;
                             }
 
                             .droidkufi-font h2 {
@@ -321,16 +404,34 @@
                             }
 
                             .droidkufi-font p {
-                            margin-bottom: 10px;
+                            margin-bottom:8px;
                             }
 
                             .droidkufi-font img {
-                            margin-top: 10px;
+                            margin-top:8px;
                             }
-                        </style>
 
-                        <div class="droidkufi-font" dir="rtl"
-                             style="padding: 20px; margin-bottom: 50px; height: 90%;">
+                            .header-container {
+                            display: flex;
+                            align-items: center;
+                            justify-content: space-between;
+                            padding: 10px;
+                            border-bottom: 2px solid #000;
+                            }
+
+                        </style>
+                        <t t-set="company" t-value="user.company_id"/>
+                        <div class="droidkufi-font" dir="rtl" style=";">
+                            <div class="header-container">
+                                <img t-if="company.logo" t-att-src="image_data_uri(company.logo)"
+                                     style="max-height:68px;" alt="Logo"/>
+                                <div class="title">
+                                    <br/>
+                                    <h3>اللجنة الوطنية لرعاية السجناء "تراحم" الأمانة العامة
+                                    </h3>
+                                </div>
+                            </div>
+                            <br/>
                             <h2>تفاصيل المعاملة</h2>
                             <p>رقم المعاملة:
                                 <t t-esc="doc.name"/>
@@ -341,8 +442,8 @@
                             <p>التاريخ:
                                 <t t-esc="doc.transaction_date"/>
                             </p>
-                            <p>عدد الصفحات:
-                                <t t-esc="doc.attachment_ids.num_page"/>
+                            <p>المرفقات:
+                                <t t-esc="doc.attachment_num"/>
                             </p>
                             <p>
                                 <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', doc.name, 600, 100)"
@@ -364,47 +465,6 @@
                 file="exp_transaction_documents.report_income_transaction"
                 paperformat="paperformat_card"
                 menu="True"/>
-
-        <template id="report_income_transaction">
-            <t t-call="web.html_container">
-                <t t-foreach="docs" t-as="doc">
-                    <t t-call="web.basic_layout">
-                        <style type="text/css">
-                            @font-face {
-                            font-family: 'DroidKufi';
-                            src: url("/exp_transaction_report/static/src/fonts/DroidKufi-Bold.ttf") format("truetype");
-                            font-weight: normal;
-                            font-style: normal;
-                            }
-
-                            .droidkufi-font {
-                            font-family: 'DroidKufi', sans-serif;
-                            }
-                        </style>
-
-                        <div class="droidkufi-font" dir="rtl"
-                             style="border: 2px solid black; padding: 20px; margin-bottom: 50px; height: 90%;">
-                            <h2>تفاصيل المعاملة</h2>
-                            <p>رقم المعاملة:
-                                <t t-esc="doc.name"/>
-                            </p>
-                            <p>الموضوع:
-                                <t t-esc="doc.subject"/>
-                            </p>
-                            <p>التاريخ:
-                                <t t-esc="doc.transaction_date"/>
-                            </p>
-                            <p>
-                                <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', doc.name, 600, 100)"
-                                     style="width:250px;height:40px;margin-top:5px;"/>
-                            </p>
-                            <!-- Add more details as needed -->
-                        </div>
-                    </t>
-                </t>
-            </t>
-        </template>
-
 
         <!--        end -->
     </data>
