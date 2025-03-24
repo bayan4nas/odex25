@@ -204,8 +204,8 @@
             <field name="page_height">95</field>
             <field name="page_width">60</field>
             <field name="orientation">Landscape</field>
-            <field name="margin_top">5.00</field>
-            <field name="margin_bottom">5.00</field>
+            <field name="margin_top">4.00</field>
+            <field name="margin_bottom">4.00</field>
             <field name="margin_left">5.0</field>
             <field name="margin_right">5.0</field>
             <field name="header_line" eval="False"/>
@@ -229,24 +229,19 @@
                             font-family: 'DroidKufi', sans-serif;
                             text-align: center;
                             }
-
-                            .droidkufi-font h2 {
-                            margin-bottom: 20px;
-                            }
-
                             .droidkufi-font p {
-                            margin-bottom:8px;
+                            margin-bottom:5px;
                             }
 
                             .droidkufi-font img {
-                            margin-top:8px;
+                            margin-bottom:5px;
                             }
 
                             .header-container {
                             display: flex;
                             align-items: center;
                             justify-content: space-between;
-                            padding: 10px;
+                            <!--                            padding:5px;-->
                             border-bottom: 2px solid #000;
                             }
 
@@ -255,15 +250,14 @@
                         <div class="droidkufi-font" dir="rtl" style=";">
                             <div class="header-container">
                                 <img t-if="company.logo" t-att-src="image_data_uri(company.logo)"
-                                     style="max-height:68px;" alt="Logo"/>
-                                <div class="title">
-                                    <br/>
-                                    <h3>اللجنة الوطنية لرعاية السجناء "تراحم" الأمانة العامة
-                                    </h3>
+                                     style="max-height:60px;" alt="Logo"/>
+                                <div>
+                                    <p>اللجنة الوطنية لرعاية السجناء "تراحم" الأمانة العامة
+                                    </p>
                                 </div>
                             </div>
                             <br/>
-                            <h2>تفاصيل المعاملة</h2>
+                            <p>تفاصيل المعاملة</p>
                             <p>رقم المعاملة:
                                 <t t-esc="doc.name"/>
                             </p>
@@ -296,7 +290,6 @@
                 paperformat="paperformat_card"
                 menu="True"/>
 
-
         <template id="report_out_transaction">
             <t t-call="web.html_container">
                 <t t-foreach="docs" t-as="doc">
@@ -313,24 +306,19 @@
                             font-family: 'DroidKufi', sans-serif;
                             text-align: center;
                             }
-
-                            .droidkufi-font h2 {
-                            margin-bottom: 20px;
-                            }
-
                             .droidkufi-font p {
-                            margin-bottom:8px;
+                            margin-bottom:5px;
                             }
 
                             .droidkufi-font img {
-                            margin-top:8px;
+                            margin-bottom:5px;
                             }
 
                             .header-container {
                             display: flex;
                             align-items: center;
                             justify-content: space-between;
-                            padding: 10px;
+                            <!--                            padding:5px;-->
                             border-bottom: 2px solid #000;
                             }
 
@@ -339,15 +327,14 @@
                         <div class="droidkufi-font" dir="rtl" style=";">
                             <div class="header-container">
                                 <img t-if="company.logo" t-att-src="image_data_uri(company.logo)"
-                                     style="max-height:68px;" alt="Logo"/>
-                                <div class="title">
-                                    <br/>
-                                    <h3>اللجنة الوطنية لرعاية السجناء "تراحم" الأمانة العامة
-                                    </h3>
+                                     style="max-height:60px;" alt="Logo"/>
+                                <div>
+                                    <p>اللجنة الوطنية لرعاية السجناء "تراحم" الأمانة العامة
+                                    </p>
                                 </div>
                             </div>
                             <br/>
-                            <h2>تفاصيل المعاملة</h2>
+                            <p>تفاصيل المعاملة</p>
                             <p>رقم المعاملة:
                                 <t t-esc="doc.name"/>
                             </p>
@@ -366,11 +353,11 @@
                             </p>
                             <!-- Add more details as needed -->
                         </div>
-
                     </t>
                 </t>
             </t>
         </template>
+
         <report
                 id="action_report_out_transaction"
                 model="outgoing.transaction"
@@ -380,7 +367,6 @@
                 file="exp_transaction_documents.report_out_transaction"
                 paperformat="paperformat_card"
                 menu="True"/>
-
 
         <template id="report_income_transaction">
             <t t-call="web.html_container">
@@ -398,24 +384,19 @@
                             font-family: 'DroidKufi', sans-serif;
                             text-align: center;
                             }
-
-                            .droidkufi-font h2 {
-                            margin-bottom: 20px;
-                            }
-
                             .droidkufi-font p {
-                            margin-bottom:8px;
+                            margin-bottom:5px;
                             }
 
                             .droidkufi-font img {
-                            margin-top:8px;
+                            margin-bottom:5px;
                             }
 
                             .header-container {
                             display: flex;
                             align-items: center;
                             justify-content: space-between;
-                            padding: 10px;
+                            <!--                            padding:5px;-->
                             border-bottom: 2px solid #000;
                             }
 
@@ -424,15 +405,14 @@
                         <div class="droidkufi-font" dir="rtl" style=";">
                             <div class="header-container">
                                 <img t-if="company.logo" t-att-src="image_data_uri(company.logo)"
-                                     style="max-height:68px;" alt="Logo"/>
-                                <div class="title">
-                                    <br/>
-                                    <h3>اللجنة الوطنية لرعاية السجناء "تراحم" الأمانة العامة
-                                    </h3>
+                                     style="max-height:60px;" alt="Logo"/>
+                                <div>
+                                    <p>اللجنة الوطنية لرعاية السجناء "تراحم" الأمانة العامة
+                                    </p>
                                 </div>
                             </div>
                             <br/>
-                            <h2>تفاصيل المعاملة</h2>
+                            <p>تفاصيل المعاملة</p>
                             <p>رقم المعاملة:
                                 <t t-esc="doc.name"/>
                             </p>
@@ -451,7 +431,6 @@
                             </p>
                             <!-- Add more details as needed -->
                         </div>
-
                     </t>
                 </t>
             </t>
