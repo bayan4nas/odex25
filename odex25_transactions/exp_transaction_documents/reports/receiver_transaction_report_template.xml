@@ -197,22 +197,21 @@
                 menu="True"/>
 
         <!-- Used to change the format of pdf. -->
+
         <record id="paperformat_card" model="report.paperformat">
             <field name="name">Custom Paper</field>
             <field name="default" eval="True"/>
             <field name="format">custom</field>
-            <field name="page_height">95</field>
-            <field name="page_width">60</field>
-            <field name="orientation">Landscape</field>
-            <field name="margin_top">4.00</field>
-            <field name="margin_bottom">4.00</field>
-            <field name="margin_left">5.0</field>
-            <field name="margin_right">5.0</field>
+            <field name="page_height">100</field>
+            <field name="page_width">70</field>
+            <field name="margin_top">2.00</field>
+            <field name="margin_bottom">2.00</field>
+            <field name="margin_left">2.0</field>
+            <field name="margin_right">2.0</field>
             <field name="header_line" eval="False"/>
             <field name="header_spacing">35</field>
             <field name="dpi">125</field>
         </record>
-
         <template id="report_internal_transaction">
             <t t-call="web.html_container">
                 <t t-foreach="docs" t-as="doc">
@@ -227,27 +226,24 @@
 
                             .droidkufi-font {
                             font-family: 'DroidKufi', sans-serif;
-                            text-align: center;
                             }
+
+                            .droidkufi-font h2 {
+                            margin-bottom:2px;
+                            }
+
                             .droidkufi-font p {
-                            margin-bottom:5px;
+                            margin-bottom:1px;
                             }
 
                             .droidkufi-font img {
-                            margin-bottom:5px;
+                            margin-top:3px;
                             }
-
-                            .header-container {
-                            display: flex;
-                            align-items: center;
-                            justify-content: space-between;
-                            <!--                            padding:5px;-->
-                            border-bottom: 2px solid #000;
-                            }
-
                         </style>
-                        <t t-set="company" t-value="user.company_id"/>
-                        <div class="droidkufi-font" dir="rtl" style=";">
+
+                        <div class="droidkufi-font" dir="rtl"
+                             style="padding: 20px; margin-bottom: 50px; height: 90%;">
+                            <t t-set="company" t-value="user.company_id"/>
                             <div class="header-container">
                                 <img t-if="company.logo" t-att-src="image_data_uri(company.logo)"
                                      style="max-height:60px;" alt="Logo"/>
@@ -256,8 +252,9 @@
                                     </p>
                                 </div>
                             </div>
-                            <br/>
-                            <p>تفاصيل المعاملة</p>
+
+
+                            <h2>تفاصيل المعاملة</h2>
                             <p>رقم المعاملة:
                                 <t t-esc="doc.name"/>
                             </p>
@@ -271,15 +268,83 @@
                                 <t t-esc="doc.attachment_num"/>
                             </p>
                             <p>
-                                <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', doc.name, 600, 100)"
+                                <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', doc.name, 300, 50)"
                                      style="width:250px;height:40px;margin-top:5px;"/>
                             </p>
                             <!-- Add more details as needed -->
                         </div>
+
                     </t>
                 </t>
             </t>
         </template>
+        <!--        <template id="report_internal_transaction">-->
+        <!--            <t t-call="web.html_container">-->
+        <!--                <t t-foreach="docs" t-as="doc">-->
+        <!--                    <t t-call="web.basic_layout">-->
+        <!--                        <style type="text/css">-->
+        <!--                            @font-face {-->
+        <!--                            font-family: 'DroidKufi';-->
+        <!--                            src: url("/exp_transaction_report/static/src/fonts/DroidKufi-Bold.ttf") format("truetype");-->
+        <!--                            font-weight: normal;-->
+        <!--                            font-style: normal;-->
+        <!--                            }-->
+
+        <!--                            .droidkufi-font {-->
+        <!--                            font-family: 'DroidKufi', sans-serif;-->
+        <!--                            text-align: center;-->
+        <!--                            }-->
+        <!--                            .droidkufi-font p {-->
+        <!--                            margin-bottom:5px;-->
+        <!--                            }-->
+
+        <!--                            .droidkufi-font img {-->
+        <!--                            margin-bottom:5px;-->
+        <!--                            }-->
+
+        <!--                            .header-container {-->
+        <!--                            display: flex;-->
+        <!--                            align-items: center;-->
+        <!--                            justify-content: space-between;-->
+        <!--                            &lt;!&ndash;                            padding:5px;&ndash;&gt;-->
+        <!--                            border-bottom: 2px solid #000;-->
+        <!--                            }-->
+
+        <!--                        </style>-->
+        <!--                        <t t-set="company" t-value="user.company_id"/>-->
+        <!--                        <div class="droidkufi-font" dir="rtl" style=";">-->
+        <!--                            <div class="header-container">-->
+        <!--                                <img t-if="company.logo" t-att-src="image_data_uri(company.logo)"-->
+        <!--                                     style="max-height:60px;" alt="Logo"/>-->
+        <!--                                <div>-->
+        <!--                                    <p>اللجنة الوطنية لرعاية السجناء "تراحم" الأمانة العامة-->
+        <!--                                    </p>-->
+        <!--                                </div>-->
+        <!--                            </div>-->
+        <!--                            <br/>-->
+        <!--                            <p>تفاصيل المعاملة</p>-->
+        <!--                            <p>رقم المعاملة:-->
+        <!--                                <t t-esc="doc.name"/>-->
+        <!--                            </p>-->
+        <!--                            <p>الموضوع:-->
+        <!--                                <t t-esc="doc.subject"/>-->
+        <!--                            </p>-->
+        <!--                            <p>التاريخ:-->
+        <!--                                <t t-esc="doc.transaction_date"/>-->
+        <!--                            </p>-->
+        <!--                            <p>المرفقات:-->
+        <!--                                <t t-esc="doc.attachment_num"/>-->
+        <!--                            </p>-->
+        <!--                            <p>-->
+        <!--                                <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', doc.name, 600, 100)"-->
+        <!--                                     style="width:250px;height:40px;margin-top:5px;"/>-->
+        <!--                            </p>-->
+        <!--                            &lt;!&ndash; Add more details as needed &ndash;&gt;-->
+        <!--                        </div>-->
+        <!--                    </t>-->
+        <!--                </t>-->
+        <!--            </t>-->
+        <!--        </template>-->
         <report
                 id="action_report_internal_transaction"
                 model="internal.transaction"
@@ -289,7 +354,6 @@
                 file="exp_transaction_documents.report_internal_transaction"
                 paperformat="paperformat_card"
                 menu="True"/>
-
         <template id="report_out_transaction">
             <t t-call="web.html_container">
                 <t t-foreach="docs" t-as="doc">
@@ -304,27 +368,24 @@
 
                             .droidkufi-font {
                             font-family: 'DroidKufi', sans-serif;
-                            text-align: center;
                             }
+
+                            .droidkufi-font h2 {
+                            margin-bottom:2px;
+                            }
+
                             .droidkufi-font p {
-                            margin-bottom:5px;
+                            margin-bottom:1px;
                             }
 
                             .droidkufi-font img {
-                            margin-bottom:5px;
+                            margin-top:3px;
                             }
-
-                            .header-container {
-                            display: flex;
-                            align-items: center;
-                            justify-content: space-between;
-                            <!--                            padding:5px;-->
-                            border-bottom: 2px solid #000;
-                            }
-
                         </style>
-                        <t t-set="company" t-value="user.company_id"/>
-                        <div class="droidkufi-font" dir="rtl" style=";">
+
+                        <div class="droidkufi-font" dir="rtl"
+                             style="padding: 20px; margin-bottom: 50px; height: 90%;">
+                            <t t-set="company" t-value="user.company_id"/>
                             <div class="header-container">
                                 <img t-if="company.logo" t-att-src="image_data_uri(company.logo)"
                                      style="max-height:60px;" alt="Logo"/>
@@ -333,8 +394,9 @@
                                     </p>
                                 </div>
                             </div>
-                            <br/>
-                            <p>تفاصيل المعاملة</p>
+
+
+                            <h2>تفاصيل المعاملة</h2>
                             <p>رقم المعاملة:
                                 <t t-esc="doc.name"/>
                             </p>
@@ -348,16 +410,16 @@
                                 <t t-esc="doc.attachment_num"/>
                             </p>
                             <p>
-                                <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', doc.name, 600, 100)"
+                                <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', doc.name, 300, 50)"
                                      style="width:250px;height:40px;margin-top:5px;"/>
                             </p>
                             <!-- Add more details as needed -->
                         </div>
+
                     </t>
                 </t>
             </t>
         </template>
-
         <report
                 id="action_report_out_transaction"
                 model="outgoing.transaction"
@@ -367,7 +429,6 @@
                 file="exp_transaction_documents.report_out_transaction"
                 paperformat="paperformat_card"
                 menu="True"/>
-
         <template id="report_income_transaction">
             <t t-call="web.html_container">
                 <t t-foreach="docs" t-as="doc">
@@ -382,27 +443,24 @@
 
                             .droidkufi-font {
                             font-family: 'DroidKufi', sans-serif;
-                            text-align: center;
                             }
+
+                            .droidkufi-font h2 {
+                            margin-bottom:2px;
+                            }
+
                             .droidkufi-font p {
-                            margin-bottom:5px;
+                            margin-bottom:1px;
                             }
 
                             .droidkufi-font img {
-                            margin-bottom:5px;
+                            margin-top:3px;
                             }
-
-                            .header-container {
-                            display: flex;
-                            align-items: center;
-                            justify-content: space-between;
-                            <!--                            padding:5px;-->
-                            border-bottom: 2px solid #000;
-                            }
-
                         </style>
-                        <t t-set="company" t-value="user.company_id"/>
-                        <div class="droidkufi-font" dir="rtl" style=";">
+
+                        <div class="droidkufi-font" dir="rtl"
+                             style="padding: 20px; margin-bottom: 50px; height: 90%;">
+                            <t t-set="company" t-value="user.company_id"/>
                             <div class="header-container">
                                 <img t-if="company.logo" t-att-src="image_data_uri(company.logo)"
                                      style="max-height:60px;" alt="Logo"/>
@@ -411,8 +469,9 @@
                                     </p>
                                 </div>
                             </div>
-                            <br/>
-                            <p>تفاصيل المعاملة</p>
+
+
+                            <h2>تفاصيل المعاملة</h2>
                             <p>رقم المعاملة:
                                 <t t-esc="doc.name"/>
                             </p>
@@ -426,11 +485,12 @@
                                 <t t-esc="doc.attachment_num"/>
                             </p>
                             <p>
-                                <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', doc.name, 600, 100)"
+                                <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', doc.name, 300, 50)"
                                      style="width:250px;height:40px;margin-top:5px;"/>
                             </p>
                             <!-- Add more details as needed -->
                         </div>
+
                     </t>
                 </t>
             </t>
@@ -444,7 +504,6 @@
                 file="exp_transaction_documents.report_income_transaction"
                 paperformat="paperformat_card"
                 menu="True"/>
-
         <!--        end -->
     </data>
 </odoo>
