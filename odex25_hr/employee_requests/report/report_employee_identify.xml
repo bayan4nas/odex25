@@ -198,10 +198,10 @@
                                         </tr>
 
                                         <t t-set="allowances" t-value="doc.get_employee_allowances()"/>
-                                        <t t-set="total_salary" t-value="doc.employee_id.contract_id.salary"/>
+                                        <t t-set="total_salary" t-value="doc.get_employee_totalallownce()"/>
 
                                         <t t-foreach="allowances" t-as="allowance">
-                                            <t t-set="total_salary" t-value="total_salary + allowance['amount']"/>
+<!--                                            <t t-set="total_salary" t-value="total_salary + allowance['amount']"/>-->
                                             <tr>
                                                 <!-- Arabic Allowance Name -->
                                                 <td t-esc="allowance['name']"/>
@@ -226,7 +226,7 @@
                                         <tr>
                                             <td>الراتب الشهري الإجمالي</td>
                                             <td colspan="2">
-                                                <span t-esc="round(total_salary,2)"/>
+                                                <span t-esc="total_salary"/>
 <!--                                                <span t-esc="round(doc.employee_id.contract_id.salary + doc.employee_id.contract_id.house_allowance_temp + doc.employee_id.contract_id.transport_allowance,2)"/>-->
                                                 <span>ريال</span>
                                             </td>
