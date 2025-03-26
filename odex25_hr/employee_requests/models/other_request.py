@@ -12,6 +12,15 @@ class EmployeeOtherRequest(models.Model):
 
     from_hr = fields.Boolean()
 
+    def get_employee_totalallownce(self):
+        self.ensure_one()
+        allowance_record = self.env['hr.payslip'].search([
+            ('employee_id', '=', self.employee_id.id),
+            ('contract_id', '=', self.employee_id.contract_id.id),
+        ], limit=1).mapped('total_allowances')
+
+        return allowance_record
+
     def get_employee_allowances(self) -> List[Dict[str, float]]:
         """
         Retrieve allowance names and amounts for the same employee
