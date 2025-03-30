@@ -239,7 +239,7 @@ class FamilyMember(models.Model):
         ('cancelled', 'Rejected')
     ], string="Status", default='draft', tracking=True)
 
-    cancel_reason: fields.Text = fields.Text(string="Rejection Reason", tracking=True)
+    cancel_reason: fields.Text = fields.Text(string="Rejection Reason", tracking=True,copy=False)
 
     def action_confirm(self) -> None:
         """Change status to 'Confirmed'."""
