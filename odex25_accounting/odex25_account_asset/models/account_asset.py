@@ -20,6 +20,10 @@ class AccountAsset(models.Model):
                                           help="Number of assets made to increase the value of the asset")
     total_depreciation_entries_count = fields.Integer(compute='_entry_count', string='# Depreciation Entries',
                                                       help="Number of depreciation entries (posted or not)")
+    model = fields.Many2one('account.asset',
+                            states={'draft': [('readonly', False)], 'unlock': [('readonly', False)]},
+                            readonly=True, domain=[('asset_type', '=', 'purchase'), ('state', '=', 'model')],
+                            )
 
     name = fields.Char(string='Asset Name', compute='_compute_name', store=True, required=True,
                        states={'draft': [('readonly', False)], 'model': [('readonly', False)]}, tracking=True)
@@ -79,7 +83,6 @@ class AccountAsset(models.Model):
     account_depreciation_expense_id = fields.Many2one('account.account', string='Expense Account', tracking=True,
                                                       readonly=True, states={'draft': [('readonly', False)],
                                                                              'model': [('readonly', False)]},
-                                                      domain="[('internal_type', '=', 'other'), ('deprecated', '=', False), ('company_id', '=', company_id), ('is_off_balance', '=', False)]",
                                                       help="Account used in the periodical entries, to record a part of the asset as expense.")
 
     journal_id = fields.Many2one('account.journal', string='Journal', tracking=True, readonly=True,
@@ -160,6 +163,12 @@ class AccountAsset(models.Model):
             record.account_asset_id = record.model.account_asset_id
             record.account_depreciation_expense_id = record.model.account_depreciation_expense_id
             record.journal_id = record.model.journal_id
+            record.account_analytic_id = record.model.account_analytic_id
+            record.analytic_tag_ids = record.model.analytic_tag_ids
+            record.method = record.model.method
+            record.method_number = record.model.method_number
+            record.method_period = record.model.method_period
+            record.prorata = record.model.prorata
 
     @api.depends('original_move_line_ids', 'original_move_line_ids.account_id', 'asset_type', 'model')
     def _compute_value(self):

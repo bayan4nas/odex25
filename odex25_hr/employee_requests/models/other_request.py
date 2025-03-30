@@ -4,6 +4,7 @@ from odoo import api, fields, models, _, exceptions
 from hijri_converter import convert
 from typing import List, Dict
 
+
 class EmployeeOtherRequest(models.Model):
     _name = 'employee.other.request'
     _rec_name = 'employee_id'
@@ -17,6 +18,8 @@ class EmployeeOtherRequest(models.Model):
         allowance_record = self.env['hr.payslip'].search([
             ('employee_id', '=', self.employee_id.id),
             ('contract_id', '=', self.employee_id.contract_id.id),
+            ('date_from', '<=', self.date),  # Ensure request_date is after or equal to date_from
+            ('date_to', '>=', self.date),  # Ensure request_date is before or equal
         ], limit=1).mapped('total_allowances')
 
         return allowance_record
@@ -36,7 +39,9 @@ class EmployeeOtherRequest(models.Model):
         allowance_records = self.env['hr.payslip'].search([
             ('employee_id', '=', self.employee_id.id),
             ('contract_id', '=', self.employee_id.contract_id.id),
-        ],limit=1).mapped('allowance_ids')
+            ('date_from', '<=', self.date),  # Ensure request_date is after or equal to date_from
+            ('date_to', '>=', self.date),  # Ensure request_date is before or equal
+        ], limit=1).mapped('allowance_ids')
 
         # Extract allowance name and amount into a list of dictionaries
         allowances_data = [
@@ -48,10 +53,11 @@ class EmployeeOtherRequest(models.Model):
         return allowances_data
 
     # add new field
-    passport_number = fields.Char(related='employee_id.passport_id.passport_id', readonly=True,string='Passport Number', store=True)
+    passport_number = fields.Char(related='employee_id.passport_id.passport_id', readonly=True,
+                                  string='Passport Number', store=True)
     date = fields.Date(default=lambda self: fields.Date.today())
     comment = fields.Text()
-    state = fields.Selection(selection=[('draft', _('Draft')), 
+    state = fields.Selection(selection=[('draft', _('Draft')),
                                         ('submit', _('Waiting Direct Manager')),
                                         ('confirm', _('Wait HR Department')),
                                         ('approved', _('Approval')),
@@ -70,8 +76,9 @@ class EmployeeOtherRequest(models.Model):
     # relational fields
     employee_id = fields.Many2one('hr.employee', default=lambda item: item.get_user_id(),
                                   domain=[('state', '=', 'open')])
-    employee_no = fields.Char(related='employee_id.emp_no', readonly=True,string='Employee Number', store=True)
-    department_id = fields.Many2one(comodel_name='hr.department', related='employee_id.department_id', readonly=True,store=True)
+    employee_no = fields.Char(related='employee_id.emp_no', readonly=True, string='Employee Number', store=True)
+    department_id = fields.Many2one(comodel_name='hr.department', related='employee_id.department_id', readonly=True,
+                                    store=True)
     job_id = fields.Many2one(comodel_name='hr.job', related='employee_id.job_id', readonly=True)
     contract_statuss = fields.Selection(related='employee_id.contract_id.contract_status', readonly=True)
 
@@ -150,16 +157,19 @@ class EmployeeOtherRequest(models.Model):
                         raise exceptions.Warning(_('Please Insert Attachments Files Below!'))
 
             item.state = "confirm"
+
     def confirm(self):
-        #self.state = 'confirm'
+        # self.state = 'confirm'
         for rec in self:
             manager = rec.sudo().employee_id.parent_id
             hr_manager = rec.sudo().employee_id.company_id.hr_manager_id
             if manager:
-               if (manager.user_id.id == rec.env.uid or hr_manager.user_id.id == rec.env.uid):
+                if (manager.user_id.id == rec.env.uid or hr_manager.user_id.id == rec.env.uid):
                     rec.write({'state': 'confirm'})
-               else:
-                   raise exceptions.Warning(_("Sorry, The Approval For The Direct Manager '%s' Only OR HR Manager!")%(rec.employee_id.parent_id.name))
+                else:
+                    raise exceptions.Warning(
+                        _("Sorry, The Approval For The Direct Manager '%s' Only OR HR Manager!") % (
+                            rec.employee_id.parent_id.name))
             else:
                 rec.write({'state': 'confirm'})
 
@@ -220,18 +230,19 @@ class EmployeeOtherRequest(models.Model):
 
         self.state = 'refuse'
 
-    #Refuse For The Direct Manager
+    # Refuse For The Direct Manager
     def direct_manager_refused(self):
         for rec in self:
             manager = rec.sudo().employee_id.parent_id
             hr_manager = rec.sudo().employee_id.company_id.hr_manager_id
             if manager:
                 if manager.user_id.id == rec.env.uid or hr_manager.user_id.id == rec.env.uid:
-                   rec.refuse()
+                    rec.refuse()
                 else:
-                    raise exceptions.Warning(_("Sorry, The Refuse For The Direct Manager '%s' Only OR HR Manager!") % (manager.name))
+                    raise exceptions.Warning(
+                        _("Sorry, The Refuse For The Direct Manager '%s' Only OR HR Manager!") % (manager.name))
             else:
-                 rec.refuse()
+                rec.refuse()
 
     def draft(self):
         for item in self:
@@ -253,11 +264,12 @@ class EmployeeOtherRequest(models.Model):
 
 
 class salaryDestination(models.Model):
-    _name = 'salary.destination' 
+    _name = 'salary.destination'
     _description = 'Salary Destination'
 
     name = fields.Char(string='Name')
     english_name = fields.Char(string='English Name')
+
 
 # Hr_Employee_dependent
 class EmployeeDependent(models.Model):
