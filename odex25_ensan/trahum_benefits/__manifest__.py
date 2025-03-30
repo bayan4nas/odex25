@@ -32,6 +32,7 @@
         'views/res_prison.xml',
         'views/identity_proof.xml',
         'views/branch_details.xml',
+        'wizards/cancel_request.xml',
     ],
     # only loaded in demonstration mode
     'demo': [
