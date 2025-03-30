@@ -16,6 +16,7 @@ _logger = logging.getLogger(__name__)
 
 class FamilyMemberProfile(models.Model):
     _name = 'family.member'
+
     _description = "Member - Profiles"
     _inherit = ['mail.thread', 'mail.activity.mixin']
     # _inherits = {'res.partner': 'partner_id'}
@@ -114,101 +115,11 @@ class FamilyMemberProfile(models.Model):
     partner_id = fields.Many2one('res.partner')
     # Replacement Mother
     add_replacement_mother = fields.Boolean('Add Replacement Mother?')
-    # replacement_mother_name = fields.Char(string="Replacement Mother Name", tracking=True)
-    # replacement_mother_second_name = fields.Char(string="Replacement Mother Second Name", tracking=True)
-    # replacement_mother_third_name = fields.Char(string="Replacement Mother Third Name", tracking=True)
-    # replacement_mother_family_name = fields.Char(string="Replacement Mother Family Name", tracking=True)
-    # replacement_mother_country_id = fields.Many2one('res.country', 'Replacement Mother Nationality', tracking=True)
-    # replacement_mother_id_number = fields.Char(string="Replacement Mother Id Number", tracking=True)
-    # replacement_mother_marital_conf = fields.Many2one('marital.status', string='Replacement Mother Marital')
-    # replacement_mother_location = fields.Selection(
-    #     [('with_husband_and_children', _('With Husband And Children')), ('with_children', _('With Children')),
-    #      ('not_live_with_children', _('Not live with children'))], string='Replacement Mother Location')
-    # replacement_is_mother_work = fields.Boolean('Is Replacement Mother Work?')
-    # replacement_mother_income = fields.Float("Replacement Mother Income")
-    # replacement_mother_birth_date = fields.Date(string="Replacement Mother Birth Date")
-    # replacement_mother_age = fields.Integer(string="Replacement Mother Age",
-    #                                         compute='_compute_get_replacement_mother_age')
-    # replacement_mother_city_id = fields.Many2one('res.country.city', string='City')
-    # replacement_mother_dead_reason = fields.Char(string='Dead Reason', required=False)
-    # replacement_mother_dead_date = fields.Date(string="Certificate Date")
-    # replacement_mother_dead_city_id = fields.Many2one('res.country.city', string='Dead City')
-    # replacement_mother_status = fields.Selection(selection=[
-    #     ('benefit', 'Benefit'),
-    #     ('non_benefit', 'Non Benefit'),
-    # ], string='Replacement Mother Status', compute="check_replacement_mother_status", store=True, default=False)
-    # replacement_is_alhaju = fields.Boolean(string='IS Hajj')
-    # replacement_is_amra = fields.Boolean(string='IS Umra')
-    # # Education_data for replacement mother
-    # replacement_education_status = fields.Selection(string='Education Status',
-    #                                                 selection=[('educated', 'educated'), ('illiterate', 'illiterate')])
-    # replacement_case_study = fields.Selection(string='Mother Case Study',
-    #                                           selection=[('continuous', 'continuous'), ('intermittent', 'intermittent'),
-    #                                                      ('graduate', 'Graduate')])
-    # replacement_illiterate_reason = fields.Char(string='Illiterate Reason')
-    # replacement_intermittent_reason = fields.Many2one('education.illiterate.reason',
-    #                                                   string='Intermittent Reason')
-    # replacement_education_entity = fields.Selection(string='Education Entity',
-    #                                                 selection=[('governmental', 'Governmental'),
-    #                                                            ('special', 'Special')])
-    # replacement_entities = fields.Many2one("education.entities", string='Entity')
-    # replacement_specialization_ids = fields.Many2one('specialization.specialization', string='specialization')
-    # replacement_classroom = fields.Many2one('education.classroom', string='Classroom')
-    # replacement_degree = fields.Many2one('education.result', string='Degree')
-    # replacement_percentage = fields.Float(string="Percentage%")
-    # replacement_education_start_date = fields.Date(string='Education Start Date')
-    # replacement_education_end_date = fields.Date(string='Education End Date')
-    #
-    # replacement_last_education_entity = fields.Selection(string='Last Education Entity',
-    #                                                      selection=[('governmental', 'Governmental'),
-    #                                                                 ('special', 'Special')])
-    # replacement_last_entities = fields.Many2one("education.entities", string='Last Entity')
-    # replacement_education_levels = fields.Many2one("education.level", string='Education Levels')
-    # replacement_last_education_levels = fields.Many2one("education.level", string='Last Education Levels')
-    # replacement_last_specialization_ids = fields.Many2one('specialization.specialization', string='Last Specialization')
-    #
-    # replacement_last_classroom = fields.Many2one('education.classroom', string='Last Classroom')
-    # replacement_last_degree = fields.Many2one('education.result', string='Last Degree')
-    # replacement_last_percentage = fields.Float(string="Last Percentage%")
-    # replacement_last_education_start_date = fields.Date(string='Last Education Start Date')
-    # replacement_last_education_end_date = fields.Date(string='Last Education End Date')
-    # replacement_last_educational_certificate = fields.Binary(attachment=True, string='Last Educational Certificate')
-    # replacement_weak_study = fields.Many2many('study.material', string='Weak Study')
-
-    # state = fields.Selection([
-    #     ('draft', 'Draft'),
-    #     ('complete_info', 'Complete Information'),
-    #     ('waiting_approve', 'Waiting Approved'),
-    #     ('woman_manager', 'Woman Manager'),
-    #     ('researcher_team', 'Researcher Team'),
-    #     ('edit_info', 'Edit Information'),
-    #     ('first_refusal', 'First Refusal'),
-    #     ('first_approve', 'Approved'),
-    #     ('refused', 'Refused'),
-    #     ('not_leaving', 'Not Leaving'),
-    #     ('black_list', 'Black List'),
-    # ], string='state', default="draft", tracking=True,related="benefit_id.state")
     state = fields.Selection([
         ('draft', 'Draft'),
-        ('complete_info', 'Complete Information'),
-        ('waiting_approve', 'Waiting Approved'),
-        ('woman_manager', 'Woman Manager'),
-        ('researcher_team', 'Researcher Team'),
-        ('edit_info', 'Edit Information'),
-        ('first_refusal', 'First Refusal'),
-        ('first_approve', 'First Approved'),
-        ('second_approve', 'Second Approved'),
-        ('refused', 'Refused'),
-        ('temporarily_suspended', 'Temporarily suspended'),
-        ('suspended', 'suspended'),
-        ('suspended_first_approve', 'Suspended First Approved'),
-        ('suspended_second_approve', 'Suspended Second Approved'),
-        ('temporarily_exception', 'Temporarily Exception'),
-        ('exception_first_approve', 'Exception First Approve'),
-        ('exception_second_approve', 'Exception Second Approve'),
-        ('not_leaving', 'Not Leaving'),
-        ('black_list', 'Black List'),
-    ], string='state', tracking=True,compute='_get_state',store = True)
+        ('confirmed', 'Confirmed'),
+        ('cancelled', 'Cancelled / Rejected')
+    ], string="Status", default='draft', tracking=True)
     state_a = fields.Selection([
         ('draft', 'Draft'),
         ('complete_info', 'Complete Information'),

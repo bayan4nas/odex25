@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from odoo import models, fields, api
 from odoo.exceptions import ValidationError
+from odoo.exceptions import UserError
 
 
 
@@ -154,9 +155,7 @@ class FamilyMember(models.Model):
     inmate_status = fields.Selection([
         ('convicted', 'Convicted'),
         ('not_convicted', 'Not Convicted')
-    ], string='Inmate Status',
-       attrs="{'invisible': [('benefit_type', '!=', 'inmate')]}"
-    )
+    ], string='Inmate Status',)
     entitlement_status = fields.Selection([
         ('beneficiary', 'Beneficiary'),
         ('non_beneficiary', 'Non Beneficiary')
@@ -236,15 +235,41 @@ class FamilyMember(models.Model):
 
     state = fields.Selection([
         ('draft', 'Draft'),
-        ('completed', 'Completed')
-    ], default='draft',tracking=True, string="State")
-    
+        ('confirmed', 'Confirmed'),
+        ('cancelled', 'Rejected')
+    ], string="Status", default='draft', tracking=True)
 
+    cancel_reason: fields.Text = fields.Text(string="Rejection Reason", tracking=True)
+
+    def action_confirm(self) -> None:
+        """Change status to 'Confirmed'."""
+        self.write({'state': 'confirmed'})
+
+    def action_cancel(self):
+        """Open a wizard to enter the rejection reason."""
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Reject Approval',
+            'res_model': 'request.cancel.wizard',
+            'view_mode': 'form',
+            'target': 'new',
+            'context': {'default_record_id': self.id}
+        }
+
+    def unlink(self) -> bool:
+        """Prevent deletion unless the record is in 'Draft' state."""
+        for record in self:
+            if record.state != 'draft':
+                raise UserError("You can only delete a record in the 'Draft' state.")
+        return super().unlink()
 
     def action_completed(self):
         self.write({'state': 'completed'})
 
     def action_draft(self):
+        self.write({'state': 'draft'})
+
+    def reset_to_draft(self):
         self.write({'state': 'draft'})
 
     @api.depends('first_name', 'father_name', 'grand_name', 'family_name')
