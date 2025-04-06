@@ -4,8 +4,7 @@
 from odoo import api, fields, models
 
 
-class PurcahseRefues(models.TransientModel):
-  
+class Refues(models.TransientModel):
 
     _name = "request.cancel.wizard"
     _description = "refuse Reason wizard"
@@ -16,7 +15,7 @@ class PurcahseRefues(models.TransientModel):
 
     @api.model
     def default_get(self, fields):
-        res = super(PurcahseRefues, self).default_get(fields)
+        res = super(Refues, self).default_get(fields)
         active_ids = self.env.context.get('active_ids', [])
       
         res.update({'request_id': active_ids[0] if active_ids else False})
@@ -25,6 +24,28 @@ class PurcahseRefues(models.TransientModel):
     def request_cancel_reason(self):
         self.ensure_one()
         self.request_id.write({'state':'cancelled','cancel_reason':self.reason})
+        return {'type': 'ir.actions.act_window_close'}
+
+class RefuesFile(models.TransientModel):
+
+
+    _name = "request.canceld.wizard"
+    _description = "refuse wizard"
+
+    reason = fields.Text(string='Cancel Request Reason', required=True)
+    request_id = fields.Many2one('detainee.file')
+
+    @api.model
+    def default_get(self, fields):
+        res = super(RefuesFile, self).default_get(fields)
+        active_ids = self.env.context.get('active_ids', [])
+
+        res.update({'request_id': active_ids[0] if active_ids else False})
+        return res
+
+    def request_cancel_reason(self):
+        self.ensure_one()
+        self.request_id.write({'state':'rejected','cancel_reason':self.reason})
         return {'type': 'ir.actions.act_window_close'}
 
 
