@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
-from odoo import models, fields, api
+# from future.backports.email.policy import default
+
+from odoo import models, fields, api,_
 from odoo.exceptions import ValidationError
 from odoo.exceptions import UserError
-
-
+from lxml import etree
+import json
 
 class FamilyMemberMaritalStatus(models.Model):
     _name = 'family.member.maritalstatus'
@@ -119,6 +121,7 @@ class IssuesInformation(models.Model):
     _name = 'issues.information'
 
     member_id = fields.Many2one('family.member', string='Family Member')
+    detainee_id = fields.Many2one('detainee.file', string='Family Member')
     case_name = fields.Text(string="Case")
     record_start_date = fields.Date(string="Record Start Date")
     record_end_date = fields.Date(string="Record End Date")
@@ -127,7 +130,6 @@ class IssuesInformation(models.Model):
         [('active', 'Active'), ('inactive', 'Inactive')],
         string="status")
     prison_prison_id = fields.Many2one('prison.benefit','prison_id')
-
 
 
 
@@ -260,7 +262,7 @@ class FamilyMember(models.Model):
         """Prevent deletion unless the record is in 'Draft' state."""
         for record in self:
             if record.state != 'draft':
-                raise UserError("You can only delete a record in the 'Draft' state.")
+                raise UserError(_("You can only delete a record in the 'Draft' state."))
         return super().unlink()
 
     def action_completed(self):
@@ -339,4 +341,71 @@ class MemberHouse(models.Model):
     accommodation_attachments = fields.Binary(string="Accommodation Attachments", attachment=True)
 
     benefit_id = fields.Many2one('grant.benefit', string="Profile", related='member_id.benefit_id' , store=True)
-    
+
+class DetaineeFile(models.Model):
+    _name = 'detainee.file'
+    _description = 'Detainee File'
+    _inherit = ['mail.thread', 'mail.activity.mixin']
+
+    name = fields.Char(string="code", readonly=True, copy=False,default=lambda self: _('New'))
+    detainee_id = fields.Many2one('family.member', string="Detainee", required=True)
+    detainee_status = fields.Selection([
+        ('convicted', 'Convicted'),
+        ('non_convicted', 'Non-Convicted'),
+        ('released', 'Released')
+    ], string="Detainee Status", required=True, tracking=True,default='non_convicted')
+
+    arrest_date = fields.Date(string="Arrest Date", required=True,)
+    expected_release_date = fields.Date(string="Expected Release Date")
+    issues_ids = fields.One2many('issues.information', 'detainee_id', string='issues information')
+
+    state = fields.Selection([
+        ('draft', 'Draft'),
+        ('confirmed', 'Confirmed'),
+        ('rejected', 'Rejected'),
+    ], string="Status", default='draft', tracking=True)
+
+    branch_id = fields.Many2one('branch.details', string="Branch")
+
+    prison_country_id = fields.Many2one('res.prison.country', string="Prison Country")
+
+    prison_id = fields.Many2one('res.prison', string="Prison")
+
+    cancel_reason: fields.Text = fields.Text(string="Rejection Reason", tracking=True,copy=False)
+
+    # Restrict deletion & modification based on status
+    def unlink(self):
+        for record in self:
+            if record.state != 'draft':
+                raise UserError(_("You can only delete records in Preliminary state."))
+        return super(DetaineeFile, self).unlink()
+
+    def write(self, vals):
+        for record in self:
+            if record.state != 'draft':
+                raise UserError(_("You can only modify records in Preliminary state."))
+        return super(DetaineeFile, self).write(vals)
+
+    def action_confirm(self):
+        self.state = 'confirmed'
+
+    def action_cancel(self):
+        """Open a wizard to enter the rejection reason."""
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Reject Approval',
+            'res_model': 'request.canceld.wizard',
+            'view_mode': 'form',
+            'target': 'new',
+            'context': {'default_record_id': self.id}
+        }
+
+    def reset_to_draft(self):
+        self.state = 'draft'
+
+    @api.model
+    def create(self, vals):
+        if vals.get('name', _('New')) == _('New'):
+            vals['name'] = self.env['ir.sequence'].next_by_code('detainee.sequence') or _('New')
+        res = super(DetaineeFile, self).create(vals)
+        return res
