@@ -314,6 +314,122 @@
                   parent="odex_benefit.benefits_root_menu"
                   sequence="1"/>
 
+        <!--        add new from and tree and search and menu and action for deteen-->
+
+        <record id="view_detainee_file_form" model="ir.ui.view">
+            <field name="name">detainee.file.form</field>
+            <field name="model">detainee.file</field>
+            <field name="arch" type="xml">
+                <form string="Detainee File">
+                    <header>
+                        <button name="action_confirm" string="Confirm" type="object" class="oe_highlight"
+                                attrs="{'invisible': [('state', 'not in', ['draft'])]}"/>
+
+                        <button name="action_cancel" string="Reject" type="object" class="oe_highlight"
+                                attrs="{'invisible': [('state', 'not in', ['draft'])]}"/>
+
+                        <button name="reset_to_draft" string="RE-set To Draft" type="object" class="oe_highlight"
+                                attrs="{'invisible': [('state', 'not in', ['confirmed','rejected'])]}"/>
+
+                        <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,rejected"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name" readonly="1"/>
+                                <field name="detainee_id"/>
+                                <field name="detainee_status"/>
+                                <field name="arrest_date"/>
+                                <field name="expected_release_date"/>
+                            </group>
+                            <group>
+                                <field name="prison_country_id"/>
+                                <field name="prison_id"/>
+                                <field name="branch_id"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Issues Information">
+                                <group>
+                                    <field name="issues_ids">
+                                        <tree>
+                                            <field name="case_name"/>
+                                            <field name="record_start_date"/>
+                                            <field name="record_end_date"/>
+                                            <field name="prison_prison_id"/>
+                                            <field name="release_date"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_detainee_file_tree" model="ir.ui.view">
+            <field name="name">detainee.file.tree</field>
+            <field name="model">detainee.file</field>
+            <field name="arch" type="xml">
+                <tree string="Detainee Files">
+                    <field name="name"/>
+                    <field name="detainee_id"/>
+                    <field name="prison_country_id"/>
+                    <field name="prison_id"/>
+                    <field name="branch_id"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_detainee_file_search" model="ir.ui.view">
+            <field name="name">detainee.file.search</field>
+            <field name="model">detainee.file</field>
+            <field name="arch" type="xml">
+                <search string="Search Detainee Files">
+                    <field name="detainee_id"/>
+                    <field name="prison_country_id"/>
+                    <field name="prison_id"/>
+                    <group expand="1" string="Extended Filters">
+                        <filter name="group_by_branch" string="Group by Branch" context="{'group_by': 'branch_id'}"/>
+                        <filter name="group_by_branch" string="Group by Prison"
+                                context="{'group_by': 'prison_country_id'}"/>
+                        <filter name="group_by_branch" string="Group by Prison Country"
+                                context="{'group_by': 'prison_id'}"/>
+                        <filter name="group_by_status" string="Group by Status" context="{'group_by': 'state'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_detainee_file" model="ir.actions.act_window">
+            <field name="name">Detainee Files</field>
+            <field name="res_model">detainee.file</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_detainee_file_search"/>
+        </record>
+
+        <menuitem id="menu_detainee_file" name="Detainee Files"
+                  parent="odex_benefit.benefits_root_menu"
+                  sequence="2" action="action_detainee_file"/>
+
+        <record id="sequence_benefit" model="ir.sequence">
+            <field name="name">detainee Sequence</field>
+            <field name="code">detainee.sequence</field>
+            <field name="prefix">D/</field>
+            <field eval="1" name="number_next"/>
+            <field eval="1" name="number_increment"/>
+            <field eval="True" name="use_date_range"/>
+            <field eval="False" name="company_id"/>
+            <field name="padding">4</field>
+        </record>
+        <!--        end -->
+
 
     </data>
 </odoo>

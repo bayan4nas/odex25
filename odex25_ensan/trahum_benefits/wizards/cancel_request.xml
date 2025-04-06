@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <record id="purchase_request_cancel_wizard_view_form" model="ir.ui.view">
+    <record id="request_cancel_wizard_view_form" model="ir.ui.view">
         <field name="name">request.cancel.wizard.form</field>
         <field name="model">request.cancel.wizard</field>
         <field name="arch" type="xml">
@@ -16,11 +16,36 @@
         </field>
     </record>
 
-    <record id="purchase_request_cancel_wizard_action" model="ir.actions.act_window">
+    <record id="request_cancel_wizard_action" model="ir.actions.act_window">
         <field name="name">Cancel Request Reason</field>
         <field name="res_model">request.cancel.wizard</field>
         <field name="view_mode">form</field>
-        <field name="view_id" ref="purchase_request_cancel_wizard_view_form"/>
+        <field name="view_id" ref="request_cancel_wizard_view_form"/>
+        <field name="target">new</field>
+    </record>
+
+
+    <record id="member_request_cancel_wizard_view_form" model="ir.ui.view">
+        <field name="name">request.canceld.wizard.form</field>
+        <field name="model">request.canceld.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Cancel Request Reason">
+                <separator string="Cancel Request Reason"/>
+                <field name="request_id" invisible="1"/>
+                <field name="reason"/>
+                <footer>
+                        <button string='Save' name="request_cancel_reason" type="object" class="oe_highlight"/>
+                    <button string="Cancel" class="oe_link" special="cancel"/>
+                </footer>
+           </form>
+        </field>
+    </record>
+
+    <record id="member_request_cancel_wizard_action" model="ir.actions.act_window">
+        <field name="name">Reject Request Reason</field>
+        <field name="res_model">request.canceld.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="member_request_cancel_wizard_view_form"/>
         <field name="target">new</field>
     </record>
 </odoo>
