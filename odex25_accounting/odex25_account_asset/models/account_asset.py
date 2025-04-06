@@ -158,24 +158,25 @@ class AccountAsset(models.Model):
             else:
                 asset.disposal_date = False
 
-    def compute_asset_default_values(self, record):
-        if not record.depreciation_move_ids:
-            record.account_asset_id = record.model.account_asset_id
-            record.account_depreciation_expense_id = record.model.account_depreciation_expense_id
-            record.journal_id = record.model.journal_id
-            record.account_analytic_id = record.model.account_analytic_id
-            record.analytic_tag_ids = record.model.analytic_tag_ids
-            record.method = record.model.method
-            record.method_number = record.model.method_number
-            record.method_period = record.model.method_period
-            record.prorata = record.model.prorata
+    @api.onchange('model')
+    def onchange_model(self):
+        if not self.depreciation_move_ids:
+            self.account_asset_id = self.model.account_asset_id
+            self.account_depreciation_expense_id = self.model.account_depreciation_expense_id
+            self.journal_id = self.model.journal_id
+            self.account_analytic_id = self.model.account_analytic_id
+            self.analytic_tag_ids = self.model.analytic_tag_ids
+            self.method = self.model.method
+            self.method_number = self.model.method_number
+            self.method_period = self.model.method_period
+            self.prorata = self.model.prorata
 
-    @api.depends('original_move_line_ids', 'original_move_line_ids.account_id', 'asset_type', 'model')
+    @api.depends('original_move_line_ids', 'original_move_line_ids.account_id', 'asset_type')
     def _compute_value(self):
         for record in self:
             misc_journal_id = self.env['account.journal'].search(
                 [('type', '=', 'general'), ('company_id', '=', record.company_id.id)], limit=1)
-            record.compute_asset_default_values(record)
+            # record.compute_asset_default_values(record)
             if not record.original_move_line_ids:
                 record.account_asset_id = record.account_asset_id or False
                 if not record.account_asset_id and (
