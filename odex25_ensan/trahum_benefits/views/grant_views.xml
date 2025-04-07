@@ -6,48 +6,85 @@
             <field name="arch" type="xml">
                 <tree string="Profiles">
                     <field name="name"/>
+                    <field name="detainee_file_id"/>
+                    <field name="breadwinner_member_id"/>
+                    <field name="member_count"/>
+                    <field name="state"/>
                 </tree>
             </field>
         </record>
+
 
         <record id="view_grant_benefit_form" model="ir.ui.view">
             <field name="name">grant.benefit.form</field>
             <field name="model">grant.benefit</field>
             <field name="arch" type="xml">
                 <form string="Family Profile">
+                    <!-- Header with statusbar -->
+                    <header>
+
+                        <!-- Action Buttons -->
+                        <button name="action_submit_call_center" type="object" string="Submit to Call Center"
+                                class="btn-primary"
+                                attrs="{'invisible': [('state', '!=', 'draft')]}"/>
+
+                        <button name="action_approve_call_center" type="object" string="Approve Call Center"
+                                attrs="{'invisible': [('state', '!=', 'call_center')]}"/>
+
+                        <button name="action_approve_social" type="object" string="Approve Social Researcher"
+                                attrs="{'invisible': [('state', '!=', 'social_researcher')]}"/>
+
+                        <button name="action_approve_branch" type="object" string="Approve Branch Manager"
+                                attrs="{'invisible': [('state', '!=', 'branch_manager')]}"/>
+
+                        <button name="action_close" type="object" string="Close"
+                                class="btn-success"
+                                confirm="Are you sure?" attrs="{'invisible': [('state', '!=', 'ceo')]}"/>
+
+                        <button name="action_revert_state" type="object" string="Return"
+                                class="btn-secondary"
+                                attrs="{'invisible': [('state', 'in', ['draft', 'cancelled', 'closed'])]}"/>
+
+                        <button name="action_cancel" type="object" string="Cancel"
+                                class="btn-danger"
+                                attrs="{'invisible': [('state', 'in', ['cancelled', 'closed','draft'])]}"/>
+
+                        <button name="reset_to_draft" type="object" string="Reset to Draft"
+                                class="btn-secondary"
+                                confirm="Are you sure?" attrs="{'invisible': [('state', '!=', 'cancelled')]}"/>
+
+                        <field name="state" widget="statusbar" statusbar_visible="draft,call_center,social_researcher,branch_manager,ceo,closed"/>
+
+                    </header>
                     <sheet>
                         <group>
-                            <field name="inmate_member_id" context="{'form_view_ref': 'trahum_benefits.view_family_member_form'}"/>
-                            <field name="breadwinner_member_id" context="{'form_view_ref': 'trahum_benefits.view_family_member_form'}"/>
-                            <field name="branch_details_id" />
+                            <group>
+                                <field name="previous_state" invisible="1"/>
+                                <field name="name" readonly="1"/>
+                                <field name="detainee_file_id"/>
+                                <field name="inmate_member_id" readonly="1" force_save="True"
+                                       context="{'form_view_ref': 'trahum_benefits.view_family_member_form'}"/>
+                                <field name="breadwinner_member_id" invisible="1"/>
+                                <field name="branch_details_id"/>
+                                <field name="member_count" invisible="1"/>
+
+                            </group>
                         </group>
                         <notebook>
                             <page string="Members">
-                                <field name="member_ids" nolabel="1"
-                                       context="{'form_view_ref': 'trahum_benefits.view_family_member_form'}">
-                                    <tree>
-                                        <field name="name"/>
+                                <field name="benefit_member_ids" nolabel="1">
+                                    <tree editable="bottom">
+                                        <field name="member_id"/>
                                         <field name="relation_id"/>
+                                        <field name="is_breadwinner"/>
                                     </tree>
                                 </field>
                             </page>
                             <page string="Housing">
-                                <!-- <group>
-                                    <group>
-                                        <field name="housing_type"/>
-                                        <field name="property_type"/>
-                                          <field name="exchange_period" attrs="{'readonly': [('housing_status', 'not in', ['usufruct', 'rent'])]}"/>
-
-                                    </group>
-                                    <group>
-                                        <field name="housing_status"/>
-                                        <field name="housing_value" attrs="{'readonly': [('housing_status', 'not in', ['usufruct', 'rent'])]}"/>
-                                        <field name="accommodation_attachments"/>
-                                    </group>
-                                </group> -->
                                 <field name="house_ids">
                                     <tree editable="bottom">
-                                        <field name="member_id" domain="['|', ('id', 'in', parent.member_ids), ('id', '=', parent.breadwinner_member_id)]"/>
+                                        <field name="member_id" invisible="1"/>
+                                        <!--                                               domain="['|', ('id', 'in', parent.member_ids), ('id', '=', parent.breadwinner_member_id)]"/>-->
                                         <field name="housing_type"/>
                                         <field name="property_type"/>
                                         <field name="exchange_period"/>
@@ -61,24 +98,16 @@
                                 <group>
                                     <field name="expenses_ids">
                                         <tree editable="top">
-                                            <field name="member_id" domain="['|', ('id', 'in', parent.member_ids), ('id', '=', parent.breadwinner_member_id)]"/>
+                                            <field name="member_id" invisible="1"/>
+                                            <!--                                                   domain="['|', ('id', 'in', parent.member_ids), ('id', '=', parent.breadwinner_member_id)]"/>-->
                                             <field name="benefit_id" invisible="1"/>
                                             <field name="expenses_type" invisible="1"/>
                                             <field name="expenses_type_custom"/>
-<!--                                            <field name="note"/>-->
+                                            <!--                                            <field name="note"/>-->
                                             <field name="revenue_periodicity"/>
                                             <field name="amount" sum="amount"/>
                                             <field name="side"/>
                                             <field name="attachment"/>
-                                            <!--                                            <button name="action_accept" type="object" string="Accept"-->
-                                            <!--                                                    class="oe_highlight"-->
-                                            <!--                                                    groups="odex_benefit.group_accept_income_and_expenses"/>-->
-                                            <!--                                            <button name="action_refuse" type="object" string="Refuse"-->
-                                            <!--                                                    class="oe_highlight"-->
-                                            <!--                                                    groups="odex_benefit.group_accept_income_and_expenses"/>-->
-                                            <!--                                            <field name="state" readonly="1" force_save="1" widget="badge"-->
-                                            <!--                                                   decoration-success="state in ['accepted']"-->
-                                            <!--                                                   decoration-danger="state in ['refused']"/>-->
                                         </tree>
                                     </field>
                                 </group>
@@ -87,21 +116,13 @@
                                 <field name="salary_ids">
                                     <tree editable="bottom" delete="0">
                                         <field name="benefit_id" invisible="1"/>
-                                        <field name="member_id" domain="['|', ('id', 'in', parent.member_ids), ('id', '=', parent.breadwinner_member_id)]"/>
+                                        <field name="member_id" invisible="1"/>
+                                        <!--                                               domain="['|', ('id', 'in', parent.member_ids), ('id', '=', parent.breadwinner_member_id)]"/>-->
                                         <field name="income_type"/>
                                         <field name="side"/>
                                         <field name="salary_amount"/>
                                         <field name="salary_attach" widget="many2many_attachment_preview"/>
                                         <field name="revenue_periodicity"/>
-<!--                                        <field name="attach_start_date"/>-->
-<!--                                        <field name="attach_end_date"/>-->
-<!--                                        <button name="action_accept" type="object" string="Accept" class="oe_highlight"-->
-<!--                                                groups="odex_benefit.group_accept_income_and_expenses"/>-->
-<!--                                        <button name="action_refuse" type="object" string="Refuse" class="oe_highlight"-->
-<!--                                                groups="odex_benefit.group_accept_income_and_expenses"/>-->
-<!--                                        <field name="state" readonly="1" force_save="1" widget="badge"-->
-<!--                                               decoration-success="state in ['accepted']"-->
-<!--                                               decoration-danger="state in ['refused']"/>-->
                                         <field name="is_required" invisible="1"/>
                                         <field name="is_default" invisible="1"/>
 
@@ -158,13 +179,13 @@
                                     </tree>
                                 </field>
                             </page>
-                             <page string="Health Data">
+                            <page string="Health Data">
                                 <group>
                                     <field name="health_data_ids" nolabel="1"
                                            context="{'form_view_ref': 'trahum_benefits.view_family_member_form'}">
                                         <tree>
                                             <field name="name" string="Name"/>
-                                             <field name="benefit_id"/>
+                                            <field name="benefit_id"/>
                                             <field name="blood_type" string="Blood Type"/>
                                             <field name="member_diseases_ids" string="Diseases">
                                             </field>
@@ -183,9 +204,33 @@
                             </page>
                         </notebook>
                     </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
                 </form>
             </field>
         </record>
+
+        <record id="view_grant_benefit_search" model="ir.ui.view">
+            <field name="name">grant.benefit.search</field>
+            <field name="model">grant.benefit</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="detainee_file_id" string="Detainee"/>
+                    <field name="breadwinner_member_id" string="Breadwinner"/>
+                    <field name="branch_details_id" string="Branch"/>
+                    <field name="state" string="State"/>
+                <group expand="0" string="Group By">
+                    <filter string="State" name="state" context="{'group_by': 'state'}"/>
+                    <filter string="Group by Detainee"  name="detainee_file_id" context="{'group_by': 'detainee_file_id'}"/>
+                    <filter string="Group by Breadwinner Member" name="breadwinner_member_id" context="{'group_by': 'breadwinner_member_id'}"/>
+                    <filter string="Group by Branch"  name="branch_details_id" context="{'group_by': 'branch_details_id'}"/>
+                </group>
+                </search>
+            </field>
+        </record>
+
 
         <record id="action_grant_benefit" model="ir.actions.act_window">
             <field name="name">Family Profile</field>
@@ -195,6 +240,8 @@
             <field name="view_ids" eval="[(5, 0, 0),
                                        (0, 0, {'view_mode': 'tree', 'view_id': ref('view_grant_benefit_tree')}), 
                                        (0, 0, {'view_mode': 'form', 'view_id': ref('view_grant_benefit_form')})]"/>
+            <field name="search_view_id" ref="view_grant_benefit_search"/>
+
         </record>
 
         <menuitem id="menu_grant_benefit" name="Families Profiles"
