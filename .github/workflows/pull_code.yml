@@ -26,11 +26,13 @@ jobs:
     if: github.ref == 'refs/heads/preprod' || (github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'client-stage')
     steps:
       - name: Checkout And Restart Project
+        continue-on-error: false
         run: |
           echo "** [INFO] Running on branch -->  ${{ github.ref }}"
-          
-          sudo chmod +x /home/${{ secrets.CLIENT_USER }}/scripts/pull/trahum-master-pull_code.sh
-          sudo /home/${{ secrets.CLIENT_USER }}/scripts/pull/trahum-master-pull_code.sh
+      
+          # Run the main script
+          echo "${{ secrets.RUNNER_PASSWORD }}" | sudo -S chmod +x /home/${{ secrets.CLIENT_USER }}/scripts/pull/trahum-master-pull_code.sh
+          echo "${{ secrets.RUNNER_PASSWORD }}" | sudo -E -S /home/${{ secrets.CLIENT_USER }}/scripts/pull/trahum-master-pull_code.sh "${{ secrets.GH_TOKEN }}"
           
   deploy_client_prod_server:
     name: Deploy Master Branch to Client Prod Server 
@@ -38,11 +40,13 @@ jobs:
     if: github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'client-production'
     steps:
       - name: Checkout And Restart Project
+        continue-on-error: false
         run: |
           echo "** [INFO] Running on branch -->  ${{ github.ref }}"
-          
-          sudo chmod +x /home/${{ secrets.CLIENT_USER }}/scripts/pull/trahum-master-pull_code.sh
-          sudo /home/${{ secrets.CLIENT_USER }}/scripts/pull/trahum-master-pull_code.sh
+      
+          # Run the main script
+          echo "${{ secrets.RUNNER_PASSWORD }}" | sudo -S chmod +x /home/${{ secrets.CLIENT_USER }}/scripts/pull/trahum-master-pull_code.sh
+          echo "${{ secrets.RUNNER_PASSWORD }}" | sudo -E -S /home/${{ secrets.CLIENT_USER }}/scripts/pull/trahum-master-pull_code.sh "${{ secrets.GH_TOKEN }}"
 
 
   deploy_preprod_on_app_server:
