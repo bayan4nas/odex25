@@ -259,15 +259,15 @@ class ProjectInvoice(models.Model):
             print('rec,',rec.phase_id)
             if rec.phase_id:
                 certificate = self.env['completion.certificate'].search([('phase_id4', '=', rec.phase_id.id)], limit=1)
-                if certificate:
-                    self.ensure_one()
-                    self._set_qty_invoiced()
-                    if not self.plan_date:
-                        raise UserError(_("Kindly Enter Planned Issue Date For this Invoice Request"))
-                    self.state = 'confirm'
-                    print("certificate",certificate)
-                else:
-                    raise UserError(_("Kindly Incloud Certificate Of Completion Of The Phase Date For this Invoice Request"))
+                # if certificate:
+                self.ensure_one()
+                self._set_qty_invoiced()
+                if not self.plan_date:
+                    raise UserError(_("Kindly Enter Planned Issue Date For this Invoice Request"))
+                self.state = 'confirm'
+                # else:
+                #     pass
+                    # raise UserError(_("Kindly Incloud Certificate Of Completion Of The Phase Date For this Invoice Request"))
 
         #     return rec.message_post(body=f'Invoice Data /: {rec.name},{rec.state}')
 
