@@ -30,20 +30,9 @@ jobs:
         run: |
           echo "** [INFO] Running on branch -->  ${{ github.ref }}"
       
-          # Create temporary askpass script
-          echo 'echo "${GH_TOKEN}"' > /home/${{ secrets.CLIENT_USER }}/git-askpass.sh
-          chmod +x /home/${{ secrets.CLIENT_USER }}/git-askpass.sh
-      
-          # Export required env vars
-          export GH_TOKEN="${{ secrets.GH_TOKEN }}"
-          export GIT_ASKPASS="/home/${{ secrets.CLIENT_USER }}/git-askpass.sh"
-      
           # Run the main script
           echo "${{ secrets.RUNNER_PASSWORD }}" | sudo -S chmod +x /home/${{ secrets.CLIENT_USER }}/scripts/pull/trahum-master-pull_code.sh
-          echo "${{ secrets.RUNNER_PASSWORD }}" | sudo -E -S /home/${{ secrets.CLIENT_USER }}/scripts/pull/trahum-master-pull_code.sh
-      
-          # Clean up
-          rm -f /home/${{ secrets.CLIENT_USER }}/git-askpass.sh
+          echo "${{ secrets.RUNNER_PASSWORD }}" | sudo -E -S /home/${{ secrets.CLIENT_USER }}/scripts/pull/trahum-master-pull_code.sh "${{ secrets.GH_TOKEN }}"
           
   deploy_client_prod_server:
     name: Deploy Master Branch to Client Prod Server 
@@ -55,20 +44,9 @@ jobs:
         run: |
           echo "** [INFO] Running on branch -->  ${{ github.ref }}"
       
-          # Create temporary askpass script
-          echo 'echo "${GH_TOKEN}"' > /home/${{ secrets.CLIENT_USER }}/git-askpass.sh
-          chmod +x /home/${{ secrets.CLIENT_USER }}/git-askpass.sh
-      
-          # Export required env vars
-          export GH_TOKEN="${{ secrets.GH_TOKEN }}"
-          export GIT_ASKPASS="/home/${{ secrets.CLIENT_USER }}/git-askpass.sh"
-      
           # Run the main script
           echo "${{ secrets.RUNNER_PASSWORD }}" | sudo -S chmod +x /home/${{ secrets.CLIENT_USER }}/scripts/pull/trahum-master-pull_code.sh
-          echo "${{ secrets.RUNNER_PASSWORD }}" | sudo -E -S /home/${{ secrets.CLIENT_USER }}/scripts/pull/trahum-master-pull_code.sh
-      
-          # Clean up
-          rm -f /home/${{ secrets.CLIENT_USER }}/git-askpass.sh
+          echo "${{ secrets.RUNNER_PASSWORD }}" | sudo -E -S /home/${{ secrets.CLIENT_USER }}/scripts/pull/trahum-master-pull_code.sh "${{ secrets.GH_TOKEN }}"
 
 
   deploy_preprod_on_app_server:
