@@ -108,7 +108,7 @@ class OutgoingTransaction(models.Model):
         for record in self:
             if record.state != 'draft':
                 raise ValidationError(_('Cannot delete a sent transaction!'))
-        return super(InternalTransaction, self).unlink()
+        return super(OutgoingTransaction, self).unlink()
 
     # def action_draft(self):
     #     for record in self:

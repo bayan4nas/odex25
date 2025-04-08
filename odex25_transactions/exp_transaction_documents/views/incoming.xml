@@ -19,8 +19,8 @@
                     <field name="tran_tag" string="tag" filter_domain="[('tran_tag','ilike',self)]"/>
                     <field name="is_reade"/>
                     <field name="is_favorite"/>
-                     <filter string="Subject Type" name="subject_type" domain="[('subject_type_id','=',False)]"/>
-                     <filter string="State" name="state"   domain="[('state', 'in', ('complete','draft'))]"/>
+                    <filter string="Subject Type" name="subject_type" domain="[('subject_type_id','=',False)]"/>
+                    <filter string="State" name="state" domain="[('state', 'in', ('complete','draft'))]"/>
                     <field name="seen_user_ids" invisible="1"/>
                     <filter string="Unread Transaction" name="unread" domain="[('seen_user_ids','!=',uid)]"/>
                     <filter string="Late Transactions" name="lates" domain="[
@@ -47,7 +47,7 @@
             <field name="model">incoming.transaction</field>
             <field name="arch" type="xml">
                 <tree default_order="transaction_date desc" decoration-info="seen_before == False"
-                      string="Incoming Transaction" create="false" edit="false">
+                      string="Incoming Transaction" edit="false">
                     <field name="from_id"/>
                     <field name="partner_id"/>
                     <field name="name"/>
@@ -57,8 +57,8 @@
                     <field name="project_id"/>
                     <field name="sale_order_id"/>
                     <field name="subject_type_id" optional="hide"/>
-                    <field name="create_uid" string="Send From"/>
-                    <field name="to_ids"/>
+                    <field name="last_received_entity_id"/>
+                    <field name="last_sender_label"/>
                     <field name="tran_tag" widget="many2many_tags"/>
                     <field name="tran_tag_unit" widget="many2many_tags"/>
                     <field name="due_date"/>
@@ -111,9 +111,6 @@
                 <xpath expr="//tree" position="attributes">
                     <attribute name="create">true</attribute>
                 </xpath>
-<!--                <xpath expr="//to_ids" position="before">-->
-<!--                    <field name="create_uid" string="Send From"/>-->
-<!--                </xpath>-->
             </field>
         </record>
 
@@ -137,6 +134,8 @@
                            options="{'no_create':True}"/>
                     <field name="sale_order_id"
                            options="{'no_create':True}"/>
+                    <field name="current_is_forward_user" invisible="1"/>
+
                 </xpath>
                 <xpath expr="//form/header" position="replace">
                     <header>
@@ -146,6 +145,16 @@
                         <button type="object"
                                 attrs="{'invisible':['|',('state','=','canceled'),('state','=','closed')]}"
                                 name="action_cancel" string="Cancel" class="oe_highlight"/>
+
+                        <button attrs="{'invisible':['|',('current_is_forward_user','=',False),('state','not in',['send','reply'])]}"
+                                type="object" name="action_reply_internal" string="Reply" class="oe_highlight"/>
+
+                        <button attrs="{'invisible':['|',('current_is_forward_user','=',False),('state','!=','send')]}"
+                                type="object" name="action_forward_incoming" string="Forward" class="oe_highlight"/>
+
+                        <button attrs="{'invisible':['|',('current_is_forward_user','=',False),('state','not in',['send','reply'])]}"
+                                type="object" name="action_archive_incoming" string="Archive" class="oe_highlight"/>
+
                         <button states="closed" type="object" name="action_reopen" string="Reopen"
                                 class="oe_highlight"/>
                         <button states="canceled" type="object" name="set_to_draft" string="Restore"
