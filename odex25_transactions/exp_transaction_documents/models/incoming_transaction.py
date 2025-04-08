@@ -24,7 +24,6 @@ class IncomingTransaction(models.Model):
         })
         return text.translate(translation_map)
 
-
     @api.model
     def search(self, args, offset=0, limit=None, order=None, count=False):
         # Normalize the search arguments for 'name' field
@@ -39,8 +38,7 @@ class IncomingTransaction(models.Model):
                 new_args.append(arg)
         return super(IncomingTransaction, self).search(new_args, offset=offset, limit=limit, order=order, count=count)
 
-
-# due_date = fields.Date(string='Deadline', compute='compute_due_date')
+    # due_date = fields.Date(string='Deadline', compute='compute_due_date')
     from_id = fields.Many2one(comodel_name='cm.entity', string='Incoming From (External)')
     transaction_type = fields.Selection([
         ('incoming', 'Incoming'),
@@ -57,14 +55,10 @@ class IncomingTransaction(models.Model):
     trace_ids = fields.One2many('cm.transaction.trace', 'incoming_transaction_id', string='Trace Log')
     # to_ids = fields.Many2one(comodel_name='cm.entity',string='Send To')
     # to_delegate = fields.Boolean(string='To Delegate?', related='to_ids.to_delegate')
-    
+
     cc_ids = fields.Many2many(comodel_name='cm.entity', relation='incoming_entity_cc_rel',
-                              column1='incoming_id', column2='entity_id', string='CC To',)
-    
-    
+                              column1='incoming_id', column2='entity_id', string='CC To', )
 
-
-    
     tran_tag = fields.Many2many(comodel_name='transaction.tag', string='Tags')
     tran_tag_unit = fields.Many2many(comodel_name='transaction.tag', string='Business unit',
                                      relation='incoming_tag_rel',
@@ -80,14 +74,36 @@ class IncomingTransaction(models.Model):
                                        column1='transaction_id', column2='outgoing_id',
                                        string='Process Transactions Outgoing')
     attachment_count = fields.Integer(compute='count_attachments')
-    last_received_entity_id = fields.Many2one('cm.entity')
-
-    # attachment_file = fields.Many2many(
-    #     comodel_name='ir.attachment',
-    #     string='')
-    #
-
+    last_sender_entity_id = fields.Many2one('cm.entity', compute="_compute_last_received_entity", store=True)
+    last_received_entity_id = fields.Many2one('cm.entity',compute='_compute_last_received_entity', store=True)
+    last_sender_label = fields.Char('From', compute="_compute_last_received_entity", store=True)
     datas = fields.Binary(string="", related='send_attach.datas')
+    replayed_entity_ids = fields.Many2many('cm.entity', compute="_compute_replayed_entities", store=True)
+
+    @api.depends('trace_ids')
+    def _compute_replayed_entities(self):
+        for transaction in self:
+            existing_entity_ids = set(transaction.replayed_entity_ids.ids)  # Get already stored entity IDs
+            new_entities = transaction.trace_ids.filtered(lambda t: t.action == 'reply').mapped('from_id.id')
+
+            # Keep only unique values (combine existing and new)
+            updated_entities = list(existing_entity_ids.union(set(new_entities)))
+
+            # Update the Many2many field
+            transaction.replayed_entity_ids = [(6, 0, updated_entities)] if updated_entities else [(5, 0, 0)]
+
+    @api.depends('trace_ids')
+    def _compute_last_received_entity(self):
+        for transaction in self:
+            last_track = transaction.trace_ids.sorted('create_date', reverse=True)[:1]  # Get the last track
+            if last_track:
+                transaction.last_received_entity_id = last_track.to_id.id
+                transaction.last_sender_entity_id = last_track.from_id.id
+                transaction.last_sender_label = last_track.from_label
+            else:
+                transaction.last_received_entity_id = False
+                transaction.last_sender_entity_id = False
+                transaction.last_sender_label = False
 
     def count_attachments(self):
         obj_attachment = self.env['ir.attachment']
@@ -165,10 +181,8 @@ class IncomingTransaction(models.Model):
                 self.action_send_notification(subj, msg, partner_ids)
                 template = 'exp_transaction_documents.incoming_notify_send_send_email'
                 self.send_message(template=template)
-
             return res
 
-    
     def action_send_forward(self):
         template = 'exp_transaction_documents.incoming_notify_send_send_email'
         self.send_message(template=template)
@@ -201,7 +215,7 @@ class IncomingTransaction(models.Model):
         vals['ean13'] = self.env['odex.barcode'].code128('IN', vals['name'], 'TR')
         return super(IncomingTransaction, self).create(vals)
     #
-    # 
+    #
     # def unlink(self):
     #     if self.env.uid != 1:
     #         raise ValidationError(_("You can not delete transaction....."))
