@@ -1,10 +1,155 @@
 # -*- coding: utf-8 -*-
 from odoo import models, fields,_ , api
 from odoo.exceptions import ValidationError
+from lxml import etree
+import json
+from odoo.exceptions import UserError
 
 
 class GrantBenefit(models.Model):
     _inherit = 'grant.benefit'
+
+    STATE_SELECTION = [
+        ('draft', 'Draft'),
+        ('call_center', 'Call Center Approved'),
+        ('social_researcher', 'Social Researcher Approved'),
+        ('branch_manager', 'Branch Manager Approved'),
+        ('ceo', 'CEO Approved'),
+        ('cancelled', 'Cancelled'),
+        ('closed', 'Closed'),
+    ]
+    previous_state = fields.Selection(STATE_SELECTION, string="Previous State")
+
+    @api.model
+    def fields_view_get(self, view_id=None, view_type=False, toolbar=False, submenu=False):
+        res = super(GrantBenefit, self).fields_view_get(view_id=view_id, view_type=view_type, toolbar=toolbar,
+                                                         submenu=submenu)
+        doc = etree.XML(res['arch'])
+        if view_type == 'form':
+            for node in doc.xpath("//field"):
+                modifiers = json.loads(node.get("modifiers"))
+                if 'readonly' not in modifiers:
+                    modifiers['readonly'] = [('state', 'not in', ['draft'])]
+                else:
+                    if type(modifiers['readonly']) != bool:
+                        modifiers['readonly'].insert(0, '|')
+                        modifiers['readonly'].append(('state', 'not in', ['draft']))
+                node.set("modifiers", json.dumps(modifiers))
+                res['arch'] = etree.tostring(doc)
+        return res
+
+    def write(self, vals):
+        for rec in self:
+            if 'state' in vals and rec.state != vals['state']:
+                rec.previous_state = rec.state
+                print('state = ',rec.state)
+        return super().write(vals)
+
+    # add new customuzation
+    state = fields.Selection(STATE_SELECTION,default='draft',tracking=True)
+    detainee_file_id = fields.Many2one('detainee.file', string="Detainee File",tracking=True)
+
+    benefit_member_ids = fields.One2many('grant.benefit.member', 'grant_benefit_id', string="Benefit Member")
+
+    member_count = fields.Integer(string="Members Count", compute="_compute_member_count",readonly=1)
+
+    @api.depends('benefit_member_ids')
+    def _compute_member_count(self):
+        self.member_count=0
+        for rec in self:
+            rec.member_count = len(rec.benefit_member_ids)
+
+    def action_revert_state(self):
+        return {
+            'name': _('Revert State'),
+            'type': 'ir.actions.act_window',
+            'res_model': 'revert.state.wizard',
+            'view_mode': 'form',
+            'target': 'new',
+            'context': {'default_benefit_id': self.id},
+        }
+
+
+    def reset_to_draft(self):
+            self.state = 'draft'
+
+    def action_cancel(self):
+        return {
+            'name': _('Cancel Benefit'),
+            'type': 'ir.actions.act_window',
+            'res_model': 'benefit.rejection.wizard',
+            'view_mode': 'form',
+            'target': 'new',
+            'context': {'default_benefit_id': self.id},
+        }
+
+    @api.onchange('detainee_file_id')
+    def _onchange_detainee_file_id(self):
+        if self.detainee_file_id:
+            self.inmate_member_id = self.detainee_file_id.detainee_id
+
+    def action_submit_call_center(self):
+        self.state = 'call_center'
+
+    def action_approve_call_center(self):
+        self.state = 'social_researcher'
+
+    def action_approve_social(self):
+        self.state = 'branch_manager'
+
+    def action_approve_branch(self):
+        self.state = 'ceo'
+
+
+    def action_close(self):
+        self.state = 'closed'
+
+    def unlink(self):
+        for record in self:
+            if record.state != 'draft':
+                raise UserError(_("You can only delete the record when it's in draft state."))
+        return super().unlink()
+
+
+
+    @api.model
+    def create(self, vals):
+        if 'name' not in vals or not vals['name']:
+            vals['name'] = 'Unnamed Contact'
+        record = super(GrantBenefit, self).create(vals)
+        if record.detainee_file_id:
+            prefix = record.detainee_file_id.name
+            existing = self.search_count([('detainee_file_id', '=', record.detainee_file_id.id)])
+            record.name = f"{prefix}/{existing}"
+        return record
+
+
+    @api.constrains('benefit_member_ids')
+    def _check_duplicate_members(self):
+        for record in self:
+            members = []
+            has_breadwinner = False
+            for line in record.benefit_member_ids:
+                if line.member_id in members:
+                    raise ValidationError(_(
+                        "The individual %s has already been added.") % line.member_id.name)
+                members.append(line.member_id)
+                if line.is_breadwinner:
+                    if has_breadwinner:
+                        raise ValidationError(_("Only one breadwinner can be selected."))
+                    has_breadwinner = True
+
+                # Ensure the member is not in another file that is not closed
+                other_files = self.env['grant.benefit'].search([
+                    ('id', '!=', record.id),
+                    ('state', '!=', 'closed'),
+                    ('benefit_member_ids.member_id', '=', line.member_id.id)
+                ])
+                if other_files:
+                    raise ValidationError(_(
+                        "The individual %s is already listed in another file that is not closed.") % line.member_id.name)
+
+    # end
 
     attachment_id = fields.One2many('attachment', 'benefit_id', string='')
     partner_id = fields.Many2one('res.partner', required=True, ondelete='cascade')
@@ -15,18 +160,18 @@ class GrantBenefit(models.Model):
     rehabilitation_ids = fields.One2many('comprehensive.rehabilitation', 'grant_benefit_id', string='Comprehensive Rehabilitation')
     salary_ids = fields.One2many('salary.line', 'benefit_id', string='')
     health_data_ids = fields.One2many('family.member', 'benefit_id', string='Health Data')
-    branch_details_id = fields.Many2one(comodel_name='branch.details', string='Branch Name')
+    branch_details_id = fields.Many2one(comodel_name='branch.details', string='Branch Name',tracking=True)
     external_guid = fields.Char(string='External GUID')
-
-
     account_status = fields.Selection(
         [('active', 'Active'), ('inactive', 'Inactive')],
         string="Account status",
-        default='active',
+        default='active',tracking=True,
         help="Account status to determine whether the account is active or suspended.")
 
     Add_appendix = fields.Binary(string="IBAN", attachment=True)
     stop_reason = fields.Text(string="Reason", help="Reason for account suspension.")
+    reason = fields.Text(string="Reason")
+    reason_revert = fields.Text(string="Revert Reason")
     stop_proof = fields.Binary(string="Proof of suspension document", attachment=True)
     exchange_period = fields.Selection(
         [
@@ -37,7 +182,7 @@ class GrantBenefit(models.Model):
             ('annually', 'Annually'),
             ('two_years', 'Two Years'),
         ],
-        string="Exchange Period",
+        string="Exchange Period",tracking=True,
         attrs="{'readonly': [('housing_status', 'not in', ['usufruct', 'rent'])]}"
     )
 
@@ -48,7 +193,7 @@ class GrantBenefit(models.Model):
             ('usufruct', 'Usufruct'),
             ('rent', 'Rent'),
         ],
-        string="Housing Status"
+        string="Housing Status",tracking=True,
     )
 
     housing_value = fields.Integer(
@@ -67,228 +212,12 @@ class GrantBenefit(models.Model):
     house_ids = fields.One2many('family.member.house','benefit_id' ,string="House Profile")
 
 
-    @api.model
-    def create(self, vals):
-        if 'name' not in vals or not vals['name']:
-            vals['name'] = 'Unnamed Contact'
-        return super(GrantBenefit, self).create(vals)
-
     @api.constrains('delegate_mobile')
     def _check_delegate_mobile(self):
         for record in self:
             if record.delegate_mobile:
                 if len(record.delegate_mobile) != 10 or not record.delegate_mobile.isdigit():
                     raise ValidationError("The authorized mobile number must contain exactly 10 digits.")
-
-    # @api.model
-    # def create(self, vals):
-    #     if not vals.get('name'):
-    #         vals['name'] = 'Grant Benefit'
-    #
-    #     # استدعاء create الأصلية
-    #     record = super(GrantBenefit, self).create(vals)
-    #
-    #     # تنظيف السجلات القديمة في rehabilitation_ids
-    #     record.rehabilitation_ids = [(5, 0, 0)]
-    #
-    #     # جلب البيانات المتعلقة بـ rehabilitation_ids إذا كانت موجودة
-    #     members = [record.inmate_member_id, record.breadwinner_member_id]
-    #     rehabilitation_records = []
-    #
-    #     # إذا تم تحديد العضو
-    #     for member in members:
-    #         if member:
-    #             for rehab in member.rehabilitation_ids:
-    #                 # التحقق من عدم تكرار السجلات
-    #                 existing_rehab = any(
-    #                     r['income_value'] == rehab.income_value and
-    #                     r['disability_type_id'] == rehab.disability_type_id.id and
-    #                     r['disability_date'] == rehab.disability_date
-    #                     for r in rehabilitation_records
-    #                 )
-    #                 if not existing_rehab:
-    #                     rehabilitation_records.append({
-    #                         'income_value': rehab.income_value,
-    #                         'disability_type_id': rehab.disability_type_id.id,
-    #                         'disability_date': rehab.disability_date,
-    #                     })
-    #
-    #     # إذا لم يتم تحديد أي من الأعضاء، جلب كل السجلات من ComprehensiveRehabilitation
-    #     if not any(members):
-    #         all_rehabilitations = self.env['comprehensive.rehabilitation'].search([])
-    #         for rehab in all_rehabilitations:
-    #             # التحقق من عدم تكرار السجلات
-    #             existing_rehab = any(
-    #                 r['income_value'] == rehab.income_value and
-    #                 r['disability_type_id'] == rehab.disability_type_id.id and
-    #                 r['disability_date'] == rehab.disability_date
-    #                 for r in rehabilitation_records
-    #             )
-    #             if not existing_rehab:
-    #                 rehabilitation_records.append({
-    #                     'income_value': rehab.income_value,
-    #                     'disability_type_id': rehab.disability_type_id.id,
-    #                     'disability_date': rehab.disability_date,
-    #                 })
-    #
-    #     # إضافة السجلات إلى rehabilitation_ids
-    #     if rehabilitation_records:
-    #         record.rehabilitation_ids = [(0, 0, rec) for rec in rehabilitation_records]
-    #
-    #     return record
-    # @api.onchange('inmate_member_id', 'breadwinner_member_id')
-    # def _onchange_member_id(self):
-    #     for record in self:
-    #         record.education_ids = [(5, 0, 0)]
-    #
-    #         member = record.inmate_member_id or record.breadwinner_member_id
-    #         if member:
-    #             education_records = []
-    #             for education in member.education_ids:
-    #                 education_records.append((0, 0, {
-    #                     'level_id': education.level_id.id,
-    #                     'school_name': education.school_name,
-    #                     'path': education.path,
-    #                     'education_department_id': education.education_department_id.id,
-    #                     'grade': education.grade,
-    #                     'graduate_date': education.graduate_date,
-    #                 }))
-    #             record.education_ids = education_records
-    #
-
-    # @api.model
-    # def create(self, vals):
-    #     if not vals.get('name'):
-    #         vals['name'] = 'Grant Benefit'
-    #
-    #     record = super(GrantBenefit, self).create(vals)
-    #
-    #     record.rehabilitation_ids = [(5, 0, 0)]
-    #     record.education_ids = [(5, 0, 0)]
-    #
-    #     members = [record.inmate_member_id, record.breadwinner_member_id]
-    #
-    #     rehabilitation_records = []
-    #     education_records = []
-    #     for member in members:
-    #         if member:
-    #             for rehab in member.rehabilitation_ids:
-    #                 existing_rehab = any(
-    #                     r['income_value'] == rehab.income_value and
-    #                     r['disability_type_id'] == rehab.disability_type_id.id and
-    #                     r['disability_date'] == rehab.disability_date
-    #                     for r in rehabilitation_records
-    #                 )
-    #                 if not existing_rehab:
-    #                     rehabilitation_records.append({
-    #                         'income_value': rehab.income_value,
-    #                         'disability_type_id': rehab.disability_type_id.id,
-    #                         'disability_date': rehab.disability_date,
-    #                     })
-    #             for education in member.education_ids:
-    #                 if not any(edu['level_id'] == education.level_id.id and
-    #                            edu['school_name'] == education.school_name for edu in education_records):
-    #                     education_records.append({
-    #                         'level_id': education.level_id.id,
-    #                         'school_name': education.school_name,
-    #                         'path': education.path,
-    #                         'education_department_id': education.education_department_id.id,
-    #                         'grade': education.grade,
-    #                         'graduate_date': education.graduate_date,
-    #                     })
-    #     if not any(members):
-    #         all_rehabilitations = self.env['comprehensive.rehabilitation'].search([])
-    #         for rehab in all_rehabilitations:
-    #             existing_rehab = any(
-    #                 r['income_value'] == rehab.income_value and
-    #                 r['disability_type_id'] == rehab.disability_type_id.id and
-    #                 r['disability_date'] == rehab.disability_date
-    #                 for r in rehabilitation_records
-    #             )
-    #             if not existing_rehab:
-    #                 rehabilitation_records.append({
-    #                     'income_value': rehab.income_value,
-    #                     'disability_type_id': rehab.disability_type_id.id,
-    #                     'disability_date': rehab.disability_date,
-    #                 })
-    #
-    #         all_educations = self.env['family.profile.learn'].search([])
-    #         for education in all_educations:
-    #             if not any(edu['level_id'] == education.level_id.id and
-    #                        edu['school_name'] == education.school_name for edu in education_records):
-    #                 education_records.append({
-    #                     'level_id': education.level_id.id,
-    #                     'school_name': education.school_name,
-    #                     'path': education.path,
-    #                     'education_department_id': education.education_department_id.id,
-    #                     'grade': education.grade,
-    #                     'graduate_date': education.graduate_date,
-    #                 })
-    #     if rehabilitation_records:
-    #         record.rehabilitation_ids = [(0, 0, rec) for rec in rehabilitation_records]
-    #     if education_records:
-    #         record.education_ids = [(0, 0, rec) for rec in education_records]
-    #
-    #     return record
-
-    # @api.model
-    # def create(self, vals):
-    #     if not vals.get('name'):
-    #         vals['name'] = 'Grant Benefit'
-    #
-    #     record = super(GrantBenefit, self).create(vals)
-    #
-    #     record.with_context(skip_update_related=True)._update_related_data(all_records=True)
-    #
-    #     return record
-    #
-    # def write(self, vals):
-    #     if self.env.context.get('skip_update_related'):
-    #         return super(GrantBenefit, self).write(vals)
-    #
-    #     result = super(GrantBenefit, self).write(vals)
-    #
-    #     self.with_context(skip_update_related=True)._update_related_data(all_records=True)
-    #
-    #     return result
-    #
-    # def _update_related_data(self, all_records=False):
-    #     self.education_ids = [(5, 0, 0)]
-    #     self.rehabilitation_ids = [(5, 0, 0)]
-    #
-    #     education_records = []
-    #     rehabilitation_records = []
-    #
-    #     if all_records:
-    #         all_educations = self.env['family.profile.learn'].search([])
-    #         for education in all_educations:
-    #             if not any(e['level_id'] == education.level_id.id and
-    #                        e['school_name'] == education.school_name
-    #                        for e in education_records):
-    #                 education_records.append({
-    #                     'level_id': education.level_id.id,
-    #                     'school_name': education.school_name,
-    #                     'path': education.path,
-    #                     'education_department_id': education.education_department_id.id,
-    #                     'grade': education.grade,
-    #                     'graduate_date': education.graduate_date,
-    #                 })
-    #
-    #         all_rehabilitations = self.env['comprehensive.rehabilitation'].search([])
-    #         for rehabilitation in all_rehabilitations:
-    #             if not any(r['income_value'] == rehabilitation.income_value and
-    #                        r['disability_type_id'] == rehabilitation.disability_type_id.id and
-    #                        r['disability_date'] == rehabilitation.disability_date
-    #                        for r in rehabilitation_records):
-    #                 rehabilitation_records.append({
-    #                     'income_value': rehabilitation.income_value,
-    #                     'disability_type_id': rehabilitation.disability_type_id.id,
-    #                     'disability_date': rehabilitation.disability_date,
-    #                 })
-    #
-    #     self.education_ids = [(0, 0, rec) for rec in education_records]
-    #     self.rehabilitation_ids = [(0, 0, rec) for rec in rehabilitation_records]
-
 
 class attachment(models.Model):
     _name = 'attachment'
@@ -333,13 +262,14 @@ class SalaryInheritLine(models.Model):
         ],
         string="Revenue periodicity")
 
-# class FamilyMember(models.Model):
-#     _inherit = 'res.partner'
-#
-#     @api.model
-#     def create(self, vals):
-#         if 'name' not in vals or not vals['name']:
-#             vals['name'] = 'Unnamed Contact'
-#         return super(FamilyMember, self).create(vals)
 
+class GrantBenefitMember(models.Model):
+    _name = 'grant.benefit.member'
+    _description = 'Grant Benefit Member'
+
+    grant_benefit_id = fields.Many2one('grant.benefit', string="Grant Benefit", ondelete="cascade")
+    member_id = fields.Many2one('family.member', string="Member", domain=[('state', '=', 'confirm')])
+    # relationship = fields.Many2one(related='member_id.relation_id', string="Relationship", readonly=True)
+    relation_id = fields.Many2one('family.member.relation', string='Relation')
+    is_breadwinner = fields.Boolean(string=" Is Breadwinner?")
 
