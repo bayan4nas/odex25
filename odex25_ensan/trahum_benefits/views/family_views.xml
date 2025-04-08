@@ -93,8 +93,8 @@
                                 <field name="benefit_type" invisible="1"/>
                                 <field invisible="1" name="inmate_status"/>
                                 <field invisible="1" name="prison_id"/>
-                                <field name="entitlement_status"/>
-                                <field name="released_status"/>
+                                <field name="entitlement_status" invisible="1"/>
+                                <field name="released_status" invisible="1"/>
                                 <field name="code" invisible="1" readonly="1"/>
                             </group>
                             <group invisible="1">
@@ -421,7 +421,7 @@
         <record id="sequence_benefit" model="ir.sequence">
             <field name="name">detainee Sequence</field>
             <field name="code">detainee.sequence</field>
-            <field name="prefix">D/</field>
+            <field name="prefix">D</field>
             <field eval="1" name="number_next"/>
             <field eval="1" name="number_increment"/>
             <field eval="True" name="use_date_range"/>
