@@ -372,26 +372,20 @@ class GrantBenefitProfile(models.Model):
     non_member_count = fields.Integer(string="Non Benefit Members count", compute="get_non_members_count")
     member_income = fields.Integer(string="Member Income Average", compute="get_member_income",store=True)
     request_activity_id = fields.Many2one('mail.activity')
-    state = fields.Selection([
+    STATE_SELECTION = [
         ('draft', 'Draft'),
-        ('complete_info', 'Complete Information'),
-        ('waiting_approve', 'Waiting Approved'),
-        ('woman_manager', 'Woman Manager'),
-        ('researcher_team', 'Researcher Team'),
-        ('edit_info', 'Edit Information'),
-        ('first_refusal', 'First Refusal'),
-        ('first_approve', 'First Approved'),
-        ('second_approve', 'Second Approved'),
-        ('refused', 'Refused'),
-        ('temporarily_suspended', 'Temporarily suspended'),
-        ('suspended_first_approve', 'Suspended First Approved'),
-        ('suspended_second_approve', 'Suspended Second Approved'),
-        ('temporarily_exception', 'Temporarily Exception'),
-        ('exception_first_approve', 'Exception First Approve'),
-        ('exception_second_approve', 'Exception Second Approve'),
-        ('not_leaving', 'Not Leaving'),
-        ('black_list', 'Black List'),
-    ], string='state', default="draft", tracking=True)
+        ('call_center', 'Approved'),
+        ('social_researcher', 'Approved'),
+        ('branch_manager', 'Approved'),
+        ('ceo', 'Approved'),
+        ('cancelled', 'Cancelled'),
+        ('closed', 'Closed'),
+    ]
+
+    # add new customuzation
+    state = fields.Selection(STATE_SELECTION, default='draft', tracking=True)
+
+
     branch_custom_id = fields.Many2one('branch.settings', string="Branch")
     district_id = fields.Many2one('res.districts', string="District", domain="[('branch_custom_id','=',branch_custom_id)]")
     meal_card = fields.Boolean(string="Meal Card",related="district_id.meal_card", store=True,related_sudo=True)

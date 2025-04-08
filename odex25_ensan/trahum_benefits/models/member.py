@@ -294,7 +294,7 @@ class FamilyMember(models.Model):
 class MemberHouse(models.Model):
     _name = 'family.member.house'
 
-    member_id = fields.Many2one('family.member', string='Member', ondelete='cascade', required=True)
+    member_id = fields.Many2one('family.member', string='Member', ondelete='cascade',)
 
     housing_type = fields.Selection([
         ('apartment', 'apartment'),
@@ -402,6 +402,13 @@ class DetaineeFile(models.Model):
 
     def reset_to_draft(self):
         self.state = 'draft'
+
+    def name_get(self):
+        result = []
+        for rec in self:
+            name = f"{rec.name} - {rec.detainee_id.name}"
+            result.append((rec.id, name))
+        return result
 
     @api.model
     def create(self, vals):
