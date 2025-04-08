@@ -286,7 +286,7 @@ class Salary(models.Model):
     _name = 'salary.line'
     _description = "Benefits - Salary line"
 
-    member_id = fields.Many2one('family.member', string='Member', ondelete='cascade', required=True)
+    member_id = fields.Many2one('family.member', string='Member', ondelete='cascade',)
 
     benefit_id = fields.Many2one('grant.benefit', string="Benefit", related='member_id.benefit_id' , store=True)  
     salary_type = fields.Char()
@@ -407,7 +407,7 @@ class ClothSize(models.Model):
 class ExpensesLine(models.Model):
     _name = 'expenses.line'
 
-    member_id = fields.Many2one('family.member', string='Member', ondelete='cascade', required=True)
+    member_id = fields.Many2one('family.member', string='Member', ondelete='cascade',)
 
     category_id = fields.Many2one(
         'benefit.category')
