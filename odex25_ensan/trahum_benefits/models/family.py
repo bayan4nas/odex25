@@ -16,7 +16,7 @@ class GrantBenefit(models.Model):
         ('branch_manager', 'Branch Manager Approved'),
         ('ceo', 'CEO Approved'),
         ('cancelled', 'Cancelled'),
-        ('closed', 'Closed'),
+        ('closed', 'Done'),
     ]
     previous_state = fields.Selection(STATE_SELECTION, string="Previous State")
 
