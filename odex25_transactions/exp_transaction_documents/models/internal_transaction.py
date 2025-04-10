@@ -2,6 +2,8 @@
 from datetime import datetime
 from odoo import models, api, fields, _
 from odoo.exceptions import ValidationError
+
+
 class InternalTransaction(models.Model):
     _name = 'internal.transaction'
     _inherit = ['transaction.transaction', 'mail.thread']
@@ -20,7 +22,8 @@ class InternalTransaction(models.Model):
     last_sender_entity_id = fields.Many2one('cm.entity', compute="_compute_last_received_entity", store=True)
     replayed_entity_ids = fields.Many2many('cm.entity', compute="_compute_replayed_entities", store=True)
     last_sender_label = fields.Char('From', compute="_compute_last_received_entity", store=True)
-    forward_entity_ids = fields.Many2many('cm.entity','internal_trans_forward_entity_rel', 'transaction_id', 'user_id', compute="_compute_forward_entities", store=True)
+    forward_entity_ids = fields.Many2many('cm.entity', 'internal_trans_forward_entity_rel', 'transaction_id', 'user_id',
+                                          compute="_compute_forward_entities", store=True)
     type_sender = fields.Selection(
         string='',
         selection=[('unit', 'Department'),
@@ -28,12 +31,6 @@ class InternalTransaction(models.Model):
                    ],
         required=False, default='unit')
 
-    # to_ids = fields.Many2one(comodel_name='cm.entity', string='Send To')
-    # delegate_employee_id = fields.Many2one('cm.entity', related='to_ids.delegate_employee_id',store=True)
-    # from_date = fields.Datetime(string='Delegation From Date', related='to_ids.from_date')
-    # to_date = fields.Datetime(string='Delegation To Date', related='to_ids.to_date')
-    # to_delegate = fields.Boolean(string='To Delegate?', related='to_ids.to_delegate')
-    
     @api.depends('trace_ids')
     def _compute_replayed_entities(self):
         for transaction in self:
@@ -58,45 +55,49 @@ class InternalTransaction(models.Model):
             # Update the Many2many field
             transaction.forward_entity_ids = [(6, 0, updated_entities)] if updated_entities else [(5, 0, 0)]
 
-
     @api.depends('trace_ids')
     def _compute_last_received_entity(self):
         for transaction in self:
             last_track = transaction.trace_ids.sorted('create_date', reverse=True)[:1]  # Get the last track
-            if last_track :
-                transaction.last_received_entity_id = last_track.to_id.id 
-                transaction.last_sender_entity_id = last_track.from_id.id 
-                transaction.last_sender_label = last_track.from_label 
-            else :
+            print(last_track.internal_transaction_id, 'last track')
+            print(last_track.to_id.name, 'last_track.to_id')
+            # print(last_trackss, 'last track')
+            if last_track:
+                print(last_track.to_id.name, 'last_track.to_id')
+                transaction.last_received_entity_id = last_track.to_id.id
+                print(transaction.last_received_entity_id, 'transaction.last_received_entity_id')
+                transaction.last_sender_entity_id = last_track.from_id.id
+                transaction.last_sender_label = last_track.from_label
+            else:
                 transaction.last_received_entity_id = False
                 transaction.last_sender_entity_id = False
                 transaction.last_sender_label = False
 
-
     @api.onchange('type_sender')
     def _onchange_type_sender(self):
-        self.ensure_one() 
+        self.ensure_one()
         if self.type_sender == 'unit' and self.to_ids and self.to_ids.type != 'unit':
             self.to_ids = False
             self.partner_id = False
         elif self.type_sender == 'employee' and self.to_ids and self.to_ids.type != 'employee':
             self.to_ids = False
             self.partner_id = False
-    
-        
+
     partner_id = fields.Many2one('res.partner', string='Partner', readonly=True,
                                  related='to_ids.secretary_id.partner_id')
     cc_ids = fields.Many2many(comodel_name='cm.entity', relation='internal_entity_cc_rel',
                               column1='internal_id', column2='entity_id', string='CC To')
-    
-    to_users = fields.Many2many(comodel_name='res.users', string="To Users",relation='your_int_to_users_rel',column1='your_int_id',column2='user_id3',)
-    
-    cc_users = fields.Many2many(comodel_name='res.users', string="CC Users",relation='your_intr_to_users_rel',column1='your_inte_id',column2='user_id4',)
 
-    
+    to_users = fields.Many2many(comodel_name='res.users', string="To Users", relation='your_int_to_users_rel',
+                                column1='your_int_id', column2='user_id3', )
+
+    cc_users = fields.Many2many(comodel_name='res.users', string="CC Users", relation='your_intr_to_users_rel',
+                                column1='your_inte_id', column2='user_id4', )
+
     project_domain = fields.Many2many('project.project', string='Project Domain')
     processing_ids = fields.Many2many(comodel_name='internal.transaction', relation='transaction_internal_rel',
                                       column1='transaction_id', column2='internal_id', string='Process Transactions')
+
     def _normalize_arabic_text(self, text):
         translation_map = str.maketrans({
             # Define a dictionary to replace different forms of characters
@@ -110,7 +111,6 @@ class InternalTransaction(models.Model):
 
         })
         return text.translate(translation_map)
-
 
     @api.model
     def search(self, args, offset=0, limit=None, order=None, count=False):
@@ -161,18 +161,19 @@ class InternalTransaction(models.Model):
                 template = 'exp_transaction_documents.internal_approval1_request_email'
                 sent = 'waite'
             record.trace_create_ids('internal_transaction_id', record, sent)
+
             partner_ids = []
-            
             if record.to_ids.type == 'unit':
                 partner_ids.append(record.to_ids.secretary_id.user_id.partner_id.id)
                 record.forward_user_id = record.to_ids.secretary_id.user_id.id
+                print(record.forward_user_id, 'record.forward_user_id')
             elif record.to_ids.type == 'employee':
                 partner_ids.append(record.to_ids.user_id.partner_id.id)
                 record.forward_user_id = record.to_ids.user_id.id
-            
+
             if record.to_user_have_leave:
                 record.forward_user_id = record.receive_id.user_id.id
-    
+
             record.send_message(template=template)
             subj = _('Message Has been sent!')
             msg = _(u'{} &larr; {}').format(record.employee_id.name, record.to_ids.name)
@@ -184,56 +185,18 @@ class InternalTransaction(models.Model):
             if company_id.sms_active:
                 message = f"There is a transaction that needs to {self.procedure_id.name if self.procedure_id else ''} with the number {self.name}"
                 request = company_id.send_sms(str(record.employee_id.employee_id.phone), message if message else "")
-            
+
             return res
 
-    # def action_draft(self):
-    #     for record in self:
-    #         """her i need to review code for to_ids"""
-    #         res = super(InternalTransaction, self).action_draft()
-    #         sent = 'sent'
-    #         template = 'exp_transaction_documents.internal_notify_send_send_email'
-    #         if record.subject_type_id.transaction_need_approve or record.preparation_id.need_approve:
-    #             template = 'exp_transaction_documents.internal_approval1_request_email'
-    #             sent = 'waite'
-    #         record.trace_create_ids('internal_transaction_id', record, sent)
-    #         partner_ids = []
-    #         for partner in record.to_ids:
-    #             if partner.type == 'unit':
-    #                 partner_ids.append(partner.secretary_id.user_id.partner_id.id)
-    #                 record.forward_user_id = partner.secretary_id.user_id.id
-    #             elif partner.type == 'employee':
-    #                 partner_ids.append(partner.user_id.partner_id.id)
-    #                 record.forward_user_id = partner.user_id.id
-    #         if record.to_user_have_leave:
-    #             record.forward_user_id = record.receive_id.user_id.id
-    #         record.send_message(template=template)
-    #         subj = _('Message Has been send !')
-    #         msg = _(u'{} &larr; {}').format(record.employee_id.name, u' / '.join([k.name for k in record.to_ids]))
-    #         msg = u'{}<br /><b>{}</b> {}.<br />{}'.format(msg,
-    #                                                       _(u'Action Taken'), record.procedure_id.name,
-    #                                                       u'<a href="%s" >رابط المعاملة</a> ' % (
-    #                                                           record.get_url()))
-    #         company_id = self.env.user.company_id
-    #         if company_id.sms_active == True:
-    #             message = "There is a transaction that needs to " + self.procedure_id.name if self.procedure_id else ""
-    #             message += " with the number " + self.name
-    #             print(record.employee_id.employee_id.phone)
-    #             print(message)
-    #             request = company_id.send_sms(str(record.employee_id.employee_id.phone), message if message else "")
-    #         # for rec in record:
-    #         #     rec.action_send_notification(subj, msg, partner_ids)
-    #         return res
     def action_approve(self):
         res = super(InternalTransaction, self).action_approve()
         template = 'exp_transaction_documents.internal_notify_send_send_email'
         self.send_message(template=template)
         employee = self.current_employee()
-    
+
         to_id = self.to_ids.id
         if self.to_ids.type != 'employee':
             to_id = self.to_ids.secretary_id.id
-    
         self.trace_ids.create({
             'action': 'sent',
             'to_id': to_id,
@@ -241,7 +204,7 @@ class InternalTransaction(models.Model):
             'procedure_id': self.procedure_id.id or False,
             'internal_transaction_id': self.id
         })
-        
+
         subj = _('Message Has been approved!')
         msg = _(u'{} &larr; {}').format(self.preparation_id.manager_id.name, self.to_ids.name)
         msg = u'{}<br /><b>{}</b> {}.<br />{}'.format(msg,
@@ -251,33 +214,6 @@ class InternalTransaction(models.Model):
         partner_ids = [self.employee_id.user_id.partner_id.id, self.to_ids.user_id.partner_id.id]
         self.action_send_notification(subj, msg, partner_ids)
         return res
-    
-
-    # def action_approve(self):
-    #     res = super(InternalTransaction, self).action_approve()
-    #     template = 'exp_transaction_documents.internal_notify_send_send_email'
-    #     self.send_message(template=template)
-    #     employee = self.current_employee()
-    #     to_id = self.to_ids[0].id
-    #     if self.to_ids[0].type != 'employee':
-    #         to_id = self.to_ids[0].secretary_id.id
-    #     self.trace_ids.create({
-    #         'action': 'sent',
-    #         'to_id': to_id,
-    #         'from_id': employee and employee.id or False,
-    #         'procedure_id': self.procedure_id.id or False,
-    #         'internal_transaction_id': self.id
-    #     })
-    #     # self.trace_create_ids('internal_transaction_id', self, 'sent')
-    #     subj = _('Message Has been approved !')
-    #     msg = _(u'{} &larr; {}').format(self.preparation_id.manager_id.name, u' / '.join([k.name for k in self.to_ids]))
-    #     msg = u'{}<br /><b>{}</b> {}.<br />{}'.format(msg,
-    #                                                   _(u'Action Taken'), self.procedure_id.name,
-    #                                                   u'<a href="%s" >رابط المعاملة</a> ' % (
-    #                                                       self.get_url()))
-    #     partner_ids = [self.employee_id.user_id.partner_id.id, self.to_ids[0].user_id.partner_id.id]
-    #     self.action_send_notification(subj, msg, partner_ids)
-    #     return res
 
     def action_reject_internal(self):
         name = 'default_internal_transaction_id'

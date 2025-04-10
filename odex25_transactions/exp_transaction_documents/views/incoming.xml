@@ -30,7 +30,8 @@
                     <filter string="Favorite" name="favorite" domain="[('is_favorite','=','1')]"/>
                     <group expand="1" string="Group By">
                         <filter string="State" name="group_by_state" context="{'group_by':'state'}"/>
-                        <filter string="Subject Type" name="group_by_subject_type" context="{'group_by':'subject_type_id'}"/>
+                        <filter string="Subject Type" name="group_by_subject_type"
+                                context="{'group_by':'subject_type_id'}"/>
                     </group>
                     <!--                    <group expand="0" string="Group By">-->
                     <!--                        <filter name="group_manager" string="Manager" domain="[]" context="{'group_by':'parent_id'}"/>-->
@@ -47,7 +48,7 @@
             <field name="model">incoming.transaction</field>
             <field name="arch" type="xml">
                 <tree default_order="transaction_date desc" decoration-info="seen_before == False"
-                      string="Incoming Transaction" edit="false">
+                      string="Incoming Transaction" create="false" edit="false">
                     <field name="from_id"/>
                     <field name="partner_id"/>
                     <field name="name"/>
@@ -137,11 +138,19 @@
                     <field name="current_is_forward_user" invisible="1"/>
 
                 </xpath>
+                <xpath expr="//field[@name='to_ids']" position="attributes">
+                    <attribute name="domain">[('type', '=', type_sender)]</attribute>
+                    <attribute name="widget"></attribute>
+                </xpath>
+                <xpath expr="//field[@name='to_ids']" position="before">
+                    <field name="type_sender" attrs="{'readonly':[('state','not in', ['draft'])]}"/>
+
+                </xpath>
                 <xpath expr="//form/header" position="replace">
                     <header>
                         <button states="draft" type="object" name="action_draft" string="Send" class="oe_highlight"/>
-                        <button states="draft" type="object" name="action_archive_incoming" string="Archive"
-                                class="oe_highlight"/>
+<!--                        <button states="draft" type="object" name="action_archive_incoming" string="Archive"-->
+<!--                                class="oe_highlight"/>-->
                         <button type="object"
                                 attrs="{'invisible':['|',('state','=','canceled'),('state','=','closed')]}"
                                 name="action_cancel" string="Cancel" class="oe_highlight"/>
@@ -149,7 +158,7 @@
                         <button attrs="{'invisible':['|',('current_is_forward_user','=',False),('state','not in',['send','reply'])]}"
                                 type="object" name="action_reply_internal" string="Reply" class="oe_highlight"/>
 
-                        <button attrs="{'invisible':['|',('current_is_forward_user','=',False),('state','!=','send')]}"
+                        <button attrs="{'invisible':['|',('current_is_forward_user','=',False),('state','not in',['send','reply'])]}"
                                 type="object" name="action_forward_incoming" string="Forward" class="oe_highlight"/>
 
                         <button attrs="{'invisible':['|',('current_is_forward_user','=',False),('state','not in',['send','reply'])]}"
