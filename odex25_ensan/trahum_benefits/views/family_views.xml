@@ -55,38 +55,15 @@
                             <h1>
                                 <field name="name" placeholder="الأسم" readonly="1"/>
                             </h1>
-
                         </group>
                         <group>
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <h3>
-                                        <field name="first_name" placeholder="الاسم الاول" required="1"
-                                               class="update_full_name"/>
-                                    </h3>
-                                </div>
-
-                                <div class="col-md-3">
-                                    <h3>
-                                        <field name="father_name" placeholder="اسم الاب" required="1"
-                                               class="update_full_name"/>
-                                    </h3>
-                                </div>
-
-                                <div class="col-md-3">
-                                    <h3>
-                                        <field name="grand_name" placeholder="اسم الجد" required="1"
-                                               class="update_full_name"/>
-                                    </h3>
-                                </div>
-
-                                <div class="col-md-3">
-                                    <h3>
-                                        <field name="family_name" placeholder="اسم العائلة" required="1"
-                                               class="update_full_name"/>
-                                    </h3>
-                                </div>
-                            </div>
+                            <group>
+                                <field name="member_id_number"/>
+                                <field name="nationality_id"/>
+                            </group>
+                            <group>
+                                <field name="member_phone"/>
+                            </group>
                         </group>
                         <group>
                             <group>
@@ -106,15 +83,21 @@
                             <page string="Personal Details">
                                 <group>
                                     <group>
-                                        <field name="member_id_number"/>
+                                        <field name="first_name" placeholder="الاسم الاول" required="1"
+                                               class="update_full_name"/>
+                                        <field name="grand_name" placeholder="اسم الجد" required="1"
+                                               class="update_full_name"/>
                                         <field name="identity_proof_id"/>
                                         <field name="birth_date"/>
                                         <field name="gender"/>
                                         <field name="qualification_id"/>
-                                        <field name="nationality_id"/>
                                     </group>
                                     <group>
-                                        <field name="member_phone"/>
+                                        <field name="father_name" placeholder="اسم الاب" required="1"
+                                               class="update_full_name"/>
+                                        <field name="family_name" placeholder="اسم العائلة" required="1"
+                                               class="update_full_name"/>
+
                                         <field name="additional_mobile_number"/>
                                         <field name="work_type_id"/>
                                         <field name="birth_place"/>
@@ -193,13 +176,6 @@
                                                attrs="{'readonly': [('has_mental_illness', '=', False)]}"/>
                                     </div>
                                 </group>                                <!--                                <group string="Diseases">-->
-                                <!--                                    <field name="member_diseases_ids" nolabel="1">-->
-                                <!--                                        <tree editable="bottom">-->
-                                <!--                                            <field name="disease_id"/>-->
-                                <!--                                            <field name="disease_type" readonly="1"/>-->
-                                <!--                                        </tree>-->
-                                <!--                                    </field>-->
-                                <!--                                </group>-->
                             </page>
                             <page string="Social Insurance and Security">
                                 <group>
@@ -336,29 +312,43 @@
                     </header>
                     <sheet>
                         <group>
+                            <h1>
+                                <field name="detainee_id"/>
+                            </h1>
+
+                        </group>
+                        <group>
                             <group>
                                 <field name="name" readonly="1"/>
-                                <field name="detainee_id"/>
-                                <field name="detainee_status"/>
-                                <field name="arrest_date"/>
-                                <field name="expected_release_date"/>
+                                <field name="record_start_date"/>
                             </group>
                             <group>
-                                <field name="prison_country_id"/>
-                                <field name="prison_id"/>
                                 <field name="branch_id"/>
+                                <field name="record_end_date"/>
                             </group>
+
                         </group>
                         <notebook>
+                            <page string="معلومات">
+                                <group>
+                                    <group>
+                                        <field name="arrest_date" string="تاريخ الاعتقال"/>
+                                        <field name="prison_id"/>
+
+                                    </group>
+                                    <group>
+                                        <field name="expected_release_date"/>
+                                        <field name="prison_country_id"/>
+                                    </group>
+                                </group>
+
+                            </page>
                             <page string="Issues Information">
                                 <group>
                                     <field nolabel="1" name="issues_ids">
                                         <tree editable="bottom">
                                             <field width="12" name="case_name"/>
-                                            <field width="12" name="record_start_date"/>
-                                            <field width="12" name="record_end_date"/>
-                                            <field width="12" name="prison_prison_id"/>
-                                            <field width="12" name="release_date"/>
+                                            <field width="12" string="Prison Name" name="prison_prison_id"/>
                                         </tree>
                                     </field>
                                 </group>
@@ -396,7 +386,7 @@
                     <field name="detainee_id"/>
                     <field name="prison_country_id"/>
                     <field name="prison_id"/>
-                     <filter name="branch" domain='[]' string="Prison Country" context="{'group_by': 'prison_id'}"/>
+                    <filter name="branch" domain='[]' string="Prison Country" context="{'group_by': 'prison_id'}"/>
                     <group expand="1" string="Extended Filters">
                         <filter name="group_by_branch" string="Group by Branch" context="{'group_by': 'branch_id'}"/>
                         <filter name="group_by_branch" string="Group by Prison"
