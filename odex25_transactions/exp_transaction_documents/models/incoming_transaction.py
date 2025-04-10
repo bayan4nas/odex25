@@ -44,18 +44,25 @@ class IncomingTransaction(models.Model):
         ('incoming', 'Incoming'),
         ('outgoing', 'Outgoing'),
     ], string='Type')
-
-    partner_id = fields.Many2one('res.partner')
+    partner_id = fields.Many2one('res.partner', string='Partner', readonly=True,
+                                 related='to_ids.secretary_id.partner_id')
     outgoing_transaction_id = fields.Many2one('outgoing.transaction', string='Related Outgoing')
     incoming_number = fields.Char(string='Incoming Number')
     incoming_date = fields.Date(string='Incoming Date', default=fields.Date.today)
+    type_sender = fields.Selection(
+        string='',
+        selection=[('unit', 'Department'),
+                   ('employee', 'Employee'),
+                   ],
+        required=False, default='unit')
     incoming_date_hijri = fields.Char(string='Incoming Date (Hijri)', compute='_compute_incoming_date_hijri')
     attachment_rule_ids = fields.One2many('cm.attachment.rule', 'incoming_transaction_id', string='Attaches')
     attachment_ids = fields.One2many('cm.attachment', 'incoming_transaction_id', string='Attachments')
     trace_ids = fields.One2many('cm.transaction.trace', 'incoming_transaction_id', string='Trace Log')
     # to_ids = fields.Many2one(comodel_name='cm.entity',string='Send To')
     # to_delegate = fields.Boolean(string='To Delegate?', related='to_ids.to_delegate')
-
+    forward_entity_ids = fields.Many2many('cm.entity', 'incoming_trans_forward_entity_rel', 'transaction_id', 'user_id',
+                                          compute="_compute_forward_entities", store=True)
     cc_ids = fields.Many2many(comodel_name='cm.entity', relation='incoming_entity_cc_rel',
                               column1='incoming_id', column2='entity_id', string='CC To', )
 
@@ -75,10 +82,22 @@ class IncomingTransaction(models.Model):
                                        string='Process Transactions Outgoing')
     attachment_count = fields.Integer(compute='count_attachments')
     last_sender_entity_id = fields.Many2one('cm.entity', compute="_compute_last_received_entity", store=True)
-    last_received_entity_id = fields.Many2one('cm.entity',compute='_compute_last_received_entity', store=True)
+    last_received_entity_id = fields.Many2one('cm.entity', compute='_compute_last_received_entity', store=True)
     last_sender_label = fields.Char('From', compute="_compute_last_received_entity", store=True)
     datas = fields.Binary(string="", related='send_attach.datas')
     replayed_entity_ids = fields.Many2many('cm.entity', compute="_compute_replayed_entities", store=True)
+
+    @api.depends('trace_ids')
+    def _compute_forward_entities(self):
+        for transaction in self:
+            existing_entity_ids = set(transaction.forward_entity_ids.ids)  # Get already stored entity IDs
+            new_entities = transaction.trace_ids.filtered(lambda t: t.action == 'forward').mapped('from_id.id')
+
+            # Keep only unique values (combine existing and new)
+            updated_entities = list(existing_entity_ids.union(set(new_entities)))
+
+            # Update the Many2many field
+            transaction.forward_entity_ids = [(6, 0, updated_entities)] if updated_entities else [(5, 0, 0)]
 
     @api.depends('trace_ids')
     def _compute_replayed_entities(self):
@@ -92,14 +111,28 @@ class IncomingTransaction(models.Model):
             # Update the Many2many field
             transaction.replayed_entity_ids = [(6, 0, updated_entities)] if updated_entities else [(5, 0, 0)]
 
+    @api.onchange('type_sender')
+    def _onchange_type_sender(self):
+        self.ensure_one()
+        if self.type_sender == 'unit' and self.to_ids and self.to_ids.type != 'unit':
+            self.to_ids = False
+            self.partner_id = False
+        elif self.type_sender == 'employee' and self.to_ids and self.to_ids.type != 'employee':
+            self.to_ids = False
+            self.partner_id = False
+
     @api.depends('trace_ids')
     def _compute_last_received_entity(self):
+        sent = 'sent'
         for transaction in self:
+            transaction.trace_create_ids('incoming_transaction_id', transaction, sent)
+
             last_track = transaction.trace_ids.sorted('create_date', reverse=True)[:1]  # Get the last track
             if last_track:
                 transaction.last_received_entity_id = last_track.to_id.id
                 transaction.last_sender_entity_id = last_track.from_id.id
                 transaction.last_sender_label = last_track.from_label
+
             else:
                 transaction.last_received_entity_id = False
                 transaction.last_sender_entity_id = False
@@ -150,37 +183,27 @@ class IncomingTransaction(models.Model):
 
     def action_draft(self):
         for record in self:
-            res = super(IncomingTransaction, self).action_send()
-            # Check if to_id is set before accessing it
-            if record.to_ids:
-                employee = self.current_employee()
-                to_ids = record.to_ids.id
-                if record.to_ids.type != 'employee':
-                    to_ids = record.to_ids.secretary_id.id
-                record.trace_ids.create({
-                    'action': 'sent',
-                    'to_id': to_ids,
-                    'from_id': employee and employee.id or False,
-                    'procedure_id': record.procedure_id.id or False,
-                    'incoming_transaction_id': record.id
-                })
-                partner_ids = []
-                if record.to_ids.type == 'unit':
-                    partner_ids.append(record.to_ids.secretary_id.user_id.partner_id.id)
-                    record.forward_user_id = record.to_ids.secretary_id.user_id.id
-                elif record.to_ids.type == 'employee':
-                    partner_ids.append(record.to_ids.user_id.partner_id.id)
-                    record.forward_user_id = record.to_ids.user_id.id
-                subj = _('Message Has been send !')
-                msg = _(u'{} &larr; {}').format(record.employee_id.name, record.to_ids.name)
-                msg = u'{}<br /><b>{}</b> {}.<br />{}'.format(msg,
+            res = super(IncomingTransaction, self).action_draft()
+            partner_ids = []
+            if record.to_ids.type == 'unit':
+                partner_ids.append(record.to_ids.secretary_id.user_id.partner_id.id)
+                record.forward_user_id = record.to_ids.secretary_id.user_id.id
+            elif record.to_ids.type == 'employee':
+                partner_ids.append(record.to_ids.user_id.partner_id.id)
+                record.forward_user_id = record.to_ids.user_id.id
+
+            if record.to_user_have_leave:
+                record.forward_user_id = record.receive_id.user_id.id
+            subj = _('Message Has been send !')
+            msg = _(u'{} &larr; {}').format(record.employee_id.name, record.to_ids.name)
+            msg = u'{}<br /><b>{}</b> {}.<br />{}'.format(msg,
                                                               _(u'Action Taken'), record.procedure_id.name,
                                                               u'<a href="%s" >رابط المعاملة</a> ' % (
                                                                   record.get_url()))
 
-                self.action_send_notification(subj, msg, partner_ids)
-                template = 'exp_transaction_documents.incoming_notify_send_send_email'
-                self.send_message(template=template)
+            self.action_send_notification(subj, msg, partner_ids)
+            template = 'exp_transaction_documents.incoming_notify_send_send_email'
+            self.send_message(template=template)
             return res
 
     def action_send_forward(self):

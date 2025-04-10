@@ -8,7 +8,17 @@ class OutgoingTransaction(models.Model):
     _inherit = ['transaction.transaction', 'mail.thread']
     _description = 'outgoing Transaction'
 
+    type_sender = fields.Selection(
+        string='',
+        selection=[('unit', 'Department'),
+                   ('employee', 'Employee'),
+                   ],
+        required=False, default='unit')
     reason = fields.Text('Reason')
+    last_sender_entity_id = fields.Many2one('cm.entity', compute="_compute_last_received_entity", store=True)
+    last_received_entity_id = fields.Many2one('cm.entity', compute='_compute_last_received_entity', store=True)
+    last_sender_label = fields.Char('From', compute="_compute_last_received_entity", store=True)
+
     transaction_type = fields.Selection([
         ('incoming', 'Incoming'),
         ('outgoing', 'Outgoing'),
@@ -21,11 +31,10 @@ class OutgoingTransaction(models.Model):
     incoming_transaction_id = fields.Many2one('incoming.transaction', string='Related Incoming')
     # to_ids = fields.Many2one(comodel_name='cm.entity',string='Send To')
     # to_delegate = fields.Boolean(string='To Delegate?', related='to_ids.to_delegate')
-    company_name = fields.Many2one('res.partner',string='Delivery Company')
+    company_name = fields.Many2one('res.partner', string='Delivery Company')
 
-    to_users = fields.Many2many(comodel_name='res.users', string="To Users",relation='your_out_to_users_rel',column1='your_out_id',column2='user_id2',)
-    
-    
+    to_users = fields.Many2many(comodel_name='res.users', string="To Users", relation='your_out_to_users_rel',
+                                column1='your_out_id', column2='user_id2', )
 
     tran_tag = fields.Many2many(comodel_name='transaction.tag', string='Tags')
     tran_tag_unit = fields.Many2many(comodel_name='transaction.tag', string='Business unit',
@@ -37,7 +46,8 @@ class OutgoingTransaction(models.Model):
     to_name = fields.Char(string="Recipient")
     cc_ids = fields.Many2many(comodel_name='cm.entity', relation='outgoing_entity_cc_rel',
                               column1='outgoing_id', column2='entity_id', string='CC To')
-    cc_users = fields.Many2many(comodel_name='res.users', string="CC Users",relation='your_com_to_users_rel',column1='your_use_id',column2='user_id',store=True)
+    cc_users = fields.Many2many(comodel_name='res.users', string="CC Users", relation='your_com_to_users_rel',
+                                column1='your_use_id', column2='user_id', store=True)
 
     processing_ids = fields.Many2many(comodel_name='outgoing.transaction', relation='transaction_outgoing_outgoing_rel',
                                       column1='transaction_id', column2='outgoing_id',
@@ -78,6 +88,24 @@ class OutgoingTransaction(models.Model):
                 new_args.append(arg)
         return super(OutgoingTransaction, self).search(new_args, offset=offset, limit=limit, order=order, count=count)
 
+    @api.depends('trace_ids')
+    def _compute_last_received_entity(self):
+        sent = 'sent'
+        for transaction in self:
+            transaction.trace_create_ids('outgoing_transaction_id', transaction, sent)
+
+            last_track = transaction.trace_ids.sorted('create_date', reverse=True)[:1]  # Get the last track
+            print(last_track.to_id.name,'name')
+            print(last_track.to_id,'nameaaaaaaaaaaaa')
+            if last_track:
+                transaction.last_received_entity_id = last_track.to_id.id
+                transaction.last_sender_entity_id = last_track.from_id.id
+                transaction.last_sender_label = last_track.from_label
+
+            else:
+                transaction.last_received_entity_id = False
+                transaction.last_sender_entity_id = False
+                transaction.last_sender_label = False
 
     @api.depends('attachment_rule_ids')
     def compute_attachment_num(self):
@@ -110,44 +138,64 @@ class OutgoingTransaction(models.Model):
                 raise ValidationError(_('Cannot delete a sent transaction!'))
         return super(OutgoingTransaction, self).unlink()
 
-    # def action_draft(self):
-    #     for record in self:
-    #         """her i need to review code for to_ids"""
-    #         # res = super(OutgoingTransaction, self).action_draft()
-    #         if record.subject_type_id.transaction_need_approve or record.preparation_id.need_approve:
-    #                 record.state = 'to_approve'
-    #         else:
-    #             record.state = 'complete'
-    #         # record.trace_create_ids('outgoing_transaction_id', record, 'sent')
-    #         partner_ids = [record.preparation_id.manager_id.user_id.partner_id.id]
-    #         subj = _('Message Has been send !')
-    #         msg = _(u'{} &larr; {}').format(record.employee_id.name, u' / '.join([k.name for k in record.to_ids]))
-    #         msg = u'{}<br /><b>{}</b> {}.<br />{}'.format(msg,
-    #                                                       _(u'Action Taken'), record.procedure_id.name,
-    #                                                       u'<a href="%s" >رابط المعاملة</a> ' % (
-    #                                                           record.get_url()))
-    #         self.action_send_notification(subj, msg, partner_ids)
-            # return res
+    @api.onchange('type_sender')
+    def _onchange_type_sender(self):
+        self.ensure_one()
+        if self.type_sender == 'unit' and self.to_ids and self.to_ids.type != 'unit':
+            self.to_ids = False
+            self.partner_id = False
+        elif self.type_sender == 'employee' and self.to_ids and self.to_ids.type != 'employee':
+            self.to_ids = False
+            self.partner_id = False
 
-    
     def action_draft(self):
         for record in self:
-            """Here we need to review the code for to_ids"""
-            if record.subject_type_id.transaction_need_approve or record.preparation_id.need_approve:
-                record.state = 'to_approve'
-            else:
-                record.state = 'complete'
-    
-            partner_ids = [record.preparation_id.manager_id.user_id.partner_id.id]
-            
-            subj = _('Message Has been sent!')
+            res = super(OutgoingTransaction, self).action_draft()
+            partner_ids = []
+            if record.to_ids.type == 'unit':
+                partner_ids.append(record.to_ids.secretary_id.user_id.partner_id.id)
+                record.forward_user_id = record.to_ids.secretary_id.user_id.id
+            elif record.to_ids.type == 'employee':
+                partner_ids.append(record.to_ids.user_id.partner_id.id)
+                record.forward_user_id = record.to_ids.user_id.id
+
+            if record.to_user_have_leave:
+                record.forward_user_id = record.receive_id.user_id.id
+            subj = _('Message Has been send !')
             msg = _(u'{} &larr; {}').format(record.employee_id.name, record.to_ids.name)
-            
             msg = u'{}<br /><b>{}</b> {}.<br />{}'.format(msg,
                                                           _(u'Action Taken'), record.procedure_id.name,
-                                                          u'<a href="%s" >رابط المعاملة</a>' % (
+                                                          u'<a href="%s" >رابط المعاملة</a> ' % (
                                                               record.get_url()))
+
             self.action_send_notification(subj, msg, partner_ids)
+            template = 'exp_transaction_documents.outgoing_notify_send_send_email'
+            self.send_message(template=template)
+            return res
+
+    @api.depends('trace_ids')
+    def _compute_replayed_entities(self):
+        for transaction in self:
+            existing_entity_ids = set(transaction.replayed_entity_ids.ids)  # Get already stored entity IDs
+            new_entities = transaction.trace_ids.filtered(lambda t: t.action == 'reply').mapped('from_id.id')
+
+            # Keep only unique values (combine existing and new)
+            updated_entities = list(existing_entity_ids.union(set(new_entities)))
+
+            # Update the Many2many field
+            transaction.replayed_entity_ids = [(6, 0, updated_entities)] if updated_entities else [(5, 0, 0)]
+
+    @api.depends('trace_ids')
+    def _compute_forward_entities(self):
+        for transaction in self:
+            existing_entity_ids = set(transaction.forward_entity_ids.ids)  # Get already stored entity IDs
+            new_entities = transaction.trace_ids.filtered(lambda t: t.action == 'forward').mapped('from_id.id')
+
+            # Keep only unique values (combine existing and new)
+            updated_entities = list(existing_entity_ids.union(set(new_entities)))
+
+            # Update the Many2many field
+            transaction.forward_entity_ids = [(6, 0, updated_entities)] if updated_entities else [(5, 0, 0)]
 
     def action_email(self):
         # todo#add email function here
@@ -188,5 +236,3 @@ class OutgoingTransaction(models.Model):
             vals['name'] = seq
         # vals['ean13'] = self.env['odex.barcode'].code128('OT', vals['name'], 'TR')
         return super(OutgoingTransaction, self).create(vals)
-
-   
