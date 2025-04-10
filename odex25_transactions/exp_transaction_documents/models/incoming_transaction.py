@@ -123,10 +123,7 @@ class IncomingTransaction(models.Model):
 
     @api.depends('trace_ids')
     def _compute_last_received_entity(self):
-        sent = 'sent'
         for transaction in self:
-            transaction.trace_create_ids('incoming_transaction_id', transaction, sent)
-
             last_track = transaction.trace_ids.sorted('create_date', reverse=True)[:1]  # Get the last track
             if last_track:
                 transaction.last_received_entity_id = last_track.to_id.id
@@ -182,7 +179,9 @@ class IncomingTransaction(models.Model):
         return self.env['ir.sequence'].next_by_code('cm.transaction.in') or _('New')
 
     def action_draft(self):
+        sent = 'sent'
         for record in self:
+            record.trace_create_ids('incoming_transaction_id', record, sent)
             res = super(IncomingTransaction, self).action_draft()
             partner_ids = []
             if record.to_ids.type == 'unit':
