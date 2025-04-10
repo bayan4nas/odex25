@@ -383,6 +383,8 @@ class DetaineeFile(models.Model):
     ], string="Detainee Status", required=True, tracking=True, default='non_convicted')
 
     arrest_date = fields.Date(string="Arrest Date", required=True, )
+    record_start_date = fields.Date(string="Start Date",default=fields.Date.today)
+    record_end_date = fields.Date(string="End Date",)
     expected_release_date = fields.Date(string="Expected Release Date")
     issues_ids = fields.One2many('issues.information', 'detainee_id')
 
