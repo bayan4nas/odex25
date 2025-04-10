@@ -27,6 +27,7 @@ class ReopenTransactionWizard(models.TransientModel):
             name = 'outgoing_transaction_id'
         transaction.action_reopen()
         from_id = self.env['cm.entity'].search([('user_id', '=', self.env.uid)], limit=1)
+        transaction.state = 'send'
         transaction.trace_ids.create({
             'action': 'reopen',
             'procedure_id': self.procedure_id.id or False,

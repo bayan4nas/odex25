@@ -163,7 +163,8 @@
             <field name="name">Incoming Internal Transaction</field>
             <field name="res_model">internal.transaction</field>
             <field name="view_mode">tree,form</field>
-            <field name='domain'>['|', ('last_received_entity_id.user_id','=', uid),('last_received_entity_id.secretary_ids.user_id','=', uid)]
+            <field name='domain'>['|', ('last_received_entity_id.user_id','=',
+                uid),('last_received_entity_id.secretary_ids.user_id','=', uid)]
             </field>
             <field name="view_id" ref="exp_transaction_documents.common_transaction_internal_tree"/>
             <field name="view_ids" eval="[(5, 0, 0),
@@ -363,7 +364,7 @@
             <field name="view_mode">tree,form</field>
             <field name='domain'>[('state', '=', 'canceled'),('employee_id.user_id', '=', uid)]
             </field>
-             <field name="view_ids" eval="[(5, 0, 0),
+            <field name="view_ids" eval="[(5, 0, 0),
             (0, 0, {'view_mode': 'tree','view_id':ref('exp_transaction_documents.common_transaction_external_tree')}),
             (0, 0, {'view_mode': 'form', 'view_id': ref('exp_transaction_documents.incoming_external_transaction_form')})]"/>
         </record>
@@ -384,7 +385,7 @@
 
             <field name="view_mode">tree,form</field>
             <field name="domain">
-                ['&amp;',
+                [
                 ('state', 'not in', ['closed', 'canceled']),
                 '|',
                 ('last_received_entity_id.user_id', '=', uid),
@@ -402,16 +403,16 @@
             (0, 0, {'view_mode': 'form', 'view_id': ref('exp_transaction_documents.incoming_external_transaction_form')})]"/>
         </record>
         <menuitem id="incoming_external_tran_menu" name="Incoming Transaction"
-                  parent="parent_external_incoming_tran_menu" sequence="1" action="incoming_external_tran_action"/>
+                  parent="parent_external_incoming_tran_menu" sequence="2" action="incoming_external_tran_action"/>
 
 
-         <record model="ir.actions.act_window" id="draft_incoming_external_tran_action">
+        <record model="ir.actions.act_window" id="draft_incoming_external_tran_action">
             <field name="name">External Incoming Transaction</field>
             <field name="res_model">incoming.transaction</field>
 
             <field name="view_mode">tree,form</field>
             <field name="domain">
-                [('state', '=', 'draft')]
+                [('state', '=', 'draft'),('create_uid','=',uid)]
             </field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">Create the first External Incoming Transaction
@@ -424,7 +425,8 @@
             (0, 0, {'view_mode': 'form', 'view_id': ref('exp_transaction_documents.incoming_external_transaction_form')})]"/>
         </record>
         <menuitem id="draft_incoming_external_tran_menu" name="External Incoming Transaction"
-                  parent="parent_external_incoming_tran_menu" sequence="2" action="draft_incoming_external_tran_action"/>
+                  parent="parent_external_incoming_tran_menu" sequence="1"
+                  action="draft_incoming_external_tran_action"/>
 
 
         <!--forward incoming transaction-->
@@ -441,7 +443,7 @@
                 '|',
                 ('to_ids.secretary_id.user_id', '=', uid),
                 ('to_ids.user_id', '=', uid),
-                '&amp;',
+                '|',
                 ('to_ids.user_id', '!=', uid),
                 '|', '|', '|',
                 ('trace_ids.to_id.user_id', '=', uid),
@@ -458,7 +460,7 @@
             <field name="context">{}</field>
         </record>
         <menuitem id="forward_incoming_external_tran_menu" name="Forward Incoming Transaction"
-                  parent="parent_external_incoming_tran_menu" sequence="1"
+                  parent="parent_external_incoming_tran_menu" sequence="3"
                   action="forward_incoming_external_tran_action"/>
         <!--Reply incoming transaction-->
         <record model="ir.actions.act_window" id="reply_incoming_external_tran_action">
@@ -476,7 +478,7 @@
             <field name="context">{}</field>
         </record>
         <menuitem id="reply_incoming_external_tran_menu" name="Replying Incoming Transaction"
-                  parent="parent_external_incoming_tran_menu" sequence="1"
+                  parent="parent_external_incoming_tran_menu" sequence="4"
                   action="reply_incoming_external_tran_action"/>
         <!--to view incoming transaction-->
         <record model="ir.actions.act_window" id="to_view_incoming_external_tran_action">
@@ -494,7 +496,7 @@
             <field name="context">{}</field>
         </record>
         <menuitem id="to_view_incoming_external_tran_menu" name="To View Incoming Transaction"
-                  parent="parent_external_incoming_tran_menu" sequence="1"
+                  parent="parent_external_incoming_tran_menu" sequence="5"
                   action="to_view_incoming_external_tran_action"/>
         <!--Archive Transaction Menu And action-->
         <menuitem id="parent_archive_tran_menu" name="Archive Transaction"

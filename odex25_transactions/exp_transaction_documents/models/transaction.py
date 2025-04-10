@@ -286,15 +286,17 @@ class Transaction(models.Model):
                 record.seen_user_ids = [(6, 0, [user_id])]
 
     def action_cancel(self):
-        for record in self:
-            record.state = 'canceled'
-            user_id = record.env.user.id
-            if user_id not in record.seen_user_ids.ids:
-                record.seen_user_ids = [(6, 0, [user_id])]
+        if self.create_uid != self.env.user:
+            raise ValidationError(_("You are not allowed to Cancel this Transaction,Because you did not Create it"))
+        else:
+            for record in self:
+                record.state = 'canceled'
+                user_id = record.env.user.id
+                if user_id not in record.seen_user_ids.ids:
+                    record.seen_user_ids = [(6, 0, [user_id])]
 
     def action_reopen(self):
         for record in self:
-            record.state = 'send'
             user_id = record.env.user.id
             if user_id not in record.seen_user_ids.ids:
                 record.seen_user_ids = [(6, 0, [user_id])]
@@ -309,7 +311,6 @@ class Transaction(models.Model):
                     'context': {'default_incoming_transaction_id': record.id},
                     'target': 'new',
                 }
-
             return {
                 'type': 'ir.actions.act_window',
                 'res_model': 'reopen.transaction.wizard',
