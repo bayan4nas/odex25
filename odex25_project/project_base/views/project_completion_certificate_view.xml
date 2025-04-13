@@ -8,6 +8,9 @@
             <form string="Completion Certificate">
 
                     <header>
+                        <field name="state" widget="statusbar"
+                               statusbar_visible="project_manager_preparation,project_owner_approval,project_manager_review,strategy_office_review,secretary_general_approval"
+                                />
 
                         <button name="action_confirm_preparation"
                                 string="Confirm Setup"
@@ -37,14 +40,17 @@
                                 string="Strategy Office Review"
                                 type="object"
                                 states="strategy_office_review"
-                                groups="base.module_category_hidden"
-                                class="btn-primary" />
+                                class="btn-primary"
+                                groups="project_base.group_strategy_director"
+                        />
 
                         <button name="action_approve_secretary_general"
                                 string="SG Approval"
                                 type="object"
                                 states="secretary_general_approval"
-                                class="btn-primary" />
+                                class="btn-primary"
+                                groups="hr_trahum.group_secretary_general"
+                        />
 
 
 
@@ -61,28 +67,34 @@
                             type="object"
                             class="btn-primary"
                             states="strategy_office_review"
-                            groups="base.module_category_hidden" />
+                            groups="project_base.group_strategy_director"
+
+                            />
 
                         <button name="action_cancel"
                                 string="Cancel"
                                 type="object"
                                 class="btn-primary"
                                 states="strategy_office_review"
-                                groups="base.module_category_hidden" />
+                                groups="project_base.group_strategy_director"
+                             />
 
                         <button name="action_go_back"
                             string="Go Back"
                             type="object"
                             class="btn-primary"
-                            states="project_owner_approval"
-                            groups="project_base.group_project_owner" />
+                            attrs="{'invisible': ['|', ('check_project_owner', '=', False), ('state', '!=', 'project_owner_approval')]}"
+
+
+                             />
 
                         <button name="action_cancel"
                                 string="Cancel"
                                 type="object"
                                 class="btn-primary"
-                                states="project_owner_approval"
-                                groups="project_base.group_project_owner" />
+                                attrs="{'invisible': ['|', ('check_project_owner', '=', False), ('state', '!=', 'project_owner_approval')]}"
+
+ />
 
                         <button name="action_go_back"
                                 string="Go Back"
@@ -113,12 +125,10 @@
                                 groups="hr_trahum.group_secretary_general" />
 
 
+
+
                     </header>
-                    <header>
-                        <field name="state" widget="statusbar"
-                               statusbar_visible="project_manager_preparation,project_owner_approval,project_manager_review,strategy_office_review,secretary_general_approval,done,cancelled"
-                                />
-                    </header>
+
 
 
 
