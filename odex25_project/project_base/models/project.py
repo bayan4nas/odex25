@@ -741,5 +741,3 @@ class CompletionCertificate(models.Model):
 
 
 
-
-
