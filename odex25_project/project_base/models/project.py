@@ -119,6 +119,18 @@ class Project(models.Model):
 
     owner_employee_id = fields.Many2one('hr.employee', string="Owner Employee")
 
+
+    @api.onchange('department_id')
+    def _onchange_department_id(self):
+
+        if self.department_id:
+            self.owner_employee_id = False
+            manager = self.env['hr.employee'].search([
+                ('department_id', '=', self.department_id.id),
+                ('user_id', '!=', False)
+            ], limit=1)
+            if manager:
+                self.owner_employee_id = manager.id
     allow_timesheets = fields.Boolean(
         "Timesheets", compute='_compute_allow_timesheets', store=True, readonly=False,
         default=False, help="Enable timesheeting on the project.")
@@ -590,11 +602,16 @@ class ProjectTeam(models.Model):
 
 class CompletionCertificate(models.Model):
     _name = 'completion.certificate'
+    _inherit = ['mail.thread', 'mail.activity.mixin']
     _description = _('Completion Certificate')
     name_certificate = fields.Char(string='Certificate Name', required=True)
     description = fields.Text(string='Description')
     project_id = fields.Many2one('project.project', string='Project', required=True)
-
+    check_project_owner = fields.Boolean(
+        string='Is Project Owner',
+        compute='_compute_check_project_owner',
+        store=False
+    )
     phase_id4 = fields.Many2one(
         'project.phase',
         string='Project Phase',
@@ -603,6 +620,125 @@ class CompletionCertificate(models.Model):
     )
     date = fields.Date(string='Date', required=True)
     attachment = fields.Binary(string="Attachment", attachment=True)
+    state = fields.Selection([
+        ('project_manager_preparation', 'Project Manager Preparation'),
+        ('project_owner_approval', 'Waiting for Project Owner Approval'),
+         ('project_manager_review', 'Waiting for Project Manager Review'),
+        ('strategy_office_review', 'Waiting for Strategy Office Review'),
+        ('secretary_general_approval', 'Waiting for Secretary General Approval'),
+        ('done', 'Done'),
+        ('cancelled', 'Cancelled')
+    ], string='Status', default='project_manager_preparation', tracking=True)
+
+    previous_state_map = {
+        'project_owner_approval': 'project_manager_preparation',
+        'project_manager_review': 'project_owner_approval',
+        'strategy_office_review': 'project_manager_review',
+        'secretary_general_approval': 'strategy_office_review',
+    }
+    check_project_user = fields.Boolean(
+        string='Is Project User?',
+        compute='_compute_check_project_user',
+        store=False
+    )
+
+    @api.depends('project_id')
+    def _compute_check_project_user(self):
+
+        current_user = self.env.uid
+        if current_user ==self.project_id.user_id.id:
+            self.check_project_user = True
+        else:
+            self.check_project_user = False
+
+    @api.depends('project_id')
+    def _compute_check_project_owner(self):
+        current_user = self.env.uid
+        if current_user ==self.project_id.owner_employee_id.id:
+            self.check_project_owner = True
+        else:
+            self.check_project_owner = False
+
+
+    def action_go_back(self):
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Go Back',
+            'res_model': 'go.back.reason.wizard',
+            'view_mode': 'form',
+            'target': 'new',
+            'context': {
+                'default_certificate_id': self.id,
+            },
+        }
+        # self.ensure_one()
+        # previous_state = {
+        #     'project_owner_approval': 'project_manager_preparation',
+        #     'project_manager_review': 'project_owner_approval',
+        #     'strategy_office_review': 'project_manager_review',
+        #     'secretary_general_approval': 'strategy_office_review',
+        # }.get(self.state)
+        #
+        # if previous_state:
+        #     self.state = previous_state
+        # else:
+        #     raise UserError(_("Cannot go back from the current state: %s") % self.state)
+
+    def action_cancel(self):
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Cancel',
+            'res_model': 'cancel.reason.wizard',
+            'view_mode': 'form',
+            'target': 'new',
+            'context': {
+                'default_certificate_id': self.id,
+            },
+        }
+        # self.ensure_one()
+        # self.state = 'cancelled'
+    def re_draft(self):
+        self.ensure_one()
+        self.state = 'project_manager_preparation'
+    def action_confirm_preparation(self):
+        self.ensure_one()
+        self.state = 'project_owner_approval'
+
+
+
+    def action_approve_project_owner(self):
+
+        # if self.env.user.has_group('project_base.group_project_owner'):
+            self.state = 'project_manager_review'
+
+
+    def action_review_project_manager(self):
+        self.ensure_one()
+        # if self.env.user.has_group('project.group_project_manager'):
+        self.state = 'strategy_office_review'
+
+    def action_review_strategy_office(self):
+        self.ensure_one()
+        # if self.env.user.has_group('strategy_office.group_strategy_manager'):
+        self.state = 'secretary_general_approval'
+
+    def action_approve_secretary_general(self):
+        self.ensure_one()
+        # if self.env.user.has_group('admin.group_secretary_general'):
+        self.state = 'done'
+
+    def action_done(self):
+        self.ensure_one()
+        self.state = 'done'
+
+    def unlink(self):
+        for rec in self:
+            if rec.state != 'project_manager_preparation':
+                raise UserError("You can only delete a certificate when it's in the Draft state.")
+        return super(CompletionCertificate, self).unlink()
+
+
+
 
 
 
