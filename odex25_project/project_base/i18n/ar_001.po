@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-04-10 22:19+0000\n"
-"PO-Revision-Date: 2025-04-10 22:19+0000\n"
+"POT-Creation-Date: 2025-04-13 09:09+0000\n"
+"PO-Revision-Date: 2025-04-13 09:09+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -160,6 +160,13 @@ msgstr "<span class=\"o_stat_text\">الدفعات</span>"
 #: model_terms:ir.ui.view,arch_db:project_base.view_edit_project_inherit_form
 msgid "<span class=\"oe_inline\">Days</span>"
 msgstr "<span class=\"oe_inline\">ايام</span>"
+
+
+#. module: project_base
+#: model:ir.actions.act_window,name:project_base.open_completion_certificate_form
+msgid "Completion  Certificate"
+msgstr "شهادة الإنجاز"
+
 
 #. module: project_base
 #: model_terms:ir.ui.view,arch_db:project_base.view_new_project_kanban
@@ -426,8 +433,7 @@ msgstr "ملغي"
 #: code:addons/project_base/wizard/cancel_reason_wizard.py:0
 #, python-format
 msgid "Cannot revert from the current state: %s"
-msgstr "لا يمكن التراجع عن الحالة الحالية: %s"
-
+msgstr ""
 
 #. module: project_base
 #: model_terms:ir.ui.view,arch_db:project_base.view_project_project_filter_inherit
@@ -446,7 +452,7 @@ msgid "Certificate"
 msgstr "شهادة"
 
 #. module: project_base
-#: model:ir.model.fields,field_description:project_base.field_completion_certificate__name_certificate
+#: model:ir.model.fields,field_description:project_base.field_completion_certificate__name
 msgid "Certificate Name"
 msgstr "اسم الشهادة"
 
@@ -670,6 +676,7 @@ msgstr " القسم المنفذ له"
 #: model:ir.model.fields,field_description:project_base.field_completion_certificate__description
 #: model:ir.model.fields,field_description:project_base.field_project_invoice__name
 #: model_terms:ir.ui.view,arch_db:project_base.project_detail_qweb_report
+#: model_terms:ir.ui.view,arch_db:project_base.view_completion_certificate_form
 #: model_terms:ir.ui.view,arch_db:project_base.view_edit_project_inherit_form
 msgid "Description"
 msgstr "الوصف"
@@ -1037,7 +1044,7 @@ msgstr "طلب فاتورة"
 #: code:addons/project_base/models/project_invoice.py:0
 #, python-format
 msgid "Invoice Request "
-msgstr "طلب فاتورة"
+msgstr ""
 
 #. module: project_base
 #: model:ir.model.fields,field_description:project_base.field_project_invoice__invoice_type
@@ -1051,7 +1058,7 @@ msgstr "نوع الدفعة"
 #: code:addons/project_base/models/project_invoice.py:0
 #, python-format
 msgid "Invoice request created for project %s  and need your action"
-msgstr "تم إنشاء طلب فاتورة للمشروع %s ويحتاج إلى إجراء من طرفك"
+msgstr ""
 
 #. module: project_base
 #: model:ir.model.fields,field_description:project_base.field_project_invoice_line__qty_invoiced
@@ -1172,21 +1179,21 @@ msgstr "عنصر اليومية"
 #: code:addons/project_base/models/project_invoice.py:0
 #, python-format
 msgid "Kindly Enter Planned Issue Date For this Invoice Request"
-msgstr "يرجى إدخال تاريخ الاستحقاق لطلب الفاتورة هذا"
+msgstr ""
 
 #. module: project_base
 #: code:addons/odoo/odex25-trahum-standard/odex25_project/project_base/models/project.py:0
 #: code:addons/project_base/models/project.py:0
 #, python-format
 msgid "Kindly Enter project Stage first."
-msgstr "يرجى إدخال مراحل المشروع أولا."
+msgstr ""
 
 #. module: project_base
 #: code:addons/odoo/odex25-trahum-standard/odex25_project/project_base/models/project_invoice.py:0
 #: code:addons/project_base/models/project_invoice.py:0
 #, python-format
 msgid "Kindly The invoice is not in draft state, so it cannot be unlinked."
-msgstr "عفوا الفاتورة ليست في حالة مسودة ولذلك لايمكن مسحها"
+msgstr ""
 
 #. module: project_base
 #: model:ir.model.fields,field_description:project_base.field_cancel_reason_wizard____last_update
@@ -1290,7 +1297,7 @@ msgstr ""
 #: code:addons/project_base/models/project_phase.py:0
 #, python-format
 msgid "Make sure that stage dates is set."
-msgstr "تأكد من تحديد تواريخ المرحلة."
+msgstr ""
 
 #. module: project_base
 #: model:ir.model.fields,field_description:project_base.field_project_project__man_hours
@@ -1330,6 +1337,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:project_base.field_project_project__name
 msgid "Name"
 msgstr "الاسم"
+
+#. module: project_base
+#: model_terms:ir.ui.view,arch_db:project_base.view_completion_certificate_form
+msgid "Name Certificate"
+msgstr "اسم الشهادة"
 
 #. module: project_base
 #: model:ir.model.fields.selection,name:project_base.selection__project_project__status__new
@@ -1562,7 +1574,7 @@ msgstr "المرحلة"
 #: code:addons/project_base/models/project_phase.py:0
 #, python-format
 msgid "Phase dates must be between project dates."
-msgstr "يجب أن تكون تواريخ المرحلة بين تواريخ المشروع"
+msgstr ""
 
 #. module: project_base
 #: code:addons/odoo/odex25-trahum-standard/odex25_project/project_base/models/project_phase.py:0
@@ -1571,7 +1583,7 @@ msgstr "يجب أن تكون تواريخ المرحلة بين تواريخ ا�
 #: code:addons/project_base/wizard/edit_project_phase.py:0
 #, python-format
 msgid "Phase start date must be earlier than Phase end date."
-msgstr "يجب أن يكون تاريخ بدء المرحلة أقدم من تاريخ انتهاء المرحلة."
+msgstr ""
 
 #. module: project_base
 #: model:ir.ui.menu,name:project_base.menu_project_phase
@@ -1588,14 +1600,14 @@ msgstr "المخطط"
 #: code:addons/project_base/models/project_invoice.py:0
 #, python-format
 msgid "Planned Collection date cannot be earlier than Planned Issue date."
-msgstr "لا يمكن أن يكون تاريخ الدفع أقدم من تاريخ الإستحقاق."
+msgstr ""
 
 #. module: project_base
 #: code:addons/odoo/odex25-trahum-standard/odex25_project/project_base/models/project.py:0
 #: code:addons/project_base/models/project.py:0
 #, python-format
 msgid "Please be sure to enter all planned issue dates for invoices."
-msgstr "يرجى التأكد من إدخال جميع تواريخ الإستحقاق  للفواتير."
+msgstr ""
 
 #. module: project_base
 #: code:addons/odoo/odex25-trahum-standard/odex25_project/project_base/models/project_invoice.py:0
@@ -1700,7 +1712,7 @@ msgstr "اسباب تعليق المشروع"
 #: code:addons/project_base/wizard/project_hold_reason.py:0
 #, python-format
 msgid "Project Hold for %s"
-msgstr "تعليق المشروع لسبب %s"
+msgstr ""
 
 #. module: project_base
 #: model_terms:ir.ui.view,arch_db:project_base.project_detail_qweb_report
@@ -2072,7 +2084,7 @@ msgstr "المرحلة"
 #: code:addons/project_base/models/project_phase.py:0
 #, python-format
 msgid "Stage Dates has been updated"
-msgstr "تم تحديث تواريخ المرحلة"
+msgstr ""
 
 #. module: project_base
 #: model:ir.model.fields,field_description:project_base.field_project_task_type__stage_for
@@ -2250,7 +2262,7 @@ msgstr ""
 #: code:addons/project_base/models/project_task.py:0
 #, python-format
 msgid "The task progress must be between 0 and 100."
-msgstr "يجب أن تتراوح نسبة انجاز المهمة بين 0 و100."
+msgstr ""
 
 #. module: project_base
 #: code:addons/odoo/odex25-trahum-standard/odex25_project/project_base/models/project_invoice.py:0
@@ -2275,14 +2287,14 @@ msgstr ""
 #: code:addons/project_base/models/project_task.py:0
 #, python-format
 msgid "The total weights of the tasks for the stage must not exceed 100"
-msgstr "يجب ألا يتجاوز إجمالي أوزان المهام للمرحلة 100"
+msgstr ""
 
 #. module: project_base
 #: code:addons/odoo/odex25-trahum-standard/odex25_project/project_base/models/project_task.py:0
 #: code:addons/project_base/models/project_task.py:0
 #, python-format
 msgid "The weight must be between 0 and 100."
-msgstr "يجب أن يكون الوزن بين 0 و 100."
+msgstr ""
 
 #. module: project_base
 #: code:addons/odoo/odex25-trahum-standard/odex25_project/project_base/models/project.py:0
@@ -2474,11 +2486,16 @@ msgid "Working Time used in this project"
 msgstr ""
 
 #. module: project_base
+#: model_terms:ir.ui.view,arch_db:project_base.view_completion_certificate_form
+msgid "Write a description here..."
+msgstr "اكتب وصفًا هنا..."
+
+#. module: project_base
 #: code:addons/odoo/odex25-trahum-standard/odex25_project/project_base/models/project.py:0
 #: code:addons/project_base/models/project.py:0
 #, python-format
 msgid "You Have been assign As project manger"
-msgstr "لقد تم تعيينك كمدير للمشروع"
+msgstr ""
 
 #. module: project_base
 #: code:addons/odoo/odex25-trahum-standard/odex25_project/project_base/models/project.py:0
@@ -2494,7 +2511,7 @@ msgstr ""
 #: code:addons/project_base/models/project_invoice.py:0
 #, python-format
 msgid "You cannot Request Invoice for Project that is not in Open status!"
-msgstr "لا يمكنك طلب فاتورة لمشروع ليس في حالة مفتوح!"
+msgstr ""
 
 #. module: project_base
 #: model_terms:ir.ui.view,arch_db:project_base.view_edit_project_inherit_form
