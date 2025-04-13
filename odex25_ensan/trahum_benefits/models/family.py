@@ -28,8 +28,20 @@ class GrantBenefit(models.Model):
     need_calculator = fields.Selection([('high', 'High Need'), ('medium', 'Medium Need'), ('low', 'Low Need'), ],
                                        readonly=1, string="Need Calculator", )
 
+
     total_income = fields.Float(string="Total Income",store=True,readonly=True)
     expected_income = fields.Float(string="Expected  Income", readonly=True)
+    name_member = fields.Char(string="Expected  Income",compute='_compute_member_name',readonly=True)
+
+    @api.depends('benefit_member_ids')
+    def _compute_member_name(self):
+        self.name_member = ''
+        for lin in self:
+            for rec in lin.benefit_member_ids:
+                if rec.is_breadwinner:
+                    lin.name_member = rec.member_id.name
+
+
 
     # start
     def _convert_to_monthly(self, amount, periodicity):
