@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!-- Cancel Reason Wizard -->
+    <record id="view_cancel_reason_wizard" model="ir.ui.view">
+        <field name="name">Cancel Reason Wizard</field>
+        <field name="model">cancel.reason.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Cancel Reason">
+                <p class="oe_grey">
+                    Please provide the reason for cancellation.
+                </p>
+                <group>
+                    <field name="reason" required="1"/>
+                </group>
+                <footer>
+                    <button name="apply_reason_cancel"
+                            string="Confirm Cancellation"
+                            type="object"
+                            class="btn-primary"/>
+                    <button string="Close"
+                            class="btn-secondary"
+                            special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Go Back Reason Wizard -->
+    <record id="view_go_back_reason_wizard" model="ir.ui.view">
+        <field name="name">Go Back Reason Wizard</field>
+        <field name="model">go.back.reason.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Go Back Reason">
+                <p class="oe_grey">
+                    Please provide the reason for going back.
+                </p>
+                <group>
+                    <field name="reason" required="1"/>
+                </group>
+                <footer>
+                    <button name="apply_reason_go_back"
+                            string="Confirm Go Back"
+                            type="object"
+                            class="btn-primary"/>
+                    <button string="Close"
+                            class="btn-secondary"
+                            special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Actions -->
+    <record id="action_cancel_reason_wizard" model="ir.actions.act_window">
+        <field name="name">Enter Cancellation Reason</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">cancel.reason.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_cancel_reason_wizard"/>
+        <field name="target">new</field>
+    </record>
+
+    <record id="action_go_back_reason_wizard" model="ir.actions.act_window">
+        <field name="name">Enter Go Back Reason</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">go.back.reason.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_go_back_reason_wizard"/>
+        <field name="target">new</field>
+    </record>
+</odoo>

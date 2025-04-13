@@ -29,7 +29,8 @@
         'views/res_config_setting.xml',
         'views/project_task_views.xml',
         'views/asset.xml',
-        'views/project_completion_certificate_view.xml'
-        
+        'views/project_completion_certificate_view.xml',
+        'wizard/reason.xml'
+
     ],
 }
