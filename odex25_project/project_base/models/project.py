@@ -604,7 +604,7 @@ class CompletionCertificate(models.Model):
     _name = 'completion.certificate'
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _description = _('Completion Certificate')
-    name_certificate = fields.Char(string='Certificate Name', required=True)
+    name = fields.Char(string='Certificate Name', required=True)
     description = fields.Text(string='Description')
     project_id = fields.Many2one('project.project', string='Project', required=True)
     check_project_owner = fields.Boolean(

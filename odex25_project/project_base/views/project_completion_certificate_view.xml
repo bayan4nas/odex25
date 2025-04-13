@@ -123,29 +123,32 @@
 
 
                 <sheet>
+                        <div class="oe_title">
+                                    <label for="name" string="Name Certificate"/>
+                                    <h1>
+                                        <field name="name" />
+                                    </h1>
+                        </div>
                     <group>
                         <group>
-                            <field name="name_certificate"/>
+                            <field name="project_id"/>
                             <field name="phase_id4"/>
-
-                            <field name="check_project_owner" invisible="1"/>
-                            <field name="check_project_user" invisible="1"/>
-
-
                         </group>
+
                         <group>
                             <field name="date"/>
-                            <field name="project_id" invisible="1"/>
+                            <field name="attachment"/>
                         </group>
                     </group>
+                    <field name="check_project_owner" invisible="1"/>
+                    <field name="check_project_user" invisible="1"/>
+                        <notebook>
+                            <page string="Description">
+                                <field name="description" placeholder="Write a description here..." nolabel="1"/>
+                            </page>
+                        </notebook>
 
-                    <group>
-                        <field name="description" nolabel="1"/>
-                    </group>
 
-                    <group>
-                        <field name="attachment"/>
-                    </group>
 
 
                 </sheet>
@@ -163,8 +166,8 @@
         <field name="name">completion.certificate.tree</field>
         <field name="model">completion.certificate</field>
         <field name="arch" type="xml">
-            <tree string="Completion Certificate" create="0" edit="0" expand="1" >
-                <field name="name_certificate"/>
+            <tree string="Completion Certificate" create="1" >
+                <field name="name"/>
                 <field name="project_id"/>
                 <field name="phase_id4"/>
                 <field name="date"/>
