@@ -629,7 +629,6 @@ class CompletionCertificate(models.Model):
         ('done', 'Done'),
         ('cancelled', 'Cancelled')
     ], string='Status', default='project_manager_preparation', tracking=True)
-    statusbar_visible = fields.Char(compute='_compute_statusbar_visible', store=False)
 
     previous_state_map = {
         'project_owner_approval': 'project_manager_preparation',
@@ -738,13 +737,6 @@ class CompletionCertificate(models.Model):
                 raise UserError("You can only delete a certificate when it's in the Draft state.")
         return super(CompletionCertificate, self).unlink()
 
-    @api.depends('state')
-    def _compute_statusbar_visible(self):
-        for record in self:
-            if record.state in ['done', 'cancelled']:
-                record.statusbar_visible = 'done,cancelled'  # يظهر فقط تم أو ملغي
-            else:
-                record.statusbar_visible = 'project_manager_preparation,project_owner_approval,project_manager_review,strategy_office_review,secretary_general_approval'
 
     @api.onchange('project_id')
     def _onchange_project_id(self):
