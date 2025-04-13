@@ -353,7 +353,7 @@ class GrantBenefitMember(models.Model):
     _description = 'Grant Benefit Member'
 
     grant_benefit_id = fields.Many2one('grant.benefit', string="Grant Benefit", ondelete="cascade")
-    member_id = fields.Many2one('family.member', string="Member", domain=[('state', '=', 'confirmed```  ')])
+    member_id = fields.Many2one('family.member', string="Member", domain=[('state', '=', 'confirmed')])
     # relationship = fields.Many2one(related='member_id.relation_id', string="Relationship", readonly=True)
     relation_id = fields.Many2one('family.member.relation', string='Relation')
     is_breadwinner = fields.Boolean(string=" Is Breadwinner?")
