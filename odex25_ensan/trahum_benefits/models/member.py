@@ -403,13 +403,19 @@ class DetaineeFile(models.Model):
 
     cancel_reason: fields.Text = fields.Text(string="Rejection Reason", tracking=True, copy=False)
 
+
     def action_open_family_files(self):
         self.ensure_one()
         return {
             'type': 'ir.actions.act_window',
             'name': 'ملفات الأسرة',
             'res_model': 'grant.benefit',
-            'view_mode': 'kanban,tree,form',
+            'view_mode': 'kanban,form',
+        'views': [
+            (self.env.ref('trahum_benefits.view_family_kanban_custom').id, 'kanban'),
+            (self.env.ref('trahum_benefits.view_grant_benefit_form').id, 'form'),
+        ],
+            # 'view_id': self.env.ref('trahum_benefits.view_family_kanban_custom').id,
             'domain': [('detainee_file_id', '=', self.id)],
             'target': 'current',
         }
