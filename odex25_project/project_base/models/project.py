@@ -736,11 +736,6 @@ class CompletionCertificate(models.Model):
             if rec.state != 'project_manager_preparation':
                 raise UserError("You can only delete a certificate when it's in the Draft state.")
         return super(CompletionCertificate, self).unlink()
-    @api.onchange('project_id')
-    def _onchange_project_id(self):
-        if self.project_id:
-            print("_onchange_project_id")
-            # self.project_id.owner_id = self.env.user.id
 
 
 
