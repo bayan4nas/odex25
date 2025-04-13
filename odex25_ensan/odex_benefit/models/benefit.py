@@ -850,12 +850,12 @@ class GrantBenefitProfile(models.Model):
             res['salary_ids'] = income_attachments_data
         return res
 
-    @api.model
-    def create(self, vals):
-        res = super(GrantBenefitProfile, self).create(vals)
-        if not res.code or res.code == _('New'):
-            res.code = self.env['ir.sequence'].sudo().next_by_code('benefit.sequence') or _('New')
-        return res
+    # @api.model
+    # def create(self, vals):
+    #     res = super(GrantBenefitProfile, self).create(vals)
+    #     if not res.code or res.code == _('New'):
+    #         res.code = self.env['ir.sequence'].sudo().next_by_code('benefit.sequence') or _('New')
+    #     return res
 
     def unlink(self):
         for order in self:

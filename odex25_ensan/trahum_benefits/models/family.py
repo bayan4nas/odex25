@@ -28,7 +28,7 @@ class GrantBenefit(models.Model):
     need_calculator = fields.Selection([('high', 'High Need'), ('medium', 'Medium Need'), ('low', 'Low Need'), ],
                                        readonly=1, string="Need Calculator", )
 
-    total_income = fields.Float(string="Total Income", readonly=True)
+    total_income = fields.Float(string="Total Income",store=True,readonly=True)
     expected_income = fields.Float(string="Expected  Income", readonly=True)
 
     # start
@@ -48,9 +48,6 @@ class GrantBenefit(models.Model):
                      for line in self.salary_ids)
         expenses = sum(self._convert_to_monthly(line.amount, line.revenue_periodicity)
                        for line in self.expenses_ids)
-        self.total_income = income-expenses
-        print('income = ',income)
-        print('expenses = ',expenses)
         return income - expenses
 
     def _get_expected_family_income(self):
@@ -76,6 +73,7 @@ class GrantBenefit(models.Model):
     def _compute_need_calculator(self):
         for record in self:
             net_income = record._get_total_net_income()
+            record.total_income = net_income
             expected_income = record._get_expected_family_income()
 
             if expected_income == 0:
@@ -316,12 +314,16 @@ class ExpensesInheritLine(models.Model):
         string="Revenue periodicity")
     side = fields.Char(string='The side')
     attachment = fields.Binary(string="Attachments", attachment=True)
+    benefit_id = fields.Many2one('grant.benefit', ondelete='cascade',string="Benefit")
+
 
 
 class SalaryInheritLine(models.Model):
     _inherit = 'salary.line'
 
     side = fields.Char(string='side')
+    benefit_id = fields.Many2one('grant.benefit',ondelete='cascade',string="Benefit")
+
     revenue_periodicity = fields.Selection(
         [
             ('monthly', 'Monthly'),
