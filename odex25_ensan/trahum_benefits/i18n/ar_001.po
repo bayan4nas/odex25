@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-04-09 14:27+0000\n"
-"PO-Revision-Date: 2025-04-09 14:27+0000\n"
+"POT-Creation-Date: 2025-04-13 03:57+0000\n"
+"PO-Revision-Date: 2025-04-13 03:57+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -24,6 +24,11 @@ msgstr "هل هو عائل؟"
 #: model:ir.model.fields.selection,name:trahum_benefits.selection__family_member__released_status__not_convicted
 msgid " Not Convicted"
 msgstr "غير محكوم"
+
+#. module: trahum_benefits
+#: model_terms:ir.ui.view,arch_db:trahum_benefits.res_config_settings_view_form
+msgid "<span class=\"o_form_label\">Base Line</span>"
+msgstr "خط الاساس"
 
 #. module: trahum_benefits
 #: model:ir.model.fields.selection,name:trahum_benefits.selection__family_member__blood_type__ab+
@@ -120,6 +125,11 @@ msgstr ""
 
 #. module: trahum_benefits
 #: model_terms:ir.ui.view,arch_db:trahum_benefits.view_grant_benefit_form
+msgid "Approve"
+msgstr "تاكيد"
+
+#. module: trahum_benefits
+#: model_terms:ir.ui.view,arch_db:trahum_benefits.view_grant_benefit_form
 msgid "Approve Branch Manager"
 msgstr "مدير مركز خدمات المستفيدين"
 
@@ -141,17 +151,7 @@ msgstr "هل انت متاكد من هذا الاجراء؟"
 #. module: trahum_benefits
 #: model:ir.model.fields,field_description:trahum_benefits.field_detainee_file__arrest_date
 msgid "Arrest Date"
-msgstr "تاريخ الاعتقال"
-
-#. module: trahum_benefits
-#: model:ir.model.fields,field_description:trahum_benefits.field_detainee_file__record_start_date
-msgid "Start Date"
-msgstr "تاريخ فتح الملف"
-
-#. module: trahum_benefits
-#: model:ir.model.fields,field_description:trahum_benefits.field_detainee_file__record_end_date
-msgid "End Date"
-msgstr "تاريخ غلق الملف"
+msgstr "تاريخ القبض"
 
 #. module: trahum_benefits
 #: model:ir.model.fields,field_description:trahum_benefits.field_attachment__attachment_attachment
@@ -219,6 +219,11 @@ msgid "Banking information"
 msgstr "المعلومات المصرفية"
 
 #. module: trahum_benefits
+#: model:ir.model.fields,field_description:trahum_benefits.field_res_config_settings__base_line_value
+msgid "Base Line"
+msgstr "خط الاساس"
+
+#. module: trahum_benefits
 #: model:ir.model.fields.selection,name:trahum_benefits.selection__family_member__entitlement_status__beneficiary
 msgid "Beneficiary"
 msgstr "مستفيد"
@@ -254,6 +259,11 @@ msgstr "الملف الشخصي - المستفيد"
 #: model:ir.model,name:trahum_benefits.model_salary_line
 msgid "Benefits - Salary line"
 msgstr "الراتب"
+
+#. module: trahum_benefits
+#: model_terms:ir.ui.view,arch_db:trahum_benefits.res_config_settings_view_form
+msgid "Benfits Management"
+msgstr "اعدادات المستفيدين"
 
 #. module: trahum_benefits
 #: model:ir.model.fields,field_description:trahum_benefits.field_family_member__birth_place
@@ -323,7 +333,7 @@ msgstr "بانتظار الرئيس التنفيذي"
 #: model:ir.model.fields.selection,name:trahum_benefits.selection__grant_benefit__previous_state__call_center
 #: model:ir.model.fields.selection,name:trahum_benefits.selection__grant_benefit__state__call_center
 msgid "Call Center Approved"
-msgstr "بانتظار موافقة اخصائي مركز الاتصال"
+msgstr "موافقة اخصائي مركز الاتصال"
 
 #. module: trahum_benefits
 #: model_terms:ir.ui.view,arch_db:trahum_benefits.cancel_wizard_view_form
@@ -395,6 +405,16 @@ msgstr "موافقة الرئيس التنفيذي"
 #: model_terms:ir.ui.view,arch_db:trahum_benefits.view_grant_benefit_form
 msgid "Comprehensive Rehabilitation"
 msgstr "التأهيل الشامل"
+
+#. module: trahum_benefits
+#: model:ir.model,name:trahum_benefits.model_res_config_settings
+msgid "Config Settings"
+msgstr "ضبط الاعدادات"
+
+#. module: trahum_benefits
+#: model:ir.actions.act_window,name:trahum_benefits.res_config_settings_action
+msgid "Configuration"
+msgstr ""
 
 #. module: trahum_benefits
 #: model_terms:ir.ui.view,arch_db:trahum_benefits.view_detainee_file_form
@@ -633,9 +653,9 @@ msgid "Education department"
 msgstr "ادارة التعليم"
 
 #. module: trahum_benefits
-#: model_terms:ir.ui.view,arch_db:trahum_benefits.view_family_member_form
-msgid "Prison Name"
-msgstr "السجن"
+#: model:ir.model.fields,field_description:trahum_benefits.field_detainee_file__record_end_date
+msgid "End Date"
+msgstr "تاريخ غلق الملف"
 
 #. module: trahum_benefits
 #: model:ir.model.fields,field_description:trahum_benefits.field_family_member__entitlement_status
@@ -671,6 +691,11 @@ msgstr "كل ثلاث اشهر"
 #: model:ir.model.fields,field_description:trahum_benefits.field_grant_benefit__exchange_period
 msgid "Exchange Period"
 msgstr "دورية الصرف"
+
+#. module: trahum_benefits
+#: model:ir.model.fields,field_description:trahum_benefits.field_grant_benefit__expected_income
+msgid "Expected  Income"
+msgstr "الدخل الطبيعي"
 
 #. module: trahum_benefits
 #: model:ir.model.fields,field_description:trahum_benefits.field_detainee_file__expected_release_date
@@ -916,6 +941,11 @@ msgid "Hide/show list"
 msgstr ""
 
 #. module: trahum_benefits
+#: model:ir.model.fields.selection,name:trahum_benefits.selection__grant_benefit__need_calculator__high
+msgid "High Need"
+msgstr "الاكثر احتياجا"
+
+#. module: trahum_benefits
 #: model:ir.model.fields,field_description:trahum_benefits.field_family_member__house_ids
 #: model:ir.model.fields,field_description:trahum_benefits.field_grant_benefit__house_ids
 #: model_terms:ir.ui.view,arch_db:trahum_benefits.view_family_member_form
@@ -1156,6 +1186,11 @@ msgid "Last Updated on"
 msgstr "آخر تحديث بتاريخ"
 
 #. module: trahum_benefits
+#: model:ir.model.fields.selection,name:trahum_benefits.selection__grant_benefit__need_calculator__low
+msgid "Low Need"
+msgstr "الاقل احتياجا"
+
+#. module: trahum_benefits
 #: model:ir.model.fields,field_description:trahum_benefits.field_detainee_file__message_main_attachment_id
 msgid "Main Attachment"
 msgstr "المرفقات الرئيسية"
@@ -1170,6 +1205,11 @@ msgstr "ذكر"
 #: model:ir.model.fields,field_description:trahum_benefits.field_family_member_maritalstatus__name
 msgid "Marital Status"
 msgstr "الحالة الاجتماعية"
+
+#. module: trahum_benefits
+#: model:ir.model.fields.selection,name:trahum_benefits.selection__grant_benefit__need_calculator__medium
+msgid "Medium Need"
+msgstr "متوسط الاحتياج"
 
 #. module: trahum_benefits
 #: model:ir.model.fields,field_description:trahum_benefits.field_family_member_house__member_id
@@ -1206,7 +1246,7 @@ msgstr "أعضاء"
 #. module: trahum_benefits
 #: model:ir.model.fields,field_description:trahum_benefits.field_grant_benefit__member_count
 msgid "Members Count"
-msgstr ""
+msgstr "عدد الافراد"
 
 #. module: trahum_benefits
 #: model:ir.model.fields,field_description:trahum_benefits.field_family_member__mental_details
@@ -1262,6 +1302,16 @@ msgstr "العنوان الوطني"
 #: model:ir.model.fields,field_description:trahum_benefits.field_family_member__nationality_id
 msgid "Nationality"
 msgstr "جنسية"
+
+#. module: trahum_benefits
+#: model_terms:ir.ui.view,arch_db:trahum_benefits.view_grant_benefit_form
+msgid "Need Assessment"
+msgstr "حاسبة الاحتياج"
+
+#. module: trahum_benefits
+#: model:ir.model.fields,field_description:trahum_benefits.field_grant_benefit__need_calculator
+msgid "Need Calculator"
+msgstr "فئة الاحتياج"
 
 #. module: trahum_benefits
 #: code:addons/trahum_benefits/models/member.py:0
@@ -1364,7 +1414,7 @@ msgstr "التفاصيل الشخصية"
 #. module: trahum_benefits
 #: model:ir.model.fields,field_description:trahum_benefits.field_family_member__postal_code
 msgid "Postal Code"
-msgstr "الرمز البريدي"
+msgstr "رمز بريدي"
 
 #. module: trahum_benefits
 #: model:ir.model.fields,field_description:trahum_benefits.field_grant_benefit__previous_state
@@ -1400,6 +1450,7 @@ msgstr "بيانات السحن"
 #. module: trahum_benefits
 #: model:ir.model.fields,field_description:trahum_benefits.field_family_member__prison_id
 #: model:ir.model.fields,field_description:trahum_benefits.field_res_prison__name
+#: model_terms:ir.ui.view,arch_db:trahum_benefits.view_detainee_file_form
 msgid "Prison Name"
 msgstr "اسم السحن"
 
@@ -1654,15 +1705,15 @@ msgid "Social Security Status"
 msgstr "حالة الضمان الاجتماعي"
 
 #. module: trahum_benefits
+#: model:ir.model.fields,field_description:trahum_benefits.field_detainee_file__record_start_date
+msgid "Start Date"
+msgstr "تاريخ فتح الملف"
+
+#. module: trahum_benefits
 #: model:ir.model.fields,field_description:trahum_benefits.field_grant_benefit__state
 #: model_terms:ir.ui.view,arch_db:trahum_benefits.view_grant_benefit_search
 msgid "State"
 msgstr "الحالة"
-
-#. module: trahum_benefits
-#: model_terms:ir.ui.view,arch_db:trahum_benefits.view_nazil_kanban_custom
-msgid "State:"
-msgstr "حالة النزيل"
 
 #. module: trahum_benefits
 #: model_terms:ir.ui.view,arch_db:trahum_benefits.view_family_kanban_custom
@@ -1700,11 +1751,6 @@ msgid "Sub Number"
 msgstr "الرقم الفرعي"
 
 #. module: trahum_benefits
-#: model_terms:ir.ui.view,arch_db:trahum_benefits.view_grant_benefit_form
-msgid "Approve"
-msgstr "تاكيد"
-
-#. module: trahum_benefits
 #: code:addons/trahum_benefits/models/family.py:0
 #, python-format
 msgid "The individual %s has already been added."
@@ -1721,6 +1767,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:trahum_benefits.field_expenses_line__side
 msgid "The side"
 msgstr "الجهة"
+
+#. module: trahum_benefits
+#: model:ir.model.fields,field_description:trahum_benefits.field_grant_benefit__total_income
+msgid "Total Income"
+msgstr "الدخل"
 
 #. module: trahum_benefits
 #: model:ir.model.fields.selection,name:trahum_benefits.selection__expenses_line__revenue_periodicity__two_years
@@ -1947,6 +1998,16 @@ msgid "الاسم الاول"
 msgstr ""
 
 #. module: trahum_benefits
+#: model_terms:ir.ui.view,arch_db:trahum_benefits.view_detainee_file_form
+msgid "تاريخ الاعتقال"
+msgstr ""
+
+#. module: trahum_benefits
 #: model_terms:ir.ui.view,arch_db:trahum_benefits.view_nazil_kanban_custom
 msgid "عرض ملفات الاسر"
+msgstr ""
+
+#. module: trahum_benefits
+#: model_terms:ir.ui.view,arch_db:trahum_benefits.view_detainee_file_form
+msgid "معلومات"
 msgstr ""
