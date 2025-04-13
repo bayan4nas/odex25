@@ -97,8 +97,8 @@
                             </page>
                             <page string="expenses">
                                 <group>
-                                    <field nolabel="1" name="expenses_ids">
-                                        <tree editable="top">
+                                    <field force_save="1" nolabel="1" name="expenses_ids">
+                                        <tree editable="bottom">
                                             <field name="member_id" invisible="1"/>
                                             <!--                                                   domain="['|', ('id', 'in', parent.member_ids), ('id', '=', parent.breadwinner_member_id)]"/>-->
                                             <field name="benefit_id" invisible="1"/>
@@ -114,7 +114,7 @@
                                 </group>
                             </page>
                             <page string="Income and salary">
-                                <field name="salary_ids">
+                                <field name="salary_ids" force_save="1">
                                     <tree editable="bottom" delete="0">
                                         <field name="benefit_id" invisible="1"/>
                                         <field name="member_id" invisible="1"/>
@@ -203,6 +203,19 @@
                                     </tree>
                                 </field>
                             </page>
+                            <page string="Need Assessment">
+                                <group>
+                                    <group>
+                                        <field name="total_income" readonly="1"/>
+                                        <field name="expected_income" readonly="1"/>
+                                    </group>
+                                    <group>
+                                        <field name="member_count" readonly="1"/>
+                                        <field name="need_calculator" readonly="1"/>
+                                    </group>
+                                </group>
+                            </page>
+
                         </notebook>
                     </sheet>
                     <div class="oe_chatter">
