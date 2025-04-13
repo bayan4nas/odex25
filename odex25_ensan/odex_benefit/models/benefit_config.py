@@ -20,7 +20,7 @@ class BenefitCategory(models.Model):
     benefits_total = fields.Integer(string="Benefit Total", compute="get_benefits_total")
     mini_income_amount = fields.Float(string="Min Income Amount")
     max_income_amount = fields.Float(string="Max Income Amount")
-    expenses_ids = fields.One2many('expenses.line', 'category_id')
+    expenses_ids = fields.One2many('expenses.line', 'benefit_id')
     state = fields.Selection([('draft', 'Draft'),
                               ('approve', 'Approved'),
                               ('rejected', 'Rejected'), ], default='draft')
@@ -288,7 +288,7 @@ class Salary(models.Model):
 
     member_id = fields.Many2one('family.member', string='Member', ondelete='cascade',)
 
-    benefit_id = fields.Many2one('grant.benefit', string="Benefit", related='member_id.benefit_id' , store=True)  
+    benefit_id = fields.Many2one('grant.benefit', string="Benefit",ondelete='cascade')
     salary_type = fields.Char()
     income_type = fields.Many2one('attachments.settings',string='Income Type',domain="[('attach_type','=','income_attach')]")
     salary_amount = fields.Float(
@@ -411,7 +411,7 @@ class ExpensesLine(models.Model):
 
     category_id = fields.Many2one(
         'benefit.category')
-    benefit_id = fields.Many2one('grant.benefit', string="Benefit", related='member_id.benefit_id' , store=True)
+    benefit_id = fields.Many2one('grant.benefit', string="Benefit",ondelete='cascade',)
     expenses_type_custom = fields.Many2one('expenses.type')
     expenses_type = fields.Selection(
         string='',
