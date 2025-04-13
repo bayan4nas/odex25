@@ -124,27 +124,27 @@
 
                 <sheet>
                         <div class="oe_title">
-                                    <label for="name" string="Name Certificate"/>
+                                    <label for="name" />
                                     <h1>
-                                        <field name="name" />
+                                        <field name="name"  attrs="{'readonly': [('state', '!=', 'project_manager_preparation')]}" />
                                     </h1>
                         </div>
                     <group>
                         <group>
-                            <field name="project_id"/>
-                            <field name="phase_id4"/>
+                            <field name="project_id"  attrs="{'readonly': [('state', '!=', 'project_manager_preparation')]}"/>
+                            <field name="phase_id4"  attrs="{'readonly': [('state', '!=', 'project_manager_preparation')]}"/>
                         </group>
 
                         <group>
-                            <field name="date"/>
-                            <field name="attachment"/>
+                            <field name="date"  attrs="{'readonly': [('state', '!=', 'project_manager_preparation')]}"/>
+                            <field name="attachment"  attrs="{'readonly': [('state', '!=', 'project_manager_preparation')]}"/>
                         </group>
                     </group>
                     <field name="check_project_owner" invisible="1"/>
                     <field name="check_project_user" invisible="1"/>
                         <notebook>
                             <page string="Description">
-                                <field name="description" placeholder="Write a description here..." nolabel="1"/>
+                                <field name="description" placeholder="Write a description here..." nolabel="1"  attrs="{'readonly': [('state', '!=', 'project_manager_preparation')]}"/>
                             </page>
                         </notebook>
 
