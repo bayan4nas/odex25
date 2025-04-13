@@ -152,6 +152,7 @@
                     <field name='company_name' attrs="{'readonly':[('state','not in', ['draft'])]}"/>
                     <field name="is_partner" widget="boolean_toggle"
                            attrs="{'readonly':[('state','not in', ['draft'])]}"/>
+                    <field name="type_sender" attrs="{'readonly':[('state','not in', ['draft'])]}"/>
                     <field name="partner_id"
                            attrs="{'invisible': [('is_partner', '!=', True)],'required': [('is_partner', '=', True)],'readonly': [('state', 'not in', ['draft'])]}"/>
                 </xpath>
@@ -159,6 +160,7 @@
                     <attribute name="attrs">
                         {'invisible':[('is_partner','!=',False)],'required':[('is_partner','=',False)]}
                     </attribute>
+                    <attribute name="domain">[('type', '=', type_sender)]</attribute>
                     <attribute name="widget"></attribute>
                 </xpath>
                 <xpath expr="//field[@name='important_id']" position="after">

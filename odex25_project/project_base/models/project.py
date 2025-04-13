@@ -738,15 +738,6 @@ class CompletionCertificate(models.Model):
         return super(CompletionCertificate, self).unlink()
 
 
-    @api.onchange('project_id')
-    def _onchange_project_id(self):
-        if self.project_id:
-            print("_onchange_project_id")
-            # self.project_id.owner_id = self.env.user.id
-
-
-
-
 
 
 
