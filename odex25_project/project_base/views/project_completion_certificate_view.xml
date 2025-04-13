@@ -1,39 +1,192 @@
 <odoo>
-<record id="view_completion_certificate_form" model="ir.ui.view">
-    <field name="name">completion.certificate.form</field>
-    <field name="model">completion.certificate</field>
-    <field name="arch" type="xml">
-        <form string="Completion Certificate">
 
-            <sheet>
-                <group>
+
+    <record id="view_completion_certificate_form" model="ir.ui.view">
+        <field name="name">completion.certificate.form</field>
+        <field name="model">completion.certificate</field>
+        <field name="arch" type="xml">
+            <form string="Completion Certificate">
+
+                    <header>
+
+                        <button name="action_confirm_preparation"
+                                string="Confirm Setup"
+                                type="object"
+                                class="btn-primary"
+                                attrs="{'invisible': ['|', ('check_project_user', '=', False), ('state', '!=', 'project_manager_preparation')]}"
+                                />
+
+                        <button name="action_approve_project_owner"
+                                string="Approve Owner"
+                                type="object"
+                                class="btn-primary"
+                                attrs="{'invisible': ['|', ('check_project_owner', '=', False), ('state', '!=', 'project_owner_approval')]}"
+
+                        />
+
+
+
+                        <button name="action_review_project_manager"
+                                string="PM Review"
+                                type="object"
+                                states="project_manager_review"
+                                class="btn-primary"
+                                groups="project.group_project_manager" />
+
+                        <button name="action_review_strategy_office"
+                                string="Strategy Office Review"
+                                type="object"
+                                states="strategy_office_review"
+                                groups="base.module_category_hidden"
+                                class="btn-primary" />
+
+                        <button name="action_approve_secretary_general"
+                                string="SG Approval"
+                                type="object"
+                                states="secretary_general_approval"
+                                class="btn-primary" />
+
+
+
+                        <button name="re_draft"
+                                string="Back to Start"
+                                type="object"
+                                class="btn-primary"
+                                states="cancelled" />
+
+
+
+                        <button name="action_go_back"
+                            string="Go Back"
+                            type="object"
+                            class="btn-primary"
+                            states="strategy_office_review"
+                            groups="base.module_category_hidden" />
+
+                        <button name="action_cancel"
+                                string="Cancel"
+                                type="object"
+                                class="btn-primary"
+                                states="strategy_office_review"
+                                groups="base.module_category_hidden" />
+
+                        <button name="action_go_back"
+                            string="Go Back"
+                            type="object"
+                            class="btn-primary"
+                            states="project_owner_approval"
+                            groups="project_base.group_project_owner" />
+
+                        <button name="action_cancel"
+                                string="Cancel"
+                                type="object"
+                                class="btn-primary"
+                                states="project_owner_approval"
+                                groups="project_base.group_project_owner" />
+
+                        <button name="action_go_back"
+                                string="Go Back"
+                                type="object"
+                                class="btn-primary"
+                                states="project_manager_review"
+                                groups="project.group_project_manager" />
+
+                        <button name="action_cancel"
+                                string="Cancel"
+                                type="object"
+                                class="btn-primary"
+                                states="project_manager_review"
+                                groups="project.group_project_manager" />
+
+                        <button name="action_go_back"
+                                string="Go Back"
+                                type="object"
+                                class="btn-primary"
+                                states="secretary_general_approval"
+                                groups="hr_trahum.group_secretary_general" />
+
+                        <button name="action_cancel"
+                                string="Cancel"
+                                type="object"
+                                class="btn-primary"
+                                states="secretary_general_approval"
+                                groups="hr_trahum.group_secretary_general" />
+
+
+                    </header>
+                    <header>
+                        <field name="state" widget="statusbar"
+                               statusbar_visible="project_manager_preparation,project_owner_approval,project_manager_review,strategy_office_review,secretary_general_approval,done,cancelled"
+                                />
+                    </header>
+
+
+
+                <sheet>
                     <group>
-                        <field name="name_certificate" />
-                        <field name="phase_id4" />
+                        <group>
+                            <field name="name_certificate"/>
+                            <field name="phase_id4"/>
+
+                            <field name="check_project_owner" invisible="1"/>
+                            <field name="check_project_user" invisible="1"/>
+
+
+                        </group>
+                        <group>
+                            <field name="date"/>
+                            <field name="project_id" invisible="1"/>
+                        </group>
                     </group>
+
                     <group>
-                        <field name="date" />
-                        <field name="project_id" invisible="1"/>
+                        <field name="description" nolabel="1"/>
                     </group>
-                </group>
 
-                <group>
-                    <field name="description"  nolabel="1"/>
-                </group>
+                    <group>
+                        <field name="attachment"/>
+                    </group>
 
-                <group>
-                    <field name="attachment" />
-                </group>
-            </sheet>
-        </form>
-    </field>
-</record>
 
-    <record id="action_completion_certificate" model="ir.actions.act_window">
-    <field name="name"></field>
-    <field name="res_model">completion.certificate</field>
-    <field name="view_mode">tree,form</field>
-</record>
+                </sheet>
+                <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                </div>
+
+            </form>
+        </field>
+    </record>
+
+
+        <record id="view_completion_certificate_tree" model="ir.ui.view">
+        <field name="name">completion.certificate.tree</field>
+        <field name="model">completion.certificate</field>
+        <field name="arch" type="xml">
+            <tree string="Completion Certificate" create="0" edit="0" expand="1" >
+                <field name="name_certificate"/>
+                <field name="project_id"/>
+                <field name="phase_id4"/>
+                <field name="date"/>
+                <field name="state" />
+
+            </tree>
+
+        </field>
+    </record>
+
+    <record id="open_completion_certificate_form" model="ir.actions.act_window">
+        <field name="name"> Completion  Certificate </field>
+        <field name="res_model">completion.certificate</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_completion_certificate_tree"/>
+                <field name="context">{'search_default_project': 1}</field>
+
+    </record>
+
+
+        <menuitem action="open_completion_certificate_form" id="menu_completion_certificate"  name="Completion  Certificate"  groups="hr_trahum.group_secretary_general,project.group_project_manager,project.group_project_manager,project_base.group_project_owner" parent="project.menu_main_pm" sequence="3"/>
+
 
 
 </odoo>
