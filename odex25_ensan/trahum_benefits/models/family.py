@@ -40,6 +40,7 @@ class GrantBenefit(models.Model):
             for rec in lin.benefit_member_ids:
                 if rec.is_breadwinner:
                     lin.name_member = rec.member_id.name
+                    break
 
 
 
