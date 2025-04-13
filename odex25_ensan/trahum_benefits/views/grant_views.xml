@@ -62,8 +62,9 @@
                             <group>
                                 <field name="previous_state" invisible="1"/>
                                 <field name="name" readonly="1"/>
+                                <field name="name_member" invisible="1"/>
                                 <field name="detainee_file_id"/>
-                                <field name="inmate_member_id" readonly="1" force_save="True"
+                                <field invisible="1" name="inmate_member_id" readonly="1" force_save="True"
                                        context="{'form_view_ref': 'trahum_benefits.view_family_member_form'}"/>
                                 <field name="breadwinner_member_id" invisible="1"/>
                                 <field name="branch_details_id"/>
@@ -256,21 +257,37 @@
                     <field name="name"/>
                     <field name="state"/>
                     <field name="detainee_file_id"/>
+                    <field name="name_member"/>
+                    <field name="member_count"/>
+
                     <templates>
                         <t t-name="kanban-box">
                             <div class="oe_kanban_global_click o_kanban_record"
-                                 style="border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); padding: 10px;">
-                                <div class="mb-2" style="font-weight: bold; color: #003366;">
+                                 style="border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); padding: 15px; background-color: #f9f9f9;">
+
+                                <!-- اسم الملف -->
+                                <div class="mb-2" style="font-weight: bold; font-size: 16px; color: #003366;">
                                     <field name="name"/>
                                 </div>
 
-                                <div class="d-flex justify-content-between text-muted mb-2" style="font-size: 13px;">
-                                    <span>State:
+                                <!-- معلومات بشكل شبكي -->
+                                <div class="d-flex flex-column gap-1" style="font-size: 13px; color: #555;">
+                                    <div>
+                                        <strong>State:</strong>
                                         <field name="state"/>
-                                    </span>
-                                    <span>Detainee:
+                                    </div>
+                                    <div>
+                                        <strong>Breadwinner Name:</strong>
+                                        <field name="name_member"/>
+                                    </div>
+                                    <div>
+                                        <strong>Detainee:</strong>
                                         <field name="detainee_file_id"/>
-                                    </span>
+                                    </div>
+                                    <div>
+                                        <strong>Member Count:</strong>
+                                        <field name="member_count"/>
+                                    </div>
                                 </div>
                             </div>
                         </t>

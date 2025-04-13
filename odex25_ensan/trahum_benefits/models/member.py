@@ -138,7 +138,8 @@ class IssuesInformation(models.Model):
     account_status = fields.Selection(
         [('active', 'Active'), ('inactive', 'Inactive')],
         string="status")
-    prison_prison_id = fields.Many2one('prison.benefit', 'prison_id')
+    prison_prison_id = fields.Many2one('prison.benefit')
+    prison_id = fields.Many2one('res.prison',readonly=0,related='detainee_id.prison_id')
 
 
 class FamilyMember(models.Model):
