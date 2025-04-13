@@ -654,7 +654,7 @@ class CompletionCertificate(models.Model):
     @api.depends('project_id')
     def _compute_check_project_owner(self):
         current_user = self.env.uid
-        if current_user ==self.project_id.owner_employee_id.id:
+        if current_user ==self.project_id.owner_employee_id.user_id.id:
             self.check_project_owner = True
         else:
             self.check_project_owner = False
