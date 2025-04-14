@@ -83,7 +83,7 @@ class IncomingTransaction(models.Model):
     attachment_count = fields.Integer(compute='count_attachments')
     last_sender_entity_id = fields.Many2one('cm.entity', compute="_compute_last_received_entity", store=True)
     last_received_entity_id = fields.Many2one('cm.entity', compute='_compute_last_received_entity', store=True)
-    last_sender_label = fields.Char('From', compute="_compute_last_received_entity", store=True)
+    last_sender_label = fields.Char('Last sender label', compute="_compute_last_received_entity", store=True)
     datas = fields.Binary(string="", related='send_attach.datas')
     replayed_entity_ids = fields.Many2many('cm.entity', compute="_compute_replayed_entities", store=True)
 
