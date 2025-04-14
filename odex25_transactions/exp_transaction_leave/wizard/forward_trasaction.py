@@ -30,16 +30,14 @@ class ForwardTransactionWizard(models.TransientModel):
             to_id = self.internal_unit.secretary_id.id or self.internal_unit.manager_id.id
             unit_id = self.internal_unit.id
 
-        transaction.forward_user_id = forward_user_id
-
         leave_employee = transaction.get_employee_leave(to_id, unit_id, date.today())
         if leave_employee:
             forward_user_id = self.env['cm.entity'].search([('id', '=', leave_employee)]).user_id.id
             to_id = leave_employee
             transaction.forward_user_id = forward_user_id
 
+        transaction.forward_user_id = forward_user_id
         transaction.last_forwarded_user = self.env.uid
-
         if self.is_secret:
             transaction.secret_reason = self.secret_reason
             transaction.secret_forward_user = self.env['cm.entity'].search([('user_id', '=', forward_user_id)], limit=1)
@@ -64,10 +62,10 @@ class ForwardTransactionWizard(models.TransientModel):
             'name': 'Forward Attachment',
             'datas': self.forward_attachment_id,
             'type': 'binary',
-            'res_model': transaction._name,  
-            'res_id': transaction.id, 
+            'res_model': transaction._name,
+            'res_id': transaction.id,
         })
-            
+
             transaction.attachment_rule_ids.create({
                 'file_save': [(4, attachment.id)],
                 'description': self.att_description,
@@ -85,7 +83,7 @@ class ForwardTransactionWizard(models.TransientModel):
                 'cc_ids': [(6, 0, self.cc_ids.ids)],
                 name: transaction.id
             })
-        else :    
+        else :
             # Create trace record
             transaction.trace_ids.create({
                 'action': 'forward',
