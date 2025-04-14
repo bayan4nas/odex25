@@ -58,8 +58,8 @@
                     <field name="project_id"/>
                     <field name="sale_order_id"/>
                     <field name="subject_type_id" optional="hide"/>
-                    <field name="last_received_entity_id"/>
                     <field name="last_sender_label"/>
+                    <field name="last_received_entity_id"/>
                     <field name="tran_tag" widget="many2many_tags"/>
                     <field name="tran_tag_unit" widget="many2many_tags"/>
                     <field name="due_date"/>
@@ -149,8 +149,8 @@
                 <xpath expr="//form/header" position="replace">
                     <header>
                         <button states="draft" type="object" name="action_draft" string="Send" class="oe_highlight"/>
-<!--                        <button states="draft" type="object" name="action_archive_incoming" string="Archive"-->
-<!--                                class="oe_highlight"/>-->
+                        <!--                        <button states="draft" type="object" name="action_archive_incoming" string="Archive"-->
+                        <!--                                class="oe_highlight"/>-->
                         <button type="object"
                                 attrs="{'invisible':['|',('state','=','canceled'),('state','=','closed')]}"
                                 name="action_cancel" string="Cancel" class="oe_highlight"/>

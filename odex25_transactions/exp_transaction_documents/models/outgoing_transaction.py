@@ -95,8 +95,6 @@ class OutgoingTransaction(models.Model):
             transaction.trace_create_ids('outgoing_transaction_id', transaction, sent)
 
             last_track = transaction.trace_ids.sorted('create_date', reverse=True)[:1]  # Get the last track
-            print(last_track.to_id.name,'name')
-            print(last_track.to_id,'nameaaaaaaaaaaaa')
             if last_track:
                 transaction.last_received_entity_id = last_track.to_id.id
                 transaction.last_sender_entity_id = last_track.from_id.id
