@@ -27,11 +27,21 @@ class ReopenTransactionWizard(models.TransientModel):
             name = 'outgoing_transaction_id'
         transaction.action_reopen()
         from_id = self.env['cm.entity'].search([('user_id', '=', self.env.uid)], limit=1)
-        transaction.state = 'send'
+        last_trace = transaction.trace_ids.sorted(key=lambda r: r.id)[-2]
+        transaction.last_received_entity_id = last_trace.to_id.id
+        transaction.last_sender_entity_id = last_trace.from_id.id
+        transaction.last_sender_label = last_trace.from_label
+        if last_trace.action in ['forward', 'sent']:
+            transaction.state = 'send'
+
+        elif last_trace.action == 'reply':
+            transaction.state = 'reply'
+
         transaction.trace_ids.create({
-            'action': 'reopen',
+            'action': last_trace.action,
             'procedure_id': self.procedure_id.id or False,
-            'from_id': from_id.id,
+            'from_id': last_trace.from_id.id,
+            'to_id': last_trace.to_id.id,
             'note': self.note,
             name: transaction.id
         })
