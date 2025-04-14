@@ -5,7 +5,8 @@ from odoo import api, models, fields, _
 class ForwardTransactionWizard(models.TransientModel):
     _name = 'forward.transaction.wizard'
 
-    forward_type = fields.Selection(selection=[('unit','Internal Unit'), ('employee','Employee')],string="Forward Type",
+    forward_type = fields.Selection(selection=[('unit', 'Internal Unit'), ('employee', 'Employee')],
+                                    string="Forward Type",
                                     required=True)
     internal_unit = fields.Many2one('cm.entity', string='Internal Unit')
     employee = fields.Many2one('cm.entity', string='Employee')
@@ -24,13 +25,13 @@ class ForwardTransactionWizard(models.TransientModel):
     filename = fields.Char()
     att_description = fields.Char(string='Attach Description')
 
-
     @api.onchange('internal_unit', 'forward_type')
     def _get_valid_employee_ids(self):
         for rec in self:
             domain = []
             if rec.forward_type == 'employee' and rec.internal_unit:
-                domain = [('id', 'in', rec.env['cm.entity'].search([('type', '=', 'employee'), ('parent_id', '=', rec.internal_unit.id)]).ids)]
+                domain = [('id', 'in', rec.env['cm.entity'].search(
+                    [('type', '=', 'employee'), ('parent_id', '=', rec.internal_unit.id)]).ids)]
             rec.employee = False
             return {
                 "domain": {
@@ -39,6 +40,7 @@ class ForwardTransactionWizard(models.TransientModel):
             }
 
     def action_forward(self):
+        # print(dddddddddddd, 'dddddddddd')
         transaction = ''
         name = ''
         if self.to_delegate:
@@ -59,9 +61,11 @@ class ForwardTransactionWizard(models.TransientModel):
             to_id = self.internal_unit.secretary_id.id or self.internal_unit.manager_id.id
         transaction.forward_user_id = forward_user_id
         transaction.last_forwarded_user = self.env.uid
+        print(transaction.last_forwarded_user, 'transaction.last_forwarded_user')
         if self.is_secret:
             transaction.secret_reason = self.secret_reason
-            transaction.secret_forward_user = self.env['cm.entity'].search([('user_id', '=', forward_user_id.id)], limit=1)
+            transaction.secret_forward_user = self.env['cm.entity'].search([('user_id', '=', forward_user_id.id)],
+                                                                           limit=1)
         employee = transaction.current_employee()
         from_id = self.env['cm.entity'].search([('user_id', '=', self.env.uid)], limit=1)
         transaction.is_forward = True
@@ -78,13 +82,13 @@ class ForwardTransactionWizard(models.TransientModel):
                 'action': 'forward',
                 'to_id': self.internal_unit.id,
                 'from_id': last_trace_id.to_id.id,
-                'from_secretary_id' : last_trace_id.to_id.type == 'unit' and from_id.id,
+                'from_secretary_id': last_trace_id.to_id.type == 'unit' and from_id.id,
                 'procedure_id': self.procedure_id.id or False,
                 'note': self.note,
                 'cc_ids': [(6, 0, self.cc_ids.ids)],
                 name: transaction.id
             })
-        else:    
+        else:
             transaction.trace_ids.create({
                 'action': 'forward',
                 'to_id': to_id,
