@@ -17,7 +17,7 @@ class OutgoingTransaction(models.Model):
     reason = fields.Text('Reason')
     last_sender_entity_id = fields.Many2one('cm.entity', compute="_compute_last_received_entity", store=True)
     last_received_entity_id = fields.Many2one('cm.entity', compute='_compute_last_received_entity', store=True)
-    last_sender_label = fields.Char('From', compute="_compute_last_received_entity", store=True)
+    last_sender_label = fields.Char('Last sender label', compute="_compute_last_received_entity", store=True)
 
     transaction_type = fields.Selection([
         ('incoming', 'Incoming'),
