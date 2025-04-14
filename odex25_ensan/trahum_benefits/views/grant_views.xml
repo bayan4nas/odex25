@@ -25,20 +25,24 @@
 
                         <!-- Action Buttons -->
                         <button name="action_submit_call_center" type="object" string="Approve"
-                                class="btn-primary"
+                                class="oe_highlight"
                                 attrs="{'invisible': [('state', '!=', 'draft')]}"/>
 
                         <button name="action_approve_call_center" type="object" string="Approve Call Center"
-                                attrs="{'invisible': [('state', '!=', 'call_center')]}"/>
+                                class="oe_highlight" attrs="{'invisible': [('state', '!=', 'call_center')]}"/>
 
                         <button name="action_approve_social" type="object" string="Approve Social Researcher"
-                                attrs="{'invisible': [('state', '!=', 'social_researcher')]}"/>
+                                class="oe_highlight" attrs="{'invisible': [('state', '!=', 'social_researcher')]}"/>
 
                         <button name="action_approve_branch" type="object" string="Approve Branch Manager"
-                                attrs="{'invisible': [('state', '!=', 'branch_manager')]}"/>
+                                class="oe_highlight" attrs="{'invisible': [('state', '!=', 'branch_manager')]}"/>
 
                         <button name="action_close" type="object" string="Close"
-                                class="btn-success"
+                                class="oe_highlight"
+                                confirm="Are you sure?" attrs="{'invisible': [('state', '!=', 'approved')]}"/>
+
+                        <button name="action_done" type="object" string="CEO Approve"
+                                class="oe_highlight"
                                 confirm="Are you sure?" attrs="{'invisible': [('state', '!=', 'ceo')]}"/>
 
                         <button name="action_revert_state" type="object" string="Return"
@@ -54,7 +58,7 @@
                                 confirm="Are you sure?" attrs="{'invisible': [('state', '!=', 'cancelled')]}"/>
 
                         <field name="state" widget="statusbar"
-                               statusbar_visible="draft,call_center,social_researcher,branch_manager,ceo,closed"/>
+                               statusbar_visible="draft,call_center,social_researcher,branch_manager,ceo,approved,closed"/>
 
                     </header>
                     <sheet>
@@ -236,10 +240,10 @@
                     <field name="breadwinner_member_id" string="Breadwinner"/>
                     <field name="branch_details_id" string="Branch"/>
                     <field name="state" string="State"/>
+                    <filter name="branch_details_id" string="Branch" domain="[('branch_details_id', '!=', False)]"/>
                     <group expand="0" string="Group By">
                         <filter string="State" name="state" context="{'group_by': 'state'}"/>
-                        <filter string="Group by Detainee" name="detainee_file_id"
-                                context="{'group_by': 'detainee_file_id'}"/>
+                        <filter string="Group by Detainee" name="detainee_file_id" context="{'group_by': 'detainee_file_id'}"/>
                         <filter string="Group by Breadwinner Member" name="breadwinner_member_id"
                                 context="{'group_by': 'breadwinner_member_id'}"/>
                         <filter string="Group by Branch" name="branch_details_id"
@@ -265,28 +269,23 @@
                             <div class="oe_kanban_global_click o_kanban_record"
                                  style="border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); padding: 15px; background-color: #f9f9f9;">
 
-                                <!-- اسم الملف -->
                                 <div class="mb-2" style="font-weight: bold; font-size: 16px; color: #003366;">
                                     <field name="name"/>
                                 </div>
 
-                                <!-- معلومات بشكل شبكي -->
                                 <div class="d-flex flex-column gap-1" style="font-size: 13px; color: #555;">
-                                    <div>
-                                        <strong>State:</strong>
-                                        <field name="state"/>
-                                    </div>
+
                                     <div>
                                         <strong>Breadwinner Name:</strong>
                                         <field name="name_member"/>
                                     </div>
                                     <div>
-                                        <strong>Detainee:</strong>
-                                        <field name="detainee_file_id"/>
-                                    </div>
-                                    <div>
                                         <strong>Member Count:</strong>
                                         <field name="member_count"/>
+                                    </div>
+                                    <div>
+                                        <strong>State:</strong>
+                                        <field name="state"/>
                                     </div>
                                 </div>
                             </div>
