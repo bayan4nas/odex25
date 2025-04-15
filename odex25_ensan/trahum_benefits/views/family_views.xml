@@ -21,14 +21,14 @@
                     <field name="name"/>
                     <field name="member_id_number"/>
                     <field name="member_phone"/>
-                    <filter string="Has Phone" name="has_phone" domain="[('member_phone', '!=', False)]"/>
-                    <filter string="Without Phone" name="without_phone" domain="[('member_phone', '=', False)]"/>
-                    <filter string="Has Identification" name="member_id_number"
-                            domain="[('member_id_number', '!=', False)]"/>
-                    <group expand="0" string="Group By">
-                        <filter string="Member ID" name="group_by_id" context="{'group_by': 'member_id_number'}"/>
-                        <filter string="Member Phone" name="group_by_phone" context="{'group_by': 'member_phone'}"/>
-                    </group>
+                    <!--                    <filter string="Has Phone" name="has_phone" domain="[('member_phone', '!=', False)]"/>-->
+                    <!--                    <filter string="Without Phone" name="without_phone" domain="[('member_phone', '=', False)]"/>-->
+                    <!--                    <filter string="Has Identification" name="member_id_number"-->
+                    <!--                            domain="[('member_id_number', '!=', False)]"/>-->
+                    <!--                    <group expand="0" string="Group By">-->
+                    <!--                        <filter string="Member ID" name="group_by_id" context="{'group_by': 'member_id_number'}"/>-->
+                    <!--                        <filter string="Member Phone" name="group_by_phone" context="{'group_by': 'member_phone'}"/>-->
+                    <!--                    </group>-->
                 </search>
             </field>
         </record>
@@ -55,46 +55,23 @@
                             <h1>
                                 <field name="name" placeholder="الأسم" readonly="1"/>
                             </h1>
-
                         </group>
                         <group>
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <h3>
-                                        <field name="first_name" placeholder="الاسم الاول" required="1"
-                                               class="update_full_name"/>
-                                    </h3>
-                                </div>
-
-                                <div class="col-md-3">
-                                    <h3>
-                                        <field name="father_name" placeholder="اسم الاب" required="1"
-                                               class="update_full_name"/>
-                                    </h3>
-                                </div>
-
-                                <div class="col-md-3">
-                                    <h3>
-                                        <field name="grand_name" placeholder="اسم الجد" required="1"
-                                               class="update_full_name"/>
-                                    </h3>
-                                </div>
-
-                                <div class="col-md-3">
-                                    <h3>
-                                        <field name="family_name" placeholder="اسم العائلة" required="1"
-                                               class="update_full_name"/>
-                                    </h3>
-                                </div>
-                            </div>
+                            <group>
+                                <field name="member_id_number"/>
+                                <field name="nationality_id"/>
+                            </group>
+                            <group>
+                                <field name="member_phone"/>
+                            </group>
                         </group>
                         <group>
                             <group>
                                 <field name="benefit_type" invisible="1"/>
                                 <field invisible="1" name="inmate_status"/>
                                 <field invisible="1" name="prison_id"/>
-                                <field name="entitlement_status"/>
-                                <field name="released_status"/>
+                                <field name="entitlement_status" invisible="1"/>
+                                <field name="released_status" invisible="1"/>
                                 <field name="code" invisible="1" readonly="1"/>
                             </group>
                             <group invisible="1">
@@ -106,19 +83,25 @@
                             <page string="Personal Details">
                                 <group>
                                     <group>
-                                        <field name="member_id_number"/>
+                                        <field name="first_name" placeholder="الاسم الاول" required="1"
+                                               class="update_full_name"/>
+                                        <field name="grand_name" placeholder="اسم الجد" required="1"
+                                               class="update_full_name"/>
                                         <field name="identity_proof_id"/>
                                         <field name="birth_date"/>
                                         <field name="gender"/>
                                         <field name="qualification_id"/>
-                                        <field name="nationality_id"/>
                                     </group>
                                     <group>
-                                        <field name="member_phone"/>
+                                        <field name="father_name" placeholder="اسم الاب" required="1"
+                                               class="update_full_name"/>
+                                        <field name="family_name" placeholder="اسم العائلة" required="1"
+                                               class="update_full_name"/>
+
                                         <field name="additional_mobile_number"/>
                                         <field name="work_type_id"/>
                                         <field name="birth_place"/>
-                                        <field name="relation_id"/>
+                                        <field name="relation_id" invisible="1"/>
                                         <field name="marital_status_id"/>
                                     </group>
                                 </group>
@@ -126,15 +109,15 @@
                             <page string="Education History">
                                 <field name="education_ids">
                                     <tree editable="bottom">
-                                        <field name="name"/>
-                                        <field name="identity_number"/>
-                                        <field name="level_id"/>
-                                        <field name="school_name"/>
-                                        <field name="path" string="Path"/>
-                                        <field name="education_department_id"/>
-                                        <field name="grade" string="Grade"/>
-                                        <field name="graduation_year"/>
-                                        <field name="attachments"/>
+                                        <field name="name" invisible="1"/>
+                                        <field name="identity_number" invisible="1"/>
+                                        <field width="12" name="level_id"/>
+                                        <field width="12" name="school_name"/>
+                                        <field width="12" name="path" string="Path"/>
+                                        <field width="12" string="Education department" name="education_department_id"/>
+                                        <field width="12" name="grade" string="Grade"/>
+                                        <field width="12" name="graduation_year"/>
+                                        <field width="12" name="attachments"/>
                                     </tree>
                                 </field>
                             </page>
@@ -144,17 +127,18 @@
                                     <field name="sub_number"/>
                                     <field name="additional_number"/>
                                     <field name="street_name"/>
-                                    <field name="district"/>
+                                    <field string="District Name" name="district"/>
                                     <field name="city"/>
                                     <field name="postal_code"/>
                                 </group>
                             </page>
                             <page string="Comprehensive Rehabilitation">
                                 <field name="rehabilitation_ids">
-                                    <tree>
-                                        <field name="income_value"/>
-                                        <field name="disability_type_id"/>
-                                        <field name="disability_date"/>
+                                    <tree editable="bottom">
+                                        <field width="12" name="income_value"/>
+                                        <field width="12" name="disability_type_id"/>
+                                        <field width="12" name="disability_date"/>
+                                        <field width="12" name="attachments"/>
                                     </tree>
                                 </field>
                             </page>
@@ -192,13 +176,6 @@
                                                attrs="{'readonly': [('has_mental_illness', '=', False)]}"/>
                                     </div>
                                 </group>                                <!--                                <group string="Diseases">-->
-                                <!--                                    <field name="member_diseases_ids" nolabel="1">-->
-                                <!--                                        <tree editable="bottom">-->
-                                <!--                                            <field name="disease_id"/>-->
-                                <!--                                            <field name="disease_type" readonly="1"/>-->
-                                <!--                                        </tree>-->
-                                <!--                                    </field>-->
-                                <!--                                </group>-->
                             </page>
                             <page string="Social Insurance and Security">
                                 <group>
@@ -335,29 +312,44 @@
                     </header>
                     <sheet>
                         <group>
+                            <h1>
+                                <field name="detainee_id"/>
+                            </h1>
+
+                        </group>
+                        <group>
                             <group>
                                 <field name="name" readonly="1"/>
-                                <field name="detainee_id"/>
-                                <field name="detainee_status"/>
-                                <field name="arrest_date"/>
-                                <field name="expected_release_date"/>
+                                <field name="record_start_date"/>
                             </group>
                             <group>
-                                <field name="prison_country_id"/>
-                                <field name="prison_id"/>
                                 <field name="branch_id"/>
+                                <field name="record_end_date"/>
                             </group>
+
                         </group>
                         <notebook>
+                            <page string="معلومات">
+                                <group>
+                                    <group>
+                                        <field name="arrest_date" string="تاريخ الاعتقال"/>
+                                        <field invisible="0" name="prison_id"/>
+
+                                    </group>
+                                    <group>
+                                        <field name="expected_release_date"/>
+                                        <field name="prison_country_id"/>
+                                    </group>
+                                </group>
+
+                            </page>
                             <page string="Issues Information">
                                 <group>
-                                    <field name="issues_ids">
-                                        <tree>
-                                            <field name="case_name"/>
-                                            <field name="record_start_date"/>
-                                            <field name="record_end_date"/>
-                                            <field name="prison_prison_id"/>
-                                            <field name="release_date"/>
+                                    <field  nolabel="1" name="issues_ids">
+                                        <tree editable="bottom">
+                                            <field width="12" name="case_name"/>
+                                            <field width="12"  string="Prison Name" name="prison_id"/>
+                                            <field width="12" invisible="1" string="Prison Name" name="prison_prison_id"/>
                                         </tree>
                                     </field>
                                 </group>
@@ -395,6 +387,7 @@
                     <field name="detainee_id"/>
                     <field name="prison_country_id"/>
                     <field name="prison_id"/>
+                    <filter name="branch" domain='[]' string="Prison Country" context="{'group_by': 'prison_id'}"/>
                     <group expand="1" string="Extended Filters">
                         <filter name="group_by_branch" string="Group by Branch" context="{'group_by': 'branch_id'}"/>
                         <filter name="group_by_branch" string="Group by Prison"
@@ -407,27 +400,108 @@
             </field>
         </record>
 
+        <record id="view_nazil_kanban_custom" model="ir.ui.view">
+            <field name="name">nazil.kanban.custom</field>
+            <field name="model">detainee.file</field>
+            <field name="arch" type="xml">
+                <kanban>
+                    <field name="name"/>
+                    <field name="detainee_status"/>
+                    <field name="branch_id"/>
+                    <field name="detainee_id"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_global_click o_kanban_record"
+                                 style="border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); padding: 10px;">
+                                <div class="mb-2" style="font-weight: bold; color: #003366;">
+                                    <field name="name"/>
+                                </div>
+                                 <div class="mb-2 text-info" style="font-size: 14px;">
+                            Inmate: <field name="detainee_id"/>
+                        </div>
+
+
+                                <div class="d-flex justify-content-between text-muted mb-2" style="font-size: 13px;">
+                                    <span>State:
+                                        <field name="detainee_status"/>
+                                    </span>
+                                    <span>Branch:
+                                        <field name="branch_id"/>
+                                    </span>
+                                </div>
+
+                                <div class="">
+                                    <button type="object"
+                                            name="action_open_family_files"
+                                            class="btn btn-primary"
+                                            style="background-color: #1F3C88; border-color: #1F3C88; color: white; border-radius: 6px; padding: 5px 10px;">
+                                        عرض ملفات الاسر
+                                    </button>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+
         <record id="action_detainee_file" model="ir.actions.act_window">
             <field name="name">Detainee Files</field>
             <field name="res_model">detainee.file</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">kanban,tree,form</field>
             <field name="search_view_id" ref="view_detainee_file_search"/>
         </record>
 
         <menuitem id="menu_detainee_file" name="Detainee Files"
                   parent="odex_benefit.benefits_root_menu"
-                  sequence="2" action="action_detainee_file"/>
+                  sequence="1" action="action_detainee_file"/>
 
         <record id="sequence_benefit" model="ir.sequence">
             <field name="name">detainee Sequence</field>
             <field name="code">detainee.sequence</field>
-            <field name="prefix">D/</field>
+            <field name="prefix">D</field>
             <field eval="1" name="number_next"/>
             <field eval="1" name="number_increment"/>
             <field eval="True" name="use_date_range"/>
             <field eval="False" name="company_id"/>
             <field name="padding">4</field>
         </record>
+        <!--        end -->
+        <!--        add setting -->
+        <record id="res_config_settings_view_form" model="ir.ui.view">
+            <field name="name">res.config.settings.view.form.inherit.trahum_benefits</field>
+            <field name="model">res.config.settings</field>
+            <field name="priority" eval="15"/>
+            <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[hasclass('settings')]" position="inside">
+                    <div class="app_settings_block" data-string="Benfits Management" string="Benfits Management"
+                         data-key="trahum_benefits">
+                        <h2>Benfits Management</h2>
+                        <div class="row mt16 o_settings_container">
+                            <div class="col-12 col-lg-6 o_setting_box">
+                                <div class="o_setting_left_pane"/>
+                                <div class="o_setting_right_pane">
+                                    <span class="o_form_label">Base Line</span>
+                                    <div class="text-muted content-group mt16">
+                                        <field name="base_line_value"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+    <record id="res_config_settings_action" model="ir.actions.act_window">
+       <field name="name">Configuration</field>
+       <field name="type">ir.actions.act_window</field>
+       <field name="res_model">res.config.settings</field>
+       <field name="view_mode">form</field>
+       <field name="target">inline</field>
+       <field name="context">{'module' : 'trahum_benefits'}</field>
+    </record>
         <!--        end -->
 
 

@@ -1,9 +1,15 @@
 # -*- coding: utf-8 -*-
-from odoo import models, fields,_ , api
+from odoo import models, fields, _, api
 from odoo.exceptions import ValidationError
 from lxml import etree
 import json
 from odoo.exceptions import UserError
+from datetime import date
+
+class ResConfigSettings(models.TransientModel):
+    _inherit = 'res.config.settings'
+
+    base_line_value = fields.Float(string="Base Line", config_parameter='trahum_benefits.base_line_value')
 
 
 class GrantBenefit(models.Model):
@@ -16,14 +22,91 @@ class GrantBenefit(models.Model):
         ('branch_manager', 'Branch Manager Approved'),
         ('ceo', 'CEO Approved'),
         ('cancelled', 'Cancelled'),
-        ('closed', 'Closed'),
+        ('closed', 'Done'),
     ]
     previous_state = fields.Selection(STATE_SELECTION, string="Previous State")
+    need_calculator = fields.Selection([('high', 'High Need'), ('medium', 'Medium Need'), ('low', 'Low Need'), ],
+                                       readonly=1, string="Need Calculator", )
 
+
+    total_income = fields.Float(string="Total Income",store=True,readonly=True)
+    expected_income = fields.Float(string="Expected  Income", readonly=True)
+    name_member = fields.Char(string="Expected  Income",compute='_compute_member_name',readonly=True)
+
+    @api.depends('benefit_member_ids')
+    def _compute_member_name(self):
+        self.name_member = ''
+        for lin in self:
+            for rec in lin.benefit_member_ids:
+                if rec.is_breadwinner:
+                    lin.name_member = rec.member_id.name
+                    break
+
+
+
+    # start
+    def _convert_to_monthly(self, amount, periodicity):
+        mapping = {
+            'monthly': 1,
+            'every_three_months': 3,
+            'every_six_months': 6,
+            'every_nine_months': 9,
+            'annually': 12,
+            'two_years': 24,
+        }
+        return amount / mapping.get(periodicity or 'monthly', 1)
+
+    def _get_total_net_income(self):
+        income = sum(self._convert_to_monthly(line.salary_amount, line.revenue_periodicity)
+                     for line in self.salary_ids)
+        expenses = sum(self._convert_to_monthly(line.amount, line.revenue_periodicity)
+                       for line in self.expenses_ids)
+        return income - expenses
+
+    def _get_expected_family_income(self):
+        config_param = self.env['ir.config_parameter'].sudo()
+        base_line_value = float(config_param.get_param('trahum_benefits.base_line_value',))
+        expected = 0.0
+        for member in self.benefit_member_ids:
+            if member.is_breadwinner:
+                expected += base_line_value
+            elif member.member_id and member.member_id.birth_date:
+                age = self._calculate_age(member.member_id.birth_date)
+                if age >= 18:
+                    expected += base_line_value * 0.5
+                else:
+                    expected += base_line_value * 0.3
+        self.expected_income = expected
+        return expected
+
+    def _calculate_age(self, birth_date):
+        today = date.today()
+        return today.year - birth_date.year - ((today.month, today.day) < (birth_date.month, birth_date.day))
+
+    def _compute_need_calculator(self):
+        for record in self:
+            net_income = record._get_total_net_income()
+            record.total_income = net_income
+            expected_income = record._get_expected_family_income()
+
+            if expected_income == 0:
+                record.need_calculator = False
+                continue
+
+            percent = (net_income / expected_income) * 100
+
+            if percent <= 30:
+                record.need_calculator = 'high'
+            elif percent <= 60:
+                record.need_calculator = 'medium'
+            else:
+                record.need_calculator = 'low'
+
+    # end
     @api.model
     def fields_view_get(self, view_id=None, view_type=False, toolbar=False, submenu=False):
         res = super(GrantBenefit, self).fields_view_get(view_id=view_id, view_type=view_type, toolbar=toolbar,
-                                                         submenu=submenu)
+                                                        submenu=submenu)
         doc = etree.XML(res['arch'])
         if view_type == 'form':
             for node in doc.xpath("//field"):
@@ -42,20 +125,20 @@ class GrantBenefit(models.Model):
         for rec in self:
             if 'state' in vals and rec.state != vals['state']:
                 rec.previous_state = rec.state
-                print('state = ',rec.state)
+                print('state = ', rec.state)
         return super().write(vals)
 
     # add new customuzation
-    state = fields.Selection(STATE_SELECTION,default='draft',tracking=True)
-    detainee_file_id = fields.Many2one('detainee.file', string="Detainee File",tracking=True)
+    state = fields.Selection(STATE_SELECTION, default='draft', tracking=True)
+    detainee_file_id = fields.Many2one('detainee.file', string="Detainee File", tracking=True)
 
     benefit_member_ids = fields.One2many('grant.benefit.member', 'grant_benefit_id', string="Benefit Member")
 
-    member_count = fields.Integer(string="Members Count", compute="_compute_member_count",readonly=1)
+    member_count = fields.Integer(string="Members Count", compute="_compute_member_count", readonly=1)
 
     @api.depends('benefit_member_ids')
     def _compute_member_count(self):
-        self.member_count=0
+        self.member_count = 0
         for rec in self:
             rec.member_count = len(rec.benefit_member_ids)
 
@@ -69,9 +152,8 @@ class GrantBenefit(models.Model):
             'context': {'default_benefit_id': self.id},
         }
 
-
     def reset_to_draft(self):
-            self.state = 'draft'
+        self.state = 'draft'
 
     def action_cancel(self):
         return {
@@ -89,6 +171,7 @@ class GrantBenefit(models.Model):
             self.inmate_member_id = self.detainee_file_id.detainee_id
 
     def action_submit_call_center(self):
+        self._compute_need_calculator()
         self.state = 'call_center'
 
     def action_approve_call_center(self):
@@ -100,7 +183,6 @@ class GrantBenefit(models.Model):
     def action_approve_branch(self):
         self.state = 'ceo'
 
-
     def action_close(self):
         self.state = 'closed'
 
@@ -109,8 +191,6 @@ class GrantBenefit(models.Model):
             if record.state != 'draft':
                 raise UserError(_("You can only delete the record when it's in draft state."))
         return super().unlink()
-
-
 
     @api.model
     def create(self, vals):
@@ -122,7 +202,6 @@ class GrantBenefit(models.Model):
             existing = self.search_count([('detainee_file_id', '=', record.detainee_file_id.id)])
             record.name = f"{prefix}/{existing}"
         return record
-
 
     @api.constrains('benefit_member_ids')
     def _check_duplicate_members(self):
@@ -154,18 +233,20 @@ class GrantBenefit(models.Model):
     attachment_id = fields.One2many('attachment', 'benefit_id', string='')
     partner_id = fields.Many2one('res.partner', required=True, ondelete='cascade')
     inmate_member_id = fields.Many2one('family.member', string='Inmate', domain="[('benefit_type', '=', 'inmate')]")
-    breadwinner_member_id = fields.Many2one('family.member', string='Breadwinner', domain="[('benefit_type', '=', 'breadwinner')]")
+    breadwinner_member_id = fields.Many2one('family.member', string='Breadwinner',
+                                            domain="[('benefit_type', '=', 'breadwinner')]")
     education_ids = fields.One2many('family.profile.learn', 'grant_benefit_id', string='Education History')
     member_ids = fields.One2many('family.member', 'benefit_id')
-    rehabilitation_ids = fields.One2many('comprehensive.rehabilitation', 'grant_benefit_id', string='Comprehensive Rehabilitation')
+    rehabilitation_ids = fields.One2many('comprehensive.rehabilitation', 'grant_benefit_id',
+                                         string='Comprehensive Rehabilitation')
     salary_ids = fields.One2many('salary.line', 'benefit_id', string='')
     health_data_ids = fields.One2many('family.member', 'benefit_id', string='Health Data')
-    branch_details_id = fields.Many2one(comodel_name='branch.details', string='Branch Name',tracking=True)
+    branch_details_id = fields.Many2one(comodel_name='branch.details', string='Branch Name', tracking=True)
     external_guid = fields.Char(string='External GUID')
     account_status = fields.Selection(
         [('active', 'Active'), ('inactive', 'Inactive')],
         string="Account status",
-        default='active',tracking=True,
+        default='active', tracking=True,
         help="Account status to determine whether the account is active or suspended.")
 
     Add_appendix = fields.Binary(string="IBAN", attachment=True)
@@ -182,7 +263,7 @@ class GrantBenefit(models.Model):
             ('annually', 'Annually'),
             ('two_years', 'Two Years'),
         ],
-        string="Exchange Period",tracking=True,
+        string="Exchange Period", tracking=True,
         attrs="{'readonly': [('housing_status', 'not in', ['usufruct', 'rent'])]}"
     )
 
@@ -193,7 +274,7 @@ class GrantBenefit(models.Model):
             ('usufruct', 'Usufruct'),
             ('rent', 'Rent'),
         ],
-        string="Housing Status",tracking=True,
+        string="Housing Status", tracking=True,
     )
 
     housing_value = fields.Integer(
@@ -209,8 +290,7 @@ class GrantBenefit(models.Model):
     delegate_iban = fields.Char(string="Authorized IBAN")
     delegate_document = fields.Binary(string="Authorization form", attachment=True)
 
-    house_ids = fields.One2many('family.member.house','benefit_id' ,string="House Profile")
-
+    house_ids = fields.One2many('family.member.house', 'benefit_id', string="House Profile")
 
     @api.constrains('delegate_mobile')
     def _check_delegate_mobile(self):
@@ -218,6 +298,7 @@ class GrantBenefit(models.Model):
             if record.delegate_mobile:
                 if len(record.delegate_mobile) != 10 or not record.delegate_mobile.isdigit():
                     raise ValidationError("The authorized mobile number must contain exactly 10 digits.")
+
 
 class attachment(models.Model):
     _name = 'attachment'
@@ -246,11 +327,16 @@ class ExpensesInheritLine(models.Model):
         string="Revenue periodicity")
     side = fields.Char(string='The side')
     attachment = fields.Binary(string="Attachments", attachment=True)
+    benefit_id = fields.Many2one('grant.benefit', ondelete='cascade',string="Benefit")
+
+
 
 class SalaryInheritLine(models.Model):
     _inherit = 'salary.line'
 
     side = fields.Char(string='side')
+    benefit_id = fields.Many2one('grant.benefit',ondelete='cascade',string="Benefit")
+
     revenue_periodicity = fields.Selection(
         [
             ('monthly', 'Monthly'),
@@ -268,8 +354,7 @@ class GrantBenefitMember(models.Model):
     _description = 'Grant Benefit Member'
 
     grant_benefit_id = fields.Many2one('grant.benefit', string="Grant Benefit", ondelete="cascade")
-    member_id = fields.Many2one('family.member', string="Member", domain=[('state', '=', 'confirm')])
+    member_id = fields.Many2one('family.member', string="Member", domain=[('state', '=', 'confirmed')])
     # relationship = fields.Many2one(related='member_id.relation_id', string="Relationship", readonly=True)
     relation_id = fields.Many2one('family.member.relation', string='Relation')
     is_breadwinner = fields.Boolean(string=" Is Breadwinner?")
-

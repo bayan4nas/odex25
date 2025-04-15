@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # from future.backports.email.policy import default
 
-from odoo import models, fields, api,_
+from odoo import models, fields, api, _
 from odoo.exceptions import ValidationError
 from odoo.exceptions import UserError
 from lxml import etree
@@ -13,11 +13,13 @@ class FamilyMemberMaritalStatus(models.Model):
 
     name = fields.Char(string='Marital Status', required=True)
 
+
 class FamilyMemberRelation(models.Model):
     _name = 'family.member.relation'
     _description = 'Family Member Relation'
 
     name = fields.Char(string='Relation', required=True)
+
 
 class FamilyMemberQualification(models.Model):
     _name = 'family.member.qualification'
@@ -25,17 +27,20 @@ class FamilyMemberQualification(models.Model):
 
     name = fields.Char(string='Qualification', required=True)
 
+
 class FamilyEducationLevel(models.Model):
     _name = 'family.education.level'
     _description = 'Family Education Level'
 
     name = fields.Char(string='Education Level', required=True)
 
+
 class FamilyEducationDepartment(models.Model):
     _name = 'family.education.department'
     _description = 'Family Education Department'
 
     name = fields.Char(string='Education Department', required=True)
+
 
 class FamilyProfile(models.Model):
     _name = 'family.profile.learn'
@@ -49,11 +54,13 @@ class FamilyProfile(models.Model):
     grade = fields.Char(string='Grade')
     graduate_date = fields.Date(string='Graduation Date')
 
+
 class DisabilityType(models.Model):
     _name = 'disability.type'
     _description = 'Disability Type'
 
     name = fields.Char(string='Disability Type', required=True)
+
 
 class ComprehensiveRehabilitation(models.Model):
     _name = 'comprehensive.rehabilitation'
@@ -65,7 +72,7 @@ class ComprehensiveRehabilitation(models.Model):
     member_id = fields.Many2one('family.member', string='Family Member', ondelete='cascade')
     grant_benefit_id = fields.Many2one('grant.benefit', string='Grant Benefit')  # حقل جديد
     name = fields.Char(string="Name", required=True, default="Rehabilitation Record")
-
+    attachments = fields.Binary(string="Attachments")
 
 
 class FamilyProfileLearn(models.Model):
@@ -103,6 +110,7 @@ class Disease(models.Model):
         ('psychological', 'Psychological')
     ], string='Disease Type', required=True)
 
+
 class MemberDisease(models.Model):
     _name = 'member.disease'
     _description = 'Member Disease'
@@ -111,10 +119,11 @@ class MemberDisease(models.Model):
     disease_id = fields.Many2one('disease', string='Disease', required=True)
     disease_type = fields.Selection(related='disease_id.disease_type', string='Disease Type', store=True, readonly=True)
 
+
 class PrisonBenefit(models.Model):
     _name = 'prison.benefit'
 
-    prison_id =fields.Char(string="Prison")
+    prison_id = fields.Char(string="Prison")
 
 
 class IssuesInformation(models.Model):
@@ -129,13 +138,12 @@ class IssuesInformation(models.Model):
     account_status = fields.Selection(
         [('active', 'Active'), ('inactive', 'Inactive')],
         string="status")
-    prison_prison_id = fields.Many2one('prison.benefit','prison_id')
-
+    prison_prison_id = fields.Many2one('prison.benefit')
+    prison_id = fields.Many2one('res.prison',readonly=0,related='detainee_id.prison_id')
 
 
 class FamilyMember(models.Model):
     _inherit = 'family.member'
-
 
     benefit_id = fields.Many2one('grant.benefit', string='Family Profile')
     name = fields.Char(
@@ -157,7 +165,7 @@ class FamilyMember(models.Model):
     inmate_status = fields.Selection([
         ('convicted', 'Convicted'),
         ('not_convicted', 'Not Convicted')
-    ], string='Inmate Status',)
+    ], string='Inmate Status', )
     entitlement_status = fields.Selection([
         ('beneficiary', 'Beneficiary'),
         ('non_beneficiary', 'Non Beneficiary')
@@ -168,7 +176,7 @@ class FamilyMember(models.Model):
         ('convicted', 'Convicted'),
         ('not_convicted', ' Not Convicted')
     ], string='Released Status',
-       attrs="{'invisible': [('benefit_type', '!=', 'released')]}"
+        attrs="{'invisible': [('benefit_type', '!=', 'released')]}"
     )
 
     code = fields.Char("File No")
@@ -187,10 +195,11 @@ class FamilyMember(models.Model):
     additional_mobile_number = fields.Char(string='Additional Mobile Number')
     street_name = fields.Char(string='Street Name')
     district = fields.Char(string='District')
-    city = fields.Many2one("res.country.city",string='City')
+    city = fields.Many2one("res.country.city", string='City')
     postal_code = fields.Char(string='Postal Code')
     building_number = fields.Char(string='Building Number')
-    rehabilitation_ids = fields.One2many('comprehensive.rehabilitation', 'member_id', string='Comprehensive Rehabilitation')
+    rehabilitation_ids = fields.One2many('comprehensive.rehabilitation', 'member_id',
+                                         string='Comprehensive Rehabilitation')
     blood_type = fields.Selection([
         ('a+', 'A+'), ('a-', 'A-'),
         ('b+', 'B+'), ('b-', 'B-'),
@@ -241,7 +250,7 @@ class FamilyMember(models.Model):
         ('cancelled', 'Rejected')
     ], string="Status", default='draft', tracking=True)
 
-    cancel_reason: fields.Text = fields.Text(string="Rejection Reason", tracking=True,copy=False)
+    cancel_reason: fields.Text = fields.Text(string="Rejection Reason", tracking=True, copy=False)
 
     def action_confirm(self) -> None:
         """Change status to 'Confirmed'."""
@@ -274,6 +283,24 @@ class FamilyMember(models.Model):
     def reset_to_draft(self):
         self.write({'state': 'draft'})
 
+    @api.model
+    def fields_view_get(self, view_id=None, view_type=False, toolbar=False, submenu=False):
+        res = super(FamilyMember, self).fields_view_get(view_id=view_id, view_type=view_type, toolbar=toolbar,
+                                                        submenu=submenu)
+        doc = etree.XML(res['arch'])
+        if view_type == 'form':
+            for node in doc.xpath("//field"):
+                modifiers = json.loads(node.get("modifiers"))
+                if 'readonly' not in modifiers:
+                    modifiers['readonly'] = [('state', 'not in', ['draft'])]
+                else:
+                    if type(modifiers['readonly']) != bool:
+                        modifiers['readonly'].insert(0, '|')
+                        modifiers['readonly'].append(('state', 'not in', ['draft']))
+                node.set("modifiers", json.dumps(modifiers))
+                res['arch'] = etree.tostring(doc)
+        return res
+
     @api.depends('first_name', 'father_name', 'grand_name', 'family_name')
     def _compute_full_name(self):
         """Computes 'name' field on page load and when related fields change."""
@@ -294,7 +321,7 @@ class FamilyMember(models.Model):
 class MemberHouse(models.Model):
     _name = 'family.member.house'
 
-    member_id = fields.Many2one('family.member', string='Member', ondelete='cascade',)
+    member_id = fields.Many2one('family.member', string='Member', ondelete='cascade', )
 
     housing_type = fields.Selection([
         ('apartment', 'apartment'),
@@ -302,14 +329,14 @@ class MemberHouse(models.Model):
         ('popular_house', 'popular house'),
         ('tent', 'tent'),
         ('Appendix', 'Appendix'), ], default='apartment')
-    
+
     property_type = fields.Selection([
         ('ownership', 'ownership'),
         ('rent', 'rent'),
         ('charitable', 'charitable'),
         ('ownership_shared', 'Ownership Shared'),
         ('rent_shared', 'Rent Shared')])
-    
+
     exchange_period = fields.Selection(
         [
             ('monthly', 'Monthly'),
@@ -340,24 +367,27 @@ class MemberHouse(models.Model):
 
     accommodation_attachments = fields.Binary(string="Accommodation Attachments", attachment=True)
 
-    benefit_id = fields.Many2one('grant.benefit', string="Profile", related='member_id.benefit_id' , store=True)
+    benefit_id = fields.Many2one('grant.benefit', string="Profile", related='member_id.benefit_id', store=True)
+
 
 class DetaineeFile(models.Model):
     _name = 'detainee.file'
     _description = 'Detainee File'
     _inherit = ['mail.thread', 'mail.activity.mixin']
 
-    name = fields.Char(string="code", readonly=True, copy=False,default=lambda self: _('New'))
+    name = fields.Char(string="code", readonly=True, copy=False, default=lambda self: _('New'))
     detainee_id = fields.Many2one('family.member', string="Detainee", required=True)
     detainee_status = fields.Selection([
         ('convicted', 'Convicted'),
         ('non_convicted', 'Non-Convicted'),
         ('released', 'Released')
-    ], string="Detainee Status", required=True, tracking=True,default='non_convicted')
+    ], string="Detainee Status", required=True, tracking=True, default='non_convicted')
 
-    arrest_date = fields.Date(string="Arrest Date", required=True,)
+    arrest_date = fields.Date(string="Arrest Date", required=True, )
+    record_start_date = fields.Date(string="Start Date",default=fields.Date.today)
+    record_end_date = fields.Date(string="End Date",)
     expected_release_date = fields.Date(string="Expected Release Date")
-    issues_ids = fields.One2many('issues.information', 'detainee_id', string='issues information')
+    issues_ids = fields.One2many('issues.information', 'detainee_id')
 
     state = fields.Selection([
         ('draft', 'Draft'),
@@ -371,7 +401,24 @@ class DetaineeFile(models.Model):
 
     prison_id = fields.Many2one('res.prison', string="Prison")
 
-    cancel_reason: fields.Text = fields.Text(string="Rejection Reason", tracking=True,copy=False)
+    cancel_reason: fields.Text = fields.Text(string="Rejection Reason", tracking=True, copy=False)
+
+
+    def action_open_family_files(self):
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'ملفات الأسرة',
+            'res_model': 'grant.benefit',
+            'view_mode': 'kanban,form',
+        'views': [
+            (self.env.ref('trahum_benefits.view_family_kanban_custom').id, 'kanban'),
+            (self.env.ref('trahum_benefits.view_grant_benefit_form').id, 'form'),
+        ],
+            # 'view_id': self.env.ref('trahum_benefits.view_family_kanban_custom').id,
+            'domain': [('detainee_file_id', '=', self.id)],
+            'target': 'current',
+        }
 
     # Restrict deletion & modification based on status
     def unlink(self):
@@ -380,14 +427,27 @@ class DetaineeFile(models.Model):
                 raise UserError(_("You can only delete records in Preliminary state."))
         return super(DetaineeFile, self).unlink()
 
-    def write(self, vals):
-        for record in self:
-            if record.state != 'draft':
-                raise UserError(_("You can only modify records in Preliminary state."))
-        return super(DetaineeFile, self).write(vals)
+    @api.model
+    def fields_view_get(self, view_id=None, view_type=False, toolbar=False, submenu=False):
+        res = super(DetaineeFile, self).fields_view_get(view_id=view_id, view_type=view_type, toolbar=toolbar,submenu=submenu)
+        doc = etree.XML(res['arch'])
+        if view_type == 'form':
+            for node in doc.xpath("//field"):
+                modifiers = json.loads(node.get("modifiers"))
+                if 'readonly' not in modifiers:
+                    modifiers['readonly'] = [('state', 'not in', ['draft'])]
+                else:
+                    if type(modifiers['readonly']) != bool:
+                        modifiers['readonly'].insert(0, '|')
+                        modifiers['readonly'].append(('state', 'not in', ['draft']))
+                node.set("modifiers", json.dumps(modifiers))
+                res['arch'] = etree.tostring(doc)
+        return res
+
 
     def action_confirm(self):
         self.state = 'confirmed'
+
 
     def action_cancel(self):
         """Open a wizard to enter the rejection reason."""
@@ -400,8 +460,10 @@ class DetaineeFile(models.Model):
             'context': {'default_record_id': self.id}
         }
 
+
     def reset_to_draft(self):
         self.state = 'draft'
+
 
     def name_get(self):
         result = []

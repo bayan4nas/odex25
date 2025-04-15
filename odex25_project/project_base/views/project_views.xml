@@ -81,8 +81,7 @@
                         <field name="to_invoice" invisible="1" />
                         <field name="status" attrs="{'invisible':[('active','=',True)],'readonly':True}" />
                         <field name="category_id" options="{'no_create': True}" attrs="{'readonly':[('state','not in',['draft','confirm'])],'required':[('state','not in',['draft'])]}" />
-                        <field name="partner_id" string="Partner" attrs="{'readonly':[('state','not in',['draft','confirm'])],'required':True}" />
-
+                        <field name="partner_id" string="Partner" attrs="{'readonly':[('state','not in',['draft','confirm'])],'required':True}" options="{'no_create': True}" widget="many2one" domain="[('is_company', '=', True)]" context="{'no_create': True}"/>
                         <field name="consultant_id" attrs="{'readonly':[('state','not in',['draft','confirm'])]}" />
                         <field name="beneficiary_id" attrs="{'readonly':[('state','not in',['draft','confirm'])]}" />
                         <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}" />
@@ -191,8 +190,8 @@
             <xpath expr="//page[@name='description_page']" position="after">
                 <page  string="Completion Certificate">
                             <field name="completion_certificate_ids">
-                                <tree editable="bottom">
-                                    <field name="name_certificate" />
+                                <tree >
+                                    <field name="name" />
                                     <field name="phase_id4" />
                                     <field name="attachment"/>
                                     <field name="description"/>
