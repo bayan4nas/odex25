@@ -70,8 +70,15 @@ class ForwardTransactionWizard(models.TransientModel):
         from_id = self.env['cm.entity'].search([('user_id', '=', self.env.uid)], limit=1)
         transaction.is_forward = True
         if self.forward_attachment_id:
+            attachment = self.env['ir.attachment'].create({
+                'name': self.filename or 'Forwarded Attachment',
+                'type': 'binary',
+                'datas': self.forward_attachment_id,
+                'res_model': 'forward.transaction.wizard',  # Should be the target model, not the wizard
+                'res_id': transaction.id,  # ID of the actual transaction model
+            })
             transaction.attachment_rule_ids.create({
-                'file_save': self.forward_attachment_id,
+                'file_save': [(6, 0, [attachment.id])],
                 'name': transaction.id,
                 'description': self.att_description,
                 'attachment_filename': self.filename,
