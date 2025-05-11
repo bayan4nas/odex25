@@ -19,7 +19,7 @@ class AccountMove(models.Model):
 class AccountPayment(models.Model):
     _inherit = "account.payment"
 
-    state = fields.Selection(selection=[ ('draft', 'Department Manager'), ('depart_manager', 'Accounting Manager'), ('accounting_manager', 'Sector Head Approval'), ('sector_head_approval', 'General Manager'), ('general_manager', 'Confirm'), ('posted', 'Posted'), ('cancel', 'Cancelled'),],
+    state = fields.Selection(selection=[ ('draft', 'Draft'), ('depart_manager', 'Accounting Manager'), ('accounting_manager', 'Sector Head Approval'), ('sector_head_approval', 'General Manager'), ('general_manager', 'Confirm'), ('posted', 'Posted'), ('cancel', 'Cancelled'),],
                              default='draft', string='Status', required=True, readonly=True, copy=False, tracking=True)
     state_history = fields.Char(string='State History', default='draft')
     analytic_account_id = fields.Many2one(comodel_name='account.analytic.account', string='Analytic Account', copy=True)
@@ -81,29 +81,29 @@ class AccountPayment(models.Model):
             payment.state_history = 'cancel'
         return res
 
-    def action_depart_manager(self):
-        self._check_permission('odex25_account_payment_fix.group_depart_manager')
-        self.state_history = self.state
-        self.state = 'depart_manager'
+    # def action_depart_manager(self):
+    #     self._check_permission('odex25_account_payment_fix.group_depart_manager')
+    #     self.state_history = self.state
+    #     self.state = 'depart_manager'
 
-    def action_accounting_manager(self):
-        self._check_permission('odex25_account_payment_fix.group_accounting_manager')
-        self.state_history = self.state
-        self.state = 'accounting_manager'
+    # def action_accounting_manager(self):
+    #     self._check_permission('odex25_account_payment_fix.group_accounting_manager')
+    #     self.state_history = self.state
+    #     self.state = 'accounting_manager'
 
-    def action_general_manager(self):
-        if self.payment_type == 'outbound':
-            self._check_permission('odex25_account_payment_fix.group_general_manager')
-        res = super(AccountPayment, self).action_post()
-        for payment in self:
-            payment.state = 'posted'
-            if payment.analytic_account_id and payment.move_id:
-                for line in payment.move_id.line_ids:
-                    if line.account_id.id == payment.destination_account_id.id:
-                        line.analytic_account_id = payment.analytic_account_id.id
-        return res
+    # def action_general_manager(self):
+    #     if self.payment_type == 'outbound':
+    #         self._check_permission('odex25_account_payment_fix.group_general_manager')
+    #     res = super(AccountPayment, self).action_post()
+    #     for payment in self:
+    #         payment.state = 'posted'
+    #         if payment.analytic_account_id and payment.move_id:
+    #             for line in payment.move_id.line_ids:
+    #                 if line.account_id.id == payment.destination_account_id.id:
+    #                     line.analytic_account_id = payment.analytic_account_id.id
+    #     return res
 
-    def action_sector_head_approval(self):
-        self._check_permission('hr_trahum.group_sector_head_approval')
-        self.state_history = self.state
-        self.state = 'sector_head_approval'
+    # def action_sector_head_approval(self):
+    #     self._check_permission('hr_trahum.group_sector_head_approval')
+    #     self.state_history = self.state
+    #     self.state = 'sector_head_approval'

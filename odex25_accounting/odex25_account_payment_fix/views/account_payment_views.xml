@@ -20,25 +20,25 @@
             <xpath expr="//header" position="replace">
                 <header attrs="{'invisible':[('payment_type','!=','outbound')]}">
                     <button name="action_draft" type="object" string="Set to Draft" states="cancel"
-                            class="oe_highlight"/>
-                    <button name="action_depart_manager" type="object" string="Department Manager" states="draft"
-                            groups="odex25_account_payment_fix.group_depart_manager" class="oe_highlight"/>
-                    <button name="action_accounting_manager" type="object" string="Accounting Manager"
-                            states="depart_manager" groups="odex25_account_payment_fix.group_accounting_manager"
-                            class="oe_highlight"/>
-                    <button name="action_sector_head_approval" type="object" string="Sector Head Approval"
-                            states="accounting_manager" class="oe_highlight" groups="hr_trahum.group_sector_head_approval"/>
-                    <button name="action_general_manager" type="object" string="General Manager"
-                            states="sector_head_approval" groups="odex25_account_payment_fix.group_general_manager"
-                            class="oe_highlight"/>
-                    <button name="action_post" type="object" string="Posted" states="general_manager"
+                            class="oe_highlight" />
+<!--                    <button name="action_depart_manager" type="object" string="Department Manager" states="draft"-->
+<!--                            groups="odex25_account_payment_fix.group_depart_manager" class="oe_highlight"/>-->
+<!--                    <button name="action_accounting_manager" type="object" string="Accounting Manager"-->
+<!--                            states="depart_manager" groups="odex25_account_payment_fix.group_accounting_manager"-->
+<!--                            class="oe_highlight"/>-->
+<!--                    <button name="action_sector_head_approval" type="object" string="Sector Head Approval"-->
+<!--                            states="accounting_manager" class="oe_highlight" groups="hr_trahum.group_sector_head_approval"/>-->
+<!--                    <button name="action_general_manager" type="object" string="General Manager"-->
+<!--                            states="sector_head_approval" groups="odex25_account_payment_fix.group_general_manager"-->
+<!--                            class="oe_highlight"/>-->
+                    <button name="action_post" type="object" string="Posted" states="draft"
                             groups="odex25_account_payment_fix.group_posted" class="oe_highlight"/>
                     <button name="action_cancel" type="object" string="Cancel"
                             groups="odex25_account_payment_fix.group_cancel"
                             states="draft,depart_manager,accounting_manager,general_manager,posted"
                             class="oe_highlight"/>
                     <field name="state" widget="statusbar"
-                           statusbar_visible="draft,depart_manager,accounting_manager,sector_head_approval,general_manager,posted"/>
+                           statusbar_visible="draft,posted"/>
                 </header>
                 <header attrs="{'invisible':[('payment_type','=','outbound')]}">
                     <button name="action_draft" type="object" string="Set to Draft" states="cancel"
