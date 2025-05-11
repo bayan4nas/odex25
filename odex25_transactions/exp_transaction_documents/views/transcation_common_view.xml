@@ -40,7 +40,8 @@
                                        attrs="{'required':True,'readonly':[('state','not in', ['draft'])]}"/>
                             </group>
                             <group>
-                                <field name="transaction_date" attrs="{'required':True,'readonly':[('state','not in', ['draft'])]}"/>
+                                <field name="transaction_date"
+                                       attrs="{'required':True,'readonly':[('state','not in', ['draft'])]}"/>
                                 <field name="transaction_date_hijri"/>
                                 <field name="receive_id" invisible="1"/>
                                 <field name="receive_manger_id" invisible="1"/>
@@ -59,7 +60,8 @@
                     </sheet>
                     <div class="oe_chatter">
                         <field name="message_follower_ids" widget="mail_followers"/>
-                        <field name="message_ids" widget="mail_thread" options="{'resize': True, 'crop': True}" class="oe_avatar"/>
+                        <field name="message_ids" widget="mail_thread" options="{'resize': True, 'crop': True}"
+                               class="oe_avatar"/>
                     </div>
                 </form>
             </field>
@@ -75,7 +77,7 @@
                            attrs="{'required':True,'readonly':[('state','not in', ['draft'])]}"
                            domain="[('type', 'in', ['unit','employee'])]" options="{'no_create':True,'no_open':True}"/>
                     <field name="tran_tag" widget="many2many_tags"
-                            options="{'no_create':True}" attrs="{'readonly':[('state','not in', ['draft'])]}"/>
+                           options="{'no_create':True}" attrs="{'readonly':[('state','not in', ['draft'])]}"/>
                 </xpath>
                 <xpath expr="//field[@name='important_id']" position="after">
                     <field name="project_domain" widget="many2many_tags"
@@ -111,7 +113,8 @@
                                        attrs="{'required':[('type','in',['reply','forward'])],'invisible':[('type','not in',['reply', 'forward'])],'readonly':[('state','not in',['draft'])]}">
                                     <tree name="">
                                         <field name="name"/>
-                                        <field name="subject"/>
+                                        <field name="subject" invisible="1"/>
+                                        <field name="cm_subject"/>
                                         <field name="transaction_date"/>
                                         <field name="to_ids"/>
                                     </tree>
@@ -124,13 +127,15 @@
                                         <field name="entity_id" readonly="True"/>
                                         <field name="date" readonly="True"/>
                                         <field name="description" required="False"/>
-                                        <field name="file_save"   filename="attachment_filename" widget="many2many_attachment_preview"/>
-                                         <button name="action_signature"
-                                            type="object"
-                                            string="Sign"
-                                            class="btn-link"
-                                            icon="fa-signature" attrs="{'invisible':['|',('signed','=',True), ('created_from_system', '!=', True)]}"/>
-                                         <field name="signed"/>
+                                        <field name="file_save" filename="attachment_filename"
+                                               widget="many2many_attachment_preview"/>
+                                        <button name="action_signature"
+                                                type="object"
+                                                string="Sign"
+                                                class="btn-link"
+                                                icon="fa-signature"
+                                                attrs="{'invisible':['|',('signed','=',True), ('created_from_system', '!=', True)]}"/>
+                                        <field name="signed"/>
                                         <field name="external_drive_link" widget="url"/>
                                         <field name="attachment_filename" invisible="True"/>
                                         <field name="created_from_system" invisible="1"/>
@@ -191,7 +196,7 @@
                     <field name="partner_id"/>
                 </xpath>
                 <xpath expr="//field[@name='subject']" position="after">
-                    <field name="to_ids"  domain="[('type', 'in', ['employee','unit'])]"
+                    <field name="to_ids" domain="[('type', 'in', ['employee','unit'])]"
                            options="{'no_create':True,'no_open':True}"/>
                 </xpath>
                 <xpath expr="//field[@name='transaction_date_hijri']" position="after">
@@ -219,7 +224,8 @@
                                        attrs="{'required':[('type','in',['reply','forward'])],'invisible':[('type','not in',['reply', 'forward'])],'readonly':[('state','not in',['draft'])]}">
                                     <tree name="">
                                         <field name="name"/>
-                                        <field name="subject"/>
+                                        <field name="subject" invisible="1"/>
+                                        <field name="cm_subject"/>
                                         <field name="transaction_date"/>
                                         <field name="to_ids"/>
                                     </tree>
@@ -228,7 +234,8 @@
                                        attrs="{'required':[('type','in',['reply','forward'])],'invisible':[('type','not in',['reply', 'forward'])],'readonly':[('state','not in',['draft'])]}">
                                     <tree name="">
                                         <field name="name"/>
-                                        <field name="subject"/>
+                                        <field name="subject" invisible="1"/>
+                                        <field name="cm_subject"/>
                                         <field name="transaction_date"/>
                                         <field name="to_ids"/>
                                     </tree>
@@ -241,12 +248,14 @@
                                         <field name="entity_id" readonly="True"/>
                                         <field name="date" readonly="True"/>
                                         <field name="description" required="False"/>
-                                        <field name="file_save" filename="attachment_filename" widget="many2many_attachment_preview"/>
+                                        <field name="file_save" filename="attachment_filename"
+                                               widget="many2many_attachment_preview"/>
                                         <button name="action_signature"
-                                            type="object"
-                                            string="Sign"
-                                            class="btn-link"
-                                            icon="fa-signature" attrs="{'invisible':['|',('signed','=',True), ('created_from_system', '!=', True)]}"/>
+                                                type="object"
+                                                string="Sign"
+                                                class="btn-link"
+                                                icon="fa-signature"
+                                                attrs="{'invisible':['|',('signed','=',True), ('created_from_system', '!=', True)]}"/>
                                         <field name="signed"/>
                                         <field name="external_drive_link" widget="url"/>
                                         <field name="attachment_filename" invisible="True"/>
@@ -308,7 +317,7 @@
                     <attribute name="invisible">1</attribute>
                 </xpath>
                 <xpath expr="//field[@name='subject']" position="after">
-                    <field name="to_ids"  options="{'no_create':True,'no_open':True}"
+                    <field name="to_ids" options="{'no_create':True,'no_open':True}"
                            attrs="{'required':True,'readonly':[('state','not in', ['draft'])]}"
                            domain="[('type', '=', 'external')]"/>
                     <field name="to_name" attrs="{'readonly':[('state','not in', ['draft'])]}"/>
@@ -340,7 +349,8 @@
                                        attrs="{'required':[('type','in',['reply','forward'])],'invisible':[('type','not in',['reply', 'forward'])],'readonly':[('state','not in',['draft'])]}">
                                     <tree name="">
                                         <field name="name"/>
-                                        <field name="subject"/>
+                                        <field name="subject" invisible="1"/>
+                                        <field name="cm_subject"/>
                                         <field name="transaction_date"/>
                                         <field name="to_ids"/>
                                     </tree>
@@ -349,7 +359,8 @@
                                        attrs="{'required':[('type','in',['reply','forward'])],'invisible':[('type','not in',['reply', 'forward'])],'readonly':[('state','not in',['draft'])]}">
                                     <tree name="">
                                         <field name="name"/>
-                                        <field name="subject"/>
+                                        <field name="subject" invisible="1"/>
+                                        <field name="cm_subject"/>
                                         <field name="transaction_date"/>
                                         <field name="to_ids"/>
                                     </tree>
@@ -362,12 +373,14 @@
                                         <field name="entity_id" readonly="True"/>
                                         <field name="date" readonly="True"/>
                                         <field name="description" required="False"/>
-                                        <field name="file_save" filename="attachment_filename" widget="many2many_attachment_preview"/>
+                                        <field name="file_save" filename="attachment_filename"
+                                               widget="many2many_attachment_preview"/>
                                         <button name="action_signature"
-                                            type="object"
-                                            string="Sign"
-                                            class="btn-link"
-                                            icon="fa-signature" attrs="{'invisible':['|',('signed','=',True), ('created_from_system', '!=', True)]}"/>
+                                                type="object"
+                                                string="Sign"
+                                                class="btn-link"
+                                                icon="fa-signature"
+                                                attrs="{'invisible':['|',('signed','=',True), ('created_from_system', '!=', True)]}"/>
                                         <field name="signed"/>
                                         <field name="external_drive_link" widget="url"/>
                                         <field name="attachment_filename" invisible="True"/>
