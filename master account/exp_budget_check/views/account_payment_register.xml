@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Inherit Form View to Modify it -->
+        <record id="view_account_payment_register_form_inherit" model="ir.ui.view">
+            <field name="name">view_account_payment_register_form_inherit</field>
+            <field name="model">account.payment.register</field>
+            <field name="inherit_id" ref="account.view_account_payment_register_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='journal_id']" position="after">
+                    <!-- Add your fields or attributes here -->
+                    <field name='line_ids' widget="many2many_tags"/>
+                    <field name="move_id"/>
+                </xpath>
+
+            </field>
+        </record>
+    </data>
+</odoo>
