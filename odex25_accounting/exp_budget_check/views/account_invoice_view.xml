@@ -52,24 +52,20 @@
         <field name="arch" type="xml">
 
             <button name="action_register_payment" position="attributes">
-                <attribute name="groups">exp_budget_check.group_cashier_accountant</attribute>
+                <attribute name="groups">exp_budget_check.group_asset_head_department,odex25_account_payment_fix.group_accounting_manager,odex25_account_payment_fix.group_general_manager</attribute>
             </button>
-            <field name="partner_id" position="attributes">
-                <attribute name="required">1</attribute>
-            </field>
 
             <xpath expr="//button[2]" position="replace">
-                <!--                <button name="action_post" string="Confirm" class="oe_highlight"-->
-                <!--                        type="object" groups="account.group_account_invoice"-->
-                <!--                        attrs="{'invisible': ['|', '|', ('state', '!=', 'draft'), ('auto_post', '=', True),-->
-                <!--                                 ('move_type', 'in', ('entry','in_invoice'))]}" />-->
-                <button name="action_accountant" type="object" string="Accountant" class="oe_highlight"
-                        attrs="{'invisible': [('state', '!=', 'draft')]}"
-                        groups="exp_budget_check.group_asset_accountant"/>
-                <!--                 <button name="action_head_of_department" type="object" string="Head of department" class="oe_highlight"-->
-                <!--                   attrs="{'invisible': ['|', '|', ('state', '!=', 'head_department'),-->
-                <!--                                         ('auto_post', '=', True),-->
-                <!--                                         ('move_type', 'in', ('entry', 'in_invoice'))]}" groups="exp_budget_check.group_asset_head_department"/>-->
+<!--                <button name="action_post" string="Confirm" class="oe_highlight"-->
+<!--                        type="object" groups="account.group_account_invoice"-->
+<!--                        attrs="{'invisible': ['|', '|', ('state', '!=', 'draft'), ('auto_post', '=', True),-->
+<!--                                 ('move_type', 'in', ('entry','in_invoice'))]}" />-->
+                  <button name="action_accountant" type="object" string="Accountant" class="oe_highlight"
+                   attrs="{'invisible': [('state', '!=', 'draft')]}" groups="exp_budget_check.group_asset_accountant"/>
+                 <button name="action_head_of_department" type="object" string="Head department" class="oe_highlight"
+                   attrs="{'invisible': ['|', '|', ('state', '!=', 'head_department'),
+                                         ('auto_post', '=', True),
+                                         ('move_type', 'in', ('entry', 'in_invoice'))]}" groups="exp_budget_check.group_asset_head_department"/>
             </xpath>
 
 
@@ -79,18 +75,8 @@
                         invisible="1" groups="exp_budget_check.group_asset_accountant"/>
 
 
-                <button name="action_department" type="object" string="head of department" class="oe_highlight"
-                        attrs="{'invisible': [('state', 'not in', ('head_department','accountant'))]}"
-                        groups="odex25_account_payment_fix.group_depart_manager"/>
-                <button name="set_to_accountant" type="object" string="Set To Accountant"
-                        class="oe_highlight" attrs="{'invisible': [('state', 'not in', ('head_department'))]}"/>
-                <button name="set_to_head_department" type="object"
-                        string="Set To Head Department" attrs="{'invisible': [('state', 'not in', ('financial_manager'))]}" class="oe_highlight"/>
-                <button name="set_to_financial_manager" type="object"
-                        string="Set To Financial Manager" attrs="{'invisible': [('state', 'not in', ('sector_manager'))]}" class="oe_highlight"/>
-                <button name="set_to_sector_manager" type="object"
-                        string="Set To Sector Manager" attrs="{'invisible': [('state', 'not in', ('general_secretary'))]}" class="oe_highlight"/>
-
+                   <button name="action_department" type="object" string="head of department" class="oe_highlight"
+                   attrs="{'invisible': [('state', 'not in', ('head_department','accountant'))]}" groups="exp_budget_check.group_asset_head_department"/>
                 <button name="action_budget" type="object" string="Check Budget" class="oe_highlight"
                         attrs="{'invisible': ['|','|',('move_type', '!=', 'in_invoice'), ('state', '!=', 'confirm'),('hide_budget','=',True)]}"/>
                 <button name="action_post" string="Confirm" class="oe_highlight"
@@ -104,7 +90,7 @@
                 <button name="action_open_related_payment_records" type="object"
                         class="oe_stat_button" icon="fa-money"
                         attrs="{'invisible': [('move_type', '!=', 'in_invoice')]}">
-                    <field name="rec_payment_count" widget="statinfo" string="المدفوعات"/>
+                    <field name="rec_payment_count" widget="statinfo" string="سند صرف"/>
                 </button>
             </xpath>
 
