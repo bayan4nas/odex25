@@ -13,7 +13,7 @@
         </field>
     </record>
 
-    <record model="ir.ui.view" id="view_crossovered_budget_line_tree">
+        <record model="ir.ui.view" id="view_crossovered_budget_line_tree">
         <field name="name">crossovered.budget.lines.inherit.tree</field>
         <field name="model">crossovered.budget.lines</field>
         <field name="inherit_id" ref="account_budget_custom.view_crossovered_budget_line_tree"/>
@@ -37,8 +37,5 @@
         <field name="domain">[('type','=','purchase.request')]</field>
     </record>
     <menuitem action="action_budget_confirmation_form" id="menu_budget_confirmation"
-              parent="account_budget_custom.main_budgets_menu" sequence="5"
-              groups="account_budget_custom.group_user_budget_department,account_budget_custom.group_manager_budget_organization"/>
+              parent="account_budget_custom.main_budgets_menu" sequence="5"/>
 </odoo>
-
-
