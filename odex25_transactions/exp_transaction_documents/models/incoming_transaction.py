@@ -129,7 +129,7 @@ class IncomingTransaction(models.Model):
                 transaction.last_received_entity_id = last_track.to_id.id
                 transaction.last_sender_entity_id = last_track.from_id.id
                 transaction.last_sender_label = last_track.from_label
-
+                transaction.cm_subject = last_track.procedure_id
             else:
                 transaction.last_received_entity_id = False
                 transaction.last_sender_entity_id = False

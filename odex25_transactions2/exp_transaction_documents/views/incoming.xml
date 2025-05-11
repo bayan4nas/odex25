@@ -19,8 +19,8 @@
                     <field name="tran_tag" string="tag" filter_domain="[('tran_tag','ilike',self)]"/>
                     <field name="is_reade"/>
                     <field name="is_favorite"/>
-                     <filter string="Subject Type" name="subject_type" domain="[('subject_type_id','=',False)]"/>
-                     <filter string="State" name="state"   domain="[('state', 'in', ('complete','draft'))]"/>
+                    <filter string="Subject Type" name="subject_type" domain="[('subject_type_id','=',False)]"/>
+                    <filter string="State" name="state" domain="[('state', 'in', ('complete','draft'))]"/>
                     <field name="seen_user_ids" invisible="1"/>
                     <filter string="Unread Transaction" name="unread" domain="[('seen_user_ids','!=',uid)]"/>
                     <filter string="Late Transactions" name="lates" domain="[
@@ -30,7 +30,8 @@
                     <filter string="Favorite" name="favorite" domain="[('is_favorite','=','1')]"/>
                     <group expand="1" string="Group By">
                         <filter string="State" name="group_by_state" context="{'group_by':'state'}"/>
-                        <filter string="Subject Type" name="group_by_subject_type" context="{'group_by':'subject_type_id'}"/>
+                        <filter string="Subject Type" name="group_by_subject_type"
+                                context="{'group_by':'subject_type_id'}"/>
                     </group>
                     <!--                    <group expand="0" string="Group By">-->
                     <!--                        <filter name="group_manager" string="Manager" domain="[]" context="{'group_by':'parent_id'}"/>-->
@@ -53,7 +54,8 @@
                     <field name="name"/>
                     <field name="incoming_number"/>
                     <field name="transaction_date" optional="hide"/>
-                    <field name="subject"/>
+                    <field name="subject" invisible="1"/>
+                    <field name="cm_subject"/>
                     <field name="project_id"/>
                     <field name="sale_order_id"/>
                     <field name="subject_type_id" optional="hide"/>
@@ -111,9 +113,9 @@
                 <xpath expr="//tree" position="attributes">
                     <attribute name="create">true</attribute>
                 </xpath>
-<!--                <xpath expr="//to_ids" position="before">-->
-<!--                    <field name="create_uid" string="Send From"/>-->
-<!--                </xpath>-->
+                <!--                <xpath expr="//to_ids" position="before">-->
+                <!--                    <field name="create_uid" string="Send From"/>-->
+                <!--                </xpath>-->
             </field>
         </record>
 
