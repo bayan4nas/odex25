@@ -1102,9 +1102,13 @@ class HrSalaryRuleAndLoansLines(models.Model):
             emp_type = rec.allowance_deduction_inverse_id.employee_id.employee_type_id
             if rec.category_id.rule_type=='allowance':
                account_debit = rec.salary_rule_id.get_debit_account_id(emp_type)
+               if not account_debit:
+                  raise exceptions.Warning(_('Sorry The Allowance %s is Not account Set') % rec.salary_rule_id.name)
                rec.account_debit_id = account_debit.id
             if rec.category_id.rule_type=='deduction':
                account_credit = rec.salary_rule_id.get_credit_account_id(emp_type)
+               if not account_credit:
+                  raise exceptions.Warning(_('Sorry The Deduction %s is Not account Set') % rec.salary_rule_id.name)
                rec.account_credit_id = account_credit.id
 
  
