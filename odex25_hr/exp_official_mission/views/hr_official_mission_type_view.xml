@@ -29,6 +29,9 @@
                                 <field name="duration_type" string="Duration type"/>
                                 <field name="maximum_days" string="Maximum days"
                                        attrs="{'invisible':[('duration_type','!=','days')]}"/>
+                                <field name="max_days_year" string="Max Days Year" 
+                                       attrs="{'invisible':['|',('duration_type','!=','days'),('related_with_financial','!=',True)]}"/>
+
                                 <field name="max_request_number" attrs="{'invisible':[('duration_type','!=','days')]}"/>
                                 <field name="total_months" attrs="{'invisible':[('duration_type','!=','days')]}"/>
 
@@ -58,14 +61,28 @@
                                 <field name="max_amount" string="Maximum Amount"
                                        attrs="{'invisible':[('related_with_financial','=',False)],'required':[('related_with_financial','=',True)]}"/>
 
-                                <separator string="Accounting"
-                                           attrs="{'invisible':[('related_with_financial','=',False)]}"/>
-                                <field name="account_id" string="Account"
-                                       attrs="{'invisible':[('related_with_financial','=',False)],'required':[('related_with_financial','=',True)]}"/>
-                                <field name="journal_id" string="Journal"
-                                       attrs="{'invisible':[('related_with_financial','=',False)],'required':[('related_with_financial','=',True)]}"/>
                             </group>
                         </group>
+
+                    <notebook>
+                    <page string="Accounting Info">
+                        <group>
+                            <field name="transfer_by_emp_type" />
+                            <field name="journal_id" string="Journal"
+                                       attrs="{'required':[('related_with_financial','=',True)]}"/>
+                            <field name="account_id" string="Account"
+                                   attrs="{'required':[('related_with_financial','=',True),('transfer_by_emp_type', '=', False)],
+                                           'invisible' : [('transfer_by_emp_type', '=', True)]}"/>
+
+                        </group>
+                        <field name="account_ids" attrs="{'invisible' : [('transfer_by_emp_type', '=', False)]}">
+                            <tree editable="bottom">
+                                <field name="emp_type_id"/>
+                                <field name="debit_account_id"/>
+                            </tree>
+                        </field>
+                      </page>
+                     </notebook>
                     </sheet>
                 </form>
             </field>
