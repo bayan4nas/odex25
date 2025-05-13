@@ -20,6 +20,7 @@ class HrTermination(models.Model):
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _rec_name = 'employee_id'
     _description = 'Termination'
+    _order = 'last_work_date asc'
 
     # default compute function
     def _get_employee_id(self):
@@ -166,9 +167,9 @@ class HrTermination(models.Model):
                 cron_run_date = datetime.strptime(str(leave.holiday_ids[-1].cron_run_date), "%Y-%m-%d").date()
                 date_to_check = (datetime.utcnow() + timedelta(hours=3)).date()
                 last_working_date = datetime.strptime(str(rec.last_work_date), "%Y-%m-%d").date()
-                if cron_run_date < date_to_check:
-                    date_to_check = cron_run_date
-                to_work_days = (last_working_date - date_to_check).days
+                #if cron_run_date < date_to_check:
+                #    date_to_check = cron_run_date
+                #to_work_days = (last_working_date - date_to_check).days
 
                 first_hiring_date = datetime.strptime(str(leave.hiring_date), "%Y-%m-%d").date()
                 last_work_date = datetime.strptime(str(rec.last_work_date), "%Y-%m-%d").date()
@@ -178,22 +179,32 @@ class HrTermination(models.Model):
                     if item.date_from <= working_years < item.date_to:
                         holiday_duration = item.duration
                 ###get last cron date to compute leave_balance_date
-                to_work_days2 = 0
+                diff_days = 0
+                new_balance=0
+                """the last working date less than cron run date"""
                 if cron_run_date < last_working_date:
-                   to_work_days2 = (last_working_date - cron_run_date).days
+                   diff_days = (last_working_date - cron_run_date).days
+                   for i in range(1, diff_days + 1):
+                       cala_date = cron_run_date + timedelta(days=i)
+                       balance_day = leave.remaining_leaves_of_day_by_date(rec.employee_id, str(cala_date),
+                                       leave.holiday_status_id , is_month=False, is_years=False)
+                       new_balance = new_balance + balance_day
                 else:
-                   to_work_days2 = -(cron_run_date - last_working_date).days
-                upcoming_leave2 = leave.remaining_leaves_of_day_by_date(rec.employee_id, str(date_to_check),\
-                                  leave.holiday_status_id , is_month=False, is_years=False) * to_work_days2
+                   diff_days = -(cron_run_date - last_working_date).days
+                   for i in range(1, -diff_days + 1):
+                       cala_date = last_working_date + timedelta(days=i)
+                       balance_day = leave.remaining_leaves_of_day_by_date(rec.employee_id, str(cala_date),
+                                       leave.holiday_status_id , is_month=False, is_years=False)
+                       new_balance = new_balance - balance_day
                 ####################### END 
                 #upcoming_leave = ((holiday_duration / 12) / 30.39) * to_work_days
-                leave_balance = round(rec.employee_id.remaining_leaves + upcoming_leave2, 2)
+                leave_balance = round(rec.employee_id.remaining_leaves + new_balance, 2)
 
                 exceed_days = leave.holiday_status_id.number_of_save_days + holiday_duration
                 if leave_balance > exceed_days:
                     rec.leave_balance = exceed_days
                 else:
-                    rec.leave_balance = round(rec.employee_id.remaining_leaves + upcoming_leave2, 2)
+                    rec.leave_balance = round(rec.employee_id.remaining_leaves + new_balance, 2)
                 self._compute_holiday_amount()
 
     def current_date_hijri(self):
@@ -213,7 +224,7 @@ class HrTermination(models.Model):
                 days = item.employee_id.resource_calendar_id.work_days
                 day_amount = item.salary / days
                 holiday_amount = item.leave_balance * day_amount
-                item.leave_balance_money = holiday_amount
+                item.leave_balance_money = round(holiday_amount,2)
 
     @api.onchange('salary_termination')
     def _check_last_salary(self):
@@ -261,7 +272,7 @@ class HrTermination(models.Model):
         # If cause type have factor then multiply it in salary rule amount
         if self.cause_type and cause_type_factor == 1:
             if self.cause_type.allowance_id and self.cause_type_amount:
-                amount = self.cause_type_amount
+                amount = round(self.cause_type_amount,2)
         # If cause type have holiday then multiply it in salary rule holiday amount
         holiday_allow = self.cause_type.holiday_allowance
         holiday_deduc = self.cause_type.holiday_deduction
@@ -290,7 +301,7 @@ class HrTermination(models.Model):
         is_advantage = False
         advantages_out_rule = False
         try:
-            if self.employee_id.contract_id:
+            if self.employee_id.sudo().contract_id:
                 if advantages:
                     is_advantage = True
                     #TODO 
@@ -303,22 +314,21 @@ class HrTermination(models.Model):
                         
                     if advantages.type == 'exception':
                         amount = (self.compute_rule(rule,
-                                                    self.employee_id.contract_id) - advantages.amount) / paid_percentage
+                                                    self.employee_id.sudo().contract_id) - advantages.amount) / paid_percentage
                 else:
-                    amount = self.compute_rule(rule, self.employee_id.contract_id) / paid_percentage
+                    amount = self.compute_rule(rule, self.employee_id.sudo().contract_id) / paid_percentage
                 self.create_rule_line(rule, amount, items, is_advantage, cause_type_factor ,advantages_out_rule)
 
             else:
                 raise exceptions.Warning(_('Employee "%s" has no contract') % self.employee_id.name)
         except:
             raise UserError(_('Wrong quantity defined for salary Rule  " %s " ') % (rule.name))
-        return amount
+        return round(amount,2)
 
     # Compute salary rules
 
     def compute_rule(self, rule, contract):
         localdict = dict(employee=contract.employee_id, contract=contract)
-
         if rule.amount_select == 'percentage':
             total_percent = 0
             if rule.related_benefits_discounts:
@@ -437,12 +447,12 @@ class HrTermination(models.Model):
         self.allowance_deduction_ids = False
         rule_line = self.env['hr.salary.rule.line'].search([('allowance_deduction_inverse_id', '=', False)])
         if rule_line:
-            rule_line.unlink()
+           rule_line.sudo().unlink()
 
         # Get all advantages from contract
-        if self.contract_id:
-            if self.contract_id.advantages:
-                for item in self.contract_id.advantages:
+        if self.sudo().contract_id:
+            if self.sudo().contract_id.advantages:
+                for item in self.sudo().contract_id.advantages:
                     if item.date_from and item.amount > 0 and self.last_work_date:
                         td = datetime.now().strftime('%Y-%m-%d')
                         today = datetime.strptime(str(td), "%Y-%m-%d").date()
@@ -477,8 +487,10 @@ class HrTermination(models.Model):
                     rule = rule.browse([rule._origin.id])
                 self.compute_salary_rule(rule, items, duration_percentage, False, 0)
                 for item in items:
-                    if rule.id == item.get('salary_rule_id'):
-                        total += item.get('amount')
+                    if rule.id == item.get('salary_rule_id') and rule.category_id.rule_type =='allowance':
+                       total += item.get('amount')
+                    if rule.id == item.get('salary_rule_id') and rule.category_id.rule_type =='deduction':
+                       total -= item.get('amount')
             self.salary_for_eos += total
         else:
             self.salary_for_eos = 0.0
@@ -503,20 +515,21 @@ class HrTermination(models.Model):
                             rule_flag = False
                             for rule in self.cause_type.allowance_ids:
                                 rule_flag = False
-                                # Check if salary rule does  not duplicated when come from contract
-                                if items:
-                                    for record in items:
+                                # Check if salary rule does  not duplicated when come from contract and is allowance only
+                                if rule.category_id.rule_type =='allowance':
+                                   if items:
+                                      for record in items:
                                         
-                                        if record.get('salary_rule_id') == rule.id and record.get('is_advantage') is True and record.get('advantages_out_rule'):
-                                            total_rules += record.get('amount')
-                                            rule_flag = True
-                                        if record.get('salary_rule_id') == rule.id and record.get('is_advantage') is True and not record.get('advantages_out_rule'):
-                                            # Change salary rule value in "salary for eos" by that in contract that is duplicated
-                                            total_rules += record.get('amount') * duration_percentage
-                                            rule_flag = True
+                                          if record.get('salary_rule_id') == rule.id and record.get('is_advantage') is True and record.get('advantages_out_rule'):
+                                             total_rules += record.get('amount')
+                                             rule_flag = True
+                                          if record.get('salary_rule_id') == rule.id and record.get('is_advantage') is True and not record.get('advantages_out_rule'):
+                                             # Change salary rule value in "salary for eos" by that in contract that is duplicated
+                                             total_rules += record.get('amount') * duration_percentage
+                                             rule_flag = True
 
-                                if rule_flag is False:
-                                    total_rules += self.compute_rule(rule, self.employee_id.contract_id)
+                                   if rule_flag is False:
+                                      total_rules += self.compute_rule(rule, self.employee_id.sudo().contract_id)
                             reward_amount = 0
                             resedual = all_duration
                             line_amount = 0
@@ -537,7 +550,7 @@ class HrTermination(models.Model):
                                         resedual = 0
 
                             reward_amount = reward_amount * line_amount
-                            self.cause_type_amount = reward_amount
+                            self.cause_type_amount = round(reward_amount,2)
                             amount = self.compute_salary_rule(self.cause_type.allowance_id, items,
                                                               duration_percentage, False, 1)
                         if self.cause_type.holiday:
@@ -556,7 +569,7 @@ class HrTermination(models.Model):
         for item in items:
             if not item.get('is_advantage'):
                 lines_data.append(item)
-            for advantages in self.contract_id.advantages:
+            for advantages in self.sudo().contract_id.advantages:
                 if advantages.benefits_discounts.id == item.get('salary_rule_id') and advantages.out_rule:
                     lines_data.append(item)
             for rule in self.calculation_method :
@@ -582,7 +595,7 @@ class HrTermination(models.Model):
 
                             # Change salary rule value in "salary for eos" by that in contract that is duplicated
                             rule = self.env['hr.salary.rule'].browse(element.get('salary_rule_id'))
-                            self.salary_for_eos -= (self.compute_rule(rule,self.employee_id.contract_id) / duration_percentage)
+                            self.salary_for_eos -= (self.compute_rule(rule,self.employee_id.sudo().contract_id) / duration_percentage)
                             # self.salary_for_eos += record.get('amount')
         for line in lines_data:
            del line['advantages_out_rule']
@@ -591,6 +604,7 @@ class HrTermination(models.Model):
         # Compute total allowance ,deduction ,loans and net
         self._leave_balance()
         self._compute_deduction_allowance_total()
+        self.allowance_deduction_ids.get_account_ids()
 
     # default loans lines
     @api.onchange('employee_id')
@@ -692,7 +706,7 @@ class HrTermination(models.Model):
                 for line in item.loans_ids:
                     total += line.remaining_loan_amount
                 item.loans_total = total
-        item.total_loans = total
+        item.total_loans = round(total,2)
 
     # compute total allowance and deduction amount
     @api.onchange('allowance_deduction_ids')
@@ -712,8 +726,8 @@ class HrTermination(models.Model):
 
         self.deduction_total = total_deduction
         self.allowance_total = total_allowance
-        self.net = abs(self.allowance_total) - abs(self.deduction_total)
-        self.net -= abs(self.total_loans)
+        self.net = abs(round(self.allowance_total,2)) - abs(round(self.deduction_total,2))
+        self.net -= abs(round(self.total_loans,2))
 
     # Compute net
     # @api.depends('allowance_total')
@@ -748,11 +762,11 @@ class HrTermination(models.Model):
             # Check Employee contract to  Return employee to service
             if state == 'pay':
                 if item.employee_id.state == 'out_of_service':
-                    if item.employee_id.contract_id.state == 'end_contract':
+                    if item.employee_id.sudo().contract_id.state == 'end_contract':
                         item.employee_id.state = 'open'
                         item.employee_id.leaving_date = False
-                        item.employee_id.contract_id.state = 'program_directory'
-                        item.employee_id.contract_id.date_end = False
+                        item.employee_id.sudo().contract_id.state = 'program_directory'
+                        item.employee_id.sudo().contract_id.date_end = False
 
                 for loans in item.loans_ids:
                     for install in loans.deduction_lines:
@@ -849,7 +863,7 @@ class HrTermination(models.Model):
                 _('You can not create termination when missing clearance for Employee %s') % self.employee_id.name)
         if self.employee_id:
             #             self.employee_id.state = 'under_out_of_service'
-            self.employee_id.contract_id.state = 'end_contract'
+            self.employee_id.sudo().contract_id.state = 'end_contract'
         self.state = 'finance_manager'
 
     def general_manager(self):
@@ -879,36 +893,37 @@ class HrTermination(models.Model):
                             item.salary_rule_id.name))
 
                 # fill move lines with allowance deduction
+                amount = round(item.amount,2)
                 if item.category_id.rule_type == 'allowance':
                     line_vals.append({
-                        'name': ('Employee  %s  allowance.') % (self.employee_id.name),
-                        'debit': abs(item.amount),
+                        'name': item.salary_rule_id.name,
+                        'debit': abs(amount),
                         'account_id': item.account_debit_id.id,
                         'partner_id': self.employee_id.user_id.partner_id.id})
 
                 elif item.category_id.rule_type == 'deduction':
                     line_vals.append({
-                        'name': ('Employee  %s  deduction.') % (self.employee_id.name),
-                        'credit': abs(item.amount),
+                        'name': item.salary_rule_id.name,
+                        'credit': abs(amount),
                         'account_id': item.account_credit_id.id,
                         'partner_id': self.employee_id.user_id.partner_id.id})
                 else:
                     line_vals.append({
-                        'name': ('Employee  %s  rule.') % (self.employee_id.name),
-                        'debit': abs(item.amount),
+                        'name': item.salary_rule_id.name,
+                        'debit': abs(amount),
                         'account_id': item.account_debit_id.id,
                         'partner_id': self.employee_id.user_id.partner_id.id})
 
         for item in self.loans_ids:
             line_vals.append({
-                'name': ('Employee  %s  loans.') % (self.employee_id.name),
-                'credit': abs(item.remaining_loan_amount),
+                'name': item.request_type.name,
+                'credit': abs(round(item.remaining_loan_amount,2)),
                 'account_id': item.request_type.account_id.id,
                 'partner_id': self.employee_id.user_id.partner_id.id})
 
         line_vals.append({
-            'name': ('Employee  %s  Net.') % (self.employee_id.name),
-            'credit': abs(self.net),
+            'name': 'Total Net',
+            'credit': abs(round(self.net,2)),
             'account_id': self.journal.default_account_id.id,
             'partner_id': self.employee_id.user_id.partner_id.id})
 
@@ -917,7 +932,9 @@ class HrTermination(models.Model):
             'journal_id': self.journal.id,
             'date': date.today(),
             'ref': 'Termination of "%s" ' % self.employee_id.name,
-            'line_ids': [(0, 0, value) for value in line_vals]
+            'line_ids': [(0, 0, value) for value in line_vals],
+            'res_model': 'hr.termination',
+            'res_id': self.id
         })
 
         for item in self.loans_ids:
@@ -931,12 +948,12 @@ class HrTermination(models.Model):
         # update employee last work date
         if self.last_work_date:
             self.employee_id.write({'leaving_date': self.last_work_date})
-            self.employee_id.contract_id.write({'date_end': self.last_work_date})
+            self.employee_id.sudo().contract_id.write({'date_end': self.last_work_date})
         for item in self:
             # Change employee state when termination to "Out Of Service"
             # Change employee contract state to "End Contract"
             if item.employee_id:
-                item.employee_id.contract_id.state = 'end_contract'
+                item.employee_id.sudo().contract_id.state = 'end_contract'
                 item.employee_id.state = 'out_of_service'
         holiday_balance = self.env['hr.holidays'].search([('type', '=', 'add'),
                                                                   ('check_allocation_view', '=', 'balance'),
@@ -1076,7 +1093,18 @@ class HrSalaryRuleAndLoansLines(models.Model):
     salary_rule_id = fields.Many2one('hr.salary.rule')
     category_id = fields.Many2one('hr.salary.rule.category', related='salary_rule_id.category_id', readonly=True,
                                   required=False)
-    account_credit_id = fields.Many2one('account.account', related='salary_rule_id.rule_credit_account_id',
-                                        readonly=True, required=False)
-    account_debit_id = fields.Many2one('account.account', related='salary_rule_id.rule_debit_account_id', readonly=True,
-                                       required=False)
+    account_credit_id = fields.Many2one('account.account', required=False,store=True)
+    account_debit_id = fields.Many2one('account.account', required=False,store=True)
+
+    #get acoount IDs base on salary rule config
+    def get_account_ids(self):
+        for rec in self:
+            emp_type = rec.allowance_deduction_inverse_id.employee_id.employee_type_id
+            if rec.category_id.rule_type=='allowance':
+               account_debit = rec.salary_rule_id.get_debit_account_id(emp_type)
+               rec.account_debit_id = account_debit.id
+            if rec.category_id.rule_type=='deduction':
+               account_credit = rec.salary_rule_id.get_credit_account_id(emp_type)
+               rec.account_credit_id = account_credit.id
+
+ 
