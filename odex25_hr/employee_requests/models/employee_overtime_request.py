@@ -4,6 +4,7 @@ from datetime import datetime
 
 from odoo import models, fields, api, _, exceptions
 from odoo.exceptions import UserError
+import calendar
 
 # import logging
 
@@ -62,6 +63,20 @@ class employee_overtime_request(models.Model):
     def get_department_id(self):
         if self.employee_id:
             self.department_id = self.employee_id.department_id.id
+
+    @api.onchange('request_date','date_from')
+    def chick_date_request(self):
+        for rec in self:
+            days_after = rec.employee_id.contract_id.working_hours.request_after_day
+            if days_after > 0 and rec.date_from:
+               rec.date_to=False
+               date_from = datetime.strptime(str(rec.date_from), "%Y-%m-%d").date()
+               request_date = datetime.strptime(str(rec.request_date), "%Y-%m-%d").date()
+               last_day_date = date_from.replace(day=calendar.monthrange(date_from.year, date_from.month)[1])
+               diff_days = (request_date - last_day_date).days
+               if diff_days > days_after:
+                  raise exceptions.Warning(_(
+                        'Sorry, Cannot Be Request after %s Days From The End Of The Overtime Month') % days_after)
 
     #get account and journal from setting
     @api.onchange('transfer_type','employee_id')
@@ -146,6 +161,7 @@ class employee_overtime_request(models.Model):
         if not self.line_ids_over_time:
             raise exceptions.Warning(_('Sorry, Can Not Request without The Employees'))
         self.chick_not_mission()
+        self.line_ids_over_time.get_max_remain_hours()
         self.state = "submit"
 
     def direct_manager(self):
@@ -190,27 +206,39 @@ class employee_overtime_request(models.Model):
         if self.transfer_type == 'accounting':
             for item in self:
                 for record in item.line_ids_over_time:
+                    emp_type = record.employee_id.employee_type_id
+                    account_debit_id = record.employee_id.contract_id.working_hours.get_debit_overtim_account_id(emp_type)
+                    journal_id = record.employee_id.contract_id.working_hours.journal_overtime_id
+                    if not journal_id:
+                        raise exceptions.Warning(_('You Must Enter The Journal Name Overtim Setting.'))
+                    if not account_debit_id:
+                        raise exceptions.Warning(_('Employee %s, has no Overtime Account Setting Base On Employee Type.'
+                                                   ) % record.employee_id.name)
                     debit_line_vals = {
                         'name': record.employee_id.name,
                         'debit': record.price_hour,
-                        'account_id': item.account_id.id,
+                        'account_id': account_debit_id.id,
                         'partner_id': record.employee_id.user_id.partner_id.id
                     }
                     credit_line_vals = {
                         'name': record.employee_id.name,
                         'credit': record.price_hour,
-                        'account_id': item.journal_id.default_account_id.id,
+                        'account_id': journal_id.default_account_id.id,
                         'partner_id': record.employee_id.user_id.partner_id.id
                     }
-                    move = record.env['account.move'].create({
-                        'state': 'draft',
-                        'journal_id': item.journal_id.id,
-                        'date': item.request_date,
-                        'ref': record.employee_id.name,
-                        'line_ids': [(0, 0, debit_line_vals), (0, 0, credit_line_vals)]
-                    })
-
-                    record.move_id = move.id
+                    if not record.move_id:
+                       move = record.env['account.move'].create({
+                           'state': 'draft',
+                           'journal_id': journal_id.id,
+                           'date': item.request_date,
+                           'ref': record.employee_id.name,
+                           'line_ids': [(0, 0, debit_line_vals), (0, 0, credit_line_vals)],
+                           'res_model': 'employee.overtime.request',
+                           'res_id': self.id
+                       })
+                       record.account_id = account_debit_id.id
+                       record.journal_id = journal_id.id
+                       record.move_id = move.id
             self.state = "validated"
         if self.transfer_type == 'payroll':
             # last_day_of_current_month = date.today().replace(day=calendar.monthrange(date.today().year, date.today().month)[1])
@@ -294,11 +322,12 @@ class employee_overtime_request(models.Model):
                         mission = self.env['hr.official.mission.employee'].search(
                             [('employee_id', '=', line.employee_id.id), ('official_mission_id.state', '!=', 'refused'),
                              ('official_mission_id.mission_type.related_with_financial', '=', True),
-                             ('official_mission_id.mission_type.work_state', '=', 'legation'),
+                             #('official_mission_id.mission_type.work_state', '=', 'legation'),
                              '|', '|'] + clause_1 + clause_2 + clause_3)
                         if mission:
-                            raise exceptions.Warning(_('Sorry The Employee %s Actually Has Legation '
-                                                       'Amount For this Period') % line.employee_id.name)
+                           mission_name = mission.official_mission_id.mission_type.name
+                           raise exceptions.Warning(_('Sorry The Employee %s, Actually Has %s Amount For this Period.') % (line.employee_id.name,mission_name))
+
 
     # TOOO DOOO
     @api.onchange('overtime_plase', 'date_from', 'date_to', 'exception')
@@ -330,7 +359,8 @@ class HrEmployeeOverTime(models.Model):
 
     max_hours = fields.Float(compute='get_max_remain_hours', string="Max Hours", store=True)
     remaining_hours = fields.Float(compute='get_max_remain_hours', string="Remaining Hours", store=True)
-    exception = fields.Boolean(string="Exception", default=False)
+    #exception = fields.Boolean(string="Exception", default=False)
+    exception  = fields.Boolean(related='employee_over_time_id.exception', string="Exception Hours", store=True)
     overtime_plase = fields.Selection(related='employee_over_time_id.overtime_plase', store=True,
                                       string="Overtime Plase")
     state = fields.Selection(related='employee_over_time_id.state', store=True, string="State")
@@ -401,13 +431,13 @@ class HrEmployeeOverTime(models.Model):
                             employee_id.remove(line.employee_id.id)
                 return {'domain': {'employee_id': [('id', 'in', employee_id)]}}
 
-    @api.model
+    '''@api.model
     def default_get(self, fields):
         res = super(HrEmployeeOverTime, self).default_get(fields)
         if self._context.get('account_id') and self._context.get('journal_id'):
             res['account_id'] = self._context.get('account_id')
             res['journal_id'] = self._context.get('journal_id')
-        return res
+        return res'''
 
     @api.depends('employee_id.contract_id', 'over_time_workdays_hours', 'over_time_vacation_hours', 'employee_id',
                  'calculate_from_total')
@@ -434,7 +464,7 @@ class HrEmployeeOverTime(models.Model):
 
                         line.holiday_hourly_rate = price_hour_holiday
                         o_t_a_v = price_hour_holiday * line.over_time_vacation_hours
-                        line.price_hour = o_t_a_d + o_t_a_v
+                        line.price_hour = round((o_t_a_d + o_t_a_v),0)
 
                         emp_total_hours = line.over_time_workdays_hours + line.over_time_vacation_hours
 

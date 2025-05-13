@@ -142,11 +142,32 @@
                                     <field name="overtime_factor_daily"/>
                                     <field name="overtime_factor_holiday"/>
                                     <field name="max_overtime_hour"/>
+                                    <field name="request_after_day" groups="hr.group_hr_manager,hr.group_hr_user"/>
                                 </group>
-                                <group string="Overtime Accounts Settings" >
+                                <!--group string="Overtime Accounts Settings" >
 		                    <field name="journal_overtime_id" string="Journal Overtime"/>
 		                    <field name="account_overtime_id" string="Account Overtime"/>
-		                </group> 
+		                </group--> 
+
+                               <notebook>
+				    <page string="Accounting Info">
+				        <group>
+				            <field name="transfer_by_emp_type" />
+				            <field name="journal_overtime_id" string="Journal Overtime"/>
+				            <field name="account_overtime_id" string="Account Overtime"
+				                   attrs="{'invisible' : [('transfer_by_emp_type', '=', True)]}"/>
+
+				        </group>
+				        <field name="account_ids" attrs="{'invisible' : [('transfer_by_emp_type', '=', False)]}">
+				            <tree editable="bottom">
+				                <field name="emp_type_id"/>
+				                <field name="debit_account_id"/>
+				            </tree>
+				        </field>
+				      </page>
+                               </notebook>
+
+
                             </page>
                         </notebook>
                         <notebook attrs="{'invisible':[('is_full_day','=',True)]}">
@@ -255,13 +276,31 @@
                                     <field name="overtime_factor_daily"/>
                                     <field name="overtime_factor_holiday"/>
                                     <field name="max_overtime_hour"/>
+                                    <field name="request_after_day" groups="hr.group_hr_manager,hr.group_hr_user"/>
                                 </group>
-                                <group string="Overtime Accounts Settings" >
+                                <!--group string="Overtime Accounts Settings" >
 		                    <field name="journal_overtime_id" string="Journal Overtime"/>
 		                    <field name="account_overtime_id" string="Account Overtime"/>
-		                </group> 
+		                </group--> 
+
+                            <notebook>
+				   <page string="Accounting Info">
+				        <group>
+				            <field name="transfer_by_emp_type" />
+				            <field name="journal_overtime_id" string="Journal Overtime"/>
+				            <field name="account_overtime_id" string="Account Overtime"
+				                   attrs="{'invisible' : [('transfer_by_emp_type', '=', True)]}"/>
+
+				        </group>
+				        <field name="account_ids" attrs="{'invisible' : [('transfer_by_emp_type', '=', False)]}">
+				            <tree editable="bottom">
+				                <field name="emp_type_id"/>
+				                <field name="debit_account_id"/>
+				            </tree>
+				        </field>
+				      </page>
+                               </notebook>
                             </page>
-                        
                         </notebook>
                     </sheet>
                 </xpath>

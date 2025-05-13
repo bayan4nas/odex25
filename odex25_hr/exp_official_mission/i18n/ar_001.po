@@ -150,6 +150,7 @@ msgstr "بند الصرف"
 
 #. module: exp_official_mission
 #: model:ir.model.fields,field_description:exp_official_mission.field_hr_official_mission_employee__account_move_id
+#: model_terms:ir.ui.view,arch_db:exp_official_mission.employee_especially_line_form_view
 msgid "Account Move"
 msgstr "القيود المحاسبيه"
 
@@ -1600,13 +1601,13 @@ msgstr "للأسف الموظف  %s لا يستحق بدل إنتداب فعلي
 #: code:addons/exp_official_mission/models/hr_official_mission.py:0
 #, python-format
 msgid "Sorry The Employee %s Actually On Holiday For this Period"
-msgstr ""
+msgstr "للأسف الموظف %s فعليا في إجازة هذه الفترة"
 
 #. module: exp_official_mission
 #: code:addons/exp_official_mission/models/hr_official_mission.py:0
 #, python-format
-msgid "Sorry The Employee %s Actually On Mission/Training For This Time"
-msgstr ""
+msgid "Sorry The Employee %s Actually On %s For this Time"
+msgstr "للأسف الموظف %s فعليا في %s خلال هذه الفترة"
 
 #. module: exp_official_mission
 #: code:addons/exp_official_mission/models/hr_official_mission.py:0
@@ -2104,16 +2105,14 @@ msgstr ""
 #. module: exp_official_mission
 #: code:addons/exp_official_mission/models/hr_official_mission.py:0
 #, python-format
-msgid "mission duration must be less than \"%s\" maximum days in mission type \"%s\" "
-msgstr "يجب ان تكون الفترة اقل من او يساوي \\%s\\ وهي اقصى عدد ايام لـ \\%s\\ "
+msgid "mission duration must be less than %s days, maximum days in mission type %s"
+msgstr "يجب ان تكون الفترة اقل من او يساوي %s يوم, وهي اقصى عدد ايام لـ %s"
 
 #. module: exp_official_mission
 #: code:addons/exp_official_mission/models/hr_official_mission.py:0
 #, python-format
-msgid ""
-"mission duration must be less than \"%s\" maximum hours in mission type "
-"\"%s\" "
-msgstr "يجب ان تكون الفترة اقل من او يساوي \\%s\\ وهي اقصى عدد ساعات لـ \\%s\\ "
+msgid "mission duration must be less than %s hours, maximum hours in mission type %s"
+msgstr "يجب ان تكون الفترة اقل من او يساوي %s ساعة, وهي اقصى عدد ساعات لـ %s"
 
 #. module: exp_official_mission
 #: model:ir.model,name:exp_official_mission.model_mission_destination
@@ -2313,7 +2312,7 @@ msgstr "إنتظار المدير المباشر"
 #. module: exp_official_mission
 #: model:ir.model.fields.selection,name:exp_official_mission.selection__hr_official_mission__state__direct_manager
 #, python-format
-msgid "Waiting Department Manager"
+msgid "Wait Manager Department"
 msgstr "إنتظار مدير الادارة"
 
 #. module: exp_official_mission
@@ -2453,3 +2452,79 @@ msgstr "طلبـاتي"
 #: model_terms:ir.ui.view,arch_db:exp_official_mission.view_employee_filter_especially_hours
 msgid "Branch"
 msgstr "الفروع"
+
+#. module: exp_official_mission
+#: code:addons/exp_official_mission/models/hr_official_mission.py:0
+#, python-format
+msgid "Sorry, The Approval For The Direct Manager '%s' Only OR HR Manager!"
+msgstr "للأسف، لموافقة المدير المباشر '%s' فقط او مدير الموارد البشرية !"
+
+#. module: exp_official_mission
+#: code:addons/exp_official_mission/models/hr_official_mission.py:0
+msgid "Sorry, The Refuse For The Direct Manager '%s' Only OR HR Manager!"
+msgstr "للأسف، لرفض المدير المباشر '%s' فقط او مدير الموارد البشرية !"
+
+
+#. module: exp_official_mission
+#: code:addons/exp_official_mission/models/hr_official_mission.py:0
+#, python-format
+msgid "Sorry, The Approval For The Department Manager %s Only OR HR Manager!"
+msgstr "للأسف، لموافقة مدير الادارة '%s' فقط او مدير الموارد البشرية !"
+
+#. module: exp_official_mission
+#: code:addons/exp_official_mission/models/hr_official_mission.py:0
+msgid "Sorry, The Refuse For The Department Manager %s Only OR HR Manager"
+msgstr "للأسف، لرفض مدير الادارة '%s' فقط او مدير الموارد البشرية !"
+
+#. module: exp_official_mission
+#: model:ir.model.fields,field_description:exp_official_mission.field_hr_official_mission_type__max_days_year
+#: model_terms:ir.ui.view,arch_db:exp_official_mission.employee_official_mission_type_form_view
+msgid "Max Days Year"
+msgstr "اقصى ايام للسنة"
+
+#. module: exp_official_mission
+#: code:addons/exp_official_mission/models/hr_official_mission.py:0
+#, python-format
+msgid "Sorry The Employee %s, The Number of Requests Cannot Exceed %s Maximum Days Per year."
+msgstr "للأسف الموظف %s, لايمكن تجاوز عدد ايام الطلبات %s يوم وهي اقصى أيام للإنتدابات بالسنة."
+
+#. module: exp_official_mission
+#: code:addons/exp_official_mission/models/hr_official_mission.py:0
+#, python-format
+msgid "Sorry The Employee %s Cannot Exceed %s Days, This Maximum Days Per year."
+msgstr "للأسف الموظف %s, لايمكن تجاوز عدد %s يوم, وهي اقصى أيام للإنتدابات بالسنة."
+
+
+#. module: exp_official_mission
+#: model_terms:ir.ui.view,arch_db:exp_official_mission.employee_official_mission_type_form_view
+msgid "Accounting Info"
+msgstr "اعداد الحسابات"
+
+#. module: exp_official_mission
+#: model:ir.model.fields,field_description:exp_official_mission.field_hr_official_mission_type__transfer_by_emp_type
+#: model_terms:ir.ui.view,arch_db:exp_official_mission.employee_official_mission_type_form_view
+msgid "Transfer By Emp Type"
+msgstr "ترحيل حسب نوع الموظف"
+
+#. module: exp_official_mission
+#: model:ir.model.fields,field_description:exp_official_mission.field_hr_mission_type_account__emp_type_id
+msgid "Employee Type"
+msgstr "نوع الموظف"
+
+#. module: exp_official_mission
+#: model:ir.model.fields,field_description:exp_official_mission.field_hr_mission_type_account__debit_account_id
+msgid "Debit Account"
+msgstr "بند الصرف"
+
+#. module: exp_official_mission
+#: code:addons/exp_official_mission/models/hr_official_mission.py:0
+#, python-format
+msgid "You Must Enter The Journal Name Mission Type %s."
+msgstr "يجب إدخال اعدادات اسم دفتر اليومية لـ %s."
+
+#. module: exp_official_mission
+#: code:addons/exp_official_mission/models/hr_official_mission.py:0
+#, python-format
+msgid "Employee %s, The Mission %s Has No Account Setting Base On Employee Type."
+msgstr "الموظف %s,لايوجد إعدادات بند الصرف لـ %s حسب نوع الموظف."
+

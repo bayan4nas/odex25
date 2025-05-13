@@ -821,9 +821,28 @@ class HrAttendances(models.Model):
     overtime_factor_daily = fields.Float(string="Overtime Factor Daily")
     overtime_factor_holiday = fields.Float(string="Overtime Factor Holiday")
     max_overtime_hour = fields.Integer()
+    request_after_day = fields.Integer(string='Request After Day',
+          help='It is not possible to request Overtime after these days from the end of the request month')
 
-    journal_overtime_id = fields.Many2one('account.journal',domain=[('type', '=', 'general')])
+    journal_overtime_id = fields.Many2one('account.journal')
     account_overtime_id = fields.Many2one('account.account')
+
+    transfer_by_emp_type = fields.Boolean('Transfer By Emp Type')
+    account_ids = fields.One2many('hr.overtim.accounts', 'overtim_id')
+
+    #get account IDs base on Overtim Employees Type account config
+    def get_debit_overtim_account_id(self, emp_type):
+        if not self.transfer_by_emp_type :  return self.account_overtime_id
+        account_mapping = self.account_ids.filtered(lambda a: a.emp_type_id.id == emp_type.id)
+        return account_mapping[0].debit_account_id if account_mapping else False
+
+class HrOvertimAccounts(models.Model):
+    _name = 'hr.overtim.accounts'
+    _description = 'Overtim Account Mapping'
+
+    overtim_id = fields.Many2one('resource.calendar', string="Overtim Type", required=True, ondelete="cascade")
+    emp_type_id = fields.Many2one('hr.contract.type', string="Employee Type", required=True)
+    debit_account_id = fields.Many2one('account.account', string="Debit Account", required=True)
 
 class HrQualificationName(models.Model):
     _name = "hr.qualification.name"

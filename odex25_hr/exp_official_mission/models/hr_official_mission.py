@@ -15,6 +15,7 @@ class HrOfficialMission(models.Model):
     _rec_name = 'mission_type'
     _description = 'Official mission'
     _inherit = ['mail.thread', 'mail.activity.mixin']
+    _order = 'date_from desc'
 
     date = fields.Date(default=lambda self: fields.Date.today())
     date_from = fields.Date()
@@ -28,8 +29,9 @@ class HrOfficialMission(models.Model):
     mission_purpose = fields.Text()
     state = fields.Selection([('draft', _('Draft')),
                               ('send', _('Waiting Direct Manager')),
-                              ('direct_manager', _('Waiting Department Manager')),
-                              ('depart_manager', _('Wait HR Department')),
+                              ('direct_manager', _('Wait Manager Department')),
+                              ('direct_hr', _('Wait HR Department')),
+                              ('depart_manager', _('Waiting Department Manager')),
                               ('hr_aaproval', _('Wait Approval')),
                               ('approve', _('Approved')),
                               ('refused', _('Refused'))], default="draft", tracking=True)
@@ -64,7 +66,7 @@ class HrOfficialMission(models.Model):
     train_category = fields.Selection(selection=[('training', _('Training')), ('workshop', _('Workshop')),
                                                  ('seminar', _('Seminar')), ('conference', _('Conference')),
                                                  ('other', _('Other'))])
-    partner_id = fields.Many2one('res.partner', domain=[('supplier_rank', '>', 0)])
+    partner_id = fields.Many2one('res.partner')
     destination = fields.Many2one('mission.destination')
 
     # ticket_cash_request########################
@@ -178,7 +180,7 @@ class HrOfficialMission(models.Model):
                     if item.mission_type.maximum_days > 0.0:
                         if item.date_duration > item.mission_type.maximum_days:
                             raise exceptions.Warning(
-                                _('mission duration must be less than "%s" maximum days in mission type "%s" ') % (
+                                _('mission duration must be less than %s days, maximum days in mission type %s') % (
                                     item.mission_type.maximum_days, item.mission_type.name))
                 # Difference hour duration
                 # elif item.mission_type.duration_type == 'hours':
@@ -195,7 +197,7 @@ class HrOfficialMission(models.Model):
                         if item.hour_duration > item.mission_type.maximum_hours:
                             item.hour_duration = 0.0
                             raise exceptions.Warning(
-                                _('mission duration must be less than "%s" maximum hours in mission type "%s" ') % (
+                                _('mission duration must be less than %s hours, maximum hours in mission type %s') % (
                                     item.mission_type.maximum_hours, item.mission_type.name))
 
             # Re-compute values for each in employee_ids line
@@ -226,7 +228,7 @@ class HrOfficialMission(models.Model):
                                         if item.mission_type.allowance_id:
                                             for rule in item.mission_type.allowance_id:
                                                 if line.employee_id:
-                                                    total += item.compute_rule(rule, line.employee_id.contract_id)
+                                                    total += item.compute_rule(rule, line.sudo().employee_id.contract_id)
                                             line.day_price = total
                                             line.amount = total * line.days
 
@@ -257,7 +259,7 @@ class HrOfficialMission(models.Model):
                                     total = 0.0
                                     for rule in item.mission_type.allowance_id:
                                         if line.employee_id:
-                                            total += item.compute_rule(rule, line.employee_id.contract_id)
+                                            total += item.compute_rule(rule, line.sudo().employee_id.contract_id)
                                         line.hour_price = total
                                         line.amount = total * line.hours
             self.sudo().employee_ids.chick_not_overtime()
@@ -320,7 +322,8 @@ class HrOfficialMission(models.Model):
 
     def call_cron_function(self):
         transaction = self.env['hr.attendance.transaction']
-        if self.duration_type == 'days':
+        #if self.duration_type == 'days':
+        if self.duration_type:
             if self.date_to and self.date_from:
                 start_date = datetime.strptime(str(self.date_from), '%Y-%m-%d')
                 end_date = datetime.strptime(str(self.date_to), "%Y-%m-%d")
@@ -329,10 +332,10 @@ class HrOfficialMission(models.Model):
                     day = start_date + timedelta(days=i)
                     transaction.process_attendance_scheduler_queue(day, self.employee_ids.mapped(
                         'employee_id'))
-        else:
-            day = datetime.strptime(str(self.date), '%Y-%m-%d')
-            transaction.process_attendance_scheduler_queue(day, self.employee_ids.mapped(
-                'employee_id'))
+        #else:
+           # day = datetime.strptime(str(self.date), '%Y-%m-%d')
+           # transaction.process_attendance_scheduler_queue(day, self.employee_ids.mapped(
+              #  'employee_id'))
 
     def send(self):
         for item in self:
@@ -341,7 +344,7 @@ class HrOfficialMission(models.Model):
 
             item.employee_ids.compute_Training_cost_emp()
             # item.chick_employee_ids()
-            for line in item.employee_ids:
+            '''for line in item.employee_ids:
                 mail_content = "Hello I'm", line.employee_id.name, " request Need to ", item.mission_type.name, "Please approved thanks."
                 main_content = {
                     'subject': _('Request To %s Employee %s') % (item.mission_type.name, line.employee_id.name),
@@ -349,7 +352,7 @@ class HrOfficialMission(models.Model):
                     'body_html': mail_content,
                     'email_to': line.employee_id.department_id.email_manager,
                 }
-                self.env['mail.mail'].sudo().create(main_content).send()
+                self.env['mail.mail'].sudo().create(main_content).send()'''
         self.employee_ids.chick_not_overtime()
         self.state = "send"
 
@@ -357,13 +360,58 @@ class HrOfficialMission(models.Model):
         # self.chick_employee_ids()
         self.employee_ids.chick_not_overtime()
         self.employee_ids.compute_Training_cost_emp()
-        self.state = "direct_manager"
+        for rec in self:
+            manager = rec.sudo().employee_id.parent_id
+            hr_manager = rec.sudo().employee_id.company_id.hr_manager_id
+            if manager:
+               if manager.user_id.id == rec.env.uid or hr_manager.user_id.id == rec.env.uid:
+                  rec.write({'state': 'direct_manager'})
+               else:
+                  raise exceptions.Warning(
+                       _("Sorry, The Approval For The Direct Manager '%s' Only OR HR Manager!")%(manager.name))
+            else:
+                rec.write({'state': 'direct_manager'})
+
+    #Refuse For The Direct Manager Only
+    def direct_manager_refused(self):
+        for rec in self:
+            manager = rec.sudo().employee_id.parent_id
+            hr_manager = rec.sudo().employee_id.user_id.company_id.hr_manager_id
+            if manager:
+                if manager.user_id.id == rec.env.uid or hr_manager.user_id.id == rec.env.uid:
+                   rec.refused()
+                else:
+                    raise exceptions.Warning(_("Sorry, The Refuse For The Direct Manager '%s' Only OR HR Manager!") % (manager.name))
+            else:
+                 rec.refused()
 
     def depart_manager(self):
-        # self.chick_employee_ids()
-        self.employee_ids.chick_not_overtime()
+        self.sudo().employee_ids.chick_not_overtime()
         self.employee_ids.compute_Training_cost_emp()
-        self.state = "depart_manager"
+        for rec in self:
+            coach = rec.sudo().employee_id.coach_id
+            hr_manager = rec.sudo().employee_id.user_id.company_id.hr_manager_id
+            if coach:
+                if coach.user_id.id == rec.env.uid or hr_manager.user_id.id == rec.env.uid:
+                   rec.state = 'depart_manager'
+                else:
+                    raise exceptions.Warning(
+                        _('Sorry, The Approval For The Department Manager %s Only OR HR Manager!') % (coach.name))
+            else:
+                rec.state = 'depart_manager'
+
+    def dep_manager_refused(self):
+        self.reset_emp_work_state()
+        for rec in self:
+            coach = rec.sudo().employee_id.coach_id
+            hr_manager = rec.sudo().employee_id.user_id.company_id.hr_manager_id
+            if coach:
+                if coach.user_id.id == rec.env.uid or hr_manager.user_id.id == rec.env.uid:
+                   rec.refused()
+                else:
+                   raise exceptions.Warning(_('Sorry, The Refuse For The Department Manager %s Only OR HR Manager') % (coach.name))
+            else:
+                rec.refused()
 
     def hr_aaproval(self):
         # self.chick_employee_ids()
@@ -384,33 +432,46 @@ class HrOfficialMission(models.Model):
         if self.employee_ids and self.mission_type.related_with_financial:
             # move amounts to journal entries
             if self.move_type == 'accounting':
-                if self.mission_type.account_id and self.mission_type.journal_id:
+                #if self.mission_type.account_id and self.mission_type.journal_id:
+                if self.mission_type.related_with_financial==True:
                     for item in self.employee_ids:
+                        emp_type = item.employee_id.employee_type_id
+                        account_debit_id = self.mission_type.get_debit_mission_account_id(emp_type)
+                        journal_id = self.mission_type.journal_id
+                        if not journal_id:
+                           raise exceptions.Warning(_('You Must Enter The Journal Name Mission Type %s.')% self.mission_type.name)
+                        if not account_debit_id:
+                           raise exceptions.Warning(_('Employee %s, The Mission %s Has No Account Setting Base On Employee Type.'
+                                                   ) % (item.employee_id.name,self.mission_type.name))
                         if item.amount > 0.0:
                             debit_line_vals = {
-                                'name': item.employee_id.name + ' in official mission "%s" ' % self.mission_type.name,
+                                'name': item.employee_id.name + ' In Official Mission "%s" ' % self.mission_type.name,
                                 'debit': item.amount,
-                                'account_id': self.mission_type.account_id.id,
+                                #'account_id': self.mission_type.account_id.id,
+                                'account_id': account_debit_id.id,
                                 'partner_id': item.employee_id.user_id.partner_id.id
                             }
                             credit_line_vals = {
-                                'name': item.employee_id.name + ' in official mission "%s" ' % self.mission_type.name,
+                                'name': item.employee_id.name + ' In Official Mission "%s" ' % self.mission_type.name,
                                 'credit': item.amount,
-                                'account_id': self.mission_type.journal_id.default_account_id.id,
+                                'account_id': journal_id.default_account_id.id,
                                 'partner_id': item.employee_id.user_id.partner_id.id
                             }
-                            move = self.env['account.move'].create({
-                                'state': 'draft',
-                                'journal_id': self.mission_type.journal_id.id,
-                                'date': date.today(),
-                                'ref': 'Official mission for employee "%s" ' % item.employee_id.name,
-                                'line_ids': [(0, 0, debit_line_vals), (0, 0, credit_line_vals)]
-                            })
-                            # fill account move for each employee
-                            item.write({'account_move_id': move.id})
-                else:
-                    raise exceptions.Warning(
-                        _('You do not have account or journal in mission type "%s" ') % self.mission_type.name)
+                            if not item.account_move_id:
+                               move = self.env['account.move'].create({
+                                   'state': 'draft',
+                                   'journal_id': journal_id.id,
+                                   'date': date.today(),
+                                   'ref': 'Official mission for employee "%s" ' % item.employee_id.name,
+                                   'line_ids': [(0, 0, debit_line_vals), (0, 0, credit_line_vals)],
+                                   'res_model': 'hr.official.mission',
+                                   'res_id': self.id
+                               })
+                               # fill account move for each employee
+                               item.write({'account_move_id': move.id})
+                #else:
+                    #raise exceptions.Warning(
+                        #_('You do not have account or journal in mission type "%s" ') % self.mission_type.name)
 
             # move amounts to advantages of employee in contract
             elif self.move_type == 'payroll':
@@ -419,7 +480,7 @@ class HrOfficialMission(models.Model):
                 month_start = date(current_date.year, current_date.month, 1)
                 month_end = date(current_date.year, current_date.month, calendar.mdays[current_date.month])
                 for line in self.employee_ids:
-                    if line.employee_id.contract_id:
+                    if line.sudo().employee_id.contract_id:
 
                         advantage_arc = line.env['contract.advantage'].create({
                             'benefits_discounts': self.official_mission.id,
@@ -428,7 +489,7 @@ class HrOfficialMission(models.Model):
                             'amount': line.amount,
                             'official_mission_id': True,
                             'employee_id': line.employee_id.id,
-                            'contract_advantage_id': line.employee_id.contract_id.id,
+                            'contract_advantage_id': line.sudo().employee_id.contract_id.id,
                             'out_rule': True,
                             'state': 'confirm',
                             'comments': self.mission_purpose})
@@ -459,8 +520,11 @@ class HrOfficialMission(models.Model):
                     'name': 'Training Cost for Course Name %s Training Center %s' % (
                         item.course_name.name, item.partner_id.name),
                     'price_unit': item.Training_cost,
+                    'quantity': 1,
                     # 'account_id': self.mission_type.journal_id.default_credit_account_id.id,
-                    'account_id': item.partner_id.property_account_payable_id.id,
+                    # 'account_id': item.partner_id.property_account_payable_id.id,
+                    'account_id': item.mission_type.account_id.id,
+               
                     # 'partner_id': item.employee_id.user_id.partner_id.id
                 }
                 invoice = self.env['account.move'].create({
@@ -470,7 +534,9 @@ class HrOfficialMission(models.Model):
                     'partner_id': item.partner_id.id,
                     'invoice_date': date.today(),
                     'ref': 'Training Cost for Course Name %s ' % item.course_name.name,
-                    'invoice_line_ids': [(0, 0, invoice_line_vals)]
+                    'invoice_line_ids': [(0, 0, invoice_line_vals)],
+                    'res_model': 'hr.official.mission',
+                    'res_id': self.id
                 })
                 item.write({'Tra_cost_invo_id': invoice.id})
 
@@ -599,7 +665,9 @@ class HrOfficialMission(models.Model):
                                         '|', '|'] + clause_1 + clause_2 + clause_3
                         holidays = self.env['hr.holidays'].search(clause_final)
                         if holidays:
-                            raise exceptions.Warning(
+                           for record in holidays:
+                               if not record.holiday_status_id.mission_chick:
+                                  raise exceptions.Warning(
                                 _('Sorry The Employee %s Actually On Holiday For this Period') % emp.employee_id.name)
 
     def get_domain(self, date_from, date_to):
@@ -751,6 +819,7 @@ class HrOfficialMissionType(models.Model):
 
     total_months = fields.Integer('Total Periods in Months', required=True)
     max_request_number = fields.Integer('Maximum Requests', required=True)
+    max_days_year = fields.Integer('Max Days Year')
     max_amount = fields.Float('Maximum Amount')
 
     # relational fields
@@ -769,6 +838,10 @@ class HrOfficialMissionType(models.Model):
                                    ('others', _('others'))], 'Work Status')
     special_hours = fields.Boolean(string='Special Hours', default=False)
 
+    transfer_by_emp_type = fields.Boolean('Transfer By Emp Type')
+    account_ids = fields.One2many('hr.mission.type.account', 'mission_id')
+
+
     @api.onchange('duration_type')
     def _change_duration_type(self):
         for rec in self:
@@ -784,6 +857,19 @@ class HrOfficialMissionType(models.Model):
                 raise exceptions.Warning(_('You Can Not Delete Mission Type, Because There is a Related other record'))
         return super(HrOfficialMissionType, self).unlink()
 
+    #get account IDs base on Mission Employees Type account config
+    def get_debit_mission_account_id(self, emp_type):
+        if not self.transfer_by_emp_type :  return self.account_id
+        account_mapping = self.account_ids.filtered(lambda a: a.emp_type_id.id == emp_type.id)
+        return account_mapping[0].debit_account_id if account_mapping else False
+
+class HrMissionTypeAccount(models.Model):
+    _name = 'hr.mission.type.account'
+    _description = 'Mission Type Account Mapping'
+
+    mission_id = fields.Many2one('hr.official.mission.type', string="Mission Type", required=True, ondelete="cascade")
+    emp_type_id = fields.Many2one('hr.contract.type', string="Employee Type", required=True)
+    debit_account_id = fields.Many2one('account.account', string="Debit Account", required=True)
 
 class HrOfficialMissionEmployee(models.Model):
     _name = 'hr.official.mission.employee'
@@ -837,8 +923,9 @@ class HrOfficialMissionEmployee(models.Model):
                     '&', ('hour_from', '>=', rec.hour_from), ('hour_to', '<=', rec.hour_to),
                 ])
                 if missions_ids:
-                    raise exceptions.ValidationError(
-                        _('Sorry The Employee %s Actually On Mission/Training For This Time') % (rec.employee_id.name))
+                    raise exceptions.ValidationError(_('Sorry The Employee %s Actually On %s For this Time') %
+                                                     (rec.employee_id.name,
+                                                      missions_ids.official_mission_id.mission_type.name))
                 date_from += delta
 
     @api.constrains('employee_id', 'official_mission_id', 'date_from', 'date_to', 'hour_from', 'hour_to')
@@ -852,6 +939,31 @@ class HrOfficialMissionEmployee(models.Model):
                 raise exceptions.ValidationError(_("Employee %s has already take this course.") % (item.employee_id.name))
             if item.official_mission_id and item.official_mission_id.mission_type.duration_type == 'days' \
                     and item.date_from and item.date_to:
+                ### mission related_with_financial
+                financial_missions = item.env['hr.official.mission.employee'].search(
+                    [('official_mission_id.state', 'not in', ('draft','refuesd')),
+                     ('employee_id', '=', item.employee_id.id),
+                     ('official_mission_id.mission_type.related_with_financial', '=', True),
+                     ('official_mission_id.mission_type.duration_type', '=', 'days'),
+                     ('id', '!=', item.id)
+                     ])
+                days_per_year = item.official_mission_id.mission_type.max_days_year
+                if days_per_year > 0.0:
+                   if item.days > days_per_year:
+                      raise exceptions.Warning(_('Sorry The Employee %s Cannot Exceed %s Days, This Maximum Days Per year.') % (
+                                    item.employee_id.name,days_per_year))
+                if financial_missions:
+                   if days_per_year > 0:
+                      number_days = item.days
+                      for rec in financial_missions:
+                          year_last_record = datetime.strptime(str(rec.date_from), '%Y-%m-%d').year
+                          year_now_record = datetime.strptime(str(item.date_from), '%Y-%m-%d').year
+                          if year_last_record == year_now_record:
+                             number_days = number_days + rec.days 
+                             if number_days > days_per_year:
+                                raise exceptions.ValidationError(_("Sorry The Employee %s, The Number of Requests Cannot Exceed %s Maximum Days Per year.") % (rec.employee_id.name,days_per_year))
+                ####
+
                 prev_missions = item.env['hr.official.mission.employee'].search(
                     [('official_mission_id.state', '=', 'approve'),
                      ('employee_id', '=', item.employee_id.id),
@@ -1040,7 +1152,7 @@ class HrOfficialMissionEmployee(models.Model):
                             total = 0.0
                             for line in mission_type.allowance_id:
                                 if item.employee_id:
-                                    total += item.compute_rule(line, item.employee_id.contract_id)
+                                    total += item.compute_rule(line, item.sudo().employee_id.contract_id)
                             if item.day_price:
                                 item.amount = item.day_price * item.days + item.fees_amount
                             else:
@@ -1054,7 +1166,7 @@ class HrOfficialMissionEmployee(models.Model):
                             total = 0.0
                             for line in mission_type.allowance_id:
                                 if item.employee_id:
-                                    total += item.compute_rule(line, item.employee_id.contract_id)
+                                    total += item.compute_rule(line, item.sudo().employee_id.contract_id)
                             if item.hour_price:
                                 item.amount = item.hour_price * item.hours + item.fees_amount
                             else:
@@ -1158,7 +1270,8 @@ class HrOfficialMissionEmployee(models.Model):
             finacial = rec.official_mission_id.mission_type.related_with_financial
             delegation = rec.official_mission_id.mission_type.work_state
             if modules_req:
-                if delegation == 'legation' and finacial:
+                #if delegation == 'legation' and finacial:
+                if finacial == True:
                     if rec.date_to and rec.date_from:
                         clause_1 = ['&', ('employee_over_time_id.date_from', '<=', rec.date_from),
                                     ('employee_over_time_id.date_to', '>=', rec.date_from)]
@@ -1295,7 +1408,7 @@ class HrContract(models.Model):
                         'email_cc': '%s, %s' % (self.env.user.company_id.hr_email, rec.employee_id.work_email),
                         'model': self._name,
                     }
-                    self.env['mail.mail'].create(main_content).send()
+                    #self.env['mail.mail'].create(main_content).send()
 
             if emp in to_end.mapped('employee_id').ids:
                 emp_to_end = to_end.filtered(lambda e: e.employee_id.id == emp)

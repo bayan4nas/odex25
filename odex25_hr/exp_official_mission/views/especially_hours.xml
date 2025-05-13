@@ -27,7 +27,7 @@
 
                         <button name="direct_manager" string="Direct Manager Approve" class="oe_highlight" type="object"
                                 states="send" groups="hr_base.group_division_manager"/>
-                        <button name="refused" string="Refused" class="oe_highlight" type="object"
+                        <button name="direct_manager_refused" string="Refused" class="oe_highlight" type="object"
                                 states="send" groups="hr_base.group_division_manager"/>
 
                         <button name="approve" string="HR Approval" class="oe_highlight" type="object"
@@ -39,7 +39,7 @@
                                 states="approve,refused" groups="hr.group_hr_user"
                                 confirm="Are you sure to Reset To Draft This Record?"/>
                         <field name="state" widget="statusbar"
-                               statusbar_visible="draft,send,direct_manager,approve,refused"/>
+                               statusbar_visible="draft,send,approve,refused"/>
                     </header>
                     <sheet>
                         <group>
@@ -208,6 +208,8 @@
 
                                 <field name="date_from" readonly="1"/>
                                 <field name="date_to" readonly="1"/>
+                                <field name="account_move_id" groups="hr_base.group_account_manager,hr.group_hr_user"
+                                       attrs="{'invisible': [('account_move_id', '=', False)]}"/>
 
                             </group>
                             <group>
