@@ -54,6 +54,13 @@ class EmployeePromotions(models.Model):
         self.current_salary = self.employee_id.contract_id.total_allowance
         self.old_basic_salary = self.employee_id.contract_id.salary
 
+
+    @api.onchange('new_degree')
+    def _new_basic_salary(self):
+        for rec in self:
+            if rec.new_degree:
+               rec.new_basic_salary = rec.sudo().new_degree.base_salary
+
     @api.constrains('new_basic_salary')
     def check_new_basic_salary(self):
         if self.new_basic_salary < 0:
