@@ -85,18 +85,17 @@
                                 <field name="exception" groups="hr_base.group_executive_manager,hr.group_hr_user"
                                        attrs="{'readonly':[('state','!=','draft')]}"/>
 
-                                <field name="journal_id" string="Journal"
+                                <!--field name="journal_id" string="Journal"
                                        attrs="{'invisible':[('transfer_type','!=','accounting')], 'readonly':[('state','!=','executive_office')], 'required': [('state', '=', 'executive_office'),('transfer_type','=','accounting')]}"
                                        force_save="1"/>
                                 <field name="account_id" string="Account"
                                        attrs="{'invisible':[('transfer_type','!=','accounting')], 'readonly':[('state','!=','executive_office')], 'required': [('state', '=', 'executive_office'),('transfer_type','=','accounting')]}"
-                                       force_save="1"/>
+                                       force_save="1"/-->
 
                             </group>
                         </group>
                         <separator string="Employees Over Time"/>
-                        <field name="line_ids_over_time" context="{'account_id': account_id, 'journal_id': journal_id}"
-                               force_save="1"
+                        <field name="line_ids_over_time" force_save="1"
                                attrs="{'readonly':[('state','not in',('submit','draft'))], 'required': [('state', '=', 'hr_aaproval')]}">
                             <tree string="Employee Over Time" editable="bottom">
                                 <field name="employee_id"/>

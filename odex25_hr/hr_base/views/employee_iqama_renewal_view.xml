@@ -125,10 +125,10 @@
                         <field name="line_ids" string="Employees">
                             <tree editable="bottom">
                                 <field name="employee_id" string="Name" attrs="{'readonly':[('state','!=','draft')]}"/>
-                                <field name="iqama_no" string="Identity No" required="True"/>
-                                <field name="iqama_expir_date" string="Identity expire date" required="True" widget="date"
+                                <field name="iqama_no" string="Identity No" required="0"/>
+                                <field name="iqama_expir_date" string="Identity expire date" required="0" widget="date"
                                        force_save="1"/>
-                                <field name="iqama_new_expiry" string="New Identity Expiry" required="1" widget="date"
+                                <field name="iqama_new_expiry" string="New Identity Expiry" required="0" widget="date"
                                        attrs="{'readonly':[('state','!=','draft')]}"/>
                                 <field name="contract_date_end" string="Contract End Date" widget="date"
                                        attrs="{'readonly':[('state','!=','draft')]}"/>
@@ -138,13 +138,13 @@
                                        attrs="{'readonly':[('state','!=','effective_department')],'required':[('state','=','effective_department')]}"/>
                                 <field name="journal_id" string="Journal"
                                        attrs="{'readonly':[('state','!=','effective_department')],'required':[('state','=','effective_department')]}"/>
-                                <field name="work_premit_sedad_no" string="Work premit /Sedad No" required="True"
+                                <field name="work_premit_sedad_no" string="Work premit /Sedad No" required="0"
                                        attrs="{'readonly':[('state','!=','draft')]}"/>
-                                <field name="renewal_fees" string="Renewal fees" required="True"
+                                <field name="renewal_fees" string="Renewal fees" required="0"
                                        attrs="{'readonly':[('state','!=','draft')]}"/>
-                                <field name="work_premint_fees" string="work premint fees" required="True"
+                                <field name="work_premint_fees" string="work premint fees" required="0"
                                        attrs="{'readonly':[('state','!=','draft')]}"/>
-                                <field name="total" string="Total Fees" required="True"/>
+                                <field name="total" string="Total Fees" required="0"/>
                                 <field name="state" string="State"/>
                             </tree>
                         </field>

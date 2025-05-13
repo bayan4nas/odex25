@@ -166,6 +166,10 @@
                                             <td colspan="2">
                                                 <span t-esc="doc.employee_id.job_id.name"/>
                                             </td>
+                                             <td t-if="doc.employee_id.job_id.english_name">
+                                                <span t-esc="doc.employee_id.job_id.english_name"/>
+                                            </td>
+
                                             <td>Position</td>
                                         </tr>
 
