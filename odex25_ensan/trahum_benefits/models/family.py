@@ -42,7 +42,8 @@ class GrantBenefit(models.Model):
                     lin.name_member = rec.member_id.name
                     break
 
-
+    def action_done(self):
+        self.state = 'approved'
 
     # start
     def _convert_to_monthly(self, amount, periodicity):
