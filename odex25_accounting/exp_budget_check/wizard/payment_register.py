@@ -53,12 +53,6 @@ class AccountPaymentRegister(models.TransientModel):
                 })
 
         payments = self._init_payments(to_process, edit_mode=edit_mode)
-        process_final = [item for item in to_process if item['create_vals']['payment_type'] != 'outbound']
-        self._post_payments(process_final, edit_mode=edit_mode)
-        self._reconcile_payments(process_final, edit_mode=edit_mode)
-        for payment in payments:
-            if payment.payment_type == 'outbound':
-                payment.invoice_rec_id = active_id
-                payment.action_cancel()
-                payment.action_draft()
+        self._post_payments(to_process, edit_mode=edit_mode)
+        self._reconcile_payments(to_process, edit_mode=edit_mode)
         return payments

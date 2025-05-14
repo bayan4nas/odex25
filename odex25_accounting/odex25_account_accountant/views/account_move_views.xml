@@ -49,7 +49,7 @@
             </xpath>
 
             <xpath expr="//field[@name='invoice_date']" position="attributes">
-                <attribute name="required">1</attribute>
+                <attribute name="attrs">{'required':[('move_type','in',['in_invoice','out_invoice'])]}</attribute>
             </xpath>
 
             <xpath expr="//page[@id='other_tab_entry']//field[@name='company_id']" position="after">

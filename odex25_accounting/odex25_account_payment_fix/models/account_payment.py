@@ -19,7 +19,7 @@ class AccountMove(models.Model):
 class AccountPayment(models.Model):
     _inherit = "account.payment"
 
-    state = fields.Selection(selection=[ ('draft', 'Department Manager'), ('depart_manager', 'Accounting Manager'), ('accounting_manager', 'Sector Head Approval'), ('sector_head_approval', 'General Manager'), ('general_manager', 'Confirm'), ('posted', 'Posted'), ('cancel', 'Cancelled'),],
+    state = fields.Selection(selection=[ ('draft', 'Draft'), ('depart_manager', 'Accounting Manager'), ('accounting_manager', 'Sector Head Approval'), ('sector_head_approval', 'General Manager'), ('general_manager', 'Confirm'), ('posted', 'Posted'), ('cancel', 'Cancelled'),],
                              default='draft', string='Status', required=True, readonly=True, copy=False, tracking=True)
     state_history = fields.Char(string='State History', default='draft')
     analytic_account_id = fields.Many2one(comodel_name='account.analytic.account', string='Analytic Account', copy=True)

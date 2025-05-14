@@ -1,6 +1,9 @@
 from odoo import models, fields, api, _
 from odoo.exceptions import AccessError, UserError, RedirectWarning, ValidationError, Warning
 from odoo.tools import float_is_zero, float_compare, pycompat
+from lxml import etree
+import json
+import re
 
 
 class BudgetConfirmationCustom(models.Model):
@@ -49,6 +52,9 @@ class AccountMove(models.Model):
         ('accountant', 'Accountant'),
         ('head_department', 'Head of department'),
         ('head_of_department', 'Head department'),
+        ('financial_manager', 'Financial Manager'),
+        ('sector_manager', 'Sector Manager'),
+        ('general_secretary', 'Secretary General'),
         ('budget_approve', 'Approved'),
         ('posted', 'Posted'),
         ('cancel', 'Cancelled'),
@@ -72,6 +78,18 @@ class AccountMove(models.Model):
                 ('invoice_rec_id', '=', invoice.id)
             ])
             invoice.rec_payment_count = payments
+
+    @api.model
+    def fields_view_get(self, view_id=None, view_type='form', context=None, toolbar=False, submenu=False):
+        res = super(AccountMove, self).fields_view_get(view_id=view_id, view_type=view_type, toolbar=toolbar, submenu=submenu)
+        doc = etree.XML(res['arch'])
+        if view_type == 'form':
+                for node in doc.xpath("//button[@name='action_confirm']"):
+                    modifiers = json.loads(node.get("modifiers"))
+                    modifiers['invisible'] = True
+                    node.set("modifiers", json.dumps(modifiers))
+                res['arch'] = etree.tostring(doc)
+        return res
 
     def action_open_related_payment_records(self):
         """ Opens a tree view with related records filtered by a dynamic domain """
@@ -114,7 +132,7 @@ class AccountMove(models.Model):
                 confirm_budget.invoice_id = self.id
                 self.write({
                     'is_check': True,
-                    'state': 'head_department' if confirm_budget.state == 'done' else 'wait_budget'
+                    'state': 'head_department' if confirm_budget.state == 'done' else False
                 })
                 return True
 
@@ -122,8 +140,32 @@ class AccountMove(models.Model):
         self.action_confirm()
 
     def action_department(self):
+        if self.move_type == 'in_invoice':
+            self.state = "financial_manager"
+        else:
+            super(AccountMove, self).action_post()
+
+    def set_to_accountant(self):
+        self.state = "draft"
+
+    def set_to_head_department(self):
+        self.state = "head_department"
+
+    def set_to_financial_manager(self):
+        self.state = "financial_manager"
+
+    def set_to_sector_manager(self):
+        self.state = "sector_manager"
+
+    def action_financial_manager(self):
+        self.state = "sector_manager"
+
+    def action_sector_manager(self):
+        self.state = "general_secretary"
+
+    def action_general_secretary(self):
         res = super(AccountMove, self).action_post()
-        self.state = "posted"
+        # self.state = "financial_manager"
         return res
 
     def action_head_of_department(self):
@@ -264,6 +306,61 @@ class AccountMove(models.Model):
                       (formview_ref and formview_ref.id or False, 'form')],
             'context': {'create': False}
         }
+
+    def _get_last_sequence_domain(self, relaxed=False):
+            self.ensure_one()
+            if not self.date or not self.journal_id:
+                return "WHERE FALSE", {}
+
+            where_string = "WHERE journal_id = %(journal_id)s AND name != '/'"
+            param = {'journal_id': self.journal_id.id}
+
+            if not relaxed:
+                domain = [
+                    ('journal_id', '=', self.journal_id.id),
+                    ('id', '!=', self.id or self._origin.id),
+                    ('name', 'not in', ('/', '', False))
+                ]
+
+                if self.journal_id.refund_sequence:
+                    refund_types = ('out_refund', 'in_refund')
+                    if self.move_type in refund_types:
+                        domain += [('move_type', 'in', refund_types)]
+                    else:
+                        domain += [('move_type', 'not in', refund_types)]
+
+                reference_move = self.search(domain + [('date', '<=', self.date)], order='date desc', limit=1)
+                reference_move_name = reference_move.name if reference_move else ''
+                if not reference_move_name:
+                    reference_move = self.search(domain, order='date asc', limit=1)
+                    reference_move_name = reference_move.name if reference_move else ''
+
+                sequence_number_reset = self._deduce_sequence_number_reset(reference_move_name)
+
+                if sequence_number_reset == 'year':
+                    where_string += " AND date_trunc('year', date::timestamp without time zone) = date_trunc('year', %(date)s) "
+                    param['date'] = self.date
+                    param['anti_regex'] = re.sub(r"\?P<\w+>", "?:",
+                                                 self._sequence_monthly_regex.split('(?P<seq>')[0]) + '$'
+
+                elif sequence_number_reset == 'month':
+                    where_string += " AND date_trunc('month', date::timestamp without time zone) = date_trunc('month', %(date)s) "
+                    param['date'] = self.date
+
+                else:
+                    param['anti_regex'] = re.sub(r"\?P<\w+>", "?:",
+                                                 self._sequence_yearly_regex.split('(?P<seq>')[0]) + '$'
+
+                if param.get('anti_regex') and not self.journal_id.sequence_override_regex:
+                    where_string += " AND sequence_prefix !~ %(anti_regex)s "
+
+            if self.journal_id.refund_sequence:
+                if self.move_type in ('out_refund', 'in_refund'):
+                    where_string += " AND move_type IN ('out_refund', 'in_refund') "
+                else:
+                    where_string += " AND move_type NOT IN ('out_refund', 'in_refund') "
+
+            return where_string, param
 
 
 class PurchaseOrderLine(models.Model):
