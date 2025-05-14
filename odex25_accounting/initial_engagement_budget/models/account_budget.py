@@ -25,7 +25,7 @@ class CrossoveredBudgetLines(models.Model):
     def _compute_initial_engagement_amount(self) -> None:
         for rec in self:
             rec.initial_engagement_amount = sum(
-                self.env['budget.confirmation.line'].search([('confirmation_id.state', '=', 'done'),
+                self.env['budget.confirmation.line'].sudo().search([('confirmation_id.state', '=', 'done'),
                                                              ('confirmation_id.request_id.state', '!=', 'done'),
                                                              ('confirmation_id.request_id.purchase_create', '!=', True),
                                                              ('confirmation_id.type', '=',

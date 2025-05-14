@@ -1,6 +1,8 @@
 from odoo import models, fields, api, _
 from odoo.exceptions import AccessError, UserError, RedirectWarning, ValidationError, Warning
 from odoo.tools import float_is_zero, float_compare, pycompat
+from lxml import etree
+import json
 
 
 class BudgetConfirmationCustom(models.Model):
@@ -49,6 +51,9 @@ class AccountMove(models.Model):
         ('accountant', 'Accountant'),
         ('head_department', 'Head of department'),
         ('head_of_department', 'Head department'),
+        ('financial_manager', 'Financial Manager'),
+        ('sector_manager', 'Sector Manager'),
+        ('general_secretary', 'Secretary General'),
         ('budget_approve', 'Approved'),
         ('posted', 'Posted'),
         ('cancel', 'Cancelled'),
@@ -72,6 +77,18 @@ class AccountMove(models.Model):
                 ('invoice_rec_id', '=', invoice.id)
             ])
             invoice.rec_payment_count = payments
+
+    @api.model
+    def fields_view_get(self, view_id=None, view_type='form', context=None, toolbar=False, submenu=False):
+        res = super(AccountMove, self).fields_view_get(view_id=view_id, view_type=view_type, toolbar=toolbar, submenu=submenu)
+        doc = etree.XML(res['arch'])
+        if view_type == 'form':
+                for node in doc.xpath("//button[@name='action_confirm']"):
+                    modifiers = json.loads(node.get("modifiers"))
+                    modifiers['invisible'] = True
+                    node.set("modifiers", json.dumps(modifiers))
+                res['arch'] = etree.tostring(doc)
+        return res
 
     def action_open_related_payment_records(self):
         """ Opens a tree view with related records filtered by a dynamic domain """
@@ -114,7 +131,7 @@ class AccountMove(models.Model):
                 confirm_budget.invoice_id = self.id
                 self.write({
                     'is_check': True,
-                    'state': 'head_department' if confirm_budget.state == 'done' else 'wait_budget'
+                    'state': 'head_department' if confirm_budget.state == 'done' else False
                 })
                 return True
 
@@ -122,8 +139,32 @@ class AccountMove(models.Model):
         self.action_confirm()
 
     def action_department(self):
+        if self.move_type == 'in_invoice':
+            self.state = "financial_manager"
+        else:
+            super(AccountMove, self).action_post()
+
+    def set_to_accountant(self):
+        self.state = "draft"
+
+    def set_to_head_department(self):
+        self.state = "head_department"
+
+    def set_to_financial_manager(self):
+        self.state = "financial_manager"
+
+    def set_to_sector_manager(self):
+        self.state = "sector_manager"
+
+    def action_financial_manager(self):
+        self.state = "sector_manager"
+
+    def action_sector_manager(self):
+        self.state = "general_secretary"
+
+    def action_general_secretary(self):
         res = super(AccountMove, self).action_post()
-        self.state = "posted"
+        # self.state = "financial_manager"
         return res
 
     def action_head_of_department(self):
@@ -264,6 +305,7 @@ class AccountMove(models.Model):
                       (formview_ref and formview_ref.id or False, 'form')],
             'context': {'create': False}
         }
+
 
 
 class PurchaseOrderLine(models.Model):
