@@ -45,7 +45,7 @@ class employee_overtime_request(models.Model):
     employee_id = fields.Many2one('hr.employee', 'Responsible', default=lambda item: item.get_user_id(),
                                   domain=[('state', '=', 'open')])
     employee_no = fields.Char(related='employee_id.emp_no', readonly=True,string='Employee Number', store=True)
-    exception = fields.Boolean(string="Exception Hours", default=False,
+    exception = fields.Boolean(string="Exception Hours", default=False,tracking=True,
                                help='Exceeding The Limit Of Overtime Hours Per Month')
 
     company_id = fields.Many2one('res.company',string="Company", default=lambda self: self.env.user.company_id)
@@ -64,10 +64,14 @@ class employee_overtime_request(models.Model):
         if self.employee_id:
             self.department_id = self.employee_id.department_id.id
 
-    @api.onchange('request_date','date_from')
+    @api.onchange('request_date','date_from','date_to')
     def chick_date_request(self):
         for rec in self:
             days_after = rec.employee_id.contract_id.working_hours.request_after_day
+            if rec.date_from:
+               if rec.date_from == rec.date_to:
+                  raise exceptions.Warning(_('Sorry, The Start Date Must Not Equal End Date.'))
+
             if days_after > 0 and rec.date_from:
                rec.date_to=False
                date_from = datetime.strptime(str(rec.date_from), "%Y-%m-%d").date()
