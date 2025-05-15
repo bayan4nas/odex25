@@ -3,7 +3,7 @@
     <data>
 
         <template id="custom_external_layout_standard_tran">
-            <div class="header" stylle="background-color:blue;">
+            <div class="header">
 
             </div>
             <div class="article o_report_layout_standard">
@@ -33,304 +33,353 @@
             <t t-if="not o or not 'company_id' in o">
                 <t t-set="company" t-value="res_company"/>
             </t>
-            <t t-call="exp_transaction_documents.custom_external_layout_standard_tran">
-                <t t-raw="0"/>
-            </t>
-            <!-- <t t-if="company.external_report_layout_id == 'background'">
-                <t t-call="exp_transaction_documents.custom_external_layout_standard_tran"><t t-raw="0"/></t>
-            </t>
-            <t t-if="company.external_report_layout_id == 'boxed'">
-                <t t-call="exp_transaction_documents.custom_external_layout_standard_tran"><t t-raw="0"/></t>
-            </t>
-            <t t-if="company.external_report_layout_id == 'clean'">
-                <t t-call="exp_transaction_documents.custom_external_layout_standard_tran"><t t-raw="0"/></t>
-            </t>
-            <t t-if="company.external_report_layout_id in (False, 'standard')">
-                <t t-call="exp_transaction_documents.custom_external_layout_standard_tran"><t t-raw="0"/></t>
-            </t> -->
+                        <t t-call="exp_transaction_documents.custom_external_layout_standard_tran">
+                            <t t-raw="0"/>
+                        </t>
+
         </template>
         <template id="transaction_details_report_temp">
-            <t t-call="exp_transaction_documents.custom_external_layout_standard_tran">
-                <style type="text/css">
-                    @font-face {
-                    font-family: 'DroidKufi';
-                    src: url("/exp_transaction_documents/static/src/fonts/DroidKufi-Bold.ttf") format("truetype");
-                    font-weight: normal;
-                    font-style: normal;
-                    }
+            <t t-call="web.html_container">
+                <t t-call="web.basic_layout">
+                    <!--            <t t-call="exp_transaction_documents.custom_external_layout_standard_tran">-->
+                    <style type="text/css">
+                        @font-face {
+                        font-family: 'DroidKufi';
+                        src: url("/exp_transaction_documents/static/src/fonts/DroidKufi-Bold.ttf") format("truetype");
+                        font-weight: normal;
+                        font-style: normal;
+                        }
 
-                    .droidkufi-font {
-                    font-family: 'DroidKufi', sans-serif;
-                    }
-                    table {
-                    border: 1px solid black;
-                    width: 100%;
-                    }
-                    td{
-                    border: 1px solid grey;
-                    padding: 5px 5px 5px 5px;
-                    width:20%;
-                    }
-                    th{
-                    border: 1px solid grey;
-                    padding: 5px 5px 5px 5px;
-                    background-color:#d3d3d3;
-                    }
-                </style>
-                <div class="page droidkufi-font">
-                    <br/>
-                    <br/>
-                    <br/>
-                    <h4 style="text-align:center;margin-top:0px;font-weight:bold">Transaction Report
-                    </h4>
-                    <br/>
-                    <br/>
-                    <table>
-                        <tr>
-                            <td style="background-color:#d3d3d3;font-weight:bold;width:18%">Transaction Number</td>
-                            <td style="width:32%">
-                                <t t-esc="o.name"/>
-                            </td>
-                            <td style="background-color:#d3d3d3;font-weight:bold;width:18%">state</td>
-                            <td style="width:32%">
-                                <t t-esc="dict(o.fields_get(allfields=['state'])['state']['selection'])[o.state]"/>
-                            </td>
-                        </tr>
-                        <!--                            <td style="width:32%"><t t-esc="o.state"/></td>-->
-                        <tr>
-                            <td style="background-color:#d3d3d3;font-weight:bold">Transaction Type</td>
-                            <td>
-                                <t t-esc="dict(o.fields_get(allfields=['type'])['type']['selection'])[o.type]"/>
-                            </td>
-                            <td style="background-color:#d3d3d3;font-weight:bold">Subject</td>
-                            <td>
-                                <t t-esc="o.subject"/>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td style="background-color:#d3d3d3;font-weight:bold">Send To</td>
-
-                            <td>
-                                <t t-esc="', '.join(map(lambda x: (x.name or x.code), o.to_ids))"/>
-                            </td>
-                            <td style="background-color:#d3d3d3;font-weight:bold">CC To</td>
-                            <td>
-                                <t t-esc="', '.join(map(lambda x: (x.name or x.code), o.cc_ids))"/>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td style="background-color:#d3d3d3;font-weight:bold">Important Degree</td>
-                            <td>
-                                <t t-esc="o.important_id.name"/>
-                            </td>
-                            <td style="background-color:#d3d3d3;font-weight:bold">Subject Type</td>
-                            <td>
-                                <t t-esc="o.subject_type_id.name"/>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td style="background-color:#d3d3d3;font-weight:bold">Transaction Date</td>
-                            <td>
-                                <t t-esc="o.transaction_date"/>
-                            </td>
-                            <td style="background-color:#d3d3d3;font-weight:bold">Transaction Date (Hijri)</td>
-                            <td>
-                                <t t-esc="o.transaction_date_hijri"/>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td style="background-color:#d3d3d3;font-weight:bold">Preparation Unit</td>
-                            <td>
-                                <t t-esc="o.preparation_id.name"/>
-                            </td>
-                            <td style="background-color:#d3d3d3;font-weight:bold">Procedure</td>
-                            <td>
-                                <t t-esc="o.procedure_id.name"/>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td style="background-color:#d3d3d3;font-weight:bold">Created By</td>
-                            <td>
-                                <t t-esc="o.employee_id.name"/>
-                            </td>
-                            <td style="background-color:#d3d3d3;font-weight:bold">Unit Responsible</td>
-                            <td>
-                                <t t-esc="o.entity_id.name"/>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td style="background-color:#d3d3d3;font-weight:bold">Deadline</td>
-                            <td>
-                                <t t-esc="o.due_date"/>
-                            </td>
-                            <td style="background-color:#d3d3d3;font-weight:bold">No. of Attachments</td>
-                            <td>
-                                <t t-esc="o.attachment_num"/>
-                            </td>
-                        </tr>
-                    </table>
-                    <br/>
-                    <br/>
-                    <p style="font-weight:bold">Transaction Details</p>
-                    <hr style="border-top: 3px solid #bbb;"/>
-                    <p style="text-align:justify;margin: 10px;">
-                        <t t-esc="env['ir.fields.converter'].text_from_html(o.body)"/>
-                    </p>
-                    <br/>
-                    <br/>
-                    <p style="font-weight:bold">Attaches</p>
-                    <hr style="border-top: 3px solid #bbb;"/>
-                    <table>
-                        <thead>
+                        .droidkufi-font {
+                        font-family: 'DroidKufi', sans-serif;
+                        }
+                        table {
+                        border: 1px solid black;
+                        width: 100%;
+                        }
+                        td{
+                        border: 1px solid grey;
+                        padding: 5px 5px 5px 5px;
+                        width:20%;
+                        }
+                        th{
+                        border: 1px solid grey;
+                        padding: 5px 5px 5px 5px;
+                        background-color:#d3d3d3;
+                        }
+                    </style>
+                    <div class="page  droidkufi-font">
+                        <br/>
+                        <br/>
+                        <br/>
+                        <h4 style="text-align:center;margin-top:0px;font-weight:bold">Transaction Report
+                        </h4>
+                        <br/>
+                        <br/>
+                        <table>
                             <tr>
-                                <th>
-                                    #
-                                </th>
-                                <th style="text-align:center">
-                                    Create by
-                                </th>
-                                <th style="text-align:center">
-                                    Unit Responsible
-                                </th>
-                                <th style="text-align:center">
-                                    Date
-                                </th>
-                                <th style="text-align:center">
-                                    Description
-                                </th>
+                                <td style="background-color:#d3d3d3;font-weight:bold;width:18%">Transaction Number</td>
+                                <td style="width:32%">
+                                    <t t-esc="o.name"/>
+                                </td>
+                                <td style="background-color:#d3d3d3;font-weight:bold;width:18%">state</td>
+                                <td style="width:32%">
+                                    <t t-esc="dict(o.fields_get(allfields=['state'])['state']['selection'])[o.state]"/>
+                                </td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            <t t-foreach="o.attachment_rule_ids" t-as="line">
+                            <!--                            <td style="width:32%"><t t-esc="o.state"/></td>-->
+                            <tr>
+                                <td style="background-color:#d3d3d3;font-weight:bold">Transaction Type</td>
+                                <td>
+                                    <t t-esc="dict(o.fields_get(allfields=['type'])['type']['selection'])[o.type]"/>
+                                </td>
+                                <td style="background-color:#d3d3d3;font-weight:bold">Subject</td>
+                                <td>
+                                    <t t-esc="o.cm_subject.name"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="background-color:#d3d3d3;font-weight:bold">Send To</td>
+
+                                <td>
+                                    <t t-esc="', '.join(map(lambda x: (x.name or x.code), o.to_ids))"/>
+                                </td>
+                                <td style="background-color:#d3d3d3;font-weight:bold">CC To</td>
+                                <td>
+                                    <t t-esc="', '.join(map(lambda x: (x.name or x.code), o.cc_ids))"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="background-color:#d3d3d3;font-weight:bold">Important Degree</td>
+                                <td>
+                                    <t t-esc="o.important_id.name"/>
+                                </td>
+                                <td style="background-color:#d3d3d3;font-weight:bold">Subject Type</td>
+                                <td>
+                                    <t t-esc="o.subject_type_id.name"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="background-color:#d3d3d3;font-weight:bold">Transaction Date</td>
+                                <td>
+                                    <t t-esc="o.transaction_date"/>
+                                </td>
+                                <td style="background-color:#d3d3d3;font-weight:bold">Transaction Date (Hijri)</td>
+                                <td>
+                                    <t t-esc="o.transaction_date_hijri"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="background-color:#d3d3d3;font-weight:bold">Preparation Unit</td>
+                                <td>
+                                    <t t-esc="o.preparation_id.name"/>
+                                </td>
+                                <td style="background-color:#d3d3d3;font-weight:bold">Procedure</td>
+                                <td>
+                                    <t t-esc="o.procedure_id.name"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="background-color:#d3d3d3;font-weight:bold">Created By</td>
+                                <td>
+                                    <t t-esc="o.employee_id.name"/>
+                                </td>
+                                <td style="background-color:#d3d3d3;font-weight:bold">Unit Responsible</td>
+                                <td>
+                                    <t t-esc="o.entity_id.name"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="background-color:#d3d3d3;font-weight:bold">Deadline</td>
+                                <td>
+                                    <t t-esc="o.due_date"/>
+                                </td>
+                                <td style="background-color:#d3d3d3;font-weight:bold">No. of Attachments</td>
+                                <td>
+                                    <t t-esc="o.attachment_num"/>
+                                </td>
+                            </tr>
+                        </table>
+                        <br/>
+                        <br/>
+                        <t t-if="o.body != '&lt;p&gt;&lt;br&gt;&lt;/p&gt;'">
+                            <p style="font-weight:bold">Transaction Details</p>
+                            <hr style="border-top: 3px solid #bbb;"/>
+                            <p style="text-align:justify;margin: 10px;">
+                                <t t-esc="env['ir.fields.converter'].text_from_html(o.body)"/>
+                            </p>
+                        </t>
+
+                        <br/>
+                        <br/>
+                        <p t-if="o.attachment_rule_ids" style="font-weight:bold">Attaches</p>
+                        <hr t-if="o.attachment_rule_ids" style="border-top: 3px solid #bbb;"/>
+                        <table t-if="o.attachment_rule_ids">
+                            <thead>
                                 <tr>
-                                    <td style="width:5%">
-                                        <!--                                    <strong t-esc="line_index + 1"/>-->
+                                    <th>
+                                        #
+                                    </th>
+                                    <th style="text-align:center">
+                                        Create by
+                                    </th>
+                                    <th style="text-align:center">
+                                        Unit Responsible
+                                    </th>
+                                    <th style="text-align:center">
+                                        Date
+                                    </th>
+                                    <th style="text-align:center">
+                                        Description
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="o.attachment_rule_ids" t-as="line">
+                                    <tr>
+                                        <td style="width:5%">
+                                            <!--                                    <strong t-esc="line_index + 1"/>-->
+                                        </td>
+                                        <td style="width:20%">
+                                            <t t-esc="line.employee_id.name"/>
+                                        </td>
+                                        <td style="width:20%">
+                                            <t t-esc="line.entity_id.name"/>
+                                        </td>
+                                        <td style="width:20%">
+                                            <t t-esc="line.date"/>
+                                        </td>
+                                        <td style="width:35%">
+                                            <t t-esc="line.description"/>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                        <br/>
+                        <br/>
+                        <p t-if='o.attachment_ids' style="font-weight:bold">Attachments</p>
+                        <hr t-if='o.attachment_ids' style="border-top: 3px solid #bbb;"/>
+                        <table t-if="o.attachment_ids">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        #
+                                    </th>
+                                    <th style="text-align:center">
+                                        Attachment type
+                                    </th>
+                                    <th style="text-align:center">
+                                        No. Pages
+                                    </th>
+                                    <th style="text-align:center">
+                                        Description
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="o.attachment_ids" t-as="line">
+                                    <tr>
+                                        <td style="width:5%">
+                                            <!--                                    <strong t-esc="line_index + 1"/>-->
+                                        </td>
+                                        <td style="width:20%">
+                                            <t t-esc="line.type_id.name"/>
+                                        </td>
+                                        <td style="width:20%">
+                                            <t t-esc="line.num_page"/>
+                                        </td>
+                                        <td style="width:55%">
+                                            <t t-esc="line.name"/>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+
+                        <br/>
+                        <p t-if="o.trace_ids" style="font-weight:bold">سجل التتبع</p>
+                        <hr t-if="o.trace_ids" style="border-top: 3px solid #bbb;"/>
+                        <br/>
+                        <table t-if='o.trace_ids' class="table table-bordered"
+                               style="width: 100%; border-collapse: collapse;">
+                            <thead>
+                                <tr style="background-color: #f2f2f2;">
+                                    <th style="border: 1px solid #ddd; padding: 8px;">Action</th>
+                                    <th style="border: 1px solid #ddd; padding: 8px;">Date</th>
+                                    <th style="border: 1px solid #ddd; padding: 8px;">From</th>
+                                    <th style="border: 1px solid #ddd; padding: 8px;">To</th>
+                                    <th style="border: 1px solid #ddd; padding: 8px;">Procedure</th>
+                                    <th style="border: 1px solid #ddd; padding: 8px;">CC</th>
+                                    <th style="border: 1px solid #ddd; padding: 8px;">Note</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="o.trace_ids" t-as="line">
+                                    <td>
+                                        <t t-esc="dict(line._fields['action'].selection).get(line.action, line.action) if o.env.lang.startswith('en') else dict(line._fields['action'].selection).get(line.action, line.action)"/>
                                     </td>
-                                    <td style="width:20%">
-                                        <t t-esc="line.employee_id.name"/>
-                                    </td>
-                                    <td style="width:20%">
-                                        <t t-esc="line.entity_id.name"/>
-                                    </td>
-                                    <td style="width:20%">
+                                    <td>
                                         <t t-esc="line.date"/>
                                     </td>
-                                    <td style="width:35%">
-                                        <t t-esc="line.description"/>
+                                    <td>
+                                        <t t-esc="line.from_id.name"/>
+                                    </td>
+                                    <td>
+                                        <t t-esc="line.to_id.name"/>
+                                    </td>
+                                    <td>
+                                        <t t-esc="line.procedure_id.name"/>
+                                    </td>
+                                    <td>
+                                        <t t-esc="line.cc_ids.name"/>
+                                    </td>
+                                    <td>
+                                        <t t-esc="line.note"/>
                                     </td>
                                 </tr>
-                            </t>
-                        </tbody>
-                    </table>
-                    <br/>
-                    <br/>
-                    <p style="font-weight:bold">Attachments</p>
-                    <hr style="border-top: 3px solid #bbb;"/>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>
-                                    #
-                                </th>
-                                <th style="text-align:center">
-                                    Attachment type
-                                </th>
-                                <th style="text-align:center">
-                                    No. Pages
-                                </th>
-                                <th style="text-align:center">
-                                    Description
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <t t-foreach="o.attachment_ids" t-as="line">
-                                <tr>
-                                    <td style="width:5%">
-                                        <!--                                    <strong t-esc="line_index + 1"/>-->
-                                    </td>
-                                    <td style="width:20%">
-                                        <t t-esc="line.type_id.name"/>
-                                    </td>
-                                    <td style="width:20%">
-                                        <t t-esc="line.num_page"/>
-                                    </td>
-                                    <td style="width:55%">
-                                        <t t-esc="line.name"/>
-                                    </td>
-                                </tr>
-                            </t>
-                        </tbody>
-                    </table>
+                            </tbody>
+                        </table>
+                        <div class="droidkufi-font"
+                             style="padding-top:100px;!important; font-size: 14pt; margin-bottom: 10px;">
 
-                    <br/>
-                      <p style="font-weight:bold">Track record</p>
-                    <hr style="border-top: 3px solid #bbb;"/>
-                    <br/>
-                     <table class="table table-bordered" style="width: 100%; border-collapse: collapse;">
-                <thead>
-                    <tr style="background-color: #f2f2f2;">
-                        <th style="border: 1px solid #ddd; padding: 8px;">Action</th>
-                        <th style="border: 1px solid #ddd; padding: 8px;">Date</th>
-                        <th style="border: 1px solid #ddd; padding: 8px;">From</th>
-                        <th style="border: 1px solid #ddd; padding: 8px;">To</th>
-                        <th style="border: 1px solid #ddd; padding: 8px;">Procedure</th>
-                        <th style="border: 1px solid #ddd; padding: 8px;">CC</th>
-                        <th style="border: 1px solid #ddd; padding: 8px;">Note</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr t-foreach="o.trace_ids" t-as="line">
-                        <td>
-                            <t t-esc="line.action"/>
-                        </td>
-                        <td>
-                            <t t-esc="line.date"/>
-                        </td>
-                        <td>
-                            <t t-esc="line.from_id.name"/>
-                        </td>
-                        <td>
-                            <t t-esc="line.to_id.name"/>
-                        </td>
-                        <td>
-                            <t t-esc="line.procedure_id.name"/>
-                        </td>
-                        <td>
-                                 <t t-esc="line.cc_ids.name"/>
-                        </td>
-                        <td>
-                            <t t-esc="line.note"/>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-                    <br/>
-                    <br/>
+                            <!-- Wrapper prevents breaking across pages -->
+                            <div style="display: inline-block; width: 100%; overflow: hidden;">
 
-                    <img t-if="o.signature" t-attf-src="data:image/*;base64,{{o.signature}}"
-                        style="margin-top:50px;height:200px;width:200px; border-style: double; border: 0px;border-color: gray; float: left;"/>
-                    <!--                    <div style="height:200px;width:200px; border-style: outset; border-width: 7px;border-color: gray;" t-field="o.signature" t-field-options='{"widget": "image"}'/>-->
+                                <!-- Signature (left side) -->
+                                <div style="float: left; width: 45%; text-align: left; padding-left: 20px;">
+                                    <t t-if="o.signature">
+                                        <img t-attf-src="data:image/*;base64,{{o.signature}}"
+                                             style="margin-top: 30px; height: 160px; width: 160px; border: none;"/>
+                                    </t>
+                                </div>
 
-                    <h2>تفاصيل المعاملة</h2>
-                    <p>رقم المعاملة:
-                        <t t-esc="o.name"/>
-                    </p>
-                    <p>الموضوع:
-                        <t t-esc="o.subject"/>
-                    </p>
-                    <p>التاريخ:
-                        <t t-esc="o.transaction_date"/>
-                    </p>
-                    <p>عدد المرفقات:
-                        <t t-esc="o.attachment_ids.num_page"/>
-                    </p>
-                    <p>
-                        <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', o.name, 600, 100)"
-                             style="width:250px;height:40px;margin-top:5px;"/>
-                    </p>
-                 </div>
+                                <!-- Details (right side) -->
+                                <div class="droidkufi-font"
+                                     style="float: right; width: 50%; text-align: right; padding-right: 20px; margin-top: 30px;">
+                                    <h2 class="droidkufi-font"
+                                        style="font-weight: bold; color: #333; margin-bottom: 20px;">
+                                        <t t-if="o.env.lang and o.env.lang.startswith('ar')">باركود المعاملة</t>
+                                        <t t-else="">Transaction Barcode</t>
+                                    </h2>
+                                    <p class="droidkufi-font">
+                                        <t t-if="o.env.lang and o.env.lang.startswith('ar')">
+                                            <span style="font-weight: bold;">
+                                                رقم المعاملة:
+                                            </span>
+                                        </t>
+                                        <t style="font-weight: bold;" t-else="">
+                                            <span style="font-weight: bold;">Transaction No.:</span>
+                                        </t>
+                                        <t t-esc="o.name"/>
+                                    </p>
+                                    <p t-if="o.cm_subject" class="droidkufi-font">
+                                        <t style="font-weight: bold;" t-if="o.env.lang and o.env.lang.startswith('ar')">
+                                            <span style="font-weight: bold;">
+                                                الموضوع:
+                                            </span>
+                                        </t>
+                                        <t style="font-weight: bold;" t-else="">
+                                            <span style="font-weight: bold;">Subject:</span>
+                                        </t>
+                                        <t t-esc="o.cm_subject.name"/>
+                                    </p>
+                                    <p class="droidkufi-font">
+                                        <t style="font-weight: bold;" t-if="o.env.lang and o.env.lang.startswith('ar')">
+                                            <span style="font-weight: bold;">
+                                                التاريخ:
+                                            </span>
+                                        </t>
+                                        <t style="font-weight: bold;" t-else="">
+                                            <span style="font-weight: bold;">Date:</span>
+                                        </t>
+                                        <t t-esc="o.transaction_date"/>
+                                    </p>
+                                    <p class="droidkufi-font">
+                                        <t style="font-weight: bold;" t-if="o.env.lang and o.env.lang.startswith('ar')">
+                                            <span style="font-weight: bold;">
+                                                عددالمرفقات:
+                                            </span>
+                                        </t>
+                                        <t style="font-weight: bold;" t-else="">
+                                            <span style="font-weight: bold;">Attachments Count:</span>
+                                        </t>
+                                        <t t-esc="o.attachment_ids.num_page"/>
+                                    </p>
+                                    <p class="droidkufi-font">
+                                        <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', o.name, 600, 100)"
+                                             style="width: 250px; height: 40px; margin-top: 5px;"/>
+                                    </p>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
                     <!-- Add more details as needed -->
+
+                </t>
             </t>
         </template>
         <template id="report_internal_transaction_detail">
@@ -360,7 +409,7 @@
             <field name="default" eval="True"/>
             <field name="format">A4</field>
             <field name="orientation">Portrait</field>
-            <field name="margin_top">10</field>
+            <field name="margin_top">37</field>
             <field name="margin_right">10</field>
             <field name="margin_bottom">10</field>
             <field name="margin_left">10</field>

@@ -9,6 +9,17 @@ class StockMove(models.Model):
 
 	branch_id = fields.Many2one('res.branch')
 
+	@api.model
+	def default_get(self, default_fields):
+		res = super(StockMove, self).default_get(default_fields)
+		branch_id = False
+		if self._context.get('branch_id'):
+			branch_id = self._context.get('branch_id')
+		elif self.env.user.branch_id:
+			branch_id = self.env.user.branch_id.id
+		res.update({'branch_id': branch_id})
+		return res
+
 	def _assign_picking(self):
 		""" Try to assign the moves to an existing picking that has not been
 		reserved yet and has the same procurement group, locations and picking

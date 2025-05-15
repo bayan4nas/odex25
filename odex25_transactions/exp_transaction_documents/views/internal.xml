@@ -21,12 +21,11 @@
                         ('state', 'in', ['to_approve', 'send'])
                     ]"/>
                     <filter string="Favorite" name="favorite" domain="[('is_favorite','=','1')]"/>
-                    <filter string="Subject Type" name="subject_type" domain="[('subject_type_id','=',False)]"/>
-                    <filter string="State" name="state" domain="[('state', 'in', ('complete','draft'))]"/>
+                     <filter string="Subject Type" name="subject_type" domain="[('subject_type_id','=',False)]"/>
+                     <filter string="State" name="state"   domain="[('state', 'in', ('complete','draft'))]"/>
                     <group expand="1" string="Group By">
                         <filter string="State" name="group_by_state" context="{'group_by':'state'}"/>
-                        <filter string="Subject Type" name="group_by_subject_type"
-                                context="{'group_by':'subject_type_id'}"/>
+                        <filter string="Subject Type" name="group_by_subject_type" context="{'group_by':'subject_type_id'}"/>
                     </group>
 
 
@@ -54,8 +53,8 @@
                     <field name="cm_subject"/>
                     <field name="subject_type_id"/>
                     <!-- <field name="create_uid" string="Send From"/> -->
-                    <field name="last_sender_label" string="مرسل من"/>
-                    <field name="last_received_entity_id" string="مرسل إلى"/>
+                    <field name="last_sender_label" string="Last sender label"/>
+                    <field name="last_received_entity_id"/>
                     <field name="due_date"/>
                     <field name="state" optional="show"/>
                     <field name="is_favorite" string=" " widget="priority"/>
@@ -108,9 +107,7 @@
                         <button attrs="{'invisible':['|',('current_is_forward_user','=',False),('state','not in',['send','reply'])]}"
                                 type="object" name="action_archive_internal" string="Archive" class="oe_highlight"/>
                         <button states="closed" type="object" name="action_reopen_internal" string="Reopen"
-                                class="oe_highlight"
-                                groups="exp_transaction_documents.group_reopen_transaction,exp_transaction_documents.group_transaction_manager"
-                                confirm="Are you sure you want to reopen transaction ?"/>
+                                class="oe_highlight" groups="exp_transaction_documents.group_reopen_transaction,exp_transaction_documents.group_transaction_manager" confirm="Are you sure you want to reopen transaction ?"/>
                         <button states="canceled" type="object" name="set_to_draft" string="Restore"
                                 class="oe_highlight"
                                 confirm="Are you sure you want to restore transaction ?"/>
@@ -120,11 +117,11 @@
                 <xpath expr="//field[@name='need_approve']" position="after">
                     <field name="current_is_forward_user" invisible="1"/>
                 </xpath>
-                <xpath expr="//field[@name='tran_tag']" position="after">
+                 <xpath expr="//field[@name='tran_tag']" position="after">
                     <field name="to_delegate" readonly="1" force_save="1"/>
-                    <!--                    <field name="delegate_employee_id"/>-->
-                    <!--                    <field name="from_date"/>-->
-                    <!--                    <field name="to_date"/>-->
+<!--                    <field name="delegate_employee_id"/>-->
+<!--                    <field name="from_date"/>-->
+<!--                    <field name="to_date"/>-->
                 </xpath>
             </field>
         </record>
@@ -183,8 +180,7 @@
                                 attrs="{'invisible':['|',('state','=','canceled'),('state','=','closed')]}"
                                 string="Cancel" class="oe_highlight"/>
                         <button states="closed" type="object" name="action_reopen_internal" string="Reopen"
-                                class="oe_highlight"
-                                groups="exp_transaction_documents.group_reopen_transaction,exp_transaction_documents.group_transaction_manager"
+                                class="oe_highlight" groups="exp_transaction_documents.group_reopen_transaction,exp_transaction_documents.group_transaction_manager"
                                 confirm="Are you sure you want to reopen transaction ?"/>
                         <button states="canceled" type="object" name="set_to_draft" string="Restore"
                                 class="oe_highlight"
@@ -200,9 +196,9 @@
                 <xpath expr="//field[@name='to_ids']" position="after">
                     <field name="partner_id"/>
                     <field name="to_delegate" readonly="1" force_save="1"/>
-                    <!--                    <field name="delegate_employee_id"/>-->
-                    <!--                    <field name="from_date"/>-->
-                    <!--                    <field name="to_date"/>-->
+<!--                    <field name="delegate_employee_id"/>-->
+<!--                    <field name="from_date"/>-->
+<!--                    <field name="to_date"/>-->
                 </xpath>
                 <xpath expr="//field[@name='to_ids']" position="before">
                     <field name="type_sender" attrs="{'readonly':[('state','not in', ['draft'])]}"/>

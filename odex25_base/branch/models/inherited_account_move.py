@@ -12,6 +12,18 @@ class AccountMove(models.Model):
     _inherit = 'account.move'
 
     @api.model
+    def search(self, args, offset=0, limit=None, order=None, count=False):
+        user = self.env.user
+        if user.has_group("branch.group_branch_user") and not user.has_group("branch.group_branch_user_manager"):
+            allowed_branch_ids = set()
+            if user.branch_id:
+                allowed_branch_ids.add(user.branch_id.id)
+            if user.branch_ids:
+                allowed_branch_ids.update(user.branch_ids.ids)
+            if allowed_branch_ids:
+                args += ['|', ('branch_id', '=', False), ('branch_id', 'in', list(allowed_branch_ids))]
+                return super(AccountMove, self).search(args, offset=offset, limit=limit, order=order, count=count)
+    @api.model
     def default_get(self, default_fields):
         res = super(AccountMove, self).default_get(default_fields)
         branch_id = False
@@ -21,22 +33,20 @@ class AccountMove(models.Model):
         elif self.env.user.branch_id:
             branch_id = self.env.user.branch_id.id
         res.update({
-            'branch_id': branch_id
+            'branch_id' : branch_id
         })
         return res
 
     branch_id = fields.Many2one('res.branch', string="Branch")
 
-    # @api.onchange('branch_id')
-    # def _onchange_branch_id(self):
-    #     selected_brach = self.branch_id
-    #     if selected_brach:
-    #         user_id = self.env['res.users'].browse(self.env.uid)
-    #         user_branch = user_id.sudo().branch_id
-    #         print(user_branch.name, 'hhhhhhhhhhhhh')
-    #         if user_branch and user_branch.id != selected_brach.id:
-    #             raise UserError(
-    #                 "Please select active branch only. Other may create the Multi branch issue. \n\ne.g: If you wish to add other branch then Switch branch from the header and set that.")
+    @api.onchange('branch_id')
+    def _onchange_branch_id(self):
+        selected_brach = self.branch_id
+        if selected_brach:
+            user_id = self.env['res.users'].browse(self.env.uid)
+            user_branch = user_id.sudo().branch_id
+            if user_branch and user_branch.id != selected_brach.id:
+                raise UserError("Please select active branch only. Other may create the Multi branch issue. \n\ne.g: If you wish to add other branch then Switch branch from the header and set that.") 
 
 
 class AccountMoveLine(models.Model):
@@ -52,9 +62,9 @@ class AccountMoveLine(models.Model):
         elif self.env.user.branch_id:
             branch_id = self.env.user.branch_id.id
 
-        if self.move_id.branch_id:
+        if self.move_id.branch_id :
             branch_id = self.move_id.branch_id.id
-        res.update({'branch_id': branch_id})
+        res.update({'branch_id' : branch_id})
         return res
 
-    branch_id = fields.Many2one('res.branch', string="Branch", related="move_id.branch_id", store=True)
+    branch_id = fields.Many2one('res.branch', string="Branch",related="move_id.branch_id",store=True)

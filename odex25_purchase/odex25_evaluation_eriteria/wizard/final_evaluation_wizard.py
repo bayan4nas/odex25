@@ -40,7 +40,8 @@ class FinalEvaluationWizard(models.TransientModel):
         if purchase_requisition:
             domain += [("requisition_id", "in", purchase_requisition.ids)]
         if self.committee_member:
-            domain += [("committee_members", "in", self.committee_member.ids)]
+            domain += [("initial_evaluation_lines.user_id", "=", self.committee_member.id)]
+            # domain += [("committee_members", "in", self.committee_member.ids)]
 
         if self.hr_department_id:
             domain += [("department_id", "=", self.hr_department_id.id)]
@@ -63,6 +64,16 @@ class FinalEvaluationWizard(models.TransientModel):
         if not self.move_ids:
             raise ValidationError(_('There is No Data to present'))
         # return self.move_ids
+
+    def get_max_average_evaluation(self):
+        max_avg = 0
+        best_partner = ''
+        for order in self.move_ids:
+            avg = order.avg_evaluation or 0
+            if avg > max_avg:
+                max_avg = avg
+                best_partner = order.partner_id.name
+        return best_partner
 
     def action_create_search_html(self):
         self.action_create_search()
