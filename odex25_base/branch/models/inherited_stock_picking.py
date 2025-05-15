@@ -18,6 +18,8 @@ class StockPicking(models.Model):
 
     branch_id = fields.Many2one('res.branch', string="Branch")
 
+
+
     @api.onchange('branch_id')
     def _onchange_branch_id(self):
         selected_brach = self.branch_id

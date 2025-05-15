@@ -13,261 +13,341 @@
             <field name="binding_type">report</field>
         </record>
 
-
-        <!--        <template id="final_evaluation_report_view">-->
-        <!--            <t t-call="web.html_container">-->
-        <!--                <t t-foreach="docs" t-as="doc">-->
-        <!--                    <t t-call="web.external_layout">-->
-        <!--                        <div class="page">-->
-        <!--                            <div style="display: flex; justify-content: center; align-items: center;">-->
-        <!--                                <table class="table table-bordered mt32"-->
-        <!--                                       style="width: 70%; border: 2pt solid black; border-collapse: collapse;">-->
-        <!--                                    <tbody>-->
-        <!--                                        <tr>-->
-        <!--                                            <td style="border: 1px solid black;">-->
-        <!--                                                <h5>لجنة تحليل العروض و المشتريات</h5>-->
-        <!--                                            </td>-->
-        <!--                                        </tr>-->
-        <!--                                    </tbody>-->
-        <!--                                </table>-->
-        <!--                            </div>-->
-        <!--                            <div style="display: flex; justify-content: center; align-items: center;">-->
-        <!--                                <table class="table table-bordered mt32"-->
-        <!--                                       style="width: 70%; border: 2pt solid black; border-collapse: collapse;">-->
-        <!--                                    <tbody>-->
-        <!--                                        <tr>-->
-        <!--                                            <td style="border: 1px solid black;">الادارة صاحبة الاحتياج</td>-->
-        <!--                                            <td style="border: 1px solid black;">-->
-        <!--                                                <t t-esc="doc.hr_department_id.name"/>-->
-        <!--                                            </td>-->
-        <!--                                            <td style="border: 1px solid black;">-->
-        <!--                                                <tr>البند المعتمد (حسب الموازنه التقديرية)</tr>-->
-        <!--                                                <tr>المبالغ المرتبطه علي البند سابقا</tr>-->
-        <!--                                            </td>-->
-        <!--                                            <td style="border: 1px solid black;">-->
-        <!--                                                <tr>test 1</tr>-->
-        <!--                                                <tr>test 2</tr>-->
-        <!--                                            </td>-->
-
-        <!--                                        </tr>-->
-        <!--                                    </tbody>-->
-        <!--                                </table>-->
-        <!--                            </div>-->
-
-        <!--                        </div>-->
-        <!--                    </t>-->
-        <!--                </t>-->
-        <!--            </t>-->
-        <!--        </template>-->
         <template id="final_evaluation_report_view">
             <t t-call="web.html_container">
-                <t t-call="web.external_layout">
-                    <div class="page">
-                        <div class="header" style="text-align: center; font-size: 18px; font-weight: bold;">
-                            لجنة تحليل التعريض والمنشوبات
-                        </div>
+                <t t-foreach="docs" t-as="doc">
+                    <t t-call="web.external_layout">
+                        <div class="page">
+                            <div style="text-align:center">
+                                <div class="header"
+                                     style="background-color:gray;border: 1px solid black;text-align: center; font-size: 18px; font-weight: bold;">
+                                    لجنة تحليل العروض والمشتريات
+                                </div>
+                                <t t-foreach="doc.move_ids" t-as="order">
 
-                        <div class="section" style="margin-top: 20px;">
-                            <table style="width: 100%; border-collapse: collapse;">
-                                <tr>
-                                    <th style="border: 1px solid black; padding: 10px; text-align: center;">الموضوع/
-                                        المشروع
-                                    </th>
-                                </tr>
-                            </table>
-                            <table style="width: 100%; border-collapse: collapse;">
-                                <tr>
-                                    <th style="border: 1px solid black; padding: 10px; text-align: center;">
-                                        تأمين مكيفات شيك لسجون سلطة الرياض + سلطة جازان + سلطة مكة البكرسة
-                                    </th>
-                                </tr>
-                            </table>
-                        </div>
 
-                        <!-- Administration Section -->
-                        <div class="section" style="margin-top: 20px;">
-                            <table style="width: 100%; border-collapse: collapse;">
-                                <tr>
-                                    <th style="border: 1px solid black; padding: 10px; text-align: center;" colspan="1"
-                                        rowspan="2">
-                                        الإدارة صاحبة الاجتماع :
-                                    </th>
-                                    <td style="border: 1px solid black; padding: 10px; text-align: center;" colspan="1"
-                                        rowspan="2">
-                                        إدارة الفروع وخدمات المستفيدين
-                                    </td>
-                                    <th style="border: 1px solid black; padding: 10px; text-align: center;">
-                                        البقاء المعتمد (حسب الموازنة التقديرية)
-                                    </th>
-                                    <td style="border: 1px solid black; padding: 10px; text-align: center;"></td>
-                                </tr>
-                                <tr>
-                                    <th style="border: 1px solid black; padding: 10px; text-align: center;">
-                                        المبالغ المرتبطة على البقاء سابقا
-                                    </th>
-                                    <td style="border: 1px solid black; padding: 10px; text-align: center;"></td>
-                                </tr>
-                                <tr>
-                                    <th style="border: 1px solid black; padding: 10px; text-align: center;" colspan="1"
-                                        rowspan="2">
-                                        اسم البنـــــــد
-                                    </th>
-                                    <td style="border: 1px solid black; padding: 10px; text-align: center;" colspan="1"
-                                        rowspan="2">
-                                        المراكز التأهيلية
-                                    </td>
-                                    <th style="border: 1px solid black; padding: 10px; text-align: center;">
-                                        المشروع الحالي
-                                    </th>
-                                    <td style="border: 1px solid black; padding: 10px; text-align: center;"></td>
-                                </tr>
-                                <tr>
-                                    <th style="border: 1px solid black; padding: 10px; text-align: center;">
-                                        المبالغ المخلي
-                                    </th>
-                                    <td style="border: 1px solid black; padding: 10px; text-align: center;"></td>
-                                </tr>
-                            </table>
-                        </div>
+                                    <div class="section" style="margin-top: 20px;">
+                                        <table style="width: 100%; border-collapse: collapse;">
+                                            <tr>
+                                                <th style="border: 1px solid black; padding: 10px; text-align: center;">
+                                                    الموضوع/
+                                                    المشروع
+                                                </th>
+                                            </tr>
+                                        </table>
+                                        <table style="width: 100%; border-collapse: collapse;">
+                                            <tr>
+                                                <th style="border: 1px solid black; padding: 10px; text-align: center;">
+                                                    <span t-esc="order.requisition_id.purpose or order.purpose"/>
+                                                </th>
+                                            </tr>
+                                        </table>
+                                    </div>
 
-                        <!-- Financial Approval Section -->
-                        <div class="section" style="margin-top: 20px;">
-                            <table style="width: 100%; border-collapse: collapse;">
-                                <tr>
-                                    <th style="border: 1px solid black; padding: 10px; text-align: center; vertical-align: middle;">
-                                        <div style="vertical-align: top;">مصادقة</div>
-                                        <div>الإدارة المالية</div>
-                                    </th>
-                                    <th style="border: 1px solid black; padding: 10px; text-align: center; vertical-align: top;">
-                                        <div style="vertical-align: top;">الاسم</div>
-                                    </th>
-                                    <th style="border: 1px solid black; padding: 10px; text-align: center; vertical-align: top;">
-                                        <div style="vertical-align: top;">التوقيع</div>
-                                    </th>
-                                    <th style="border: 1px solid black; padding: 10px; text-align: center; vertical-align: top;">
-                                        <div style="vertical-align: top;">التاريخ</div>
-                                    </th>
-                                </tr>
-                            </table>
-                        </div>
-                        <div class="section" style="margin-top: 20px;">
-                            <table style="width: 100%; border-collapse: collapse;">
-                                <tr>
-                                    <th style="border: 1px solid black; padding: 10px; text-align: center;">تقييم
-                                        العروض
-                                    </th>
-                                </tr>
-                            </table>
-                        </div>
-                        <!-- Offers Evaluation Section -->
-                        <div class="section" style="margin-top: 20px;">
-                            <table style="width: 100%; border-collapse: collapse;">
-                                <tr>
-                                    <th style="border: 1px solid black; padding: 10px; text-align: center;">اسم الشركة
-                                    </th>
-                                    <th style="border: 1px solid black; padding: 10px; text-align: center;">المبلغ</th>
-                                    <th style="border: 1px solid black; padding: 10px; text-align: center;">القيم عشر
-                                        الجدة / اسم الخبير
-                                    </th>
-                                    <th style="border: 1px solid black; padding: 10px; text-align: center;">القيم عشر
-                                        الجدة / محمد الشيوس
-                                    </th>
-                                    <th style="border: 1px solid black; padding: 10px; text-align: center;">القيم رئيس
-                                        اللجنة / محمد التقديري
-                                    </th>
-                                    <th style="border: 1px solid black; padding: 10px; text-align: center;">متوسط
-                                        التقييم
-                                    </th>
-                                </tr>
-                                <tr>
-                                    <td style="border: 1px solid black; padding: 10px; text-align: center;">1</td>
-                                    <td style="border: 1px solid black; padding: 10px; text-align: center;">شركة حمد
-                                        المنبع وشركة الدخيرة الكهربائية والتكليف
-                                    </td>
-                                    <td style="border: 1px solid black; padding: 10px; text-align: center;">126,000.00
-                                    </td>
-                                    <td style="border: 1px solid black; padding: 10px; text-align: center;">1,426%</td>
-                                    <td style="border: 1px solid black; padding: 10px; text-align: center;">85%</td>
-                                    <td style="border: 1px solid black; padding: 10px; text-align: center;">88%</td>
-                                </tr>
-                                <tr>
-                                    <td style="border: 1px solid black; padding: 10px; text-align: center;">2</td>
-                                    <td style="border: 1px solid black; padding: 10px; text-align: center;">شركة نسم
-                                        الهواء للدخيرة الكهربائية
-                                    </td>
-                                    <td style="border: 1px solid black; padding: 10px; text-align: center;">090,000.00
-                                    </td>
-                                    <td style="border: 1px solid black; padding: 10px; text-align: center;">2,090%</td>
-                                    <td style="border: 1px solid black; padding: 10px; text-align: center;">75%</td>
-                                    <td style="border: 1px solid black; padding: 10px; text-align: center;">82%</td>
-                                </tr>
-                                <tr>
-                                    <td style="border: 1px solid black; padding: 10px; text-align: center;">3</td>
-                                    <td style="border: 1px solid black; padding: 10px; text-align: center;">مكيفات
-                                        الزامل
-                                    </td>
-                                    <td style="border: 1px solid black; padding: 10px; text-align: center;">396,35</td>
-                                    <td style="border: 1px solid black; padding: 10px; text-align: center;">2,267%</td>
-                                    <td style="border: 1px solid black; padding: 10px; text-align: center;">70%</td>
-                                    <td style="border: 1px solid black; padding: 10px; text-align: center;">75%</td>
-                                </tr>
-                            </table>
-                        </div>
+                                    <!-- Administration Section -->
+                                    <div class="section" style="margin-top: 20px;">
+                                        <table dir="rtl" style="width: 100%; border-collapse: collapse;">
+                                            <tr>
+                                                <th style="border: 1px solid black; padding: 10px; text-align: center;"
+                                                    colspan="1"
+                                                    rowspan="2">
+                                                    الإدارة صاحبة الاحتياج :
+                                                </th>
+                                                <td style="border: 1px solid black; padding: 10px; text-align: center;"
+                                                    colspan="1"
+                                                    rowspan="2">
+                                                    <span t-esc="order.department_id.name or order.requisition_id.department_id.name"/>
+                                                </td>
+                                                <th style="border: 1px solid black; padding: 10px; text-align: center;">
+                                                    البقاء المعتمد (حسب الموازنة التقديرية)
+                                                </th>
+                                                <td style="border: 1px solid black; padding: 10px; text-align: center;">
+                                                    <t t-if="order.analytic_id_poa()">
+                                                        <span t-esc="order.analytic_id_poa().name"/>
+                                                    </t>
+                                                    <t t-else="">
+                                                        <span>-</span>
+                                                    </t>
 
-                        <!-- Committee Recommendation Section -->
-                        <div class="section" style="margin-top: 20px;">
-                            <p style="text-align: justify;">
-                                ومن خلال مقارنة العروض الثلاثة أعلاه من قبل اللجنة، وبعد تحليل العروض قبل ومثيلاً شبكاً
-                                للمحايير، فإن اللجنة توصي بالتحاقد مع شركة حمد المنبع وشركة الدخيرة الكهربائية والتكليف
-                                ، حيث أن عرضهم الأفضل والأنسب قبلاً ومثيلاً.
-                            </p>
-                        </div>
+                                                </td>
+                                            </tr>
+                                            <tr t-if='order.get_budget_id()'>
+                                                <th style="border: 1px solid black; padding: 10px; text-align: center;">
+                                                    المبالغ المرتبطة على البند سابقا
+                                                </th>
+                                                <td style="border: 1px solid black; padding: 10px; text-align: center;">
+                                                    <span t-esc="abs(order.get_remain_last() or 0)"/>
 
-                        <!-- Committee Signatures Section -->
-                        <div class="section" style="margin-top: 20px;">
-                            <table style="width: 100%; border-collapse: collapse;">
-                                <tr>
-                                    <th style="border: 1px solid black; padding: 10px; text-align: center;">عضو اللجنة/
-                                        محمد المنتهي
-                                    </th>
-                                    <th style="border: 1px solid black; padding: 10px; text-align: center;">عضو اللجنة/
-                                        محمد السيجيبي
-                                    </th>
-                                    <th style="border: 1px solid black; padding: 10px; text-align: center;">رئيس اللجنة
-                                        / حمد الحقديري
-                                    </th>
-                                </tr>
-                            </table>
-                        </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th t-if='order.get_budget_id()'
+                                                    style="border: 1px solid black; padding: 10px; text-align: center;"
+                                                    colspan="1"
+                                                    rowspan="2">
+                                                    اسم البنـــــــد
+                                                </th>
+                                                <td t-if='order.get_budget_id()'
+                                                    style="border: 1px solid black; padding: 10px; text-align: center;"
+                                                    colspan="1"
+                                                    rowspan="2">
+                                                    <t t-if="order.get_budget_id()">
+                                                        <span t-esc="order.get_band_name()"/>
+                                                    </t>
+                                                    <t t-else="">
+                                                        <span>-</span>
+                                                    </t>
+                                                </td>
+                                                <th style="border: 1px solid black; padding: 10px; text-align: center;">
+                                                    المشروع الحالي
+                                                </th>
+                                                <td style="border: 1px solid black; padding: 10px; text-align: center;">
+                                                    <t t-esc='order.amount_total'/>
+                                                </td>
+                                            </tr>
+                                            <tr t-if='order.get_budget_id()'>
+                                                <th style="border: 1px solid black; padding: 10px; text-align: center;">
+                                                    المبلغ المتبقي
+                                                </th>
+                                                <td style="border: 1px solid black; padding: 10px; text-align: center;">
+                                                    <span t-esc="abs(order.get_remain() or 0)"/>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
 
-                        <!-- Final Approval Section -->
-                        <div class="section" style="margin-top: 20px;">
-                            <table style="width: 100%; border-collapse: collapse;">
-                                <tr>
-                                    <th style="border: 1px solid black; padding: 10px; text-align: center;">إعادة صاحب
-                                        الصالحية :
-                                    </th>
-                                    <td style="border: 1px solid black; padding: 10px; text-align: center;">
-                                        <p>موافق وتعتمد توصية اللجنة</p>
-                                        <p>غير موافق ( )</p>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th style="border: 1px solid black; padding: 10px; text-align: center;">الأمين
-                                        العام
-                                    </th>
-                                    <td style="border: 1px solid black; padding: 10px; text-align: center;">
-                                        صفر بن محمد القرني
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
+                                    <!-- Financial Approval Section -->
+                                    <div class="section" style="margin-top: 20px;">
+                                        <table dir="rtl" style="width: 100%; border-collapse: collapse;">
+                                            <tr t-if="order.get_budget_id()">
+                                                <th style="border: 1px solid black; padding: 10px; text-align: center; vertical-align: middle;">
+                                                    <div style="vertical-align: top;">مصادقة</div>
+                                                    <div>الإدارة المالية</div>
+                                                </th>
+                                                <th t-if="order.get_budget_id()"
+                                                    style="border: 1px solid black; padding: 10px; text-align: center; vertical-align: top;">
+                                                    <div style="vertical-align: top;">
+                                                        <t>
+                                                            <span>الاسم</span>
+                                                            <br/>
+                                                            <span t-esc="order.get_user_approve_budget_id().name"/>
+                                                        </t>
+                                                    </div>
+                                                </th>
+                                                <th style="border: 1px solid black; padding: 10px; text-align: center; vertical-align: top;">
+                                                    <div style="vertical-align: top;">
+                                                        <t>
+                                                            <span>التوقيع</span>
+                                                            <br/>
+                                                            <div style="padding-top:37px;">
+                                                                <img t-if="user.sign_signature" class="image"
+                                                                     t-att-src="'data:image/png;base64,%s' % to_text(user.sign_signature)"
+                                                                     style="width:60px; height:60px;margin-top:-40px"/>
+                                                            </div>
+                                                        </t>
+                                                    </div>
+                                                </th>
+                                                <th style="border: 1px solid black; padding: 10px; text-align: center; vertical-align: top;">
+                                                    <div style="vertical-align: top;">
+                                                        <span>التاريخ</span>
+                                                        <br/>
+                                                        <span t-esc="order.get_date_approve_budget_id()"/>
+                                                    </div>
+                                                </th>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <div class="section" style="margin-top: 20px;">
+                                        <table style="width: 100%; border-collapse: collapse;">
+                                            <tr>
+                                                <th style="border: 1px solid black; padding: 10px; text-align: center;">
+                                                    تقييم
+                                                    العروض
+                                                </th>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <!-- Offers Evaluation Section -->
+                                    <t t-set="data" t-value="order.get_evaluation_summary()"/>
+                                    <div class="section" style="margin-top: 20px;">
+                                        <table dir="rtl" style="width: 100%; border-collapse: collapse;">
+                                            <tr>
+                                                <th style="border: 1px solid black; padding: 10px; text-align: center;">
+                                                    م
+                                                </th>
+                                                <th style="border: 1px solid black; padding: 10px; text-align: center;">
+                                                    اسم
+                                                    الشركة
+                                                </th>
 
-                        <!-- Footer -->
-                        <div class="footer" style="margin-top: 20px; text-align: center;">
-                            AS05-F02 Page 1 of 1 OE-2022 Rev. (1)
+                                                <th style="border: 1px solid black; padding: 10px; text-align: center;">
+                                                    المبلغ
+                                                </th>
+                                                <th t-foreach="data['members']" t-as="member"
+                                                    t-if="order.initial_evaluation_lines"
+                                                    style="border: 1px solid black; padding: 10px; text-align: center;">
+                                                    تقييم عضو اللجنة/
+                                                    <br/>
+                                                    <span t-esc="member"/>
+                                                </th>
+                                                <th t-if="order.initial_evaluation_lines"
+                                                    style="border: 1px solid black; padding: 10px; text-align: center;">
+                                                    متوسط
+                                                    التقييم
+                                                </th>
+                                            </tr>
+                                            <tr>
+                                                <t t-set="count" t-value="0"/>
+                                                <td style="border: 1px solid black; padding: 10px; text-align: center;">
+                                                    <t t-set="count" t-value="count+1"/>
+                                                    <span t-esc="count"/>
+                                                </td>
+                                                <td style="border: 1px solid black; padding: 10px; text-align: center;">
+                                                    <t t-esc='order.partner_id.name'/>
+                                                </td>
+                                                <td style="border: 1px solid black; padding: 10px; text-align: center;">
+                                                    <t t-esc='order.amount_total'/>
+                                                </td>
+                                                <td t-if="order.initial_evaluation_lines" t-foreach="data['members']"
+                                                    t-as="member"
+                                                    style="border: 1px solid black; padding: 10px; text-align: center;">
+                                                    <span t-esc="data['totals'][member]"/>
+                                                </td>
+                                                <td style="border: 1px solid black; padding: 10px; text-align: center;"
+                                                    t-if="order.initial_evaluation_lines">
+                                                    <span t-esc="'%.2f' % order.avg_evaluation"/>
+                                                </td>
+                                            </tr>
+
+                                        </table>
+                                    </div>
+
+                                    <!-- Committee Recommendation Section -->
+                                    <!-- Committee Signatures Section -->
+                                </t>
+                                <div class="section" style="margin-top: 20px;">
+                                    <table style="width: 100%; border-collapse: collapse;">
+                                        <tr>
+                                            <th style="border: 1px solid black; padding: 10px; text-align: center;">
+                                                :راي اللجنة
+                                            </th>
+
+                                        </tr>
+                                        <tr>
+                                            <td style="border: 1px solid black; padding: 10px;">
+                                                <p style="text-align: justify;">
+                                                    ومن خلال مقارنة العروض
+                                                    السابقة أعلاه من قبل اللجنة، وبعد تحليل
+                                                    العروض فنيا
+                                                    وماليا
+                                                    طبقا للمعايير,
+                                                    ، حيث العرض الأفضل والأنسب قبلاً وماليا.
+                                                    فإن اللجنة توصي بالتعاقد مع
+                                                    <br/>
+                                                    <span dir="rtl" t-esc="doc.get_max_average_evaluation()"/>
+                                                </p>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+
+                                <t t-set="first_move" t-value="doc.move_ids[0]"/>
+                                <t t-if="first_move.requisition_id.committee_type_id">
+                                    <div class="section" style="margin-top: 20px;">
+                                        <table style="width: 100%; border-collapse: collapse;">
+                                            <tr>
+                                                <th colspan='3'
+                                                    style="border: 1px solid black; padding: 10px; text-align: center;">
+                                                    توقيع اعضاء اللجنة
+                                                </th>
+                                            </tr>
+                                            <tr>
+                                                <th t-if="first_move.requisition_id.committee_type_id.committe_members"
+                                                    t-foreach="first_move.requisition_id.committee_type_id.committe_members"
+                                                    t-as="member"
+                                                    style="border: 1px solid black; padding: 10px; text-align: center;">
+                                                    عضو
+                                                    اللجنة/
+                                                    <span t-esc="member.name"/>
+                                                </th>
+
+                                                <th t-if="first_move.requisition_id.committee_type_id.committe_head"
+                                                    style="border: 1px solid black; padding: 10px; text-align: center;">
+                                                    رئيس
+                                                    اللجنة
+                                                    /
+                                                    <span t-esc="first_move.requisition_id.committee_type_id.committe_head.name"/>
+                                                </th>
+                                            </tr>
+                                            <tr>
+                                                <th t-if="first_move.requisition_id.committee_type_id.committe_members"
+                                                    t-foreach="[s for s in first_move.requisition_id.committee_type_id.committe_members if s]"
+                                                    t-as="sign"
+                                                    style="border: 1px solid black; padding: 10px; text-align: center;">
+                                                    <div style="padding-top:36px;">
+                                                        <img t-if="sign.sign_signature" class="image"
+                                                             t-att-src="'data:image/png;base64,%s' % to_text(sign.sign_signature)"
+                                                             style="width:70px; height:70px;margin-top:-40px"/>
+                                                    </div>
+                                                </th>
+
+
+                                                <th t-if="first_move.requisition_id.committee_type_id.committe_head.sign_signature"
+                                                    style="border: 1px solid black; padding: 10px; text-align: center;">
+                                                    <div style="padding-top:36px;">
+                                                        <img class="image"
+                                                             t-att-src="'data:image/png;base64,%s' % to_text(first_move.requisition_id.committee_type_id.committe_head.sign_signature)"
+                                                             style="width:70px; height:70px;margin-top:-40px"/>
+                                                    </div>
+                                                </th>
+                                            </tr>
+                                        </table>
+                                    </div>
+
+                                </t>
+                                <!--                                end-->
+                                <!-- Final Approval Section -->
+                                <div class="section" style="margin-top: 20px;">
+                                    <table dir="rtl" style="width: 100%; border-collapse: collapse;">
+                                        <tr>
+                                            <th colspan="2"
+                                                style="border: 1px solid black; padding: 10px; text-align: center;">
+                                                إعادة
+                                                صاحب
+                                                الصالحية :
+                                            </th>
+                                        </tr>
+                                        <tr>
+                                            <td style="border: 1px solid black; padding: 10px; text-align: center;">
+                                                <p>موافق وتعتمد توصية اللجنة()</p>
+                                            </td>
+                                            <th style="border: 1px solid black; padding: 10px; text-align: center;">
+                                                الأمين
+                                                العام
+                                            </th>
+
+                                        </tr>
+                                        <tr>
+                                            <td style="border: 1px solid black; padding: 10px; text-align: center;">
+                                                غير موافق ( )
+                                            </td>
+                                            <td style="border: 1px solid black; padding: 10px; text-align: center;">
+                                                احمد بن عدلان الشمراني
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+
+                                <!---->
+
+                            </div>
+                            <!-- Footer -->
+                            <div class="footer"
+                                 style="background-color: #003366; color: white;margin-top: 20px; text-align: center;">
+                                AS05-F02 Page 1 of 1 OE-2022 Rev. (1)
+                            </div>
                         </div>
-                    </div>
+                    </t>
                 </t>
             </t>
         </template>

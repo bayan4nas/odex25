@@ -59,17 +59,12 @@ class InternalTransaction(models.Model):
     def _compute_last_received_entity(self):
         for transaction in self:
             last_track = transaction.trace_ids.sorted('create_date', reverse=True)[:1]  # Get the last track
-            print(last_track.internal_transaction_id, 'last track')
-            print(last_track.to_id.name, 'last_track.to_id')
-            # print(last_trackss, 'last track')
             if last_track:
                 print(last_track.to_id.name, 'last_track.to_id')
                 transaction.last_received_entity_id = last_track.to_id.id
-                print(transaction.last_received_entity_id, 'transaction.last_received_entity_id')
                 transaction.last_sender_entity_id = last_track.from_id.id
                 transaction.last_sender_label = last_track.from_label
                 transaction.cm_subject = last_track.procedure_id
-
             else:
                 transaction.last_received_entity_id = False
                 transaction.last_sender_entity_id = False

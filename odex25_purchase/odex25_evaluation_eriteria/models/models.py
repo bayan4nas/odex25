@@ -2,6 +2,9 @@
 from odoo import models, fields, api,_
 from odoo.exceptions import ValidationError
 
+from odoo import models, fields, api
+
+
 
 class CommitteeTypesInherit(models.Model):
     _inherit = 'purchase.committee.type'
@@ -88,6 +91,51 @@ class PurchaseOrderCustomSelect(models.Model):
 
     committee_members = fields.Many2many(comodel_name='res.users', compute='_compute_committee_members', string='Committee Members')
 
+    def analytic_id_poa(self):
+        print('re = ',self.requisition_id)
+        for rec in self.order_line:
+            analytic_account_id = rec.account_analytic_id
+            return analytic_account_id
+
+
+    def get_budget_id(self):
+        budget_id = self.env['budget.confirmation'].search([
+            '|', '|',
+            ('po_id', '=', self.id),
+            ('ref', '=', self.name),
+            ('ref', '=', self.requisition_id.name)
+        ], limit=1)
+        return budget_id
+
+    def get_remain_last(self):
+        res = self.get_budget_id()
+        print('res = ',res)
+        if res :
+            for rec in res.lines_ids:
+                return rec.remain
+
+    def get_band_name(self):
+        res = self.get_budget_id()
+        if res:
+            for rec in res.lines_ids:
+                res = rec.crossovered_budget_id
+                for lin in res.crossovered_budget_line:
+                    return lin.general_budget_id.name
+
+    def get_remain(self):
+        res = self.get_budget_id()
+        if res:
+         for rec in res.lines_ids:
+            res = rec.crossovered_budget_id
+            for lin in res.crossovered_budget_line:
+                return lin.remain
+
+    def get_user_approve_budget_id(self):
+        res = self.get_budget_id()
+        return res.approved_by_id
+    def get_date_approve_budget_id(self):
+            res = self.get_budget_id()
+            return res.approved_date
 
     @api.depends('initial_evaluation_lines', 'initial_evaluation_lines.user_id')
     def _compute_committee_members(self):
@@ -124,6 +172,16 @@ class PurchaseOrderCustomSelect(models.Model):
             'view_mode': 'form',
             'target': 'new',
             'context': {'default_order_id': self.id, 'default_purchase_committee_type': self.requisition_id.committee_type_id.id if self.requisition_id else False}
+        }
+
+    def get_evaluation_summary(self):
+        member_totals = {}  # {member_name: total_evaluation}
+        for line in self.initial_evaluation_lines:
+            name = line.user_id.name
+            member_totals[name] = member_totals.get(name, 0) + line.evaluation
+        return {
+            'members': list(member_totals.keys()),
+            'totals': member_totals,
         }
 
 
@@ -165,38 +223,18 @@ class InitialEvaluationCriteria(models.Model):
     degree = fields.Float(string="Degree")
         
     
+class BudgetConfirmation(models.Model):
+    _inherit = 'budget.confirmation'
+    # add user sign
+    approved_by_id = fields.Many2one('res.users', string='Approved By')
+    approved_date = fields.Date(string='Approval Date')
 
-
-
-# class SelectReasonCommittee(models.TransientModel):
-#     _inherit = "select.reason"
-#
-#     evaluation_criteria_lines = fields.One2many(
-#         'select.reason.evaluation.line',
-#         'wizard_id',
-#         string="Evaluation Criteria"
-#     )
-#     purchase_committee_type_line = fields.One2many(
-#         'purchase.committee.type.line', 'purchase_committee_type',
-#         string="Evaluation Criteria"
-#     )
-#
-#     def action_select(self):
-#         self.env['committe.member'].create({
-#             'po_id': self.order_id,
-#             'user_id': self.env.user.id,
-#             'selection_reason': self.select_reason,
-#             'select': True})
-#         order_id = self.env['purchase.order'].browse(self.order_id)
-#         order_id.select = True
-
-# class SelectReasonEvaluationLine(models.TransientModel):
-#     _name = 'select.reason.evaluation.line'
-#     _description = 'Evaluation Criteria Lines'
-#
-#     wizard_id = fields.Many2one('select.reason', string="Wizard")
-#     sequence = fields.Integer(string="Sequence", readonly=True)
-#     criteria = fields.Char(string="Evaluation Criteria", readonly=True)
-#     degree = fields.Float(string="Degree (%)", readonly=True)
-#     evaluation = fields.Float(string="Evaluation", required=True)
-# access_select_reason_evaluation_line,select.reason.evaluation.line access,model_select_reason_evaluation_line,,1,1,1,1
+    def confirm(self):
+        """
+        change state to confirm and check budget
+        """
+        super(BudgetConfirmation, self).confirm()
+        # add user sign
+        self.approved_by_id = self.env.user
+        self.approved_date = fields.Date.today()
+        # end

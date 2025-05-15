@@ -41,7 +41,7 @@ class InitialEvaluationWizard(models.TransientModel):
         if purchase_requisition:
             domain += [("requisition_id", "in", purchase_requisition.ids)]
         if self.committee_member:
-            domain += [("committee_members", "in", self.committee_member.ids)]
+            domain += [("initial_evaluation_lines.user_id", "=", self.committee_member.id)]
 
         start_date = self.start_date
         if start_date:

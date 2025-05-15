@@ -31,6 +31,7 @@ class Transaction(models.Model):
         ('reply', _('Reply'))], default='new')
     subject = fields.Char(string='Subject')
     cm_subject= fields.Many2one('cm.procedure',string='Subject')
+
     important_id = fields.Many2one(comodel_name='cm.transaction.important', string='Important Degree')
     transaction_date = fields.Date(string='Transaction Date', default=fields.Date.today)
     transaction_date_hijri = fields.Char(string='Transaction Date (Hijri)', compute='compute_hijri')

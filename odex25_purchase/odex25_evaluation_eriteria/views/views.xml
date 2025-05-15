@@ -40,7 +40,7 @@
                         </tree>
                     </field>
                     <group class="oe_subtotal_footer oe_right">
-<!--                        <field name="committee_members"/>-->
+                        <!--                        <field name="committee_members"/>-->
                         <field name="avg_evaluation"/>
                         <field name="total_evaluation"/>
                     </group>
@@ -61,7 +61,7 @@
                 <field name="purchase_committee_type" invisible="1"/>
                 <notebook>
                     <page string="Evaluation criteria">
-                        <field name="purchase_committee_type_line" create="0" widget="one2many_list" >
+                        <field name="purchase_committee_type_line" create="0" widget="one2many_list">
                             <tree editable="bottom">
                                 <field name="sequence" widget="handle"/>
                                 <field name="evaluation_criteria" readonly="1"/>
@@ -76,27 +76,17 @@
         </field>
     </record>
 
-    <!--    <record id="select_wizard_view" model="ir.ui.view">-->
-    <!--    <field name="name">select.reason.wizard.view</field>-->
-    <!--    <field name="model">select.reason</field>-->
-    <!--    <field name="inherit_id" ref="odex25_evaluation_eriteria.select_wizard_view"/>-->
-    <!--    <field name="arch" type="xml">-->
-    <!--        &lt;!&ndash; إضافة محتوى التقييم بعد حقل السبب الرئيسي &ndash;&gt;-->
-    <!--        <xpath expr="//field[@name='select_reason']" position="after">-->
-    <!--            <notebook>-->
-    <!--                <page string="Evaluation Criteria">-->
-    <!--                    <field name="evaluation_criteria_lines">-->
-    <!--                        <tree editable="bottom">-->
-    <!--                            <field name="sequence" widget="handle"/>-->
-    <!--                            <field name="criteria" readonly="1"/>-->
-    <!--                            <field name="degree" readonly="1"/>-->
-    <!--                            <field name="evaluation" required="1"/>-->
-    <!--                        </tree>-->
-    <!--                    </field>-->
-    <!--                </page>-->
-    <!--            </notebook>-->
-    <!--        </xpath>-->
-    <!--    </field>-->
-    <!--    </record>-->
+    <!-- Inherit Form View to Modify it -->
+    <record id="view_budget_confirmation_form_inherit" model="ir.ui.view">
+        <field name="name">view_budget_confirmation_form_extend</field>
+        <field name="model">budget.confirmation</field>
+        <field name="inherit_id" ref="account_budget_custom.view_budget_confirmation_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='date']" position="after">
+                <field name="approved_by_id" invisible="0"/>
+                <field name="approved_date" invisible="0"/>
+            </xpath>
 
+        </field>
+    </record>
 </odoo>
