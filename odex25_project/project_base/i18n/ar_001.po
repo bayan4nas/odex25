@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-04-13 09:09+0000\n"
-"PO-Revision-Date: 2025-04-13 09:09+0000\n"
+"POT-Creation-Date: 2025-04-15 09:01+0000\n"
+"PO-Revision-Date: 2025-04-15 09:01+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -18,7 +18,7 @@ msgstr ""
 #. module: project_base
 #: model:ir.actions.act_window,name:project_base.open_completion_certificate_form
 msgid " Completion  Certificate "
-msgstr ""
+msgstr "شهادة الإنجاز"
 
 #. module: project_base
 #: code:addons/odoo/odex25-trahum-standard/odex25_project/project_base/models/project_phase.py:0
@@ -30,7 +30,7 @@ msgstr ""
 #. module: project_base
 #: model:res.groups,name:project_base.group_project_owner
 msgid " Project Owner "
-msgstr ""
+msgstr "مالك المشروع"
 
 #. module: project_base
 #: code:addons/odoo/odex25-trahum-standard/odex25_project/project_base/wizard/project_hold_reason.py:0
@@ -38,6 +38,40 @@ msgstr ""
 #, python-format
 msgid " with Reason: %s"
 msgstr ""
+
+#. module: project_base
+#: model_terms:ir.ui.view,arch_db:project_base.completion_certificate_report_template
+msgid "1- Project Information"
+msgstr "1- معلومات المشروع"
+
+#. module: project_base
+#: model_terms:ir.ui.view,arch_db:project_base.completion_certificate_report_template
+msgid "2- Certificate Information"
+msgstr "2- معلومات الشهادة الإنجاز"
+
+
+
+
+
+
+
+
+#. module: project_base
+#: model_terms:ir.ui.view,arch_db:project_base.completion_certificate_report_template
+msgid "3- Deliverables and Performance Review"
+msgstr "3- المخرجات المقدمة ومراجعة الأداء التنفيذي"
+
+#. module: project_base
+#: model_terms:ir.ui.view,arch_db:project_base.completion_certificate_report_template
+msgid "4- Review and Approval"
+msgstr "4- المراجعة والموافقة"
+
+
+
+
+
+
+
 
 #. module: project_base
 #: model_terms:ir.ui.view,arch_db:project_base.view_edit_project_phase_wizard
@@ -161,13 +195,6 @@ msgstr "<span class=\"o_stat_text\">الدفعات</span>"
 msgid "<span class=\"oe_inline\">Days</span>"
 msgstr "<span class=\"oe_inline\">ايام</span>"
 
-
-#. module: project_base
-#: model:ir.actions.act_window,name:project_base.open_completion_certificate_form
-msgid "Completion  Certificate"
-msgstr "شهادة الإنجاز"
-
-
 #. module: project_base
 #: model_terms:ir.ui.view,arch_db:project_base.view_new_project_kanban
 msgid "<span class=\"text-muted\">All</span>"
@@ -240,6 +267,18 @@ msgid "Account"
 msgstr "الحساب"
 
 #. module: project_base
+#: model:ir.model.fields,field_description:project_base.field_completion_certificate__achievement_percentage
+msgid "Achievement (%)"
+msgstr "النسبة المئوية للإنجاز"
+
+
+
+
+
+
+
+
+#. module: project_base
 #: model:ir.model.fields,field_description:project_base.field_completion_certificate__message_needaction
 #: model:ir.model.fields,field_description:project_base.field_project_invoice__message_needaction
 #: model:ir.model.fields,field_description:project_base.field_project_phase__message_needaction
@@ -271,6 +310,17 @@ msgid "Activity Type Icon"
 msgstr ""
 
 #. module: project_base
+#: model_terms:ir.ui.view,arch_db:project_base.completion_certificate_report_template
+msgid "Actual Cost (SAR)"
+msgstr "التكلفة الفعلية (ريال سعودي)"
+
+
+
+
+
+
+
+#. module: project_base
 #: model_terms:ir.ui.view,arch_db:project_base.print_project_invoice
 msgid "Actual Forcast-Issue"
 msgstr ""
@@ -279,6 +329,18 @@ msgstr ""
 #: model:ir.model.fields,field_description:project_base.field_project_invoice__actual_payment_date
 msgid "Actual Payment date"
 msgstr "تاريخ دفع الفاتورة"
+
+#. module: project_base
+#: model:ir.model.fields,field_description:project_base.field_completion_certificate__actual_spending_until_delivery
+msgid "Actual Spending (SAR)"
+msgstr "الإنفاق الفعلي (ريال سعودي)"
+
+
+
+
+
+
+
 
 #. module: project_base
 #: model_terms:ir.ui.view,arch_db:project_base.view_config_settings_form
@@ -344,9 +406,19 @@ msgid "Analytic Account"
 msgstr ""
 
 #. module: project_base
+#: model_terms:ir.ui.view,arch_db:project_base.completion_certificate_report_template
+msgid "Approval"
+msgstr "اعتماد"
+
+#. module: project_base
 #: model_terms:ir.ui.view,arch_db:project_base.view_completion_certificate_form
 msgid "Approve Owner"
 msgstr "اعتماد مالك المشروع"
+
+#. module: project_base
+#: model:ir.model.fields,field_description:project_base.field_completion_certificate__project_manager_preparation_id
+msgid "Approver User"
+msgstr ""
 
 #. module: project_base
 #: model_terms:ir.ui.view,arch_db:project_base.view_new_project_kanban
@@ -377,6 +449,8 @@ msgstr "عدد المستندات"
 
 #. module: project_base
 #: model:ir.model.fields,field_description:project_base.field_completion_certificate__attachment_ids
+#: model:ir.model.fields,field_description:project_base.field_completion_certificate_attachment__attachment_ids
+#: model:ir.model.fields,field_description:project_base.field_completion_certificate_output__attachment_ids
 #: model:ir.model.fields,field_description:project_base.field_project_category__attachment_ids
 #: model:ir.model.fields,field_description:project_base.field_project_hold_reason__attachment_ids
 #: model:ir.model.fields,field_description:project_base.field_project_invoice__attachment_ids
@@ -385,6 +459,7 @@ msgstr "عدد المستندات"
 #: model:ir.model.fields,field_description:project_base.field_project_phase_type__attachment_ids
 #: model:ir.model.fields,field_description:project_base.field_project_team__attachment_ids
 #: model_terms:ir.ui.view,arch_db:project_base.project_invoice_form_view
+#: model_terms:ir.ui.view,arch_db:project_base.view_completion_certificate_form
 msgid "Attachments"
 msgstr "المرفقات"
 
@@ -405,10 +480,18 @@ msgid "Beneficiary"
 msgstr "المستفيد"
 
 #. module: project_base
+#: model:ir.actions.report,name:project_base.CC_report
+msgid "COCO report"
+msgstr ""
+
+#. module: project_base
+#: code:addons/odoo/odex25-trahum-standard/odex25_project/project_base/models/project.py:0
+#: code:addons/project_base/models/project.py:0
 #: model_terms:ir.ui.view,arch_db:project_base.project_invoice_form_view
 #: model_terms:ir.ui.view,arch_db:project_base.view_completion_certificate_form
 #: model_terms:ir.ui.view,arch_db:project_base.view_edit_project_phase_wizard
 #: model_terms:ir.ui.view,arch_db:project_base.view_project_hold_wizard
+#, python-format
 msgid "Cancel"
 msgstr "الغاء"
 
@@ -455,6 +538,29 @@ msgstr "شهادة"
 #: model:ir.model.fields,field_description:project_base.field_completion_certificate__name
 msgid "Certificate Name"
 msgstr "عنوان"
+
+#. module: project_base
+#: model_terms:ir.ui.view,arch_db:project_base.completion_certificate_report_template
+msgid "Certificate No."
+msgstr "رقم الشهادة"
+
+
+
+
+
+
+
+
+#. module: project_base
+#: model:ir.model,name:project_base.model_completion_certificate_output
+#: model_terms:ir.ui.view,arch_db:project_base.view_completion_certificate_output_form
+msgid "Certificate Output"
+msgstr "مخرج الشهادة"
+
+#. module: project_base
+#: model_terms:ir.ui.view,arch_db:project_base.view_completion_certificate_output_tree
+msgid "Certificate Outputs"
+msgstr "مخرج الشهادة"
 
 #. module: project_base
 #: model_terms:ir.ui.view,arch_db:project_base.view_project_hold_wizard
@@ -517,14 +623,33 @@ msgstr "شهادات الانجاز"
 #. module: project_base
 #: code:addons/odoo/odex25-trahum-standard/odex25_project/project_base/models/project.py:0
 #: code:addons/project_base/models/project.py:0
+#: model:ir.model.fields,field_description:project_base.field_completion_certificate_output__certificate_id
 #: model:ir.model.fields,field_description:project_base.field_project_phase__certificate_id
 #: model:ir.model.fields,field_description:project_base.field_project_project__completion_certificate_ids
+#: model_terms:ir.ui.view,arch_db:project_base.completion_certificate_report_template
 #: model_terms:ir.ui.view,arch_db:project_base.view_completion_certificate_form
 #: model_terms:ir.ui.view,arch_db:project_base.view_completion_certificate_tree
 #: model_terms:ir.ui.view,arch_db:project_base.view_edit_project_inherit_form
 #, python-format
 msgid "Completion Certificate"
 msgstr "شهادة الانجاز"
+
+#. module: project_base
+#: model:ir.model,name:project_base.model_report_project_base_completion_certificate_report_template
+msgid "Completion Certificate Report"
+msgstr "تقرير شهادة الإنجاز"
+
+
+
+
+
+
+
+
+#. module: project_base
+#: model_terms:ir.ui.view,arch_db:project_base.completion_certificate_report_template
+msgid "Completion Percentage"
+msgstr "نسبة الإنجاز  للمخرج"
 
 #. module: project_base
 #: model:ir.model,name:project_base.model_res_config_settings
@@ -546,7 +671,7 @@ msgstr "تأكيد الإلغاء"
 #. module: project_base
 #: model_terms:ir.ui.view,arch_db:project_base.view_go_back_reason_wizard
 msgid "Confirm Go Back"
-msgstr "تأكيد الرجوع"
+msgstr "تأكيد الارجاع"
 
 #. module: project_base
 #: model_terms:ir.ui.view,arch_db:project_base.view_completion_certificate_form
@@ -615,6 +740,7 @@ msgstr "إنشاء فاتورة للمشروع لكل مرحلة أو كل فت�
 #. module: project_base
 #: model:ir.model.fields,field_description:project_base.field_cancel_reason_wizard__create_uid
 #: model:ir.model.fields,field_description:project_base.field_completion_certificate__create_uid
+#: model:ir.model.fields,field_description:project_base.field_completion_certificate_output__create_uid
 #: model:ir.model.fields,field_description:project_base.field_edit_project_phase__create_uid
 #: model:ir.model.fields,field_description:project_base.field_go_back_reason_wizard__create_uid
 #: model:ir.model.fields,field_description:project_base.field_project_category__create_uid
@@ -631,6 +757,7 @@ msgstr ""
 #. module: project_base
 #: model:ir.model.fields,field_description:project_base.field_cancel_reason_wizard__create_date
 #: model:ir.model.fields,field_description:project_base.field_completion_certificate__create_date
+#: model:ir.model.fields,field_description:project_base.field_completion_certificate_output__create_date
 #: model:ir.model.fields,field_description:project_base.field_edit_project_phase__create_date
 #: model:ir.model.fields,field_description:project_base.field_go_back_reason_wizard__create_date
 #: model:ir.model.fields,field_description:project_base.field_project_category__create_date
@@ -652,6 +779,7 @@ msgstr "العملة"
 
 #. module: project_base
 #: model:ir.model.fields,field_description:project_base.field_completion_certificate__date
+#: model_terms:ir.ui.view,arch_db:project_base.completion_certificate_report_template
 #: model_terms:ir.ui.view,arch_db:project_base.view_project_invoice_filter
 msgid "Date"
 msgstr "التاريخ"
@@ -660,6 +788,11 @@ msgstr "التاريخ"
 #: model:ir.model.fields,field_description:project_base.field_project_task_type__is_default
 msgid "Default in new project"
 msgstr "الافتراضي في المشروع الجديد"
+
+#. module: project_base
+#: model_terms:ir.ui.view,arch_db:project_base.completion_certificate_report_template
+msgid "Deliverable"
+msgstr "المخرج"
 
 #. module: project_base
 #: model:ir.model.fields,field_description:project_base.field_project_project__department_id
@@ -673,8 +806,21 @@ msgid "Department to which executed"
 msgstr " القسم المنفذ له"
 
 #. module: project_base
+#: model_terms:ir.ui.view,arch_db:project_base.view_completion_certificate_form
+msgid ""
+"Describe the performance of the service provider and any applicable "
+"financial deductions..."
+msgstr "وصف أداء مقدم الخدمة وأي خصومات مالية تم تطبيقها..."
+
+
+
+
+
+#. module: project_base
 #: model:ir.model.fields,field_description:project_base.field_completion_certificate__description
+#: model:ir.model.fields,field_description:project_base.field_completion_certificate_output__description
 #: model:ir.model.fields,field_description:project_base.field_project_invoice__name
+#: model_terms:ir.ui.view,arch_db:project_base.completion_certificate_report_template
 #: model_terms:ir.ui.view,arch_db:project_base.project_detail_qweb_report
 #: model_terms:ir.ui.view,arch_db:project_base.view_completion_certificate_form
 #: model_terms:ir.ui.view,arch_db:project_base.view_edit_project_inherit_form
@@ -687,6 +833,11 @@ msgid "Director  Strategy and Excellence Office"
 msgstr ""
 
 #. module: project_base
+#: model:res.groups,name:project_base.group_strategy_director
+msgid "Director Strategy and Excellence Office"
+msgstr ""
+
+#. module: project_base
 #: model:ir.model.fields,field_description:project_base.field_project_invoice_line__discount
 msgid "Discount (%)"
 msgstr ""
@@ -694,6 +845,7 @@ msgstr ""
 #. module: project_base
 #: model:ir.model.fields,field_description:project_base.field_cancel_reason_wizard__display_name
 #: model:ir.model.fields,field_description:project_base.field_completion_certificate__display_name
+#: model:ir.model.fields,field_description:project_base.field_completion_certificate_output__display_name
 #: model:ir.model.fields,field_description:project_base.field_edit_project_phase__display_name
 #: model:ir.model.fields,field_description:project_base.field_go_back_reason_wizard__display_name
 #: model:ir.model.fields,field_description:project_base.field_project_category__display_name
@@ -704,6 +856,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:project_base.field_project_phase__display_name
 #: model:ir.model.fields,field_description:project_base.field_project_phase_type__display_name
 #: model:ir.model.fields,field_description:project_base.field_project_team__display_name
+#: model:ir.model.fields,field_description:project_base.field_report_project_base_completion_certificate_report_template__display_name
 msgid "Display Name"
 msgstr ""
 
@@ -804,6 +957,7 @@ msgstr "تمكين الجدول الزمني في المشروع."
 #: model:ir.model.fields,field_description:project_base.field_edit_project_phase__end_date
 #: model:ir.model.fields,field_description:project_base.field_project_phase__end_date
 #: model:ir.model.fields,field_description:project_base.field_project_project__date
+#: model_terms:ir.ui.view,arch_db:project_base.completion_certificate_report_template
 #: model_terms:ir.ui.view,arch_db:project_base.view_phase_search_form
 msgid "End Date"
 msgstr "تاريخ الانتهاء"
@@ -822,6 +976,24 @@ msgstr "ادخل الوصف للفاتورة"
 #: model:ir.actions.act_window,name:project_base.action_go_back_reason_wizard
 msgid "Enter Go Back Reason"
 msgstr "أدخل سبب الرجوع"
+
+#. module: project_base
+#: model_terms:ir.ui.view,arch_db:project_base.completion_certificate_report_template
+msgid "Equivalent Completion Weight (%)"
+msgstr "الوزن المكافئ للإنجاز (%)"
+
+
+
+
+#. module: project_base
+#: model:ir.model.fields,field_description:project_base.field_completion_certificate__equivalent_output_weight
+msgid "Equivalent Weight (%)"
+msgstr "الوزن المكافئ (%)"
+
+#. module: project_base
+#: model_terms:ir.ui.view,arch_db:project_base.view_completion_certificate_form
+msgid "Executive Performance"
+msgstr "الأداء التنفيذي"
 
 #. module: project_base
 #: model_terms:ir.ui.view,arch_db:project_base.print_project_invoice
@@ -879,7 +1051,10 @@ msgid "From Project For Reasone: %s"
 msgstr ""
 
 #. module: project_base
+#: code:addons/odoo/odex25-trahum-standard/odex25_project/project_base/models/project.py:0
+#: code:addons/project_base/models/project.py:0
 #: model_terms:ir.ui.view,arch_db:project_base.view_completion_certificate_form
+#, python-format
 msgid "Go Back"
 msgstr "إرجاع"
 
@@ -919,8 +1094,14 @@ msgid "Hold Reason"
 msgstr "اسباب التعليق"
 
 #. module: project_base
+#: model_terms:ir.ui.view,arch_db:project_base.completion_certificate_report_template
+msgid "I confirm the information"
+msgstr "أؤكد المعلومات"
+
+#. module: project_base
 #: model:ir.model.fields,field_description:project_base.field_cancel_reason_wizard__id
 #: model:ir.model.fields,field_description:project_base.field_completion_certificate__id
+#: model:ir.model.fields,field_description:project_base.field_completion_certificate_output__id
 #: model:ir.model.fields,field_description:project_base.field_edit_project_phase__id
 #: model:ir.model.fields,field_description:project_base.field_go_back_reason_wizard__id
 #: model:ir.model.fields,field_description:project_base.field_project_category__id
@@ -931,6 +1112,7 @@ msgstr "اسباب التعليق"
 #: model:ir.model.fields,field_description:project_base.field_project_phase__id
 #: model:ir.model.fields,field_description:project_base.field_project_phase_type__id
 #: model:ir.model.fields,field_description:project_base.field_project_team__id
+#: model:ir.model.fields,field_description:project_base.field_report_project_base_completion_certificate_report_template__id
 msgid "ID"
 msgstr ""
 
@@ -1151,6 +1333,7 @@ msgstr ""
 
 #. module: project_base
 #: model:ir.model.fields,field_description:project_base.field_project_invoice__actual_date
+#: model_terms:ir.ui.view,arch_db:project_base.completion_certificate_report_template
 msgid "Issue Date"
 msgstr "تاريخ الفاتورة"
 
@@ -1198,6 +1381,7 @@ msgstr ""
 #. module: project_base
 #: model:ir.model.fields,field_description:project_base.field_cancel_reason_wizard____last_update
 #: model:ir.model.fields,field_description:project_base.field_completion_certificate____last_update
+#: model:ir.model.fields,field_description:project_base.field_completion_certificate_output____last_update
 #: model:ir.model.fields,field_description:project_base.field_edit_project_phase____last_update
 #: model:ir.model.fields,field_description:project_base.field_go_back_reason_wizard____last_update
 #: model:ir.model.fields,field_description:project_base.field_project_category____last_update
@@ -1208,12 +1392,14 @@ msgstr ""
 #: model:ir.model.fields,field_description:project_base.field_project_phase____last_update
 #: model:ir.model.fields,field_description:project_base.field_project_phase_type____last_update
 #: model:ir.model.fields,field_description:project_base.field_project_team____last_update
+#: model:ir.model.fields,field_description:project_base.field_report_project_base_completion_certificate_report_template____last_update
 msgid "Last Modified on"
 msgstr ""
 
 #. module: project_base
 #: model:ir.model.fields,field_description:project_base.field_cancel_reason_wizard__write_uid
 #: model:ir.model.fields,field_description:project_base.field_completion_certificate__write_uid
+#: model:ir.model.fields,field_description:project_base.field_completion_certificate_output__write_uid
 #: model:ir.model.fields,field_description:project_base.field_edit_project_phase__write_uid
 #: model:ir.model.fields,field_description:project_base.field_go_back_reason_wizard__write_uid
 #: model:ir.model.fields,field_description:project_base.field_project_category__write_uid
@@ -1230,6 +1416,7 @@ msgstr ""
 #. module: project_base
 #: model:ir.model.fields,field_description:project_base.field_cancel_reason_wizard__write_date
 #: model:ir.model.fields,field_description:project_base.field_completion_certificate__write_date
+#: model:ir.model.fields,field_description:project_base.field_completion_certificate_output__write_date
 #: model:ir.model.fields,field_description:project_base.field_edit_project_phase__write_date
 #: model:ir.model.fields,field_description:project_base.field_go_back_reason_wizard__write_date
 #: model:ir.model.fields,field_description:project_base.field_project_category__write_date
@@ -1335,13 +1522,9 @@ msgstr ""
 #: model:ir.model.fields,field_description:project_base.field_project_invoice_line__name
 #: model:ir.model.fields,field_description:project_base.field_project_phase_type__name
 #: model:ir.model.fields,field_description:project_base.field_project_project__name
+#: model_terms:ir.ui.view,arch_db:project_base.completion_certificate_report_template
 msgid "Name"
 msgstr "الاسم"
-
-#. module: project_base
-#: model_terms:ir.ui.view,arch_db:project_base.view_completion_certificate_form
-msgid "Name Certificate"
-msgstr "اسم الشهادة"
 
 #. module: project_base
 #: model:ir.model.fields.selection,name:project_base.selection__project_project__status__new
@@ -1461,9 +1644,30 @@ msgid "Open"
 msgstr "فتح"
 
 #. module: project_base
+#: model_terms:ir.ui.view,arch_db:project_base.view_completion_certificate_form
+msgid "Output Achievement Info"
+msgstr "الوثائق الداعمة  للمخرج"
+
+#. module: project_base
+#: model:ir.model.fields,field_description:project_base.field_completion_certificate_output__name
+msgid "Output Name"
+msgstr "المخرج"
+
+#. module: project_base
+#: model:ir.model.fields,field_description:project_base.field_completion_certificate__certificate_output_ids
+#: model_terms:ir.ui.view,arch_db:project_base.view_completion_certificate_form
+msgid "Outputs"
+msgstr "المخرجات"
+
+#. module: project_base
 #: model:ir.model.fields,field_description:project_base.field_project_project__owner_employee_id
 msgid "Owner Employee"
 msgstr "مالك المشروع"
+
+#. module: project_base
+#: model:ir.model.fields,field_description:project_base.field_completion_certificate__project_owner_approval_id
+msgid "Owner Project Approval"
+msgstr ""
 
 #. module: project_base
 #: model:ir.model.fields.selection,name:project_base.selection__project_project__state__confirm
@@ -1603,6 +1807,16 @@ msgid "Planned Collection date cannot be earlier than Planned Issue date."
 msgstr ""
 
 #. module: project_base
+#: model_terms:ir.ui.view,arch_db:project_base.completion_certificate_report_template
+msgid "Planned Cost (SAR)"
+msgstr "الصرف الفعلي حتى تاريخ تسليم  المخرج  (ريال سعودي)"
+
+#. module: project_base
+#: model:ir.model.fields,field_description:project_base.field_completion_certificate__planned_spending_until_delivery
+msgid "Planned Spending (SAR)"
+msgstr "الصرف المخطط له حتى تاريخ تسليم المخرج (ريال سعودي)"
+
+#. module: project_base
 #: code:addons/odoo/odex25-trahum-standard/odex25_project/project_base/models/project.py:0
 #: code:addons/project_base/models/project.py:0
 #, python-format
@@ -1619,12 +1833,17 @@ msgstr ""
 #. module: project_base
 #: model_terms:ir.ui.view,arch_db:project_base.view_cancel_reason_wizard
 msgid "Please provide the reason for cancellation."
-msgstr ""
+msgstr "يرجى تقديم سبب الإلغاء"
 
 #. module: project_base
 #: model_terms:ir.ui.view,arch_db:project_base.view_go_back_reason_wizard
 msgid "Please provide the reason for going back."
-msgstr ""
+msgstr "يرجى تقديم سبب العودة."
+
+#. module: project_base
+#: model_terms:ir.ui.view,arch_db:project_base.completion_certificate_report_template
+msgid "Prepared by"
+msgstr "إعداد"
 
 #. module: project_base
 #: model:ir.actions.report,name:project_base.action_project_invoice_report
@@ -1694,10 +1913,21 @@ msgid "Project Charter"
 msgstr ""
 
 #. module: project_base
+#: model_terms:ir.ui.view,arch_db:project_base.completion_certificate_report_template
+msgid "Project Code"
+msgstr "رمز المشروع"
+
+#. module: project_base
 #: model:ir.model.fields,field_description:project_base.field_res_company__module_project_customer_team
 #: model:ir.model.fields,field_description:project_base.field_res_company__module_project_scrum_agile
 #: model:ir.model.fields,field_description:project_base.field_res_config_settings__module_project_customer_team
 msgid "Project Customer Team"
+msgstr ""
+
+#. module: project_base
+#: model:ir.model.fields,field_description:project_base.field_completion_certificate__project_duration
+#: model_terms:ir.ui.view,arch_db:project_base.completion_certificate_report_template
+msgid "Project Duration"
 msgstr ""
 
 #. module: project_base
@@ -1757,6 +1987,7 @@ msgstr ""
 
 #. module: project_base
 #: model:ir.model.fields,field_description:project_base.field_project_project__user_id
+#: model_terms:ir.ui.view,arch_db:project_base.completion_certificate_report_template
 msgid "Project Manager"
 msgstr "مدير المشروع"
 
@@ -1766,6 +1997,11 @@ msgid "Project Manager Preparation"
 msgstr "اعداد مدير المشروع"
 
 #. module: project_base
+#: model:ir.model.fields,field_description:project_base.field_completion_certificate__project_manager_review_id
+msgid "Project Manager Review"
+msgstr "مراجعة مدير المشروع"
+
+#. module: project_base
 #: model:ir.model.fields,field_description:project_base.field_res_company__module_project_metrics
 #: model:ir.model.fields,field_description:project_base.field_res_config_settings__module_project_metrics
 #: model_terms:ir.ui.view,arch_db:project_base.view_config_settings_form
@@ -1773,6 +2009,7 @@ msgid "Project Metrics"
 msgstr ""
 
 #. module: project_base
+#: model_terms:ir.ui.view,arch_db:project_base.completion_certificate_report_template
 #: model_terms:ir.ui.view,arch_db:project_base.view_edit_project_inherit_form
 msgid "Project Name"
 msgstr "اسم المشروع"
@@ -1787,6 +2024,11 @@ msgstr "رقم المشروع"
 #: model_terms:ir.ui.view,arch_db:project_base.view_new_project_kanban
 msgid "Project Overview"
 msgstr ""
+
+#. module: project_base
+#: model_terms:ir.ui.view,arch_db:project_base.completion_certificate_report_template
+msgid "Project Owner"
+msgstr "مالك المشروع"
 
 #. module: project_base
 #: model:ir.model.fields,field_description:project_base.field_completion_certificate__phase_id4
@@ -1885,6 +2127,11 @@ msgid "Projects Invoices"
 msgstr ""
 
 #. module: project_base
+#: model:ir.model.fields,field_description:project_base.field_completion_certificate__service_provider_performance
+msgid "Provider Performance"
+msgstr "أداء المزود"
+
+#. module: project_base
 #: model_terms:ir.ui.view,arch_db:project_base.view_edit_project_inherit_form
 msgid "Purchase"
 msgstr "المشتريات"
@@ -1943,6 +2190,11 @@ msgid "Reopen"
 msgstr "إعادة فتح"
 
 #. module: project_base
+#: model_terms:ir.ui.view,arch_db:project_base.completion_certificate_report_template
+msgid "Report"
+msgstr "تقرير"
+
+#. module: project_base
 #: model_terms:ir.ui.view,arch_db:project_base.project_invoice_form_view
 msgid "Request"
 msgstr "طلب"
@@ -1982,6 +2234,16 @@ msgid "Reversed"
 msgstr ""
 
 #. module: project_base
+#: model_terms:ir.ui.view,arch_db:project_base.completion_certificate_report_template
+msgid "Reviewed by"
+msgstr "مراجعته من قبل"
+
+#. module: project_base
+#: model_terms:ir.ui.view,arch_db:project_base.completion_certificate_report_template
+msgid "Role"
+msgstr "الدور"
+
+#. module: project_base
 #: model:ir.model.fields.selection,name:project_base.selection__project_phase__state__open
 #: model:ir.model.fields.selection,name:project_base.selection__project_project__status__open
 #: model_terms:ir.ui.view,arch_db:project_base.view_edit_project_inherit_form
@@ -1998,7 +2260,7 @@ msgstr "اعتماد الآمين العام"
 #: model:ir.model.fields,field_description:project_base.field_project_invoice__message_has_sms_error
 #: model:ir.model.fields,field_description:project_base.field_project_phase__message_has_sms_error
 msgid "SMS Delivery error"
-msgstr ""
+msgstr "خطأ في توصيل الرسالة النصية"
 
 #. module: project_base
 #: model:ir.model.fields,field_description:project_base.field_project_project__sale_order_amount
@@ -2049,9 +2311,24 @@ msgid "Search Project Invoice"
 msgstr ""
 
 #. module: project_base
+#: model:ir.model.fields,field_description:project_base.field_completion_certificate__secretary_general_approval_id
+msgid "Secretary General Approval"
+msgstr "موافقة الأمين العام"
+
+#. module: project_base
 #: model:ir.model.fields,field_description:project_base.field_project_phase__sequence
 msgid "Sequence"
 msgstr "متسلسل"
+
+#. module: project_base
+#: model_terms:ir.ui.view,arch_db:project_base.view_completion_certificate_form
+msgid "Service Provider Evaluation"
+msgstr "تقييم مزود الخدمة"
+
+#. module: project_base
+#: model_terms:ir.ui.view,arch_db:project_base.completion_certificate_report_template
+msgid "Service Provider Performance / Deductions"
+msgstr "أداء مزود الخدمة / الخصومات"
 
 #. module: project_base
 #: model_terms:ir.ui.view,arch_db:project_base.project_invoice_form_view
@@ -2066,9 +2343,28 @@ msgid "Settings Allowed Users"
 msgstr "اعداد صلاحية المستخدمين"
 
 #. module: project_base
+#: model_terms:ir.ui.view,arch_db:project_base.completion_certificate_report_template
+msgid "Signature"
+msgstr "التوقيع"
+
+
+
+
+
+
+
+
+#. module: project_base
 #: model:ir.model.fields,field_description:project_base.field_project_project__signature_date
 msgid "Signature Date"
 msgstr "تاريخ توقيع العقد"
+
+#. module: project_base
+#: model_terms:ir.ui.view,arch_db:project_base.view_completion_certificate_form
+msgid "Spending Details"
+msgstr "تفاصيل الإنفاق"
+
+
 
 #. module: project_base
 #: model:ir.model.fields,field_description:project_base.field_project_invoice__phase_id
@@ -2095,6 +2391,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:project_base.field_edit_project_phase__start_date
 #: model:ir.model.fields,field_description:project_base.field_project_phase__start_date
 #: model:ir.model.fields,field_description:project_base.field_project_project__start
+#: model_terms:ir.ui.view,arch_db:project_base.completion_certificate_report_template
 #: model_terms:ir.ui.view,arch_db:project_base.view_phase_search_form
 msgid "Start Date"
 msgstr "تاريخ البداية"
@@ -2127,6 +2424,7 @@ msgid ""
 msgstr ""
 
 #. module: project_base
+#: model:ir.model.fields,field_description:project_base.field_completion_certificate__strategy_office_review_id
 #: model_terms:ir.ui.view,arch_db:project_base.view_completion_certificate_form
 msgid "Strategy Office Review"
 msgstr "تدقيق مدير مكتب الاستراتيجية والتميز"
@@ -2172,12 +2470,24 @@ msgid "Summery"
 msgstr "ملخص"
 
 #. module: project_base
+#: model_terms:ir.ui.view,arch_db:project_base.completion_certificate_report_template
+msgid "Supporting Documents"
+msgstr "المستندات الداعمة"
+
+
+
+
+
+
+
+#. module: project_base
 #: model:ir.model.fields,field_description:project_base.field_project_project__tag_ids
 msgid "Tags"
 msgstr "وسوم"
 
 #. module: project_base
 #: model:ir.model,name:project_base.model_project_task
+#: model_terms:ir.ui.view,arch_db:project_base.completion_certificate_report_template
 #: model_terms:ir.ui.view,arch_db:project_base.view_new_project_kanban
 msgid "Task"
 msgstr "مهمة"
@@ -2455,6 +2765,37 @@ msgstr "بانتظار اعتماد الأمين العام"
 msgid "Waiting for Strategy Office Review"
 msgstr "بانتظار تدقيق مدير مكتب الاستراتيجية والتميز"
 
+
+
+
+
+
+
+
+
+#. module: project_base
+#: model:ir.actions.report,name:project_base.CC_report
+msgid "Completion Certificate report"
+msgstr "تقرير شهادة الإنجاز"
+
+
+
+
+#. module: project_base
+#: code:addons/odoo/odex25-trahum-standard/odex25_project/project_base/models/project_invoice.py:0
+#: code:addons/project_base/models/project_invoice.py:0
+#, python-format
+msgid "No completion certificate found for this project phase."
+msgstr "لا توجد شهادة إنجاز مرتبطة بهذه المرحلة"
+
+#. module: project_base
+#: code:addons/odoo/odex25-trahum-standard/odex25_project/project_base/models/project_invoice.py:0
+#: code:addons/project_base/models/project_invoice.py:0
+#, python-format
+msgid "The completion certificate for this phase is not completed yet."
+msgstr "شهادة الإنجاز لهذه المرحلة غير مكتملة بعد"
+
+
 #. module: project_base
 #: model:ir.model.fields,field_description:project_base.field_completion_certificate__website_message_ids
 #: model:ir.model.fields,field_description:project_base.field_project_invoice__website_message_ids
@@ -2583,3 +2924,17 @@ msgstr "المبلغ المتبقي"
 #: model:ir.model,name:project_base.model_completion_certificate
 msgid "شهادة الانجاز"
 msgstr ""
+
+#. module: project_base
+#: code:addons/odoo/odex25-trahum-standard/odex25_project/project_base/wizard/cancel_reason_wizard.py:0
+#: code:addons/project_base/wizard/cancel_reason_wizard.py:0
+#, python-format
+msgid "↩️ Reverted to the previous state. Reason: %s"
+msgstr "↩️ تم الرجوع إلى الحالة السابقة. السبب: %s"
+
+#. module: project_base
+#: code:addons/odoo/odex25-trahum-standard/odex25_project/project_base/wizard/cancel_reason_wizard.py:0
+#: code:addons/project_base/wizard/cancel_reason_wizard.py:0
+#, python-format
+msgid "❌ Cancellation applied. Reason: %s"
+msgstr "❌ تم تطبيق الإلغاء. السبب: %s"

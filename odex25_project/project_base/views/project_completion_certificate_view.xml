@@ -1,6 +1,42 @@
 <odoo>
 
 
+
+
+    <!-- Tree View -->
+<record id="view_completion_certificate_output_tree" model="ir.ui.view">
+    <field name="name">completion.certificate.output.tree</field>
+    <field name="model">completion.certificate.output</field>
+    <field name="arch" type="xml">
+        <tree string="Certificate Outputs">
+            <field name="name"/>
+            <field name="description"/>
+        </tree>
+    </field>
+</record>
+
+<record id="view_completion_certificate_output_form" model="ir.ui.view">
+    <field name="name">completion.certificate.output.form</field>
+    <field name="model">completion.certificate.output</field>
+    <field name="arch" type="xml">
+        <form string="Certificate Output">
+            <sheet>
+                <group>
+                    <field name="name"/>
+                    <field name="description"/>
+                </group>
+            </sheet>
+        </form>
+    </field>
+</record>
+
+
+
+
+
+
+
+
     <record id="view_completion_certificate_form" model="ir.ui.view">
         <field name="name">completion.certificate.form</field>
         <field name="model">completion.certificate</field>
@@ -9,7 +45,7 @@
 
                     <header>
                         <field name="state" widget="statusbar"
-                               statusbar_visible="project_manager_preparation,project_owner_approval,project_manager_review,strategy_office_review,secretary_general_approval"
+                               statusbar_visible="project_manager_preparation,project_manager_review,project_owner_approval,strategy_office_review,secretary_general_approval"
                                 />
 
                         <button name="action_confirm_preparation"
@@ -115,14 +151,16 @@
                                 type="object"
                                 class="btn-primary"
                                 states="secretary_general_approval"
-                                groups="hr_trahum.group_secretary_general" />
+                                groups="hr_trahum.group_secretary_general"
+          />
 
                         <button name="action_cancel"
                                 string="Cancel"
                                 type="object"
                                 class="btn-primary"
                                 states="secretary_general_approval"
-                                groups="hr_trahum.group_secretary_general" />
+                                groups="hr_trahum.group_secretary_general"
+          />
 
 
 
@@ -136,7 +174,7 @@
                         <div class="oe_title">
                                     <label for="name" />
                                     <h1>
-                                        <field name="name"  attrs="{'readonly': [('state', '!=', 'project_manager_preparation')]}" />
+                                        <field name="name"  readonly="1"  />
                                     </h1>
                         </div>
                     <group>
@@ -156,6 +194,41 @@
                             <page string="Description">
                                 <field name="description" placeholder="Write a description here..." nolabel="1"  attrs="{'readonly': [('state', '!=', 'project_manager_preparation')]}"/>
                             </page>
+                            <page string="Attachments">
+                                <field name="attachment_ids" widget="many2many_binary"/>
+                            </page>
+                                <page string="Outputs">
+                                    <field name="certificate_output_ids" mode="tree,form" context="{'default_certificate_id': active_id}">
+                                        <tree editable="bottom">
+                                            <field name="name"/>
+                                            <field name="description"/>
+                                        </tree>
+                                    </field>
+                                </page>
+                                <page string="Executive Performance">
+                                    <group>
+                                        <separator string="Output Achievement Info" colspan="2"/>
+                                                        <group col="2">
+                                                            <field name="equivalent_output_weight"/>
+                                                            <field name="achievement_percentage"
+                                                                   widget="float"
+                                                                   options="{'min': 0, 'max': 100, 'step': 1}"
+                                                                   required="True"/>
+                                                        </group>
+
+
+                                        <separator string="Spending Details" colspan="2"/>
+                                        <group col="2">
+                                            <field name="planned_spending_until_delivery"/>
+                                            <field name="actual_spending_until_delivery"/>
+                                        </group>
+
+                                        <separator string="Service Provider Evaluation" colspan="2"/>
+                                        <field name="service_provider_performance" nolabel="1" placeholder="Describe the performance of the service provider and any applicable financial deductions..."/>
+                                    </group>
+                                </page>
+
+
                         </notebook>
 
 

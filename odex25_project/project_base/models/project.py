@@ -6,12 +6,53 @@ from dateutil import relativedelta
 from odoo.osv import expression
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError, ValidationError
+from dateutil.relativedelta import relativedelta
+from odoo.fields import Date
+from lxml import etree
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class HrEmployee(models.Model):
+    _inherit = 'hr.employee'
+
+    @api.model
+    def name_search(self, name='', args=None, operator='ilike', limit=100):
+        if self._context.get('from_project_owner_field'):
+            args = args or []
+            employees = self.sudo().search([('name', operator, name)] + args, limit=limit)
+            return employees.name_get()
+        return super().name_search(name, args, operator, limit)
+
+    @api.model
+    def search(self, args, offset=0, limit=None, order=None, count=False):
+        if self._context.get('from_project_owner_field'):
+            return super(HrEmployee, self.sudo()).search(args, offset=offset, limit=limit, order=order, count=count)
+        return super().search(args, offset=offset, limit=limit, order=order, count=count)
 
 
 class Project(models.Model):
     _inherit = "project.project"
     _order = "project_no desc"
-
+    owner_employee_id = fields.Many2one(
+        'hr.employee',
+        string="Owner Employee",
+        context={'from_project_owner_field': True, 'no_open': True}
+    )
 
     def _get_task_type(self):
         """
@@ -117,8 +158,31 @@ class Project(models.Model):
                                                  string="Allowed Internal Users", default=lambda self: self.env.user, domain=[('share', '=', False)])
     allowed_portal_user_ids = fields.Many2many('res.users', 'project_allowed_portal_users_rel', string="Allowed Portal Users", domain=[('share', '=', True)])
 
-    owner_employee_id = fields.Many2one('hr.employee', string="Owner Employee")
 
+
+    @api.model
+    def name_search(self, name='', args=None, operator='ilike', limit=100):
+        # إذا كان البحث يتم على موظفين، استخدم sudo لتجاوز الصلاحيات
+        if self._name == 'hr.employee':
+            employees = self.env['hr.employee'].sudo().search(
+                args or [], limit=limit
+            )
+            return employees.name_get()
+        return super(Project, self).name_search(name, args, operator, limit)
+
+    # @api.model
+    # def fields_view_get(self, view_id=None, view_type='form', toolbar=False, submenu=False):
+    #     res = super(Project, self).fields_view_get(view_id=view_id, view_type=view_type, toolbar=toolbar, submenu=submenu)
+    #
+    #     if view_type == 'form':
+    #         doc = etree.XML(res['arch'])
+    #         for field in doc.xpath("//field[@name='owner_employee_id']"):
+    #             employees = self.env['hr.employee'].sudo().search([])
+    #             employee_ids = employees.ids
+    #             field.set('domain', "[('id', 'in', %s)]" % employee_ids)
+    #
+    #         res['arch'] = etree.tostring(doc, encoding='unicode')
+    #     return res
 
     @api.onchange('department_id')
     def _onchange_department_id(self):
@@ -131,6 +195,9 @@ class Project(models.Model):
             ], limit=1)
             if manager:
                 self.owner_employee_id = manager.id
+
+
+
     allow_timesheets = fields.Boolean(
         "Timesheets", compute='_compute_allow_timesheets', store=True, readonly=False,
         default=False, help="Enable timesheeting on the project.")
@@ -600,11 +667,61 @@ class ProjectTeam(models.Model):
 #             <field name="user_id" string="Project Manager" widget="many2one_avatar_user" attrs="{'readonly':[('active','=',False)]}" domain="[('share', '=', False)]"/>
 
 
+
+
+class CompletionCertificateOutput(models.Model):
+    _name = 'completion.certificate.output'
+    _description = 'Certificate Output'
+
+    certificate_id = fields.Many2one(
+        'completion.certificate',
+        string='Completion Certificate',
+        required=True,
+        ondelete='cascade'
+    )
+    name = fields.Char(string='Output Name', required=True)
+    description = fields.Text(string='Description', required=True)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class CompletionCertificateAttachment(models.Model):
+    _name = 'completion.certificate.attachment'
+    _description = 'Completion Certificate Attachment'
+
+    certificate_id = fields.Many2one('completion.certificate', string='Completion Certificate', required=True)
+    attachment = fields.Binary(string='Attachment', required=True)
+    name = fields.Char(string='File Name', required=True)
+
+
+
+
+
+
+
+
+
 class CompletionCertificate(models.Model):
     _name = 'completion.certificate'
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _description = _('Completion Certificate')
-    name = fields.Char(string='Certificate Name', required=True)
+    name = fields.Char(string='Certificate Name',
+                       required=True, readonly=True,
+                       default=lambda self: self.env['ir.sequence'].next_by_code('completion.certificate')
+)
     description = fields.Text(string='Description')
     project_id = fields.Many2one('project.project', string='Project', required=True)
     check_project_owner = fields.Boolean(
@@ -618,12 +735,20 @@ class CompletionCertificate(models.Model):
         domain="[('project_id', '=', project_id)]" if project_id else [('id', '=', '')],
         required=True
     )
+    certificate_output_ids = fields.One2many(
+        'completion.certificate.output',
+        'certificate_id',
+        string="Outputs",
+        required=True
+    )
+
     date = fields.Date(string='Date', required=True)
     attachment = fields.Binary(string="Attachment", attachment=True)
     state = fields.Selection([
         ('project_manager_preparation', 'Project Manager Preparation'),
+        ('project_manager_review', 'Waiting for Project Manager Review'),
         ('project_owner_approval', 'Waiting for Project Owner Approval'),
-         ('project_manager_review', 'Waiting for Project Manager Review'),
+
         ('strategy_office_review', 'Waiting for Strategy Office Review'),
         ('secretary_general_approval', 'Waiting for Secretary General Approval'),
         ('done', 'Done'),
@@ -631,20 +756,104 @@ class CompletionCertificate(models.Model):
     ], string='Status', default='project_manager_preparation', tracking=True)
 
     previous_state_map = {
-        'project_owner_approval': 'project_manager_preparation',
-        'project_manager_review': 'project_owner_approval',
-        'strategy_office_review': 'project_manager_review',
+        'project_manager_review': 'project_manager_preparation',
+        'project_owner_approval': 'project_manager_review',
+        'strategy_office_review': 'project_owner_approval',
         'secretary_general_approval': 'strategy_office_review',
     }
+
     check_project_user = fields.Boolean(
         string='Is Project User?',
         compute='_compute_check_project_user',
         store=False
     )
+    equivalent_output_weight = fields.Float(
+        string='Equivalent Weight (%)',
+        required=True
+    )
+
+    achievement_percentage = fields.Float(
+        string='Achievement (%)',
+        required=True
+    )
+
+    service_provider_performance = fields.Text(
+        string='Provider Performance',
+        required=True
+    )
+
+    planned_spending_until_delivery = fields.Float(
+        string='Planned Spending (SAR)',
+        required=True
+    )
+
+    actual_spending_until_delivery = fields.Float(
+        string='Actual Spending (SAR)',
+        required=True
+    )
+
+    attachment_ids = fields.Many2many(
+        'ir.attachment',
+        'completion_certificate_ir_attachments_rel',
+        'certificate_id',
+        'attachment_id',
+        string="Attachments",
+        help="Attach files to the completion certificate"
+    )
+    project_duration = fields.Char('Project Duration', store=True)
+
+    project_manager_preparation_id = fields.Many2one('res.users', string='Approver User', readonly=True)
+    project_manager_preparation_date = fields.Date(string="Approver Date", readonly=True)
+
+    project_owner_approval_id = fields.Many2one('res.users', string="Owner Project Approval", readonly=True)
+    project_owner_approval_date = fields.Date(string="Owner Approval Date", readonly=True)
+
+    project_manager_review_id = fields.Many2one('res.users', string='Project Manager Review', readonly=True)
+    project_manager_review_date = fields.Date(string="Manager Review Date", readonly=True)
+
+    strategy_office_review_id = fields.Many2one('res.users', string='Strategy Office Review', readonly=True)
+    strategy_office_review_date = fields.Date(string="Strategy Review Date", readonly=True)
+
+    secretary_general_approval_id = fields.Many2one('res.users', string='Secretary General Approval', readonly=True)
+    secretary_general_approval_date = fields.Date(string="Secretary Approval Date", readonly=True)
+
+    @api.model
+    def create(self, vals):
+        if vals.get('name', 'New') == 'New':
+            vals['name'] = self.env['ir.sequence'].next_by_code('completion.certificate') or '/'
+
+        self._validate_required_fields(vals)
+        return super().create(vals)
+
+    def write(self, vals):
+        self._validate_required_fields(vals)
+        return super().write(vals)
+
+    def _validate_required_fields(self, vals):
+        required_fields = [
+            'equivalent_output_weight',
+            'achievement_percentage',
+            'planned_spending_until_delivery',
+            'actual_spending_until_delivery',
+            'service_provider_performance',
+        ]
+        for field in required_fields:
+            if field in vals and not vals[field]:
+                raise ValidationError(_(f"The field '{self._fields[field].string}' is required."))
+
+    @api.constrains('achievement_percentage')
+    def _check_achievement_percentage(self):
+        for record in self:
+            if not (0 <= record.achievement_percentage <= 100):
+                raise ValidationError(_("Achievement Percentage must be between 0 and 100."))
+    @api.constrains('equivalent_output_weight')
+    def _check_equivalent_output_weight(self):
+        for rec in self:
+            if not (0 <= rec.equivalent_output_weight <= 100):
+                raise ValidationError(_("Equivalent Weight (%) must be between 0 and 100."))
 
     @api.depends('project_id')
     def _compute_check_project_user(self):
-
         current_user = self.env.uid
         if current_user ==self.project_id.user_id.id:
             self.check_project_user = True
@@ -653,17 +862,18 @@ class CompletionCertificate(models.Model):
 
     @api.depends('project_id')
     def _compute_check_project_owner(self):
-        current_user = self.env.uid
-        if current_user ==self.project_id.owner_employee_id.user_id.id:
-            self.check_project_owner = True
-        else:
-            self.check_project_owner = False
-
+        for rec in self:
+            current_user = rec.env.uid
+            project_owner_user_id = rec.project_id.sudo().owner_employee_id.sudo().user_id.id
+            rec.check_project_owner = (current_user == project_owner_user_id)
 
     def action_go_back(self):
+        # report_action = self.env.ref('project_base.action_completion_certificate_report')
+        #
+        # return report_action.report_action(self)
         return {
             'type': 'ir.actions.act_window',
-            'name': 'Go Back',
+            'name': _('Go Back'),
             'res_model': 'go.back.reason.wizard',
             'view_mode': 'form',
             'target': 'new',
@@ -671,23 +881,11 @@ class CompletionCertificate(models.Model):
                 'default_certificate_id': self.id,
             },
         }
-        # self.ensure_one()
-        # previous_state = {
-        #     'project_owner_approval': 'project_manager_preparation',
-        #     'project_manager_review': 'project_owner_approval',
-        #     'strategy_office_review': 'project_manager_review',
-        #     'secretary_general_approval': 'strategy_office_review',
-        # }.get(self.state)
-        #
-        # if previous_state:
-        #     self.state = previous_state
-        # else:
-        #     raise UserError(_("Cannot go back from the current state: %s") % self.state)
 
     def action_cancel(self):
         return {
             'type': 'ir.actions.act_window',
-            'name': 'Cancel',
+            'name': _('Cancel'),
             'res_model': 'cancel.reason.wizard',
             'view_mode': 'form',
             'target': 'new',
@@ -695,37 +893,53 @@ class CompletionCertificate(models.Model):
                 'default_certificate_id': self.id,
             },
         }
-        # self.ensure_one()
-        # self.state = 'cancelled'
+
     def re_draft(self):
         self.ensure_one()
         self.state = 'project_manager_preparation'
+
     def action_confirm_preparation(self):
         self.ensure_one()
-        self.state = 'project_owner_approval'
-
-
+        self.state = 'project_manager_review'
+        self.project_manager_preparation_id = self.env.uid
+        self.project_manager_preparation_date =Date.today()
 
     def action_approve_project_owner(self):
 
         # if self.env.user.has_group('project_base.group_project_owner'):
-            self.state = 'project_manager_review'
+            self.state = 'strategy_office_review'
+            self.project_owner_approval_id = self.env.uid
+            self.project_owner_approval_date =Date.today()
+
+
 
 
     def action_review_project_manager(self):
         self.ensure_one()
         # if self.env.user.has_group('project.group_project_manager'):
-        self.state = 'strategy_office_review'
+        self.state = 'project_owner_approval'
+        self.project_manager_review_id = self.env.uid
+        self.project_manager_review_date = Date.today()
 
     def action_review_strategy_office(self):
         self.ensure_one()
         # if self.env.user.has_group('strategy_office.group_strategy_manager'):
+        print(Date.today())
         self.state = 'secretary_general_approval'
+        self.strategy_office_review_id = self.env.uid
+        self.strategy_office_review_date = Date.today()
+
+
 
     def action_approve_secretary_general(self):
         self.ensure_one()
         # if self.env.user.has_group('admin.group_secretary_general'):
         self.state = 'done'
+        self.secretary_general_approval_id = self.env.uid
+        self.secretary_general_approval_date = Date.today()
+
+
+
 
     def action_done(self):
         self.ensure_one()
@@ -734,9 +948,45 @@ class CompletionCertificate(models.Model):
     def unlink(self):
         for rec in self:
             if rec.state != 'project_manager_preparation':
-                raise UserError("You can only delete a certificate when it's in the Draft state.")
+                raise UserError(_("You can only delete a certificate when it's in the Draft state."))
         return super(CompletionCertificate, self).unlink()
 
+
+
+
+
+class ReportCompletionCertificate(models.AbstractModel):
+    _name = 'report.project_base.completion_certificate_report_template'
+    _description = 'Completion Certificate Report'
+
+    def _get_report_values(self, docids, data=None):
+        docs = self.env['completion.certificate'].browse(docids)
+        for doc in docs:
+            if doc.state != 'done':
+                raise UserError(_("You cannot print an incomplete completion certificate."))
+            doc.project_duration = self.get_duration(doc.project_id.start, doc.project_id.date)
+
+            doc.project_duration = self.get_duration(doc.project_id.start, doc.project_id.date)
+
+        return {
+            'doc_ids': docids,
+            'doc_model': 'completion.certificate',
+            'docs': docs,
+            'no_attachment': True,
+        }
+
+    def get_duration(self, start_date, end_date):
+        if not start_date or not end_date:
+            return ''
+        delta = relativedelta(end_date, start_date)
+        parts = []
+        if delta.years:
+            parts.append(f"{delta.years}سنة" if delta.years == 1 else f"{delta.years}سنوات")
+        if delta.months:
+            parts.append(f"{delta.months}شهر" if delta.months == 1 else f"{delta.months}أشهر")
+        if delta.days:
+            parts.append(f"{delta.days}يوم" if delta.days == 1 else f"{delta.days}أيام")
+        return ' و'.join(parts)
 
 
 
