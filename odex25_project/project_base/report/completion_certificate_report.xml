@@ -1,0 +1,357 @@
+<odoo>
+
+
+
+
+    <record id="CC_report" model="ir.actions.report">
+        <field name="name">Completion Certificate report</field>
+        <field name="model">completion.certificate</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="binding_model_id" ref="model_completion_certificate"/>
+        <field name="binding_type">report</field>
+        <field name="report_name">project_base.completion_certificate_report_template</field>
+
+    </record>
+
+        <template id="completion_certificate_report_template">
+        <t t-call="web.html_container">
+
+            <t t-foreach="docs" t-as="o">
+
+                    <table class="table table-bordered  tajawal" style="     table-layout: fixed; border: 2px solid black; width: 100%; border-collapse: collapse;   "  dir="rtl" >
+                        <tr>
+
+                            <td colspan="4" style="text-align: center;  border: 1px solid black; height: 40px; font-size: 28px; background-color: #0b5d8f; color: white; ">شهادة الإنجاز</td>
+                        </tr>
+                        <tr>
+                            <td colspan="4" style="text-align: center;  border: 1px solid black;height: 40px;"> </td>
+                        </tr>
+                         <tr>
+
+                                <td colspan="4"
+                                    style=" background-color: #0b5d8f; color: white; text-align: right; border: 1px solid black; height: 30px;  width: 95%; margin-right: 30px;  direction: rtl; ">
+                                        <span style="display: inline;">1-</span>
+                                    <h4 style="margin: 0; display: inline;font-size: 20px;">معلومات المشروع</h4>
+                                </td>
+
+                         </tr>
+
+                        <tr style="height: 40px;font-size: 25px;">
+                            <td style="text-align: right; border: 1px solid black; width:25%;padding:5px;background-color: #bce4fd; color: black;">اسم المشروع </td>
+                            <td style="text-align: right; border: 1px solid black;width:25%;padding:5px">
+                                <t t-esc="o.name"/>
+                            </td>
+                            <td style="text-align: right; border: 1px solid black;width:25%;padding:5px;background-color: #bce4fd; color: black;">مدة المشروع </td>
+                            <td style="text-align: right; border: 1px solid black;width:25%;padding:5px">
+                                <t t-esc="o.project_duration"/>
+                            </td>
+                        </tr>
+                        <tr style="height: 40px;font-size: 25px;">
+                            <td style="text-align: right; border: 1px solid black; width:25%;padding:5px;background-color: #bce4fd; color: black;">رمز المشروع </td>
+                            <td style="text-align: right; border: 1px solid black;width:25%;padding:5px">
+                                <t t-esc="o.project_id.project_no"/>
+                            </td>
+                            <td style="text-align: right; border: 1px solid black;width:25%;padding:5px;background-color: #bce4fd; color: black;">تاريخ بداية المشروع </td>
+                            <td style="text-align: right; border: 1px solid black;width:25%;padding:5px">
+                                <t t-esc="o.project_id.start"/>
+                            </td>
+                        </tr>
+                        <tr style="height: 40px;font-size: 25px;">
+                            <td style="text-align: right; border: 1px solid black; width:25%;padding:5px;background-color: #bce4fd; color: black; ">مالك المشروع </td>
+                            <td style="text-align: right; border: 1px solid black;width:25%;padding:5px;font-size: 20px;">
+                                <t t-esc="o.project_id.owner_employee_id.name"/>
+                            </td>
+                            <td style="text-align: right; border: 1px solid black;width:25%;padding:5px;background-color: #bce4fd; color: black ; ">تاريخ نهاية المشروع </td>
+                            <td style="text-align: right; border: 1px solid black;width:25%;padding:5px">
+                                <t t-esc="o.project_id.date"/>
+                            </td>
+                        </tr>
+                        <tr>
+
+                                <td colspan="4"
+                                    style=" background-color: #0b5d8f; color: white; text-align: right; border: 1px solid black; height: 30px;  width: 95%; margin-right: 30px;  direction: rtl; ">
+              <span style="display: inline;">2-</span>
+                                    <h4 style="margin: 0; display: inline;font-size: 20px;">معلومات شهادة الإنجاز</h4>                                </td>
+
+                        </tr>
+                        <tr style="height: 40px;font-size: 20px;">
+                            <td style="text-align: right; border: 1px solid black; width:25%;padding:5px;background-color: #bce4fd; color: black;">رقم الشهادة</td>
+                            <td style="text-align: right; border: 1px solid black;width:25%;padding:5px">
+                                <t t-esc="o.name"/>
+                            </td>
+                            <td style="text-align: right; border: 1px solid black;width:25%;padding:5px;background-color: #bce4fd; color: black;">تاريخ الإصدار </td>
+                            <td style="text-align: right; border: 1px solid black;width:25%;padding:5px">
+                                <t t-esc="o.date"/>
+                            </td>
+                        </tr>
+                        <tr>
+
+                                <td colspan="4"
+                                    style=" background-color: #0b5d8f; color: white; text-align: right; border: 1px solid black; height: 30px;  width: 95%; margin-right: 30px;  direction: rtl; ">
+                                        <span style="display: inline;">3-</span>
+                                    <h4 style="margin: 0; display: inline;font-size: 20px;">المخرجات المقدمة ومراجعة الأداء التنفيذي</h4>
+                                </td>
+
+                        </tr>
+                        <tr style="height: 40px;font-size: 20px;">
+                            <td colspan="2" style="text-align: right; border: 1px solid black; width:50%;padding:5px;background-color: #bce4fd; color: black;">المخرج</td>
+
+                            <td colspan="2" style="text-align: right; border: 1px solid black;width:50%;padding:5px;background-color: #bce4fd; color: black;">وصف المخرج </td>
+
+                        </tr>
+                            <t t-foreach="o.certificate_output_ids" t-as="output">
+                                <tr style="height: 60px;font-size: 20px;">
+                                    <td colspan="2" style="text-align: right; border: 1px solid black;width:50%;padding:5px">
+                                        <t t-esc="output.name"/>
+                                    </td>
+                                    <td colspan="2" style="text-align: right; border: 1px solid black;width:50%;padding:5px">
+                                        <t t-esc="output.description"/>
+                                    </td>
+                                </tr>
+                            </t>
+                        <tr style="height: 40px;font-size: 20px;">
+                            <td colspan="2" style="text-align: right; border: 1px solid black; width:50%;padding:5px;background-color: #bce4fd; color: black;padding-right:11%;">الوثائق الداعمة  للمخرج </td>
+
+                            <td colspan="2" style="text-align: right; border: 1px solid black;width:50%;padding:5px;background-color: #bce4fd; color: black;">الوزن المـكافــىء لإنجاز المخرج (%)</td>
+
+                        </tr>
+                        <tr style="height: 60px;font-size: 15px;">
+                            <td colspan="2" style="text-align: right; border: 1px solid black;width:50%;padding:5px">
+                                <t t-foreach="o.attachment_ids" t-as="attachment">
+                                    <div>
+                                        <t t-esc="attachment.name"/>
+                                    </div>
+                                </t>
+                            </td>
+                            <td colspan="2" style="text-align: right; border: 1px solid black;width:50%;padding:5px">
+                                <t t-esc="o.equivalent_output_weight"/>
+                            </td>
+                        </tr>
+                        <tr style="height: 40px;font-size: 20px;">
+                            <td colspan="2" style="text-align: right; border: 1px solid black; width:50%;padding:5px;background-color: #bce4fd; color: black; padding-right:9%;">نسبة الإنجاز  للمخرج </td>
+
+                            <td colspan="2" style="text-align: right; border: 1px solid black;width:50%;padding:5px;background-color: #bce4fd; color: black;"> الأداء التنفيذي لمقدم الخدمة والخصومات المالية إن وجدت </td>
+
+                        </tr>
+                        <tr style="height: 60px;font-size: 20px;">
+                            <td colspan="2" style="text-align: right; border: 1px solid black;width:50%;padding:5px">
+                                <t t-esc="o.achievement_percentage"/>
+                            </td>
+                            <td colspan="2" style="text-align: right; border: 1px solid black;width:50%;padding:5px">
+                                <t t-esc="o.service_provider_performance"/>
+                            </td>
+                        </tr>
+
+                        <tr style="height: 40px;font-size: 20px;">
+                            <td colspan="2" style="text-align: right; border: 1px solid black; width:50%;padding:5px;background-color: #bce4fd; color: black;padding-right:9%;">الصرف المخطط له حتى تاريخ تسليم المخرج (ريال سعودي)</td>
+
+                            <td colspan="2" style="text-align: right; border: 1px solid black;width:50%;padding:5px;background-color: #bce4fd; color: black;padding-right:9%;">الصرف الفعلي حتى تاريخ تسليم المخرج (ريال سعودي)</td>
+
+                        </tr>
+                        <tr style="height: 60px;font-size: 20px;">
+                            <td colspan="2" style="text-align: right; border: 1px solid black;width:50%;padding:5px">
+                                <t t-esc="o.planned_spending_until_delivery"/>
+                            </td>
+                            <td colspan="2" style="text-align: right; border: 1px solid black;width:50%;padding:5px">
+                                <t t-esc="o.actual_spending_until_delivery"/>
+                            </td>
+                        </tr>
+
+
+
+
+                    </table >
+
+                    <table class="table table-bordered tajawal"  style=" table-layout: fixed; border: 2px solid black; width: 100%; border-collapse: collapse; "  dir="rtl">
+                        <tr>
+                            <td colspan="13"
+                                    style=" background-color: #0b5d8f; color: white; text-align: right;border: 1px solid black; height: 30px;  width: 100%; margin-right: 30px;  direction: rtl; ">
+                                        <span style="display: inline;">4-</span>
+                                    <h4 style="margin: 0; display: inline;font-size: 22px;">المراجعة و الاعتماد</h4>
+                                </td>
+                        </tr>
+
+
+                       <tr style="height: 50px;font-size: 12px; background-color: #e4e4e4; color: black; ">
+                                <td colspan="1" style="text-align: center; border: 1px solid black; width:5%;padding:5px;">#</td>
+                                <td colspan="2" style="text-align: center; border: 1px solid black;width:15%;padding:5px;">المهمة</td>
+                                 <td colspan="2" style="text-align: center; border: 1px solid black;width:15%;padding:5px;">الصفة الرسمية</td>
+                                 <td colspan="2" style="text-align: center; border: 1px solid black;width:15%;padding:5px;">المصادقة</td>
+                                 <td colspan="2" style="text-align: center; border: 1px solid black;width:15%;padding:5px;">الأسم</td>
+                                 <td colspan="2" style="text-align: center; border: 1px solid black;width:10%;padding:5px;">التاريخ</td>
+                                <td colspan="2" style="text-align: center; border: 1px solid black;width:25%;padding:5px;">التوقيع</td>
+
+                        </tr>
+                        <tr style="height: 50px;font-size: 12px; background-color: #ffffff; color: black; ">
+                                <td colspan="1" style="text-align: center; border: 1px solid black; width:5%;padding:5px;">1</td>
+                                <td colspan="2" style="text-align: center; border: 1px solid black;width:15%;padding:5px;">إعداد</td>
+                                 <td colspan="2" style="text-align: center; border: 1px solid black;width:15%;padding:5px;">مدير المشروع</td>
+                                 <td colspan="2" style="text-align: center; border: 1px solid black;width:15%;padding:5px;">أوافق على صحة المعلومات</td>
+                                 <td colspan="2" style="text-align: center; border: 1px solid black;width:15%;padding:5px;"><t t-esc="o.project_manager_preparation_id.name"/></td>
+                                 <td colspan="2" style="text-align: center; border: 1px solid black;width:10%;padding:5px;"><t t-esc="o.project_manager_preparation_date"/></td>
+                                <td colspan="2" style="text-align: center; border: 1px solid black;width:25%;padding:5px;">تم الإعداد</td>
+
+                        </tr>
+                                                                        <tr style="height: 50px;font-size: 12px; background-color: #ffffff; color: black; ">
+                                <td colspan="1" style="text-align: center; border: 1px solid black; width:5%;padding:5px;">2</td>
+                                <td colspan="2" style="text-align: center; border: 1px solid black;width:15%;padding:5px;">مراجعة</td>
+                                 <td colspan="2" style="text-align: center; border: 1px solid black;width:15%;padding:5px;">رئيس قسم المشاريع</td>
+                                 <td colspan="2" style="text-align: center; border: 1px solid black;width:15%;padding:5px;">أوافق على صحة المعلومات</td>
+                                 <td colspan="2" style="text-align: center; border: 1px solid black;width:15%;padding:5px;"><t t-esc="o.project_manager_review_id.name"/></td>
+                                 <td colspan="2" style="text-align: center; border: 1px solid black;width:10%;padding:5px;"><t t-esc="o.project_manager_review_date"/></td>
+                                <td colspan="2" style="text-align: center; border: 1px solid black;width:25%;padding:5px;">تمت المراجعة</td>
+
+                        </tr>
+
+                                                <tr style="height: 50px;font-size: 12px; background-color: #ffffff; color: black; ">
+                                <td colspan="1" style="text-align: center; border: 1px solid black; width:5%;padding:5px;">3</td>
+                                <td colspan="2" style="text-align: center; border: 1px solid black;width:15%;padding:5px;"> الاعتماد الأول</td>
+                                 <td colspan="2" style="text-align: center; border: 1px solid black;width:15%;padding:5px;">مالك المشروع</td>
+                                 <td colspan="2" style="text-align: center; border: 1px solid black;width:15%;padding:5px;">أوافق على صحة المعلومات</td>
+                                 <td colspan="2" style="text-align: center; border: 1px solid black;width:15%;padding:5px;"><t t-esc="o.project_id.owner_employee_id.name"/></td>
+                                 <td colspan="2" style="text-align: center; border: 1px solid black;width:10%;padding:5px;"><t t-esc="o.project_owner_approval_date"/></td>
+                                <td colspan="2" style="text-align: center; border: 1px solid black;width:25%;padding:5px;">تم الأعتماد</td>
+
+                        </tr>
+
+                                                <tr style="height: 50px;font-size: 12px; background-color: #ffffff; color: black; ">
+                                <td colspan="1" style="text-align: center; border: 1px solid black; width:5%;padding:5px;">4</td>
+                                <td colspan="2" style="text-align: center; border: 1px solid black;width:15%;padding:5px;">الاعتماد الثاني</td>
+                                 <td colspan="2" style="text-align: left; border: 1px solid black;width:15%;padding:5px;">مدير مكتب التميز  والاستراتيجية</td>
+                                 <td colspan="2" style="text-align: center; border: 1px solid black;width:15%;padding:5px;">أوافق على صحة المعلومات</td>
+                                 <td colspan="2" style="text-align: center; border: 1px solid black;width:15%;padding:5px;"><t t-esc="o.strategy_office_review_id.name"/></td>
+                                 <td colspan="2" style="text-align: center; border: 1px solid black;width:10%;padding:5px;"><t t-esc="o.strategy_office_review_date"/></td>
+                                <td colspan="2" style="text-align: center; border: 1px solid black;width:25%;padding:5px;">تم  الأعتماد</td>
+
+                        </tr>
+                                                <tr style="height: 50px;font-size: 12px; background-color: #ffffff; color: black; ">
+                                <td colspan="1" style="text-align: center; border: 1px solid black; width:5%;padding:5px;">5</td>
+                                <td colspan="2" style="text-align: center; border: 1px solid black;width:15%;padding:5px;">الاعتماد النهائي</td>
+                                 <td colspan="2" style="text-align: center; border: 1px solid black;width:15%;padding:5px;">الأمين العام</td>
+                                 <td colspan="2" style="text-align: center; border: 1px solid black;width:15%;padding:5px;">أصادق على كل ما سبق </td>
+                                 <td colspan="2" style="text-align: center; border: 1px solid black;width:15%;padding:5px;"><t t-esc="o.secretary_general_approval_id.name"/></td>
+                                 <td colspan="2" style="text-align: center; border: 1px solid black;width:10%;padding:5px;"><t t-esc="o.secretary_general_approval_date"/></td>
+                                <td colspan="2" style="text-align: center; border: 1px solid black;width:25%;padding:5px;">تم  الأعتماد</td>
+
+                        </tr>
+
+                </table>
+            </t>
+        </t>
+
+
+    </template>
+
+</odoo>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--<table class="table table-bordered" style="font-weight: bold; table-layout: fixed; border: 2px solid black; width: 100%; border-collapse: collapse;" dir="ltr">-->
+<!--    <tr>-->
+<!--        <td colspan="4" style="text-align: center; font-weight: bold; border: 1px solid black; height: 40px; font-size: 28px; background-color: #0b5d8f; color: white;">Completion Certificate</td>-->
+<!--    </tr>-->
+<!--    <tr>-->
+<!--        <td colspan="4" style="text-align: center; font-weight: bold; border: 1px solid black; height: 40px;"></td>-->
+<!--    </tr>-->
+<!--    <tr>-->
+<!--        <td colspan="4" style="background-color: #0b5d8f; color: white; text-align: left; font-weight: bold; border: 1px solid black; height: 30px;">-->
+<!--            <span style="display: inline;">1-</span>-->
+<!--            <h4 style="margin: 0; display: inline; font-size: 22px;">Project Information</h4>-->
+<!--        </td>-->
+<!--    </tr>-->
+<!--    <tr style="height: 40px; font-size: 20px;">-->
+<!--        <td style="text-align: left; border: 1px solid black; background-color: #bce4fd;">Project Name</td>-->
+<!--        <td><t t-esc="o.name"/></td>-->
+<!--        <td style="text-align: left; border: 1px solid black; background-color: #bce4fd;">Project Duration</td>-->
+<!--        <td><t t-esc="o.id"/></td>-->
+<!--    </tr>-->
+<!--    <tr style="height: 40px; font-size: 20px;">-->
+<!--        <td style="text-align: left; border: 1px solid black; background-color: #bce4fd;">Project Code</td>-->
+<!--        <td><t t-esc="o.name"/></td>-->
+<!--        <td style="text-align: left; border: 1px solid black; background-color: #bce4fd;">Start Date</td>-->
+<!--        <td><t t-esc="o.id"/></td>-->
+<!--    </tr>-->
+<!--    <tr style="height: 40px; font-size: 20px;">-->
+<!--        <td style="text-align: left; border: 1px solid black; background-color: #bce4fd;">Project Owner</td>-->
+<!--        <td><t t-esc="o.name"/></td>-->
+<!--        <td style="text-align: left; border: 1px solid black; background-color: #bce4fd;">End Date</td>-->
+<!--        <td><t t-esc="o.id"/></td>-->
+<!--    </tr>-->
+<!--    <tr>-->
+<!--        <td colspan="4" style="background-color: #0b5d8f; color: white; text-align: left; font-weight: bold; border: 1px solid black; height: 30px;">-->
+<!--            <span style="display: inline;">2-</span>-->
+<!--            <h4 style="margin: 0; display: inline; font-size: 22px;">Certificate Information</h4>-->
+<!--        </td>-->
+<!--    </tr>-->
+<!--    <tr style="height: 40px; font-size: 20px;">-->
+<!--        <td style="text-align: left; border: 1px solid black; background-color: #bce4fd;">Certificate Number</td>-->
+<!--        <td><t t-esc="o.name"/></td>-->
+<!--        <td style="text-align: left; border: 1px solid black; background-color: #bce4fd;">Issue Date</td>-->
+<!--        <td><t t-esc="o.id"/></td>-->
+<!--    </tr>-->
+<!--    <tr>-->
+<!--        <td colspan="4" style="background-color: #0b5d8f; color: white; text-align: left; font-weight: bold; border: 1px solid black; height: 30px;">-->
+<!--            <span style="display: inline;">3-</span>-->
+<!--            <h4 style="margin: 0; display: inline; font-size: 22px;">Deliverables and Performance Review</h4>-->
+<!--        </td>-->
+<!--    </tr>-->
+<!--    <tr style="height: 40px; font-size: 20px;">-->
+<!--        <td colspan="2" style="text-align: left; border: 1px solid black; background-color: #bce4fd;">Deliverable</td>-->
+<!--        <td colspan="2" style="text-align: left; border: 1px solid black; background-color: #bce4fd;">Description</td>-->
+<!--    </tr>-->
+<!--    <tr style="height: 60px; font-size: 20px;">-->
+<!--        <td colspan="2"><t t-esc="o.name"/></td>-->
+<!--        <td colspan="2"><t t-esc="o.id"/></td>-->
+<!--    </tr>-->
+<!--    <tr style="height: 40px; font-size: 20px;">-->
+<!--        <td colspan="2" style="text-align: left; border: 1px solid black; background-color: #bce4fd;">Supporting Documents</td>-->
+<!--        <td colspan="2" style="text-align: left; border: 1px solid black; background-color: #bce4fd;">Equivalent Weight of Completion (%)</td>-->
+<!--    </tr>-->
+<!--    <tr style="height: 60px; font-size: 20px;">-->
+<!--        <td colspan="2"><t t-esc="o.name"/></td>-->
+<!--        <td colspan="2"><t t-esc="o.id"/></td>-->
+<!--    </tr>-->
+<!--    <tr style="height: 40px; font-size: 20px;">-->
+<!--        <td colspan="2" style="text-align: left; border: 1px solid black; background-color: #bce4fd;">Completion Percentage</td>-->
+<!--        <td colspan="2" style="text-align: left; border: 1px solid black; background-color: #bce4fd;">Performance Review  Deductions</td>-->
+<!--    </tr>-->
+<!--    <tr style="height: 60px; font-size: 20px;">-->
+<!--        <td colspan="2"><t t-esc="o.name"/></td>-->
+<!--        <td colspan="2"><t t-esc="o.id"/></td>-->
+<!--    </tr>-->
+<!--    <tr style="height: 40px; font-size: 20px;">-->
+<!--        <td colspan="2" style="text-align: left; border: 1px solid black; background-color: #bce4fd;">Planned Spending (SAR)</td>-->
+<!--        <td colspan="2" style="text-align: left; border: 1px solid black; background-color: #bce4fd;">Actual Spending (SAR)</td>-->
+<!--    </tr>-->
+<!--    <tr style="height: 60px; font-size: 20px;">-->
+<!--        <td colspan="2"><t t-esc="o.name"/></td>-->
+<!--        <td colspan="2"><t t-esc="o.id"/></td>-->
+<!--    </tr>-->
+<!--</table>-->
+
+

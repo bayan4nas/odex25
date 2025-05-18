@@ -10,7 +10,13 @@
     """,
     'category': 'Odex25-Project/Odex25-Project',
     'version': '1.0',
+
     'depends': ['sale_timesheet','hr' ,'project','mail',  'portal',  'base' ,'account','account_attachments'],
+    'assets': {
+        'web.report_assets_common': [
+            'project_base/static/src/css/font.css',
+        ],
+    },
     'data': [
         'data/project_data.xml',
         'data/project_cron.xml',
@@ -23,6 +29,7 @@
         'report/project_reports.xml',
         'report/project_report_templates.xml',
         'report/project_invoice_report_templates.xml',
+        'report/completion_certificate_report.xml',
         'views/project_views.xml',
         'views/project_invoice_views.xml',
         'views/project_phase_view.xml',
@@ -30,7 +37,10 @@
         'views/project_task_views.xml',
         'views/asset.xml',
         'views/project_completion_certificate_view.xml',
-        'wizard/reason.xml'
+        'wizard/reason.xml',
+        'data/ir_sequence_data.xml'
 
     ],
+
+
 }

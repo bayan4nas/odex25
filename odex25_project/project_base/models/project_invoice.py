@@ -171,6 +171,13 @@ class ProjectInvoice(models.Model):
                  ))
         invoice_vals['invoice_line_ids'] = invoice_line_vals
         invoice_id = self.env['account.move'].sudo().with_context(default_move_type='out_invoice').create(invoice_vals)
+        for attachment in self.attachment_ids:
+            attachment.copy({
+                'res_model': 'account.move',
+                'res_id': invoice_id.id
+            })
+        invoice_id._compute_attach_no()
+
         if abs(sum(self.project_downinv_ids.mapped('price_total'))) > abs(
                 sum(self.project_invline_ids.mapped('price_total'))):
             raise ValidationError(_("Downpayment amount can't be greater than invoiced amount"))
@@ -254,12 +261,18 @@ class ProjectInvoice(models.Model):
 
 
     def action_confirm(self):
-        print("action_confirm",self)
         for rec in self:
-            print('rec,',rec.phase_id)
             if rec.phase_id:
-                certificate = self.env['completion.certificate'].search([('phase_id4', '=', rec.phase_id.id)], limit=1)
-                # if certificate:
+                certificate = self.env['completion.certificate'].search(
+                    [('phase_id4', '=', rec.phase_id.id)],
+                    limit=1
+                )
+                if certificate:
+                    if certificate.state != 'done':
+                        raise UserError(_("The completion certificate for this phase is not completed yet."))
+                else:
+                    raise UserError(_("No completion certificate found for this project phase."))
+
                 self.ensure_one()
                 self._set_qty_invoiced()
                 if not self.plan_date:

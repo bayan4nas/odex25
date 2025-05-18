@@ -11,7 +11,7 @@ class CancelReasonWizard(models.TransientModel):
     def apply_reason_cancel(self):
         self.ensure_one()
         cert = self.certificate_id
-        cert.message_post(body="❌ Cancellation applied. Reason: %s" % self.reason)
+        cert.message_post(body=_("❌ Cancellation applied. Reason: %s") % self.reason)
         cert.state = 'cancelled'
 
 
@@ -32,7 +32,7 @@ class GoBackReasonWizard(models.TransientModel):
         }.get(cert.state)
 
         if previous_state:
-            cert.message_post(body="↩️ Reverted to the previous state. Reason: %s" % (self.reason))
+            cert.message_post(body=_("↩️ Reverted to the previous state. Reason: %s" )% (self.reason))
             cert.state = previous_state
         else:
             raise UserError(_("Cannot revert from the current state: %s") % cert.state)
