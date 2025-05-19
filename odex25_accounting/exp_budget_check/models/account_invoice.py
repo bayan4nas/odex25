@@ -3,6 +3,7 @@ from odoo.exceptions import AccessError, UserError, RedirectWarning, ValidationE
 from odoo.tools import float_is_zero, float_compare, pycompat
 from lxml import etree
 import json
+import re
 
 
 class BudgetConfirmationCustom(models.Model):
@@ -45,7 +46,7 @@ class AccountMove(models.Model):
     _inherit = 'account.move'
 
     state = fields.Selection(selection=[
-        ('draft', 'Draft'),
+        ('draft', 'Wait Accountant'),
         ('confirm', 'Confirm'),
         ('wait_budget', 'Wait Budget'),
         ('accountant', 'Accountant'),
@@ -113,17 +114,9 @@ class AccountMove(models.Model):
     def action_confirm(self):
         if not self.date:
             raise ValidationError(_('Please insert Bill Date'))
-        for rec in self.invoice_line_ids:
-            if rec.analytic_account_id.is_analytic_budget and not rec.analytic_account_id.is_auto_check:
-                self.write({
-                    'state': 'confirm',
-                    'hide_budget': False
-                })
-                break
-            else:
-                self.write({
-                    'state': 'head_department'
-                })
+        self.write({
+            'state': 'head_department'
+        })
         if self.purchase_id:
             confirm_budget = self.env['budget.confirmation'].search([('po_id', '=', self.purchase_id.id)], limit=1,
                                                                     order='id desc')
@@ -306,6 +299,60 @@ class AccountMove(models.Model):
             'context': {'create': False}
         }
 
+    def _get_last_sequence_domain(self, relaxed=False):
+            self.ensure_one()
+            if not self.date or not self.journal_id:
+                return "WHERE FALSE", {}
+
+            where_string = "WHERE journal_id = %(journal_id)s AND name != '/'"
+            param = {'journal_id': self.journal_id.id}
+
+            if not relaxed:
+                domain = [
+                    ('journal_id', '=', self.journal_id.id),
+                    ('id', '!=', self.id or self._origin.id),
+                    ('name', 'not in', ('/', '', False))
+                ]
+
+                if self.journal_id.refund_sequence:
+                    refund_types = ('out_refund', 'in_refund')
+                    if self.move_type in refund_types:
+                        domain += [('move_type', 'in', refund_types)]
+                    else:
+                        domain += [('move_type', 'not in', refund_types)]
+
+                reference_move = self.search(domain + [('date', '<=', self.date)], order='date desc', limit=1)
+                reference_move_name = reference_move.name if reference_move else ''
+                if not reference_move_name:
+                    reference_move = self.search(domain, order='date asc', limit=1)
+                    reference_move_name = reference_move.name if reference_move else ''
+
+                sequence_number_reset = self._deduce_sequence_number_reset(reference_move_name)
+
+                if sequence_number_reset == 'year':
+                    where_string += " AND date_trunc('year', date::timestamp without time zone) = date_trunc('year', %(date)s) "
+                    param['date'] = self.date
+                    param['anti_regex'] = re.sub(r"\?P<\w+>", "?:",
+                                                 self._sequence_monthly_regex.split('(?P<seq>')[0]) + '$'
+
+                elif sequence_number_reset == 'month':
+                    where_string += " AND date_trunc('month', date::timestamp without time zone) = date_trunc('month', %(date)s) "
+                    param['date'] = self.date
+
+                else:
+                    param['anti_regex'] = re.sub(r"\?P<\w+>", "?:",
+                                                 self._sequence_yearly_regex.split('(?P<seq>')[0]) + '$'
+
+                if param.get('anti_regex') and not self.journal_id.sequence_override_regex:
+                    where_string += " AND sequence_prefix !~ %(anti_regex)s "
+
+            if self.journal_id.refund_sequence:
+                if self.move_type in ('out_refund', 'in_refund'):
+                    where_string += " AND move_type IN ('out_refund', 'in_refund') "
+                else:
+                    where_string += " AND move_type NOT IN ('out_refund', 'in_refund') "
+
+            return where_string, param
 
 
 class PurchaseOrderLine(models.Model):
