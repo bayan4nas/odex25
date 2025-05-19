@@ -7,6 +7,7 @@ from odoo.exceptions import UserError
 from lxml import etree
 import json
 
+
 class FamilyMemberMaritalStatus(models.Model):
     _name = 'family.member.maritalstatus'
     _description = 'Family Member Marital Status'
@@ -19,7 +20,7 @@ class FamilyMemberRelation(models.Model):
     _description = 'Family Member Relation'
 
     name = fields.Char(string='Relation', required=True)
-
+    gender = fields.Selection(selection=[('male', _('Male')), ('female', _('Female'))], string="Gender")
 
 class FamilyMemberQualification(models.Model):
     _name = 'family.member.qualification'
@@ -131,15 +132,32 @@ class IssuesInformation(models.Model):
 
     member_id = fields.Many2one('family.member', string='Family Member')
     detainee_id = fields.Many2one('detainee.file', string='Family Member')
-    case_name = fields.Text(string="Case")
+    case_name = fields.Many2one('case.information', string="Case")
+    case_type = fields.Many2one('cases.type', string="Case Type")
     record_start_date = fields.Date(string="Record Start Date")
     record_end_date = fields.Date(string="Record End Date")
-    release_date = fields.Date(string="Release Date")
+    release_date = fields.Date(string="Release Date", related='detainee_id.expected_release_date', readonly=0)
     account_status = fields.Selection(
         [('active', 'Active'), ('inactive', 'Inactive')],
         string="status")
     prison_prison_id = fields.Many2one('prison.benefit')
-    prison_id = fields.Many2one('res.prison',readonly=0,related='detainee_id.prison_id')
+    prison_id = fields.Many2one('res.prison', readonly=0, related='detainee_id.prison_id')
+    arrest_date = fields.Date('Arrest Date', related='detainee_id.arrest_date', readonly=0)
+
+    @api.onchange('case_type')
+    def _onchange_case_type(self):
+        if self.case_type:
+            return {
+                'domain': {
+                    'case_name': [('type', '=', self.case_type.id)]
+                }
+            }
+        else:
+            return {
+                'domain': {
+                    'case_name': []
+                }
+            }
 
 
 class FamilyMember(models.Model):
@@ -242,7 +260,7 @@ class FamilyMember(models.Model):
     )
     external_guid = fields.Char(string='External GUID')
 
-    house_ids = fields.One2many('family.member.house', 'member_id', string='House Profile')
+    # house_ids = fields.One2many('family.member.house', 'member_id', string='House Profile')
 
     state = fields.Selection([
         ('draft', 'Draft'),
@@ -301,6 +319,33 @@ class FamilyMember(models.Model):
                 res['arch'] = etree.tostring(doc)
         return res
 
+    def action_open_salary_income(self):
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_window',
+            'res_model': 'salary.line',
+            'view_mode': 'tree,form',
+            'views': [
+                (self.env.ref('odex_benefit.view_salary_line_tree').id, 'tree'),
+                (self.env.ref('odex_benefit.view_salary_line_form').id, 'form'),
+            ],
+            'domain': [('member_id', '=', self.id)],
+            'target': 'current',
+        }
+    def action_open_expenses(self):
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_window',
+            'res_model': 'expenses.line',
+            'view_mode': 'tree,form',
+            'views': [
+                (self.env.ref('odex_benefit.view_expense_line_tree').id, 'tree'),
+                (self.env.ref('odex_benefit.view_expense_line_form').id, 'form'),
+            ],
+            'domain': [('member_id', '=', self.id)],
+            'target': 'current',
+        }
+
     @api.depends('first_name', 'father_name', 'grand_name', 'family_name')
     def _compute_full_name(self):
         """Computes 'name' field on page load and when related fields change."""
@@ -320,54 +365,9 @@ class FamilyMember(models.Model):
 
 class MemberHouse(models.Model):
     _name = 'family.member.house'
+    _description = 'Member House'
 
-    member_id = fields.Many2one('family.member', string='Member', ondelete='cascade', )
-
-    housing_type = fields.Selection([
-        ('apartment', 'apartment'),
-        ('villa', 'villa'),
-        ('popular_house', 'popular house'),
-        ('tent', 'tent'),
-        ('Appendix', 'Appendix'), ], default='apartment')
-
-    property_type = fields.Selection([
-        ('ownership', 'ownership'),
-        ('rent', 'rent'),
-        ('charitable', 'charitable'),
-        ('ownership_shared', 'Ownership Shared'),
-        ('rent_shared', 'Rent Shared')])
-
-    exchange_period = fields.Selection(
-        [
-            ('monthly', 'Monthly'),
-            ('every_three_months', 'Every Three Months'),
-            ('every_six_months', 'Every Six Months'),
-            ('every_nine_months', 'Every Nine Months'),
-            ('annually', 'Annually'),
-            ('two_years', 'Two Years'),
-        ],
-        string="Exchange Period",
-        attrs="{'readonly': [('housing_status', 'not in', ['usufruct', 'rent'])]}"
-    )
-
-    housing_status = fields.Selection(
-        [
-            ('owned', 'Owned'),
-            ('shared', 'Shared'),
-            ('usufruct', 'Usufruct'),
-            ('rent', 'Rent'),
-        ],
-        string="Housing Status"
-    )
-
-    housing_value = fields.Integer(
-        string="Housing Value",
-        attrs="{'readonly': [('housing_status', 'not in', ['usufruct', 'rent'])]}"
-    )
-
-    accommodation_attachments = fields.Binary(string="Accommodation Attachments", attachment=True)
-
-    benefit_id = fields.Many2one('grant.benefit', string="Profile", related='member_id.benefit_id', store=True)
+    benefit_id = fields.Many2one('grant.benefit',string="Benefit")
 
 
 class DetaineeFile(models.Model):
@@ -384,8 +384,8 @@ class DetaineeFile(models.Model):
     ], string="Detainee Status", required=True, tracking=True, default='non_convicted')
 
     arrest_date = fields.Date(string="Arrest Date", required=True, )
-    record_start_date = fields.Date(string="Start Date",default=fields.Date.today)
-    record_end_date = fields.Date(string="End Date",)
+    record_start_date = fields.Date(string="Start Date", default=fields.Date.today)
+    record_end_date = fields.Date(string="End Date", )
     expected_release_date = fields.Date(string="Expected Release Date")
     issues_ids = fields.One2many('issues.information', 'detainee_id')
 
@@ -403,6 +403,10 @@ class DetaineeFile(models.Model):
 
     cancel_reason: fields.Text = fields.Text(string="Rejection Reason", tracking=True, copy=False)
 
+    prisoner_state = fields.Selection([('convicted', 'Convicted'), ('not_convicted', 'Not Convicted')], string='State')
+    beneficiary_category = fields.Selection([('gust', 'Gust'), ('released', 'Released')], string='Beneficiary Category')
+    entitlement_status = fields.Selection([('deserved', 'Deserved'), ('undeserved', 'Undeserved')],
+                                          string='Entitlement Status')
 
     def action_open_family_files(self):
         self.ensure_one()
@@ -411,13 +415,14 @@ class DetaineeFile(models.Model):
             'name': 'ملفات الأسرة',
             'res_model': 'grant.benefit',
             'view_mode': 'kanban,form',
-        'views': [
-            (self.env.ref('trahum_benefits.view_family_kanban_custom').id, 'kanban'),
-            (self.env.ref('trahum_benefits.view_grant_benefit_form').id, 'form'),
-        ],
+            'views': [
+                (self.env.ref('trahum_benefits.view_family_kanban_custom').id, 'kanban'),
+                (self.env.ref('trahum_benefits.view_grant_benefit_form').id, 'form'),
+            ],
             # 'view_id': self.env.ref('trahum_benefits.view_family_kanban_custom').id,
             'domain': [('detainee_file_id', '=', self.id)],
             'target': 'current',
+            'context': {'default_detainee_file_id': self.id}
         }
 
     # Restrict deletion & modification based on status
@@ -429,7 +434,8 @@ class DetaineeFile(models.Model):
 
     @api.model
     def fields_view_get(self, view_id=None, view_type=False, toolbar=False, submenu=False):
-        res = super(DetaineeFile, self).fields_view_get(view_id=view_id, view_type=view_type, toolbar=toolbar,submenu=submenu)
+        res = super(DetaineeFile, self).fields_view_get(view_id=view_id, view_type=view_type, toolbar=toolbar,
+                                                        submenu=submenu)
         doc = etree.XML(res['arch'])
         if view_type == 'form':
             for node in doc.xpath("//field"):
@@ -444,10 +450,8 @@ class DetaineeFile(models.Model):
                 res['arch'] = etree.tostring(doc)
         return res
 
-
     def action_confirm(self):
         self.state = 'confirmed'
-
 
     def action_cancel(self):
         """Open a wizard to enter the rejection reason."""
@@ -460,10 +464,8 @@ class DetaineeFile(models.Model):
             'context': {'default_record_id': self.id}
         }
 
-
     def reset_to_draft(self):
         self.state = 'draft'
-
 
     def name_get(self):
         result = []

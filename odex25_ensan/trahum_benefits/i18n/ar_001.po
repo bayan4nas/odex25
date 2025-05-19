@@ -56,14 +56,10 @@ msgid "AB-"
 msgstr ""
 
 #. module: trahum_benefits
+#: model:ir.model.fields,field_description:trahum_benefits.field_grant_benefit__accommodation_attachments
 #: model:ir.model.fields,field_description:trahum_benefits.field_family_member_house__accommodation_attachments
 msgid "Accommodation Attachments"
 msgstr "ارفاق السكن"
-
-#. module: trahum_benefits
-#: model:ir.model.fields,field_description:trahum_benefits.field_grant_benefit__accommodation_attachments
-msgid "Accommodation Attachments "
-msgstr ""
 
 #. module: trahum_benefits
 #: model:ir.model.fields,field_description:trahum_benefits.field_grant_benefit__account_status
@@ -77,11 +73,15 @@ msgid ""
 msgstr "حالة الحساب لتحديد ما إذا كان الحساب نشطًا أم معلقًا."
 
 #. module: trahum_benefits
+#: model:ir.model.fields,field_description:trahum_benefits.field_bank_stop_reason__message_needaction
 #: model:ir.model.fields,field_description:trahum_benefits.field_detainee_file__message_needaction
 msgid "Action Needed"
 msgstr "يحتاج لإجراء"
 
 #. module: trahum_benefits
+#: model:ir.model.fields,field_description:trahum_benefits.field_benefits_output__active
+#: model:ir.model.fields,field_description:trahum_benefits.field_benefits_service__active
+#: model:ir.model.fields,field_description:trahum_benefits.field_benefits_service_classification__active
 #: model:ir.model.fields.selection,name:trahum_benefits.selection__attachment__classification__active
 #: model:ir.model.fields.selection,name:trahum_benefits.selection__family_member__social_insurance_status__active
 #: model:ir.model.fields.selection,name:trahum_benefits.selection__family_member__social_security_status__active
@@ -96,21 +96,25 @@ msgid "Active Inactive"
 msgstr "نشط غير مفعل"
 
 #. module: trahum_benefits
+#: model:ir.model.fields,field_description:trahum_benefits.field_bank_stop_reason__activity_ids
 #: model:ir.model.fields,field_description:trahum_benefits.field_detainee_file__activity_ids
 msgid "Activities"
 msgstr "الأنشطة"
 
 #. module: trahum_benefits
+#: model:ir.model.fields,field_description:trahum_benefits.field_bank_stop_reason__activity_exception_decoration
 #: model:ir.model.fields,field_description:trahum_benefits.field_detainee_file__activity_exception_decoration
 msgid "Activity Exception Decoration"
 msgstr "زخرفة استثناء النشاط"
 
 #. module: trahum_benefits
+#: model:ir.model.fields,field_description:trahum_benefits.field_bank_stop_reason__activity_state
 #: model:ir.model.fields,field_description:trahum_benefits.field_detainee_file__activity_state
 msgid "Activity State"
 msgstr "حالة النشاط"
 
 #. module: trahum_benefits
+#: model:ir.model.fields,field_description:trahum_benefits.field_bank_stop_reason__activity_type_icon
 #: model:ir.model.fields,field_description:trahum_benefits.field_detainee_file__activity_type_icon
 msgid "Activity Type Icon"
 msgstr "أيقونة نوع النشاط"
@@ -124,6 +128,16 @@ msgstr "رقم الجوال الإضافى"
 #: model:ir.model.fields,field_description:trahum_benefits.field_family_member__additional_number
 msgid "Additional Number"
 msgstr "الرقم الإضافى"
+
+#. module: trahum_benefits
+#: model:ir.model.fields,field_description:trahum_benefits.field_benefits_output__amount
+msgid "Amount"
+msgstr ""
+
+#. module: trahum_benefits
+#: model:ir.model.fields,field_description:trahum_benefits.field_benefits_output__amount_per_person
+msgid "Amount per Person"
+msgstr ""
 
 #. module: trahum_benefits
 #: model:ir.model.fields.selection,name:trahum_benefits.selection__expenses_line__revenue_periodicity__annually
@@ -146,17 +160,17 @@ msgstr "تاكيد"
 #. module: trahum_benefits
 #: model_terms:ir.ui.view,arch_db:trahum_benefits.view_grant_benefit_form
 msgid "Approve Branch Manager"
-msgstr "مدير مركز خدمات المستفيدين"
+msgstr "تأكيد التدقيق"
 
 #. module: trahum_benefits
 #: model_terms:ir.ui.view,arch_db:trahum_benefits.view_grant_benefit_form
 msgid "Approve Call Center"
-msgstr "موافقة اخصائي مركز الاتصال"
+msgstr "تأكيد الاعداد"
 
 #. module: trahum_benefits
 #: model_terms:ir.ui.view,arch_db:trahum_benefits.view_grant_benefit_form
-msgid "Approve Social Researcher"
-msgstr "موافقة الباحث الاجتماعي"
+msgid "Validate"
+msgstr "تأكيد التحقق"
 
 #. module: trahum_benefits
 #: model:ir.model.fields.selection,name:trahum_benefits.selection__grant_benefit__previous_state__approved
@@ -171,6 +185,7 @@ msgstr "هل انت متاكد من هذا الاجراء؟"
 
 #. module: trahum_benefits
 #: model:ir.model.fields,field_description:trahum_benefits.field_detainee_file__arrest_date
+#: model:ir.model.fields,field_description:trahum_benefits.field_issues_information__arrest_date
 msgid "Arrest Date"
 msgstr "تاريخ القبض"
 
@@ -182,6 +197,7 @@ msgid "Attachment"
 msgstr "المرفقات"
 
 #. module: trahum_benefits
+#: model:ir.model.fields,field_description:trahum_benefits.field_bank_stop_reason__message_attachment_count
 #: model:ir.model.fields,field_description:trahum_benefits.field_detainee_file__message_attachment_count
 msgid "Attachment Count"
 msgstr "عدد المرفقات"
@@ -193,7 +209,14 @@ msgstr "اسم المرفق"
 
 #. module: trahum_benefits
 #: model:ir.model.fields,field_description:trahum_benefits.field_attachment__attachment_ids
+#: model:ir.model.fields,field_description:trahum_benefits.field_bank_stop_reason__attachment_ids
+#: model:ir.model.fields,field_description:trahum_benefits.field_benefits_output__attachment_ids
+#: model:ir.model.fields,field_description:trahum_benefits.field_benefits_service__attachment_ids
+#: model:ir.model.fields,field_description:trahum_benefits.field_benefits_service_classification__attachment_ids
+#: model:ir.model.fields,field_description:trahum_benefits.field_benefits_service_disbursement_periodicity__attachment_ids
 #: model:ir.model.fields,field_description:trahum_benefits.field_branch_details__attachment_ids
+#: model:ir.model.fields,field_description:trahum_benefits.field_case_information__attachment_ids
+#: model:ir.model.fields,field_description:trahum_benefits.field_cases_type__attachment_ids
 #: model:ir.model.fields,field_description:trahum_benefits.field_comprehensive_rehabilitation__attachment_ids
 #: model:ir.model.fields,field_description:trahum_benefits.field_comprehensive_rehabilitation__attachments
 #: model:ir.model.fields,field_description:trahum_benefits.field_detainee_file__attachment_ids
@@ -235,6 +258,11 @@ msgid "Authorized mobile number"
 msgstr "رقم الجوال المعتمد"
 
 #. module: trahum_benefits
+#: model:ir.model.fields.selection,name:trahum_benefits.selection__benefits_service_disbursement_periodicity__category__average_needed
+msgid "Average Needed"
+msgstr ""
+
+#. module: trahum_benefits
 #: model_terms:ir.ui.view,arch_db:trahum_benefits.view_grant_benefit_form
 msgid "Banking information"
 msgstr "المعلومات المصرفية"
@@ -248,6 +276,11 @@ msgstr "خط الاساس"
 #: model:ir.model.fields.selection,name:trahum_benefits.selection__family_member__entitlement_status__beneficiary
 msgid "Beneficiary"
 msgstr "مستفيد"
+
+#. module: trahum_benefits
+#: model:ir.model.fields,field_description:trahum_benefits.field_detainee_file__beneficiary_category
+msgid "Beneficiary Category"
+msgstr "حالة المستفيد اﻷساسي"
 
 #. module: trahum_benefits
 #: model:ir.model.fields,field_description:trahum_benefits.field_attachment__benefit_id
@@ -314,10 +347,10 @@ msgid "Branch Details"
 msgstr "بيانات الفرع"
 
 #. module: trahum_benefits
-#: model:ir.model.fields.selection,name:trahum_benefits.selection__grant_benefit__previous_state__branch_manager
-#: model:ir.model.fields.selection,name:trahum_benefits.selection__grant_benefit__state__branch_manager
-msgid "Branch Manager Approved"
-msgstr "بانتظار موافقة مدير مركز خدمات المستفيدين"
+#: model:ir.model.fields.selection,name:trahum_benefits.selection__grant_benefit__previous_state__review
+#: model:ir.model.fields.selection,name:trahum_benefits.selection__grant_benefit__state__review
+msgid "Review"
+msgstr "بانتظار التدقيق"
 
 #. module: trahum_benefits
 #: model:ir.model.fields,field_description:trahum_benefits.field_grant_benefit__branch_details_id
@@ -349,19 +382,19 @@ msgstr "رقم المبنى"
 #. module: trahum_benefits
 #: model_terms:ir.ui.view,arch_db:trahum_benefits.view_grant_benefit_form
 msgid "CEO Approve"
-msgstr "اعتماد الرئيس التنفيذي"
+msgstr "اعتماد"
 
 #. module: trahum_benefits
-#: model:ir.model.fields.selection,name:trahum_benefits.selection__grant_benefit__previous_state__ceo
-#: model:ir.model.fields.selection,name:trahum_benefits.selection__grant_benefit__state__ceo
-msgid "CEO Approved"
-msgstr "بانتظار الرئيس التنفيذي"
+#: model:ir.model.fields.selection,name:trahum_benefits.selection__grant_benefit__previous_state__approve
+#: model:ir.model.fields.selection,name:trahum_benefits.selection__grant_benefit__state__approve
+msgid "approve"
+msgstr "بانتظار الإعتماد"
 
 #. module: trahum_benefits
-#: model:ir.model.fields.selection,name:trahum_benefits.selection__grant_benefit__previous_state__call_center
-#: model:ir.model.fields.selection,name:trahum_benefits.selection__grant_benefit__state__call_center
-msgid "Call Center Approved"
-msgstr "موافقة اخصائي مركز الاتصال"
+#: model:ir.model.fields.selection,name:trahum_benefits.selection__grant_benefit__previous_state__confirm
+#: model:ir.model.fields.selection,name:trahum_benefits.selection__grant_benefit__state__confirm
+msgid "Confirm"
+msgstr "بانتظار تأكيد الاعداد"
 
 #. module: trahum_benefits
 #: model_terms:ir.ui.view,arch_db:trahum_benefits.cancel_wizard_view_form
@@ -395,9 +428,63 @@ msgid "Cancelled"
 msgstr "مرفوض"
 
 #. module: trahum_benefits
+#: model:ir.model.fields.selection,name:trahum_benefits.selection__benefits_service__path__capacity_development
+msgid "Capacity Development"
+msgstr ""
+
+#. module: trahum_benefits
+#: model:ir.model.fields.selection,name:trahum_benefits.selection__benefits_output__output_type__card_voucher
+msgid "Card or Voucher"
+msgstr ""
+
+#. module: trahum_benefits
 #: model:ir.model.fields,field_description:trahum_benefits.field_issues_information__case_name
+#: model_terms:ir.ui.view,arch_db:trahum_benefits.view_case_form
 msgid "Case"
 msgstr "القضية"
+
+#. module: trahum_benefits
+#: model:ir.ui.menu,name:trahum_benefits.case_information_settings
+msgid "Case Settings"
+msgstr "القضايا"
+
+#. module: trahum_benefits
+#: model:ir.model.fields,field_description:trahum_benefits.field_case_information__type
+#: model:ir.model.fields,field_description:trahum_benefits.field_issues_information__case_type
+msgid "Case Type"
+msgstr "نوع القضايا"
+
+#. module: trahum_benefits
+#: model:ir.ui.menu,name:trahum_benefits.case_type_settings
+msgid "Case Type Settings"
+msgstr "نوع القضايا"
+
+#. module: trahum_benefits
+#: model_terms:ir.ui.view,arch_db:trahum_benefits.view_case_type_form
+#: model_terms:ir.ui.view,arch_db:trahum_benefits.view_case_type_tree
+msgid "Case Types"
+msgstr "نوع القضية"
+
+#. module: trahum_benefits
+#: model:ir.actions.act_window,name:trahum_benefits.action_case
+#: model_terms:ir.ui.view,arch_db:trahum_benefits.view_case_tree
+msgid "Cases"
+msgstr "القضية"
+
+#. module: trahum_benefits
+#: model:ir.actions.act_window,name:trahum_benefits.action_case_type
+msgid "Cases Types"
+msgstr "انواع القضايا"
+
+#. module: trahum_benefits
+#: model:ir.model.fields,field_description:trahum_benefits.field_benefits_service_disbursement_periodicity__category
+msgid "Category"
+msgstr ""
+
+#. module: trahum_benefits
+#: model:ir.model.fields,help:trahum_benefits.field_benefits_service_disbursement_periodicity__category
+msgid "Category of need for the disbursement periodicity."
+msgstr ""
 
 #. module: trahum_benefits
 #: model:ir.model.fields.selection,name:trahum_benefits.selection__disease__disease_type__chronic
@@ -459,6 +546,7 @@ msgstr "مؤكد"
 
 #. module: trahum_benefits
 #: model:ir.model.fields.selection,name:trahum_benefits.selection__detainee_file__detainee_status__convicted
+#: model:ir.model.fields.selection,name:trahum_benefits.selection__detainee_file__prisoner_state__convicted
 #: model:ir.model.fields.selection,name:trahum_benefits.selection__family_member__inmate_status__convicted
 #: model:ir.model.fields.selection,name:trahum_benefits.selection__family_member__released_status__convicted
 msgid "Convicted"
@@ -475,9 +563,40 @@ msgid "Country Name"
 msgstr "منطقة السجن"
 
 #. module: trahum_benefits
+#: model_terms:ir.actions.act_window,help:trahum_benefits.action_service_classification
+msgid "Create a new Service Classification"
+msgstr ""
+
+#. module: trahum_benefits
+#: model_terms:ir.actions.act_window,help:trahum_benefits.action_case
+msgid "Create your first Case"
+msgstr "أنشئ القضية اﻷولى"
+
+#. module: trahum_benefits
+#: model_terms:ir.actions.act_window,help:trahum_benefits.action_case_type
+msgid "Create your first Case Type"
+msgstr "أنشئ نوع القضية اﻷول"
+
+#. module: trahum_benefits
+#: model_terms:ir.actions.act_window,help:trahum_benefits.action_benefits_output
+msgid "Create your first output"
+msgstr ""
+
+#. module: trahum_benefits
+#: model_terms:ir.actions.act_window,help:trahum_benefits.action_service
+msgid "Create your first service"
+msgstr ""
+
+#. module: trahum_benefits
 #: model:ir.model.fields,field_description:trahum_benefits.field_attachment__create_uid
 #: model:ir.model.fields,field_description:trahum_benefits.field_benefit_rejection_wizard__create_uid
+#: model:ir.model.fields,field_description:trahum_benefits.field_benefits_output__create_uid
+#: model:ir.model.fields,field_description:trahum_benefits.field_benefits_service__create_uid
+#: model:ir.model.fields,field_description:trahum_benefits.field_benefits_service_classification__create_uid
+#: model:ir.model.fields,field_description:trahum_benefits.field_benefits_service_disbursement_periodicity__create_uid
 #: model:ir.model.fields,field_description:trahum_benefits.field_branch_details__create_uid
+#: model:ir.model.fields,field_description:trahum_benefits.field_case_information__create_uid
+#: model:ir.model.fields,field_description:trahum_benefits.field_cases_type__create_uid
 #: model:ir.model.fields,field_description:trahum_benefits.field_comprehensive_rehabilitation__create_uid
 #: model:ir.model.fields,field_description:trahum_benefits.field_detainee_file__create_uid
 #: model:ir.model.fields,field_description:trahum_benefits.field_disability_type__create_uid
@@ -506,7 +625,13 @@ msgstr "تم إنشاؤها بواسطة"
 #. module: trahum_benefits
 #: model:ir.model.fields,field_description:trahum_benefits.field_attachment__create_date
 #: model:ir.model.fields,field_description:trahum_benefits.field_benefit_rejection_wizard__create_date
+#: model:ir.model.fields,field_description:trahum_benefits.field_benefits_output__create_date
+#: model:ir.model.fields,field_description:trahum_benefits.field_benefits_service__create_date
+#: model:ir.model.fields,field_description:trahum_benefits.field_benefits_service_classification__create_date
+#: model:ir.model.fields,field_description:trahum_benefits.field_benefits_service_disbursement_periodicity__create_date
 #: model:ir.model.fields,field_description:trahum_benefits.field_branch_details__create_date
+#: model:ir.model.fields,field_description:trahum_benefits.field_case_information__create_date
+#: model:ir.model.fields,field_description:trahum_benefits.field_cases_type__create_date
 #: model:ir.model.fields,field_description:trahum_benefits.field_comprehensive_rehabilitation__create_date
 #: model:ir.model.fields,field_description:trahum_benefits.field_detainee_file__create_date
 #: model:ir.model.fields,field_description:trahum_benefits.field_disability_type__create_date
@@ -531,6 +656,16 @@ msgstr "تم إنشاؤها بواسطة"
 #: model:ir.model.fields,field_description:trahum_benefits.field_work_type__create_date
 msgid "Created on"
 msgstr "تم الإنشاء بتاريخ"
+
+#. module: trahum_benefits
+#: model_terms:ir.actions.act_window,help:trahum_benefits.action_service
+msgid "Define the services your organization provides to beneficiaries"
+msgstr ""
+
+#. module: trahum_benefits
+#: model:ir.model.fields,field_description:trahum_benefits.field_grant_benefit__delegate_family_rel
+msgid "Delegat Family Relation"
+msgstr "علاقة المفوض باﻷسرة"
 
 #. module: trahum_benefits
 #: model_terms:ir.ui.view,arch_db:trahum_benefits.view_grant_benefit_form
@@ -598,8 +733,15 @@ msgstr "الأمراض"
 
 #. module: trahum_benefits
 #: model:ir.model.fields,field_description:trahum_benefits.field_attachment__display_name
+#: model:ir.model.fields,field_description:trahum_benefits.field_bank_stop_reason__display_name
 #: model:ir.model.fields,field_description:trahum_benefits.field_benefit_rejection_wizard__display_name
+#: model:ir.model.fields,field_description:trahum_benefits.field_benefits_output__display_name
+#: model:ir.model.fields,field_description:trahum_benefits.field_benefits_service__display_name
+#: model:ir.model.fields,field_description:trahum_benefits.field_benefits_service_classification__display_name
+#: model:ir.model.fields,field_description:trahum_benefits.field_benefits_service_disbursement_periodicity__display_name
 #: model:ir.model.fields,field_description:trahum_benefits.field_branch_details__display_name
+#: model:ir.model.fields,field_description:trahum_benefits.field_case_information__display_name
+#: model:ir.model.fields,field_description:trahum_benefits.field_cases_type__display_name
 #: model:ir.model.fields,field_description:trahum_benefits.field_comprehensive_rehabilitation__display_name
 #: model:ir.model.fields,field_description:trahum_benefits.field_detainee_file__display_name
 #: model:ir.model.fields,field_description:trahum_benefits.field_disability_type__display_name
@@ -647,9 +789,10 @@ msgstr "مغلق"
 #: model:ir.model.fields.selection,name:trahum_benefits.selection__grant_benefit__previous_state__draft
 #: model:ir.model.fields.selection,name:trahum_benefits.selection__grant_benefit__state__draft
 msgid "Draft"
-msgstr "مبدئي"
+msgstr "مسودة"
 
 #. module: trahum_benefits
+#: model_terms:ir.ui.view,arch_db:trahum_benefits.view_family_member_form
 #: model:ir.model.fields,field_description:trahum_benefits.field_family_education_department__name
 #: model:ir.model.fields,field_description:trahum_benefits.field_family_profile_learn__education_department_id
 msgid "Education Department"
@@ -670,10 +813,6 @@ msgstr "ملف التعليم"
 msgid "Education Level"
 msgstr "مستوى التعليم"
 
-#. module: trahum_benefits
-#: model_terms:ir.ui.view,arch_db:trahum_benefits.view_family_member_form
-msgid "Education department"
-msgstr "ادارة التعليم"
 
 #. module: trahum_benefits
 #: model:ir.model.fields,field_description:trahum_benefits.field_detainee_file__record_end_date
@@ -681,6 +820,14 @@ msgid "End Date"
 msgstr "تاريخ غلق الملف"
 
 #. module: trahum_benefits
+#: model_terms:ir.ui.view,arch_db:trahum_benefits.view_case_form
+#: model_terms:ir.ui.view,arch_db:trahum_benefits.view_case_type_form
+#: model_terms:ir.ui.view,arch_db:trahum_benefits.view_service_form
+msgid "Enter service name"
+msgstr ""
+
+#. module: trahum_benefits
+#: model:ir.model.fields,field_description:trahum_benefits.field_detainee_file__entitlement_status
 #: model:ir.model.fields,field_description:trahum_benefits.field_family_member__entitlement_status
 msgid "Entitlement Status"
 msgstr "حالة الاستحقاق"
@@ -825,21 +972,25 @@ msgid "First Name"
 msgstr "الإسم الاول"
 
 #. module: trahum_benefits
+#: model:ir.model.fields,field_description:trahum_benefits.field_bank_stop_reason__message_follower_ids
 #: model:ir.model.fields,field_description:trahum_benefits.field_detainee_file__message_follower_ids
 msgid "Followers"
 msgstr "المتابعون"
 
 #. module: trahum_benefits
+#: model:ir.model.fields,field_description:trahum_benefits.field_bank_stop_reason__message_channel_ids
 #: model:ir.model.fields,field_description:trahum_benefits.field_detainee_file__message_channel_ids
 msgid "Followers (Channels)"
 msgstr "المتابعون (القنوات)"
 
 #. module: trahum_benefits
+#: model:ir.model.fields,field_description:trahum_benefits.field_bank_stop_reason__message_partner_ids
 #: model:ir.model.fields,field_description:trahum_benefits.field_detainee_file__message_partner_ids
 msgid "Followers (Partners)"
 msgstr "المتابعون (الشركاء)"
 
 #. module: trahum_benefits
+#: model:ir.model.fields,help:trahum_benefits.field_bank_stop_reason__activity_type_icon
 #: model:ir.model.fields,help:trahum_benefits.field_detainee_file__activity_type_icon
 msgid "Font awesome icon e.g. fa-tasks"
 msgstr "رمز الخط الرائع ، على سبيل المثال FA- المهام"
@@ -925,6 +1076,11 @@ msgid "Group by Status"
 msgstr "تجميع بواسطة الحالة"
 
 #. module: trahum_benefits
+#: model:ir.model.fields.selection,name:trahum_benefits.selection__detainee_file__beneficiary_category__gust
+msgid "Gust"
+msgstr "نزيل"
+
+#. module: trahum_benefits
 #: model:ir.model.fields,field_description:trahum_benefits.field_family_member__has_hereditary_disease
 msgid "Has a hereditary disease?"
 msgstr "لديه مرض وراثي ؟"
@@ -1001,12 +1157,24 @@ msgstr "قيمة السكن"
 #. module: trahum_benefits
 #: model:ir.model.fields,field_description:trahum_benefits.field_grant_benefit__Add_appendix
 msgid "IBAN"
-msgstr ""
+msgstr "رقم اﻷيبان"
+
+#. module: trahum_benefits
+#: model:ir.model.fields,field_description:trahum_benefits.field_grant_benefit__relation_to_family
+msgid "Relation to Family"
+msgstr "علاقة المفوض باﻹسرة"
 
 #. module: trahum_benefits
 #: model:ir.model.fields,field_description:trahum_benefits.field_attachment__id
+#: model:ir.model.fields,field_description:trahum_benefits.field_bank_stop_reason__id
 #: model:ir.model.fields,field_description:trahum_benefits.field_benefit_rejection_wizard__id
+#: model:ir.model.fields,field_description:trahum_benefits.field_benefits_output__id
+#: model:ir.model.fields,field_description:trahum_benefits.field_benefits_service__id
+#: model:ir.model.fields,field_description:trahum_benefits.field_benefits_service_classification__id
+#: model:ir.model.fields,field_description:trahum_benefits.field_benefits_service_disbursement_periodicity__id
 #: model:ir.model.fields,field_description:trahum_benefits.field_branch_details__id
+#: model:ir.model.fields,field_description:trahum_benefits.field_case_information__id
+#: model:ir.model.fields,field_description:trahum_benefits.field_cases_type__id
 #: model:ir.model.fields,field_description:trahum_benefits.field_comprehensive_rehabilitation__id
 #: model:ir.model.fields,field_description:trahum_benefits.field_detainee_file__id
 #: model:ir.model.fields,field_description:trahum_benefits.field_disability_type__id
@@ -1033,11 +1201,13 @@ msgid "ID"
 msgstr "الهوية الوطنية"
 
 #. module: trahum_benefits
+#: model:ir.model.fields,field_description:trahum_benefits.field_bank_stop_reason__activity_exception_icon
 #: model:ir.model.fields,field_description:trahum_benefits.field_detainee_file__activity_exception_icon
 msgid "Icon"
 msgstr "الأيقونة"
 
 #. module: trahum_benefits
+#: model:ir.model.fields,help:trahum_benefits.field_bank_stop_reason__activity_exception_icon
 #: model:ir.model.fields,help:trahum_benefits.field_detainee_file__activity_exception_icon
 msgid "Icon to indicate an exception activity."
 msgstr "الأيقونة للإشارة إلى استثناء النشاط"
@@ -1060,12 +1230,16 @@ msgid "Identity Proofs"
 msgstr "اثبات الهوية"
 
 #. module: trahum_benefits
+#: model:ir.model.fields,help:trahum_benefits.field_bank_stop_reason__message_needaction
+#: model:ir.model.fields,help:trahum_benefits.field_bank_stop_reason__message_unread
 #: model:ir.model.fields,help:trahum_benefits.field_detainee_file__message_needaction
 #: model:ir.model.fields,help:trahum_benefits.field_detainee_file__message_unread
 msgid "If checked, new messages require your attention."
 msgstr "إذا كان محددًا، فهناك رسائل جديدة تحتاج لرؤيتها."
 
 #. module: trahum_benefits
+#: model:ir.model.fields,help:trahum_benefits.field_bank_stop_reason__message_has_error
+#: model:ir.model.fields,help:trahum_benefits.field_bank_stop_reason__message_has_sms_error
 #: model:ir.model.fields,help:trahum_benefits.field_detainee_file__message_has_error
 #: model:ir.model.fields,help:trahum_benefits.field_detainee_file__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
@@ -1086,14 +1260,16 @@ msgid "Income Value"
 msgstr "قيمة الدخل"
 
 #. module: trahum_benefits
-#: model_terms:ir.ui.view,arch_db:trahum_benefits.view_family_member_form
-msgid "Income and Salary"
-msgstr "الدخل والراتب"
+#: model_terms:ir.ui.view,arch_db:trahum_benefits.view_grant_benefit_form
+msgid "Researcher's insights"
+msgstr "مرئيات الباحث"
 
 #. module: trahum_benefits
 #: model_terms:ir.ui.view,arch_db:trahum_benefits.view_grant_benefit_form
-msgid "Income and salary"
-msgstr "الدخل والراتب"
+#: model_terms:ir.ui.view,arch_db:trahum_benefits.view_family_member_form
+msgid "Income and Salary"
+msgstr "اﻹيرادات"
+
 
 #. module: trahum_benefits
 #: model:ir.model.fields,field_description:trahum_benefits.field_grant_benefit__inmate_member_id
@@ -1112,6 +1288,7 @@ msgid "Inmate:"
 msgstr ""
 
 #. module: trahum_benefits
+#: model:ir.model.fields,field_description:trahum_benefits.field_bank_stop_reason__message_is_follower
 #: model:ir.model.fields,field_description:trahum_benefits.field_detainee_file__message_is_follower
 msgid "Is Follower"
 msgstr "متابع"
@@ -1129,8 +1306,15 @@ msgstr "سجل القضايا"
 
 #. module: trahum_benefits
 #: model:ir.model.fields,field_description:trahum_benefits.field_attachment____last_update
+#: model:ir.model.fields,field_description:trahum_benefits.field_bank_stop_reason____last_update
 #: model:ir.model.fields,field_description:trahum_benefits.field_benefit_rejection_wizard____last_update
+#: model:ir.model.fields,field_description:trahum_benefits.field_benefits_output____last_update
+#: model:ir.model.fields,field_description:trahum_benefits.field_benefits_service____last_update
+#: model:ir.model.fields,field_description:trahum_benefits.field_benefits_service_classification____last_update
+#: model:ir.model.fields,field_description:trahum_benefits.field_benefits_service_disbursement_periodicity____last_update
 #: model:ir.model.fields,field_description:trahum_benefits.field_branch_details____last_update
+#: model:ir.model.fields,field_description:trahum_benefits.field_case_information____last_update
+#: model:ir.model.fields,field_description:trahum_benefits.field_cases_type____last_update
 #: model:ir.model.fields,field_description:trahum_benefits.field_comprehensive_rehabilitation____last_update
 #: model:ir.model.fields,field_description:trahum_benefits.field_detainee_file____last_update
 #: model:ir.model.fields,field_description:trahum_benefits.field_disability_type____last_update
@@ -1158,8 +1342,15 @@ msgstr "تاريخ آخر تعديل"
 
 #. module: trahum_benefits
 #: model:ir.model.fields,field_description:trahum_benefits.field_attachment__write_uid
+#: model:ir.model.fields,field_description:trahum_benefits.field_bank_stop_reason__write_uid
 #: model:ir.model.fields,field_description:trahum_benefits.field_benefit_rejection_wizard__write_uid
+#: model:ir.model.fields,field_description:trahum_benefits.field_benefits_output__write_uid
+#: model:ir.model.fields,field_description:trahum_benefits.field_benefits_service__write_uid
+#: model:ir.model.fields,field_description:trahum_benefits.field_benefits_service_classification__write_uid
+#: model:ir.model.fields,field_description:trahum_benefits.field_benefits_service_disbursement_periodicity__write_uid
 #: model:ir.model.fields,field_description:trahum_benefits.field_branch_details__write_uid
+#: model:ir.model.fields,field_description:trahum_benefits.field_case_information__write_uid
+#: model:ir.model.fields,field_description:trahum_benefits.field_cases_type__write_uid
 #: model:ir.model.fields,field_description:trahum_benefits.field_comprehensive_rehabilitation__write_uid
 #: model:ir.model.fields,field_description:trahum_benefits.field_detainee_file__write_uid
 #: model:ir.model.fields,field_description:trahum_benefits.field_disability_type__write_uid
@@ -1187,8 +1378,15 @@ msgstr "آخر تحديث بواسطة"
 
 #. module: trahum_benefits
 #: model:ir.model.fields,field_description:trahum_benefits.field_attachment__write_date
+#: model:ir.model.fields,field_description:trahum_benefits.field_bank_stop_reason__write_date
 #: model:ir.model.fields,field_description:trahum_benefits.field_benefit_rejection_wizard__write_date
+#: model:ir.model.fields,field_description:trahum_benefits.field_benefits_output__write_date
+#: model:ir.model.fields,field_description:trahum_benefits.field_benefits_service__write_date
+#: model:ir.model.fields,field_description:trahum_benefits.field_benefits_service_classification__write_date
+#: model:ir.model.fields,field_description:trahum_benefits.field_benefits_service_disbursement_periodicity__write_date
 #: model:ir.model.fields,field_description:trahum_benefits.field_branch_details__write_date
+#: model:ir.model.fields,field_description:trahum_benefits.field_case_information__write_date
+#: model:ir.model.fields,field_description:trahum_benefits.field_cases_type__write_date
 #: model:ir.model.fields,field_description:trahum_benefits.field_comprehensive_rehabilitation__write_date
 #: model:ir.model.fields,field_description:trahum_benefits.field_detainee_file__write_date
 #: model:ir.model.fields,field_description:trahum_benefits.field_disability_type__write_date
@@ -1215,11 +1413,17 @@ msgid "Last Updated on"
 msgstr "آخر تحديث بتاريخ"
 
 #. module: trahum_benefits
+#: model:ir.model.fields.selection,name:trahum_benefits.selection__benefits_service_disbursement_periodicity__category__least_needed
+msgid "Least Needed"
+msgstr ""
+
+#. module: trahum_benefits
 #: model:ir.model.fields.selection,name:trahum_benefits.selection__grant_benefit__need_calculator__low
 msgid "Low Need"
 msgstr "الاقل احتياجا"
 
 #. module: trahum_benefits
+#: model:ir.model.fields,field_description:trahum_benefits.field_bank_stop_reason__message_main_attachment_id
 #: model:ir.model.fields,field_description:trahum_benefits.field_detainee_file__message_main_attachment_id
 msgid "Main Attachment"
 msgstr "المرفقات الرئيسية"
@@ -1270,7 +1474,7 @@ msgstr "أمراض الأعضاء"
 #: model_terms:ir.ui.view,arch_db:trahum_benefits.view_family_member_tree
 #: model_terms:ir.ui.view,arch_db:trahum_benefits.view_grant_benefit_form
 msgid "Members"
-msgstr "أعضاء"
+msgstr "أفراد"
 
 #. module: trahum_benefits
 #: model:ir.model.fields,field_description:trahum_benefits.field_grant_benefit__member_count
@@ -1284,11 +1488,13 @@ msgid "Mental Illness"
 msgstr "لديه مرض نفسي ؟"
 
 #. module: trahum_benefits
+#: model:ir.model.fields,field_description:trahum_benefits.field_bank_stop_reason__message_has_error
 #: model:ir.model.fields,field_description:trahum_benefits.field_detainee_file__message_has_error
 msgid "Message Delivery error"
 msgstr "خطأ في تسليم الرسائل"
 
 #. module: trahum_benefits
+#: model:ir.model.fields,field_description:trahum_benefits.field_bank_stop_reason__message_ids
 #: model:ir.model.fields,field_description:trahum_benefits.field_detainee_file__message_ids
 msgid "Messages"
 msgstr "الرسائل"
@@ -1302,12 +1508,26 @@ msgid "Monthly"
 msgstr "شهري"
 
 #. module: trahum_benefits
+#: model:ir.model.fields,field_description:trahum_benefits.field_benefits_service_disbursement_periodicity__months
+msgid "Months"
+msgstr ""
+
+#. module: trahum_benefits
+#: model:ir.model.fields.selection,name:trahum_benefits.selection__benefits_service_disbursement_periodicity__category__most_needed
+msgid "Most Needed"
+msgstr ""
+
+#. module: trahum_benefits
+#: model:ir.model.fields,field_description:trahum_benefits.field_bank_stop_reason__my_activity_date_deadline
 #: model:ir.model.fields,field_description:trahum_benefits.field_detainee_file__my_activity_date_deadline
 msgid "My Activity Deadline"
 msgstr "نهاية الوقت المعين للنشاط"
 
 #. module: trahum_benefits
+#: model:ir.model.fields,field_description:trahum_benefits.field_benefits_service_classification__name
 #: model:ir.model.fields,field_description:trahum_benefits.field_branch_details__name
+#: model:ir.model.fields,field_description:trahum_benefits.field_case_information__name
+#: model:ir.model.fields,field_description:trahum_benefits.field_cases_type__name
 #: model:ir.model.fields,field_description:trahum_benefits.field_comprehensive_rehabilitation__name
 #: model:ir.model.fields,field_description:trahum_benefits.field_family_member__name
 #: model:ir.model.fields,field_description:trahum_benefits.field_family_profile_learn__name
@@ -1320,7 +1540,7 @@ msgstr "الاسم"
 #. module: trahum_benefits
 #: model:ir.model.fields,field_description:trahum_benefits.field_grant_benefit__delegate_name
 msgid "Name of the delegate"
-msgstr ""
+msgstr "اسم المندوب"
 
 #. module: trahum_benefits
 #: model_terms:ir.ui.view,arch_db:trahum_benefits.view_family_member_form
@@ -1352,16 +1572,19 @@ msgid "New"
 msgstr ""
 
 #. module: trahum_benefits
+#: model:ir.model.fields,field_description:trahum_benefits.field_bank_stop_reason__activity_date_deadline
 #: model:ir.model.fields,field_description:trahum_benefits.field_detainee_file__activity_date_deadline
 msgid "Next Activity Deadline"
 msgstr "الموعد النهائي للنشاط التالي"
 
 #. module: trahum_benefits
+#: model:ir.model.fields,field_description:trahum_benefits.field_bank_stop_reason__activity_summary
 #: model:ir.model.fields,field_description:trahum_benefits.field_detainee_file__activity_summary
 msgid "Next Activity Summary"
 msgstr "ملخص النشاط التالي"
 
 #. module: trahum_benefits
+#: model:ir.model.fields,field_description:trahum_benefits.field_bank_stop_reason__activity_type_id
 #: model:ir.model.fields,field_description:trahum_benefits.field_detainee_file__activity_type_id
 msgid "Next Activity Type"
 msgstr "نوع النشاط التالي"
@@ -1377,6 +1600,8 @@ msgid "Non-Convicted"
 msgstr "غير محكوم عليه"
 
 #. module: trahum_benefits
+#: model:ir.model.fields.selection,name:trahum_benefits.selection__family_member__released_status__not_convicted
+#: model:ir.model.fields.selection,name:trahum_benefits.selection__detainee_file__prisoner_state__not_convicted
 #: model:ir.model.fields.selection,name:trahum_benefits.selection__family_member__inmate_status__not_convicted
 msgid "Not Convicted"
 msgstr "غير محكوم"
@@ -1387,21 +1612,25 @@ msgid "Note"
 msgstr "ملاحظات"
 
 #. module: trahum_benefits
+#: model:ir.model.fields,field_description:trahum_benefits.field_bank_stop_reason__message_needaction_counter
 #: model:ir.model.fields,field_description:trahum_benefits.field_detainee_file__message_needaction_counter
 msgid "Number of Actions"
 msgstr "عدد الإجراءات"
 
 #. module: trahum_benefits
+#: model:ir.model.fields,field_description:trahum_benefits.field_bank_stop_reason__message_has_error_counter
 #: model:ir.model.fields,field_description:trahum_benefits.field_detainee_file__message_has_error_counter
 msgid "Number of errors"
 msgstr "عدد الاخطاء"
 
 #. module: trahum_benefits
+#: model:ir.model.fields,help:trahum_benefits.field_bank_stop_reason__message_needaction_counter
 #: model:ir.model.fields,help:trahum_benefits.field_detainee_file__message_needaction_counter
 msgid "Number of messages which requires an action"
 msgstr "عدد الرسائل التي تتطلب إجراء"
 
 #. module: trahum_benefits
+#: model:ir.model.fields,help:trahum_benefits.field_bank_stop_reason__message_has_error_counter
 #: model:ir.model.fields,help:trahum_benefits.field_detainee_file__message_has_error_counter
 msgid "Number of messages with delivery error"
 msgstr "عدد الرسائل الحادث بها خطأ في التسليم"
@@ -1535,6 +1764,7 @@ msgid "RE-set To Draft"
 msgstr "اعادة الي مسودة"
 
 #. module: trahum_benefits
+#: model:ir.model.fields,field_description:trahum_benefits.field_bank_stop_reason__stop_reason
 #: model:ir.model.fields,field_description:trahum_benefits.field_benefit_rejection_wizard__reason
 #: model:ir.model.fields,field_description:trahum_benefits.field_grant_benefit__reason
 #: model:ir.model.fields,field_description:trahum_benefits.field_grant_benefit__stop_reason
@@ -1548,6 +1778,7 @@ msgid "Reason for account suspension."
 msgstr "سبب تعليق الحساب."
 
 #. module: trahum_benefits
+#: model:ir.model.fields,field_description:trahum_benefits.field_bank_stop_reason__reason
 #: model:ir.model.fields,field_description:trahum_benefits.field_detainee_file__reason
 msgid "Reason/Justification"
 msgstr "السببظ المبرر"
@@ -1593,12 +1824,14 @@ msgstr "سبب الرفض"
 msgid "Relation"
 msgstr "العلاقة بالنزيل"
 
+
 #. module: trahum_benefits
 #: model:ir.model.fields,field_description:trahum_benefits.field_issues_information__release_date
 msgid "Release Date"
 msgstr "تاريخ الافراج عنه"
 
 #. module: trahum_benefits
+#: model:ir.model.fields.selection,name:trahum_benefits.selection__detainee_file__beneficiary_category__released
 #: model:ir.model.fields.selection,name:trahum_benefits.selection__detainee_file__detainee_status__released
 #: model:ir.model.fields.selection,name:trahum_benefits.selection__family_member__benefit_type__released
 msgid "Released"
@@ -1632,6 +1865,7 @@ msgid "Reset to Draft"
 msgstr "اعادة الي مسودة"
 
 #. module: trahum_benefits
+#: model:ir.model.fields,field_description:trahum_benefits.field_bank_stop_reason__activity_user_id
 #: model:ir.model.fields,field_description:trahum_benefits.field_detainee_file__activity_user_id
 msgid "Responsible User"
 msgstr "المستخدم المسؤول"
@@ -1665,6 +1899,7 @@ msgid "Revert State Wizard"
 msgstr "حالة الارجاع"
 
 #. module: trahum_benefits
+#: model:ir.model.fields,field_description:trahum_benefits.field_bank_stop_reason__message_has_sms_error
 #: model:ir.model.fields,field_description:trahum_benefits.field_detainee_file__message_has_sms_error
 msgid "SMS Delivery error"
 msgstr "خطأ في تسليم الرسائل القصيرة"
@@ -1719,10 +1954,10 @@ msgid "Social Insurance and Security"
 msgstr "التأمينات الاجتماعية والضمان الاجتماعي"
 
 #. module: trahum_benefits
-#: model:ir.model.fields.selection,name:trahum_benefits.selection__grant_benefit__previous_state__social_researcher
-#: model:ir.model.fields.selection,name:trahum_benefits.selection__grant_benefit__state__social_researcher
-msgid "Social Researcher Approved"
-msgstr "بانتظارموافقة الباحث الاجتماعي"
+#: model:ir.model.fields.selection,name:trahum_benefits.selection__grant_benefit__previous_state__validate
+#: model:ir.model.fields.selection,name:trahum_benefits.selection__grant_benefit__state__validate
+msgid "Validate"
+msgstr "بانتظار التحقق"
 
 #. module: trahum_benefits
 #: model_terms:ir.ui.view,arch_db:trahum_benefits.view_family_member_form
@@ -1745,6 +1980,7 @@ msgid "Start Date"
 msgstr "تاريخ فتح الملف"
 
 #. module: trahum_benefits
+#: model:ir.model.fields,field_description:trahum_benefits.field_detainee_file__prisoner_state
 #: model:ir.model.fields,field_description:trahum_benefits.field_grant_benefit__state
 #: model_terms:ir.ui.view,arch_db:trahum_benefits.view_grant_benefit_search
 msgid "State"
@@ -1762,6 +1998,7 @@ msgid "Status"
 msgstr "الحالة"
 
 #. module: trahum_benefits
+#: model:ir.model.fields,help:trahum_benefits.field_bank_stop_reason__activity_state
 #: model:ir.model.fields,help:trahum_benefits.field_detainee_file__activity_state
 msgid ""
 "Status based on activities\n"
@@ -1775,6 +2012,14 @@ msgstr ""
 "المخطط: الأنشطة المستقبلية."
 
 #. module: trahum_benefits
+#: model:ir.ui.menu,name:trahum_benefits.menu_stop_reason
+#: model_terms:ir.ui.view,arch_db:trahum_benefits.view_bank_stop_reason_form
+#: model_terms:ir.ui.view,arch_db:trahum_benefits.view_bank_stop_reason_tree
+#: model:ir.actions.act_window,name:trahum_benefits.action_stop_reason
+msgid "Stop Reasons"
+msgstr "سبب اﻹيقاف"
+
+#. module: trahum_benefits
 #: model:ir.model.fields,field_description:trahum_benefits.field_family_member__street_name
 msgid "Street Name"
 msgstr "اسم الشارع"
@@ -1783,6 +2028,11 @@ msgstr "اسم الشارع"
 #: model:ir.model.fields,field_description:trahum_benefits.field_family_member__sub_number
 msgid "Sub Number"
 msgstr "الرقم الفرعي"
+
+#. module: trahum_benefits
+#: model:ir.model.fields,help:trahum_benefits.field_benefits_service__name
+msgid "The display name of the service."
+msgstr ""
 
 #. module: trahum_benefits
 #: code:addons/trahum_benefits/models/family.py:0
@@ -1795,6 +2045,11 @@ msgstr ""
 #, python-format
 msgid ""
 "The individual %s is already listed in another file that is not closed."
+msgstr ""
+
+#. module: trahum_benefits
+#: model:ir.model.fields,help:trahum_benefits.field_benefits_service__path
+msgid "The main path or domain under which this service falls."
 msgstr ""
 
 #. module: trahum_benefits
@@ -1816,16 +2071,29 @@ msgid "Two Years"
 msgstr "سنتين"
 
 #. module: trahum_benefits
+#: model:ir.model.fields,help:trahum_benefits.field_bank_stop_reason__activity_exception_decoration
 #: model:ir.model.fields,help:trahum_benefits.field_detainee_file__activity_exception_decoration
 msgid "Type of the exception activity on record."
 msgstr "نوع النشاط الاستثنائي المسجل."
 
 #. module: trahum_benefits
+#: model:ir.model.fields.selection,name:trahum_benefits.selection__detainee_file__entitlement_status__undeserved
+msgid "Undeserved"
+msgstr "غير مستحق"
+
+#. module: trahum_benefits
+#: model:ir.model.fields,help:trahum_benefits.field_benefits_service__code
+msgid "Unique code identifier for the service."
+msgstr ""
+
+#. module: trahum_benefits
+#: model:ir.model.fields,field_description:trahum_benefits.field_bank_stop_reason__message_unread
 #: model:ir.model.fields,field_description:trahum_benefits.field_detainee_file__message_unread
 msgid "Unread Messages"
 msgstr "الرسائل الجديدة"
 
 #. module: trahum_benefits
+#: model:ir.model.fields,field_description:trahum_benefits.field_bank_stop_reason__message_unread_counter
 #: model:ir.model.fields,field_description:trahum_benefits.field_detainee_file__message_unread_counter
 msgid "Unread Messages Counter"
 msgstr "عدد الرسائل الجديدة"
@@ -1837,14 +2105,22 @@ msgid "Usufruct"
 msgstr "حق انتفاع"
 
 #. module: trahum_benefits
+#: model:ir.model.fields,field_description:trahum_benefits.field_bank_stop_reason__website_message_ids
 #: model:ir.model.fields,field_description:trahum_benefits.field_detainee_file__website_message_ids
 msgid "Website Messages"
 msgstr "رسائل الموقع"
 
 #. module: trahum_benefits
+#: model:ir.model.fields,help:trahum_benefits.field_bank_stop_reason__website_message_ids
 #: model:ir.model.fields,help:trahum_benefits.field_detainee_file__website_message_ids
 msgid "Website communication history"
 msgstr "سجل تواصل الموقع"
+
+#. module: trahum_benefits
+#: model:ir.model.fields,help:trahum_benefits.field_benefits_service__enable_disbursement_periodicity
+msgid ""
+"When checked, allows configuration of disbursement periodicity settings."
+msgstr ""
 
 #. module: trahum_benefits
 #: model:ir.model.fields,field_description:trahum_benefits.field_family_member__work_type_id
@@ -1890,6 +2166,11 @@ msgstr ""
 #: model:ir.model,name:trahum_benefits.model_attachment
 msgid "attachment"
 msgstr "مرفق"
+
+#. module: trahum_benefits
+#: model:ir.model,name:trahum_benefits.model_bank_stop_reason
+msgid "bank.stop.reason"
+msgstr ""
 
 #. module: trahum_benefits
 #: model:ir.model,name:trahum_benefits.model_benefit_rejection_wizard
@@ -1987,13 +2268,8 @@ msgid "status"
 msgstr "الحالة"
 
 #. module: trahum_benefits
-#: model:ir.model.fields.selection,name:trahum_benefits.selection__family_member_house__housing_type__tent
-msgid "tent"
-msgstr ""
-
-#. module: trahum_benefits
-#: model:ir.model.fields.selection,name:trahum_benefits.selection__family_member_house__housing_type__villa
-msgid "villa"
+#: model:ir.actions.act_window,name:trahum_benefits.action_stop_reason
+msgid "stop reason"
 msgstr ""
 
 #. module: trahum_benefits
@@ -2037,6 +2313,7 @@ msgid "تاريخ الاعتقال"
 msgstr ""
 
 #. module: trahum_benefits
+#: model_terms:ir.ui.view,arch_db:trahum_benefits.view_detainee_file_form
 #: model_terms:ir.ui.view,arch_db:trahum_benefits.view_nazil_kanban_custom
 msgid "عرض ملفات الاسر"
 msgstr ""

@@ -1,0 +1,51 @@
+
+<odoo>
+    <!-- Tree View -->
+    <record id="view_service_classification_tree" model="ir.ui.view">
+        <field name="name">benefits.service.classification.tree</field>
+        <field name="model">benefits.service.classification</field>
+        <field name="arch" type="xml">
+            <tree string="Service Classifications">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="active"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_service_classification_form" model="ir.ui.view">
+        <field name="name">benefits.service.classification.form</field>
+        <field name="model">benefits.service.classification</field>
+        <field name="arch" type="xml">
+            <form string="Service Classification">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="code"/>
+                        <field name="description"/>
+                        <field name="active"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_service_classification" model="ir.actions.act_window">
+        <field name="name">Service Classifications</field>
+        <field name="res_model">benefits.service.classification</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new Service Classification
+            </p>
+        </field>
+    </record>
+
+      <menuitem id="benfits_service_classification"
+              name="Service Classification"
+              parent="odex_benefit.menu_benefits_config_benefits"
+              action="action_service_classification"
+              sequence="40"/>
+</odoo>

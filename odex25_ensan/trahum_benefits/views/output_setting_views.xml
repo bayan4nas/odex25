@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Tree View -->
+    <record id="view_output_tree" model="ir.ui.view">
+        <field name="name">benefits.output.tree</field>
+        <field name="model">benefits.output</field>
+        <field name="arch" type="xml">
+            <tree string="Outputs">
+                <field name="name"/>
+                <field name="output_type"/>
+                <field name="amount"/>
+                <field name="active"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_output_form" model="ir.ui.view">
+        <field name="name">benefits.output.form</field>
+        <field name="model">benefits.output</field>
+        <field name="arch" type="xml">
+            <form string="Output" class="o_form_full_width">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" class="oe_inline" placeholder="Output name"/>
+                        </h1>
+                    </div>
+
+                    <group>
+                        <group>
+                            <field name="output_type"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+
+                    <!-- Financial Section -->
+                    <group string="Financial Details" attrs="{'invisible': [('output_type', '!=', 'financial')]}">
+                        <group>
+                            <field name="amount"/>
+                            <field name="min_limit"/>
+                            <field name="max_limit"/>
+                            <field name="related_to_people"/>
+                        </group>
+                        <group attrs="{'invisible': [('related_to_people', '=', False)]}">
+                            <field name="max_people"/>
+                            <field name="amount_per_person"/>
+                        </group>
+                    </group>
+
+                    <!-- Full-width Description -->
+                    <group colspan="4" col="4">
+                        <field name="description" string="Description" placeholder="Details..." nolabel="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Kanban View -->
+    <record id="view_output_kanban" model="ir.ui.view">
+        <field name="name">benefits.output.kanban</field>
+        <field name="model">benefits.output</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_small_column">
+                <field name="name"/>
+                <field name="output_type"/>
+                <field name="amount"/>
+                <field name="active"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click o_kanban_card">
+                            <div class="o_kanban_details">
+                                <strong><field name="name"/></strong>
+                                <div><field name="output_type"/></div>
+                                <div t-if="record.amount.raw_value">💰 <field name="amount"/></div>
+                                <div t-if="record.active.raw_value" class="text-success">🟢 Active</div>
+                                <div t-if="not record.active.raw_value" class="text-danger">🔴 Inactive</div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_benefits_output" model="ir.actions.act_window">
+        <field name="name">Outputs</field>
+        <field name="res_model">benefits.output</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create your first output</p>
+        </field>
+    </record>
+
+    <!-- Menu Item -->
+ 
+    <menuitem id="menu_benefits_output" name="Service Outputs"
+              parent="odex_benefit.menu_benefits_config_benefits"
+              action="action_benefits_output" sequence="30"/>
+</odoo>

@@ -1,0 +1,98 @@
+<odoo>
+    <!-- Tree View: case List -->
+    <record id="view_case_tree" model="ir.ui.view">
+        <field name="name">case.tree</field>
+        <field name="model">case.information</field>
+        <field name="arch" type="xml">
+            <tree string="Cases" >
+                <field name="name"/>
+                <field name="type"/>
+            </tree>
+        </field>
+    </record>
+    <!-- Form View: case Details -->
+    <record id="view_case_form" model="ir.ui.view">
+        <field name="name">case.form</field>
+        <field name="model">case.information</field>
+        <field name="arch" type="xml">
+            <form string="Case">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" class="oe_inline" placeholder="Enter service name"/>
+                        </h1>
+                    </div>
+
+                    <!-- Basic Info Section -->
+                    <group>
+                        <group>
+                            <field name="type"/>
+
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+        <!-- Action: Open Services -->
+    <record id="action_case" model="ir.actions.act_window">
+        <field name="name">Cases</field>
+        <field name="res_model">case.information</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create your first Case</p>
+        </field>
+    </record>
+
+    <!-- Menu Item -->
+    <menuitem id="case_information_settings"
+              name="Case Settings"
+              parent="odex_benefit.menu_benefits_config_benefits"
+              action="action_case"
+              sequence="21"/>
+
+
+    <!-- Tree View: case Type List -->
+    <record id="view_case_type_tree" model="ir.ui.view">
+        <field name="name">case.type.tree</field>
+        <field name="model">cases.type</field>
+        <field name="arch" type="xml">
+            <tree string="Case Types" >
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+    <!-- Form View: case Details -->
+    <record id="view_case_type_form" model="ir.ui.view">
+        <field name="name">case.type.form</field>
+        <field name="model">cases.type</field>
+        <field name="arch" type="xml">
+            <form string="Case Types">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" class="oe_inline" placeholder="Enter service name"/>
+                        </h1>
+                    </div>
+
+]                </sheet>
+            </form>
+        </field>
+    </record>
+        <!-- Action: Open Services -->
+    <record id="action_case_type" model="ir.actions.act_window">
+        <field name="name">Cases Types</field>
+        <field name="res_model">cases.type</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create your first Case Type</p>
+        </field>
+    </record>
+
+    <!-- Menu Item -->
+    <menuitem id="case_type_settings"
+              name="Case Type Settings"
+              parent="odex_benefit.menu_benefits_config_benefits"
+              action="action_case_type"
+              sequence="22"/>
+</odoo>
