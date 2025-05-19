@@ -6,14 +6,27 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-06-26 18:16+0000\n"
-"PO-Revision-Date: 2024-06-26 18:16+0000\n"
+"POT-Creation-Date: 2025-05-19 09:59+0000\n"
+"PO-Revision-Date: 2025-05-19 09:59+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
+
+#. module: exp_budget_check
+#: model:ir.model.fields,field_description:exp_budget_check.field_account_bank_statement_line__rec_payment_count
+#: model:ir.model.fields,field_description:exp_budget_check.field_account_move__rec_payment_count
+#: model:ir.model.fields,field_description:exp_budget_check.field_account_payment__rec_payment_count
+msgid "# Payments"
+msgstr ""
+
+#. module: exp_budget_check
+#: model:ir.model.fields.selection,name:exp_budget_check.selection__account_move__state__accountant
+#: model_terms:ir.ui.view,arch_db:exp_budget_check.budget_check_view_move_form
+msgid "Accountant"
+msgstr "المحاسب"
 
 #. module: exp_budget_check
 #: model:ir.model,name:exp_budget_check.model_account_analytic_account
@@ -27,8 +40,12 @@ msgid "Approved"
 msgstr "موافقة"
 
 #. module: exp_budget_check
+#: model:res.groups,name:exp_budget_check.group_asset_accountant
+msgid "Asset accountant"
+msgstr "المحاسب"
+
+#. module: exp_budget_check
 #: model:ir.model.fields,field_description:exp_budget_check.field_account_analytic_account__is_auto_check
-#: model:ir.model.fields,field_description:exp_budget_check.field_grant_project__is_auto_check
 msgid "Auto Check"
 msgstr ""
 
@@ -42,6 +59,11 @@ msgstr "تعميد الموازنة"
 #: model:ir.model,name:exp_budget_check.model_crossovered_budget_lines
 msgid "Budget Line"
 msgstr "بند الموازنة"
+
+#. module: exp_budget_check
+#: model:res.groups,name:exp_budget_check.odex25_accounting_group_exp_budget_override
+msgid "Budget Override in Expense"
+msgstr "تجاوز الموازنة في المصروفات"
 
 #. module: exp_budget_check
 #: model:ir.model.fields.selection,name:exp_budget_check.selection__account_move__state__cancel
@@ -73,17 +95,12 @@ msgstr "المبلغ التعميد"
 #. module: exp_budget_check
 #: model_terms:ir.ui.view,arch_db:exp_budget_check.budget_check_view_move_form
 msgid "Confirm Bill"
-msgstr "تأكيد الفاتورة"
+msgstr "المحاسب"
 
 #. module: exp_budget_check
-#: model:ir.model.fields,field_description:exp_budget_check.field_account_analytic_account__display_name
-#: model:ir.model.fields,field_description:exp_budget_check.field_account_move__display_name
-#: model:ir.model.fields,field_description:exp_budget_check.field_account_move_line__display_name
-#: model:ir.model.fields,field_description:exp_budget_check.field_budget_confirmation__display_name
-#: model:ir.model.fields,field_description:exp_budget_check.field_crossovered_budget_lines__display_name
-#: model:ir.model.fields,field_description:exp_budget_check.field_hr_expense__display_name
-msgid "Display Name"
-msgstr "الاسم المعروض"
+#: model_terms:ir.ui.view,arch_db:exp_budget_check.hr_expense_view_form_inherit
+msgid "Create Report"
+msgstr "إنشاء تقرير"
 
 #. module: exp_budget_check
 #: model:ir.model.fields.selection,name:exp_budget_check.selection__account_move__state__draft
@@ -107,8 +124,23 @@ msgstr "المصروف"
 #. module: exp_budget_check
 #: code:addons/exp_budget_check/models/hr_expense.py:0
 #, python-format
-msgid "Expense :%s"
+msgid "Expense: %s"
 msgstr ""
+
+#. module: exp_budget_check
+#: model:ir.model.fields.selection,name:exp_budget_check.selection__account_move__state__financial_manager
+msgid "Financial Manager"
+msgstr "مدير المالية"
+
+#. module: exp_budget_check
+#: model:ir.model.fields.selection,name:exp_budget_check.selection__account_move__state__head_of_department
+msgid "Head department"
+msgstr "رئيس القسم"
+
+#. module: exp_budget_check
+#: model:ir.model.fields.selection,name:exp_budget_check.selection__account_move__state__head_department
+msgid "Head of department"
+msgstr "رئيس القسم"
 
 #. module: exp_budget_check
 #: model:ir.model.fields,field_description:exp_budget_check.field_account_bank_statement_line__hide_budget
@@ -118,19 +150,10 @@ msgid "Hide Budget"
 msgstr ""
 
 #. module: exp_budget_check
-#: model:ir.model.fields,field_description:exp_budget_check.field_account_analytic_account__id
-#: model:ir.model.fields,field_description:exp_budget_check.field_account_move__id
-#: model:ir.model.fields,field_description:exp_budget_check.field_account_move_line__id
-#: model:ir.model.fields,field_description:exp_budget_check.field_budget_confirmation__id
-#: model:ir.model.fields,field_description:exp_budget_check.field_crossovered_budget_lines__id
-#: model:ir.model.fields,field_description:exp_budget_check.field_hr_expense__id
-msgid "ID"
-msgstr "المُعرف"
-
-#. module: exp_budget_check
+#: model:ir.model.fields,field_description:exp_budget_check.field_account_payment__invoice_rec_id
 #: model:ir.model.fields,field_description:exp_budget_check.field_budget_confirmation__invoice_id
 msgid "Invoice"
-msgstr ""
+msgstr "فاتورة"
 
 #. module: exp_budget_check
 #: model:ir.model.fields,field_description:exp_budget_check.field_account_bank_statement_line__is_approve
@@ -157,7 +180,6 @@ msgstr ""
 
 #. module: exp_budget_check
 #: model:ir.model.fields,field_description:exp_budget_check.field_account_analytic_account__is_analytic_budget
-#: model:ir.model.fields,field_description:exp_budget_check.field_grant_project__is_analytic_budget
 #: model:ir.model.fields,field_description:exp_budget_check.field_hr_expense__is_budget
 msgid "Is Use In Budget"
 msgstr "يستخدم في الموازنة"
@@ -173,26 +195,33 @@ msgid "Journal Item"
 msgstr "عنصر اليومية"
 
 #. module: exp_budget_check
-#: model:ir.model.fields,field_description:exp_budget_check.field_account_analytic_account____last_update
-#: model:ir.model.fields,field_description:exp_budget_check.field_account_move____last_update
-#: model:ir.model.fields,field_description:exp_budget_check.field_account_move_line____last_update
-#: model:ir.model.fields,field_description:exp_budget_check.field_budget_confirmation____last_update
-#: model:ir.model.fields,field_description:exp_budget_check.field_crossovered_budget_lines____last_update
-#: model:ir.model.fields,field_description:exp_budget_check.field_hr_expense____last_update
-msgid "Last Modified on"
-msgstr "آخر تعديل في"
+#: model:ir.model.fields,field_description:exp_budget_check.field_account_payment_register__move_id
+msgid "Move"
+msgstr ""
 
 #. module: exp_budget_check
 #: code:addons/exp_budget_check/models/hr_expense.py:0
 #, python-format
 msgid "New Expense Report"
-msgstr ""
+msgstr "تقرير مصروف جديد"
+
+#. module: exp_budget_check
+#: model:ir.model.fields,help:exp_budget_check.field_hr_expense__address_id
+msgid "Partner-related data of the user"
+msgstr "بيانات المستخدم المتعلقة بالشريك"
+
+#. module: exp_budget_check
+#: code:addons/exp_budget_check/models/account_invoice.py:0
+#: model:ir.model,name:exp_budget_check.model_account_payment
+#, python-format
+msgid "Payments"
+msgstr "تسوية الدفعات"
 
 #. module: exp_budget_check
 #: code:addons/exp_budget_check/models/hr_expense.py:0
 #, python-format
 msgid "Please Check Budget First"
-msgstr ""
+msgstr "برجاء التحقق من الموازنة أولا"
 
 #. module: exp_budget_check
 #: code:addons/exp_budget_check/models/account_invoice.py:0
@@ -212,6 +241,11 @@ msgid "Posted"
 msgstr "مُرحل"
 
 #. module: exp_budget_check
+#: model:ir.model,name:exp_budget_check.model_account_payment_register
+msgid "Register Payment"
+msgstr "تسجيل دفعة"
+
+#. module: exp_budget_check
 #: code:addons/exp_budget_check/models/account_invoice.py:0
 #: code:addons/exp_budget_check/models/hr_expense.py:0
 #, python-format
@@ -219,10 +253,50 @@ msgid "Rejected By : %s  With Reject Reason : %s"
 msgstr "تم الرقض بواسطة %s .  مع سبب الرقض : %s"
 
 #. module: exp_budget_check
+#: model:ir.model.fields,field_description:exp_budget_check.field_hr_expense__address_id
+msgid "Related Partner"
+msgstr "الشريك"
+
+#. module: exp_budget_check
 #: model:ir.model.fields,field_description:exp_budget_check.field_crossovered_budget_lines__reserve
 #: model_terms:ir.ui.view,arch_db:exp_budget_check.crossovered_budget_view_form_inherit
 msgid "Reserve Amount"
 msgstr "المبلغ المحجوز"
+
+#. module: exp_budget_check
+#: model:ir.model.fields.selection,name:exp_budget_check.selection__account_move__state__general_secretary
+msgid "Secretary General"
+msgstr "الامين العام"
+
+#. module: exp_budget_check
+#: model:ir.model.fields.selection,name:exp_budget_check.selection__account_move__state__sector_manager
+msgid "Sector Manager"
+msgstr "رئيس القطاع"
+
+#. module: exp_budget_check
+#: model_terms:ir.ui.view,arch_db:exp_budget_check.budget_check_view_move_form
+msgid "Set To Accountant"
+msgstr "إرسال إلى المحاسب"
+
+#. module: exp_budget_check
+#: model_terms:ir.ui.view,arch_db:exp_budget_check.budget_check_view_move_form
+msgid "Set To Financial Manager"
+msgstr "إرسال إلى مدير المالية"
+
+#. module: exp_budget_check
+#: model_terms:ir.ui.view,arch_db:exp_budget_check.budget_check_view_move_form
+msgid "Set To Head Department"
+msgstr "إرسال إلى رئيس القسم "
+
+#. module: exp_budget_check
+#: model_terms:ir.ui.view,arch_db:exp_budget_check.budget_check_view_move_form
+msgid "Set To Sector Manager"
+msgstr "إرسال إلى رئيس القطاع"
+
+#. module: exp_budget_check
+#: model_terms:ir.ui.view,arch_db:exp_budget_check.hr_expense_view_form_inherit
+msgid "Skip Budget"
+msgstr "تخطي الموازنة"
 
 #. module: exp_budget_check
 #: model:ir.model.fields,field_description:exp_budget_check.field_account_bank_statement_line__state_a
@@ -254,21 +328,33 @@ msgstr "ضريبة"
 #: code:addons/exp_budget_check/models/hr_expense.py:0
 #, python-format
 msgid "The Budget Confirmation Doesn't Approve yet"
+msgstr "لم يتم تأكيد الموازنة بعد"
+
+#. module: exp_budget_check
+#: code:addons/exp_budget_check/models/account_invoice.py:0
+#: code:addons/exp_budget_check/models/hr_expense.py:0
+#, python-format
+msgid "The Expense account %s is assigned to more than one budget position %s"
 msgstr ""
 
 #. module: exp_budget_check
 #: code:addons/exp_budget_check/models/account_budget.py:0
-#: model:ir.model.fields,help:exp_budget_check.field_crossovered_budget_lines__confirm
 #, python-format
 msgid "Total amount of confirmed purchase orders"
 msgstr "المبلغ التعميد : هو عبارة  قيمة التعميد ( أوامر الشراء)"
 
 #. module: exp_budget_check
 #: code:addons/exp_budget_check/models/account_budget.py:0
-#: model:ir.model.fields,help:exp_budget_check.field_crossovered_budget_lines__reserve
 #, python-format
 msgid "Total amount of reserved purchase orders"
-msgstr "المبلغ المحجوز وهو عبارة عن طلبات عروض الأسعار تم الموافقة عليها من الموازنة ( ارتباط مبدئى)"
+msgstr ""
+"المبلغ المحجوز وهو عبارة عن طلبات عروض الأسعار تم الموافقة عليها من الموازنة"
+" ( ارتباط مبدئى)"
+
+#. module: exp_budget_check
+#: model:ir.model.fields,field_description:exp_budget_check.field_hr_expense__partner_id
+msgid "Vendor"
+msgstr "المورد"
 
 #. module: exp_budget_check
 #: model:ir.model.fields.selection,name:exp_budget_check.selection__budget_confirmation__type__vendor_bill
@@ -288,12 +374,41 @@ msgid "Wait Budget"
 msgstr "إنتظار تحقق الموازنة"
 
 #. module: exp_budget_check
-#: code:addons/exp_budget_check/models/hr_expense.py:0
+#: code:addons/exp_budget_check/wizard/payment_register.py:0
 #, python-format
-msgid "analytic account is %s not link with budget"
+msgid ""
+"You can not create payment for this invoice because there is a draft payment"
+" for it"
+msgstr "لا يمكنك إنشاء دفعة لهذه الفاتورة لأن هناك دفعة مسودة لها"
+
+#. module: exp_budget_check
+#: model:res.groups,name:exp_budget_check.group_cashier_accountant
+msgid "cashier"
+msgstr "امين الصندوق"
+
+#. module: exp_budget_check
+#: model_terms:ir.ui.view,arch_db:exp_budget_check.budget_check_view_move_form
+msgid "head of department"
 msgstr ""
 
 #. module: exp_budget_check
 #: model:ir.model.fields,field_description:exp_budget_check.field_budget_confirmation__type
 msgid "type"
 msgstr "النوع"
+
+#. module: exp_budget_check
+#: model:ir.model.fields,help:exp_budget_check.field_crossovered_budget_lines__confirm
+msgid "المبلغ التعميد : هو عبارة  قيمة التعميد ( أوامر الشراء)"
+msgstr ""
+
+#. module: exp_budget_check
+#: model:ir.model.fields,help:exp_budget_check.field_crossovered_budget_lines__reserve
+msgid ""
+"المبلغ المحجوز وهو عبارة عن طلبات عروض الأسعار تم الموافقة عليها من الموازنة"
+" ( ارتباط مبدئى)"
+msgstr ""
+
+#. module: exp_budget_check
+#: model_terms:ir.ui.view,arch_db:exp_budget_check.budget_check_view_move_form
+msgid "المدفوعات"
+msgstr ""
