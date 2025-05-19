@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_benefits_service_request_form" model="ir.ui.view">
+        <field name="name">benefits.service.request.form</field>
+        <field name="model">benefits.service.request</field>
+        <field name="arch" type="xml">
+            <form string="Service Request">
+                <header>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,setup,verification,audit,approval,implementation,done,canceled"/>
+                    <button name="action_submit" string="Submit" type="object" class="oe_highlight" states="draft"/>
+                    <button name="action_confirm_setup" string="Confirm Setup" type="object" class="oe_highlight" states="setup"/>
+                    <button name="action_confirm_verification" string="Confirm Verification" type="object" class="oe_highlight" states="verification"/>
+                    <button name="action_confirm_audit" string="Confirm Audit" type="object" class="oe_highlight" states="audit"/>
+                    <button name="action_confirm_approval" string="Confirm Approval" type="object" class="oe_highlight" states="approval"/>
+                    <button name="action_complete" string="Complete" type="object" class="oe_highlight" states="implementation"/>
+                    <button name="action_return" string="Return" type="object" states="setup,verification,audit,approval,implementation"/>
+                    <button name="action_cancel" string="Cancel" type="object" states="draft,setup,verification,audit,approval,implementation"/>
+                    <button name="action_draft" string="Reset to Draft" type="object" states="canceled"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" class="oe_inline" readonly="1"/>
+                        </h1>
+                    </div>
+                    
+                    <!-- Basic Information Section -->
+                    <group>
+                        <group string="Request Information">
+                            <field name="request_date" required="1"/>
+                            <field name="requester_id" required="1" options="{'no_open': True}"/>
+                            <field name="request_source" required="1"/>
+                            <field name="request_type" required="1"/>
+                        </group>
+                        <group string="Family Information" attrs="{'invisible': [('requester_id', '=', False)]}">
+                            <field name="family_file_number" readonly="1"/>
+                            <field name="need_category" readonly="1"/>
+                            <field name="family_member_count" readonly="1"/>
+                            <field name="last_request_date" readonly="1"/>
+                            <field name="service_count" readonly="1"/>
+                        </group>
+                    </group>
+                    
+                    <notebook>
+                        <!-- Service Details Tab -->
+                        <page string="Service Details">
+                            <group>
+                                <group>
+                                    <field name="classification_id" required="1"/>
+                                    <field name="service_id" required="1" domain="[('classification_id', '=', classification_id)]"/>
+                                </group>
+                            </group>
+                            <group>
+                                <field name="description" placeholder="Enter detailed description of the request..." colspan="4"/>
+                            </group>
+                        </page>
+                        
+                        <!-- Outputs Tab -->
+                        <page string="Outputs" attrs="{'invisible': [('request_type', '!=', 'service')]}">
+                            <field name="output_ids">
+                                <tree editable="bottom" create="true" delete="true">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="output_id" required="1"/>
+                                    <field name="state"/>
+                                    <field name="notes"/>
+                                    <button name="action_confirm_execute" string="Confirm Execute" type="object" 
+                                            class="oe_highlight" 
+                                            states="draft"
+                                            attrs="{'invisible': [('parent.state', '!=', 'implementation')]}"/>
+                                </tree>
+                                <form>
+                                    <group>
+                                        <field name="output_id" required="1"/>
+                                        <field name="state" readonly="1"/>
+                                        <field name="notes"/>
+                                    </group>
+                                </form>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Keep all other view records exactly the same -->
+    <record id="view_benefits_service_request_tree" model="ir.ui.view">
+        <field name="name">benefits.service.request.tree</field>
+        <field name="model">benefits.service.request</field>
+        <field name="arch" type="xml">
+            <tree string="Service Requests" decoration-muted="state == 'canceled'" decoration-success="state == 'done'">
+                <field name="name"/>
+                <field name="request_date"/>
+                <field name="requester_id"/>
+                <field name="request_type"/>
+                <field name="state" widget="badge" decoration-info="state in ['setup','verification','audit','approval']"/>
+                <field name="service_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_benefits_service_request_search" model="ir.ui.view">
+        <field name="name">benefits.service.request.search</field>
+        <field name="model">benefits.service.request</field>
+        <field name="arch" type="xml">
+            <search string="Service Requests">
+                <field name="name" string="Request Number"/>
+                <field name="requester_id" string="Requester"/>
+                <field name="request_date"/>
+                <field name="request_type"/>
+                <field name="state"/>
+                <filter string="Today's Requests" name="today" domain="[('request_date','=',current_date)]"/>
+                <filter string="Draft" name="draft" domain="[('state','=','draft')]"/>
+                <filter string="In Progress" name="in_progress" domain="['|',('state','=','setup'),('state','=','verification'),('state','=','audit'),('state','=','approval'),('state','=','implementation')]"/>
+                <filter string="Completed" name="done" domain="[('state','=','done')]"/>
+                <filter string="Canceled" name="canceled" domain="[('state','=','canceled')]"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_benefits_service_request" model="ir.actions.act_window">
+        <field name="name">Service Requests</field>
+        <field name="res_model">benefits.service.request</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'search_default_in_progress': 1}</field>
+    </record>
+
+    <!-- Sequence -->
+    <record id="seq_benefits_service_request" model="ir.sequence">
+        <field name="name">Service Request Sequence</field>
+        <field name="code">benefits.service.request</field>
+        <field name="prefix">SR/</field>
+        <field name="padding">5</field>
+        <field name="company_id" eval="False"/>
+    </record>
+
+    <!-- Menu Item -->
+    <menuitem id="benfits_service_requests"
+              name="Service Request"
+              parent="odex_benefit.menu_benefits_config_benefits"
+              action="action_benefits_service_request"
+              sequence="21"/>
+</odoo>

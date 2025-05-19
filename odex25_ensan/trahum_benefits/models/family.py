@@ -6,6 +6,7 @@ import json
 from odoo.exceptions import UserError
 from datetime import date
 
+
 class ResConfigSettings(models.TransientModel):
     _inherit = 'res.config.settings'
 
@@ -17,21 +18,23 @@ class GrantBenefit(models.Model):
 
     STATE_SELECTION = [
         ('draft', 'Draft'),
-        ('call_center', 'Call Center Approved'),
-        ('social_researcher', 'Social Researcher Approved'),
-        ('branch_manager', 'Branch Manager Approved'),
-        ('ceo', 'CEO Approved'),
-        ('cancelled', 'Cancelled'),
+        ('confirm', 'Confirm'),
+        ('validate', 'Validate'),
+        ('review', 'Review'),
+        ('approve', 'Approve'),
+        ('approved', 'Approved'),
         ('closed', 'Done'),
+        ('cancelled', 'Cancelled'),
+
     ]
     previous_state = fields.Selection(STATE_SELECTION, string="Previous State")
     need_calculator = fields.Selection([('high', 'High Need'), ('medium', 'Medium Need'), ('low', 'Low Need'), ],
                                        readonly=1, string="Need Calculator", )
 
-
-    total_income = fields.Float(string="Total Income",store=True,readonly=True)
+    total_income = fields.Float(string="Total Income", store=True, readonly=True)
     expected_income = fields.Float(string="Expected  Income", readonly=True)
-    name_member = fields.Char(string="Expected  Income",compute='_compute_member_name',readonly=True)
+    name_member = fields.Char(string="Expected  Income", compute='_compute_member_name', readonly=True)
+    researcher_insights = fields.Char('Researcher Insights')
 
     @api.depends('benefit_member_ids')
     def _compute_member_name(self):
@@ -66,7 +69,7 @@ class GrantBenefit(models.Model):
 
     def _get_expected_family_income(self):
         config_param = self.env['ir.config_parameter'].sudo()
-        base_line_value = float(config_param.get_param('trahum_benefits.base_line_value',))
+        base_line_value = float(config_param.get_param('trahum_benefits.base_line_value', ))
         expected = 0.0
         for member in self.benefit_member_ids:
             if member.is_breadwinner:
@@ -108,18 +111,28 @@ class GrantBenefit(models.Model):
     def fields_view_get(self, view_id=None, view_type=False, toolbar=False, submenu=False):
         res = super(GrantBenefit, self).fields_view_get(view_id=view_id, view_type=view_type, toolbar=toolbar,
                                                         submenu=submenu)
-        doc = etree.XML(res['arch'])
         if view_type == 'form':
+            doc = etree.XML(res['arch'])
+
             for node in doc.xpath("//field"):
-                modifiers = json.loads(node.get("modifiers"))
-                if 'readonly' not in modifiers:
-                    modifiers['readonly'] = [('state', 'not in', ['draft'])]
+                field_name = node.get('name')
+                modifiers = json.loads(node.get("modifiers", '{}'))
+
+                if field_name == 'researcher_insights':  # Make this field editable in 'confirm'
+                    modifiers['readonly'] = [('state', 'not in', ['validate'])]
                 else:
-                    if type(modifiers['readonly']) != bool:
-                        modifiers['readonly'].insert(0, '|')
-                        modifiers['readonly'].append(('state', 'not in', ['draft']))
+                    # Make all other fields readonly unless in 'draft'
+                    if 'readonly' not in modifiers:
+                        modifiers['readonly'] = [('state', 'not in', ['draft'])]
+                    else:
+                        if not isinstance(modifiers['readonly'], bool):
+                            if ('state', 'not in', ['draft']) not in modifiers['readonly']:
+                                modifiers['readonly'].insert(0, '|')
+                                modifiers['readonly'].append(('state', 'not in', ['draft']))
+
                 node.set("modifiers", json.dumps(modifiers))
-                res['arch'] = etree.tostring(doc)
+
+            res['arch'] = etree.tostring(doc, encoding='unicode')
         return res
 
     def write(self, vals):
@@ -129,9 +142,37 @@ class GrantBenefit(models.Model):
                 print('state = ', rec.state)
         return super().write(vals)
 
+    def action_open_salary_income(self):
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_window',
+            'res_model': 'salary.line',
+            'view_mode': 'tree,form',
+            'views': [
+                (self.env.ref('odex_benefit.view_salary_line_tree').id, 'tree'),
+                (self.env.ref('odex_benefit.view_salary_line_form').id, 'form'),
+            ],
+            # 'domain': [('member_id', '=', self.id)],
+            'target': 'current',
+        }
+
+    def action_open_expenses(self):
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_window',
+            'res_model': 'expenses.line',
+            'view_mode': 'tree,form',
+            'views': [
+                (self.env.ref('odex_benefit.view_expense_line_tree').id, 'tree'),
+                (self.env.ref('odex_benefit.view_expense_line_form').id, 'form'),
+            ],
+            # 'domain': [('member_id', '=', self.id)],
+            'target': 'current',
+        }
+
     # add new customuzation
     state = fields.Selection(STATE_SELECTION, default='draft', tracking=True)
-    detainee_file_id = fields.Many2one('detainee.file', string="Detainee File", tracking=True)
+    detainee_file_id = fields.Many2one('detainee.file', string="Detainee File", tracking=True, related='')
 
     benefit_member_ids = fields.One2many('grant.benefit.member', 'grant_benefit_id', string="Benefit Member")
 
@@ -173,16 +214,16 @@ class GrantBenefit(models.Model):
 
     def action_submit_call_center(self):
         self._compute_need_calculator()
-        self.state = 'call_center'
+        self.state = 'confirm'
 
     def action_approve_call_center(self):
-        self.state = 'social_researcher'
+        self.state = 'validate'
 
     def action_approve_social(self):
-        self.state = 'branch_manager'
+        self.state = 'review'
 
     def action_approve_branch(self):
-        self.state = 'ceo'
+        self.state = 'approve'
 
     def action_close(self):
         self.state = 'closed'
@@ -243,15 +284,23 @@ class GrantBenefit(models.Model):
     salary_ids = fields.One2many('salary.line', 'benefit_id', string='')
     health_data_ids = fields.One2many('family.member', 'benefit_id', string='Health Data')
     branch_details_id = fields.Many2one(comodel_name='branch.details', string='Branch Name', tracking=True)
+    breadwinner_name = fields.Many2one('family.member', 'Breadwinner')
+    relation_id = fields.Many2one('family.member.relation', string='Relation')
+
     external_guid = fields.Char(string='External GUID')
     account_status = fields.Selection(
         [('active', 'Active'), ('inactive', 'Inactive')],
         string="Account status",
         default='active', tracking=True,
         help="Account status to determine whether the account is active or suspended.")
-
+    entitlement_status = fields.Selection([
+        ('beneficiary', 'Beneficiary'),
+        ('non_beneficiary', 'Non Beneficiary')
+    ], string='Entitlement Status',
+    )
     Add_appendix = fields.Binary(string="IBAN", attachment=True)
-    stop_reason = fields.Text(string="Reason", help="Reason for account suspension.")
+    relation_to_family = fields.Text(string="Relation to Family")
+    stop_reason = fields.Many2one('bank.stop.reason', string="Reason", help="Reason for account suspension.")
     reason = fields.Text(string="Reason")
     reason_revert = fields.Text(string="Revert Reason")
     stop_proof = fields.Binary(string="Proof of suspension document", attachment=True)
@@ -290,7 +339,7 @@ class GrantBenefit(models.Model):
     delegate_name = fields.Char(string="Name of the delegate")
     delegate_iban = fields.Char(string="Authorized IBAN")
     delegate_document = fields.Binary(string="Authorization form", attachment=True)
-
+    delegate_family_rel = fields.Char('Delegat Family Relation')
     house_ids = fields.One2many('family.member.house', 'benefit_id', string="House Profile")
 
     @api.constrains('delegate_mobile')
@@ -299,6 +348,13 @@ class GrantBenefit(models.Model):
             if record.delegate_mobile:
                 if len(record.delegate_mobile) != 10 or not record.delegate_mobile.isdigit():
                     raise ValidationError("The authorized mobile number must contain exactly 10 digits.")
+
+
+class BankStopReason(models.Model):
+    _name = 'bank.stop.reason'
+    _inherit = ['mail.thread', 'mail.activity.mixin']
+
+    stop_reason = fields.Char(string='Reason')
 
 
 class attachment(models.Model):
@@ -328,15 +384,14 @@ class ExpensesInheritLine(models.Model):
         string="Revenue periodicity")
     side = fields.Char(string='The side')
     attachment = fields.Binary(string="Attachments", attachment=True)
-    benefit_id = fields.Many2one('grant.benefit', ondelete='cascade',string="Benefit")
-
+    benefit_id = fields.Many2one('grant.benefit', ondelete='cascade', string="Benefit")
 
 
 class SalaryInheritLine(models.Model):
     _inherit = 'salary.line'
 
     side = fields.Char(string='side')
-    benefit_id = fields.Many2one('grant.benefit',ondelete='cascade',string="Benefit")
+    benefit_id = fields.Many2one('grant.benefit', ondelete='cascade', string="Benefit")
 
     revenue_periodicity = fields.Selection(
         [

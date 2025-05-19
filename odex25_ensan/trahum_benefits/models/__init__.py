@@ -5,3 +5,8 @@ from . import family
 from . import res_prison
 from . import identity_proof
 from . import branch_details
+from . import service_classification
+from . import service_setting
+from . import output_setting
+from . import service_request
+from . import case_info

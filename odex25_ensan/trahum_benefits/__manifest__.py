@@ -33,6 +33,11 @@
         'views/identity_proof.xml',
         'views/branch_details.xml',
         'wizards/cancel_request.xml',
+        'views/service_classification_views.xml',
+        'views/service_setting_views.xml',
+        'views/output_setting_views.xml',
+        'views/service_request_views.xml', 
+        'views/case_info.xml',
     ],
     # only loaded in demonstration mode
     'demo': [
