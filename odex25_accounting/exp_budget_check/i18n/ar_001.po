@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-19 09:33+0000\n"
-"PO-Revision-Date: 2025-05-19 09:33+0000\n"
+"POT-Creation-Date: 2025-05-19 09:59+0000\n"
+"PO-Revision-Date: 2025-05-19 09:59+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -339,14 +339,12 @@ msgstr ""
 
 #. module: exp_budget_check
 #: code:addons/exp_budget_check/models/account_budget.py:0
-#: model:ir.model.fields,help:exp_budget_check.field_crossovered_budget_lines__confirm
 #, python-format
 msgid "Total amount of confirmed purchase orders"
 msgstr "المبلغ التعميد : هو عبارة  قيمة التعميد ( أوامر الشراء)"
 
 #. module: exp_budget_check
 #: code:addons/exp_budget_check/models/account_budget.py:0
-#: model:ir.model.fields,help:exp_budget_check.field_crossovered_budget_lines__reserve
 #, python-format
 msgid "Total amount of reserved purchase orders"
 msgstr ""
@@ -398,37 +396,19 @@ msgstr ""
 msgid "type"
 msgstr "النوع"
 
+#. module: exp_budget_check
+#: model:ir.model.fields,help:exp_budget_check.field_crossovered_budget_lines__confirm
+msgid "المبلغ التعميد : هو عبارة  قيمة التعميد ( أوامر الشراء)"
+msgstr ""
 
 #. module: exp_budget_check
-#: model:ir.ui.menu,name:account.menu_action_move_in_invoice_type
-msgid "Bills"
-msgstr "اوامر الصرف"
+#: model:ir.model.fields,help:exp_budget_check.field_crossovered_budget_lines__reserve
+msgid ""
+"المبلغ المحجوز وهو عبارة عن طلبات عروض الأسعار تم الموافقة عليها من الموازنة"
+" ( ارتباط مبدئى)"
+msgstr ""
 
 #. module: exp_budget_check
-#: model:ir.ui.menu,name:account.menu_action_move_out_invoice_type
-msgid "Invoices"
-msgstr "اوامر الصرف"
-
-
-#. module: exp_budget_check
-#: model:ir.model.fields.selection,name:account.selection__account_payment__payment_type__inbound
-#: model:ir.model.fields.selection,name:account.selection__account_payment_register__payment_type__inbound
-msgid "Receive Money"
-msgstr "استلام"
-
-#. module: exp_budget_check
-#: model:ir.model.fields.selection,name:account.selection__account_payment__payment_type__outbound
-#: model:ir.model.fields.selection,name:account.selection__account_payment_register__payment_type__outbound
-msgid "Send Money"
-msgstr "ارسال"
-
-#. module: exp_budget_check
-#: model_terms:ir.ui.view,arch_db:account.view_account_payment_search
-msgid "Vendor Payments"
-msgstr "المدفوعات"
-
-
-#. module: exp_budget_check
-#: model:ir.model,name:hr_expense_petty_cash.model_account_payment
-msgid "Payments"
-msgstr "المدفوعات"
+#: model_terms:ir.ui.view,arch_db:exp_budget_check.budget_check_view_move_form
+msgid "المدفوعات"
+msgstr ""
