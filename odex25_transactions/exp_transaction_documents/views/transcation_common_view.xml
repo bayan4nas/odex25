@@ -34,7 +34,7 @@
                                 <field name="current_is_manager" invisible="1"/>
                                 <field name="type"
                                        attrs="{'required':True,'readonly':[('state','not in', ['draft'])]}"/>
-                                <field name="subject" invisible="1"/>
+                                <field name="subject" invisible="0"/>
                                 <field name="cm_subject"/>
                                 <field name="important_id" widget="selection"
                                        attrs="{'required':True,'readonly':[('state','not in', ['draft'])]}"/>
@@ -113,7 +113,7 @@
                                        attrs="{'required':[('type','in',['reply','forward'])],'invisible':[('type','not in',['reply', 'forward'])],'readonly':[('state','not in',['draft'])]}">
                                     <tree name="">
                                         <field name="name"/>
-                                        <field name="subject" invisible="1"/>
+                                        <field name="subject" invisible="0"/>
                                         <field name="cm_subject"/>
                                         <field name="transaction_date"/>
                                         <field name="to_ids"/>
@@ -225,7 +225,7 @@
                                     <tree name="">
                                         <field name="name"/>
                                         <field name="cm_subject"/>
-                                        <field name="subject" invisible="1"/>
+                                        <field name="subject" invisible="0"/>
                                         <field name="transaction_date"/>
                                         <field name="to_ids"/>
                                     </tree>
@@ -235,7 +235,7 @@
                                     <tree name="">
                                         <field name="name"/>
                                         <field name="cm_subject"/>
-                                        <field name="subject" invisible="1"/>
+                                        <field name="subject" invisible="0"/>
                                         <field name="transaction_date"/>
                                         <field name="to_ids"/>
                                     </tree>
