@@ -96,7 +96,7 @@ class ProjectInvoice(models.Model):
                         })
 
                 # Update the attachment count on the invoice
-                record.invoice_id._compute_attach_no()
+                # record.invoice_id._compute_attach_no()
     
     @api.onchange("project_invline_ids")
     def get_price_unit_value_test(self):
@@ -171,12 +171,7 @@ class ProjectInvoice(models.Model):
                  ))
         invoice_vals['invoice_line_ids'] = invoice_line_vals
         invoice_id = self.env['account.move'].sudo().with_context(default_move_type='out_invoice').create(invoice_vals)
-        for attachment in self.attachment_ids:
-            attachment.copy({
-                'res_model': 'account.move',
-                'res_id': invoice_id.id
-            })
-        invoice_id._compute_attach_no()
+
 
         if abs(sum(self.project_downinv_ids.mapped('price_total'))) > abs(
                 sum(self.project_invline_ids.mapped('price_total'))):

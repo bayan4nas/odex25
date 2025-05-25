@@ -35,7 +35,7 @@ class AccountMove(models.Model):
                 action['context'] = "{'default_res_model': '%s','default_res_id': %d}" % (record._name, record.id)
                 
                 # Update attachment count for each record
-                record.attach_no = self.env['ir.attachment'].search_count([
+                record.attach_no = self.env['ir.attachment'].sudo().search_count([
                     ('res_model', 'in', related_models),
                     ('res_id', 'in', related_ids)
                 ])
@@ -73,7 +73,7 @@ class AccountMove(models.Model):
         action['context'] = "{'default_res_model': '%s','default_res_id': %d}" % (self._name, self.id)
         
         # Update attachment count for smart button
-        self.attach_no = self.env['ir.attachment'].search_count(domain)
+        self.attach_no = self.env['ir.attachment'].sudo().search_count(domain)
     
         return action
 

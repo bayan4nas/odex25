@@ -59,5 +59,20 @@
             <field name="domain_force">[('allowed_portal_user_ids', 'in', user.ids)]</field>
             <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
         </record>
+
+            <record id="group_project_attachment_view" model="res.groups">
+                <field name="name">Show All Project Invoice </field>
+                <field name="category_id" ref="base.module_category_services_project"/>
+            </record>
+
+    <record id="rule_attachment_project_invoice_view" model="ir.rule">
+        <field name="name"> Project Invoice : See All</field>
+        <field name="model_id" ref="model_project_invoice"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('project_base.group_project_attachment_view'))]"/>
+
+    </record>
+
+
     </data>
 </odoo>
