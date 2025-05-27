@@ -304,6 +304,12 @@ class Employee(models.Model):
             if coach:
                 vals['coach_id'] = coach.id
         return super(Employee, self).write(vals)
+    
+    def _onchange_department(self):
+        manager = self._assign_manager(self.department_id)
+        coach = self._assign_top_manager(self.department_id, manager)
+        self.parent_id = manager.id 
+        self.coach_id = coach.id 
 
 
 
