@@ -128,6 +128,7 @@ class AccountAssetOperation(models.Model):
         self.asset_id.return_date = self.return_date
         self.asset_id.purpose = self.note
         if self.type == 'assignment':
+            self.asset_id.state = 'assign'
             self.asset_id.status = 'assigned'
         elif self.type == 'release':
             self.asset_id.status = 'available'

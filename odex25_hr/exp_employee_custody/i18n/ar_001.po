@@ -22,6 +22,35 @@ msgid "Action Needed"
 msgstr ""
 
 #. module: exp_employee_custody
+#: model:ir.module.category,name:exp_employee_custody.custody_category
+msgid "Custody Management"
+msgstr "إدارة العهد الغير مالية"
+
+#. module: exp_employee_custody
+#: model:res.groups,name:exp_employee_custody.group_custody_department_manager
+msgid "Department Manager"
+msgstr "مدير اﻹدارة"
+
+#. module: exp_employee_custody
+#: model:res.groups,name:exp_employee_custody.group_custody_manager
+msgid "Manager"
+msgstr "المدير"
+
+
+#. module: exp_employee_custody
+#: model:res.groups,name:exp_employee_custody.group_custody_user
+msgid "User"
+msgstr "مستخدم"
+
+#. module: exp_employee_custody
+#: code:addons/exp_employee_custody/models/employee_custody.py:0
+#: code:addons/exp_employee_custody/models/receiving_employee_custody.py:0
+#: model_terms:ir.ui.view,arch_db:exp_employee_custody.employee_custody_form_view
+#, python-format
+msgid "Draft"
+msgstr "مسودة"
+
+#. module: exp_employee_custody
 #: model:ir.model.fields,field_description:exp_employee_custody.field_custom_employee_custody__activity_ids
 #: model:ir.model.fields,field_description:exp_employee_custody.field_hr_custody_receiving__activity_ids
 msgid "Activities"
@@ -167,13 +196,6 @@ msgid "Display Name"
 msgstr ""
 
 #. module: exp_employee_custody
-#: code:addons/exp_employee_custody/models/employee_custody.py:0
-#: code:addons/exp_employee_custody/models/receiving_employee_custody.py:0
-#, python-format
-msgid "Draft"
-msgstr "مبدئي"
-
-#. module: exp_employee_custody
 #: model_terms:ir.ui.view,arch_db:exp_employee_custody.employee_custody_form_view
 #: model_terms:ir.ui.view,arch_db:exp_employee_custody.employee_custody_tree_view
 #: model_terms:ir.ui.view,arch_db:exp_employee_custody.receiving_employee_custody_form_view
@@ -261,6 +283,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:exp_employee_custody.field_hr_custody_receiving__from_hr_department
 msgid "From Hr Department"
 msgstr "من موظف آخر"
+
+#. module: exp_employee_custody
+#: model:res.groups,name:exp_employee_custody.group_custody_hr_approval
+msgid "Hr Approval"
+msgstr "اعتماد الموارد البشرية"
 
 #. module: exp_employee_custody
 #: model_terms:ir.ui.view,arch_db:exp_employee_custody.receiving_employee_custody_form_view
@@ -543,6 +570,12 @@ msgid "Refuse"
 msgstr "رفض"
 
 #. module: exp_employee_custody
+#: model_terms:ir.ui.view,arch_db:exp_employee_custody.employee_custody_form_view
+#, python-format
+msgid "Done"
+msgstr "ارجاع"
+
+#. module: exp_employee_custody
 #: model:ir.model.fields,field_description:exp_employee_custody.field_custom_employee_custody__activity_user_id
 #: model:ir.model.fields,field_description:exp_employee_custody.field_hr_custody_receiving__activity_user_id
 msgid "Responsible User"
@@ -644,9 +677,25 @@ msgid ""
 msgstr ""
 
 #. module: exp_employee_custody
+#: model_terms:ir.ui.view,arch_db:exp_employee_custody.employee_custody_form_view
 #: model_terms:ir.ui.view,arch_db:exp_employee_custody.receiving_employee_custody_form_view
 msgid "Submit"
 msgstr "إرسال"
+
+#. module: exp_employee_custody
+#: model_terms:ir.ui.view,arch_db:exp_employee_custody.employee_custody_form_view
+msgid "approve"
+msgstr "إعتماد مسؤول المخازن"
+
+#. module: exp_employee_custody
+#: model_terms:ir.ui.view,arch_db:exp_employee_custody.employee_custody_form_view
+msgid "Admin"
+msgstr "تصديق الموارد البشرية"
+
+#. module: exp_employee_custody
+#: model_terms:ir.ui.view,arch_db:exp_employee_custody.employee_custody_form_view
+msgid "Direct"
+msgstr "المدير المباشر"
 
 #. module: exp_employee_custody
 #: model:ir.model.fields,help:exp_employee_custody.field_custom_employee_custody__activity_exception_decoration
@@ -747,7 +796,21 @@ msgid "رفض"
 msgstr ""
 
 #. module: exp_employee_custody
-#: model:ir.model.fields.selection,name:exp_employee_custody.selection__custom_employee_custody__state__draft
 #: model:ir.model.fields.selection,name:exp_employee_custody.selection__hr_custody_receiving__state__draft
 msgid "مسودة"
 msgstr ""
+#. module: exp_employee_custody
+#: model:ir.model.fields.selection,name:exp_employee_custody.selection__custom_employee_custody__state__draft
+msgid "Send"
+msgstr "ارسال"
+
+#. module: exp_asset_custody_link
+#: model_terms:ir.ui.view,arch_db:exp_asset_custody_link.employee_custody_form_view_inherit
+msgid "Releases"
+msgstr "ارجاع"
+
+#. module: exp_employee_custody
+#: code:addons/exp_employee_custody/models/employee_custody.py:0
+#, python-format
+msgid "Only the employee's direct manager can approve at this stage."
+msgstr "فقط المدير المباشر للموظف يمكنه فقط الموافقة "

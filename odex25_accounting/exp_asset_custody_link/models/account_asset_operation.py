@@ -17,27 +17,35 @@ class AccountAssetOperation(models.Model):
             self.asset_id.status = 'assigned'
             if exp_petty_cash_module:
                 custody = self.env['custom.employee.custody'].search([('id', '=', self.emp_asset_custody_id.id)])
-                print("===============================================================", custody)
+                for cust in custody.asset_line_ids:
+                    cust.custody_type = self.custody_type
+                    cust.custody_period =  self.custody_period
+                    cust.return_date =  self.return_date
+                    break
+                for cust1 in custody.custody_line_ids:
+                    cust1.receiving_date =  self.date
+                    break
                 for cus in custody:
                     operation = self.env['account.asset.operation'].search(
                         [('emp_asset_custody_id', '=', cus.id), ('type', '=', 'assignment')])
-                    print("----------", operation)
-                    print("----------", operation.state)
                     if all(ope.state in 'done' for ope in operation):
-                        print("----------", operation.state)
                         cus.write({'state': 'assign'})
+
         elif self.type == 'release':
             self.asset_id.status = 'available'
+            self.asset_id.state = 'open'
+            self.asset_id.employee_id = False
             # self.asset_id.status = self.asset_status == 'good' and 'available' or 'scrap'
             if exp_petty_cash_module:
                 custody = self.env['custom.employee.custody'].search([('id', '=', self.emp_asset_custody_id.id)])
+                for cust in custody.asset_line_ids:
+                    cust.return_date =  self.date or self.return_date
+                    break
                 for cus in custody:
                     operation = self.env['account.asset.operation'].search(
                         [('emp_asset_custody_id', '=', cus.id), ('type', '=', 'release')])
                     if all(ope.state in 'done' for ope in operation):
                         cus.write({'state': 'done'})
-
-
     # def custody_confirm(self):
     #
     #     self.asset_id.employee_id = self.new_employee_id.id

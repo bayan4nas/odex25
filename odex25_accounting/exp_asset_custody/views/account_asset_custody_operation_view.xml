@@ -61,10 +61,10 @@
                 <header>
                     <button name="act_submit" string="Submit" type="object"
                             class="oe_highlight" states="draft"/>
-                    <button name="act_confirm" groups='hr_expense_petty_cash.group_assets_manager' string="Confirm" states="submit"
+                    <button name="act_confirm" groups='exp_asset_base.group_assets_manager' string="Confirm" states="submit"
                             type="object" class="oe_highlight"/>
-                    <button name="act_reject" groups="hr_expense_petty_cash.group_assets_manager" string="Reject" type="object" states="draft"/>
-                    <button name="act_draft" groups="hr_expense_petty_cash.group_assets_manager" states="cancel" string="Set to Draft"
+                    <button name="act_reject" groups="exp_asset_base.group_assets_manager" string="Reject" type="object" states="draft"/>
+                    <button name="act_draft" groups="exp_asset_base.group_assets_manager" states="cancel" string="Set to Draft"
                             type="object" class="oe_highlight"/>
                     <field name="state" widget="statusbar"/>
                 </header>
@@ -294,22 +294,6 @@
                 <field name="name">asset_operation_form3.extend</field>
                 <field name="model">account.asset.multi.operation</field>
                 <field name="inherit_id" ref="exp_asset_custody.view_account_asset_multi_transfer_form"/>
-                <field name="arch" type="xml">
-                    <xpath expr="//button[@name='act_confirm']" position="attributes">
-                        <attribute name="groups">hr_expense_petty_cash.group_assets_manager</attribute>
-                    </xpath>
-                    <xpath expr="//button[@name='act_reject']" position="attributes">
-                        <attribute name="groups">hr_expense_petty_cash.group_assets_manager</attribute>
-                    </xpath>
-                    <xpath expr="//button[@name='act_draft']" position="attributes">
-                        <attribute name="groups">hr_expense_petty_cash.group_assets_manager</attribute>
-                    </xpath>
-                </field>
-            </record>
-            <record id="asset_operation_view_form5" model="ir.ui.view">
-                <field name="name">asset_operation_form5.extend</field>
-                <field name="model">account.asset.operation</field>
-                <field name="inherit_id" ref="exp_asset_custody.view_account_asset_operation_form"/>
                 <field name="arch" type="xml">
                     <xpath expr="//button[@name='act_confirm']" position="attributes">
                         <attribute name="groups">hr_expense_petty_cash.group_assets_manager</attribute>
