@@ -9,7 +9,7 @@
     'license': 'GPL-3',
     'author': 'Expert Co. Ltd.',
 
-    'depends': ['base','hr_base','employee_requests'],
+    'depends': ['base','hr_base','employee_requests','exp_asset_custody'],
 
     'data': [
         'security/ir.model.access.csv',
