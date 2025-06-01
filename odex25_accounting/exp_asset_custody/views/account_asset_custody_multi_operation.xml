@@ -23,10 +23,10 @@
             <form duplicate="0">
                 <header>
                     <button name="act_progress" states="draft" string="Start" type="object" class="oe_highlight"/>
-                    <button name="act_confirm"  groups='hr_expense_petty_cash.group_assets_manager' states="in_progress" string="Confirm" type="object"
+                    <button name="act_confirm"  groups='exp_asset_base.group_assets_manager,exp_asset_base.group_asset_chuhad_user' states="in_progress" string="Confirm" type="object"
                             class="oe_highlight"/>
-                    <button name="act_reject" groups="hr_expense_petty_cash.group_assets_manager" states="in_progress" string="Reject" type="object"/>
-                    <button name="act_draft" groups="hr_expense_petty_cash.group_assets_manager" states="cancel" string="Set to Draft" type="object" class="oe_highlight"/>
+                    <button name="act_reject" groups="exp_asset_base.group_asset_chuhad_user,exp_asset_base.group_assets_manager" states="in_progress" string="Reject" type="object"/>
+                    <button name="act_draft" groups="exp_asset_base.group_asset_chuhad_user,exp_asset_base.group_assets_manager" states="cancel" string="Set to Draft" type="object" class="oe_highlight"/>
                     <field name="state" widget="statusbar" statusbar_visible="draft,in_progress,done"/>
                 </header>
                 <sheet>
@@ -102,10 +102,10 @@
             <form duplicate="0">
                 <header>
                     <button name="act_progress" states="draft" string="Start" type="object" class="oe_highlight"/>
-                    <button  groups="hr_expense_petty_cash.group_assets_manager" name="act_confirm" states="in_progress" string="Confirm" type="object"
+                    <button groups='exp_asset_base.group_assets_manager,exp_asset_base.group_asset_chuhad_user' name="act_confirm" states="in_progress" string="Confirm" type="object"
                             class="oe_highlight"/>
-                    <button groups="hr_expense_petty_cash.group_assets_manager" name="act_reject" states="in_progress" string="Reject" type="object"/>
-                    <button groups="hr_expense_petty_cash.group_assets_manager" name="act_draft" states="cancel" string="Set to Draft" type="object" class="oe_highlight"/>
+                    <button groups='exp_asset_base.group_assets_manager,exp_asset_base.group_asset_chuhad_user' name="act_reject" states="in_progress" string="Reject" type="object"/>
+                    <button groups='exp_asset_base.group_assets_manager,exp_asset_base.group_asset_chuhad_user' name="act_draft" states="cancel" string="Set to Draft" type="object" class="oe_highlight"/>
                     <field name="state" widget="statusbar" statusbar_visible="draft,in_progress,done"/>
                 </header>
                 <sheet>
@@ -177,10 +177,10 @@
             <form duplicate="0">
                 <header>
                     <button name="act_progress" states="draft" string="Start" type="object" class="oe_highlight"/>
-                    <button groups="hr_expense_petty_cash.group_assets_manager" name="act_confirm" states="in_progress" string="Confirm" type="object"
+                    <button groups='exp_asset_base.group_assets_manager,exp_asset_base.group_asset_chuhad_user'  name="act_confirm" states="in_progress" string="Confirm" type="object"
                             class="oe_highlight"/>
-                    <button groups="hr_expense_petty_cash.group_assets_manager" name="act_reject" states="in_progress" string="Reject" type="object"/>
-                    <button groups="hr_expense_petty_cash.group_assets_manager" name="act_draft" states="cancel" string="Set to Draft" type="object" class="oe_highlight"/>
+                    <button groups='exp_asset_base.group_assets_manager,exp_asset_base.group_asset_chuhad_user' name="act_reject" states="in_progress" string="Reject" type="object"/>
+                    <button groups='exp_asset_base.group_assets_manager,exp_asset_base.group_asset_chuhad_user' name="act_draft" states="cancel" string="Set to Draft" type="object" class="oe_highlight"/>
                     <field name="state" widget="statusbar" statusbar_visible="draft,in_progress,done"/>
                 </header>
                 <sheet>

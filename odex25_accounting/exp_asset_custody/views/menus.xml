@@ -5,52 +5,62 @@
         <menuitem id="menu_account_asset_operation_main"
                   parent="exp_asset_base.menu_account_asset_operation_main"
                   name="Custody Operations"
+                  groups="exp_asset_base.group_assets_manager,exp_asset_base.group_asset_chuhad_user"
                   sequence="4"/>
         <!-- Multi Operations -->
         <menuitem id="menu_account_asset_multi_operation"
                   parent="menu_account_asset_operation_main"
                   name="Multiple operations"
+                  groups="exp_asset_base.group_assets_manager,exp_asset_base.group_asset_chuhad_user"
                   sequence="1"/>
         <menuitem id="menu_account_multi_asset_assignment"
                   parent="menu_account_asset_multi_operation"
                   action="action_multi_asset_assignment"
                   name="Assignment"
+                  groups="exp_asset_base.group_assets_manager,exp_asset_base.group_asset_chuhad_user"
                   sequence="4"/>
         <menuitem id="menu_account_multi_asset_release"
                   parent="menu_account_asset_multi_operation"
                   action="action_multi_asset_release"
                   name="Release"
+                  groups="exp_asset_base.group_assets_manager,exp_asset_base.group_asset_chuhad_user"
                   sequence="5"/>
         <menuitem id="menu_account_multi_asset_transfer"
                   parent="menu_account_asset_multi_operation"
                   action="action_multi_asset_transfer"
                   name="Transfer"
+                  groups="exp_asset_base.group_assets_manager,exp_asset_base.group_asset_chuhad_user"
                   sequence="6"/>
         <!-- Custody Operation -->
         <menuitem id="menu_account_asset_custody_operation"
                   parent="menu_account_asset_operation_main"
                   name="Custody operations"
+                  groups="exp_asset_base.group_assets_manager,exp_asset_base.group_asset_chuhad_user"
                   sequence="3"/>
         <menuitem id="menu_account_asset_assignment"
                   parent="menu_account_asset_custody_operation"
                   action="action_account_asset_assignment"
                   name="Assignment"
+                  groups="exp_asset_base.group_assets_manager,exp_asset_base.group_asset_chuhad_user"
                   sequence="1"/>
         <menuitem id="menu_account_asset_release"
                   parent="menu_account_asset_custody_operation"
                   action="action_account_asset_release"
                   name="Release"
+                  groups="exp_asset_base.group_assets_manager,exp_asset_base.group_asset_chuhad_user"
                   sequence="2"/>
         <menuitem id="menu_account_asset_transfer"
                   parent="menu_account_asset_custody_operation"
                   action="action_account_asset_transfer"
                   name="Transfer"
+                  groups="exp_asset_base.group_assets_manager,exp_asset_base.group_asset_chuhad_user"
                   sequence="3"/>
 
         <menuitem id="menu_account_operation_graph"
                   parent="exp_asset_base.menu_account_asset_reporting_main"
                   action="action_account_asset_operation_analysis"
                   name="Operation Analysis"
+                  groups="exp_asset_base.group_assets_manager,exp_asset_base.group_asset_chuhad_user"
                   sequence="3"/>
     </data>
 </odoo>

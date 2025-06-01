@@ -109,7 +109,6 @@ class PurchaseOrderCustomSelect(models.Model):
 
     def get_remain_last(self):
         res = self.get_budget_id()
-        print('res = ',res)
         if res :
             for rec in res.lines_ids:
                 return rec.remain
@@ -137,6 +136,15 @@ class PurchaseOrderCustomSelect(models.Model):
             res = self.get_budget_id()
             return res.approved_date
 
+    def get_evaluation_summary(self):
+        member_totals = {}  # {member_name: total_evaluation}
+        for line in self.initial_evaluation_lines:
+            name = line.user_id.name
+            member_totals[name] = member_totals.get(name, 0) + line.evaluation
+        return {
+            'members': list(member_totals.keys()),
+            'totals': member_totals,
+        }
     @api.depends('initial_evaluation_lines', 'initial_evaluation_lines.user_id')
     def _compute_committee_members(self):
         for rec in self:
@@ -174,15 +182,7 @@ class PurchaseOrderCustomSelect(models.Model):
             'context': {'default_order_id': self.id, 'default_purchase_committee_type': self.requisition_id.committee_type_id.id if self.requisition_id else False}
         }
 
-    def get_evaluation_summary(self):
-        member_totals = {}  # {member_name: total_evaluation}
-        for line in self.initial_evaluation_lines:
-            name = line.user_id.name
-            member_totals[name] = member_totals.get(name, 0) + line.evaluation
-        return {
-            'members': list(member_totals.keys()),
-            'totals': member_totals,
-        }
+
 
 
 class SelectReason(models.TransientModel):
