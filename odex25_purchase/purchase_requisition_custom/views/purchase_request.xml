@@ -29,8 +29,8 @@
                                 class="oe_highlight" groups="purchase.group_purchase_manager"
                                 attrs="{'invisible' : ['|',('state' , '!=' , 'waiting'),('purchase_create' , '=' , True)]}"/>
 
-                        <button name="action_refuse" type="object" string="Refuse"
-                                groups="purchase_requisition_custom.group_direct_manger,purchase_requisition_custom.group_refuse_purchase"
+                        <button name="action_refuse" type="object" string="Refuse" id="prc_request_refuse"
+                                groups="purchase_requisition_custom.group_refuse_purchase"
                                 attrs="{'invisible' : [('state' , 'not in' , ('direct_manager','waiting'))]}"/>
 
                         <button name="action_done" type="object" string="Done" class="oe_stat_button"
@@ -77,6 +77,7 @@
                             <field name="date" readonly="1"/>
                             <field name="purchase_create" invisible="1"/>
                             <field name="partner_id"
+                                   domain="[('supplier_rank','>', 0)]"
                                    options="{'no_create' : True , 'no_edit' : True ,'no_open' : True}"
                                    attrs="{'readonly':['|',('edit_partner_id' , '=' , False),('state' , '!=' , 'waiting')]}"/>
                             <!--                            <div>-->
