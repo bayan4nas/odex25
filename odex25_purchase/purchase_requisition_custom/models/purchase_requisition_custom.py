@@ -8,7 +8,7 @@ class PurchaseRequisitionLineCustom(models.Model):
 
     product_id = fields.Many2one('product.product', string='Product', domain=lambda self: [('purchase_ok', '=', True)],
                                  required=True)
-    product_uom_id = fields.Many2one(related="product_id.uom_id")
+    # product_uom_id = fields.Many2one(related="product_id.uom_id")
     name = fields.Char(string="Description")
     department_id = fields.Many2one("hr.department")
 
@@ -25,7 +25,7 @@ class PurchaseRequisitionCustom(models.Model):
     attach_no = fields.Integer(compute='get_attachments')
     res_id = fields.Integer()
     res_model = fields.Char()
-    
+
     committee_type_id = fields.Many2one('purchase.committee.type', string='Committee Type')
     state_blanket_order = fields.Selection(
         selection_add=[('purchase_manager', 'Purchase manager'), ('checked', 'Waiting Approval'),
@@ -45,6 +45,7 @@ class PurchaseRequisitionCustom(models.Model):
                        ])
     state = fields.Selection([
         ('draft', 'Draft'),
+        ('ongoing', 'Ongoing'),
         ('in_progress', 'Confirmed'),
         ('committee', 'Committee'),
         ('purchase_manager', 'Purchase manager'),
@@ -90,6 +91,11 @@ class PurchaseRequisitionCustom(models.Model):
     change_state_line = fields.One2many('change.purchase.user.state', 'requisition_id')
     date_end = fields.Datetime(string='Agreement Deadline', tracking=True)
     check_request = fields.Boolean(compute='check_request_field')
+    type_exclusive = fields.Selection(related='type_id.exclusive')
+
+    def write(self, vals):
+        res = super(PurchaseRequisitionCustom, self).write(vals)
+        return res
 
     def get_attachments(self):
         # Check if multiple records are passed, and handle them in a loop
@@ -159,6 +165,27 @@ class PurchaseRequisitionCustom(models.Model):
 
         return action
 
+    def action_purchase_orders_view(self):
+        """Opens the purchase order list related to this requisition."""
+        action = self.env.ref('purchase_requisition.action_purchase_requisition_list').sudo().read()[0]
+
+        action['domain'] = [('requisition_id', '=', self.id)]
+
+        # Modify context to pass required default values
+        if self.state in ('approve', 'done'):
+            action['context'] = dict(self.env.context,
+                                     default_requisition_id=self.id,
+                                     default_user_id=False,
+                                     create=False
+                                     )
+        else:
+            action['context'] = dict(self.env.context,
+                                     default_requisition_id=self.id,
+                                     default_user_id=False,
+                                     create=True
+                                     )
+        return action
+
     def check_request_field(self):
         for rec in self:
             if rec.request_id:
@@ -187,10 +214,6 @@ class PurchaseRequisitionCustom(models.Model):
     def copy(self, default=None):
         data = super(PurchaseRequisitionCustom, self).copy(default)
         data.sent_to_commitee = False
-        data.published_in_portal = False
-        data.publish_in_portal = False
-        data.availability_period = 0
-        data.po_notification = False
         data.state = 'draft'
         return data
 
@@ -278,6 +301,7 @@ class PurchaseRequisitionCustom(models.Model):
             this function is to create new purchase order from the purchase agreement
             when pressing Quotation button in the workflow
         """
+        # "default_state": 'wait',
         return {
             'name': "Request for Quotation",
             'type': 'ir.actions.act_window',
@@ -289,10 +313,9 @@ class PurchaseRequisitionCustom(models.Model):
                 "default_department_name": self.department_id.id,
                 "default_category_ids": self.category_ids.ids,
                 "default_purpose": self.purpose,
-                "default_state": 'wait',
                 "default_send_to_budget": True,
                 "default_res_id": self.id,
-                "default_res_model":'purchase.requisition',
+                "default_res_model": 'purchase.requisition',
                 "default_request_id": self.request_id.id if self.request_id else False},
         }
 
@@ -308,7 +331,8 @@ class PurchaseRequisitionCustom(models.Model):
             raise ValidationError(_("Please add Committe Members"))
 
     def action_approve(self):
-        purchase_orders = self.env['purchase.order'].search([('requisition_id', '=', self.id),('state','=','to approve')])
+        purchase_orders = self.env['purchase.order'].search(
+            [('requisition_id', '=', self.id), ('state', '=', 'to approve')])
         po_order_approval = self.env.company.po_double_validation == 'two_step'
         for po_id in purchase_orders:
             # Deal with double validation process for first approve
@@ -574,19 +598,10 @@ class CommitteeTypes(models.Model):
             res.committe_members = [(4, res.committe_head.id)]
         return res
 
-    @api.model
-    def create(self, vals):
-        res = super(CommitteeTypes, self).create(vals)
-        # تحقق من أن committe_head يحتوي على قيمة صالحة
-        if res.committe_head and res.committe_head.id not in res.committe_members.ids:
-            # إضافة committe_head إلى committe_members
-            res.committe_members = [(4, res.committe_head.id)]
-        return res
-
     def write(self, vals):
         current_head = self.committe_head.id
         if 'committe_head' in vals and current_head in self.committe_members.ids:
-            vals['committe_members'] = [(3, current_head),(4, vals['committe_head'])]
+            vals['committe_members'] = [(3, current_head), (4, vals['committe_head'])]
         return super(CommitteeTypes, self).write(vals)
 
 
@@ -600,6 +615,7 @@ class CommitteMembers(models.Model):
     selection_reason = fields.Char("Selection Reason")
     select = fields.Boolean(string="Select")
     refusing_reason = fields.Char("Refusing Reason")
+
 
 class SelectReason(models.TransientModel):
     _name = "select.reason"

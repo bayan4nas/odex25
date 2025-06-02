@@ -220,7 +220,6 @@ msgstr " رؤية طلبات الشراء الخاصة به فقط"
 
 #. module: purchase_requisition_custom
 #: code:addons/purchase_requisition_custom/models/purchase_request.py:0
-#: code:addons/purchase_requisition_custom/models/purchase_request.py:0
 #, python-format
 msgid "Can't Confirm Request With No Item!"
 msgstr "لا يمكن تأكيد الطلب مع عدم وجود صنف/خدمة!"
@@ -666,6 +665,7 @@ msgstr "طوارئ"
 #. module: purchase_requisition_custom
 #: model:ir.model,name:purchase_requisition_custom.model_hr_employee
 #: model:ir.model.fields,field_description:purchase_requisition_custom.field_purchase_order__employee_id
+#: model:ir.model.fields,field_description:purchase_requisition_custom.field_purchase_order__purchase_request_employee_id
 #: model:ir.model.fields,field_description:purchase_requisition_custom.field_purchase_request__employee_id
 msgid "Employee"
 msgstr "الموظف"
@@ -679,7 +679,7 @@ msgstr "طلبات الشراء"
 #. module: purchase_requisition_custom
 #: model:ir.actions.act_window,name:purchase_requisition_custom.purchase_request_action
 msgid "Employee Request"
-msgstr "طلبات شراء الادارات"
+msgstr "طلبات الادارات"
 
 #. module: purchase_requisition_custom
 #: model:ir.model.fields,field_description:purchase_requisition_custom.field_convert_po_contract_wizard__end_date
@@ -994,8 +994,6 @@ msgstr "اسم المستند:"
 
 #. module: purchase_requisition_custom
 #: code:addons/purchase_requisition_custom/models/purchase_request.py:0
-#: code:addons/purchase_requisition_custom/models/purchase_request.py:0
-#: code:addons/purchase_requisition_custom/models/purchase_request.py:0
 #, python-format
 msgid "New"
 msgstr ""
@@ -1015,7 +1013,6 @@ msgid "New Product"
 msgstr ""
 
 #. module: purchase_requisition_custom
-#: code:addons/purchase_requisition_custom/models/purchase_requisition_custom.py:0
 #: code:addons/purchase_requisition_custom/models/purchase_requisition_custom.py:0
 #, python-format
 msgid "New Purchase Order"
@@ -1245,7 +1242,6 @@ msgstr ""
 
 #. module: purchase_requisition_custom
 #: code:addons/purchase_requisition_custom/models/purchase_request.py:0
-#: code:addons/purchase_requisition_custom/models/purchase_request.py:0
 #, python-format
 msgid "Please Select department for employee"
 msgstr ""
@@ -1444,7 +1440,7 @@ msgstr "قائمة تقارير المشتريات"
 #: model:ir.ui.menu,name:purchase_requisition_custom.menu_purchase_request_root
 #, python-format
 msgid "Purchase Request"
-msgstr "طلبات الشراء"
+msgstr "طلبات الادارات"
 
 #. module: purchase_requisition_custom
 #: code:addons/purchase_requisition_custom/models/budget_confirmation.py:0
@@ -1542,11 +1538,6 @@ msgstr "تم إرسال طلب الشراء المدئي"
 #: model:ir.model.fields,field_description:purchase_requisition_custom.field_purchase_request__reason
 msgid "Reason/Justification"
 msgstr "السببظ المبرر"
-
-#. module: purchase_requisition_custom
-#: model:ir.model.fields,field_description:purchase_requisition_custom.field_purchase_order__recommendation_order
-msgid "Recommend"
-msgstr " الموصي به"
 
 #. module: purchase_requisition_custom
 #: code:addons/purchase_requisition_custom/models/account_payment.py:0
@@ -1732,7 +1723,7 @@ msgstr "الموافقة الثانية"
 #: model:ir.model.fields,field_description:purchase_requisition_custom.field_purchase_request__select
 #: model_terms:ir.ui.view,arch_db:purchase_requisition_custom.purchase_order_custom_form_view
 msgid "Select"
-msgstr "التقييم المبدئي"
+msgstr "إختيار"
 
 #. module: purchase_requisition_custom
 #: model:ir.model.fields,help:purchase_requisition_custom.field_purchase_order__project_id
@@ -2359,3 +2350,30 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:purchase_requisition_custom.committee_meeting_minutes_report_document
 msgid "نطاق العمل"
 msgstr ""
+
+#. module: purchase
+#: model:ir.ui.menu,name:purchase.menu_purchase_root
+#: model_terms:ir.ui.view,arch_db:purchase.res_config_settings_view_form_purchase
+msgid "Purchase"
+msgstr "المشتريات"
+
+
+#. module: purchase_requisition_custom
+#: model:ir.model.fields,field_description:purchase_requisition_custom.field_purchase_order__recommendation_order
+msgid "Recommend"
+msgstr "موصى به"
+
+#. module: purchase_requisition_custom
+#: model_terms:ir.ui.view,arch_db:purchase_requisition_custom.purchase_order_custom_tree
+msgid "Recommend Order"
+msgstr "العرض الموصي به"
+
+#. module: purchase_requisition_custom
+#: model_terms:ir.ui.view,arch_db:purchase_requisition_custom.purchase_order_custom_form_view
+msgid "Recommended"
+msgstr "موصى به"
+
+#. module: purchase_requisition_custom
+#: model_terms:ir.ui.view,arch_db:purchase_requisition_custom.purchase_requisition_custom_form_view
+msgid "RFQs/Orders"
+msgstr "طلبات عروض الأسعار"
