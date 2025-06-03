@@ -20,7 +20,7 @@ class BudgetConfirmation(models.Model):
 
     att_number = fields.Integer(
         string='Documents',
-        compute='_compute_att_number', store=False
+        compute='compute_att_number', store=False
     )
     attachment_count = fields.Integer(
         string='Documents',
@@ -30,7 +30,7 @@ class BudgetConfirmation(models.Model):
     request_id = fields.Many2one('purchase.request')
 
     # @api.depends('po_id', 'ref', 'request_id')
-    def _compute_att_number(self):
+    def compute_att_number(self):
         self.att_number =0
         print('attacj........')
         Attachment = self.env['ir.attachment']
@@ -43,21 +43,31 @@ class BudgetConfirmation(models.Model):
             ])
             print('att= ', attachments)
             record.att_number = len(attachments)
+            return len(attachments)
 
     def action_view_attachments(self):
         self.ensure_one()
-
+        PurchaseRequest = self.env['purchase.request']
+        matching_requests = PurchaseRequest.search([('name', '=', self.ref)])
+        print('m = ',matching_requests)
         domain = []
         if self.po_id and self.request_id:
+
             domain = ['|',
                       '&', ('res_model', '=', 'purchase.order'), ('res_id', '=', self.po_id.id),
                       '&', ('res_model', '=', 'purchase.request'), ('res_id', '=', self.request_id.id)]
         elif self.po_id:
             domain = [('res_model', '=', 'purchase.order'), ('res_id', '=', self.po_id.id)]
-        elif self.request_id:
-            domain = [('res_model', '=', 'purchase.request'), ('res_id', '=', self.request_id.id)]
+        elif self.request_id or matching_requests:
+            domain = [
+                ('res_model', '=', 'purchase.request'),
+                '|',  # OR operator
+                ('res_id', 'in', matching_requests.ids),
+                ('res_id', '=', self.request_id.id),
+            ]
         else:
-            domain = [('id', '=', 0)]  # لا توجد مرفقات
+            domain = [('id', '=', 0)]
+        self.att_number = self.compute_att_number()
 
         return {
             'type': 'ir.actions.act_window',
@@ -67,6 +77,7 @@ class BudgetConfirmation(models.Model):
             'domain': domain,
             'context': self.env.context,
         }
+        print('in if')
 
     name = fields.Char(string='Name')
 
