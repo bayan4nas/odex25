@@ -22,7 +22,7 @@
         'wizards/convert_to_contract.xml',
         'reports/external_layout.xml',
         'reports/committee_meeting_minutes_report.xml',
-        'views/budget_confirmation.xml',
+        # 'views/budget_confirmation.xml',
     ],
     'depends': ['stock', 'purchase_requisition','hr_base', 'project', 'purchase', 'account_budget_custom','account_fiscal_year'],
     'installable': True,
