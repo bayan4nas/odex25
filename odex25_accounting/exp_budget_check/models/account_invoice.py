@@ -70,14 +70,7 @@ class AccountMove(models.Model):
     is_check = fields.Boolean(defaul=False)
     is_approve = fields.Boolean(defaul=False)
     hide_budget = fields.Boolean(defaul=False,copy=False)
-    rec_payment_count = fields.Integer(compute='_compute_rec_payment_count', string='# Payments')
-
-    def _compute_rec_payment_count(self):
-        for invoice in self:
-            payments = self.env['account.payment'].search_count([
-                ('invoice_rec_id', '=', invoice.id)
-            ])
-            invoice.rec_payment_count = payments
+    rec_payment_count = fields.Integer(string='# Payments')
 
     @api.model
     def fields_view_get(self, view_id=None, view_type='form', context=None, toolbar=False, submenu=False):

@@ -16,8 +16,7 @@ class AccountPaymentRegister(models.TransientModel):
         active_id = self.env.context.get('active_id')
         if active_id:
             invoice_payment = self.env['account.payment'].search(
-                [('invoice_rec_id', '=', active_id),
-                 ('state', '=', 'draft')])
+                [('state', '=', 'draft')])
             if invoice_payment:
                 raise UserError(
                     _('You can not create payment for this invoice because there is a draft payment for it'))
