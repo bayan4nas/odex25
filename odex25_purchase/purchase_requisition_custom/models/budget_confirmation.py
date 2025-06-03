@@ -15,45 +15,6 @@ class BudgetConfirmationCustom(models.Model):
     specifications_conform = fields.Boolean(string="Technical specifications conform")
     specifications_not_conform = fields.Boolean(string="Technical specifications do not match")
 
-    attachment_count = fields.Integer(
-        string='Documents',
-        compute='_compute_attachment_count'
-    )
-
-    @api.depends('po_id', 'request_id')
-    def _compute_attachment_count(self):
-        Attachment = self.env['ir.attachment']
-        for record in self:
-            attachments = Attachment.search([
-                '|',
-                '&', ('res_model', '=', 'purchase.order'), ('res_id', '=', record.po_id.id),
-                '&', ('res_model', '=', 'purchase.request'), ('res_id', '=', record.request_id.id),
-            ])
-            record.attachment_count = len(attachments)
-
-    def action_view_attachments(self):
-        self.ensure_one()
-
-        domain = []
-        if self.po_id and self.request_id:
-            domain = ['|',
-                      '&', ('res_model', '=', 'purchase.order'), ('res_id', '=', self.po_id.id),
-                      '&', ('res_model', '=', 'purchase.request'), ('res_id', '=', self.request_id.id)]
-        elif self.po_id:
-            domain = [('res_model', '=', 'purchase.order'), ('res_id', '=', self.po_id.id)]
-        elif self.request_id:
-            domain = [('res_model', '=', 'purchase.request'), ('res_id', '=', self.request_id.id)]
-        else:
-            domain = [('id', '=', 0)]
-
-        return {
-            'type': 'ir.actions.act_window',
-            'name': 'Related Attachments',
-            'view_mode': 'tree,form',
-            'res_model': 'ir.attachment',
-            'domain': domain,
-            'context': self.env.context,
-        }
 
     @api.depends('po_id')
     def _compute_attachment_count(self):

@@ -107,7 +107,8 @@ class PurchaseRequest(models.Model):
             'lines_ids': confirmation_lines or False,
             'request_id': self.id
         }
-        self.env['budget.confirmation'].create(data)
+        res= self.env['budget.confirmation'].create(data)
+        res._compute_att_number()
 
     def create_purchase_order2(self):
         if not self.partner_id:

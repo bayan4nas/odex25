@@ -17,6 +17,57 @@ class BudgetConfirmation(models.Model):
     _description = 'Budget Confirmation'
     _order = "create_date desc"
 
+
+    att_number = fields.Integer(
+        string='Documents',
+        compute='_compute_att_number', store=False
+    )
+    attachment_count = fields.Integer(
+        string='Documents',
+        store=True
+    )
+    po_id = fields.Many2one('purchase.order')
+    request_id = fields.Many2one('purchase.request')
+
+    # @api.depends('po_id', 'ref', 'request_id')
+    def _compute_att_number(self):
+        self.att_number =0
+        print('attacj........')
+        Attachment = self.env['ir.attachment']
+        print('pre = ', self.request_id)
+        for record in self:
+            attachments = Attachment.search([
+                '|',
+                '&', ('res_model', '=', 'purchase.order'), ('res_id', '=', record.po_id.id),
+                '&', ('res_model', '=', 'purchase.request'), ('res_id', '=', record.request_id.id),
+            ])
+            print('att= ', attachments)
+            record.att_number = len(attachments)
+
+    def action_view_attachments(self):
+        self.ensure_one()
+
+        domain = []
+        if self.po_id and self.request_id:
+            domain = ['|',
+                      '&', ('res_model', '=', 'purchase.order'), ('res_id', '=', self.po_id.id),
+                      '&', ('res_model', '=', 'purchase.request'), ('res_id', '=', self.request_id.id)]
+        elif self.po_id:
+            domain = [('res_model', '=', 'purchase.order'), ('res_id', '=', self.po_id.id)]
+        elif self.request_id:
+            domain = [('res_model', '=', 'purchase.request'), ('res_id', '=', self.request_id.id)]
+        else:
+            domain = [('id', '=', 0)]  # لا توجد مرفقات
+
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Related Attachments',
+            'view_mode': 'tree,form',
+            'res_model': 'ir.attachment',
+            'domain': domain,
+            'context': self.env.context,
+        }
+
     name = fields.Char(string='Name')
 
     date = fields.Date(string='Date', required=True)
