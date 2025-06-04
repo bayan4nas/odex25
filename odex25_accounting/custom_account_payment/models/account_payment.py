@@ -53,10 +53,8 @@ class AccountMove(models.Model):
         search_part = '/'.join(self.name.split('/')[-3:])
 
         payments = self.env['account.payment'].search([
-            ('partner_id.id', '=', self.partner_id.id),
-            '|',
-            ('ref', '=', self.name),
-            ('name', 'ilike', search_part)
+            ('partner_id', '=', self.partner_id.id),
+            ('ref', '=', self.name)
         ])
 
         action = self.env.ref('account.action_account_payments').read()[0]
