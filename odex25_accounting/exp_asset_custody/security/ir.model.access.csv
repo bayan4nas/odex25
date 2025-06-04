@@ -1,6 +1,8 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_asset_operation,account.asset.operation,model_account_asset_operation,account.group_account_readonly,1,0,0,0
-access_asset_operation_manager,account.asset.operation,model_account_asset_operation,account.group_account_manager,1,1,1,1
-access_asset_multi_operation,account.asset.multi.operation,model_account_asset_multi_operation,account.group_account_readonly,1,0,0,0
-access_asset_multi_operation_manager,account.asset.multi.operation,model_account_asset_multi_operation,account.group_account_manager,1,1,1,1
 access_asset_state_operation_manager,account.state.multi.operation,model_asset_states,,1,1,1,1
+access_asset_op1_manager,account.asset.op1,exp_asset_custody.model_account_asset_multi_operation,exp_asset_base.group_assets_manager,1,1,1,1
+access_asset_op2_manager,account.asset.op2,exp_asset_custody.model_account_asset_operation,exp_asset_base.group_assets_manager,1,1,1,1
+access_asset_op1_user2,account2.asset.op1,exp_asset_custody.model_account_asset_multi_operation,exp_asset_base.group_asset_chuhad_user,1,1,0,0
+access_asset_op2_user2,account2.asset.op2,exp_asset_custody.model_account_asset_operation,exp_asset_base.group_asset_chuhad_user,1,1,1,0
+access_asset_operation_hr,account.asset.hr,model_account_asset_operation,hr.group_hr_manager,1,0,0,0
+access_asset_operation_hr1,account.asset.hr1,model_account_asset_operation,hr.group_hr_user,1,0,0,0

@@ -105,12 +105,17 @@
         <field name="inherit_id" ref="odex25_account_asset.view_account_asset_form"/>
         <field name="arch" type="xml">
             <header position="inside">
-                <button type="object" name="act_unlock"  groups='exp_asset_base.group_assets_manager' string="Unlock" states="open"/>
-                <button type="object" name="act_lock"  groups='exp_asset_base.group_assets_manager' string="Lock" states="unlock"/>
+                <button type="object" name="act_unlock"
+                        groups='exp_asset_base.group_assets_user,exp_asset_base.group_assets_manager' string="Unlock"
+                        states="open"/>
+                <button type="object" name="act_lock"
+                        groups='exp_asset_base.group_assets_user,exp_asset_base.group_assets_manager' string="Lock"
+                        states="unlock"/>
             </header>
 
             <div name="button_box" position="inside">
                 <button class="oe_stat_button" name="open_asset_adjustment" type="object" icon="fa-pencil"
+                        groups="exp_asset_base.group_assets_manager"
                         attrs="{'invisible': [('asset_type', '!=', 'purchase')]}">
                     <field string="Adjustments" name="asset_adjustment_count" widget="statinfo"/>
                 </button>
@@ -141,25 +146,32 @@
                     <group>
                         <field name="responsible_dept_id" attrs="{'invisible': [('asset_type', '!=', 'purchase')]}"/>
                         <field name="company_id" invisible="1"/>
-                        <field name="model" attrs="{'invisible': ['|',('state', '=', 'model'),('asset_type', '!=', 'purchase')]}"/>
-                        <field name="receive_date" attrs="{'invisible': ['|',('state', '=', 'model'),('asset_type', '!=', 'purchase')]}"/>
-                        <field name="note" attrs="{'invisible': ['|',('state', '=', 'model'),('asset_type', '!=', 'purchase')]}"/>
+                        <field name="model"
+                               attrs="{'invisible': ['|',('state', '=', 'model'),('asset_type', '!=', 'purchase')]}"/>
+                        <field name="receive_date"
+                               attrs="{'invisible': ['|',('state', '=', 'model'),('asset_type', '!=', 'purchase')]}"/>
+                        <field name="note"
+                               attrs="{'invisible': ['|',('state', '=', 'model'),('asset_type', '!=', 'purchase')]}"/>
                         <field name="status" invisible="1"/>
                     </group>
                 </group>
-          </div>
+            </div>
 
             <xpath expr="//button[@name='validate']" position="attributes">
-                <attribute name="groups">exp_asset_base.group_assets_manager</attribute>
+                <attribute name="groups">exp_asset_base.group_assets_user,exp_asset_base.group_assets_manager
+                </attribute>
             </xpath>
             <xpath expr="//button[@name='set_to_draft']" position="attributes">
-                <attribute name="groups">exp_asset_base.group_assets_manager</attribute>
+                <attribute name="groups">exp_asset_base.group_assets_user,exp_asset_base.group_assets_manager
+                </attribute>
             </xpath>
             <xpath expr="//button[@name='set_to_running']" position="attributes">
-                <attribute name="groups">exp_asset_base.group_assets_manager</attribute>
+                <attribute name="groups">exp_asset_base.group_assets_user,exp_asset_base.group_assets_manager
+                </attribute>
             </xpath>
             <xpath expr="//button[@name='resume_after_pause']" position="attributes">
-                <attribute name="groups">exp_asset_base.group_assets_manager</attribute>
+                <attribute name="groups">exp_asset_base.group_assets_user,exp_asset_base.group_assets_manager
+                </attribute>
             </xpath>
             <notebook position="before">
                 <group string="Warranty"
@@ -184,7 +196,50 @@
             </sheet>
         </field>
     </record>
+    <!-- custom group-->
+    <record model="ir.ui.view" id="view_account_asset_form2">
+        <field name="name">account.asset.form2</field>
+        <field name="model">account.asset</field>
+        <field name="groups_id" eval="[(4, ref('exp_asset_base.group_assets_manager'))]"/>
+        <field name="inherit_id" ref="odex25_account_asset.view_account_asset_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='responsible_dept_id']" position="attributes">
+                <attribute name="readonly">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='manufacturer_id']" position="attributes">
+                <attribute name="readonly">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='barcode']" position="attributes">
+                <attribute name="readonly">1</attribute>
+            </xpath>
+        </field>
+    </record>
 
+    <record id="view_account_asset_form_chuhad_restrictions" model="ir.ui.view">
+        <field name="name">account.asset.form.chuhad.restrictions</field>
+        <field name="model">account.asset</field>
+        <field name="inherit_id" ref="odex25_account_asset.view_account_asset_form"/>
+        <field name="groups_id" eval="[(4, ref('exp_asset_base.group_asset_chuhad_user'))]"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field" position="attributes">
+                <attribute name="attrs">{'readonly': [('id', '!=', False)]}</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='barcode']" position="attributes">
+                <attribute name="attrs">{}</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='manufacturer_id']" position="attributes">
+                <attribute name="attrs">{}</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='responsible_dept_id']" position="attributes">
+                <attribute name="attrs">{}</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <!--end-->
     <record id="view_account_asset_asset_kanban" model="ir.ui.view">
         <field name="name">account.asset.asset.inherit.kanban</field>
         <field name="model">account.asset</field>
@@ -282,7 +337,7 @@
         <field name="model">account.asset</field>
         <field name="arch" type="xml">
             <pivot string="Assets Analysis">
-<!--                -->
+                <!--                -->
                 <field name="name" type="row"/>
                 <field name="original_value" type="measure"/>
                 <field name="book_value" type="measure"/>
@@ -296,7 +351,7 @@
         <field name="arch" type="xml">
             <graph string="Assets Analysis" type="bar">
                 <field name="name" type="row"/>
-<!--                -->
+                <!--                -->
                 <field name="original_value" type="measure"/>
                 <field name="book_value" type="measure"/>
                 <field name="value_residual" type="measure"/>
@@ -342,4 +397,129 @@
         <field name="res_model">account.move</field>
         <field name="domain">[('asset_id', '!=', False)]</field>
     </record>
+    <!--    inherit partner form -->
+    <record id="partnet_extend" model="ir.ui.view">
+        <field name="name">res.partner.form.extend1</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='accounting']"
+                   position="attributes">
+                <attribute name="groups">
+                    exp_asset_base.group_assets_manager,exp_asset_base.group_assets_user,account.group_account_invoice,account.group_account_readonly,exp_asset_base.group_asset_chuhad_user
+                </attribute>
+            </xpath>
+            <xpath expr="//group[@name='accounting_entries']" position="attributes">
+                <attribute name="groups">
+                    exp_asset_base.group_assets_manager,exp_asset_base.group_assets_user,account.group_account_invoice,account.group_account_readonly,exp_asset_base.group_asset_chuhad_user
+                </attribute>
+            </xpath>
+            <xpath expr="//group[@name='banks']"
+                   position="attributes">
+                <attribute name="groups">
+                    exp_asset_base.group_assets_manager,exp_asset_base.group_assets_user,account.group_account_invoice,account.group_account_readonly,exp_asset_base.group_asset_chuhad_user
+                </attribute>
+            </xpath>
+
+        </field>
+    </record>
+    <record id="view_partner_form_limit_accounts_finance" model="ir.ui.view">
+        <field name="name">res.partner.form.finance.restrict</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="groups_id" eval="[(4, ref('exp_asset_base.group_assets_user'))]"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field" position="attributes">
+                <attribute name="attrs">{'readonly': [('id', '!=', False)]}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='bank_ids']" position="attributes">
+                <attribute name="attrs">{}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='property_account_receivable_id']" position="attributes">
+                <attribute name="attrs">{}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='property_account_payable_id']" position="attributes">
+                <attribute name="attrs">{}</attribute>
+            </xpath>
+        </field>
+
+    </record>
+    <record id="view_partnert_form_readonly" model="ir.ui.view">
+        <field name="name">partner.form.account.readonly.chuhad</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="priority" eval="90"/>
+        <field name="groups_id" eval="[(4, ref('group_asset_chuhad_user'))]"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='property_account_receivable_id']" position="attributes">
+                <attribute name="readonly">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='bank_ids']" position="attributes">
+                <attribute name="readonly">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='property_account_payable_id']" position="attributes">
+                <attribute name="readonly">1</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="product_extend" model="ir.ui.view">
+        <field name="name">res.product.form.extend1</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_normal_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='invoicing']"
+                   position="attributes">
+                <attribute name="groups">
+                    exp_asset_base.group_assets_manager,exp_asset_base.group_assets_user,account.group_account_invoice,account.group_account_readonly,exp_asset_base.group_asset_chuhad_user
+                </attribute>
+            </xpath>
+            <xpath expr="//field[@name='property_account_expense_id']" position="attributes">
+                <attribute name="groups">
+                    exp_asset_base.group_assets_manager,exp_asset_base.group_assets_user,account.group_account_invoice,account.group_account_readonly,exp_asset_base.group_asset_chuhad_user
+                </attribute>
+            </xpath>
+            <xpath expr="//field[@name='property_account_income_id']" position="attributes">
+                <attribute name="groups">
+                    exp_asset_base.group_assets_manager,exp_asset_base.group_assets_user,account.group_account_invoice,account.group_account_readonly,exp_asset_base.group_asset_chuhad_user
+                </attribute>
+            </xpath>
+
+        </field>
+    </record>
+    <record id="view_product_form_limit_accounts_finance" model="ir.ui.view">
+        <field name="name">product.form.finance.restrict</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_normal_form_view"/>
+        <field name="groups_id" eval="[(4, ref('exp_asset_base.group_assets_user'))]"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field" position="attributes">
+                <attribute name="attrs">{'readonly': [('id', '!=', False)]}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='property_account_income_id']" position="attributes">
+                <attribute name="attrs">{}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='property_account_expense_id']" position="attributes">
+                <attribute name="attrs">{}</attribute>
+            </xpath>
+        </field>
+
+    </record>
+    <record id="view_product_form_chuhad_readonly" model="ir.ui.view">
+        <field name="name">product.template.form.account.readonly.chuhad</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_normal_form_view"/>
+        <field name="priority" eval="90"/>
+        <field name="groups_id" eval="[(4, ref('group_asset_chuhad_user'))]"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='property_account_income_id']" position="attributes">
+                <attribute name="readonly">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='property_account_expense_id']" position="attributes">
+                <attribute name="readonly">1</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <!--    end-->
 </odoo>

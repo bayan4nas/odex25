@@ -6,6 +6,7 @@ from datetime import datetime
 from odoo.osv import expression
 from dateutil.relativedelta import relativedelta
 from odoo.tools import DEFAULT_SERVER_DATE_FORMAT
+from odoo.tools.populate import compute
 
 
 class AccountAssetManufacturer(models.Model):
@@ -120,18 +121,34 @@ class AccountAssetAsset(models.Model):
 
     status = fields.Selection(
         selection=[('new', 'New'), ('available', 'Available')],
-        default='new', tracking=True)
+        default='new', tracking=True,compute='compute_custody_status',store=True)
     location_id = fields.Many2one(comodel_name='account.asset.location', string='Current Location', tracking=True)
-    state = fields.Selection(selection_add=[('unlock', 'Unlock')])
+    state = fields.Selection(selection_add=[('unlock', 'Unlock'), ('assign', 'Assign')])
     limit = fields.Float(tracking=True)
 
     _sql_constraints = [
         ('asset_barcode_uniq', 'unique (barcode)', 'Asset barcode must be unique.')
     ]
+    @api.depends('state')
+    def compute_custody_status(self):
+        print('compute.................')
+        if self.state == 'draft':
+            self.status = 'new'
+        elif self.state == 'open':
+            self.status = 'available'
+        elif self.state == 'assign':
+            self.status = 'assigned'
+
+    def set_to_draft(self):
+        res = super(AccountAssetAsset,self).set_to_draft()
+        self.write({'status': 'new'})
+
+    def set_to_running(self):
+        res = super(AccountAssetAsset,self).set_to_running()
+        self.write({'status': 'available'})
 
     # overrid validate method
     def validate(self):
-        print('hello')
         fields = [
             'method',
             'method_number',
@@ -142,6 +159,7 @@ class AccountAssetAsset(models.Model):
         ]
         ref_tracked_fields = self.env['account.asset'].fields_get(fields)
         self.write({'state': 'open'})
+        self.write({'status': 'available'})
         for asset in self:
             tracked_fields = ref_tracked_fields.copy()
             if asset.method == 'linear':

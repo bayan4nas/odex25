@@ -23,120 +23,110 @@
                                      style="background-color:gray;border: 1px solid black;text-align: center; font-size: 18px; font-weight: bold;">
                                     لجنة تحليل العروض والمشتريات
                                 </div>
-                                <t t-foreach="doc.move_ids" t-as="order">
+                                <div class="section" style="margin-top: 20px;">
+                                    <table style="width: 100%; border-collapse: collapse;">
+                                        <tr>
+                                            <th style="border: 1px solid black; padding: 10px; text-align: center;">
+                                                الموضوع/
+                                                المشروع
+                                            </th>
+                                        </tr>
+                                        <tr>
+                                            <th style="border: 1px solid black; padding: 10px; text-align: center;">
+                                                <span t-esc="doc.move_ids[0].requisition_id.purpose"/>
+                                            </th>
 
+                                        </tr>
+                                    </table>
+                                </div>
+                                <t t-set="orders"
+                                   t-value="[m for m in doc.move_ids if m.state != 'draft' and m.get_budget_id()]"/>
 
-                                    <div class="section" style="margin-top: 20px;">
-                                        <table style="width: 100%; border-collapse: collapse;">
-                                            <tr>
-                                                <th style="border: 1px solid black; padding: 10px; text-align: center;">
-                                                    الموضوع/
-                                                    المشروع
-                                                </th>
-                                            </tr>
-                                        </table>
-                                        <table style="width: 100%; border-collapse: collapse;">
-                                            <tr>
-                                                <th style="border: 1px solid black; padding: 10px; text-align: center;">
-                                                    <span t-esc="order.requisition_id.purpose or order.purpose"/>
-                                                </th>
-                                            </tr>
-                                        </table>
-                                    </div>
+                                <t t-if="orders">
+                                    <t t-foreach="orders" t-as="order">
+                                        <div class="section" style="margin-top: 20px;">
+                                            <table dir="rtl" style="width: 100%; border-collapse: collapse;">
+                                                <tr>
+                                                    <th style="border: 1px solid black; padding: 10px; text-align: center;"
+                                                        colspan="1" rowspan="2">
+                                                        الإدارة صاحبة الاحتياج :
+                                                    </th>
+                                                    <td style="border: 1px solid black; padding: 10px; text-align: center;"
+                                                        colspan="1" rowspan="2">
+                                                        <span t-esc="order.department_id.name or order.requisition_id.department_id.name"/>
+                                                    </td>
+                                                    <th style="border: 1px solid black; padding: 10px; text-align: center;">
+                                                        البقاء المعتمد (حسب الموازنة التقديرية)
+                                                    </th>
+                                                    <td style="border: 1px solid black; padding: 10px; text-align: center;">
+                                                        <t t-if="order.analytic_id_poa()">
+                                                            <span t-esc="order.analytic_id_poa().name"/>
+                                                        </t>
+                                                        <t t-else="">
+                                                            <span>-</span>
+                                                        </t>
+                                                    </td>
+                                                </tr>
+                                                <tr t-if="order.get_budget_id()">
+                                                    <th style="border: 1px solid black; padding: 10px; text-align: center;">
+                                                        المبالغ المرتبطة على البند سابقا
+                                                    </th>
+                                                    <td style="border: 1px solid black; padding: 10px; text-align: center;">
+                                                        <span t-esc="abs(order.get_remain_last() or 0)"/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th t-if="order.get_budget_id()"
+                                                        style="border: 1px solid black; padding: 10px; text-align: center;"
+                                                        colspan="1" rowspan="2">
+                                                        اسم البنـــــــد
+                                                    </th>
+                                                    <td t-if="order.get_budget_id()"
+                                                        style="border: 1px solid black; padding: 10px; text-align: center;"
+                                                        colspan="1" rowspan="2">
+                                                        <t t-if="order.get_budget_id()">
+                                                            <span t-esc="order.get_band_name()"/>
+                                                        </t>
+                                                        <t t-else="">
+                                                            <span>-</span>
+                                                        </t>
+                                                    </td>
+                                                    <th style="border: 1px solid black; padding: 10px; text-align: center;">
+                                                        المشروع الحالي
+                                                    </th>
+                                                    <td style="border: 1px solid black; padding: 10px; text-align: center;">
+                                                        <t t-esc="order.amount_total"/>
+                                                    </td>
+                                                </tr>
+                                                <tr t-if="order.get_budget_id()">
+                                                    <th style="border: 1px solid black; padding: 10px; text-align: center;">
+                                                        المبلغ المتبقي
+                                                    </th>
+                                                    <td style="border: 1px solid black; padding: 10px; text-align: center;">
+                                                        <span t-esc="abs(order.get_remain() or 0)"/>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
 
-                                    <!-- Administration Section -->
-                                    <div class="section" style="margin-top: 20px;">
-                                        <table dir="rtl" style="width: 100%; border-collapse: collapse;">
-                                            <tr>
-                                                <th style="border: 1px solid black; padding: 10px; text-align: center;"
-                                                    colspan="1"
-                                                    rowspan="2">
-                                                    الإدارة صاحبة الاحتياج :
-                                                </th>
-                                                <td style="border: 1px solid black; padding: 10px; text-align: center;"
-                                                    colspan="1"
-                                                    rowspan="2">
-                                                    <span t-esc="order.department_id.name or order.requisition_id.department_id.name"/>
-                                                </td>
-                                                <th style="border: 1px solid black; padding: 10px; text-align: center;">
-                                                    البقاء المعتمد (حسب الموازنة التقديرية)
-                                                </th>
-                                                <td style="border: 1px solid black; padding: 10px; text-align: center;">
-                                                    <t t-if="order.analytic_id_poa()">
-                                                        <span t-esc="order.analytic_id_poa().name"/>
-                                                    </t>
-                                                    <t t-else="">
-                                                        <span>-</span>
-                                                    </t>
-
-                                                </td>
-                                            </tr>
-                                            <tr t-if='order.get_budget_id()'>
-                                                <th style="border: 1px solid black; padding: 10px; text-align: center;">
-                                                    المبالغ المرتبطة على البند سابقا
-                                                </th>
-                                                <td style="border: 1px solid black; padding: 10px; text-align: center;">
-                                                    <span t-esc="abs(order.get_remain_last() or 0)"/>
-
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <th t-if='order.get_budget_id()'
-                                                    style="border: 1px solid black; padding: 10px; text-align: center;"
-                                                    colspan="1"
-                                                    rowspan="2">
-                                                    اسم البنـــــــد
-                                                </th>
-                                                <td t-if='order.get_budget_id()'
-                                                    style="border: 1px solid black; padding: 10px; text-align: center;"
-                                                    colspan="1"
-                                                    rowspan="2">
-                                                    <t t-if="order.get_budget_id()">
-                                                        <span t-esc="order.get_band_name()"/>
-                                                    </t>
-                                                    <t t-else="">
-                                                        <span>-</span>
-                                                    </t>
-                                                </td>
-                                                <th style="border: 1px solid black; padding: 10px; text-align: center;">
-                                                    المشروع الحالي
-                                                </th>
-                                                <td style="border: 1px solid black; padding: 10px; text-align: center;">
-                                                    <t t-esc='order.amount_total'/>
-                                                </td>
-                                            </tr>
-                                            <tr t-if='order.get_budget_id()'>
-                                                <th style="border: 1px solid black; padding: 10px; text-align: center;">
-                                                    المبلغ المتبقي
-                                                </th>
-                                                <td style="border: 1px solid black; padding: 10px; text-align: center;">
-                                                    <span t-esc="abs(order.get_remain() or 0)"/>
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </div>
-
-                                    <!-- Financial Approval Section -->
-                                    <div class="section" style="margin-top: 20px;">
-                                        <table dir="rtl" style="width: 100%; border-collapse: collapse;">
-                                            <tr t-if="order.get_budget_id()">
-                                                <th style="border: 1px solid black; padding: 10px; text-align: center; vertical-align: middle;">
-                                                    <div style="vertical-align: top;">مصادقة</div>
-                                                    <div>الإدارة المالية</div>
-                                                </th>
-                                                <th t-if="order.get_budget_id()"
-                                                    style="border: 1px solid black; padding: 10px; text-align: center; vertical-align: top;">
-                                                    <div style="vertical-align: top;">
-                                                        <t>
+                                        <!-- Financial Approval Section -->
+                                        <div class="section" style="margin-top: 20px;">
+                                            <table dir="rtl" style="width: 100%; border-collapse: collapse;">
+                                                <tr t-if="order.get_budget_id()">
+                                                    <th style="border: 1px solid black; padding: 10px; text-align: center; vertical-align: middle;">
+                                                        <div style="vertical-align: top;">مصادقة</div>
+                                                        <div>الإدارة المالية</div>
+                                                    </th>
+                                                    <th t-if="order.get_budget_id()"
+                                                        style="border: 1px solid black; padding: 10px; text-align: center; vertical-align: top;">
+                                                        <div style="vertical-align: top;">
                                                             <span>الاسم</span>
                                                             <br/>
                                                             <span t-esc="order.get_user_approve_budget_id().name"/>
-                                                        </t>
-                                                    </div>
-                                                </th>
-                                                <th style="border: 1px solid black; padding: 10px; text-align: center; vertical-align: top;">
-                                                    <div style="vertical-align: top;">
-                                                        <t>
+                                                        </div>
+                                                    </th>
+                                                    <th style="border: 1px solid black; padding: 10px; text-align: center; vertical-align: top;">
+                                                        <div style="vertical-align: top;">
                                                             <span>التوقيع</span>
                                                             <br/>
                                                             <div style="padding-top:37px;">
@@ -144,31 +134,150 @@
                                                                      t-att-src="'data:image/png;base64,%s' % to_text(user.sign_signature)"
                                                                      style="width:60px; height:60px;margin-top:-40px"/>
                                                             </div>
-                                                        </t>
-                                                    </div>
-                                                </th>
-                                                <th style="border: 1px solid black; padding: 10px; text-align: center; vertical-align: top;">
-                                                    <div style="vertical-align: top;">
-                                                        <span>التاريخ</span>
-                                                        <br/>
-                                                        <span t-esc="order.get_date_approve_budget_id()"/>
-                                                    </div>
-                                                </th>
-                                            </tr>
-                                        </table>
-                                    </div>
-                                    <div class="section" style="margin-top: 20px;">
-                                        <table style="width: 100%; border-collapse: collapse;">
-                                            <tr>
-                                                <th style="border: 1px solid black; padding: 10px; text-align: center;">
-                                                    تقييم
-                                                    العروض
-                                                </th>
-                                            </tr>
-                                        </table>
-                                    </div>
+                                                        </div>
+                                                    </th>
+                                                    <th style="border: 1px solid black; padding: 10px; text-align: center; vertical-align: top;">
+                                                        <div style="vertical-align: top;">
+                                                            <span>التاريخ</span>
+                                                            <br/>
+                                                            <span t-esc="order.get_date_approve_budget_id()"/>
+                                                        </div>
+                                                    </th>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </t>
+                                </t>
+
+                                <!--                                <t t-set="orders"-->
+                                <!--                                   t-value="[m for m in doc.move_ids if m.state != 'draft' and m.get_budget_id()]"/>-->
+                                <!--                                <t t-if="orders">-->
+                                <!--                                    <t t-set="order" t-value="orders[0]"/>-->
+                                <!--                                    <div class="section" style="margin-top: 20px;">-->
+                                <!--                                        <table dir="rtl" style="width: 100%; border-collapse: collapse;">-->
+                                <!--                                            <tr>-->
+                                <!--                                                <th style="border: 1px solid black; padding: 10px; text-align: center;"-->
+                                <!--                                                    colspan="1"-->
+                                <!--                                                    rowspan="2">-->
+                                <!--                                                    الإدارة صاحبة الاحتياج :-->
+                                <!--                                                </th>-->
+                                <!--                                                <td style="border: 1px solid black; padding: 10px; text-align: center;"-->
+                                <!--                                                    colspan="1"-->
+                                <!--                                                    rowspan="2">-->
+                                <!--                                                    <span t-esc="order[0].department_id.name or order.requisition_id.department_id.name"/>-->
+                                <!--                                                </td>-->
+                                <!--                                                <th style="border: 1px solid black; padding: 10px; text-align: center;">-->
+                                <!--                                                    البقاء المعتمد (حسب الموازنة التقديرية)-->
+                                <!--                                                </th>-->
+                                <!--                                                <td style="border: 1px solid black; padding: 10px; text-align: center;">-->
+                                <!--                                                    <t t-if="order[0].analytic_id_poa()">-->
+                                <!--                                                        <span t-esc="order[0].analytic_id_poa().name"/>-->
+                                <!--                                                    </t>-->
+                                <!--                                                    <t t-else="">-->
+                                <!--                                                        <span>-</span>-->
+                                <!--                                                    </t>-->
+
+                                <!--                                                </td>-->
+                                <!--                                            </tr>-->
+                                <!--                                            <tr t-if='order[0].get_budget_id()'>-->
+                                <!--                                                <th style="border: 1px solid black; padding: 10px; text-align: center;">-->
+                                <!--                                                    المبالغ المرتبطة على البند سابقا-->
+                                <!--                                                </th>-->
+                                <!--                                                <td style="border: 1px solid black; padding: 10px; text-align: center;">-->
+                                <!--                                                    <span t-esc="abs(order[0].get_remain_last() or 0)"/>-->
+
+                                <!--                                                </td>-->
+                                <!--                                            </tr>-->
+                                <!--                                            <tr>-->
+                                <!--                                                <th t-if='order[0].get_budget_id()'-->
+                                <!--                                                    style="border: 1px solid black; padding: 10px; text-align: center;"-->
+                                <!--                                                    colspan="1"-->
+                                <!--                                                    rowspan="2">-->
+                                <!--                                                    اسم البنـــــــد-->
+                                <!--                                                </th>-->
+                                <!--                                                <td t-if='order.get_budget_id()'-->
+                                <!--                                                    style="border: 1px solid black; padding: 10px; text-align: center;"-->
+                                <!--                                                    colspan="1"-->
+                                <!--                                                    rowspan="2">-->
+                                <!--                                                    <t t-if="order[0].get_budget_id()">-->
+                                <!--                                                        <span t-esc="order.get_band_name()"/>-->
+                                <!--                                                    </t>-->
+                                <!--                                                    <t t-else="">-->
+                                <!--                                                        <span>-</span>-->
+                                <!--                                                    </t>-->
+                                <!--                                                </td>-->
+                                <!--                                                <th style="border: 1px solid black; padding: 10px; text-align: center;">-->
+                                <!--                                                    المشروع الحالي-->
+                                <!--                                                </th>-->
+                                <!--                                                <td style="border: 1px solid black; padding: 10px; text-align: center;">-->
+                                <!--                                                    <t t-esc='order[0].amount_total'/>-->
+                                <!--                                                </td>-->
+                                <!--                                            </tr>-->
+                                <!--                                            <tr t-if='order[0].get_budget_id()'>-->
+                                <!--                                                <th style="border: 1px solid black; padding: 10px; text-align: center;">-->
+                                <!--                                                    المبلغ المتبقي-->
+                                <!--                                                </th>-->
+                                <!--                                                <td style="border: 1px solid black; padding: 10px; text-align: center;">-->
+                                <!--                                                    <span t-esc="abs(order[0].get_remain() or 0)"/>-->
+                                <!--                                                </td>-->
+                                <!--                                            </tr>-->
+                                <!--                                        </table>-->
+                                <!--                                    </div>-->
+                                <!--                                    &lt;!&ndash; Financial Approval Section &ndash;&gt;-->
+                                <!--                                    <div class="section" style="margin-top: 20px;">-->
+                                <!--                                        <table dir="rtl" style="width: 100%; border-collapse: collapse;">-->
+                                <!--                                            <tr t-if="order[0].get_budget_id()">-->
+                                <!--                                                <th style="border: 1px solid black; padding: 10px; text-align: center; vertical-align: middle;">-->
+                                <!--                                                    <div style="vertical-align: top;">مصادقة</div>-->
+                                <!--                                                    <div>الإدارة المالية</div>-->
+                                <!--                                                </th>-->
+                                <!--                                                <th t-if="order[0].get_budget_id()"-->
+                                <!--                                                    style="border: 1px solid black; padding: 10px; text-align: center; vertical-align: top;">-->
+                                <!--                                                    <div style="vertical-align: top;">-->
+                                <!--                                                        <t>-->
+                                <!--                                                            <span>الاسم</span>-->
+                                <!--                                                            <br/>-->
+                                <!--                                                            <span t-esc="order[0].get_user_approve_budget_id().name"/>-->
+                                <!--                                                        </t>-->
+                                <!--                                                    </div>-->
+                                <!--                                                </th>-->
+                                <!--                                                <th style="border: 1px solid black; padding: 10px; text-align: center; vertical-align: top;">-->
+                                <!--                                                    <div style="vertical-align: top;">-->
+                                <!--                                                        <t>-->
+                                <!--                                                            <span>التوقيع</span>-->
+                                <!--                                                            <br/>-->
+                                <!--                                                            <div style="padding-top:37px;">-->
+                                <!--                                                                <img t-if="user.sign_signature" class="image"-->
+                                <!--                                                                     t-att-src="'data:image/png;base64,%s' % to_text(user.sign_signature)"-->
+                                <!--                                                                     style="width:60px; height:60px;margin-top:-40px"/>-->
+                                <!--                                                            </div>-->
+                                <!--                                                        </t>-->
+                                <!--                                                    </div>-->
+                                <!--                                                </th>-->
+                                <!--                                                <th style="border: 1px solid black; padding: 10px; text-align: center; vertical-align: top;">-->
+                                <!--                                                    <div style="vertical-align: top;">-->
+                                <!--                                                        <span>التاريخ</span>-->
+                                <!--                                                        <br/>-->
+                                <!--                                                        <span t-esc="order[0].get_date_approve_budget_id()"/>-->
+                                <!--                                                    </div>-->
+                                <!--                                                </th>-->
+                                <!--                                            </tr>-->
+                                <!--                                        </table>-->
+                                <!--                                    </div>-->
+                                <!--                                </t>-->
+                                <div class="section" style="margin-top: 20px;">
+                                    <table style="width: 100%; border-collapse: collapse;">
+                                        <tr>
+                                            <th style="border: 1px solid black; padding: 10px; text-align: center;">
+                                                تقييم
+                                                العروض
+                                            </th>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <t>
                                     <!-- Offers Evaluation Section -->
-                                    <t t-set="data" t-value="order.get_evaluation_summary()"/>
+                                    <t t-set="data" t-value="doc.get_evaluation_summary()"/>
                                     <div class="section" style="margin-top: 20px;">
                                         <table dir="rtl" style="width: 100%; border-collapse: collapse;">
                                             <tr>
@@ -179,25 +288,25 @@
                                                     اسم
                                                     الشركة
                                                 </th>
-
                                                 <th style="border: 1px solid black; padding: 10px; text-align: center;">
                                                     المبلغ
                                                 </th>
                                                 <th t-foreach="data['members']" t-as="member"
-                                                    t-if="order.initial_evaluation_lines"
                                                     style="border: 1px solid black; padding: 10px; text-align: center;">
                                                     تقييم عضو اللجنة/
                                                     <br/>
                                                     <span t-esc="member"/>
                                                 </th>
-                                                <th t-if="order.initial_evaluation_lines"
+                                                <th t-if="doc.get_max_average_evaluation()"
                                                     style="border: 1px solid black; padding: 10px; text-align: center;">
                                                     متوسط
                                                     التقييم
                                                 </th>
                                             </tr>
-                                            <tr>
-                                                <t t-set="count" t-value="0"/>
+                                            <t t-set="count" t-value="0"/>
+                                            <tr t-foreach="doc.move_ids" t-as="order">
+                                                <t t-set="data1" t-value="order.get_evaluation_summary()"/>
+
                                                 <td style="border: 1px solid black; padding: 10px; text-align: center;">
                                                     <t t-set="count" t-value="count+1"/>
                                                     <span t-esc="count"/>
@@ -214,9 +323,16 @@
                                                     <span t-esc="data['totals'][member]"/>
                                                 </td>
                                                 <td style="border: 1px solid black; padding: 10px; text-align: center;"
-                                                    t-if="order.initial_evaluation_lines">
-                                                    <span t-esc="'%.2f' % order.avg_evaluation"/>
+                                                    t-else="">-
                                                 </td>
+                                                <td style="border: 1px solid black; padding: 10px; text-align: center;"
+                                                    t-if="doc.get_max_average_evaluation()">
+                                                    <span t-esc="'%.2f' % order.avg_evaluation"/>
+                                                    <!--                                                </td> <td style="border: 1px solid black; padding: 10px; text-align: center;"-->
+                                                    <!--                                                    t-else="">-->
+                                                    <!--                                                <span>-</span>-->
+                                                </td>
+                                                <!--                                                <td style="border: 1px solid black; padding: 10px; text-align: center;" t-else="">-</td>-->
                                             </tr>
 
                                         </table>
@@ -225,7 +341,7 @@
                                     <!-- Committee Recommendation Section -->
                                     <!-- Committee Signatures Section -->
                                 </t>
-                                <div class="section" style="margin-top: 20px;">
+                                <div t-if="doc.get_max_average_evaluation()" class="section" style="margin-top: 20px;">
                                     <table style="width: 100%; border-collapse: collapse;">
                                         <tr>
                                             <th style="border: 1px solid black; padding: 10px; text-align: center;">
@@ -250,7 +366,6 @@
                                         </tr>
                                     </table>
                                 </div>
-
                                 <t t-set="first_move" t-value="doc.move_ids[0]"/>
                                 <t t-if="first_move.requisition_id.committee_type_id">
                                     <div class="section" style="margin-top: 20px;">
@@ -337,9 +452,6 @@
                                         </tr>
                                     </table>
                                 </div>
-
-                                <!---->
-
                             </div>
                             <!-- Footer -->
                             <div class="footer"

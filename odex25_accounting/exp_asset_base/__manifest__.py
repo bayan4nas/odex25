@@ -25,7 +25,7 @@ Add asset operations (Transfer, Sell/Dispose, Maitenenace, Assesment)
     'installable': True,
     'depends': [
         'odex25_account_asset',
-        'hr', 'barcodes', 'report_xlsx'
+        'hr', 'barcodes', 'report_xlsx','product'
     ],
     'data': [
         'security/groups.xml',

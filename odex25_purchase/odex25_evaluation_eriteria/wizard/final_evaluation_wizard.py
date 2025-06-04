@@ -65,6 +65,25 @@ class FinalEvaluationWizard(models.TransientModel):
             raise ValidationError(_('There is No Data to present'))
         # return self.move_ids
 
+    def get_evaluation_summary(self):
+        self.ensure_one()
+        member_totals = {}  # {member_name: total_evaluation}
+
+        for move in self.move_ids:
+            if not move.initial_evaluation_lines:
+                continue
+            for po in move.initial_evaluation_lines:
+                if self.committee_member and po.user_id != self.committee_member:
+                    continue
+
+                name = po.user_id.name
+                member_totals[name] = member_totals.get(name, 0) + po.evaluation
+
+        return {
+            'members': list(member_totals.keys()),
+            'totals': member_totals,
+        }
+
     def get_max_average_evaluation(self):
         max_avg = 0
         best_partner = ''
