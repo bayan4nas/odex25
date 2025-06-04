@@ -28,73 +28,102 @@ class BudgetConfirmation(models.Model):
         Attachment = self.env['ir.attachment']
         PurchaseRequest = self.env['purchase.request']
 
-        if len(self) > 1:
-            action = self.env['ir.actions.act_window']._for_xml_id('base.action_attachment')
-            all_related_ids = []
-            all_related_models = set(['budget.confirmation'])
+        budget_ids = self.ids
+        request_ids = self.mapped('request_id').ids  # جمع ids طلبات الإدارة المرتبطة
 
-            for record in self:
-                related_ids = [record.id]
-                related_models = set(['budget.confirmation'])
-
-                if record.res_id and record.res_model:
-                    related_ids.append(record.res_id)
-                    related_models.add(record.res_model)
-
-                if record.request_id:
-                    related_ids.append(record.request_id.id)
-                    related_models.add('purchase.request')
-
-                if record.ref:
-                    matching_requests = PurchaseRequest.search([('name', '=', record.ref)])
-                    if matching_requests:
-                        related_ids += matching_requests.ids
-                        related_models.add('purchase.request')
-
-                record.att_number = Attachment.search_count([
-                    ('res_model', 'in', list(related_models)),
-                    ('res_id', 'in', related_ids)
-                ])
-
-                all_related_ids += related_ids
-                all_related_models |= related_models
-
-            action['domain'] = [
-                ('res_model', 'in', list(all_related_models)),
-                ('res_id', 'in', list(set(all_related_ids))),
-            ]
-            action['context'] = "{'default_res_model': '%s','default_res_id': %d}" % (self._name, self.ids[0])
-            return action
-
-        self.ensure_one()
-        related_ids = [self.id]
-        related_models = set(['budget.confirmation'])
-
-        if self.res_id and self.res_model:
-            related_ids.append(self.res_id)
-            related_models.add(self.res_model)
-
-        if self.request_id:
-            related_ids.append(self.request_id.id)
-            related_models.add('purchase.request')
-
-        if self.ref:
-            matching_requests = PurchaseRequest.search([('name', '=', self.ref)])
-            if matching_requests:
-                related_ids += matching_requests.ids
-                related_models.add('purchase.request')
+        related_models = ['budget.confirmation', 'purchase.request']
+        related_ids = list(budget_ids) + list(request_ids)
 
         domain = [
-            ('res_model', 'in', list(related_models)),
-            ('res_id', 'in', list(set(related_ids))),
+            ('res_model', 'in', related_models),
+            ('res_id', 'in', related_ids),
         ]
 
-        self.att_number = Attachment.search_count(domain)
+        att_count = Attachment.search_count(domain)
+
+        self.att_number = att_count
+
+        attachments = Attachment.search(domain)
 
         action = self.env['ir.actions.act_window']._for_xml_id('base.action_attachment')
-        action['domain'] = domain
-        action['context'] = "{'default_res_model': '%s','default_res_id': %d}" % (self._name, self.id)
+        action['domain'] = [('id', 'in', attachments.ids)]
+        action['context'] = "{'default_res_model': '%s','default_res_id': %d}" % (self._name,
+                                                                                  self.ids[0] if self.ids else 0)
+
         return action
+
+
+    # def get_attachments(self):
+    #     Attachment = self.env['ir.attachment']
+    #     PurchaseRequest = self.env['purchase.request']
+    #
+    #     if len(self) > 1:
+    #         action = self.env['ir.actions.act_window']._for_xml_id('base.action_attachment')
+    #         all_related_ids = []
+    #         all_related_models = set(['budget.confirmation'])
+    #
+    #         for record in self:
+    #             related_ids = [record.id]
+    #             related_models = set(['budget.confirmation'])
+    #
+    #             if record.res_id and record.res_model:
+    #                 related_ids.append(record.res_id)
+    #                 related_models.add(record.res_model)
+    #
+    #             if record.request_id:
+    #                 related_ids.append(record.request_id.id)
+    #                 related_models.add('purchase.request')
+    #
+    #             if record.ref:
+    #                 matching_requests = PurchaseRequest.search([('name', '=', record.ref)])
+    #                 if matching_requests:
+    #                     related_ids += matching_requests.ids
+    #                     related_models.add('purchase.request')
+    #
+    #             record.att_number = Attachment.search_count([
+    #                 ('res_model', 'in', list(related_models)),
+    #                 ('res_id', 'in', related_ids)
+    #             ])
+    #
+    #             all_related_ids += related_ids
+    #             all_related_models |= related_models
+    #
+    #         action['domain'] = [
+    #             ('res_model', 'in', list(all_related_models)),
+    #             ('res_id', 'in', list(set(all_related_ids))),
+    #         ]
+    #         action['context'] = "{'default_res_model': '%s','default_res_id': %d}" % (self._name, self.ids[0])
+    #         return action
+    #
+    #     self.ensure_one()
+    #     related_ids = [self.id]
+    #     related_models = set(['budget.confirmation'])
+    #
+    #     if self.res_id and self.res_model:
+    #         related_ids.append(self.res_id)
+    #         related_models.add(self.res_model)
+    #
+    #     if self.request_id:
+    #         related_ids.append(self.request_id.id)
+    #         related_models.add('purchase.request')
+    #
+    #     if self.ref:
+    #         matching_requests = PurchaseRequest.search([('name', '=', self.ref)])
+    #         if matching_requests:
+    #             related_ids += matching_requests.ids
+    #             related_models.add('purchase.request')
+    #
+    #     domain = [
+    #         ('res_model', 'in', list(related_models)),
+    #         ('res_id', 'in', list(set(related_ids))),
+    #     ]
+    #
+    #     self.att_number = Attachment.search_count(domain)
+    #
+    #     action = self.env['ir.actions.act_window']._for_xml_id('base.action_attachment')
+    #     action['domain'] = domain
+    #     action['context'] = "{'default_res_model': '%s','default_res_id': %d}" % (self._name, self.id)
+    #     return action
 
 
     name = fields.Char(string='Name')
@@ -115,9 +144,7 @@ class BudgetConfirmation(models.Model):
 
     ref = fields.Char(string='Reference')
 
-    res_model = fields.Char(
-        'Related Document Model Name')
-    res_id = fields.Integer('Document ID')
+
 
     description = fields.Text(string='Description')
 
