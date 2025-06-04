@@ -97,15 +97,7 @@
                         attrs="{'invisible': ['|', '|', ('state', '!=', 'budget_approve'), ('auto_post', '=', True), ('move_type', '=', 'entry')]}"/>
             </xpath>
 
-            <xpath expr="//div[hasclass('oe_button_box')]" position="inside">
-                <button class="oe_stat_button" name="open_confirmation" type="object" string="Budget Confirmation"
-                        attrs="{'invisible': [('move_type', '!=', 'in_invoice')]}"/>
-                <button name="action_open_related_payment_records" type="object"
-                        class="oe_stat_button" icon="fa-money"
-                        attrs="{'invisible': [('move_type', '!=', 'in_invoice')]}">
-                    <field name="rec_payment_count" widget="statinfo" string="المدفوعات"/>
-                </button>
-            </xpath>
+
 
             <button name="button_cancel" position="attributes">
                 <attribute name="attrs">{'invisible' : ['|', ('id', '=', False), ('state', 'not in',

@@ -18,66 +18,84 @@ class BudgetConfirmation(models.Model):
     _order = "create_date desc"
 
 
-    att_number = fields.Integer(
-        string='Documents',
-        compute='compute_att_number', store=False
-    )
-    attachment_count = fields.Integer(
-        string='Documents',
-        store=True
-    )
-    po_id = fields.Many2one('purchase.order')
-    request_id = fields.Many2one('purchase.request')
+    att_number = fields.Integer(string='Documents',compute='get_attachments',store=False)
+    attachment_count = fields.Integer(string='Documents',)
 
-    # @api.depends('po_id', 'ref', 'request_id')
-    def compute_att_number(self):
-        self.att_number =0
-        print('attacj........')
+    res_id = fields.Integer()
+    res_model = fields.Char()
+
+    def get_attachments(self):
         Attachment = self.env['ir.attachment']
-        print('pre = ', self.request_id)
-        for record in self:
-            attachments = Attachment.search([
-                '|',
-                '&', ('res_model', '=', 'purchase.order'), ('res_id', '=', record.po_id.id),
-                '&', ('res_model', '=', 'purchase.request'), ('res_id', '=', record.request_id.id),
-            ])
-            print('att= ', attachments)
-            record.att_number = len(attachments)
-            return len(attachments)
-
-    def action_view_attachments(self):
-        self.ensure_one()
         PurchaseRequest = self.env['purchase.request']
-        matching_requests = PurchaseRequest.search([('name', '=', self.ref)])
-        print('m = ',matching_requests)
-        domain = []
-        if self.po_id and self.request_id:
 
-            domain = ['|',
-                      '&', ('res_model', '=', 'purchase.order'), ('res_id', '=', self.po_id.id),
-                      '&', ('res_model', '=', 'purchase.request'), ('res_id', '=', self.request_id.id)]
-        elif self.po_id:
-            domain = [('res_model', '=', 'purchase.order'), ('res_id', '=', self.po_id.id)]
-        elif self.request_id or matching_requests:
-            domain = [
-                ('res_model', '=', 'purchase.request'),
-                '|',  # OR operator
-                ('res_id', 'in', matching_requests.ids),
-                ('res_id', '=', self.request_id.id),
+        if len(self) > 1:
+            action = self.env['ir.actions.act_window']._for_xml_id('base.action_attachment')
+            all_related_ids = []
+            all_related_models = set(['budget.confirmation'])
+
+            for record in self:
+                related_ids = [record.id]
+                related_models = set(['budget.confirmation'])
+
+                if record.res_id and record.res_model:
+                    related_ids.append(record.res_id)
+                    related_models.add(record.res_model)
+
+                if record.request_id:
+                    related_ids.append(record.request_id.id)
+                    related_models.add('purchase.request')
+
+                if record.ref:
+                    matching_requests = PurchaseRequest.search([('name', '=', record.ref)])
+                    if matching_requests:
+                        related_ids += matching_requests.ids
+                        related_models.add('purchase.request')
+
+                record.att_number = Attachment.search_count([
+                    ('res_model', 'in', list(related_models)),
+                    ('res_id', 'in', related_ids)
+                ])
+
+                all_related_ids += related_ids
+                all_related_models |= related_models
+
+            action['domain'] = [
+                ('res_model', 'in', list(all_related_models)),
+                ('res_id', 'in', list(set(all_related_ids))),
             ]
-        else:
-            domain = [('id', '=', 0)]
-        self.att_number = self.compute_att_number()
+            action['context'] = "{'default_res_model': '%s','default_res_id': %d}" % (self._name, self.ids[0])
+            return action
 
-        return {
-            'type': 'ir.actions.act_window',
-            'name': 'Related Attachments',
-            'view_mode': 'tree,form',
-            'res_model': 'ir.attachment',
-            'domain': domain,
-            'context': self.env.context,
-        }
-        print('in if')
+        self.ensure_one()
+        related_ids = [self.id]
+        related_models = set(['budget.confirmation'])
+
+        if self.res_id and self.res_model:
+            related_ids.append(self.res_id)
+            related_models.add(self.res_model)
+
+        if self.request_id:
+            related_ids.append(self.request_id.id)
+            related_models.add('purchase.request')
+
+        if self.ref:
+            matching_requests = PurchaseRequest.search([('name', '=', self.ref)])
+            if matching_requests:
+                related_ids += matching_requests.ids
+                related_models.add('purchase.request')
+
+        domain = [
+            ('res_model', 'in', list(related_models)),
+            ('res_id', 'in', list(set(related_ids))),
+        ]
+
+        self.att_number = Attachment.search_count(domain)
+
+        action = self.env['ir.actions.act_window']._for_xml_id('base.action_attachment')
+        action['domain'] = domain
+        action['context'] = "{'default_res_model': '%s','default_res_id': %d}" % (self._name, self.id)
+        return action
+
 
     name = fields.Char(string='Name')
 

@@ -1,13 +1,9 @@
 from odoo import fields, models, api, _
 
-
 class AccountPayment(models.Model):
     _inherit = 'account.payment'
     destination_journal_id = fields.Many2one(comodel_name='account.journal')
-    paired_internal_transfer_payment_id = fields.Many2one('account.payment',
-                                                          help="When an internal transfer is posted, a paired payment is created. "
-                                                               "They are cross referenced trough this field",
-                                                          copy=False)
+    paired_internal_transfer_payment_id = fields.Many2one('account.payment',help="When an internal transfer is posted, a paired payment is created. " "They are cross referenced trough this field",copy=False)
 
     def action_post(self):
         res = super(AccountPayment, self).action_post()
@@ -39,3 +35,30 @@ class AccountPayment(models.Model):
                 lines.reconcile()
 
         return res
+
+class AccountMove(models.Model):
+    _inherit = 'account.move'
+
+    payment_count = fields.Integer(string='Payments', compute='_compute_payment_count')
+
+    @api.depends('payment_state')
+    def _compute_payment_count(self):
+        for rec in self:
+            payments = self.env['account.payment'].search([('ref', '=', rec.name)])
+            rec.payment_count = len(payments)
+
+    def action_view_payments(self):
+        self.ensure_one()
+
+        search_part = '/'.join(self.name.split('/')[-3:])  # يجيب الجزء: 2025/04/0004
+
+        payments = self.env['account.payment'].search(['|',('ref','=',self.name),('name', 'ilike',search_part),])
+
+        action = self.env.ref('account.action_account_payments').read()[0]
+        action['domain'] = [('id', 'in', payments.ids)]
+        action['context'] = {'create': False}
+        self.payment_count = len(payments)
+        return action
+
+
+
