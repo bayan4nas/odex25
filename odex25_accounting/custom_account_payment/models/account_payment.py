@@ -50,9 +50,14 @@ class AccountMove(models.Model):
     def action_view_payments(self):
         self.ensure_one()
 
-        search_part = '/'.join(self.name.split('/')[-3:])  # يجيب الجزء: 2025/04/0004
+        search_part = '/'.join(self.name.split('/')[-3:])
 
-        payments = self.env['account.payment'].search(['|',('ref','=',self.name),('name', 'ilike',search_part),])
+        payments = self.env['account.payment'].search([
+            ('partner_id.id', '=', self.partner_id.id),
+            '|',
+            ('ref', '=', self.name),
+            ('name', 'ilike', search_part)
+        ])
 
         action = self.env.ref('account.action_account_payments').read()[0]
         action['domain'] = [('id', 'in', payments.ids)]
