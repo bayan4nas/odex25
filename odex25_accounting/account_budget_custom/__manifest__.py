@@ -10,7 +10,7 @@
     'website': "http://www.exp-sa.com",
     'category': 'Odex25 Accounting/Accounting',
     # any module necessary for this one to work correctly
-    'depends': ['odex25_account_budget', 'odex25_account_reports', 'report_xlsx'],
+    'depends': ['odex25_account_budget', 'odex25_account_reports', 'report_xlsx','hr'],
     # always loaded
     'data': [
         'data/budget_operation_data.xml',
