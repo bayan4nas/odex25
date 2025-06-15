@@ -29,10 +29,11 @@ class BudgetConfirmation(models.Model):
         PurchaseRequest = self.env['purchase.request']
 
         budget_ids = self.ids
-        request_ids = self.mapped('request_id').ids  # جمع ids طلبات الإدارة المرتبطة
+        request_ids = self.mapped('request_id').ids
+        purchase_order_ids = self.mapped('po_id').ids
 
-        related_models = ['budget.confirmation', 'purchase.request']
-        related_ids = list(budget_ids) + list(request_ids)
+        related_models = ['budget.confirmation', 'purchase.request', 'purchase.order']
+        related_ids = list(budget_ids) + list(request_ids) + list(purchase_order_ids)
 
         domain = [
             ('res_model', 'in', related_models),
@@ -47,11 +48,8 @@ class BudgetConfirmation(models.Model):
 
         action = self.env['ir.actions.act_window']._for_xml_id('base.action_attachment')
         action['domain'] = [('id', 'in', attachments.ids)]
-        action['context'] = "{'default_res_model': '%s','default_res_id': %d}" % (self._name,
-                                                                                  self.ids[0] if self.ids else 0)
-
+        action['context'] = "{'default_res_model': '%s','default_res_id': %d}" % (self._name,self.ids[0] if self.ids else 0)
         return action
-
 
     # def get_attachments(self):
     #     Attachment = self.env['ir.attachment']
