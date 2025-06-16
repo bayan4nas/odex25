@@ -44,7 +44,7 @@ class PurchaseRequest(models.Model):
     def action_refuse(self):
         res = super(PurchaseRequest, self).action_refuse()
         for rec in self:
-            budget_confs = self.env['budget.confirmation'].search([('request_id', '=', rec.id)])
+            budget_confs = self.env['budget.confirmation'].sudo().search([('request_id', '=', rec.id)])
             budget_confs.write({'state': 'cancel'})
         return res
 
@@ -110,7 +110,7 @@ class PurchaseRequest(models.Model):
             'res_id': self.id
 
         }
-        res= self.env['budget.confirmation'].create(data)
+        res= self.env['budget.confirmation'].sudo().create(data)
 
     def create_purchase_order2(self):
         if not self.partner_id:
