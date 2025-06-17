@@ -49,7 +49,7 @@ msgstr "تم الحساب"
 #. module: hr_trahum
 #: model:ir.model.fields.selection,name:hr_trahum.selection__hr_payslip_run__state__confirmed
 msgid "Confirmed"
-msgstr "تم التأكيد"
+msgstr "انتظار مدير الموارد البشرية"
 
 #. module: hr_trahum
 #: code:addons/hr_trahum/models/models.py:0
@@ -156,6 +156,21 @@ msgid "Refuse"
 msgstr "رفض"
 
 #. module: hr_trahum
+#: model_terms:ir.ui.view,arch_db:hr_trahum.employee_official_mission_form_view_inherit
+#: model_terms:ir.ui.view,arch_db:hr_trahum.employee_overtime_request_inherit
+#: model_terms:ir.ui.view,arch_db:hr_trahum.termination_resignation_inherit_form_view
+msgid "Direct Manager Approve"
+msgstr "موافقة المدير المباشر"
+
+#. module: hr_trahum
+#: model_terms:ir.ui.view,arch_db:hr_trahum.employee_loan_salary_form_view_inherit
+#: model_terms:ir.ui.view,arch_db:hr_trahum.employee_official_mission_form_view_inherit
+#: model_terms:ir.ui.view,arch_db:hr_trahum.employee_overtime_request_inherit
+#: model_terms:ir.ui.view,arch_db:hr_trahum.termination_resignation_inherit_form_view
+msgid "Submit"
+msgstr "إرسال"
+
+#. module: hr_trahum
 #: code:addons/hr_trahum/models/models.py:0
 #: code:addons/hr_trahum/models/models.py:0
 #: code:addons/hr_trahum/models/models.py:0
@@ -169,9 +184,6 @@ msgid "Refused"
 msgstr "مرفوض"
 
 #. module: hr_trahum
-#: code:addons/hr_trahum/models/models.py:0
-#: code:addons/hr_trahum/models/models.py:0
-#: code:addons/hr_trahum/models/models.py:0
 #: model:res.groups,name:hr_trahum.group_secretary_general
 #: model_terms:ir.ui.view,arch_db:hr_trahum.employee_promotions_custom_form_view_form
 #: model_terms:ir.ui.view,arch_db:hr_trahum.hr_payroll_raise_form_view_inherit
@@ -179,6 +191,7 @@ msgstr "مرفوض"
 #, python-format
 msgid "Secretary General"
 msgstr "اعتماد الأمين العام"
+
 
 #. module: hr_trahum
 #: code:addons/hr_trahum/models/models.py:0
@@ -197,23 +210,45 @@ msgstr "اعتماد الأمين العام"
 #: model_terms:ir.ui.view,arch_db:hr_trahum.hr_payroll_raise_form_view_inherit
 #: model_terms:ir.ui.view,arch_db:hr_trahum.hr_payslip_run_inherit_form_inherit
 #: model_terms:ir.ui.view,arch_db:hr_trahum.termination_resignation_inherit_form_view
-#: model_terms:ir.ui.view,arch_db:hr_trahum.view_hr_contract_form
 #, python-format
 msgid "Sector Head Approval"
 msgstr "موافقة رئيس القطاع"
+
+#. module: hr_trahum
+#: model_terms:ir.ui.view,arch_db:hr_trahum.view_hr_contract_form
+#, python-format
+msgid "Sector Head Approval"
+msgstr "موافقة الخدمات المشتركة"
 
 
 #. module: hr_trahum
 #: model_terms:ir.ui.view,arch_db:hr_trahum.hr_payslip_run_inherit_form_inherit
 msgid "Head Accounting Approval"
-msgstr "مدير الادارة الماليه"
+msgstr "مدير الإدارة المالية"
+
+#. module: hr_trahum
+#: code:addons/hr_trahum/models/models.py:0
+#: model:ir.model.fields.selection,name:hr_trahum.selection__hr_payslip_run__state__hr_manager_approval
+#, python-format
+msgid "Wait Accounting Manager"
+msgstr "انتظار الإدارة المالية"
+
+
+#. module: hr_trahum
+#: code:addons/hr_trahum/models/models.py:0
+#: code:addons/hr_trahum/models/models.py:0
+#: model:ir.model.fields.selection,name:hr_trahum.selection__hr_payslip_run__state__branch_excutive_manager
+#: model:ir.model.fields.selection,name:hr_trahum.selection__hr_payslip_run__state__secretary_general
+#, python-format
+msgid "Wait Finance Transfer"
+msgstr "انتظار ترحيل القيد"
 
 #. module: hr_trahum
 #: code:addons/hr_trahum/models/models.py:0
 #: model:ir.model.fields.selection,name:hr_trahum.selection__hr_payslip_run__state__accounting_head_approval
 #, python-format
 msgid "Accounting Head Approval"
-msgstr "مدير الادارة الماليه"
+msgstr "انتظار موافقة رئيس القطاع"
 
 #. module: hr_trahum
 #: model:ir.model.fields,help:hr_trahum.field_hr_employee__coach_id
@@ -280,16 +315,9 @@ msgid "Transferred"
 msgstr "تم الترحيل"
 
 #. module: hr_trahum
-#: code:addons/hr_trahum/models/models.py:0
-#: code:addons/hr_trahum/models/models.py:0
-#, python-format
-msgid "Wait Approval"
-msgstr ""
-
-#. module: hr_trahum
 #: model:ir.model.fields.selection,name:hr_trahum.selection__hr_termination__state__gm_manager
 msgid "Wait CEO Manager"
-msgstr "إنتظار المدير العام"
+msgstr "إنتظار الأمين العام"
 
 #. module: hr_trahum
 #: code:addons/hr_trahum/models/models.py:0
@@ -305,10 +333,6 @@ msgstr ""
 msgid "Wait HR Department"
 msgstr ""
 
-#. module: hr_trahum
-#: model:ir.model.fields.selection,name:hr_trahum.selection__hr_termination__state__finance_manager
-msgid "Wait HR Manager"
-msgstr ""
 
 #. module: hr_trahum
 #: model:ir.model.fields.selection,name:hr_trahum.selection__hr_termination__state__hr_manager
@@ -331,6 +355,25 @@ msgstr "إنتظار الترحيل"
 msgid "Waiting Department Manager"
 msgstr "إنتظار مدير الإدارة"
 
+
+#. module: hr_trahum
+#: model_terms:ir.ui.view,arch_db:hr_trahum.employee_overtime_request_inherit
+msgid "Department Manager"
+msgstr "موافقة مسؤول الموارد البشرية"
+
+#. module: hr_trahum
+#: model_terms:ir.ui.view,arch_db:hr_trahum.employee_official_mission_form_view_inherit
+msgid "Department Manager"
+msgstr "موافقة مدير اﻹدارة"
+
+
+
+#. module: hr_trahum
+#: model_terms:ir.ui.view,arch_db:hr_trahum.employee_official_mission_form_view_inherit
+msgid "HR Officer Approval"
+msgstr "موافقة أخصائي الموارد البشرية"
+
+
 #. module: hr_trahum
 #: code:addons/hr_trahum/models/models.py:0
 #: code:addons/hr_trahum/models/models.py:0
@@ -344,6 +387,12 @@ msgstr "إنتظار المدير المباشر"
 #, python-format
 msgid "Waiting Payroll Officer"
 msgstr ""
+
+#. module: hr_trahum
+#: model_terms:ir.ui.view,arch_db:hr_trahum.employee_loan_salary_form_view_inherit
+msgid "Payroll Officer Approve"
+msgstr "موافقة مسؤول الرواتب"
+
 
 #. module: hr_trahum
 #: model_terms:ir.ui.view,arch_db:hr_trahum.hr_payslip_run_inherit_form_inherit
@@ -363,12 +412,11 @@ msgstr ""
 #. module: hr_trahum
 #: model:ir.model.fields.selection,name:hr_trahum.selection__employee_overtime_request__state__executive_office
 #: model:ir.model.fields.selection,name:hr_trahum.selection__hr_loan_salary_advance__state__executive_manager
-msgid "إنتظار الترحيل"
+msgid "إنتظار ترحيل المدير المالي"
 msgstr ""
 
 #. module: hr_trahum
 #: model:ir.model.fields.selection,name:hr_trahum.selection__employee_overtime_request__state__hr_aaproval
-#: model:ir.model.fields.selection,name:hr_trahum.selection__hr_official_mission__state__hr_aaproval
 msgid "إنتظار التصديق"
 msgstr ""
 
@@ -384,17 +432,38 @@ msgid "إنتظار المدير المباشر"
 msgstr ""
 
 #. module: hr_trahum
-#: model:ir.model.fields.selection,name:hr_trahum.selection__employee_overtime_request__state__financial_manager
-#: model:ir.model.fields.selection,name:hr_trahum.selection__hr_loan_salary_advance__state__direct_manager
-#: model:ir.model.fields.selection,name:hr_trahum.selection__hr_official_mission__state__depart_manager
-msgid "إنتظار الموارد البشرية"
-msgstr ""
+#: model_terms:ir.ui.view,arch_db:hr_trahum.employee_loan_salary_form_view_inherit
+msgid "Financial Management Approve"
+msgstr "موافقة اﻹدارة المالية"
 
 #. module: hr_trahum
-#: model:ir.model.fields.selection,name:hr_trahum.selection__employee_overtime_request__state__direct_manager
-#: model:ir.model.fields.selection,name:hr_trahum.selection__hr_official_mission__state__direct_manager
-msgid "إنتظار مدير الادارة"
-msgstr ""
+#: model:ir.model.fields.selection,name:hr_trahum.selection__hr_loan_salary_advance__state__direct_manager
+msgid "Wait HR Department"
+msgstr "إنتظار مدير الموارد البشرية"
+
+#. module: hr_trahum
+#: model_terms:ir.ui.view,arch_db:hr_trahum.employee_official_mission_form_view_inherit
+msgid "HR Manager Approve"
+msgstr "موافقة مدير الموارد البشرية"
+
+#. module: hr_trahum
+#: code:addons/hr_trahum/models/models.py:0
+#: model_terms:ir.ui.view,arch_db:hr_trahum.hr_payslip_run_inherit_form_inherit
+#, python-format
+msgid "HR Manager Approval"
+msgstr "موافقة مدير الموارد البشرية"
+
+
+
+#. module: hr_trahum
+#: model:ir.model.fields.selection,name:hr_trahum.selection__hr_official_mission__state__depart_manager
+msgid "Wait HR Department"
+msgstr "إنتظار أخصائي الموارد البشرية"
+
+#. module: hr_trahum
+#: model:ir.model.fields.selection,name:hr_trahum.selection__employee_overtime_request__state__financial_manager
+msgid "Wait HR Department"
+msgstr "انتظار مدير الموارد البشرية"
 
 #. module: hr_trahum
 #: model:ir.model.fields.selection,name:hr_trahum.selection__hr_loan_salary_advance__state__submit
@@ -423,9 +492,29 @@ msgstr ""
 msgid "الموارد البشرية"
 msgstr ""
 
+#. module: hr_contract_custom
+#: code:addons/hr_contract_custom/models/hr_contract.py:0
+#: model_terms:ir.ui.view,arch_db:hr_contract_custom.hr_contract_form_view
+#, python-format
+msgid "HR Head Approval"
+msgstr "انتظار مدير الموارد البشرية"
+
+#. module: hr_contract_custom
+#: model:ir.model.fields.selection,name:hr_contract_custom.selection__hr_contract__state__hr_head_approval
+#, python-format
+msgid "HR Head Approval"
+msgstr "موافقة الخدمات المشتركة"
+
+#. module: hr_contract_custom
+#: code:addons/hr_contract_custom/models/hr_contract.py:0
+#: model:ir.model.fields.selection,name:hr_contract_custom.selection__hr_contract__state__employeed_aproval
+#, python-format
+msgid "Employeed Approval"
+msgstr "موافقة مدير الموارد البشرية"
+
 #. module: hr_trahum
 #: model:ir.model.fields.selection,name:hr_trahum.selection__hr_contract__state__employeed_aproval
-msgid "الموافقة على العقد"
+msgid "انتظار مدير الموارد البشرية"
 msgstr ""
 
 #. module: hr_trahum
@@ -455,16 +544,41 @@ msgid "موافقة  الموارد البشرية"
 msgstr ""
 
 #. module: hr_trahum
+#: model:ir.model.fields.selection,name:hr_trahum.selection__hr_official_mission__state__sector_head_approval
+msgid "Sector Head Approval"
+msgstr "انتظار اعتماد اﻷمين العام"
+
+
+
+#. module: hr_trahum
+#: model_terms:ir.ui.view,arch_db:hr_trahum.employee_official_mission_form_view_inherit
+msgid "General Manager Approva"
+msgstr "اعتماد الأمين العام"
+
+
+#. module: hr_trahum
 #: model:ir.model.fields.selection,name:hr_trahum.selection__employee_overtime_request__state__sector_head_approval
 #: model:ir.model.fields.selection,name:hr_trahum.selection__employee_promotions__state__sector_head_approval
 #: model:ir.model.fields.selection,name:hr_trahum.selection__hr_contract__state__sector_head_approval
 #: model:ir.model.fields.selection,name:hr_trahum.selection__hr_loan_salary_advance__state__sector_head_approval
-#: model:ir.model.fields.selection,name:hr_trahum.selection__hr_official_mission__state__sector_head_approval
+#: model:ir.model.fields.selection,name:hr_trahum.selection__hr_termination__state__sector_head_approval
+msgid "انتظار موافقة رئيس القطاع"
+msgstr ""
+
+
+
+#. module: hr_trahum
 #: model:ir.model.fields.selection,name:hr_trahum.selection__hr_payroll_raise__state__sector_head_approval
 #: model:ir.model.fields.selection,name:hr_trahum.selection__hr_payslip_run__state__sector_head_approval
-#: model:ir.model.fields.selection,name:hr_trahum.selection__hr_termination__state__sector_head_approval
-msgid "موافقة رئيس القطاع"
-msgstr ""
+msgid "Sector Head Approval"
+msgstr "انتظار موافقة اﻷمين العام"
+
+
+#. module: hr_trahum
+#: model:ir.model.fields.selection,name:hr_trahum.selection__hr_official_mission__state__hr_manager_approve
+msgid "Sector Head Approval"
+msgstr "انتظار موافقة رئيس القطاع"
+
 
 #. module: hr_trahum
 #: model:ir.model.fields.selection,name:hr_trahum.selection__hr_contract__state__end_contract
@@ -505,6 +619,18 @@ msgstr "المدفوعات"
 #: model_terms:ir.ui.view,arch_db:account.view_account_invoice_report_search
 msgid "Customers"
 msgstr "الداعمين"
+
+#. module: hr_trahum
+#: code:addons/hr_trahum/models/models.py:0
+#: model:ir.model.fields.selection,name:hr_trahum.selection__hr_termination__state__finance_manager
+#, python-format
+msgid "Wait HR Manager"
+msgstr "انتظار مدير الموارد البشرية"
+
+#. module: hr_trahum
+#: model_terms:ir.ui.view,arch_db:hr_trahum.termination_resignation_inherit_form_view
+msgid "GM Approval"
+msgstr "موافقة اﻷمين العام"
 
 #. module: account
 #: model:ir.model.fields.selection,name:account.selection__account_payment__partner_type__customer
@@ -559,21 +685,37 @@ msgstr "سند صرف"
 
 #. module: hr_trahum
 #: code:addons/hr_trahum/models/models.py:0
+#: model:ir.model.fields.selection,name:hr_trahum.selection__hr_loan_salary_advance__state__gm_approve
+#, python-format
+msgid "Wait Secretary-General Approval"
+msgstr "انتظار عتماد الامين العام"
+
+
+#. module: hr_trahum
+#: model_terms:ir.ui.view,arch_db:hr_trahum.employee_loan_salary_form_view_inherit
+msgid "Secretary-General Manager Approve"
+msgstr "اعتماد اﻷمين العام"
+
+
+#. module: hr_trahum
+#: code:addons/hr_trahum/models/models.py:0
 #: model:ir.model.fields.selection,name:hr_trahum.selection__hr_loan_salary_advance__state__director_financial_management
 #: model:res.groups,name:hr_trahum.group_Director_Financial_Management
 #, python-format
 msgid "Director Financial Management"
-msgstr "مدير الادارة الماليه"
+msgstr "انتظار  الادارة الماليه"
 
 #. module: hr_trahum
 #: model_terms:ir.ui.view,arch_db:hr_trahum.employee_loan_salary_form_view_inherit
 msgid "HR Management"
-msgstr "الموارد البشرية"
+msgstr "موافقة مدير الموارد البشرية"
 
 #. module: hr_trahum
 #: model_terms:ir.ui.view,arch_db:hr_trahum.hr_payslip_run_inherit_form_inherit
 msgid "Withdraw"
 msgstr "تراجع"
+
+
 
 #. module: hr_trahum
 #: model:ir.model.fields.selection,name:hr_trahum.selection__hr_payslip_run__state__close
@@ -581,15 +723,28 @@ msgstr "تراجع"
 msgid "Close"
 msgstr "إلغـــاء"
 
+#. module: hr_trahum
+#: model_terms:ir.ui.view,arch_db:hr_trahum.employee_official_mission_form_view_inherit
+#: model_terms:ir.ui.view,arch_db:hr_trahum.employee_overtime_request_inherit
+msgid "Head Sector Approval"
+msgstr "موافقة رئيس القطاع"
+
+#. module: hr_trahum
+#: model_terms:ir.ui.view,arch_db:hr_trahum.employee_overtime_request_inherit
+msgid "Approval"
+msgstr "اعتماد اﻷمين العام"
+
+
+
 
 #. module: employee_requests
 #: model:ir.model.fields.selection,name:employee_requests.selection__employee_overtime_request__state__hr_aaproval
 msgid "Wait Approval"
 msgstr "انتظار موافقة رئيس القطاع"
 
-#. module: employee_requests
-#: code:addons/employee_requests/models/employee_overtime_request.py:0
-#: model_terms:ir.ui.view,arch_db:employee_requests.employee_overtime_request_form_view
+#. module: hr_trahum
+#: code:addons/hr_trahum/models/models.py:0
+#: model_terms:ir.ui.view,arch_db:hr_trahum.employee_overtime_request_inherit
 #, python-format
 msgid "Executive Approval"
 msgstr "موافقة رئيس القطاع"
@@ -601,14 +756,78 @@ msgid "Wait Transfer"
 msgstr "إنتظار اعتماد الأمين العام"
 
 
-#. module: employee_requests
-#: model_terms:ir.ui.view,arch_db:employee_requests.employee_overtime_request_form_view
-#, python-format
-msgid "Approval"
-msgstr "اعتماد الأمين العام"
+#. module: hr_contract_custom
+#: model_terms:ir.ui.view,arch_db:hr_contract_custom.hr_contract_form_view
+msgid "program Director"
+msgstr "موافقة الامين العام"
 
+#. module: hr_trahum
+#: model_terms:ir.ui.view,arch_db:hr_trahum.employee_loan_salary_form_view_inherit
+#: model_terms:ir.ui.view,arch_db:hr_trahum.employee_official_mission_form_view_inherit
+#: model_terms:ir.ui.view,arch_db:hr_trahum.employee_overtime_request_inherit
+#: model_terms:ir.ui.view,arch_db:hr_trahum.termination_resignation_inherit_form_view
+msgid "RE-Draft"
+msgstr "اعادة الى مسودة"
 
 #. module: employee_requests
 #: model:ir.model.fields.selection,name:employee_requests.selection__employee_overtime_request__state__validated
 msgid "Transferred"
 msgstr "تم "
+
+
+#. module: hr_trahum
+#: model:ir.model.fields.selection,name:hr_trahum.selection__hr_payslip__state__transfered
+#: model_terms:ir.ui.view,arch_db:hr_trahum.employee_loan_salary_form_view_inherit
+msgid "Transfer"
+msgstr "ترحيل القيد"
+
+
+#. module: exp_official_mission
+#: model_terms:ir.ui.view,arch_db:exp_official_mission.employee_especially_hours_form_view
+#, python-format
+msgid "HR Approval"
+msgstr "تصديق الموارد البشرية"
+
+#. module: hr_trahum
+#: model_terms:ir.ui.view,arch_db:hr_trahum.employee_overtime_request_inherit
+msgid "HR Approval"
+msgstr "موافقة مدير الموارد البشرية"
+
+
+
+#. module: hr_trahum
+#: model_terms:ir.ui.view,arch_db:hr_trahum.employee_official_mission_form_view_inherit
+msgid "Department Manager Confirm"
+msgstr "تصديق مدير الادارة"
+
+#. module: hr_trahum
+#: model_terms:ir.ui.view,arch_db:hr_trahum.employee_official_mission_form_view_inherit
+msgid "Direct Manager Confirm"
+msgstr "تصديق المدير المباشر"
+
+#. module: hr_trahum
+#: model_terms:ir.ui.view,arch_db:hr_trahum.employee_official_mission_form_view_inherit
+msgid "HR Officer Confirm"
+msgstr "تصديق الموارد البشرية"
+
+#. module: hr_trahum
+#: model_terms:ir.ui.view,arch_db:hr_trahum.employee_official_mission_form_view_inherit
+msgid "Secretary General Confirm"
+msgstr "تصديق  الامين العام"
+
+
+#. module: hr_trahum
+#: model:ir.model.fields.selection,name:hr_trahum.selection__hr_official_mission__state__direct_manager
+msgid "Wait Manager Department"
+msgstr "انتظار  مدير الادارة"
+
+
+#. module: hr_trahum
+#: model:ir.model.fields.selection,name:hr_trahum.selection__hr_official_mission__state__hr_aaproval
+msgid "Wait Approval"
+msgstr "انتظار مدير الموارد البشرية"
+
+#. module: hr_trahum
+#: model:ir.model.fields.selection,name:hr_trahum.selection__hr_official_mission__state__direct_hr
+msgid "Wait HR Department"
+msgstr "انتظار  مدير الموارد البشرية"
