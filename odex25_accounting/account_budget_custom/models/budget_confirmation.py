@@ -51,10 +51,9 @@ class BudgetConfirmation(models.Model):
         self.att_number = att_count
 
         attachments = Attachment.search(domain)
-        unique_attachments = list(set(attachments))
 
         action = self.env['ir.actions.act_window']._for_xml_id('base.action_attachment')
-        action['domain'] = [('id', 'in', unique_attachments.ids)]
+        action['domain'] = [('id', 'in', attachments.ids)]
         action['context'] = "{'default_res_model': '%s','default_res_id': %d}" % (self._name,self.ids[0] if self.ids else 0)
         return action
     
