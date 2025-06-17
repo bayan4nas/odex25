@@ -17,17 +17,19 @@
         <field name="model">hr.contract</field>
         <field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
         <field name="arch" type="xml">
-            <xpath expr="//header" position="inside">
+            <xpath expr="//button[@name='draft_state']" position="before">
                 <button name="action_sector_head_approval" string="Sector Head Approval" type="object"
-                        states="hr_head_approval" class="oe_highlight" groups="hr_trahum.group_sector_head_approval"/>
+                        states="hr_head_approval" class="oe_highlight" groups="hr_base.group_services_manager"/>
 
             </xpath>
             <xpath expr="//button[@name='program_directory']" position="attributes">
-                <attribute name="states">sector_head_approval</attribute>
+                <attribute name="states">secretary_general</attribute>
+                <attribute name="groups">hr_trahum.group_secretary_general</attribute>
+
             </xpath>
             <xpath expr="//header/field[@name='state']" position="replace">
                 <field name="state" widget="statusbar"
-                       statusbar_visible="draft,employeed_aproval,hr_head_approval,sector_head_approval,program_directory,end_contract"/>
+                       statusbar_visible="draft,employeed_aproval,hr_head_approval,secretary_general,program_directory,end_contract"/>
 
             </xpath>
         </field>
@@ -48,28 +50,34 @@
                     <button name="direct_manager_refused" string="Refuse" class="oe_highlight" type="object"
                             states="submit" groups="hr_base.group_division_manager"/>
                     <button name="financial_manager" string="Department Manager" class="oe_highlight" type="object"
-                            states="direct_manager" groups="hr_base.group_department_manager"/>
+                            states="direct_manager" groups="hr.group_hr_user"/>
                     <button name="dep_manager_refused" string="Refuse" class="oe_highlight" type="object"
-                            states="direct_manager" groups="hr_base.group_department_manager"/>
+                            states="direct_manager" groups="hr.group_hr_user"/>
                     <button name="hr_aaproval" string="HR Approval" class="oe_highlight" type="object"
-                            states="financial_manager" groups="hr.group_hr_user,hr.group_hr_manager"/>
+                            states="financial_manager" groups="hr.group_hr_manager"/>
                     <button name="refused" string="Refuse" class="oe_highlight" type="object"
-                            states="financial_manager" groups="hr.group_hr_user, hr.group_hr_manager"/>
-                    <button name="executive_office" string="Executive Approval" class="oe_highlight" type="object"
-                            groups="hr_base.group_general_manager,hr_base.group_executive_manager,group_sector_head_approval"
+                            states="financial_manager" groups="hr.group_hr_manager"/>
+                    <button name="executive_office" string="Head Sector Approval" class="oe_highlight" type="object"
+                            groups="hr_trahum.group_sector_head_approval"
                             attrs="{'invisible':[('state','!=','hr_aaproval')]}"/>
                     <button name="refused" string="Refuse" class="oe_highlight" type="object"
-                            groups="hr_base.group_general_manager,hr_base.group_executive_manager,group_sector_head_approval"
+                            groups="hr_base.group_general_manager,hr_base.group_executive_manager,hr_trahum.group_sector_head_approval"
                             attrs="{'invisible':[('state','!=','hr_aaproval')]}"/>
+                    <button name="executive_office2" string="Shared Service Approval" class="oe_highlight" type="object"
+                            groups="hr_base.group_services_manager"
+                            attrs="{'invisible':[('state','!=','hr_aaproval2')]}"/>
+                    <button name="refused" string="Refuse" class="oe_highlight" type="object"
+                            groups="hr_base.group_services_manager"
+                            attrs="{'invisible':[('state','!=','hr_aaproval2')]}"/>        
                     <button name="validated" string="Approval" class="oe_highlight" type="object"
-                            groups="hr_base.group_services_manager,group_secretary_general" states="executive_office"/>
+                            groups="hr_trahum.group_secretary_general" states="executive_office,executive_office2"/>
                     <button name="refused" string="Refuse" class="oe_highlight" type="object"
-                            states="executive_office" groups="hr_base.group_services_manager,group_secretary_general"/>
+                            states="executive_office,executive_office2" groups="hr_trahum.group_secretary_general"/>
                     <button name="re_draft" string="RE-Draft" class="oe_highlight" type="object"
                             states="refused,validated" groups="hr.group_hr_user"
                             confirm="Are you sure to Reset To Draft This Record?"/>
 
-                    <field name="state" widget="statusbar"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,submit,direct_manager,financial_manager,validated"/>
                 </header>
             </xpath>
         </field>
@@ -80,7 +88,7 @@
         <field name="model">hr.loan.salary.advance</field>
         <field name="inherit_id" ref="hr_loans_salary_advance.employee_loan_salary_form_view"/>
         <field name="arch" type="xml">
-            <xpath expr="//header" position="inside">
+            <!-- <xpath expr="//header" position="inside">
                 <button name="action_director_financial_management"
                         string="HR Management"
                         type="object"
@@ -96,10 +104,90 @@
                         class="oe_highlight"
                         groups="hr_trahum.group_sector_head_approval"/>
                 <button name="refused" string="Refuse" states="sector_head_approval" type="object"
-                        groups="hr_loans_salary_advance.group_loan_manager" class="oe_highlight"/>
+                        groups="hr_loans_salary_advance.group_loan_manager" class="oe_highlight"/> -->
+
+            <xpath expr="//header" position="replace">
+                <header>
+                        <button name="submit" string="Submit" class="oe_highlight" type="object" states="draft"
+                                groups="base.group_user"/>
+                        <button name="direct_manager" string="Payroll Officer Approve" class="oe_highlight"
+                                type="object" states="submit" groups="hr_loans_salary_advance.group_loan_user"/>
+                        <button name="refused" string="Refuse" states="submit" type="object"
+                                groups="hr_loans_salary_advance.group_loan_manager" class="oe_highlight"/>
+                        <!-- <button name="hr_manager" string="Sector Head Approval" class="oe_highlight" type="object"
+                                states="direct_manager" groups="hr.group_hr_manager"/> -->
+                        <!-- <button name="refused" string="Refuse" states="direct_manager" type="object"
+                                groups="hr.group_hr_manager" class="oe_highlight"/> -->
+                        <button name="action_director_financial_management"
+                                string="HR Management"
+                                type="object"
+                                states="direct_manager"
+                                class="oe_highlight"
+                                groups="hr.group_hr_manager"/>
+                        <button name="refused" string="Refuse" states="direct_manager" type="object"
+                                groups="hr.group_hr_manager" class="oe_highlight"/>
+
+                        <button name="action_sector_head_approval"
+                                string="Financial Management Approve"
+                                type="object"
+                                states="director_financial_management"
+                                class="oe_highlight"
+                                groups="hr_trahum.group_Director_Financial_Management"/>
+                        <button name="refused" string="Refuse" states="director_financial_management" type="object"
+                                groups="hr_trahum.group_Director_Financial_Management" class="oe_highlight"/>
+
+                        <button name="gm_approve"
+                                string="Sector Head Approval"
+                                type="object"
+                                states="sector_head_approval"
+                                class="oe_highlight"
+                                groups="hr_trahum.group_sector_head_approval"/>
+                        <button name="refused" string="Refuse" states="sector_head_approval" type="object"
+                                groups="hr_trahum.group_sector_head_approval" class="oe_highlight"/>
+
+                        <button name="branch_gm_approve"
+                                string="Shared Service Approval"
+                                type="object"
+                                states="sheared_service_approval"
+                                class="oe_highlight"
+                                groups="hr_base.group_services_manager"/>
+
+                        <button name="refused" string="Refuse" states="sheared_service_approval" type="object"
+                                groups="hr_base.group_services_manager" class="oe_highlight"/>
+
+                        <button name="executive_manager" string="Secretary-General Manager Approve" class="oe_highlight" type="object"
+                                states="gm_approve" groups="hr_trahum.group_secretary_general"/>
+                        <button name="refused" string="Refuse" states="gm_approve" type="object"
+                            groups="hr_trahum.group_secretary_general" class="oe_highlight"/>
+                        
+                        <button name="executive_manager" string="Excecutive Manager Approve" class="oe_highlight" type="object"
+                                states="branch_gm_approve" groups="hr_trahum.group_secretary_general"/>
+                        <button name="refused" string="Refuse" states="branch_gm_approve" type="object"
+                            groups="hr_trahum.group_secretary_general" class="oe_highlight"/>
+                        <!-- <button name="executive_manager" string="Secretary-General Manager Approve" class="oe_highlight" type="object"
+                                states="hr_manager" groups="hr_base.group_general_manager"/>
+                        <button name="refused" string="Refuse" states="hr_manager" type="object"
+                                groups="hr_base.group_general_manager" class="oe_highlight"/> -->
+                        <button name="pay" string="Transfer" class="oe_highlight" type="object"
+                                states="wait_transfer"  groups="hr.group_hr_manager,hr.group_hr_user"/>
+                        <button name="refused" string="Refuse" states="wait_transfer" type="object"
+                                 class="oe_highlight" groups="hr.group_hr_manager,hr.group_hr_user"/>
+                        <button name="closed" string="Loan Suspension" class="oe_highlight" type="object" states="pay"
+                                groups="hr.group_hr_manager" confirm="Are you Sure To Loan Suspension?"/>
+                        <!-- <button name="refused" string="Refuse" class="oe_highlight" type="object" states="pay"
+                                groups="hr.group_hr_manager"/> -->
+                        <button name="draft_state" string="RE-Draft" class="oe_highlight" type="object" states="refused"
+                                groups="hr.group_hr_manager,hr_loans_salary_advance.group_loan_manager"
+                                confirm="Are you sure to Reset To Draft This Record?"/>
+                        <button name="to_re_paid" string="Return To Deduct" class="oe_highlight" type="object"
+                                states="closed" groups="hr.group_hr_manager,hr_loans_salary_advance.group_loan_manager"
+                                confirm="Are you Sure To Re Deduction?"/>
+                        <field name="state" widget="statusbar"
+                                statusbar_visible="draft,submit,direct_manager,pay,closed"/>
+                </header>
             </xpath>
 
-            <xpath expr="//button[@name='hr_manager']" position="attributes">
+            <!-- <xpath expr="//button[@name='hr_manager']" position="attributes">
                 <attribute name="states">sector_head_approval</attribute>
                 <attribute name="groups">hr_trahum.group_secretary_general</attribute>
             </xpath>
@@ -111,7 +199,7 @@
             <xpath expr="//header/field[@name='state']" position="replace">
                 <field name="state" widget="statusbar"
                        statusbar_visible="draft,submit,direct_manager,director_financial_management,sector_head_approval,hr_manager,executive_manager,pay,closed,refused"/>
-            </xpath>
+            </xpath> -->
         </field>
     </record>
 
@@ -121,19 +209,82 @@
         <field name="inherit_id" ref="exp_official_mission.employee_official_mission_form_view"/>
         <field name="arch" type="xml">
 
-            <xpath expr="//header" position="inside">
+            <!-- <xpath expr="//header" position="inside">
                 <button name="action_sector_head_approval" string="Sector Head Approval" type="object"
                         states="depart_manager" class="oe_highlight" groups="hr_trahum.group_sector_head_approval"/>
             </xpath>
 
             <xpath expr="//button[@name='hr_aaproval']" position="attributes">
                 <attribute name="states">sector_head_approval</attribute>
-            </xpath>
+            </xpath> -->
 
-            <xpath expr="//button[@name='hr_aaproval']" position="after">
+            <!-- <xpath expr="//button[@name='hr_aaproval']" position="after">
                 <button name="refused" string="Refused" class="oe_highlight" type="object"
                         states="sector_head_approval"
                         groups="hr_base.group_general_manager,hr_base.group_executive_manager"/>
+            </xpath> -->
+
+            <xpath expr="//header" position="replace">
+                <header>
+                        <button name="send" string="Submit" class="oe_highlight" type="object"
+                            states="draft" groups="base.group_user"/>
+                        <button name="direct_manager" string="Direct Manager Approve" class="oe_highlight" type="object"
+                                states="send" groups="hr_base.group_division_manager"/>
+                        <button name="refused" string="Refused" class="oe_highlight" type="object"
+                            states="send" groups="hr_base.group_division_manager"/>
+
+                         <button name="depart_manager" string="Department Manager" class="oe_highlight" type="object"
+                            states="direct_manager" groups="hr_base.group_department_manager"/>
+                        <button name="refused" string="Refused" class="oe_highlight" type="object"
+                            states="direct_manager" groups="hr_base.group_department_manager"/>
+
+                        <button name="hr_aaproval" string="HR Officer Approval" class="oe_highlight" type="object"
+                            states="depart_manager"
+                            groups="hr.group_hr_user"/>
+                        <button name="refused" string="Refused" class="oe_highlight" type="object"
+                            states="depart_manager"
+                            groups="hr.group_hr_user"/>
+
+                        <button name="hr_manager_approve" string="HR Manager Approve" class="oe_highlight" type="object"
+                            states="hr_aaproval" groups="hr.group_hr_manager"/>
+
+                        <button name="refused" string="Refused" class="oe_highlight" type="object"
+                            states="hr_aaproval"
+                            groups="hr.group_hr_manager"/>
+
+                        <button name="action_sector_head_approval" string="Head Sector Approval" class="oe_highlight" type="object"
+                                states="hr_manager_approve" groups="hr_trahum.group_sector_head_approval"/>
+                
+                        <button name="refused" string="Refused" class="oe_highlight" type="object"
+                            states="hr_manager_approve"
+                            groups="hr_trahum.group_sector_head_approval"/>
+                    
+                        <button name="action_shared_service_approval" string="Shared Service Approval" class="oe_highlight" type="object"
+                            states="hr_manager_approve2" groups="hr_base.group_services_manager"/>
+                        
+                        <button name="refused" string="Refused" class="oe_highlight" type="object"
+                            states="hr_manager_approve2"
+                            groups="hr_base.group_services_manager"/>
+
+                        <button name="approve" string="General Manager Approva" class="oe_highlight" type="object"
+                            states="sector_head_approval" groups="hr_trahum.group_secretary_general"/>
+                        
+                        <button name="refused" string="Refused" class="oe_highlight" type="object"
+                            states="sector_head_approval"
+                            groups="hr_trahum.group_secretary_general"/>
+
+                        <button name="approve" string="Executive Manager Approval" class="oe_highlight" type="object"
+                            states="shared_service_approval" groups="hr_base.group_executive_manager"/>
+
+                        <button name="refused" string="Refused" class="oe_highlight" type="object"
+                            states="shared_service_approval"
+                            groups="hr_base.group_executive_manager"/>
+
+                        <button name="draft_state" string="RE-Draft" class="oe_highlight" type="object"
+                            states="approve,refused" groups="hr.group_hr_user"
+                            confirm="Are you sure to Reset To Draft This Record?"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,send,approve"/>
+                </header>
             </xpath>
 
         </field>
@@ -219,7 +370,7 @@
         <field name="model">hr.termination</field>
         <field name="inherit_id" ref="hr_termination.termination_resignation_eos_form_view"/>
         <field name="arch" type="xml">
-            <xpath expr="//header" position="inside">
+            <!-- <xpath expr="//header" position="inside">
                 <button name="action_sector_head_approval" string="Sector Head Approval" type="object"
                         states="finance_manager" class="oe_highlight" groups="hr_trahum.group_sector_head_approval"/>
                 <button class="oe_highlight" string="Refuse" type="object" name="refused"
@@ -227,6 +378,65 @@
             </xpath>
             <xpath expr="//button[@name='general_manager']" position="attributes">
                 <attribute name="states">sector_head_approval</attribute>
+            </xpath> -->
+            <xpath expr="//header" position="replace">
+                <header>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,submit,direct_manager,done,pay"/>
+                        <button class="oe_highlight" string="Submit" type="object" name="submit" states="draft"
+                                groups="base.group_user"/>
+
+                        <button class="oe_highlight" string="Direct Manager Approve" type="object" name="direct_manager"
+                                states="submit" groups="hr_base.group_division_manager"/>
+                        <button class="oe_highlight" string="Refuse" type="object" name="direct_manager_refused"
+                                states="submit" groups="hr_base.group_division_manager"/>
+
+                        <button class="oe_highlight" string="Department Manager Approve" type="object" name="hr_manager"
+                                states="direct_manager" groups="hr_base.group_department_manager"/>
+                        <button class="oe_highlight" string="Refuse" type="object" name="dep_manager_refused"
+                                states="direct_manager" groups="hr_base.group_department_manager"/>
+
+                        <button class="oe_highlight" string="HR Officer Approve" type="object" name="finance_manager"
+                                states="hr_manager" groups="hr.group_hr_user"/>
+                        <button class="oe_highlight" string="Refuse" type="object" name="refused"
+                                states="hr_manager" groups="hr.group_hr_user"/>
+
+                        <button class="oe_highlight" string="HR Approval" type="object" name="hr_manager_approve"
+                                states="finance_manager" groups="hr.group_hr_manager"/>
+                        <button class="oe_highlight" string="Refuse" type="object" name="refused"
+                                states="finance_manager" groups="hr.group_hr_manager"/>
+
+                        <button name="action_sector_head_approval" string="Sector Head Approval" type="object"
+                        states="sector_head_approval" class="oe_highlight" groups="hr_trahum.group_sector_head_approval"/>
+                        <button class="oe_highlight" string="Refuse" type="object" name="refused"
+                                states="sector_head_approval" groups="hr_trahum.group_sector_head_approval"/>
+
+                        <button name="action_shared_service_approval" string="Shared Service Approval" type="object"
+                        states="shared_service_approval" class="oe_highlight" groups="hr_base.group_services_manager"/>
+                        <button class="oe_highlight" string="Refuse" type="object" name="refused"
+                                states="shared_service_approval" groups="hr_base.group_services_manager"/>
+
+                        <button class="oe_highlight" string="GM Approval" type="object" name="complete"
+                                states="gm_manager" groups="hr_trahum.group_secretary_general"/>
+                        <button class="oe_highlight" string="Refuse" type="object" name="refused"
+                                states="gm_manager" groups="hr_trahum.group_secretary_general"/>
+
+                        <button class="oe_highlight" string="Excutive Manager Approval" type="object" name="complete"
+                                states="branch_gm_manager" groups="hr_base.group_general_manager,hr_base.group_executive_manager"/>
+
+                        <button class="oe_highlight" string="Refuse" type="object" name="refused"
+                                states="branch_gm_manager" groups="hr_base.group_general_manager,hr_base.group_executive_manager"/>
+
+                        <button class="oe_highlight" string="Finance Approval" type="object" name="pay" states="done"
+                                groups="hr_base.group_account_manager"/>
+
+                        <button class="oe_highlight" string="Refuse" type="object" name="refused" states="done"
+                                groups="hr_base.group_account_manager"/>
+
+                        <button class="oe_highlight" string="RE-Draft" type="object" name="set_to_draft" states="refused,pay"
+                                groups="hr.group_hr_user,hr.group_hr_manager" confirm="Are you sure to Reset To Draft This Record?"/>
+
+
+                    </header>
             </xpath>
 
         </field>
@@ -238,14 +448,25 @@
         <field name="model">hr.payslip.run</field>
         <field name="inherit_id" ref="exp_hr_payroll.hr_payslip_run_form"/>
         <field name="arch" type="xml">
+                <field name="salary_scale" position="after">
+                        <field name="is_branch" />
+                </field>
+<!--            -->
             <xpath expr="//header" position="inside">
-                <button name="action_sector_head_approval" string="Sector Head Approval" type="object"
-                        states="accounting_head_approval" class="oe_highlight"
-                        groups="hr_trahum.group_sector_head_approval"/>
+                <button name="action_hr_manager_approval" string="HR Manager Approval" type="object"
+                        states="confirmed" class="oe_highlight" groups="hr.group_hr_manager"/>
                 <button name="action_accounting_head_approval" string="Head Accounting Approval" type="object"
-                        states="confirmed" class="oe_highlight" groups="hr_trahum.group_Director_Financial_Management"/>
+                        states="hr_manager_approval" class="oe_highlight" groups="hr_trahum.group_Director_Financial_Management"/>
+                <button name="action_sector_head_approval" string="Sector Head Approval" type="object"
+                        attrs="{'invisible':['|',('state','!=','accounting_head_approval'),('is_branch','!=',False)]}" class="oe_highlight"
+                        groups="hr_trahum.group_sector_head_approval"/>
+                <button name="action_sheard_service_approval" string="Sheared Service Approval" type="object"
+                        attrs="{'invisible':['|',('state','!=','accounting_head_approval'),('is_branch','=',False)]}" class="oe_highlight"
+                        groups="hr_base.group_services_manager"/>
                 <button name="action_secretary_general" string="Secretary General" type="object"
-                        states="sector_head_approval" class="oe_highlight" groups="hr_trahum.group_secretary_general"/>
+                        states="sector_head_approval" class="oe_highlight" groups="hr_trahum.group_secretary_general"/> 
+                <button name="action_branch_excutive_manager" string="Excutive Manager" type="object"
+                        states="sheard_service_approval" class="oe_highlight" groups="hr_trahum.group_secretary_general"/> 
                 <!--                <button name="withdraw" type="object"  string="Withdraw"-->
                 <!--                        class="oe_highlight"-->
                 <!--                        groups="hr.group_hr_manager" confirm="Are you sure to Delete Compute Salaries?"/>-->
@@ -260,16 +481,19 @@
             </xpath>
             <xpath expr="//button[@name='return_button']" position="attributes">
                 <attribute name="states">
-                    confirmed,transfered,accounting_head_approval,sector_head_approval,secretary_general
+                    confirmed,transfered,accounting_head_approval,sector_head_approval,secretary_general,sheard_service_approval,branch_excutive_manager
                 </attribute>
             </xpath>
             <xpath expr="//button[@name='transfer']" position="attributes">
-                <attribute name="states">secretary_general</attribute>
+                <attribute name="states">secretary_general,branch_excutive_manager</attribute>
             </xpath>
-            <xpath expr="//header/field[@name='state']" position="replace">
+            <xpath expr="//button[@name='confirm']" position="attributes">
+                <attribute name="groups">hr.group_hr_user</attribute>
+            </xpath>
+            <!-- <xpath expr="//header/field[@name='state']" position="replace">
                 <field name="state" widget="statusbar"
                        statusbar_visible="draft,computed,confirmed,accounting_head_approval,sector_head_approval,secretary_general,transfered,close"/>
-            </xpath>
+            </xpath> -->
         </field>
     </record>
 
