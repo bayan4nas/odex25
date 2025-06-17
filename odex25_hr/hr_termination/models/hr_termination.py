@@ -855,7 +855,7 @@ class HrTermination(models.Model):
     def finance_manager(self):
         self.re_compute_salary_rules_and_loans()
         # check for clearance for employee
-        employee_clearance = self.env['hr.clearance.form'].search([('employee_id', '=', self.employee_id.id),
+        employee_clearance = self.env['hr.clearance.form'].sudo().search([('employee_id', '=', self.employee_id.id),
                                                                    ('clearance_type', '!=', 'vacation'),
                                                                    ('state', 'in', ['done', 'wait'])])
         if len(employee_clearance) == 0 and self.cause_type.clearance:
@@ -927,7 +927,7 @@ class HrTermination(models.Model):
             'account_id': self.journal.default_account_id.id,
             'partner_id': self.employee_id.user_id.partner_id.id})
 
-        move = self.env['account.move'].create({
+        move = self.env['account.move'].sudo().create({
             'state': 'draft',
             'journal_id': self.journal.id,
             'date': date.today(),
@@ -955,7 +955,7 @@ class HrTermination(models.Model):
             if item.employee_id:
                 item.employee_id.sudo().contract_id.state = 'end_contract'
                 item.employee_id.state = 'out_of_service'
-        holiday_balance = self.env['hr.holidays'].search([('type', '=', 'add'),
+        holiday_balance = self.env['hr.holidays'].sudo().search([('type', '=', 'add'),
                                                                   ('check_allocation_view', '=', 'balance'),
                                                                   ('holiday_status_id.leave_type', '=', 'annual'),
                                                                   ('employee_id', '=', self.employee_id.id)],
