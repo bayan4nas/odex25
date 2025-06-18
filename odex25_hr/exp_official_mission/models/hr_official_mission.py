@@ -393,7 +393,7 @@ class HrOfficialMission(models.Model):
             hr_manager = rec.sudo().employee_id.user_id.company_id.hr_manager_id
             if coach:
                 if coach.user_id.id == rec.env.uid or hr_manager.user_id.id == rec.env.uid:
-                   rec.state = 'depart_manager'
+                    rec.state = 'depart_manager'
                 else:
                     raise exceptions.Warning(
                         _('Sorry, The Approval For The Department Manager %s Only OR HR Manager!') % (coach.name))
@@ -458,7 +458,7 @@ class HrOfficialMission(models.Model):
                                 'partner_id': item.employee_id.user_id.partner_id.id
                             }
                             if not item.account_move_id:
-                               move = self.env['account.move'].create({
+                               move = self.env['account.move'].sudo().create({
                                    'state': 'draft',
                                    'journal_id': journal_id.id,
                                    'date': date.today(),
@@ -527,7 +527,7 @@ class HrOfficialMission(models.Model):
                
                     # 'partner_id': item.employee_id.user_id.partner_id.id
                 }
-                invoice = self.env['account.move'].create({
+                invoice = self.env['account.move'].sudo().create({
                     'state': 'draft',
                     'move_type': 'in_invoice',
                     'journal_id': item.mission_type.journal_id.id,
@@ -539,8 +539,11 @@ class HrOfficialMission(models.Model):
                     'res_id': self.id
                 })
                 item.write({'Tra_cost_invo_id': invoice.id})
+        if self.is_branch:
 
-        self.state = "approve"
+            self.state = "secret_general"
+        else:
+            self.state = 'approve'
         if self.mission_type.work_state and self.mission_type.duration_type == 'days':
             for emp in self.employee_ids:
                 if emp.date_to >= fields.Date.today() >= emp.date_from:

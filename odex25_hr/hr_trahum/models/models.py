@@ -19,16 +19,23 @@ class EmployeeOvertimeRequestTrahum(models.Model):
          ('hr_aaproval2', _('Wait Shared Service')),
          ('executive_office', _('Wait Transfer')),
          ('executive_office2', _('Wait Executive Manager Approval')),
+         ('secret_general', _('Secret General')),
          ('validated', _('Transferred')),
          ('refused', _('Refused'))], default="draft", tracking=True)
 
+
+
     def hr_aaproval(self):
+        super(EmployeeOvertimeRequestTrahum,self).hr_aaproval()
         if self.is_branch : self.state = "hr_aaproval2"
         else : self.state = "hr_aaproval"
 
     def executive_office2(self):
         self.chick_not_mission()
         self.state = "executive_office2"
+
+    def secret_general_approval(self):
+            self.state = "validated"
 
 
 class HrContractTrahum(models.Model):
@@ -38,6 +45,7 @@ class HrContractTrahum(models.Model):
         ('draft', _('Draft')),
         ('employeed_aproval', _('Employeed Approval')),
         ('hr_head_approval', _('HR Head Approval')),
+        ('secret_general', _('Secret General')),
         ('secretary_general', _('Secretary General')),
         ('program_directory', _('Executive Approval')),
 
@@ -67,6 +75,12 @@ class HrContractTrahum(models.Model):
         self.state = "hr_head_approval"
 
     def action_sector_head_approval(self):
+        if self.is_branch:
+            self.state = "secret_general"
+        else:
+            self.state = "secretary_general"
+
+    def action_secret_general(self):
         self.state = "secretary_general"
 
 
@@ -84,6 +98,7 @@ class HrOfficialMissionTrahum(models.Model):
                               ('hr_manager_approve2', _('Wait Shared Service')),
                               ('sector_head_approval','Wait General Manager Approval'),
                               ('shared_service_approval','Wait Executive Manager Approval'),
+                              ('secret_general','Secret General'),
                               ('approve', _('Approved')),
                               ('refused', _('Refused'))], default="draft", tracking=True)
 
@@ -117,8 +132,8 @@ class HrOfficialMissionTrahum(models.Model):
     def action_shared_service_approval(self):
         self.state = "shared_service_approval"
 
-    # def action_secretary_general(self):
-    #     self.state = "secretary_general"
+    def action_secret_general(self):
+        self.state = "approve"
 
 
     def executive_office2(self):
@@ -139,6 +154,7 @@ class HrLoanSalaryAdvanceInherit(models.Model):
                  ('gm_approve', _('Wait Secretary-General Approval')),
                  ('branch_gm_approve', _('Wait Excutive Manager Approval')),
                  ('wait_transfer', _('Wait Transfer')),
+                 ('secret_general', _('Secret General')),
                  ('pay', _('Transferred')), ('refused', _('Refused')),
                  ('closed', _('Loan Suspended'))],
             default="draft", tracking=True)
@@ -157,8 +173,15 @@ class HrLoanSalaryAdvanceInherit(models.Model):
     def branch_gm_approve(self):
         self.state = "branch_gm_approve"
 
+
+    def secret_general_approval(self):
+            self.state = "wait_transfer"
+
     def executive_manager(self):
-        self.state = "wait_transfer"
+        if self.is_branch:
+            self.state = "secret_general"
+        else:
+            self.state = 'wait_transfer'
 
 class HrSalaryAdvanceInherit(models.Model):
     _inherit = 'hr.payroll.raise'
@@ -191,11 +214,17 @@ class TerminationpPatchinherit(models.Model):
         ("shared_service_approval", "Wait Shared Service"),
         ("gm_manager", "Wait General Manager"),
         ("branch_gm_manager", "Wait Excutive Manager"),
+        ("secret_general", "Secret General"),
         ("done", "Wait Transfer"),
         ("pay", "Transferred"),
         ("refused", "Refused")], default='draft', tracking=True)
     is_branch = fields.Many2one(related='department_id.branch_name', store=True, readonly=True)
 
+    def complete(self):
+        if self.is_branch:
+             self.state = 'secret_general'
+        else:
+            self.state = 'done'
 
     def action_sector_head_approval(self):
         self.state = "gm_manager"
@@ -207,7 +236,8 @@ class TerminationpPatchinherit(models.Model):
         if self.is_branch : self.state = "shared_service_approval"
         else : self.state = "sector_head_approval"
 
-
+    def action_secret_general(self):
+        self.state = "done"
 
 
 class HrPayslip(models.Model):

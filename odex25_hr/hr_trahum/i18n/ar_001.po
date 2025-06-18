@@ -24,6 +24,68 @@ msgstr ""
 
 #. module: hr_trahum
 #: code:addons/hr_trahum/models/models.py:0
+#: model:ir.model.fields.selection,name:hr_trahum.selection__hr_loan_salary_advance__state__sheared_service_approval
+#: model_terms:ir.ui.view,arch_db:hr_trahum.employee_loan_salary_form_view_inherit
+#: model_terms:ir.ui.view,arch_db:hr_trahum.employee_official_mission_form_view_inherit
+#: model_terms:ir.ui.view,arch_db:hr_trahum.employee_overtime_request_inherit
+#: model_terms:ir.ui.view,arch_db:hr_trahum.termination_resignation_inherit_form_view
+#, python-format
+msgid "Shared Service Approval"
+msgstr "انتظار  الخدمات المشتركة"
+
+#. module: hr_trahum
+#: code:addons/hr_trahum/models/models.py:0
+#: model:ir.model.fields.selection,name:hr_trahum.selection__hr_loan_salary_advance__state__branch_gm_approve
+#, python-format
+msgid "Wait Excutive Manager Approval"
+msgstr "انتظار المدير التنفيذي"
+
+
+#. module: hr_trahum
+#: code:addons/hr_trahum/models/models.py:0
+#: model:ir.model.fields.selection,name:hr_trahum.selection__employee_overtime_request__state__executive_office2
+#: model:ir.model.fields.selection,name:hr_trahum.selection__hr_official_mission__state__shared_service_approval
+#, python-format
+msgid "Wait Executive Manager Approval"
+msgstr "انتظار المدير التنفيذي"
+
+#. module: hr_trahum
+#: code:addons/hr_trahum/models/models.py:0
+#: code:addons/hr_trahum/models/models.py:0
+#: code:addons/hr_trahum/models/models.py:0
+#: model:ir.model.fields.selection,name:hr_trahum.selection__employee_overtime_request__state__hr_aaproval2
+#: model:ir.model.fields.selection,name:hr_trahum.selection__hr_official_mission__state__hr_manager_approve2
+#: model:ir.model.fields.selection,name:hr_trahum.selection__hr_termination__state__shared_service_approval
+#, python-format
+msgid "Wait Shared Service"
+msgstr "انتظار الخدمات المشتركة"
+
+#. module: hr_trahum
+#: code:addons/hr_trahum/models/models.py:0
+#: model:ir.model.fields.selection,name:hr_trahum.selection__hr_payslip__state__sheard_service_approval
+#: model_terms:ir.ui.view,arch_db:hr_trahum.hr_payslip_run_inherit_form_inherit
+#, python-format
+msgid "Sheared Service Approval"
+msgstr "موافقة الخدمات المشتركة"
+
+
+#. module: hr_trahum
+#: model_terms:ir.ui.view,arch_db:hr_trahum.employee_loan_salary_form_view_inherit
+msgid "Excecutive Manager Approve"
+msgstr "موافقة المدير التنفيذي"
+
+#. module: hr_trahum
+#: model_terms:ir.ui.view,arch_db:hr_trahum.termination_resignation_inherit_form_view
+msgid "Excutive Manager Approval"
+msgstr "موافقة المدير التنفيذي"
+
+#. module: hr_trahum
+#: model_terms:ir.ui.view,arch_db:hr_trahum.employee_official_mission_form_view_inherit
+msgid "Executive Manager Approval"
+msgstr "موافقة المدير التنفيذي"
+
+#. module: hr_trahum
+#: code:addons/hr_trahum/models/models.py:0
 #: code:addons/hr_trahum/models/models.py:0
 #: model:ir.model.fields.selection,name:hr_trahum.selection__hr_payroll_raise__state__approve
 #, python-format
@@ -732,8 +794,37 @@ msgstr "موافقة رئيس القطاع"
 #. module: hr_trahum
 #: model_terms:ir.ui.view,arch_db:hr_trahum.employee_overtime_request_inherit
 msgid "Approval"
-msgstr "اعتماد اﻷمين العام"
+msgstr "موافقة المدير التنفيذي"
 
+#. module: hr_trahum
+#: code:addons/hr_trahum/models/models.py:0
+#: code:addons/hr_trahum/models/models.py:0
+#: code:addons/hr_trahum/models/models.py:0
+#: model:ir.model.fields.selection,name:hr_trahum.selection__hr_official_mission__state__secret_general
+#: model:ir.model.fields.selection,name:hr_trahum.selection__hr_contract__state__secret_general
+#: model:ir.model.fields.selection,name:hr_trahum.selection__hr_termination__state__secret_general
+#, python-format
+msgid "Secret General"
+msgstr "انتظار اﻷمانة العامة"
+
+#. module: hr_trahum
+#: model:res.groups,name:hr_trahum.group_secret_general
+msgid "Secret General"
+msgstr " اﻷمانة العامة"
+
+#. module: hr_trahum
+#: model_terms:ir.ui.view,arch_db:hr_trahum.employee_loan_salary_form_view_inherit
+#: model_terms:ir.ui.view,arch_db:hr_trahum.employee_official_mission_form_view_inherit
+#: model_terms:ir.ui.view,arch_db:hr_trahum.employee_overtime_request_inherit
+#: model_terms:ir.ui.view,arch_db:hr_trahum.termination_resignation_inherit_form_view
+msgid "Secret General Approval"
+msgstr "موافقة اﻷمانة العامة"
+
+
+#. module: hr_trahum
+#: model_terms:ir.ui.view,arch_db:hr_trahum.view_hr_contract_form
+msgid "Secret General Approved"
+msgstr "موافقة اﻷمانة العامة"
 
 
 
@@ -748,6 +839,26 @@ msgstr "انتظار موافقة رئيس القطاع"
 #, python-format
 msgid "Executive Approval"
 msgstr "موافقة رئيس القطاع"
+
+
+#. module: hr_trahum
+#: model:ir.model.fields.selection,name:hr_trahum.selection__hr_contract__delgiation_status_type__gm
+#: model_terms:ir.ui.view,arch_db:hr_trahum.employee_overtime_request_inherit
+msgid "General Manager"
+msgstr "اعتماد الامين العام"
+
+#. module: hr_trahum
+#: code:addons/hr_trahum/models/models.py:0
+#: model:ir.model.fields.selection,name:hr_trahum.selection__hr_payslip_run__state__sheard_service_approval
+#: model:ir.model.fields.selection,name:hr_trahum.selection__hr_termination__state__branch_gm_manager
+#, python-format
+msgid "Wait Excutive Manager"
+msgstr "انتظار المدير التنفيذي"
+
+#. module: hr_trahum
+#: model_terms:ir.ui.view,arch_db:hr_trahum.termination_resignation_inherit_form_view
+msgid "Finance Approval"
+msgstr "الترحيل المالي"
 
 
 #. module: employee_requests

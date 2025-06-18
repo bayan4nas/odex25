@@ -12,6 +12,10 @@ class EmployeeOtherRequest(models.Model):
     _inherit = ['mail.thread', 'mail.activity.mixin']
 
     from_hr = fields.Boolean()
+    iqama_number = fields.Many2one(comodel_name="hr.employee.document", domain=[("document_type", "=", "Iqama")],
+                                   tracking=True, string="Identity")
+    def print_with_details(self):
+        return self.env.ref('employee_requests.salary_def_report_act').report_action(self)
 
     def get_employee_totalallownce(self):
         self.ensure_one()
@@ -92,13 +96,15 @@ class EmployeeOtherRequest(models.Model):
                                              ('no_salary', _("Without Salary"))], string='Print Type')
     destination = fields.Many2one('salary.destination', string='Destination')
     parent_request_id = fields.Many2one('employee.other.request')
+    destination_english = fields.Char(string='Destination English')
+
 
     company_id = fields.Many2one('res.company', string="Company", default=lambda self: self.env.user.company_id)
 
     is_branch = fields.Many2one(related='department_id.branch_name', store=True, readonly=True)
 
-    def print_with_details(self):
-        return self.env.ref('employee_requests.action_report_employee_identification').report_action(self)
+    # def print_with_details(self):
+    #     return self.env.ref('employee_requests.action_report_employee_identification').report_action(self)
 
     def print_with_details2(self):
         return self.env.ref('employee_requests.action_report_employee_identify_2').report_action(self)
@@ -136,10 +142,6 @@ class EmployeeOtherRequest(models.Model):
             if item.request_type == 'dependent':
                 if not item.employee_dependant:
                     raise exceptions.Warning(_('Please The dependents were not Included'))
-
-                for rec in item.employee_dependant:
-                    if not rec.attachment:
-                        raise exceptions.Warning(_('Please Insert dependents Attachments Files Below!'))
 
                 #if item.employee_id.contract_id.contract_status == 'single':
                     #raise exceptions.Warning(_('You can not Add Family record Because Employee is Single'))
@@ -280,7 +282,8 @@ class EmployeeDependent(models.Model):
     _inherit = 'hr.employee.dependent'
 
     request_id = fields.Many2one('employee.other.request')
-
+    iqama_number = fields.Many2one(comodel_name="hr.employee.document", domain=[("document_type", "=", "Iqama")],
+                                   tracking=True, string="Identity")
 
 # Hr_Employee_Qualification
 class Qualification(models.Model):
