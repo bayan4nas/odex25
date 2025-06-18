@@ -26,7 +26,6 @@ class BudgetConfirmation(models.Model):
 
     def get_attachments(self):
         Attachment = self.env['ir.attachment']
-        PurchaseRequest = self.env['purchase.request']
 
         budget_ids = self.ids
         direct_request_ids = self.mapped('request_id').ids
@@ -34,29 +33,49 @@ class BudgetConfirmation(models.Model):
         indirect_request_ids = self.mapped('po_id.request_id').ids
         requisition_ids = self.mapped('po_id.requisition_id').ids
         all_request_ids = list(set(direct_request_ids + indirect_request_ids))
-        related_models = ['budget.confirmation', 'purchase.request', 'purchase.order','purchase.requisition']
-        related_ids = (
-                list(set(budget_ids)) +
-                list(set(all_request_ids)) +
-                list(set(purchase_order_ids)) +
-                list(set(requisition_ids))
-        )
-        domain = [
-            ('res_model', 'in', related_models),
-            ('res_id', 'in', related_ids),
+
+        budget_attch_domain = [
+            ('res_model', '=', 'budget.confirmation'),
+            ('res_id', 'in', budget_ids),
         ]
+
+        req_attch_domain = [
+            ('res_model', '=', 'purchase.request'),
+            ('res_id', 'in', all_request_ids),
+        ]
+
+        order_attch_domain = [
+            ('res_model', '=', 'purchase.order'),
+            ('res_id', 'in', purchase_order_ids),
+        ]
+
+        requisition_attch_domain = [
+            ('res_model', '=', 'purchase.requisition'),
+            ('res_id', 'in', requisition_ids),
+        ]
+
+        budget_attch_ids = Attachment.search(budget_attch_domain).ids
+
+        req_attch_ids = Attachment.search(req_attch_domain).ids
+
+        order_attch_ids = Attachment.search(order_attch_domain).ids
+
+        requisition_attch_ids = Attachment.search(requisition_attch_domain).ids
+
+        attch_ids = list(set(
+            budget_attch_ids + req_attch_ids + order_attch_ids + requisition_attch_ids
+        ))
+
+        domain = [('id', 'in', attch_ids)]
 
         att_count = Attachment.search_count(domain)
 
         self.att_number = att_count
-
         attachments = Attachment.search(domain)
-
         action = self.env['ir.actions.act_window']._for_xml_id('base.action_attachment')
         action['domain'] = [('id', 'in', attachments.ids)]
         action['context'] = "{'default_res_model': '%s','default_res_id': %d}" % (self._name,self.ids[0] if self.ids else 0)
         return action
-    
     name = fields.Char(string='Name')
 
     date = fields.Date(string='Date', required=True)
