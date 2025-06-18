@@ -10,3 +10,4 @@ from . import employee
 from . import employee_department_jobs
 from .  import attendance
 from .  import other_request
+from .  import res_company

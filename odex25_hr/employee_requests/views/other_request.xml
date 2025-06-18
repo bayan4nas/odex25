@@ -79,7 +79,7 @@
                                        attrs="{'readonly': ['|',('from_hr','=',False),('state','!=','draft')],'required':True}"/>
                                 <field name="employee_no" string="Employee Number" readonly="1"/>
 
-                                <field name="passport_number" attrs="{'invisible': [('request_type', '!=', 'salary_define')]}"/>
+                                <field name="iqama_number" attrs="{'invisible': [('request_type', '!=', 'salary_define')]}"/>
                                 <field name="department_id" string="Department"/>
                                 <field name="job_id" string="Job"/>
                                 <!--field name="type_contract" string="Type Of Contract" /-->
@@ -102,7 +102,8 @@
                                 ('request_type','!=','insurance')]}" readonly="1"/>
                                 <field name="destination" attrs="{'invisible': [('request_type', 'not in', ('salary_define','salary_fixing'))],
                                                                   'required': [('request_type', 'in', ('salary_define','salary_fixing'))],'readonly': [('state', '!=', 'draft')]}"/>
-
+                                <field name="destination_english" attrs="{'invisible': [('request_type', 'not in', ('salary_define','salary_fixing'))],
+                                                                  'readonly': [('state', '!=', 'draft')]}"/>
 
 
                                 <field name="print_type" attrs="{'invisible': [('request_type', '!=',  'salary_define')], 'required': [('request_type', '=',  'salary_define')],
@@ -127,7 +128,7 @@
                                 <field name="age" required="1"/>
                                 <field name="gender" required="1"/>
                                 <field name="relation" required="1"/>
-                                <field name="passport_no" required="1"/>
+                                <field name="iqama_number" required="1"/>
                                 <field name="nationality" string="Nationality" required="1"/>
                                 <field name="birthday" string="BirthDay" required="1"/>
                                 <field name="attachment" string="Attachment" class="oe_inline"
@@ -140,7 +141,7 @@
                                         <field name="name" required="1"/>
                                         <field name="birthday" required="1"/>
                                         <field name="relation" required="1"/>
-                                        <field name="passport_no"/>
+                                        <field name="iqama_number"/>
                                         <field name="passport_issue_date"/>
                                     </group>
                                     <group col="2">
