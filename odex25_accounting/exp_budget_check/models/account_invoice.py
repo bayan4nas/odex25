@@ -125,7 +125,8 @@ class AccountMove(models.Model):
         self.action_confirm()
 
     def action_department(self):
-        if self.move_type == 'in_invoice':
+        move_type_ctx = self.env.context.get('default_move_type')
+        if self.move_type == 'in_invoice' or move_type_ctx== 'entry' :
             self.state = "financial_manager"
         else:
             super(AccountMove, self).action_post()
@@ -143,7 +144,11 @@ class AccountMove(models.Model):
         self.state = "sector_manager"
 
     def action_financial_manager(self):
-        self.state = "sector_manager"
+        move_type_ctx = self.env.context.get('default_move_type')
+        if  move_type_ctx== 'entry' :
+            super(AccountMove, self).action_post()
+        else:
+            self.state = "sector_manager"
 
     def action_sector_manager(self):
         self.state = "general_secretary"
