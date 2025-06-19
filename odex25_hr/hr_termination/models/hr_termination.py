@@ -867,7 +867,7 @@ class HrTermination(models.Model):
     def finance_manager(self):
         self.re_compute_salary_rules_and_loans()
         # check for clearance for employee
-        employee_clearance = self.env['hr.clearance.form'].search([('employee_id', '=', self.employee_id.id),
+        employee_clearance = self.env['hr.clearance.form'].sudo().search([('employee_id', '=', self.employee_id.id),
                                                                    ('clearance_type', '!=', 'vacation'),
                                                                    ('state', 'in', ['done', 'wait'])])
         if len(employee_clearance) == 0 and self.cause_type.clearance:
@@ -974,6 +974,7 @@ class HrTermination(models.Model):
                                                           ('holiday_status_id.leave_type', '=', 'annual'),
                                                           ('employee_id', '=', self.employee_id.id)],
                                                          limit=1)
+
         holiday_balance.remaining_leaves = 0
         self.state = 'pay'
 

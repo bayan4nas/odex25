@@ -42,23 +42,22 @@ class AccountMove(models.Model):
     payment_count = fields.Integer(string='Payments', compute='_compute_payment_count')
 
     @api.depends('payment_state')
+    def get_related_payments(self):
+        self.ensure_one()
+        return self._get_reconciled_payments()
+
+    @api.depends('line_ids.matched_debit_ids', 'line_ids.matched_credit_ids')
     def _compute_payment_count(self):
         for rec in self:
-            payments = self.env['account.payment'].search([('partner_id', '=', self.partner_id.id), '|', ('ref', '=', self.name),  ('ref', '=', self.ref),])
-            rec.payment_count = len(payments)
+            rec.payment_count = len(rec.get_related_payments())
+
     def action_view_payments(self):
         self.ensure_one()
-        payments = self.env['account.payment'].search([
-            ('partner_id', '=', self.partner_id.id),
-            '|',
-            ('ref', '=', self.name),
-            ('ref', '=', self.ref),
-        ])
+        payments = self.get_related_payments()
 
         action = self.env.ref('account.action_account_payments').read()[0]
         action['domain'] = [('id', 'in', payments.ids)]
         action['context'] = {'create': False}
-        self.payment_count = len(payments)
         return action
 
 
