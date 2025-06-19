@@ -16,7 +16,8 @@
         'security/ir.model.access.csv',
 
         'data/hr_personal_permission_type_data.xml',
-
+        'report/salary_definition.xml',
+        'report/report_action.xml',
         'views/employee_effective_form.xml',
         'views/employee_overtime_request.xml',
         'views/hr_clearance_form.xml',
@@ -27,6 +28,7 @@
 
         'views/other_request.xml',
         'views/attendance_view.xml',
+        'views/res_company.xml',
 
         'report/employee_clearance_report/employee_clearance_form_reports.xml',
         'report/employee_clearance_report/employee_clearance_form_template1.xml',

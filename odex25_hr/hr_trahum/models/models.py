@@ -10,8 +10,32 @@ _logger = logging.getLogger(__name__)
 class EmployeeOvertimeRequestTrahum(models.Model):
     _inherit = 'employee.overtime.request'
 
+    state = fields.Selection(
+        [('draft', _('Draft')),
+         ('submit', _('Waiting Direct Manager')),
+         ('direct_manager', _('Waiting Department Manager')),
+         ('financial_manager', _('Wait HR Department')),
+         ('hr_aaproval', _('Wait Approval')),
+         ('hr_aaproval2', _('Wait Shared Service')),
+         ('executive_office', _('Wait Transfer')),
+         ('executive_office2', _('Wait Executive Manager Approval')),
+         ('secret_general', _('Secret General')),
+         ('validated', _('Transferred')),
+         ('refused', _('Refused'))], default="draft", tracking=True)
+
+
+
     def hr_aaproval(self):
-        self.state = "hr_aaproval"
+        super(EmployeeOvertimeRequestTrahum,self).hr_aaproval()
+        if self.is_branch : self.state = "hr_aaproval2"
+        else : self.state = "hr_aaproval"
+
+    def executive_office2(self):
+        self.chick_not_mission()
+        self.state = "executive_office2"
+
+    def secret_general_approval(self):
+            self.state = "validated"
 
 
 class HrContractTrahum(models.Model):
@@ -21,10 +45,15 @@ class HrContractTrahum(models.Model):
         ('draft', _('Draft')),
         ('employeed_aproval', _('Employeed Approval')),
         ('hr_head_approval', _('HR Head Approval')),
-        ('sector_head_approval', _('Sector Head Approval')),
+        ('secret_general', _('Secret General')),
+        ('secretary_general', _('Secretary General')),
         ('program_directory', _('Executive Approval')),
+
         ('end_contract', _('End Contract'))
     ], default='draft', tracking=True)
+
+    is_branch = fields.Many2one(related='department_id.branch_name', store=True, readonly=True)
+
 
     delgiation_status_type = fields.Selection(selection=[
         ('employee','Employee'),
@@ -37,8 +66,23 @@ class HrContractTrahum(models.Model):
     #         raise exceptions.UserError("Only HR Head approved contracts can proceed to Sector Head Approval.")
     #     self.state = 'sector_head_approval'
 
+    def employeed_aproval(self):
+        #self.chick_saudi_percentage()
+        self.state = "employeed_aproval"
+
+    def hr_head_approval(self):
+        #self.chick_saudi_percentage()
+        self.state = "hr_head_approval"
+
     def action_sector_head_approval(self):
-        self.state = "sector_head_approval"
+        if self.is_branch:
+            self.state = "secret_general"
+        else:
+            self.state = "secretary_general"
+
+    def action_secret_general(self):
+        self.state = "secretary_general"
+
 
 
 class HrOfficialMissionTrahum(models.Model):
@@ -49,16 +93,51 @@ class HrOfficialMissionTrahum(models.Model):
                               ('send', _('Waiting Direct Manager')),
                               ('direct_manager', _('Waiting Department Manager')),
                               ('depart_manager', _('Wait HR Department')),
-                              ('sector_head_approval', _('Sector Head Approval')),
-                              ('hr_aaproval', _('Wait Approval')),
+                              ('hr_aaproval', _('Wait HR Manager')),
+                              ('hr_manager_approve', _('Sector Head Approval')),
+                              ('hr_manager_approve2', _('Wait Shared Service')),
+                              ('sector_head_approval','Wait General Manager Approval'),
+                              ('shared_service_approval','Wait Executive Manager Approval'),
+                              ('secret_general','Secret General'),
                               ('approve', _('Approved')),
                               ('refused', _('Refused'))], default="draft", tracking=True)
+
+    def hr_manager_approve(self):
+        if self.is_branch:
+            self.state = "hr_manager_approve2"
+        else:
+            self.state = "hr_manager_approve"
+
+    def hr_aaproval(self):
+        # self.chick_employee_ids()
+        self.employee_ids.chick_not_overtime()
+        self.employee_ids.compute_Training_cost_emp()
+        self.state = "hr_aaproval"
+
+    def direct_manager(self):
+        # self.chick_employee_ids()
+        self.employee_ids.chick_not_overtime()
+        self.employee_ids.compute_Training_cost_emp()
+        if self.process_type=='especially_hours':
+            self.state = "direct_hr"
+        else:
+            self.state = "direct_manager"
+
+
 
     def action_sector_head_approval(self):
         self.state = "sector_head_approval"
 
-    # def action_secretary_general(self):
-    #     self.state = "secretary_general"
+
+    def action_shared_service_approval(self):
+        self.state = "shared_service_approval"
+
+    def action_secret_general(self):
+        self.state = "approve"
+
+
+    def executive_office2(self):
+        self.state = "executive_office2"
 
 
 
@@ -71,19 +150,38 @@ class HrLoanSalaryAdvanceInherit(models.Model):
                  ('direct_manager', _('Wait HR Department')),
                  ('director_financial_management', _('Director Financial Management')),
                  ('sector_head_approval', _('Sector Head Approval')),
-                 ('hr_manager', _('Wait Secretary-General Approval')),
-                 ('executive_manager', _('Wait Transfer')),
+                 ('sheared_service_approval', _('Shared Service Approval')),
+                 ('gm_approve', _('Wait Secretary-General Approval')),
+                 ('branch_gm_approve', _('Wait Excutive Manager Approval')),
+                 ('wait_transfer', _('Wait Transfer')),
+                 ('secret_general', _('Secret General')),
                  ('pay', _('Transferred')), ('refused', _('Refused')),
                  ('closed', _('Loan Suspended'))],
             default="draft", tracking=True)
+    is_branch = fields.Many2one(related='department_id.branch_name', store=True, readonly=True)
 
     def action_director_financial_management(self):
         self.state = "director_financial_management"
 
     def action_sector_head_approval(self):
-        self.state = "sector_head_approval"
+        if self.is_branch: self.state = "sheared_service_approval"
+        else : self.state = "sector_head_approval"
+
+    def gm_approve(self):
+        self.state = "gm_approve"
+    
+    def branch_gm_approve(self):
+        self.state = "branch_gm_approve"
 
 
+    def secret_general_approval(self):
+            self.state = "wait_transfer"
+
+    def executive_manager(self):
+        if self.is_branch:
+            self.state = "secret_general"
+        else:
+            self.state = 'wait_transfer'
 
 class HrSalaryAdvanceInherit(models.Model):
     _inherit = 'hr.payroll.raise'
@@ -113,55 +211,105 @@ class TerminationpPatchinherit(models.Model):
         ("hr_manager", "Wait HR Officer"),
         ("finance_manager", "Wait HR Manager"),
         ('sector_head_approval',"Sector Head Approval"),
-        ("gm_manager", "Wait CEO Manager"),
+        ("shared_service_approval", "Wait Shared Service"),
+        ("gm_manager", "Wait General Manager"),
+        ("branch_gm_manager", "Wait Excutive Manager"),
+        ("secret_general", "Secret General"),
         ("done", "Wait Transfer"),
         ("pay", "Transferred"),
         ("refused", "Refused")], default='draft', tracking=True)
+    is_branch = fields.Many2one(related='department_id.branch_name', store=True, readonly=True)
+
+    def complete(self):
+        if self.is_branch:
+             self.state = 'secret_general'
+        else:
+            self.state = 'done'
 
     def action_sector_head_approval(self):
-        self.state = "sector_head_approval"
+        self.state = "gm_manager"
 
+    def action_shared_service_approval(self):
+        self.state = "branch_gm_manager"
 
+    def hr_manager_approve(self):
+        if self.is_branch : self.state = "shared_service_approval"
+        else : self.state = "sector_head_approval"
+
+    def action_secret_general(self):
+        self.state = "done"
 
 
 class HrPayslip(models.Model):
     _inherit = 'hr.payslip'
 
-    state = fields.Selection(selection_add=[('accounting_head_approval', _('Accounting Head Approval')),
+    state = fields.Selection(selection_add=[('hr_manager_approval', _('HR Manager Approval')),
+                                            ('accounting_head_approval', _('Accounting Head Approval')),
                                             ('sector_head_approval', _('Sector Head Approval')),
+                                            ('sheard_service_approval', _('Sheared Service Approval')),
                                             ('secretary_general', _('Secretary General')),
+                                            ('branch_excutive_manager', _('Excutive Manager')),
                                             ('transfered', 'Transfer')
                                             ], tracking=True)
+    is_branch = fields.Many2one("hr.department", domain=[('is_branch','=', True)])
 
+    def action_hr_manager_approval(self):
+        self.state = "hr_manager_approval"
 
     def action_accounting_head_approval(self):
         self.state = "accounting_head_approval"
 
     def action_sector_head_approval(self):
         self.state = "sector_head_approval"
+    
+    def action_sheard_service_approval(self):
+        self.state = "sheard_service_approval"
 
     def action_secretary_general(self):
         self.state = "secretary_general"
+
+    def action_branch_excutive_manager(self):
+        self.state = "branch_excutive_manager"
+
+    
+
+    
 
 class HrPayslipRuninhirt(models.Model):
     _inherit = 'hr.payslip.run'
 
     state = fields.Selection(selection_add=[('computed', 'Computed'),
                                             ('confirmed', 'Confirmed'),
-                                            ('accounting_head_approval', _('Accounting Head Approval')),
-                                            ('sector_head_approval', _('Sector Head Approval')),
-                                            ('secretary_general', _('Secretary General')),
-                                            ('transfered', 'Transfer'), ('close', 'Close')], tracking=True)
+                                            ('hr_manager_approval', _('Wait Accounting Manager')),
+                                            ('accounting_head_approval', _('Wait Shared Service')),
+                                            ('sector_head_approval', _('Wait General Manager')),
+                                            ('sheard_service_approval', _('Wait Excutive Manager')),
+                                            ('secretary_general', _('Wait Finance Transfer')),
+                                            ('branch_excutive_manager', _('Wait Finance Transfer')),
+                                            ('transfered', 'Transfer')], tracking=True)
+    
+    is_branch = fields.Many2one("hr.department",string="Branch", domain=[('is_branch','=', True)])
 
+
+    
+
+    def action_hr_manager_approval(self):
+        self.state = "hr_manager_approval"
 
     def action_accounting_head_approval(self):
         self.state = "accounting_head_approval"
 
     def action_sector_head_approval(self):
         self.state = "sector_head_approval"
+    
+    def action_sheard_service_approval(self):
+        self.state = "sheard_service_approval"
 
     def action_secretary_general(self):
         self.state = "secretary_general"
+
+    def action_branch_excutive_manager(self):
+        self.state = "branch_excutive_manager"
 
 class HrEmployeePromotions(models.Model):
     _inherit = 'employee.promotions'
@@ -304,12 +452,10 @@ class Employee(models.Model):
             if coach:
                 vals['coach_id'] = coach.id
         return super(Employee, self).write(vals)
-    
+
+
     def _onchange_department(self):
         manager = self._assign_manager(self.department_id)
         coach = self._assign_top_manager(self.department_id, manager)
         self.parent_id = manager.id 
         self.coach_id = coach.id 
-
-
-

@@ -45,7 +45,7 @@ class employee_overtime_request(models.Model):
     employee_id = fields.Many2one('hr.employee', 'Responsible', default=lambda item: item.get_user_id(),
                                   domain=[('state', '=', 'open')])
     employee_no = fields.Char(related='employee_id.emp_no', readonly=True,string='Employee Number', store=True)
-    exception = fields.Boolean(string="Exception Hours", default=False,tracking=True,
+    exception = fields.Boolean(string="Exception Hours", default=False,
                                help='Exceeding The Limit Of Overtime Hours Per Month')
 
     company_id = fields.Many2one('res.company',string="Company", default=lambda self: self.env.user.company_id)
@@ -64,14 +64,10 @@ class employee_overtime_request(models.Model):
         if self.employee_id:
             self.department_id = self.employee_id.department_id.id
 
-    @api.onchange('request_date','date_from','date_to')
+    @api.onchange('request_date','date_from')
     def chick_date_request(self):
         for rec in self:
             days_after = rec.employee_id.contract_id.working_hours.request_after_day
-            if rec.date_from:
-               if rec.date_from == rec.date_to:
-                  raise exceptions.Warning(_('Sorry, The Start Date Must Not Equal End Date.'))
-
             if days_after > 0 and rec.date_from:
                rec.date_to=False
                date_from = datetime.strptime(str(rec.date_from), "%Y-%m-%d").date()
@@ -183,93 +179,95 @@ class employee_overtime_request(models.Model):
                 rec.write({'state': 'direct_manager'})
 
     def financial_manager(self):
-        for rec in self:
-            rec.chick_not_mission()
-            manager = rec.sudo().employee_id.coach_id
-            hr_manager = rec.sudo().employee_id.company_id.hr_manager_id
-            if manager:
-               if manager.user_id.id == rec.env.uid or hr_manager.user_id.id == rec.env.uid:
-                  rec.write({'state': 'financial_manager'})
-               else:
-                   raise exceptions.Warning(_("Sorry, The Approval For The Department Manager '%s' Only OR HR Manager!")%(rec.employee_id.coach_id.name))
-            else:
-                rec.write({'state': 'financial_manager'})
+        self.state = "financial_manager"
+
+
+
 
     def hr_aaproval(self):
-        self.chick_not_mission()
-        if self.exception == True:
-            self.state = "hr_aaproval"
-        else:
-            self.state = "executive_office"
+        for rec in self:
+            rec.chick_not_mission()
+            if self.transfer_type == 'accounting':
+                for item in self:
+                    for record in item.line_ids_over_time:
+                        emp_type = record.employee_id.employee_type_id
+                        account_debit_id = record.employee_id.contract_id.working_hours.get_debit_overtim_account_id(
+                            emp_type)
+                        journal_id = record.employee_id.contract_id.working_hours.journal_overtime_id
+                        if not journal_id:
+                            raise exceptions.Warning(_('You Must Enter The Journal Name Overtim Setting.'))
+                        if not account_debit_id:
+                            raise exceptions.Warning(
+                                _('Employee %s, has no Overtime Account Setting Base On Employee Type.'
+                                  ) % record.employee_id.name)
+                        debit_line_vals = {
+                            'name': record.employee_id.name,
+                            'debit': record.price_hour,
+                            'account_id': account_debit_id.id,
+                            'partner_id': record.employee_id.user_id.partner_id.id
+                        }
+                        credit_line_vals = {
+                            'name': record.employee_id.name,
+                            'credit': record.price_hour,
+                            'account_id': journal_id.default_account_id.id,
+                            'partner_id': record.employee_id.user_id.partner_id.id
+                        }
+                        if not record.move_id:
+                            move = record.env['account.move'].create({
+                                'state': 'draft',
+                                'journal_id': journal_id.id,
+                                'date': item.request_date,
+                                'ref': record.employee_id.name,
+                                'line_ids': [(0, 0, debit_line_vals), (0, 0, credit_line_vals)],
+                                'res_model': 'employee.overtime.request',
+                                'res_id': self.id
+                            })
+                            record.account_id = account_debit_id.id
+                            record.journal_id = journal_id.id
+                            record.move_id = move.id
+                if self.exception == True:
+                    self.state = "hr_aaproval"
+                else:
+                    self.state = "executive_office"
+            if self.transfer_type == 'payroll':
+                # last_day_of_current_month = date.today().replace(day=calendar.monthrange(date.today().year, date.today().month)[1])
+                # first_day_of_current_month = date.today().replace(day=1)
+                for item in self:
+                    for record in item.line_ids_over_time:
+                        if record.employee_id.contract_id:
+
+                            advantage_arc = record.env['contract.advantage'].create({
+                                'benefits_discounts': item.benefits_discounts.id,
+                                'type': 'customize',
+                                'date_from': item.date_from,
+                                'date_to': item.date_to,
+                                'amount': record.price_hour,
+                                'over_time_id': True,
+                                'employee_id': record.employee_id.id,
+                                'contract_advantage_id': record.employee_id.contract_id.id,
+                                'out_rule': True,
+                                'state': 'confirm',
+                                'comments': item.reason})
+                            record.advantage_id = advantage_arc.id
+
+                        else:
+                            raise exceptions.Warning(_('Employee "%s" has no contract Please create contract to add '
+                                                       'line to advantages') % record.employee_id.name)
+                        if self.exception == True:
+                            self.state = "hr_aaproval"
+                        else:
+                            self.state = "executive_office"
+
 
     def executive_office(self):
         self.chick_not_mission()
         self.state = "executive_office"
 
     def validated(self):
-        if self.transfer_type == 'accounting':
-            for item in self:
-                for record in item.line_ids_over_time:
-                    emp_type = record.employee_id.employee_type_id
-                    account_debit_id = record.employee_id.contract_id.working_hours.get_debit_overtim_account_id(emp_type)
-                    journal_id = record.employee_id.contract_id.working_hours.journal_overtime_id
-                    if not journal_id:
-                        raise exceptions.Warning(_('You Must Enter The Journal Name Overtim Setting.'))
-                    if not account_debit_id:
-                        raise exceptions.Warning(_('Employee %s, has no Overtime Account Setting Base On Employee Type.'
-                                                   ) % record.employee_id.name)
-                    debit_line_vals = {
-                        'name': record.employee_id.name,
-                        'debit': record.price_hour,
-                        'account_id': account_debit_id.id,
-                        'partner_id': record.employee_id.user_id.partner_id.id
-                    }
-                    credit_line_vals = {
-                        'name': record.employee_id.name,
-                        'credit': record.price_hour,
-                        'account_id': journal_id.default_account_id.id,
-                        'partner_id': record.employee_id.user_id.partner_id.id
-                    }
-                    if not record.move_id:
-                       move = record.env['account.move'].create({
-                           'state': 'draft',
-                           'journal_id': journal_id.id,
-                           'date': item.request_date,
-                           'ref': record.employee_id.name,
-                           'line_ids': [(0, 0, debit_line_vals), (0, 0, credit_line_vals)],
-                           'res_model': 'employee.overtime.request',
-                           'res_id': self.id
-                       })
-                       record.account_id = account_debit_id.id
-                       record.journal_id = journal_id.id
-                       record.move_id = move.id
-            self.state = "validated"
-        if self.transfer_type == 'payroll':
-            # last_day_of_current_month = date.today().replace(day=calendar.monthrange(date.today().year, date.today().month)[1])
-            # first_day_of_current_month = date.today().replace(day=1)
-            for item in self:
-                for record in item.line_ids_over_time:
-                    if record.employee_id.contract_id:
-
-                        advantage_arc = record.env['contract.advantage'].create({
-                            'benefits_discounts': item.benefits_discounts.id,
-                            'type': 'customize',
-                            'date_from': item.date_from,
-                            'date_to': item.date_to,
-                            'amount': record.price_hour,
-                            'over_time_id': True,
-                            'employee_id': record.employee_id.id,
-                            'contract_advantage_id': record.employee_id.contract_id.id,
-                            'out_rule': True,
-                            'state': 'confirm',
-                            'comments': item.reason})
-                        record.advantage_id = advantage_arc.id
-
-                    else:
-                        raise exceptions.Warning(_('Employee "%s" has no contract Please create contract to add '
-                                                   'line to advantages') % record.employee_id.name)
-
-            self.state = "validated"
+        if self.is_branch:
+            self.state = "secret_general"
+        else:
+             self.state = 'validated'
 
     def refused(self):
         self.state = "refused"
