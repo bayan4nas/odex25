@@ -44,6 +44,12 @@ class ExpenseSheet(models.Model):
             raise UserError(_("You can only approve your department expenses"))
         res = super().approve_expense_sheets()
         return res
+    @api.depends('employee_id')
+    def _compute_from_employee_id(self):
+        for sheet in self:
+            sheet.address_id = sheet.employee_id.sudo().address_home_id
+            sheet.department_id = sheet.employee_id.department_id
+            sheet.user_id = sheet.employee_id.expense_manager_id or sheet.employee_id.parent_id.user_id
 
 class Expense(models.Model):
     _inherit = 'hr.expense'
