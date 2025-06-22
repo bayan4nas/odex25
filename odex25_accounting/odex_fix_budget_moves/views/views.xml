@@ -1,0 +1,60 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+
+    <record model="ir.ui.view" id="account_move_form">
+      <field name="name">odex_fix_budget_moves list</field>
+      <field name="model">account.move</field>
+      <field name="inherit_id" ref="account.view_move_form"/>
+      <field name="arch" type="xml">
+        <xpath expr="//header" position="inside">
+          <button name="action_fix_budget_moves" type="object" string="Check Budget Moves"
+                  class="oe_highlight" />
+        </xpath>
+      </field>
+    </record>
+
+
+    <!-- actions opening views on models -->
+<!--
+    <record model="ir.actions.act_window" id="odex_fix_budget_moves.action_window">
+      <field name="name">odex_fix_budget_moves window</field>
+      <field name="res_model">odex_fix_budget_moves.odex_fix_budget_moves</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+-->
+
+    <!-- server action to the one above -->
+<!--
+    <record model="ir.actions.server" id="odex_fix_budget_moves.action_server">
+      <field name="name">odex_fix_budget_moves server</field>
+      <field name="model_id" ref="model_odex_fix_budget_moves_odex_fix_budget_moves"/>
+      <field name="state">code</field>
+      <field name="code">
+        action = {
+          "type": "ir.actions.act_window",
+          "view_mode": "tree,form",
+          "res_model": model._name,
+        }
+      </field>
+    </record>
+-->
+
+    <!-- Top menu item -->
+<!--
+    <menuitem name="odex_fix_budget_moves" id="odex_fix_budget_moves.menu_root"/>
+-->
+    <!-- menu categories -->
+<!--
+    <menuitem name="Menu 1" id="odex_fix_budget_moves.menu_1" parent="odex_fix_budget_moves.menu_root"/>
+    <menuitem name="Menu 2" id="odex_fix_budget_moves.menu_2" parent="odex_fix_budget_moves.menu_root"/>
+-->
+    <!-- actions -->
+<!--
+    <menuitem name="List" id="odex_fix_budget_moves.menu_1_list" parent="odex_fix_budget_moves.menu_1"
+              action="odex_fix_budget_moves.action_window"/>
+    <menuitem name="Server to list" id="odex_fix_budget_moves" parent="odex_fix_budget_moves.menu_2"
+              action="odex_fix_budget_moves.action_server"/>
+-->
+  </data>
+</odoo>
