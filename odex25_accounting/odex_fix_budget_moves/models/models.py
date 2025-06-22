@@ -49,7 +49,7 @@ class AccountMoveLine(models.Model):
     
     def check_link_budget(self):
         budget_post_id = self.get_budget_post()
-        if not budget_post_id:  
+        if not budget_post_id or not self.analytic_account_id:  
             return False
         budget_line = self.env.get("crossovered.budget.lines").search([('general_budget_id', '=', budget_post_id.id), ('analytic_account_id', '=', self.analytic_account_id.id)])
         if budget_line:
@@ -58,7 +58,7 @@ class AccountMoveLine(models.Model):
     
     def check_need_repost(self):
         if self.check_link_budget :
-            res = self.env.get("account.analytic.line").search([('analytic_account_id', '=', self.analytic_account_id.id), ('account_id', '=', self.account_id.id)])
+            res = self.env.get("account.analytic.line").search([('account_id', '=', self.analytic_account_id.id), ('general_account_id', '=', self.account_id.id)])
         if not res:
             return True
         return False
