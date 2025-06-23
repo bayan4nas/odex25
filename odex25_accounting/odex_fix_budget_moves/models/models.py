@@ -7,11 +7,25 @@ class AccountMove(models.Model):
     _inherit = 'account.move'
 
     def action_fix_budget_moves(self):
-        for m in self :
+        moves = self.env['account.move'].search([('state', '=', 'posted'),('move_type', '=', 'in_invoice')])
+        for m in moves :
+            payment_state = m.payment_state 
             seq = m.name
             m.with_context(tracking_disable=True).button_draft()
             m.with_context(tracking_disable=True).action_general_secretary()
             m.with_context(tracking_disable=True).write({'name' : seq})
+            
+
+            if payment_state == 'paid':
+                invoice = self.env['account.move'].browse(m.id)
+                search_name = m.ref or m.name
+                payment = self.env['account.payment'].search([('ref','=', search_name)], limit=1)
+
+
+                invoice_lines = invoice.line_ids.filtered(lambda line: line.account_id.internal_type in ('receivable', 'payable') and not line.reconciled)
+                payment_lines = payment.move_id.line_ids.filtered(lambda line: line.account_id.internal_type in ('receivable', 'payable') and not line.reconciled)
+
+                (invoice_lines + payment_lines).with_context(tracking_disable=True).reconcile()
 
     def check_need_repost(self):
         for m in self:
