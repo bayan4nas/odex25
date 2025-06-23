@@ -25,7 +25,7 @@ class BudgetConfirmation(models.Model):
     res_model = fields.Char()
 
     def get_attachments(self):
-        Attachment = self.env['ir.attachment']
+        Attachment = self.env['ir.attachment'].sudo()
 
         budget_ids = self.ids
         direct_request_ids = self.mapped('request_id').ids
