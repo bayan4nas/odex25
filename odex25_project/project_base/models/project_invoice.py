@@ -61,6 +61,8 @@ class ProjectInvoice(models.Model):
         string="Attachments",
         help="Attach invoice-related documents"
     )
+    prepaid = fields.Boolean(string="Prepaid")
+    description = fields.Text(string="Description")
 
     @api.model
     def create(self, vals):
@@ -110,8 +112,11 @@ class ProjectInvoice(models.Model):
         for record in self:
             record.actual_date = record.invoice_id.invoice_date
             record.residual_amount = record.invoice_id.amount_residual
-            record.payment_state = record.invoice_id.payment_state
-            
+            if record.prepaid:
+                record.payment_state ='paid'
+            else:
+                record.payment_state = record.invoice_id.payment_state
+
     @api.depends('project_id', 'project_id.is_down_payment', 'project_downinv_ids')
     def _check_downpayment(self):
         for rec in self:
@@ -154,7 +159,7 @@ class ProjectInvoice(models.Model):
             else:
                 rec.actual_payment_date = False
 
-    @api.depends('invoice_id', 'invoice_id.amount_residual', 'invoice_id.invoice_payments_widget','name')
+    @api.depends('invoice_id', 'invoice_id.amount_residual', 'invoice_id.invoice_payments_widget','name','prepaid')
     def _compute_payment_amount(self):
         for rec in self:
             rec.payment_amount = rec.invoice_id.amount_total - rec.residual_amount
@@ -257,6 +262,11 @@ class ProjectInvoice(models.Model):
 
     def action_confirm(self):
         for rec in self:
+            if rec.prepaid:
+                rec.payment_amount = rec.amount
+                rec.state = 'done'
+                rec.payment_state = 'paid'
+                continue
             if rec.phase_id:
                 certificate = self.env['completion.certificate'].search(
                     [('phase_id4', '=', rec.phase_id.id)],
