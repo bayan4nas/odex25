@@ -275,9 +275,13 @@ class Project(models.Model):
             rec.total_invoiced_payment = 0
             rec.no_of_invoices = 0
             rec.no_of_paid_invoices = 0
+            total_paid = 0
+            total_prepaid=0
             if rec.invoice_ids:
                 rec.no_of_invoices = len(rec.invoice_ids)
-                rec.no_of_paid_invoices = len(rec.invoice_ids.sudo().filtered(lambda x: x.invoice_id))
+                total_paid_prepaid = len(rec.invoice_ids.sudo().filtered(lambda x: x.invoice_id))
+                total_prepaid = len(rec.invoice_ids.sudo().filtered(lambda x: not x.invoice_id and x.prepaid))
+                rec.no_of_paid_invoices = total_paid_prepaid + total_prepaid
                 rec.total_invoiced_payment = sum(rec.invoice_ids.mapped("payment_amount"))
 
     @api.depends('total_invoiced_amount', 'total_invoiced_payment')

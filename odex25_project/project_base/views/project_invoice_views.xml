@@ -44,6 +44,12 @@
                             <field name="actual_date" readonly="1"/>
                             <field name="actual_payment_date" readonly="1"/>
                             <field name="invoice_id" readonly="1" attrs="{'invisible': [('invoice_id', '=', False)]}"/>
+                            <field name="prepaid" attrs="{'readonly': [('state', '!=', 'draft')]}"/>Add commentMore actions
+                            <field name="description"
+                                   attrs="{
+                                       'invisible': [('prepaid', '=', False)],
+                                       'readonly': [('state', '!=', 'draft')]
+                                   }"/>
                         </group>
                     </group>
                     <notebook>
