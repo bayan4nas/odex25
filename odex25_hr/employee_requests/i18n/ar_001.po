@@ -199,6 +199,7 @@ msgstr "<strong>الجنس</strong>"
 msgid "<strong>Hiring Date</strong>"
 msgstr "<strong>تاريخ بداية العمل</strong>"
 
+
 #. module: employee_requests
 #: model_terms:ir.ui.view,arch_db:employee_requests.employee_appointment_template
 msgid "<strong>Identity End Date</strong>"
@@ -459,10 +460,16 @@ msgstr "روابط"
 
 #. module: employee_requests
 #: model:ir.model,name:employee_requests.model_ir_attachment
+#: model:ir.model.fields,field_description:employee_requests.field_employee_request_experience_line__attachment
 #: model:ir.model.fields,field_description:employee_requests.field_hr_clearance_form__bank_attachment_id
 #: model_terms:ir.ui.view,arch_db:employee_requests.employee_other_request_form_view
 msgid "Attachment"
 msgstr "مرفق"
+
+#. module: employee_requests
+#: model:ir.model.fields,field_description:employee_requests.field_employee_request_experience_line__attachment_filename
+msgid "Attachment File Name"
+msgstr "اسم ملف المرفق"
 
 #. module: employee_requests
 #: model:ir.model.fields,field_description:employee_requests.field_employee_department_jobs__message_attachment_count
@@ -675,9 +682,28 @@ msgid "Copy of examination file"
 msgstr "مرفق الإفصاح الطبي"
 
 #. module: employee_requests
+#: code:addons/employee_requests/models/other_request.py:0
+#: model:ir.model.fields,field_description:employee_requests.field_employee_request_experience_line__country_id
 #: model_terms:ir.ui.view,arch_db:employee_requests.employee_other_request_form_view
 msgid "Country"
 msgstr "الدوله"
+
+#. module: employee_requests
+#: code:addons/employee_requests/models/other_request.py:0
+#: code:addons/odoo/odex25-trahum-standard/odex25_hr/employee_requests/models/other_request.py:0
+#, python-format
+msgid ""
+"One of the experience lines is missing required fields.\n"
+"Please fill in the following fields:\n"
+"- \n"
+"- "
+msgstr ""
+"أحد سجلات الخبرة يحتوي على حقول مطلوبة غير مكتملة.\n"
+"يرجى تعبئة الحقول التالية:\n"
+"- \n"
+"- "
+
+
 
 #. module: employee_requests
 #: model_terms:ir.ui.view,arch_db:employee_requests.employee_other_request_form_view
@@ -1055,6 +1081,11 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:employee_requests.employee_personal_permission_tree_view
 msgid "Duration"
 msgstr "المدة"
+
+#. module: employee_requests
+#: model:ir.model.fields,field_description:employee_requests.field_employee_request_experience_line__duration
+msgid "Duration"
+msgstr "سنوات الخبرة"
 
 #. module: employee_requests
 #: code:addons/employee_requests/models/hr_personal_permission.py:0
@@ -1794,6 +1825,19 @@ msgstr ""
 #, python-format
 msgid "Job"
 msgstr "الوظيفة"
+
+#. module: hr_base
+#: model:ir.model.fields,field_description:hr_base.field_hr_employee_history__position
+#: model_terms:ir.ui.view,arch_db:hr_base.hr_extension_form_view
+msgid "Position"
+msgstr "المسمى الوظيفي"
+
+
+#. module: hr_base
+#: model_terms:ir.ui.view,arch_db:hr_base.hr_extension_form_view
+msgid "Experience Duration"
+msgstr "الســنوات السابقة"
+
 
 #. module: employee_requests
 #: model_terms:ir.ui.view,arch_db:employee_requests.employee_request_effective_form_view
@@ -2911,10 +2955,6 @@ msgstr "عفواً, لا يمكنك طباعة التقرير الا بعد ال
 msgid "Source :"
 msgstr "من فرع :"
 
-#. module: employee_requests
-#: model:ir.model.fields,field_description:employee_requests.field_house_allowance_advance__start_date
-msgid "Start Date"
-msgstr "تاريخ البداية"
 
 #. module: employee_requests
 #: model:ir.model.fields,help:employee_requests.field_employee_effective_form__contract_start
@@ -3869,3 +3909,96 @@ msgid ""
 "‫‪Wireless‬‬ ‫‪Network‬‬ ‫‪Account‬‬\n"
 "‫‪Stopped‬‬‬‬"
 msgstr ""
+
+#. module: employee_requests
+#: model:ir.model.fields,field_description:employee_requests.field_employee_job_domain__name
+msgid "Job Domain Name"
+msgstr "المجال الوظيفي"
+
+
+#. module: employee_requests
+#: model:ir.model,name:employee_requests.model_employee_job_domain
+#: code:addons/employee_requests/models/other_request.py:0
+#: model:ir.model.fields,field_description:employee_requests.field_employee_request_experience_line__job_domain_id
+#: model:ir.model.fields,field_description:employee_requests.field_hr_employee_history__job_domain_id
+#: model_terms:ir.ui.view,arch_db:employee_requests.view_employee_job_domain_form
+msgid "Job Domain"
+msgstr "المجال الوظيفي"
+
+#. module: employee_requests
+#: model:ir.actions.act_window,name:employee_requests.action_employee_job_domain
+#: model:ir.ui.menu,name:employee_requests.menu_employee_job_domain
+msgid "Job Domains"
+msgstr "المجال الوظيفي"
+
+#. module: employee_requests
+#: code:addons/employee_requests/models/other_request.py:0
+#: code:addons/odoo/odex25-trahum-standard/odex25_hr/employee_requests/models/other_request.py:0
+#: model:ir.model.fields.selection,name:employee_requests.selection__employee_other_request__request_type__years_of_experienc
+#, python-format
+msgid "Years of Experienc"
+msgstr "الســنوات السابقة"
+
+#. module: employee_requests
+#: model:ir.model.fields,field_description:employee_requests.field_employee_other_request__experience_line_ids
+msgid "Previous Experience Lines"
+msgstr "سجلات الخبرات السابقة"
+
+
+#. module: employee_requests
+#: code:addons/employee_requests/models/other_request.py:0
+#: code:addons/odoo/odex25-trahum-standard/odex25_hr/employee_requests/models/other_request.py:0
+#, python-format
+msgid "Please insert previous experience details before submitting."
+msgstr "يرجى إدخال تفاصيل الخبرات السابقة قبل الإرسال."
+
+#. module: employee_requests
+#: code:addons/employee_requests/models/other_request.py:0
+#: code:addons/odoo/odex25-trahum-standard/odex25_hr/employee_requests/models/other_request.py:0
+#, python-format
+msgid "All experience lines must have an attachment and file name."
+msgstr "يجب أن تحتوي جميع سجلات الخبرات على مرفق."
+
+
+#. module: employee_requests
+#: model:ir.model,name:employee_requests.model_employee_request_experience_line
+msgid "Employee Previous Experience Line"
+msgstr "تفاصيل خبرة الموظف السابقة"
+
+
+#. module: employee_requests
+#: code:addons/employee_requests/models/other_request.py:0
+#: model:ir.model.fields,field_description:employee_requests.field_employee_request_experience_line__company_name
+msgid "Company Name"
+msgstr "اسم الشركة"
+
+#. module: employee_requests
+#: code:addons/employee_requests/models/other_request.py:0
+#, python-format
+msgid "Position"
+msgstr "المسمى الوظيفي"
+
+#. module: employee_requests
+#: model:ir.model.fields,field_description:employee_requests.field_employee_request_experience_line__job_field
+msgid "Job Field / Position"
+msgstr "المسمى الوظيفي"
+
+
+#. module: employee_requests
+#: model:ir.model.fields,field_description:employee_requests.field_employee_request_experience_line__salary
+msgid "Salary"
+msgstr "الراتب"
+
+
+#. module: employee_requests
+#: code:addons/employee_requests/models/other_request.py:0
+#: model:ir.model.fields,field_description:employee_requests.field_employee_request_experience_line__date_start
+#: model:ir.model.fields,field_description:employee_requests.field_house_allowance_advance__start_date
+msgid "Start Date"
+msgstr "تاريخ البداية"
+
+#. module: employee_requests
+#: code:addons/employee_requests/models/other_request.py:0
+#: model:ir.model.fields,field_description:employee_requests.field_employee_request_experience_line__date_end
+msgid "End Date"
+msgstr "تاريخ النهاية"

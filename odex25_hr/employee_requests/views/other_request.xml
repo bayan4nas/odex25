@@ -120,6 +120,43 @@
                         </group>
                         <separator string="Comment"/>
                         <field name="comment" string="Comment" attrs="{'readonly':[('state','!=','draft')]}"/>
+
+                        <separator string="Previous Experience"
+                                   attrs="{'invisible':[('request_type','!=','years_of_experienc')]}"/>
+                        <field name="experience_line_ids"
+                               attrs="{'invisible':[('request_type','!=','years_of_experienc')], 'readonly':[('state','!=','draft')]}">
+                            <tree >
+                                <field name="company_name"/>
+                                <field name="job_field"/>
+                                 <field name="job_domain_id" options="{'no_create': True, 'no_open': True}"/>
+
+                                <field name="date_start" context="{'lang': 'en_US'}"/>
+                                <field name="date_end" context="{'lang': 'en_US'}"/>
+                                <field name="duration" readonly="1"/>
+                                <field name="country_id"/>
+<!--                                <field name="attachment" filename="attachment_filename" widget="binary"/>-->
+                                 <field name="attachment_filename" invisible="1"/>
+
+                            </tree>
+                            <form string="Previous Experience Line">
+                                <group>
+                                    <field name="company_name"/>
+                                    <field name="job_field"/>
+                                     <field name="job_domain_id" options="{'no_create': True, 'no_open': True}"/>
+
+                                    <field name="date_start" context="{'lang': 'en_US'}"/>
+                                    <field name="date_end" context="{'lang': 'en_US'}"/>
+                                    <field name="duration" readonly="1"/>
+                                    <field name="country_id"/>
+                                   <field name="attachment" filename="attachment_filename" widget="binary"/>
+                                    <field name="attachment_filename"/>
+
+
+                                </group>
+                            </form>
+                        </field>
+
+
                         <separator string="Dependants" attrs="{'invisible':[('request_type','!=','dependent')]}"/>
                         <field name="employee_dependant"
                                attrs="{'invisible':[('request_type','!=','dependent')],'readonly':[('state','!=','draft')]}">

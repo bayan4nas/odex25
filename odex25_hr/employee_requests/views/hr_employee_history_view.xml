@@ -1,0 +1,22 @@
+<odoo>
+    <data>
+
+
+        <record id="view_employee_form_inherit_job_domain_in_history" model="ir.ui.view">
+            <field name="name">hr.employee.form.inherit.job.domain.history</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='employment_history_ids']/tree/field[@name='position']" position="after">
+                    <field name="job_domain_id"/>
+                </xpath>
+                <xpath expr="//field[@name='employment_history_ids']/tree/field[@name='salary']" position="replace"/>
+
+
+
+            </field>
+        </record>
+
+    </data>
+</odoo>
