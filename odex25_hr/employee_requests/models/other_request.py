@@ -3,6 +3,8 @@
 from odoo import api, fields, models, _, exceptions
 from hijri_converter import convert
 from typing import List, Dict
+from dateutil.relativedelta import relativedelta
+from odoo.exceptions import ValidationError
 
 
 class EmployeeOtherRequest(models.Model):
@@ -75,6 +77,8 @@ class EmployeeOtherRequest(models.Model):
                                                ('salary_fixing', _('Salary Fixing')),
                                                ('suggestion', _('Suggestion')),
                                                ('complaint', _('Complaint')),
+                                               ('years_of_experienc', _('Years of Experienc')),
+
                                                ('other_requests', _('Other Requests'))], tracking=True)
 
     # relational fields
@@ -102,6 +106,10 @@ class EmployeeOtherRequest(models.Model):
     company_id = fields.Many2one('res.company', string="Company", default=lambda self: self.env.user.company_id)
 
     is_branch = fields.Many2one(related='department_id.branch_name', store=True, readonly=True)
+    experience_line_ids = fields.One2many(
+        'employee.request.experience.line',
+        'request_id',
+        string="Previous Experience Lines")
 
     # def print_with_details(self):
     #     return self.env.ref('employee_requests.action_report_employee_identification').report_action(self)
@@ -145,6 +153,31 @@ class EmployeeOtherRequest(models.Model):
 
                 #if item.employee_id.contract_id.contract_status == 'single':
                     #raise exceptions.Warning(_('You can not Add Family record Because Employee is Single'))
+            if item.request_type == 'years_of_experienc':
+                if not item.experience_line_ids:
+                    raise exceptions.Warning(_('Please insert previous experience details before submitting.'))
+                for line in item.experience_line_ids:
+
+                    missing_fields = []
+
+                    if not line.company_name:
+                        missing_fields.append(_("Company Name"))
+                    if not line.job_field:
+                        missing_fields.append(_("Position"))
+                    if not line.job_domain_id:
+                        missing_fields.append(_("Job Domain"))
+                    if not line.date_start:
+                        missing_fields.append(_("Start Date"))
+                    if not line.date_end:
+                        missing_fields.append(_("End Date"))
+                    if not line.country_id:
+                        missing_fields.append(_("Country"))
+
+                    if missing_fields:
+                        raise ValidationError(_(
+                            "One of the experience lines is missing required fields.\nPlease fill in the following fields:\n- " +
+                            "\n- ".join(missing_fields)
+                        ))
 
             if item.request_type == 'qualification':
                 if not item.qualification_employee:
@@ -210,6 +243,27 @@ class EmployeeOtherRequest(models.Model):
                 if item.certification_employee:
                     item.certification_employee.write({
                         'certification_relation': item.employee_id.id,
+                    })
+            if item.request_type == 'years_of_experienc':
+                for line in item.experience_line_ids:
+
+                    history = self.env['hr.employee.history'].create({
+                        'employement_history': item.employee_id.id,
+                        'name': line.company_name,
+                        'employeer': '',
+                        'position': line.job_field,
+                        'salary': 0.0,
+                        'date_from': line.date_start,
+                        'date_to': line.date_end,
+                        'country': line.country_id.id,
+                        'job_domain_id': line.job_domain_id.id,
+                        'address':''
+                    })
+                    self.env['emplpyee.attachment'].create({
+                        'employee_attaches_id': item.employee_id.id,
+                        'doc_name': self.env.ref('employee_requests.employee_attachment_name_experience').id,
+                        'attachment': line.attachment,
+                        'name': line.attachment_filename,
                     })
 
         self.state = 'approved'
@@ -297,3 +351,48 @@ class HrCertification(models.Model):
     _inherit = 'hr.certification'
 
     request_id = fields.Many2one('employee.other.request')
+
+
+
+class EmployeeRequestExperienceLine(models.Model):
+    _name = 'employee.request.experience.line'
+    _description = 'Employee Previous Experience Line'
+
+    request_id = fields.Many2one('employee.other.request', string="Other Request", ondelete="cascade")
+    company_name = fields.Char(string="Company Name" )
+    job_field = fields.Char(string="Job Field / Position")
+    job_domain_id = fields.Many2one('employee.job.domain', string="Job Domain" )
+    date_start = fields.Date(string="Start Date")
+    date_end = fields.Date(string="End Date")
+    country_id = fields.Many2one('res.country', string="Country")
+    attachment = fields.Binary(string="Attachment")
+    attachment_filename = fields.Char(string="Attachment File Name")
+
+    duration = fields.Char(string="Duration", compute="_compute_duration", store=True)
+
+
+
+    @api.depends('date_start', 'date_end')
+    def _compute_duration(self):
+        for rec in self:
+            if rec.date_start and rec.date_end and rec.date_end >= rec.date_start:
+                delta = relativedelta(rec.date_end, rec.date_start)
+                years = delta.years
+                months = delta.months
+                days = delta.days
+
+                duration_parts = []
+                if years > 0:
+                    duration_parts.append(f"{years} سنة")
+                if months > 0:
+                    duration_parts.append(f"{months} شهر")
+                if days > 0:
+                    duration_parts.append(f"{days} يوم")
+
+                if duration_parts:
+                    text = '، '.join(duration_parts)
+                    rec.duration = '\u200F' + text
+                else:
+                    rec.duration = "0 يوم"
+            else:
+                rec.duration = "—"
