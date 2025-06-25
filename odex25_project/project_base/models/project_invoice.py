@@ -74,32 +74,20 @@ class ProjectInvoice(models.Model):
     def write(self, vals):
         """Ensure attachments are synced when attachments are updated."""
         res = super(ProjectInvoice, self).write(vals)
-        if 'attachment_ids' in vals:
+        if 'attachment_ids' in vals or 'invoice_id' in vals:
             self._sync_attachments_to_invoice()
         return res
 
     def _sync_attachments_to_invoice(self):
         """Sync attachments from project.invoice to its related account.move."""
         for record in self:
-            if record.invoice_id:  # Ensure there is an invoice to sync with
-                for attachment in record.attachment_ids:
-                    # Check if the attachment already exists for the invoice
-                    existing_attachment = self.env['ir.attachment'].search([
-                        ('res_model', '=', 'account.move'),
-                        ('res_id', '=', record.invoice_id.id),
-                        ('datas', '=', attachment.datas)
-                    ], limit=1)
+            for attachment in record.attachment_ids:
+                if record.invoice_id:
+                    attachment.write({
+                                'res_model': 'account.move',
+                                'res_id': record.invoice_id.id
+                            })
 
-                    if not existing_attachment:
-                        # Copy attachment to invoice
-                        attachment.copy({
-                            'res_model': 'account.move',
-                            'res_id': record.invoice_id.id
-                        })
-
-                # Update the attachment count on the invoice
-                # record.invoice_id._compute_attach_no()
-    
     @api.onchange("project_invline_ids")
     def get_price_unit_value_test(self):
         for rec in self.project_invline_ids:
@@ -330,6 +318,12 @@ class ProjectInvoice(models.Model):
         if self.invoice_id and self.invoice_id.state!='draft':
                 raise UserError(_("Kindly The invoice is not in draft state, so it cannot be unlinked."))
 
+        if self.attachment_ids :
+            for attachment in self.attachment_ids:
+                attachment.write({
+                    'res_model': "account.invoice",
+                    'res_id': self.id,
+                })
         if self.invoice_id:
             self.invoice_id.sudo().write({'posted_before':False})
             self.invoice_id.sudo().unlink()
