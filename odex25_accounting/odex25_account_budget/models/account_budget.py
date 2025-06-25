@@ -243,17 +243,17 @@ class CrossoveredBudgetLines(models.Model):
         today = fields.Date.today()
         for line in self:
             if not line.date_from or not line.date_to or not line.planned_amount:
-                line.theo_amt = 0.0
+                line.theoritical_amount = 0.0
                 continue
 
             if today <= line.date_from:
-                line.theo_amt = 0.0
+                line.theoritical_amount = 0.0
             elif today >= line.date_to:
-                line.theo_amt = line.planned_amount
+                line.theoritical_amount = line.planned_amount
             else:
                 total_days = (line.date_to - line.date_from).days + 1
                 elapsed_days = (today - line.date_from).days + 1
-                line.theo_amt = line.planned_amount * elapsed_days / total_days
+                line.theoritical_amount = line.planned_amount * elapsed_days / total_days
         
     final_amount = fields.Float(string='Final Amount', compute='_compute_percentage',
                                 help=_('Final amount of money that has been provided'), store=False)

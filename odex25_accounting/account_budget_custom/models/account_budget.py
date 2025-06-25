@@ -63,7 +63,7 @@ class CrossoveredBudgetLines(models.Model):
     practical_amount = fields.Float(compute='_compute_practical_amount', string='Practical Amount', digits=0,
                                     store=False, help=_('Total amount of money that has been spent'))
     theoritical_amount = fields.Float(compute='_compute_theoritical_amount', string='Theoretical Amount', digits=0,
-                                      store=True)
+                                      store=False)
     percentage = fields.Float(compute='_compute_percentage', string='Achievement', store=False, digits=(16, 4))
     from_operation_ids = fields.One2many('budget.operations', 'from_budget_line_id', string='From Operation')
     to_operation_ids = fields.One2many('budget.operations', 'to_budget_line_id', string='Cost Center')
