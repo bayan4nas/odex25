@@ -240,34 +240,21 @@ class CrossoveredBudgetLines(models.Model):
 
     @api.depends('date_from', 'date_to')
     def _compute_theoritical_amount(self):
-        # beware: 'today' variable is mocked in the python tests and thus, its implementation matter
         today = fields.Date.today()
         for line in self:
-            if line.paid_date:
-                if today <= line.paid_date:
-                    theo_amt = 0.00
-                else:
-                    theo_amt = line.planned_amount
+            if not line.date_from or not line.date_to or not line.planned_amount:
+                line.theo_amt = 0.0
+                continue
+
+            if today <= line.date_from:
+                line.theo_amt = 0.0
+            elif today >= line.date_to:
+                line.theo_amt = line.planned_amount
             else:
-                if not line.date_from or not line.date_to:
-                    line.theoritical_amount = 0
-                    continue
-                # One day is added since we need to include the start and end date in the computation.
-                # For example, between April 1st and April 30th, the timedelta must be 30 days.
-                line_timedelta = line.date_to - line.date_from + timedelta(days=1)
-                elapsed_timedelta = today - line.date_from + timedelta(days=1)
-
-                if elapsed_timedelta.days < 0:
-                    # If the budget line has not started yet, theoretical amount should be zero
-                    theo_amt = 0.00
-                elif line_timedelta.days > 0 and today < line.date_to:
-                    # If today is between the budget line date_from and date_to
-                    theo_amt = (
-                                       elapsed_timedelta.total_seconds() / line_timedelta.total_seconds()) * line.planned_amount
-                else:
-                    theo_amt = line.planned_amount
-            line.theoritical_amount = theo_amt
-
+                total_days = (line.date_to - line.date_from).days + 1
+                elapsed_days = (today - line.date_from).days + 1
+                line.theo_amt = line.planned_amount * elapsed_days / total_days
+        
     final_amount = fields.Float(string='Final Amount', compute='_compute_percentage',
                                 help=_('Final amount of money that has been provided'), store=False)
     @api.depends('theoritical_amount', 'practical_amount', 'final_amount')
