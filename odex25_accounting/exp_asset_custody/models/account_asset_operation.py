@@ -115,6 +115,8 @@ class AccountAssetOperation(models.Model):
 
     def act_cancel(self):
         self.state = 'cancel'
+        self.asset_id.status = 'available'
+
 
     def act_draft(self):
         self.state = 'draft'
