@@ -15,7 +15,8 @@ Manage Assets transfer between locations, departments and employees
     'application': False,
     'installable': True,
     'depends': [
-        'exp_asset_base'
+        'exp_asset_base',
+        'hr_base'
     ],
     'data': [
         'data/asset_data.xml',
