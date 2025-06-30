@@ -23,6 +23,15 @@
     </record>
     <!-- Groups Definitions -->
 
-
+    <record id="rule_hr_employee_read_minimal_for_asset_users" model="ir.rule">
+        <field name="name">Employee: Read minimal for Asset Users</field>
+        <field name="model_id" ref="hr.model_hr_employee"/>
+        <field name="groups" eval="[(4, ref('exp_asset_base.group_asset_chuhad_user'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+    </record>
 
 </odoo>
