@@ -152,13 +152,25 @@ class IncomingTransaction(models.Model):
 
     @api.model
     def get_url(self):
-        url = u''
-        action = self.env.ref(
-            'exp_transaction_documents.forward_incoming_external_tran_action', False)
+        self.ensure_one()
+        url = ''
+        action = self.env.ref('exp_transaction_documents.forward_incoming_external_tran_action', False)
         Param = self.env['ir.config_parameter'].sudo()
-        if action:
-            return u'{}/web#id={}&action={}&model=incoming.transaction'.format(
-                Param.get_param('web.base.url', self.env.user.company_id.website), self.id, action.id)
+
+        form_view_id = None
+        if action and action.view_mode in ['tree,form', 'form', 'kanban,form']:
+            views = action.view_ids.filtered(lambda v: v.view_mode == 'form')
+            if views:
+                form_view_id = views[0].view_id.id
+
+        base_url = Param.get_param('web.base.url', self.env.user.company_id.website)
+        url = f"{base_url}/web#id={self.id}&model=incoming.transaction&action={action.id}"
+
+        if form_view_id:
+            url += f"&view_type=form&view_id={form_view_id}"
+        else:
+            url += "&view_type=form"
+
         return url
 
     @api.depends('incoming_date')
