@@ -1,0 +1,53 @@
+<odoo>
+
+            <menuitem id="account_reports_budget_crossevered_reports_menu" name="Budget Reports" parent="account.menu_finance_reports" sequence="19"/>
+
+
+        <record id="action_open_budget_wizard" model="ir.actions.act_window">
+        <field name="name">Budget Report</field>
+        <field name="res_model">budget.selection.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="menu_open_budget_wizard"
+          name="Budget Report"
+          parent="account_reports_budget_crossevered_reports_menu"
+          action="action_open_budget_wizard"
+/>
+
+
+
+
+
+
+
+        <record id="action_open_budget_wizard" model="ir.actions.act_window">
+            <field name="name">Open Budget Wizard</field>
+            <field name="res_model">budget.selection.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+    <record model="ir.ui.view" id="budget_selection_wizard_form">
+    <field name="name">budget.selection.wizard.form</field>
+    <field name="model">budget.selection.wizard</field>
+    <field name="arch" type="xml">
+        <form string="Select Budget">
+            <group>
+                    <field name="budget_ids"
+                           widget="many2many_tags"
+                           options="{'no_create': True}"/>
+            </group>
+            <group>
+                <field name="date_from"/>
+                <field name="date_to"/>
+            </group>
+            <footer>
+                <button string="Show Budget" type="object" name="action_show_budget" class="btn-primary"/>
+                <button string="Cancel" type="object" name="action_cancel" class="btn-secondary"/>
+            </footer>
+        </form>
+    </field>
+</record>
+
+</odoo>
