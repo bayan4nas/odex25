@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 14.0\n"
+"Project-Id-Version: Odoo Server 14.0-20231205\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-08-06 20:41+0000\n"
-"PO-Revision-Date: 2024-08-06 20:41+0000\n"
+"POT-Creation-Date: 2025-01-22 09:27+0000\n"
+"PO-Revision-Date: 2025-01-22 09:27+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -19,6 +19,93 @@ msgstr ""
 #: model:ir.model.fields,field_description:purchase_custom_stock.field_purchase_request__show_approve_warehouse
 msgid "Approve Warehouse"
 msgstr ""
+
+#. module: purchase_custom_stock
+#: model:ir.model.fields,field_description:purchase_custom_stock.field_asset_operation_return_line__asset_id
+msgid "Asset"
+msgstr "الأصل"
+
+#. module: purchase_custom_stock
+#: model:ir.model.fields,field_description:purchase_custom_stock.field_product_category__active
+msgid "Active"
+msgstr "نشط"
+
+#. module: purchase_custom_stock
+#: model:ir.model.fields,field_description:purchase_custom_stock.field_purchase_request__all_assets_released
+msgid "All Assets Released"
+msgstr "تم إرجاع جميع الأصول"
+
+#. module: purchase_custom_stock
+#: code:addons/purchase_custom_stock/models/purchase_request.py:0
+#, python-format
+msgid "Asset Availability Warning"
+msgstr "تحذير توفر الأصل"
+
+#. module: purchase_custom_stock
+#: model:ir.model.fields,field_description:purchase_custom_stock.field_purchase_request__asset_custody_complete
+msgid "Asset Custody Complete"
+msgstr "اكتملت عهدة الأصل"
+
+#. module: purchase_custom_stock
+#: model:ir.model.fields,field_description:purchase_custom_stock.field_purchase_request__asset_assign_count
+msgid "Asset Assignment"
+msgstr "إسناد أصل"
+
+#. module: purchase_custom_stock
+#: model:ir.model.fields,field_description:purchase_custom_stock.field_product_product__asset_ok
+#: model:ir.model.fields,field_description:purchase_custom_stock.field_product_template__asset_ok
+msgid "Asset Expensed"
+msgstr "يمكن صرفة كعهدة"
+
+#. module: purchase_custom_stock
+#: model_terms:ir.ui.view,arch_db:purchase_custom_stock.purchase_request_form_inherit
+msgid "Asset Lines"
+msgstr "بند الأصول"
+
+#. module: purchase_custom_stock
+#: model:ir.model,name:purchase_custom_stock.model_account_asset_operation
+msgid "Asset Operation"
+msgstr "عمليات الأصول"
+
+#. module: purchase_custom_stock
+#: model:ir.model,name:purchase_custom_stock.model_asset_operation_return_line
+msgid "Asset Operation Return Line"
+msgstr "سطر عملية إرجاع الأصل"
+
+#. module: purchase_custom_stock
+#: model:ir.model,name:purchase_custom_stock.model_asset_operation_return_wizard
+msgid "Asset Operation Return Wizard"
+msgstr "عمليةإرجاع الأصل"
+
+#. module: purchase_custom_stock
+#: model:ir.model.fields,field_description:purchase_custom_stock.field_purchase_request__asset_release_count
+msgid "Asset Release"
+msgstr "إرجاع عهدة"
+
+#. module: purchase_custom_stock
+#: model:ir.model.fields,field_description:purchase_custom_stock.field_purchase_request__asset_request_line_ids
+msgid "Asset Request Line"
+msgstr ""
+
+#. module: purchase_custom_stock
+#: model:ir.actions.act_window,name:purchase_custom_stock.action_account_asset_assignment
+msgid "Assets Assignment"
+msgstr "إسناد عهدة"
+
+#. module: purchase_custom_stock
+#: model:ir.actions.act_window,name:purchase_custom_stock.action_account_asset_release
+msgid "Assets Release"
+msgstr "إرجاع عهدة"
+
+#. module: purchase_custom_stock
+#: model:ir.model.fields.selection,name:purchase_custom_stock.selection__asset_operation_return_line__type__assignment
+msgid "Assignment"
+msgstr "أسناد"
+
+#. module: purchase_custom_stock
+#: model_terms:ir.ui.view,arch_db:purchase_custom_stock.purchase_request_form_inherit
+msgid "Assignments"
+msgstr "الإسناد"
 
 #. module: purchase_custom_stock
 #: model:ir.model.fields,field_description:purchase_custom_stock.field_purchase_request_picking_wizard__is_available
@@ -43,7 +130,9 @@ msgid "Can't Confirm Request With No Item!"
 msgstr ""
 
 #. module: purchase_custom_stock
+#: model:ir.model.fields.selection,name:purchase_custom_stock.selection__asset_operation_return_line__state__cancel
 #: model:ir.model.fields.selection,name:purchase_custom_stock.selection__purchase_request__state__cancel
+#: model_terms:ir.ui.view,arch_db:purchase_custom_stock.asset_operation_return_wizard_view_form
 #: model_terms:ir.ui.view,arch_db:purchase_custom_stock.purchase_request_picking_wizard_view_form
 msgid "Cancel"
 msgstr "إلغاء"
@@ -51,7 +140,7 @@ msgstr "إلغاء"
 #. module: purchase_custom_stock
 #: model_terms:ir.ui.view,arch_db:purchase_custom_stock.purchase_request_picking_wizard_view_form
 msgid "Cancel Request Reason"
-msgstr ""
+msgstr "سبب الرفض"
 
 #. module: purchase_custom_stock
 #: code:addons/purchase_custom_stock/models/purchase_request.py:0
@@ -75,14 +164,34 @@ msgid "Created by"
 msgstr ""
 
 #. module: purchase_custom_stock
+#: model_terms:ir.ui.view,arch_db:purchase_custom_stock.purchase_request_form_inherit
+msgid "Create Asset Custody"
+msgstr "إنشاء و اسناد الأصل"
+
+#. module: purchase_custom_stock
 #: model:ir.model.fields,field_description:purchase_custom_stock.field_purchase_request_picking_wizard__create_date
 msgid "Created on"
 msgstr ""
 
 #. module: purchase_custom_stock
+#: model:ir.model.fields,field_description:purchase_custom_stock.field_asset_operation_return_line__date
+msgid "Date"
+msgstr "التاريخ"
+
+#. module: purchase_custom_stock
+#: model:ir.model.fields,field_description:purchase_custom_stock.field_asset_operation_return_line__custody_type
+msgid "Custody Type"
+msgstr "نوع العهدة"
+
+#. module: purchase_custom_stock
+#: model:ir.model.fields,field_description:purchase_custom_stock.field_asset_operation_return_line__custody_period
+msgid "Custody Period"
+msgstr "فترة العهدة"
+
+#. module: purchase_custom_stock
 #: model_terms:ir.ui.view,arch_db:purchase_custom_stock.purchase_request_form_inherit
 msgid "Delivery"
-msgstr "استلام"
+msgstr "تسليم الطلب"
 
 #. module: purchase_custom_stock
 #: model_terms:ir.ui.view,arch_db:purchase_custom_stock.purchase_request_form_inherit
@@ -100,21 +209,31 @@ msgid "Demand Qty"
 msgstr "الكمية المطلوبة"
 
 #. module: purchase_custom_stock
+#: model:ir.model.fields,field_description:purchase_custom_stock.field_asset_operation_return_line__current_department_id
+#: model:ir.model.fields,field_description:purchase_custom_stock.field_asset_operation_return_line__new_department_id
+msgid "Department"
+msgstr "القسم"
+
+#. module: purchase_custom_stock
 #: model:ir.model.fields.selection,name:purchase_custom_stock.selection__purchase_request__state__direct_manager
 msgid "Direct Manager"
 msgstr "المدير المباشر"
 
 #. module: purchase_custom_stock
+#: model:ir.model.fields,field_description:purchase_custom_stock.field_asset_operation_return_line__display_name
+#: model:ir.model.fields,field_description:purchase_custom_stock.field_asset_operation_return_wizard__display_name
 #: model:ir.model.fields,field_description:purchase_custom_stock.field_purchase_request_picking_wizard__display_name
 msgid "Display Name"
-msgstr ""
+msgstr "الاسم المعروض"
 
 #. module: purchase_custom_stock
+#: model:ir.model.fields.selection,name:purchase_custom_stock.selection__asset_operation_return_line__state__done
 #: model:ir.model.fields.selection,name:purchase_custom_stock.selection__purchase_request__state__done
 msgid "Done"
 msgstr "تم"
 
 #. module: purchase_custom_stock
+#: model:ir.model.fields.selection,name:purchase_custom_stock.selection__asset_operation_return_line__state__draft
 #: model:ir.model.fields.selection,name:purchase_custom_stock.selection__purchase_request__state__draft
 msgid "Draft"
 msgstr "مبدئي"
@@ -123,6 +242,17 @@ msgstr "مبدئي"
 #: model:ir.model.fields,field_description:purchase_custom_stock.field_purchase_request__edit_locations
 msgid "Edit Locations"
 msgstr ""
+
+#. module: purchase_custom_stock
+#: model:ir.model.fields,field_description:purchase_custom_stock.field_asset_operation_return_line__current_employee_id
+#: model:ir.model.fields,field_description:purchase_custom_stock.field_asset_operation_return_line__new_employee_id
+msgid "Employee"
+msgstr "الموظف"
+
+#. module: purchase_custom_stock
+#: model:ir.model.fields.selection,name:purchase_custom_stock.selection__asset_operation_return_line__custody_type__general
+msgid "General"
+msgstr "عام"
 
 #. module: purchase_custom_stock
 #: model:ir.model.fields.selection,name:purchase_custom_stock.selection__purchase_request__state__employee
@@ -138,6 +268,11 @@ msgstr ""
 #: model:ir.model.fields.selection,name:purchase_custom_stock.selection__purchase_request__state__waiting
 msgid "In Purchase"
 msgstr "ادارة المشتريات"
+
+#. module: purchase_custom_stock
+#: model:ir.model.fields.selection,name:purchase_custom_stock.selection__purchase_request__state__initial
+msgid "Initial Engagement"
+msgstr "الربط المبدئي"
 
 #. module: purchase_custom_stock
 #: code:addons/purchase_custom_stock/models/purchase_request.py:0
@@ -166,9 +301,35 @@ msgid "Location"
 msgstr "الموقع/المكان"
 
 #. module: purchase_custom_stock
+#: code:addons/purchase_custom_stock/models/purchase_request.py:0
+#, python-format
+msgid "No available assets found for the following products: {}"
+msgstr "لا توجد أصول متاحة للمنتجات التالية: {}"
+
+#. module: purchase_custom_stock
+#: model:ir.model.fields,field_description:purchase_custom_stock.field_asset_operation_return_line__name
+msgid "Name"
+msgstr "الاسم"
+
+#. module: purchase_custom_stock
 #: model:stock.picking.type,name:purchase_custom_stock.stock_picking_type_stock
 msgid "Out From Stock"
 msgstr "صرف من المخزون"
+
+#. module: purchase_custom_stock
+#: model:ir.model.fields.selection,name:purchase_custom_stock.selection__asset_operation_return_line__state__pending
+msgid "Pending"
+msgstr "قيد الانتظار"
+
+#. module: purchase_custom_stock
+#: model:ir.model.fields.selection,name:purchase_custom_stock.selection__asset_operation_return_line__custody_type__personal
+msgid "Personal"
+msgstr "شخصية"
+
+#. module: purchase_custom_stock
+#: model:ir.model.fields.selection,name:purchase_custom_stock.selection__asset_operation_return_line__custody_period__permanent
+msgid "Permanent"
+msgstr "دائمة"
 
 #. module: purchase_custom_stock
 #: model:ir.model.fields,field_description:purchase_custom_stock.field_purchase_request__picking_id
@@ -212,14 +373,29 @@ msgid "Please Select department for employee"
 msgstr ""
 
 #. module: purchase_custom_stock
+#: code:addons/purchase_custom_stock/wizards/asset_operation_return_wizard.py:0
+#, python-format
+msgid "Please select at least one asset to return"
+msgstr "يرجى اختيار أصل واحد على الأقل لإرجاعه"
+
+#. module: purchase_custom_stock
 #: model:ir.model.fields,field_description:purchase_custom_stock.field_purchase_request_line__qty_purchased
 msgid "Purchase Qty"
 msgstr "الكمية المطلوبة للشراء"
 
 #. module: purchase_custom_stock
 #: model:ir.model,name:purchase_custom_stock.model_purchase_request
+#: model:ir.model.fields,field_description:purchase_custom_stock.field_account_asset__purchase_request_id
+#: model:ir.model.fields,field_description:purchase_custom_stock.field_asset_custody_line__purchase_request_id
+#: model:ir.model.fields,field_description:purchase_custom_stock.field_asset_operation_return_line__purchase_request_id
+#: model:ir.model.fields,field_description:purchase_custom_stock.field_asset_operation_return_wizard__purchase_request_id
 msgid "Purchase Request"
-msgstr "طلبات الادارات"
+msgstr "طلب شراء"
+
+#. module: purchase_custom_stock
+#: model:ir.model.fields.selection,name:purchase_custom_stock.selection__asset_operation_return_line__type__release
+msgid "Release"
+msgstr "إرجاع"
 
 #. module: purchase_custom_stock
 #: model:ir.model.fields.selection,name:purchase_custom_stock.selection__purchase_request__state__refuse
@@ -243,9 +419,47 @@ msgid "Show Emp Button"
 msgstr ""
 
 #. module: purchase_custom_stock
+#: model:ir.model.fields,field_description:purchase_custom_stock.field_purchase_request_picking_wizard__show_purchase_only
+msgid "Show Purchase Only"
+msgstr ""
+
+#. module: purchase_custom_stock
+#: model:ir.model.fields.selection,name:purchase_custom_stock.selection__asset_operation_return_line__custody_period__temporary
+msgid "Temporary"
+msgstr "مؤقتة"
+
+#. module: purchase_custom_stock
+#: model:ir.model,name:purchase_custom_stock.model_stock_picking
+#: model:ir.model.fields.selection,name:purchase_custom_stock.selection__asset_operation_return_line__type__transfer
+msgid "Transfer"
+msgstr "نقل"
+
+#. module: purchase_custom_stock
+#: model:ir.model.fields,field_description:purchase_custom_stock.field_asset_operation_return_line__type
+msgid "Type"
+msgstr "النوع"
+
+#. module: purchase_custom_stock
+#: model:ir.model.fields,help:purchase_custom_stock.field_purchase_request__asset_custody_complete
+msgid ""
+"True when all asset products have custody lines and operations in done state"
+msgstr ""
+"صحيح عندما تحتوي جميع منتجات الأصول على خطوط الحيازة والعمليات في حالة منتهية"
+
+#. module: purchase_custom_stock
+#: model:ir.model.fields.selection,name:purchase_custom_stock.selection__asset_operation_return_line__state__submit
+msgid "Submit"
+msgstr "إرسال"
+
+#. module: purchase_custom_stock
 #: model:ir.model.fields,field_description:purchase_custom_stock.field_purchase_request__state
 msgid "State"
 msgstr "الحالة"
+
+#. module: purchase_custom_stock
+#: model:ir.model.fields.selection,name:purchase_custom_stock.selection__purchase_request__state__wait_for_send
+msgid "Wait For Sent"
+msgstr "فى انتظار الارسال"
 
 #. module: purchase_custom_stock
 #: model:ir.model,name:purchase_custom_stock.model_stock_warehouse
@@ -270,6 +484,18 @@ msgid "Warehouses Department"
 msgstr "ادارة المستودعات"
 
 #. module: purchase_custom_stock
+#: model:ir.model.fields,field_description:purchase_custom_stock.field_asset_operation_return_line__wizard_id
+msgid "Wizard"
+msgstr "المعالج"
+
+#. module: purchase_custom_stock
+#: code:addons/purchase_custom_stock/models/refuse_reason.py:0
+#, python-format
+msgid ""
+"You have assigned an asset. Please return it before refusing the request."
+msgstr "لقد قمت بتعيين أصل. يرجى إرجاعه قبل رفض الطلب"
+
+#. module: purchase_custom_stock
 #: code:addons/purchase_custom_stock/models/purchase_request.py:0
 #, python-format
 msgid "only %s Direct Manager can approve the order"
@@ -286,13 +512,80 @@ msgid "purchase request line"
 msgstr "بند طلب الشراء"
 
 #. module: purchase_custom_stock
-#: model:ir.model.fields.selection,name:purchase_custom_stock.selection__purchase_request__state__secretary_general
-#: model_terms:ir.ui.view,arch_db:purchase_custom_stock.purchase_request_form_inherit
-msgid "Secretary General"
-msgstr "الامين العام"
+#: code:addons/purchase_custom_stock/models/purchase_request.py:0
+#: model:ir.actions.act_window,name:purchase_custom_stock.action_asset_operation_return_wizard
+#: model_terms:ir.ui.view,arch_db:purchase_custom_stock.asset_operation_return_wizard_view_form
+#, python-format
+msgid "Return Assets"
+msgstr "إرجاع الأصول"
 
 #. module: purchase_custom_stock
-#: model:ir.model.fields.selection,name:purchase_custom_stock.selection__purchase_request__state__sector_head_approval
+#: model:ir.model.fields,field_description:purchase_custom_stock.field_asset_operation_return_wizard__operation_ids
+msgid "Return Operations"
+msgstr "عمليات الإرجاع"
+
+#. module: purchase_custom_stock
+#: model:ir.model.fields,field_description:purchase_custom_stock.field_asset_operation_return_line__user_id
+msgid "Responsible"
+msgstr "المسؤول"
+
+#. module: stock
+#: model:ir.ui.menu,name:stock.menu_stock_root
+msgid "Inventory"
+msgstr "المستودعات"
+
+#. module: stock
+#: model:ir.actions.report,print_report_name:stock.action_report_picking
+msgid ""
+"'Picking Operations - %s - %s' % (object.partner_id.name or '', object.name)"
+msgstr ""
+"'عمليات الانتقاء - %s - %s' % (object.partner_id.name or '', object.name)"
+
+
+#. module: purchase_custom_stock
+#: code:addons/purchase_custom_stock/models/purchase_request.py:0
+#, python-format
+msgid "Expected Price MUST be at Least ONE!"
+msgstr "1 يجب أن يكون السعر التقديري على الأقل!"
+
+#. module: purchase_custom_stock
+#: model:ir.model.fields,field_description:purchase_custom_stock.field_purchase_request__has_asset_product_line
+msgid "Has Asset Product"
+msgstr "يحتوي على منتج أصل"
+
+#. module: purchase_custom_stock
+#: code:addons/purchase_custom_stock/models/purchase_request.py:0
+#: code:addons/purchase_custom_stock/models/purchase_request.py:0
+#, python-format
+msgid "Please Select an asset"
+msgstr "يرجى اختيار أصل"
+
+#. module: purchase_custom_stock
+#: model:ir.model,name:purchase_custom_stock.model_product_template
+msgid "Product Template"
+msgstr "قالب المنتج"
+
+#. module: purchase_custom_stock
 #: model_terms:ir.ui.view,arch_db:purchase_custom_stock.purchase_request_form_inherit
-msgid "Sector Head Approval"
-msgstr "موافق رئيس القطاع"
+msgid "Releases"
+msgstr "إرجاع عهدة"
+
+#. module: purchase_custom_stock
+#: model_terms:ir.ui.view,arch_db:purchase_custom_stock.purchase_request_form_inherit
+msgid "Return Done"
+msgstr "تم ارجاع العهده"
+
+#. module: purchase_custom_stock
+#: model:ir.model.fields,field_description:purchase_custom_stock.field_purchase_request__show_asset_release_button
+msgid "Show Asset Release Button"
+msgstr "عرض زر تحرير الأصل"
+
+#. module: purchase_custom_stock
+#: model:ir.model.fields,field_description:purchase_custom_stock.field_account_asset_operation__purchase_request_id
+msgid "Source Document"
+msgstr "المستند المصدر"
+
+#. module: purchase_custom_stock
+#: model:ir.model,name:purchase_custom_stock.model_asset_custody_line
+msgid "asset.custody.line"
+msgstr "بند أصل"

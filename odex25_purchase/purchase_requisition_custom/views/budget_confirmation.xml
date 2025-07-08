@@ -1,35 +1,15 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <data>
-        <!--        <record id="expert_view_budget_confirmation_tree" model="ir.ui.view">-->
-        <!--            <field name="name">expert.budget.confirmation.tree</field>-->
-        <!--            <field name="model">budget.confirmation</field>-->
-        <!--            <field name="inherit_id" ref="account_budget_custom.view_budget_confirmation_tree"/>-->
-        <!--            <field name="arch" type="xml">-->
-        <!--                <field name="department_id" position="after">-->
-        <!--                    <field name="confirm_po" invisible="1"/>-->
-        <!--                    <field name="confirm_invoice" invisible="1"/>-->
-        <!--                </field>-->
-        <!--            </field>-->
-        <!--        </record>-->
-        <!-- Inherit Form View to Modify it -->
-        <record id="view_budget_confirmation_form_inherit" model="ir.ui.view">
-            <field name="name">view_budget_confirmation_form_inherit</field>
+        <record id="expert_view_budget_confirmation_tree" model="ir.ui.view">
+            <field name="name">expert.budget.confirmation.tree</field>
             <field name="model">budget.confirmation</field>
-            <field name="inherit_id" ref="account_budget_custom.view_budget_confirmation_form"/>
+            <field name="inherit_id" ref="account_budget_custom.view_budget_confirmation_tree"/>
             <field name="arch" type="xml">
-
-            <xpath expr="//div[hasclass('oe_title')]" position="before">
-                    <div class="oe_button_box" name="oe_button_box">
-                        <button type="object"
-                                name="action_view_attachments"
-                                class="oe_stat_button"
-                                icon="fa-file-text-o">
-                            <field name="attachment_count" widget="statinfo"/>
-                        </button>
-                    </div>
-                </xpath>
-
+                <field name="department_id" position="after">
+                    <field name="confirm_po"/>
+                    <field name="confirm_invoice"/>
+                </field>
             </field>
         </record>
     </data>

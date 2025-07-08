@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="action_compute_department_purchase_order" model="ir.actions.server">
+        <field name="name">Compute Department for Purchase Orders</field>
+        <field name="model_id" ref="base.model_ir_actions_server"/>
+        <field name="state">code</field>
+        <field name="code">env['purchase.order']._recompute_all_department_id()</field>
+    </record>
+
+</odoo>
