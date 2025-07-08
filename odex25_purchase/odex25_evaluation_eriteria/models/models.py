@@ -3,9 +3,6 @@ from odoo import models, fields, api,_
 from odoo.exceptions import ValidationError
 
 from odoo import models, fields, api
-
-
-
 class CommitteeTypesInherit(models.Model):
     _inherit = 'purchase.committee.type'
 
@@ -36,7 +33,6 @@ class CommitteeTypesInherit(models.Model):
     # def _onchange_available_types(self):
     #     if self.available_types == 'operational':
     #         self.available_types = False
-
 class CommitteeTypesInheritLine(models.Model):
     _name = 'purchase.committee.type.line'
 
@@ -51,8 +47,6 @@ class CommitteeTypesInheritLine(models.Model):
         for rec in self:
             if rec.evaluation and rec.degree and rec.evaluation > rec.degree:
                 raise ValidationError(_("Evaluation can't be greater than Degree"))
-
-
 class PurchaseRequisitionCustomInherit(models.Model):
     _inherit = 'purchase.requisition'
 
@@ -79,10 +73,9 @@ class PurchaseRequisitionCustomInherit(models.Model):
         else:
             self.committee_type_id = False
 
-
-
 class PurchaseOrderCustomSelect(models.Model):
     _inherit = "purchase.order"
+    eval_date = fields.Date(string='date',)
 
     initial_evaluation_lines = fields.One2many(comodel_name='initial.evaluation.criteria', inverse_name='po_id', string='Initial Evaluation Criteria',)
 
@@ -117,17 +110,14 @@ class PurchaseOrderCustomSelect(models.Model):
         res = self.get_budget_id()
         if res:
             for rec in res.lines_ids:
-                res = rec.crossovered_budget_id
-                for lin in res.crossovered_budget_line:
-                    return lin.general_budget_id.name
+                return rec.account_id.name
 
     def get_remain(self):
         res = self.get_budget_id()
         if res:
          for rec in res.lines_ids:
-            res = rec.crossovered_budget_id
-            for lin in res.crossovered_budget_line:
-                return lin.remain
+            # res = rec.crossovered_budget_id
+                return rec.new_balance
 
     def get_user_approve_budget_id(self):
         res = self.get_budget_id()
@@ -169,10 +159,15 @@ class PurchaseOrderCustomSelect(models.Model):
             rec.avg_evaluation = avg
 
     def action_select(self):
+        print('select2')
         for member in self.committe_members:
             if member.user_id.id == self.env.user.id and member.select == True:
                 raise ValidationError(_('You have already select this Quotation'))
         self.requisition_id.actual_vote += 1
+
+        self.eval_date = fields.Date.today()
+        print('order_id.eval_date = ', self.eval_date)
+
         return {
             'type': 'ir.actions.act_window',
             'name': 'Select Reason',

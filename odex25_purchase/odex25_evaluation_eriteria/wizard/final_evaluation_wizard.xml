@@ -40,6 +40,17 @@
         <field name="view_id" ref="final_evaluation_wizard_view"/>
         <field name="target">new</field>
     </record>
+    <!-- Inherit Form View to Modify it -->
+    <record id="po_extend" model="ir.ui.view">
+        <field name="name">po.extend</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field invisible="1" name="end_date"/>
+            </xpath>
+        </field>
+    </record>
 
     <!-- This Menu Item must have a parent and an action -->
     <menuitem id="final_evaluation_wizard_menu"

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <template id="report_delivery_document_user_changed_to_done" inherit_id="stock.report_delivery_document">
+        <xpath expr="//div[@name='signature']" position="before">
+
+            <div name="user_changed_to_done" dir="rtl" style="float:right;">
+                <t t-if="o.picking_type_code == 'incoming'">
+                    <strong>مستلم بواسطة:</strong>
+                    <strong t-esc="o.user_changed_to_done.name"/>
+                </t>
+                <t t-if="o.picking_type_code == 'outgoing'">
+                    <strong>سلم بواسطة:</strong>
+                    <strong t-esc="o.user_changed_to_done.name"/>
+                </t>
+            </div>
+        </xpath>
+    </template>
+</odoo>

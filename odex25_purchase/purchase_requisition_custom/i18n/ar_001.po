@@ -22,6 +22,11 @@ msgid " No budget for this service "
 msgstr ""
 
 #. module: purchase_requisition_custom
+#: model:res.groups,name:purchase_requisition_custom.group_select_recommended_offer
+msgid "Select Recommended Offer"
+msgstr "اختيار العرض الموصى به"
+
+#. module: purchase_requisition_custom
 #: model:ir.actions.report,print_report_name:purchase_requisition_custom.action_report_committee_meeting_minutes
 msgid "'Committee Meeting Minutes - %s' % (object.name)"
 msgstr "'محضر اجتماع اللجنة - %s' % (object.name)"
@@ -219,7 +224,6 @@ msgid "Can see his purchase orders only"
 msgstr " رؤية طلبات الشراء الخاصة به فقط"
 
 #. module: purchase_requisition_custom
-#: code:addons/purchase_requisition_custom/models/purchase_request.py:0
 #: code:addons/purchase_requisition_custom/models/purchase_request.py:0
 #, python-format
 msgid "Can't Confirm Request With No Item!"
@@ -666,6 +670,7 @@ msgstr "طوارئ"
 #. module: purchase_requisition_custom
 #: model:ir.model,name:purchase_requisition_custom.model_hr_employee
 #: model:ir.model.fields,field_description:purchase_requisition_custom.field_purchase_order__employee_id
+#: model:ir.model.fields,field_description:purchase_requisition_custom.field_purchase_order__purchase_request_employee_id
 #: model:ir.model.fields,field_description:purchase_requisition_custom.field_purchase_request__employee_id
 msgid "Employee"
 msgstr "الموظف"
@@ -679,7 +684,7 @@ msgstr "طلبات الشراء"
 #. module: purchase_requisition_custom
 #: model:ir.actions.act_window,name:purchase_requisition_custom.purchase_request_action
 msgid "Employee Request"
-msgstr "طلبات شراء الادارات"
+msgstr "طلبات الادارات"
 
 #. module: purchase_requisition_custom
 #: model:ir.model.fields,field_description:purchase_requisition_custom.field_convert_po_contract_wizard__end_date
@@ -994,8 +999,6 @@ msgstr "اسم المستند:"
 
 #. module: purchase_requisition_custom
 #: code:addons/purchase_requisition_custom/models/purchase_request.py:0
-#: code:addons/purchase_requisition_custom/models/purchase_request.py:0
-#: code:addons/purchase_requisition_custom/models/purchase_request.py:0
 #, python-format
 msgid "New"
 msgstr ""
@@ -1015,7 +1018,6 @@ msgid "New Product"
 msgstr ""
 
 #. module: purchase_requisition_custom
-#: code:addons/purchase_requisition_custom/models/purchase_requisition_custom.py:0
 #: code:addons/purchase_requisition_custom/models/purchase_requisition_custom.py:0
 #, python-format
 msgid "New Purchase Order"
@@ -1245,7 +1247,6 @@ msgstr ""
 
 #. module: purchase_requisition_custom
 #: code:addons/purchase_requisition_custom/models/purchase_request.py:0
-#: code:addons/purchase_requisition_custom/models/purchase_request.py:0
 #, python-format
 msgid "Please Select department for employee"
 msgstr ""
@@ -1444,7 +1445,7 @@ msgstr "قائمة تقارير المشتريات"
 #: model:ir.ui.menu,name:purchase_requisition_custom.menu_purchase_request_root
 #, python-format
 msgid "Purchase Request"
-msgstr "طلبات الشراء"
+msgstr "طلبات الادارات"
 
 #. module: purchase_requisition_custom
 #: code:addons/purchase_requisition_custom/models/budget_confirmation.py:0
@@ -1542,11 +1543,6 @@ msgstr "تم إرسال طلب الشراء المدئي"
 #: model:ir.model.fields,field_description:purchase_requisition_custom.field_purchase_request__reason
 msgid "Reason/Justification"
 msgstr "السببظ المبرر"
-
-#. module: purchase_requisition_custom
-#: model:ir.model.fields,field_description:purchase_requisition_custom.field_purchase_order__recommendation_order
-msgid "Recommend"
-msgstr " الموصي به"
 
 #. module: purchase_requisition_custom
 #: code:addons/purchase_requisition_custom/models/account_payment.py:0
@@ -1732,7 +1728,7 @@ msgstr "الموافقة الثانية"
 #: model:ir.model.fields,field_description:purchase_requisition_custom.field_purchase_request__select
 #: model_terms:ir.ui.view,arch_db:purchase_requisition_custom.purchase_order_custom_form_view
 msgid "Select"
-msgstr "التقييم المبدئي"
+msgstr "إختيار"
 
 #. module: purchase_requisition_custom
 #: model:ir.model.fields,help:purchase_requisition_custom.field_purchase_order__project_id
@@ -2359,3 +2355,178 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:purchase_requisition_custom.committee_meeting_minutes_report_document
 msgid "نطاق العمل"
 msgstr ""
+
+#. module: purchase
+#: model:ir.ui.menu,name:purchase.menu_purchase_root
+#: model_terms:ir.ui.view,arch_db:purchase.res_config_settings_view_form_purchase
+msgid "Purchase"
+msgstr "المشتريات"
+
+
+#. module: purchase_requisition_custom
+#: model:ir.model.fields,field_description:purchase_requisition_custom.field_purchase_order__recommendation_order
+msgid "Recommend"
+msgstr "موصى به"
+
+#. module: purchase_requisition_custom
+#: model_terms:ir.ui.view,arch_db:purchase_requisition_custom.purchase_order_custom_tree
+msgid "Recommend Order"
+msgstr "العرض الموصي به"
+
+#. module: purchase_requisition_custom
+#: model_terms:ir.ui.view,arch_db:purchase_requisition_custom.purchase_order_custom_form_view
+msgid "Recommended"
+msgstr "موصى به"
+
+#. module: purchase_requisition_custom
+#: model_terms:ir.ui.view,arch_db:purchase_requisition_custom.purchase_requisition_custom_form_view
+msgid "RFQs/Orders"
+msgstr "طلبات عروض الأسعار"
+
+#. module: purchase_requisition_custom
+#: model_terms:ir.ui.view,arch_db:purchase_requisition_custom.purchase_order_custom_form_view
+msgid "Are you sure you want to process ?"
+msgstr "هل أنت متأكد من المتابعة بالإجراء؟"
+
+
+#. module: purchase
+#: model:mail.template,body_html:purchase.email_template_edi_purchase
+msgid ""
+"<div style=\"margin: 0px; padding: 0px;\">\n"
+"    <p style=\"margin: 0px; padding: 0px; font-size: 13px;\">\n"
+"        Dear ${object.partner_id.name}\n"
+"        % if object.partner_id.parent_id:\n"
+"            (${object.partner_id.parent_id.name})\n"
+"        % endif\n"
+"        <br/><br/>\n"
+"        Here is in attachment a request for quotation <strong>${object.name}</strong>\n"
+"        % if object.partner_ref:\n"
+"            with reference: ${object.partner_ref}\n"
+"        % endif\n"
+"        from ${object.company_id.name}.\n"
+"        <br/><br/>\n"
+"        If you have any questions, please do not hesitate to contact us.\n"
+"        <br/><br/>\n"
+"        Best regards,\n"
+"    </p>\n"
+"</div>"
+msgstr ""
+"<div style=\"margin: 0px; padding: 0px;\">\n"
+"    <p style=\"margin: 0px; padding: 0px; font-size: 13px;\">\n"
+"        عزيزي ${object.partner_id.name}\n"
+"        % if object.partner_id.parent_id:\n"
+"            (${object.partner_id.parent_id.name})\n"
+"        % endif\n"
+"        <br/><br/>\n"
+"        تجدون مرفقًا طلب عرض سعر <strong>${object.name}</strong>\n"
+"        % if object.partner_ref:\n"
+"            مع المرجع: ${object.partner_ref}\n"
+"        % endif\n"
+"        من ${object.company_id.name}.\n"
+"        <br/><br/>\n"
+"        إذا كانت لديكم أي استفسارات، لا تترددوا في الاتصال بنا.\n"
+"        <br/><br/>\n"
+"        مع أطيب التحيات،\n"
+"    </p>\n"
+"</div>"
+
+#. module: purchase
+#: model:mail.template,subject:purchase.email_template_edi_purchase
+#: model:mail.template,subject:purchase.email_template_edi_purchase_done
+msgid "${object.company_id.name} Order (Ref ${object.name or 'n/a' })"
+msgstr "طلب ${object.company_id.name} (المرجع ${object.name or 'n/a' })"
+
+#. module: purchase
+#: model:mail.template,body_html:purchase.email_template_edi_purchase_done
+msgid ""
+"<div style=\"margin: 0px; padding: 0px;\">\n"
+"    <p style=\"margin: 0px; padding: 0px; font-size: 13px;\">\n"
+"        Dear ${object.partner_id.name}\n"
+"        % if object.partner_id.parent_id:\n"
+"            (${object.partner_id.parent_id.name})\n"
+"        % endif\n"
+"        <br/><br/>\n"
+"        Here is in attachment a purchase order <strong>${object.name}</strong>\n"
+"        % if object.partner_ref:\n"
+"            with reference: ${object.partner_ref}\n"
+"        % endif\n"
+"        amounting in <strong>${format_amount(object.amount_total, object.currency_id)}</strong>\n"
+"        from ${object.company_id.name}. \n"
+"        <br/><br/>\n"
+"        % if object.date_planned:\n"
+"            The receipt is expected for <strong>${format_date(object.date_planned)}</strong>.\n"
+"            <br/><br/>\n"
+"            Could you please acknowledge the receipt of this order?\n"
+"        % endif\n"
+"    </p>\n"
+"</div>"
+msgstr ""
+"<div style=\"margin: 0px; padding: 0px;\">\n"
+"    <p style=\"margin: 0px; padding: 0px; font-size: 13px;\">\n"
+"        عزيزي ${object.partner_id.name}\n"
+"        % if object.partner_id.parent_id:\n"
+"            (${object.partner_id.parent_id.name})\n"
+"        % endif\n"
+"        <br/><br/>\n"
+"        تجدون مرفقًا أمر شراء <strong>${object.name}</strong>\n"
+"        % if object.partner_ref:\n"
+"            مع المرجع: ${object.partner_ref}\n"
+"        % endif\n"
+"        بمبلغ <strong>${format_amount(object.amount_total, object.currency_id)}</strong>\n"
+"        من ${object.company_id.name}.\n"
+"        <br/><br/>\n"
+"        % if object.date_planned:\n"
+"            من المتوقع استلام الطلب بتاريخ <strong>${format_date(object.date_planned)}</strong>.\n"
+"            <br/><br/>\n"
+"            هل يمكنكم تأكيد استلام هذا الطلب؟\n"
+"        % endif\n"
+"    </p>\n"
+"</div>"
+
+#. module: purchase
+#: model:mail.template,body_html:purchase.email_template_edi_purchase_reminder
+msgid ""
+"<div style=\"margin: 0px; padding: 0px;\">\n"
+"    <p style=\"margin: 0px; padding: 0px; font-size: 13px;\">\n"
+"        Dear ${object.partner_id.name}\n"
+"        % if object.partner_id.parent_id:\n"
+"            (${object.partner_id.parent_id.name})\n"
+"        % endif\n"
+"        <br/><br/>\n"
+"        Here is a reminder that the delivery of the purchase order <strong>${object.name}</strong>\n"
+"        % if object.partner_ref:\n"
+"            <strong>(${object.partner_ref})</strong>\n"
+"        % endif \n"
+"        is expected for \n"
+"        % if object.date_planned:\n"
+"            <strong>${format_date(object.date_planned)}</strong>.\n"
+"        % else:\n"
+"            <strong>undefined</strong>.\n"
+"        % endif\n"
+"        Could you please confirm it will be delivered on time?\n"
+"    </p>\n"
+"</div>"
+msgstr ""
+
+"<div style=\"margin: 0px; padding: 0px;\">\n"
+"    <p style=\"margin: 0px; padding: 0px; font-size: 13px;\">\n"
+"        عزيزي/عزيزتي ${object.partner_id.name}\n"
+"        % if object.partner_id.parent_id:\n"
+"            (${object.partner_id.parent_id.name})\n"
+"        % endif\n"
+"        <br/><br/>\n"
+"        هذا تذكير بأن تسليم طلب الشراء <strong>${object.name}</strong>\n"
+"        % if object.partner_ref:\n"
+"            <strong>(${object.partner_ref})</strong>\n"
+"        % endif \n"
+"        من المتوقع أن يتم في \n"
+"        % if object.date_planned:\n"
+"            <strong>${format_date(object.date_planned)}</strong>.\n"
+"        % else:\n"
+"            <strong>غير محدد</strong>.\n"
+"        % endif\n"
+"        هل يمكنك تأكيد أنه سيتم التسليم في الوقت المحدد؟\n"
+"    </p>\n"
+"</div>"
+
+

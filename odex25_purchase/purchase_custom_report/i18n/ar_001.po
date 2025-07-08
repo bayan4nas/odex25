@@ -57,6 +57,16 @@ msgid "Approved"
 msgstr "معتمد"
 
 #. module: purchase_custom_report
+#: model_terms:ir.ui.view,arch_db:purchase_custom_report.employee_custody_report_details
+msgid "Asset"
+msgstr "الاصل"
+
+#. module: purchase_custom_report
+#: model_terms:ir.ui.view,arch_db:purchase_custom_report.employee_custody_report_details
+msgid "Assignment Date"
+msgstr "تاريخ الاسناد"
+
+#. module: purchase_custom_report
 #: code:addons/purchase_custom_report/wizard/purchase_wizard.py:0
 #: model:ir.model.fields.selection,name:purchase_custom_report.selection__purchase_committee_report__state__open
 #: model:ir.model.fields.selection,name:purchase_custom_report.selection__purchase_general_report__state__open
@@ -84,6 +94,7 @@ msgstr "مراجعة الميزانية"
 #: model_terms:ir.ui.view,arch_db:purchase_custom_report.employee_purchase_report_wizard_form5
 #: model_terms:ir.ui.view,arch_db:purchase_custom_report.model_name_view_form
 #: model_terms:ir.ui.view,arch_db:purchase_custom_report.purchase_committe_report_form
+#: model_terms:ir.ui.view,arch_db:purchase_custom_report.wizard_employee_custody_report_form
 #: model_terms:ir.ui.view,arch_db:purchase_custom_report.purchase_general_report_wizard_form
 #: model_terms:ir.ui.view,arch_db:purchase_custom_report.wizard_purchase_order_report_form
 #: model_terms:ir.ui.view,arch_db:purchase_custom_report.wizard_purchase_requisition_form
@@ -168,6 +179,16 @@ msgid "Created by"
 msgstr "انشيء بواسطة"
 
 #. module: purchase_custom_report
+#: model_terms:ir.ui.view,arch_db:purchase_custom_report.employee_custody_report_details
+msgid "Custody Period"
+msgstr "فترة العهدة"
+
+#. module: purchase_custom_report
+#: model_terms:ir.ui.view,arch_db:purchase_custom_report.employee_custody_report_details
+msgid "Custody Type"
+msgstr "نوع العهدة"
+
+#. module: purchase_custom_report
 #: model:ir.model.fields,field_description:purchase_custom_report.field_employee_purchase_report__create_date
 #: model:ir.model.fields,field_description:purchase_custom_report.field_employee_purchase_requistion__create_date
 #: model:ir.model.fields,field_description:purchase_custom_report.field_purchase_committee_report__create_date
@@ -199,6 +220,11 @@ msgid "Date From"
 msgstr "بداية من"
 
 #. module: purchase_custom_report
+#: model_terms:ir.ui.view,arch_db:purchase_custom_report.employee_custody_report_details
+msgid "Date From :"
+msgstr "تاريخ البداية:"
+
+#. module: purchase_custom_report
 #: code:addons/purchase_custom_report/wizard/purchase_wizard.py:0
 #: code:addons/purchase_custom_report/wizard/purchase_wizard.py:0
 #: code:addons/purchase_custom_report/wizard/purchase_wizard.py:0
@@ -216,6 +242,11 @@ msgid "Date To"
 msgstr "نهاية الي"
 
 #. module: purchase_custom_report
+#: model_terms:ir.ui.view,arch_db:purchase_custom_report.employee_custody_report_details
+msgid "Date To:"
+msgstr "تاريخ النهاية:"
+
+#. module: purchase_custom_report
 #: model_terms:ir.ui.view,arch_db:purchase_custom_report.purchase_comittee_report_details
 msgid "Date:"
 msgstr "تاريخ"
@@ -230,6 +261,7 @@ msgid "Deparments"
 msgstr "اقسام"
 
 #. module: purchase_custom_report
+#: model:ir.model.fields,field_description:purchase_custom_report.field_employee_custody_report__department_id
 #: model:ir.model.fields,field_description:purchase_custom_report.field_purchase_order_report_wizard__department_id
 #: model:ir.model.fields,field_description:purchase_custom_report.field_purchase_requisition_wizard__department_id
 #: model:ir.model.fields,field_description:purchase_custom_report.field_vendor_report_wizard__department_id
@@ -243,10 +275,11 @@ msgid "Department"
 msgstr "قسم"
 
 #. module: purchase_custom_report
+#: model_terms:ir.ui.view,arch_db:purchase_custom_report.employee_custody_report_details
 #: model_terms:ir.ui.view,arch_db:purchase_custom_report.purchase_comittee_report_details
 #: model_terms:ir.ui.view,arch_db:purchase_custom_report.purchase_general_report
 msgid "Department:"
-msgstr "قسم"
+msgstr "قسم:"
 
 #. module: purchase_custom_report
 #: model:ir.model.fields.selection,name:purchase_custom_report.selection__employee_purchase_report__type__detailed
@@ -304,6 +337,7 @@ msgid "Duration"
 msgstr "الفترة الزمنية"
 
 #. module: purchase_custom_report
+#: model:ir.model.fields,field_description:purchase_custom_report.field_employee_custody_report__employee_id
 #: model:ir.model.fields,field_description:purchase_custom_report.field_employee_purchase_report__employee_ids
 #: model:ir.model.fields,field_description:purchase_custom_report.field_employee_purchase_requistion__employee_ids
 #: model:ir.model.fields,field_description:purchase_custom_report.field_purchase_general_report__employee_ids
@@ -312,6 +346,17 @@ msgstr "الفترة الزمنية"
 #: model_terms:ir.ui.view,arch_db:purchase_custom_report.purchase_general_report
 msgid "Employee"
 msgstr "الموظف"
+
+#. module: purchase_custom_report
+#: model:ir.actions.act_window,name:purchase_custom_report.wizard_employee_custody_report_action
+#: model:ir.actions.report,name:purchase_custom_report.action_report_employee_custody
+#: model:ir.model,name:purchase_custom_report.model_employee_custody_report
+#: model:ir.ui.menu,name:purchase_custom_report.report_employee_custody_asset_men
+#: model:ir.ui.menu,name:purchase_custom_report.report_employee_custody_menu
+#: model:ir.ui.menu,name:purchase_custom_report.report_employee_custody_stock_men
+#: model_terms:ir.ui.view,arch_db:purchase_custom_report.employee_custody_report_details
+msgid "Employee Custody Report"
+msgstr "تقرير عهد الموظفين"
 
 #. module: purchase_custom_report
 #: model_terms:ir.ui.view,arch_db:purchase_custom_report.employee_purchase_report
@@ -335,9 +380,15 @@ msgid "Employee Purchase Reports"
 msgstr "تقرير أوامر شراء الموظفين "
 
 #. module: purchase_custom_report
+#: model_terms:ir.ui.view,arch_db:purchase_custom_report.employee_custody_report_details
 #: model_terms:ir.ui.view,arch_db:purchase_custom_report.purchase_general_report
 msgid "Employee:"
-msgstr "الموظف"
+msgstr "الموظف:"
+
+#. module: purchase_custom_report
+#: model:ir.model.fields,field_description:purchase_custom_report.field_employee_custody_report__date_to
+msgid "End Date"
+msgstr "تاريخ النهاية"
 
 #. module: purchase_custom_report
 #: model:ir.model,name:purchase_custom_report.model_employee_purchase_report
@@ -378,6 +429,7 @@ msgid "Group By"
 msgstr "مجمع بواسطة"
 
 #. module: purchase_custom_report
+#: model:ir.model.fields,field_description:purchase_custom_report.field_employee_custody_report__id
 #: model:ir.model.fields,field_description:purchase_custom_report.field_employee_purchase_report__id
 #: model:ir.model.fields,field_description:purchase_custom_report.field_employee_purchase_requistion__id
 #: model:ir.model.fields,field_description:purchase_custom_report.field_purchase_committee_report__id
@@ -385,6 +437,7 @@ msgstr "مجمع بواسطة"
 #: model:ir.model.fields,field_description:purchase_custom_report.field_purchase_order_report_wizard__id
 #: model:ir.model.fields,field_description:purchase_custom_report.field_purchase_requisition_wizard__id
 #: model:ir.model.fields,field_description:purchase_custom_report.field_purchase_total_report__id
+#: model:ir.model.fields,field_description:purchase_custom_report.field_report_purchase_custom_report_employee_custody_report_details__id
 #: model:ir.model.fields,field_description:purchase_custom_report.field_report_purchase_custom_report_employee_purchase_report2__id
 #: model:ir.model.fields,field_description:purchase_custom_report.field_report_purchase_custom_report_employee_purchase_report__id
 #: model:ir.model.fields,field_description:purchase_custom_report.field_report_purchase_custom_report_purchase_comittee_report__id
@@ -544,8 +597,29 @@ msgstr "الفترة الزمنية"
 #: model_terms:ir.ui.view,arch_db:purchase_custom_report.wizard_purchase_order_report_form
 #: model_terms:ir.ui.view,arch_db:purchase_custom_report.wizard_purchase_requisition_form
 #: model_terms:ir.ui.view,arch_db:purchase_custom_report.wizard_vendor_report_form
+#: model_terms:ir.ui.view,arch_db:purchase_custom_report.wizard_employee_custody_report_form
 msgid "Print"
 msgstr "اطبع"
+
+#. module: purchase_custom_report
+#: model_terms:ir.ui.view,arch_db:purchase_custom_report.employee_custody_report_details
+msgid "Source Document"
+msgstr "المستند المصدر"
+
+#. module: purchase_custom_report
+#: model:ir.model.fields,field_description:purchase_custom_report.field_employee_custody_report__date_from
+msgid "Start Date"
+msgstr "تاريخ البداية"
+
+#. module: purchase_custom_report
+#: model_terms:ir.ui.view,arch_db:purchase_custom_report.employee_custody_report_details
+msgid "Request Date"
+msgstr "تاريخ الطلب"
+
+#. module: purchase_custom_report
+#: model_terms:ir.ui.view,arch_db:purchase_custom_report.employee_custody_report_details
+msgid "Return Date"
+msgstr "تاريخ الارجاع"
 
 #. module: purchase_custom_report
 #: model:ir.model.fields.selection,name:purchase_custom_report.selection__employee_purchase_requistion__state__waiting
