@@ -11,205 +11,130 @@
             <field name="binding_model_id" ref="model_initial_evaluation_wizard"/>
             <field name="binding_type">report</field>
         </record>
-        <template id="custom_external_layout_standard_tran2">
-            <t t-set="company" t-value="user.company_id"/>
-            <div class="header">
-                <div style="margin: 0; padding: 0;" class="row">
-                    <div style="margin: 0; padding: 0;" dir="rtl" class="col-5 mb4">
-                        <p>المملكة العربية السعودية</p>
-                        <p>الامانة العامة</p>
-                        <p>الشئون الادارية</p>
-                    </div>
-
-                    <div style="margin: 0; padding: 0;" class="col-2 mb4">
-                        <img t-if="company.logo" t-att-src="image_data_uri(company.logo)" style="max-height: 100px;"
-                             alt="Logo"/>
-                    </div>
-
-                    <div style="text-align: left;margin: 0; padding: 0;" dir="ltr" class="col-5 mb4">
-                        <p>Kingdom of Saudi Arabia</p>
-                        <p>General Secretariat</p>
-                        <p>Administrative Affairs</p>
-                    </div>
-                </div>
-            </div>
-
-        </template>
-
         <template id="initial_evaluation_report_pdf">
-            <t t-call="web.html_container">
+            <t t-call="web.basic_layout">
+                <style type="text/css">
+                    @font-face {
+                    font-family: 'DroidKufi';
+                    src: url("/exp_transaction_documents/static/src/fonts/DroidKufi-Bold.ttf") format("truetype");
+                    font-weight: normal;
+                    font-style: normal;
+                    }
+
+                    .droidkufi-font {
+                    font-family: 'DroidKufi', sans-serif;
+                    }
+                </style>
+
                 <t t-foreach="docs" t-as="doc">
-                    <div dir='rtl' class="article o_report_layout_standard">
-                        <t t-call="odex25_evaluation_eriteria.custom_external_layout_standard_tran2"/>
-                        <div class="page">
-                            <div style="text-align:center">
+                    <div dir="rtl" class="droidkufi-font page">
+                        <div class="droidkufi-font" style="text-align:center">
+                            <t t-foreach="doc.move_ids" t-as="order">
+                                <t t-set="first_move" t-value="doc.move_ids[0]"/>
+                                <t t-set="filtered_lines"
+                                   t-value="doc.committee_member and order.initial_evaluation_lines.filtered(lambda l: l.user_id.id == doc.committee_member.id) or order.initial_evaluation_lines"/>
+                                <h5>
+                                    <t t-esc="order.name"/>
+                                </h5>
+                                <br/>
+                                <div style="display: flex; justify-content: center; align-items: center;">
+                                    <t t-set="total" t-value="0"/>
+                                    <table class="table table-bordered mt32"
+                                           style="width: 100%; border: 2pt solid black; border-collapse: collapse;">
+                                        <tbody>
+                                            <tr>
+                                                <td style="border: 1px solid black;">تاريخ الطباعة</td>
+                                                <td colspan="2" style="border: 1px solid black;">
+                                                    <t t-esc="time.strftime('%Y-%m-%d')"/>
+                                                </td>
+                                                <td style="border: 1px solid black;">اسم الشركه</td>
+                                                <td colspan="2" style="border: 1px solid black;">
+                                                    <t t-esc='order.partner_id.name'/>
+                                                </td>
+                                                <td style="border: 1px solid black;background-color:#a1c6d8;">
+                                                    <span>العرض المقدم</span>
+                                                    <br/>
+                                                    <span>(شامل الضريبه)</span>
+                                                </td>
+                                                <td style="border: 1px solid black;">
+                                                    <t t-esc='order.amount_total'/>
+                                                </td>
+                                            </tr>
 
-                                <t t-foreach="doc.move_ids" t-as="order">
-                                    <t t-set="first_move" t-value="doc.move_ids[0]"/>
-                                    <t t-set="filtered_lines"
-                                       t-value="doc.committee_member and order.initial_evaluation_lines.filtered(lambda l: l.user_id.id == doc.committee_member.id) or order.initial_evaluation_lines"/>
-                                    <h5>
-                                        <t t-esc="order.name"/>
-                                    </h5>
-                                    <br/>
-                                    <div style="display: flex; justify-content: center; align-items: center;">
+                                            <t t-if="order.initial_evaluation_lines">
+                                                <tr style="background-color:#7bd3f7">
+                                                    <th style="border: 1px solid black;">رقم</th>
+                                                    <th style="border: 1px solid black;">التاريخ</th>
+                                                    <th style="border: 1px solid black;">المقييم</th>
+                                                    <th style="border: 1px solid black;">التوقيع</th>
+                                                    <th colspan="" style="border: 1px solid black;">المعيار</th>
+                                                    <th style="border: 1px solid black;">الدرجه</th>
+                                                    <th colspan="3" style="border: 1px solid black;">التقييم</th>
 
-                                        <table class="table table-bordered mt32"
-                                               style="width: 100%; border: 2pt solid black; border-collapse: collapse;">
-                                            <tbody>
-                                                <tr>
-                                                    <td style="border: 1px solid black;">التاريخ</td>
-                                                    <td colspan="2" style="border: 1px solid black;">
-                                                        <t t-esc="time.strftime('%Y-%m-%d')"/>
-                                                    </td>
-                                                    <td style="border: 1px solid black;">اسم الشركه</td>
-                                                    <td colspan="2" style="border: 1px solid black;">
-                                                        <t t-esc='order.partner_id.name'/>
-                                                    </td>
-                                                    <td style="border: 1px solid black;background-color:#a1c6d8;">
-                                                        <span>العرض المقدم</span>
-                                                        <br/>
-                                                        <span>(شامل الضريبه)</span>
-                                                    </td>
-                                                    <td style="border: 1px solid black;">
-                                                        <t t-esc='order.amount_total'/>
-                                                    </td>
                                                 </tr>
+                                                <t t-set="count" t-value="0"/>
+                                                <t t-foreach="filtered_lines" t-as="line">
+                                                    <t t-set="count" t-value="count+1"/>
+                                                    <tr>
+                                                        <td style="border: 1px solid black;">
+                                                            <span t-esc="count"/>
+                                                        </td>
+                                                        <td style="border: 1px solid black;">
+                                                            <t t-esc='order.eval_date'/>
+                                                        </td>
 
-                                                <t t-if="order.initial_evaluation_lines">
-                                                    <tr style="background-color:#7bd3f7">
-                                                        <th style="border: 1px solid black;">رقم</th>
-                                                        <th style="border: 1px solid black;">المقييم</th>
-                                                        <th style="border: 1px solid black;">التوقيع</th>
-                                                        <th colspan="" style="border: 1px solid black;">المعيار</th>
-                                                        <th style="border: 1px solid black;">الدرجه</th>
-                                                        <th colspan="3" style="border: 1px solid black;">التقييم</th>
-
-                                                    </tr>
-                                                    <t t-set="count" t-value="0"/>
-                                                    <t t-foreach="filtered_lines" t-as="line">
-                                                        <t t-set="count" t-value="count+1"/>
-                                                        <tr>
-                                                            <td style="border: 1px solid black;">
-                                                                <span t-esc="count"/>
-                                                            </td>
-
-                                                            <td colspan="" style="border: 1px solid black;">
-                                                                <t t-if="doc.role_type == 'not_member'">
-                                                                    <span style="color:#111">....</span>
+                                                        <td colspan="" style="border: 1px solid black;">
+                                                            <t t-if="doc.role_type == 'not_member'">
+                                                                <span style="color:#fff">....</span>
+                                                            </t>
+                                                            <t t-else="">
+                                                                <t t-if="first_move.requisition_id.committee_type_id.committe_head.name==line.user_id.name">
+                                                                    <span>رئيس اللجنة:</span>
                                                                 </t>
                                                                 <t t-else="">
-                                                                    <t t-if="first_move.requisition_id.committee_type_id.committe_head.name==line.user_id.name">
-                                                                        <span>رئيس اللجنة:</span>
-                                                                    </t>
-                                                                    <t t-else="">
-                                                                        <span>عضو اللجنة:</span>
-                                                                    </t>
+                                                                    <span>عضو اللجنة:</span>
                                                                 </t>
-                                                                <t t-esc='line.user_id.name'/>
-                                                            </td>
+                                                            </t>
+                                                            <t t-esc='line.user_id.name'/>
+                                                        </td>
 
-                                                            <td colspan="" style="border: 1px solid black;">
-                                                                <div style="padding-top:33px;">
+                                                        <td colspan="" style="border: 1px solid black;">
+                                                            <div style="padding-top:33px;">
 
-                                                                    <img t-if="user.sign_signature" class="image"
-                                                                         t-att-src="'data:image/png;base64,%s' % to_text(user.sign_signature)"
-                                                                         style="width:70px; height:70px;margin-top:-40px"/>
-                                                                </div>
-                                                            </td>
+                                                                <img t-if="line.user_id.sign_signature" class="image"
+                                                                     t-att-src="'data:image/png;base64,%s' % to_text(line.user_id.sign_signature)"
+                                                                     style="width:70px; height:70px;margin-top:-40px"/>
+                                                            </div>
+                                                        </td>
 
 
-                                                            <td colspan="" style="border: 1px solid black;">
-                                                                <t t-esc='line.evaluation_criteria'/>
-                                                            </td>
-                                                            <td style="border: 1px solid black;">
-                                                                <t t-esc='line.evaluation'/>
-                                                            </td>
-                                                            <td colspan="3" style="border: 1px solid black;">
-                                                                <t t-esc='line.degree'/>
-                                                            </td>
+                                                        <td colspan="" style="border: 1px solid black;">
+                                                            <t t-esc='line.evaluation_criteria'/>
+                                                        </td>
+                                                        <td style="border: 1px solid black;">
+                                                            <t t-esc='line.degree'/>%
 
-                                                        </tr>
-                                                    </t>
-                                                    <tr style="background-color:#7bd3f7;">
-                                                        <th colspan="4" style="border: 1px solid black;">الاجمالي</th>
-
-                                                        <th colspan="4" style="border: 1px solid black;">
-                                                            <t t-esc="order.total_evaluation"/>
-                                                        </th>
+                                                        </td>
+                                                        <td colspan="4" style="border: 1px solid black;">
+                                                            <t t-esc='line.evaluation'/>%
+                                                            <t t-set="total" t-value="total+line.evaluation"/>
+                                                        </td>
                                                     </tr>
                                                 </t>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </t>
-                                <!--                                <div style="display: flex; justify-content: center; align-items: center;">-->
-                                <!--                                    <table class="table table-bordered mt32"-->
-                                <!--                                           style="width: 100%; border: 2pt solid black; border-collapse: collapse;">-->
-                                <!--                                        <tbody>-->
-                                <!--                                            <tr>-->
-                                <!--                                                <td colspan="4"-->
-                                <!--                                                    style="border: 1px solid black;background-color:#7bd3f7">-->
-                                <!--                                                    <span>المقيم</span>-->
-                                <!--                                                </td>-->
-                                <!--                                            </tr>-->
-                                <!--                                            <tr>-->
-                                <!--                                                <td style="border: 1px solid black;background-color:#7bd3f7;">-->
-                                <!--                                                    <span>الدور</span>-->
-                                <!--                                                </td>-->
-                                <!--                                                <td style="border: 1px solid black;background-color:#7bd3f7;">-->
-                                <!--                                                    <span>الاسم</span>-->
-                                <!--                                                </td>-->
+                                                <tr style="background-color:#7bd3f7;">
+                                                    <th colspan="4" style="border: 1px solid black;">الاجمالي</th>
 
-                                <!--                                                <td style="border: 1px solid black;background-color:#7bd3f7;">التوقيع-->
-                                <!--                                                </td>-->
-                                <!--                                                <td style="border: 1px solid black;background-color:#7bd3f7">-->
-                                <!--                                                    التاريخ-->
-                                <!--                                                </td>-->
-                                <!--                                            </tr>-->
-                                <!--                                            <tr>-->
-                                <!--                                                <td style="border: 1px solid black;">-->
-                                <!--                                                    <t t-if="doc.role_type == 'not_member'">-->
-                                <!--                                                        <span>Not Member</span>-->
-                                <!--                                                    </t>-->
-                                <!--                                                    <t t-else="">-->
-                                <!--                                                        <t t-if="doc.role_type=='manager'">-->
-                                <!--                                                            <span>رئيس اللجنة-->
-                                <!--                                                            </span>-->
-                                <!--                                                        </t>-->
-                                <!--                                                        <t t-if="doc.role_type=='member'">-->
-                                <!--                                                            <span>عضو اللجنة</span>-->
-                                <!--                                                        </t>-->
-                                <!--                                                    </t>-->
-                                <!--                                                </td>-->
-
-                                <!--                                                <td style="border: 1px solid black;">-->
-                                <!--                                                    <span>-->
-                                <!--                                                        <span t-esc="user.name"/>-->
-                                <!--                                                    </span>-->
-                                <!--                                                </td>-->
-                                <!--                                                <td style="border: 1px solid black;">-->
-                                <!--                                                    <div style="padding-top:33px;">-->
-                                <!--                                                        <img t-if="user.sign_signature" class="image"-->
-                                <!--                                                             t-att-src="'data:image/png;base64,%s' % to_text(user.sign_signature)"-->
-                                <!--                                                             style="width:70px; height:70px;margin-top:-40px"/>-->
-                                <!--                                                    </div>-->
-                                <!--                                                </td>-->
-
-                                <!--                                                <td style="border: 1px solid black;">-->
-                                <!--                                                    <t t-esc="time.strftime('%Y-%m-%d')"/>-->
-                                <!--                                                </td>-->
-
-                                <!--                                            </tr>-->
-                                <!--                                        </tbody>-->
-                                <!--                                    </table>-->
-                                <!--                                </div>-->
-                            </div>
-                        </div>
-
+                                                    <th colspan="4" style="border: 1px solid black;">
+                                                        <t t-esc="total"/>%
+                                                    </th>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </t>
+                          </div>
                     </div>
-                    <!--                    <t t-call="web.external_layout">-->
-                    <!--                    </t>-->
                 </t>
             </t>
         </template>

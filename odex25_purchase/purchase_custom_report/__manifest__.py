@@ -20,8 +20,10 @@
     'views/asset_custom.xml',
     'wizard/purchase_committee_report.xml',
     'reports/purchase_committe_report.xml',
+    'wizard/employee_custody_report_wizard.xml',
+    'reports/employee_custody_report.xml',
     'views/backend_assets.xml',        ],
-    'depends' : ['purchase_requisition_custom','hr'],
+    'depends' : ['purchase_requisition_custom','hr','purchase_custom_stock'],
     'installable': True,
     'application': True,
 }
