@@ -159,15 +159,11 @@ class PurchaseOrderCustomSelect(models.Model):
             rec.avg_evaluation = avg
 
     def action_select(self):
-        print('select2')
         for member in self.committe_members:
             if member.user_id.id == self.env.user.id and member.select == True:
                 raise ValidationError(_('You have already select this Quotation'))
         self.requisition_id.actual_vote += 1
-
         self.eval_date = fields.Date.today()
-        print('order_id.eval_date = ', self.eval_date)
-
         return {
             'type': 'ir.actions.act_window',
             'name': 'Select Reason',
@@ -176,10 +172,6 @@ class PurchaseOrderCustomSelect(models.Model):
             'target': 'new',
             'context': {'default_order_id': self.id, 'default_purchase_committee_type': self.requisition_id.committee_type_id.id if self.requisition_id else False}
         }
-
-
-
-
 class SelectReason(models.TransientModel):
     _inherit = "select.reason"
 
