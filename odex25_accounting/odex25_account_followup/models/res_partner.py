@@ -238,9 +238,12 @@ class ResPartner(models.Model):
         """.format(
             where="" if all_partners else "AND aml.partner_id in %(partner_ids)s",
         )
+        filtered_ids = [p.id for p in self if isinstance(p.id, int)]
+        if not filtered_ids and not all_partners:
+            return {}
         params = {
             'company_id': self.env.company.id,
-            'partner_ids': tuple(self.ids),
+            'partner_ids': tuple(filtered_ids),
             'current_date': today,
         }
         self.env['account.move.line'].flush()
