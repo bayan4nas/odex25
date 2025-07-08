@@ -183,7 +183,7 @@
                     <button type="object" name="budget_resend" string="Resend To Budget Check" class="oe_highlight"
                             states="budget_rejected"/>
                     <button type="object" name="action_budget" string="Send To Budget Check" class="oe_highlight"
-                            attrs="{'invisible':['|',('requisition_id','!=',False),'|',('state','not in',('wait','sent')),('is_purchase_budget','=',False)]}"/>
+                            attrs="{'invisible':[('state','!=','wait')]}"/>
                     <button name="action_skip_budget" type="object" string="Skip Budget"
                             attrs="{'invisible':['|',('requisition_id','!=',False),'|',('state','not in',('wait')),('is_purchase_budget','=',False)]}"
                             groups="purchase_requisition_custom.group_skip_purchase_budget"/>
