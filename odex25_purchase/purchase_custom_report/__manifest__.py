@@ -8,7 +8,7 @@
             this module will add some report at the purchase customization
     """,
     'data':[
-    # 'security/ir.model.access.csv',
+    'security/ir.model.access.csv',
 	'reports/report_template.xml',
 	'wizard/purchase_general_report_wizard.xml',
 	'reports/report_actions.xml',
