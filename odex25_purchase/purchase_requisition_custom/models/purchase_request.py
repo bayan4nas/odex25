@@ -84,6 +84,11 @@ class PurchaseRequest(models.Model):
     select = fields.Boolean(string="Select")
     reject_reason = fields.Text(string='Reject Reson')
 
+
+
+    def _inverse_product_category_ids(self):
+
+        pass
     @api.depends('line_ids.product_id')
     def _compute_product_category_ids(self):
         for rec in self:
