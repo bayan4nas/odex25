@@ -54,7 +54,7 @@ class PurchaseRequest(models.Model):
         [('draft', 'Draft'), ('direct_manager', 'Direct Manager'),
          ('waiting', 'In Purchase'), ('done', 'Done'), ('cancel', 'Cancel'), ('refuse', 'Refuse')], default="draft",
         tracking=True, )
-    product_category_ids = fields.Many2many('product.category', string='Items Categories',
+    product_category_ids = fields.Many2many('product.category', string='Items Categories',inverse='_inverse_product_category_ids',
                                             compute='_compute_product_category_ids',
                                             store=True)
     purchase_purpose = fields.Char("Purpose")

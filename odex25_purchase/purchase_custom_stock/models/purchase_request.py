@@ -16,12 +16,11 @@ class PurchaseRequest(models.Model):
     picking_id = fields.Many2one("stock.picking", copy=False)
     edit_locations = fields.Boolean(string="Edit Locations", compute='compute_edit_locations', copy=False)
     state = fields.Selection(
-        [('draft', 'Draft'), ('direct_manager', 'Direct Manager'), ('warehouse', 'Warehouses Department'),
-         ('wait_for_send', 'Wait For Sent'),
+        [('draft', 'Draft'), ('direct_manager', 'Direct Manager'),('secretary_general', 'Secretary General'),
+         ('sector_head_approval', 'Sector Head Approval'),('warehouse', 'Warehouses Department'),('wait_for_send', 'Wait For Sent'),
          ('initial', 'Initial Engagement'),
-         ('waiting', 'In Purchase'), ('employee', 'Employee Delivery'), ('done', 'Done'), ('cancel', 'Cancel'),
-         ('refuse', 'Refuse')], default="draft",
-        tracking=True, copy=False)
+         ('waiting', 'In Purchase'),('employee', 'Employee Delivery'),('done', 'Done'), ('cancel', 'Cancel'), ('refuse', 'Refuse')], default="draft",
+        tracking=True,copy=False )
     show_emp_button = fields.Boolean(compute='show_employee_button', copy=False)
     show_approve_warehouse = fields.Boolean("Approve Warehouse", compute='show_approve_warehouse_button')
     has_asset_product_line = fields.Boolean(string="Has Asset Product", compute="_compute_has_asset_product_line",
@@ -36,6 +35,29 @@ class PurchaseRequest(models.Model):
                                             string='Asset Custody Complete',
                                             help='True when all asset products have custody lines and operations in done state'
                                             )
+
+    total_sum = fields.Float(string="Total Sum", compute="_compute_total_sum", store=True)
+
+    @api.depends('line_ids.line_total')
+    def _compute_total_sum(self):
+        for record in self:
+            record.total_sum = sum(line.line_total for line in record.line_ids)
+
+
+    def action_sector_head_approval(self):
+        if any(self.line_ids.filtered(lambda line: line.product_id.type == "product")):
+            self.write({'state': 'warehouse'})
+        else:
+            for rec in self.line_ids:
+                rec.write({"qty_purchased": rec.qty})
+
+            init_active = self.env['ir.module.module'].search(
+                [('name', '=', 'initial_engagement_budget'), ('state', '=', 'installed')], limit=1)
+            init_budget = True if init_active else False
+            self.write({'state': 'wait_for_send' if init_budget else 'waiting'})
+
+    def action_secretary_general(self):
+        self.state = "sector_head_approval"
 
     def _asset_assign_count(self):
         self.asset_assign_count = len(
@@ -151,12 +173,10 @@ class PurchaseRequest(models.Model):
         employee_direct_manager = self.sudo().employee_id.parent_id
         if employee_direct_manager and employee_direct_manager.user_id and self.env.user.id != employee_direct_manager.user_id.id:
             raise ValidationError(_("only %s Direct Manager can approve the order" % self.sudo().employee_id.name))
-        if any(self.line_ids.filtered(lambda line: line.product_id.type == "product" or line.product_id.asset_ok)):
-            self.write({'state': 'warehouse'})
+        if self.total_sum > 10000:
+            self.state = 'secretary_general'
         else:
-            for rec in self.line_ids:
-                rec.write({"qty_purchased": rec.qty})
-            self.write({'state': 'wait_for_send' if init_budget else 'waiting'})
+            self.state = 'sector_head_approval'
 
     def create_requisition(self):
         """inherit for take in considiration available qty """
