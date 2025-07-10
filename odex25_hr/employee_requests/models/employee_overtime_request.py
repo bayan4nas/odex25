@@ -219,9 +219,18 @@ class employee_overtime_request(models.Model):
                                 'date': item.request_date,
                                 'ref': record.employee_id.name,
                                 'line_ids': [(0, 0, debit_line_vals), (0, 0, credit_line_vals)],
-                                'res_model': 'employee.overtime.request',
-                                'res_id': self.id
+
                             })
+                            attachments = self.env['ir.attachment'].sudo().search([
+                                ('res_model', '=', 'employee.overtime.request'),
+                                ('res_id', '=', self.id)
+                            ])
+                            for attachment in attachments:
+                                attachment.sudo().copy({
+                                    'res_model': 'account.move',
+                                    'res_id': move.id,
+                                })
+
                             record.account_id = account_debit_id.id
                             record.journal_id = journal_id.id
                             record.move_id = move.id

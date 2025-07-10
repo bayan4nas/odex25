@@ -469,6 +469,15 @@ class HrOfficialMission(models.Model):
                                })
                                # fill account move for each employee
                                item.write({'account_move_id': move.id})
+                               attachments = self.env['ir.attachment'].sudo().search([
+                                   ('res_model', '=', 'hr.official.mission'),
+                                   ('res_id', '=', self.id)
+                               ])
+                               for attachment in attachments:
+                                   attachment.sudo().copy({
+                                       'res_model': 'account.move',
+                                       'res_id': move.id,
+                                   })
                 #else:
                     #raise exceptions.Warning(
                         #_('You do not have account or journal in mission type "%s" ') % self.mission_type.name)
@@ -535,9 +544,17 @@ class HrOfficialMission(models.Model):
                     'invoice_date': date.today(),
                     'ref': 'Training Cost for Course Name %s ' % item.course_name.name,
                     'invoice_line_ids': [(0, 0, invoice_line_vals)],
-                    'res_model': 'hr.official.mission',
-                    'res_id': self.id
+
                 })
+                attachments = self.env['ir.attachment'].sudo().search([
+                    ('res_model', '=', 'hr.official.mission'),
+                    ('res_id', '=', self.id)
+                ])
+                for attachment in attachments:
+                    attachment.sudo().copy({
+                        'res_model': 'account.move',
+                        'res_id': invoice.id,
+                    })
                 item.write({'Tra_cost_invo_id': invoice.id})
         if self.is_branch:
 
