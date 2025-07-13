@@ -18,7 +18,7 @@ Odex - Communications Management System
 Managing Communications Transcations flows
     """,
     'website': 'http://www.exp-sa.com',
-    'depends': ['base', 'base_odex', 'mail','attachment_indexation','odex25_sign','html_text', 'odex_sms','signature_attachment_viewer'],
+    'depends': ['base', 'base_odex', 'mail','attachment_indexation','odex25_sign','html_text', 'odex_sms'],
     'data': [
         'security/groups.xml',
         'security/ir.model.access.csv',
