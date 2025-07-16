@@ -782,14 +782,14 @@
         <!--social search-->
         <!--البحث الاجتماعي-->
         <menuitem id='social_search_menu' name='social search' parent='benefits_root_menu'
-                  sequence="2"/>
+                  sequence="2" groups="odex_benefit.group_hide_not_needed_menus"/>
          <menuitem id='change_requests_menu' name='Change Requests' parent='benefits_root_menu'
-                  sequence="3"/>
+                  sequence="3" groups="odex_benefit.group_hide_not_needed_menus"/>
         <menuitem id='benefit_services' name='Services'
-                  parent="benefits_root_menu" sequence="7"/>
+                  parent="benefits_root_menu" sequence="7" groups="odex_benefit.group_hide_not_needed_menus"/>
         <!-- family complaints -->
         <menuitem id='family_complaints_menu' name='Family Complaints' parent='benefits_root_menu'
-                  sequence="3"/>
+                  sequence="3" groups="odex_benefit.group_hide_not_needed_menus"/>
          <menuitem id='family_complaints_child_menu' name='Family Complaints' parent='family_complaints_menu'
                   action="family_complaints_action"
                   sequence="1"/>
@@ -848,7 +848,7 @@
 <!--        <menuitem id="benefit_generate_needs" name="needs Screen" parent="benefits_root_menu"-->
 <!--                  action="benefit_benefits_needs_action_2" sequence="5"/>-->
         <menuitem id="visits_menu" name="Visits" parent="benefits_root_menu"
-                  action="visits_action" sequence="5"/>
+                  action="visits_action" sequence="5" groups="odex_benefit.group_hide_not_needed_menus"/>
 <!--        <menuitem id='benefit_report' name='Reports' parent='benefits_root_menu'-->
 <!--                  sequence="6"/>-->
 <!--        <menuitem id="benefit_reports" name="Generate report" parent="benefits_root_menu"-->
@@ -872,6 +872,7 @@
                 id="menu_benefits_config_organizing"
                 name="Organizing"
                 parent="benefit_tools"
+                groups="odex_benefit.group_hide_not_needed_menus"
                 sequence="2"
         />
         <menuitem
@@ -879,12 +880,14 @@
                 name="Visits Types"
                 parent="benefit_tools"
                 action="visits_types_action"
+                groups="odex_benefit.group_hide_not_needed_menus"
                 sequence="9"
         />
          <menuitem
                 id="menu_survey_setting"
                 name="Survey Setting"
                 parent="benefit_tools"
+                groups="odex_benefit.group_hide_not_needed_menus"
                 action="survey_setting_action"
                 sequence="100"
         />
@@ -892,6 +895,7 @@
                 id="menu_suspend_reason"
                 name="Suspend Reason"
                 parent="benefit_tools"
+                groups="odex_benefit.group_hide_not_needed_menus"
                 action="suspend_reason_action"
                 sequence="101"
         />
@@ -899,6 +903,7 @@
                 id="menu_member_location"
                 name="Member Location"
                 parent="benefit_tools"
+                groups="odex_benefit.group_hide_not_needed_menus"
                 action="member_location_action"
                 sequence="10"
         />
@@ -906,6 +911,7 @@
                 id="family_validation_location"
                 name="Family Validation Setting"
                 parent="benefit_tools"
+                groups="odex_benefit.group_hide_not_needed_menus"
                 action="family_validation_action"
                 sequence="11"
         />
@@ -958,13 +964,14 @@
                   parent="menu_benefits_config_addresses" action="res_city_list_action"/>
         <menuitem id="res_branch_menu" name="Branch Settings" sequence="3"
                   parent="menu_benefits_config_addresses" action="res_branch_action"/>
-        <menuitem id="res_district_menu" name="Districts" sequence="4"
+        <menuitem id="res_district_menu" name="Districts" sequence="4" groups="odex_benefit.group_hide_not_needed_menus"
                   parent="menu_benefits_config_addresses" action="districts_action"/>
         <!-- Attachment Settings menu -->
            <menuitem
                 id="menu_attachment_settings"
                 name="Attachments Settings"
                 parent="benefit_tools"
+                groups="odex_benefit.group_hide_not_needed_menus"
                 sequence="3"/>
         <menuitem id="attachment_settings_menu" name="Attachments Settings"
                   parent="menu_attachment_settings" action="attachments_settings_action" sequence="1"/>
@@ -973,6 +980,7 @@
                 id="menu_benefits_config_housing"
                 name="Housing"
                 parent="benefit_tools"
+                groups="odex_benefit.group_hide_not_needed_menus"
                 sequence="5"
         />
 <!--        <menuitem id="housing_rooms_items_menu" name="Rooms Items"-->
@@ -991,18 +999,18 @@
                 parent="benefit_tools"
                 sequence="5"/>
         <menuitem id="res_bank_menu" name="Banks" parent="menu_benefits_config_benefits" action="res_bank_list_action"
-                  sequence="1"/>
+                  sequence="1" groups="odex_benefit.group_hide_not_needed_menus"/>
 <!--        <menuitem id="hospital_menu" name="Hospital" parent="menu_benefits_config_benefits" action="hospital_action"-->
 <!--                  sequence="2"/>-->
 <!--        <menuitem id="insurance_company_menu" name="Insurance Company" parent="menu_benefits_config_benefits"-->
 <!--                  action="insurance_company_action" sequence="3"/>-->
-        <menuitem id="income_type_menu" name="Income Type"
+        <menuitem id="income_type_menu" name="Income Type" groups="odex_benefit.group_hide_not_needed_menus"
                   parent="menu_benefits_config_benefits" action="income_type_action" sequence="7"/>
-        <menuitem id="expenses_type_menu" name="Expenses Type"
+        <menuitem id="expenses_type_menu" name="Expenses Type" groups="odex_benefit.group_hide_not_needed_menus"
                   parent="menu_benefits_config_benefits" action="expenses_type_action" sequence="8"/>
-        <menuitem id="loan_giver_menu" name="Loan Giver"
+        <menuitem id="loan_giver_menu" name="Loan Giver" groups="odex_benefit.group_hide_not_needed_menus"
                   parent="menu_benefits_config_benefits" action="loan_giver_action" sequence="9"/>
-        <menuitem id="loan_reason_menu" name="Loan Reason"
+        <menuitem id="loan_reason_menu" name="Loan Reason" groups="odex_benefit.group_hide_not_needed_menus"
                   parent="menu_benefits_config_benefits" action="loan_reason_action" sequence="10"/>
 
         <menuitem id="health_genetic_diseases_menu" name="Health Genetic Diseases"
@@ -1021,6 +1029,7 @@
                 id="menu_benefits_config_contact"
                 name="contact"
                 parent="benefit_tools"
+                groups="odex_benefit.group_hide_not_needed_menus"
                 sequence="5"/>
         <menuitem id="sms_config_menu" name="SMS Template" sequence="12"
                   parent="menu_benefits_config_contact" action="benefit_sms_configuration_action"/>
@@ -1029,6 +1038,7 @@
         <menuitem
                 id="menu_benefits_config_others"
                 name="others"
+                groups="odex_benefit.group_hide_not_needed_menus"
                 parent="benefit_tools"
                 sequence="6"
         />
@@ -1042,7 +1052,7 @@
         <!-- Benefit Services menu-->
         <!--##########################################-->
         <menuitem id="services_settings_menu" name="Services Settings" sequence="1"
-                  parent="odex_benefit.benefit_services"/>
+                  parent="odex_benefit.benefit_services" />
         <menuitem id="services_settings_menu" name="Services Settings" sequence="1"
                   parent="odex_benefit.benefit_services" action="services_settings_action" groups="odex_benefit.group_benefit_manager"/>
         <menuitem id="services_requests_menu" name="Services Requests" sequence="2"
