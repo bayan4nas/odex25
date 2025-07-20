@@ -57,22 +57,27 @@ class ResPartner(models.Model):
             total_due = 0
             total_overdue = 0
             followup_status = "no_action_needed"
-            for aml in record.unreconciled_aml_ids:
+            valid_amls = record.unreconciled_aml_ids.filtered(lambda aml: isinstance(aml.id, int))
+
+            for aml in valid_amls:
                 if aml.company_id == self.env.company:
                     amount = aml.amount_residual
                     total_due += amount
                     is_overdue = today > aml.date_maturity if aml.date_maturity else today > aml.date
                     if is_overdue and not aml.blocked:
                         total_overdue += amount
+
             record.total_due = total_due
             record.total_overdue = total_overdue
+
             if record.id in followup_data:
                 record.followup_status = followup_data[record.id]['followup_status']
-                record.followup_level = self.env['odex25_account_followup.followup.line'].browse(followup_data[record.id]['followup_level']) or first_followup_level
+                record.followup_level = self.env['odex25_account_followup.followup.line'].browse(
+                    followup_data[record.id]['followup_level']
+                ) or first_followup_level
             else:
                 record.followup_status = 'no_action_needed'
                 record.followup_level = first_followup_level
-
     def _compute_unpaid_invoices(self):
         for record in self:
             record.unpaid_invoices = self.env['account.move'].search([
