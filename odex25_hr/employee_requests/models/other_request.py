@@ -151,6 +151,10 @@ class EmployeeOtherRequest(models.Model):
                 if not item.employee_dependant:
                     raise exceptions.Warning(_('Please The dependents were not Included'))
 
+                for rec in item.employee_dependant:
+                    if not rec.attachment:
+                        raise exceptions.Warning(_('Please Insert dependents Attachments Files Below!'))
+
                 #if item.employee_id.contract_id.contract_status == 'single':
                     #raise exceptions.Warning(_('You can not Add Family record Because Employee is Single'))
             if item.request_type == 'years_of_experienc':
