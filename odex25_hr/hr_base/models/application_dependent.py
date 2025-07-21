@@ -20,6 +20,8 @@ class EmployeeDependent(models.Model):
         selection=[('Husband', 'Husband/Wife'), ('child', 'child'), ('father', 'Father'), ('mother', 'Mother'), ('other', 'Other')])
     nationality = fields.Many2one(comodel_name="res.country")
     passport_no = fields.Char()
+    iqama_number = fields.Many2one(comodel_name="hr.employee.document", domain=[("document_type", "=", "Iqama")],
+                                   tracking=True, string="Identity")
     passport_issue_date = fields.Date(string="Passport Issue Date")
     passport_expire_date = fields.Date(string="Passport Expire Date")
     remarks = fields.Text(string="Remarks")

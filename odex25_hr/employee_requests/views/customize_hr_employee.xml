@@ -96,11 +96,17 @@
                             <group>
                                 <separator string="Insurances"
                                            attrs="{'invisible':[('on_company_guarantee','=',False)]}"/>
+                                 <field name="new_gosi" attrs="{'readonly':[('state','!=','draft')],
+                                                               'invisible':[('on_company_guarantee','=',False)]}"/>
+
                                 <field name="residency_number" string="Insurances Number"
-                                       attrs="{'readonly':[('state','!=','draft')],'invisible':[('on_company_guarantee','=',False)]}"/>
-                                <field name="date_issuance_residence" string="Date of issuance Insurances"
-                                       widget="date"
-                                       attrs="{'readonly':[('state','!=','draft')],'invisible':[('on_company_guarantee','=',False)]}"/>
+                                       attrs="{'readonly':[('state','!=','draft')],
+                                               'invisible':[('on_company_guarantee','=',False)]}"/>
+                                <field name="gosi_date" attrs="{'readonly':[('state','!=','draft')],
+                                                                'invisible':[('on_company_guarantee','=',False)]}"/>
+
+                                <field name="gosi_years" attrs="{'invisible':['|',('on_company_guarantee','=',False),
+                                                                 ('new_gosi','=',False)]}"/>
                                 <!--field name="expiration_date_residence" string="Expiration date of residence"
                                        widget="date" attrs="{'readonly':[('state','!=','draft')]}"/>
                                 <field name="place_issuance_residence" string="Place issuance residence"

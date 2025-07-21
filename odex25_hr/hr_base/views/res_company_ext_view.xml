@@ -103,7 +103,7 @@
                 </xpath>
 
                 <xpath expr="//page" position="after">
-                    <page name="hr_info" string="HR Info">
+                    <page name="hr_info" string="HR Info" groups="hr.group_hr_user">
                     <group>
                          <field name="hr_manager_id"/>
                          <field name="hr_email"/>
@@ -112,6 +112,7 @@
                          <field name="it_manager_id"/>
                          <field name="cyber_security_id"/>
                          <field name="admin_manager_id"/>
+                         <field name="gosi_active_date" required="1"/>
                       </group>
                     </page>
                 </xpath>
