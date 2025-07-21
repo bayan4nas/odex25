@@ -230,7 +230,6 @@ class employee_overtime_request(models.Model):
                                     'res_model': 'account.move',
                                     'res_id': move.id,
                                 })
-
                             record.account_id = account_debit_id.id
                             record.journal_id = journal_id.id
                             record.move_id = move.id
