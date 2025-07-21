@@ -49,25 +49,25 @@ jobs:
           echo "${{ secrets.RUNNER_PASSWORD }}" | sudo -E -S /home/${{ secrets.CLIENT_USER }}/scripts/pull/trahum-master-pull_code.sh "${{ secrets.GH_TOKEN }}"
 
 
-  deploy_preprod_on_app_server:
-    name: Deploy to Preprod on App Server
-    runs-on: trahum-app-server-runner
-    if: github.ref == 'refs/heads/preprod' || (github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'preprod')
-    steps:
-      - name: Checkout And Restart Project
-        continue-on-error: false
-        run: |
-          sudo chmod +x /home/${{ secrets.CLIENT_USER }}/scripts/pull/trahum-preprod-server.sh
-          sudo /home/${{ secrets.CLIENT_USER }}/scripts/pull/trahum-preprod-server.sh
+  # deploy_preprod_on_app_server:
+  #   name: Deploy to Preprod on App Server
+  #   runs-on: trahum-app-server-runner
+  #   if: github.ref == 'refs/heads/preprod' || (github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'preprod')
+  #   steps:
+  #     - name: Checkout And Restart Project
+  #       continue-on-error: false
+  #       run: |
+  #         sudo chmod +x /home/${{ secrets.CLIENT_USER }}/scripts/pull/trahum-preprod-server.sh
+  #         sudo /home/${{ secrets.CLIENT_USER }}/scripts/pull/trahum-preprod-server.sh
 
 
-  deploy_test_on_app_server:
-    name: Deploy to Test on App Server
-    runs-on: trahum-app-server-runner
-    if: github.ref == 'refs/heads/test' || (github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'dev')
-    steps:
-      - name: Checkout And Restart Project
-        continue-on-error: false
-        run: |
-          sudo chmod +x /home/${{ secrets.CLIENT_USER }}/scripts/pull/trahum-dev-server.sh
-          sudo /home/${{ secrets.CLIENT_USER }}/scripts/pull/trahum-dev-server.sh
+  # deploy_test_on_app_server:
+  #   name: Deploy to Test on App Server
+  #   runs-on: trahum-app-server-runner
+  #   if: github.ref == 'refs/heads/test' || (github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'dev')
+  #   steps:
+  #     - name: Checkout And Restart Project
+  #       continue-on-error: false
+  #       run: |
+  #         sudo chmod +x /home/${{ secrets.CLIENT_USER }}/scripts/pull/trahum-dev-server.sh
+  #         sudo /home/${{ secrets.CLIENT_USER }}/scripts/pull/trahum-dev-server.sh
