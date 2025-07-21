@@ -60,7 +60,7 @@
                         <group>
                             <group>
                                 <field name="transfer_type"
-                                       attrs="{'readonly':[('state','no in',('financial_manager','direct_manager'))], 'required': [('state', '=', 'financial_manager')]}"/>
+                                       attrs="{'readonly':[('state','not in',('financial_manager','direct_manager'))], 'required': [('state', '=', 'financial_manager')]}"/>
                                 <field name="employee_id" string="Responsible " required="1"
                                        attrs="{'readonly':[('state','!=','draft')]}"/>
                                 <field name="employee_no" string="Employee Number" readonly="1"/>
