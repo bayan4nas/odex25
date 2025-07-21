@@ -1,0 +1,36 @@
+<odoo>
+    <data>
+        <record id="update_partner_action" model="ir.ui.view">
+            <field name="name">Select users</field>
+            <field name="model">update.partner</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <group>
+                            <field name="partner_ids"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button name="update_state" string="Create" type="object"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+
+        <record model="ir.actions.act_window" id="action_update_partner">
+            <field name="name">Create user</field>
+            <field name="res_model">update.partner</field>
+            <field name="view_mode">form</field>
+            <field name="binding_model_id" ref="model_firebase_registration"/>
+            <field name="target">new</field>
+        </record>
+
+
+        <menuitem id="menu_firebase_users"
+              name="Notifications users"
+              parent="menu_firebase_notification"
+              action="action_update_partner"/>
+    </data>
+</odoo>
