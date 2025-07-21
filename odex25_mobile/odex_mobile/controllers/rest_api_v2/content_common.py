@@ -27,7 +27,7 @@ class MyController(http.Controller):
             # Access the binary content of the attachment
             if model == 'ir.attachment':
                 attachment = request.env['ir.attachment'].sudo().browse(int(id))
-                attachment.public = True
+                # attachment.public = True
             status, headers, content = request.env['ir.http'].sudo().binary_content(
                 xmlid=xmlid, model=model, id=id, field=field, unique=unique, filename=filename,
                 filename_field=filename_field, download=download, mimetype=mimetype, access_token=access_token)

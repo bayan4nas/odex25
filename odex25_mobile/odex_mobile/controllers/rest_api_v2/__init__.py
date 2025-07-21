@@ -10,3 +10,5 @@ from . import pettie
 from . import project_timesheet
 from . import employee_other_request
 from . import content_common
+from . import official_mission
+from . import atendance_register
