@@ -10,6 +10,12 @@ from datetime import datetime
 _logger = logging.getLogger(__name__)
 
 
+
+
+class HrPayrollStructureType(models.Model):
+    _inherit = 'hr.payroll.structure.type'
+
+
 class EmployeeOvertimeRequestTrahum(models.Model):
     _inherit = 'employee.overtime.request'
 
