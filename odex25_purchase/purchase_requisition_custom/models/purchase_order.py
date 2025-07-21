@@ -3,6 +3,9 @@ from odoo.exceptions import UserError, ValidationError
 from odoo import api, fields, models, _
 from odoo.tools.float_utils import float_is_zero
 from dateutil.relativedelta import relativedelta
+import logging
+_logger = logging.getLogger(__name__)
+
 
 class AccountMove(models.Model):
     _inherit = 'account.move'
@@ -32,16 +35,41 @@ class AccountMove(models.Model):
             vals['purpose'] = po.purpose
         super(AccountMove, self).write(vals)
 
+
 class PurchaseOrderCustom(models.Model):
     _inherit = "purchase.order"
 
     billed_amount = fields.Float(store=True, compute='_compute_amount')
     remaining_amount = fields.Float(store=True, compute='_compute_amount')
+    has_requisition = fields.Boolean(compute="_compute_has_requisition", readonly=True)
+    requisition_state = fields.Selection(related="requisition_id.state")
+    requisition_type_exclusive = fields.Selection(related="requisition_id.type_exclusive")
+    can_committee_vote = fields.Boolean(compute='_compute_can_committee_vote')
+
+    def _compute_can_committee_vote(self):
+        user = self.env.user
+        context = self._context or {}
+        from_committee = context.get('from_committee_action', False)
+
+        for po in self:
+            requisition = po.requisition_id
+            is_member = requisition and user in requisition.committe_members
+            po.can_committee_vote = bool(
+                from_committee and
+                requisition and
+                requisition.purchase_commitee and
+                is_member
+            )
+
+    @api.depends('requisition_id')
+    def _compute_has_requisition(self):
+        for record in self:
+            record.has_requisition = bool(record.requisition_id)
 
     def read(self, records):
         return super(PurchaseOrderCustom, self.sudo()).read(records)
 
-    @api.depends('invoice_ids','invoice_count')
+    @api.depends('invoice_ids', 'invoice_count')
     def _compute_amount(self):
         for order in self:
             billed_amount = 0.0
@@ -49,7 +77,7 @@ class PurchaseOrderCustom(models.Model):
                 billed_amount += invoice.amount_total
 
             currency = order.currency_id or order.partner_id.property_purchase_currency_id or \
-                self.env.company.currency_id
+                       self.env.company.currency_id
             order.update({
                 'billed_amount': currency.round(billed_amount),
                 'remaining_amount': order.amount_total - billed_amount,
@@ -66,10 +94,11 @@ class PurchaseOrderCustom(models.Model):
             data.state = 'draft'
 
         return data
+
     attach_no = fields.Integer(compute='get_attachments')
     res_id = fields.Integer()
     res_model = fields.Char()
-    
+
     state = fields.Selection([
         ('wait', 'Waiting To Be Signed'),
         ('unsign', 'UnSign'),
@@ -83,12 +112,12 @@ class PurchaseOrderCustom(models.Model):
         ('cancel', 'Cancelled'),
         ('budget_rejected', 'Rejected By Budget'),
         ('wait_for_send', 'Waiting For Send to Budget')], default='wait')
-    department_id = fields.Many2one('hr.department')
+    department_id = fields.Many2one('hr.department', compute="_compute_department_id", store=True, readonly=False)
     purpose = fields.Char()
     category_ids = fields.Many2many('product.category', string='Categories')
     committe_members = fields.One2many('committe.member', inverse_name='po_id')
     no_of_approve = fields.Integer("No. of Votes", compute="_compute_no_approve")
-    request_id = fields.Many2one('purchase.request', 'Request Ref.')
+    request_id = fields.Many2one('purchase.request', 'Request Ref.', copy=False)
     employee_id = fields.Many2one('hr.employee', related="request_id.employee_id")
     purchase_cost = fields.Selection(
         [('department', 'Department'), ('default', 'Default Cost Center'), ('product_line', 'Product Line'),
@@ -120,78 +149,183 @@ class PurchaseOrderCustom(models.Model):
     is_signed = fields.Boolean()
     budget_id = fields.Many2one('crossovered.budget')
     already_voted = fields.Boolean(compute="_compute_already_voted")
+    purchase_request_employee_id = fields.Many2one(related="request_id.employee_id")
+
+    @api.depends('request_id')
+    def _compute_department_id(self):
+        for rec in self:
+            rec.department_id = rec.request_id.department_id
+
+    def _recompute_all_department_id(self):
+        for rec in self.sudo().search([('request_id', '!=', False), ('department_id', '=', False)]):
+            rec._compute_department_id()
+
+    # def get_attachments(self):
+    #     # Check if multiple records are passed, and handle them in a loop
+    #     if len(self) > 1:
+    #         action = self.env['ir.actions.act_window']._for_xml_id('base.action_attachment')
+    #         action['domain'] = [
+    #             ('res_model', '=', 'purchase.order'),
+    #             ('res_id', 'in', self.ids),
+    #         ]
+    #
+    #         # Update attachment count for all records (if necessary)
+    #         for record in self:
+    #             related_ids = record.ids
+    #             related_models = 'purchase.order'
+    #
+    #             if record.res_id and record.res_model:
+    #                 related_ids = record.ids + [record.res_id]
+    #                 related_models = ['purchase.order', record.res_model]
+    #                 action['domain'] = [
+    #                     ('res_model', 'in', related_models),
+    #                     ('res_id', 'in', related_ids),
+    #                 ]
+    #
+    #             # Context for creating new attachments for each record
+    #             action['context'] = "{'default_res_model': '%s','default_res_id': %d}" % (record._name, record.id)
+    #
+    #             # Update attachment count for each record
+    #             record.attach_no = self.env['ir.attachment'].search_count([
+    #                 ('res_model', 'in', related_models),
+    #                 ('res_id', 'in', related_ids)
+    #             ])
+    #
+    #         return action
+    #
+    #     # If only one record is passed, use the original logic
+    #     self.ensure_one()
+    #
+    #     action = self.env['ir.actions.act_window']._for_xml_id('base.action_attachment')
+    #     action['domain'] = [
+    #         ('res_model', '=', 'purchase.order'),
+    #         ('res_id', 'in', self.ids),
+    #     ]
+    #     domain = [
+    #         ('res_model', '=', 'purchase.order'),
+    #         ('res_id', 'in', self.ids),
+    #     ]
+    #     related_ids = self.ids
+    #     related_models = 'purchase.order'
+    #
+    #     if self.res_id and self.res_model:
+    #         related_ids = self.ids + [self.res_id]
+    #         related_models = ['purchase.order', self.res_model]
+    #         action['domain'] = [
+    #             ('res_model', 'in', related_models),
+    #             ('res_id', 'in', related_ids),
+    #         ]
+    #         domain = [
+    #             ('res_model', 'in', related_models),
+    #             ('res_id', 'in', related_ids),
+    #         ]
+    #
+    #     # Context for creating new attachments
+    #     action['context'] = "{'default_res_model': '%s','default_res_id': %d}" % (self._name, self.id)
+    #
+    #     # Update attachment count for smart button
+    #     self.attach_no = self.env['ir.attachment'].search_count(domain)
+    #
+    #     return action
+
     def get_attachments(self):
-        # Check if multiple records are passed, and handle them in a loop
+        Attachment = self.env['ir.attachment']
+        self_model = self._name
+
+        # Handle multiple records
         if len(self) > 1:
             action = self.env['ir.actions.act_window']._for_xml_id('base.action_attachment')
-            action['domain'] = [
-                ('res_model', '=', 'purchase.order'),
-                ('res_id', 'in', self.ids),
-            ]
+            all_pairs = []  # Store (model, id) tuples
 
-            # Update attachment count for all records (if necessary)
             for record in self:
-                related_ids = record.ids
-                related_models = 'purchase.order'
+                record_pairs = []
 
-                if record.res_id and record.res_model:
-                    related_ids = record.ids + [record.res_id]
-                    related_models = ['purchase.order', record.res_model]
-                    action['domain'] = [
-                        ('res_model', 'in', related_models),
-                        ('res_id', 'in', related_ids),
-                    ]
+                # Current record
+                record_pairs.append((self_model, record.id))
 
-                # Context for creating new attachments for each record
-                action['context'] = "{'default_res_model': '%s','default_res_id': %d}" % (record._name, record.id)
+                # Request record
+                if record.request_id:
+                    record_pairs.append((record.request_id._name, record.request_id.id))
 
-                # Update attachment count for each record
-                record.attach_no = self.env['ir.attachment'].search_count([
-                    ('res_model', 'in', related_models),
-                    ('res_id', 'in', related_ids)
-                ])
+                # Requisition record (only if exact model match)
+                if record.requisition_id and record.requisition_id._name == 'purchase.requisition':
+                    record_pairs.append(('purchase.requisition', record.requisition_id.id))
 
+                # Build domain for this record's attachment count
+                domain_record = []
+                if record_pairs:
+                    domain_record = ['|'] * (len(record_pairs) - 1)
+                    for model, res_id in record_pairs:
+                        domain_record.extend([
+                            '&',
+                            ('res_model', '=', model),
+                            ('res_id', '=', res_id)
+                        ])
+
+                # Set attachment count for this specific record
+                record.attach_no = Attachment.search_count(domain_record)
+
+                # Add to global pairs collection
+                all_pairs.extend(record_pairs)
+
+            # Build global domain for action
+            domain_action = []
+            if all_pairs:
+                domain_action = ['|'] * (len(all_pairs) - 1)
+                for model, res_id in all_pairs:
+                    domain_action.extend([
+                        '&',
+                        ('res_model', '=', model),
+                        ('res_id', '=', res_id)
+                    ])
+
+            # Final domain and context for action
+            action['domain'] = domain_action
+            action['context'] = {
+                'default_res_model': self_model,
+                'default_res_id': self[0].id  # use first record for context
+            }
             return action
 
-        # If only one record is passed, use the original logic
+        # Handle single record
         self.ensure_one()
+        related_pairs = []
+
+        # Current record
+        related_pairs.append((self_model, self.id))
+
+        # Request record
+        if self.request_id:
+            related_pairs.append((self.request_id._name, self.request_id.id))
+
+        # Requisition record (only if exact model match)
+        if self.requisition_id and self.requisition_id._name == 'purchase.requisition':
+            related_pairs.append(('purchase.requisition', self.requisition_id.id))
+
+        # Build domain with explicit pairs
+        domain = []
+        if related_pairs:
+            domain = ['|'] * (len(related_pairs) - 1)
+            for model, res_id in related_pairs:
+                domain.extend([
+                    '&',
+                    ('res_model', '=', model),
+                    ('res_id', '=', res_id)
+                ])
 
         action = self.env['ir.actions.act_window']._for_xml_id('base.action_attachment')
-        action['domain'] = [
-            ('res_model', '=', 'purchase.order'),
-            ('res_id', 'in', self.ids),
-        ]
-        domain = [
-            ('res_model', '=', 'purchase.order'),
-            ('res_id', 'in', self.ids),
-        ]
-        related_ids = self.ids
-        related_models = 'purchase.order'
+        action['domain'] = domain
+        action['context'] = {
+            'default_res_model': self_model,
+            'default_res_id': self.id,
+        }
 
-        if self.res_id and self.res_model:
-            related_ids = self.ids + [self.res_id]
-            related_models = ['purchase.order', self.res_model]
-            action['domain'] = [
-                ('res_model', 'in', related_models),
-                ('res_id', 'in', related_ids),
-            ]
-            domain = [
-                ('res_model', 'in', related_models),
-                ('res_id', 'in', related_ids),
-            ]
-
-        # Context for creating new attachments
-        action['context'] = "{'default_res_model': '%s','default_res_id': %d}" % (self._name, self.id)
-
-        # Update attachment count for smart button
-        self.attach_no = self.env['ir.attachment'].search_count(domain)
-
+        self.attach_no = Attachment.search_count(domain)
         return action
-
 
     def _prepare_invoice(self):
         res = super(PurchaseOrderCustom, self)._prepare_invoice()
-        res.update({'purchase_id': self.id, 'res_id': self.id,'res_model': 'purchase.order'})
+        res.update({'purchase_id': self.id, 'res_id': self.id, 'res_model': 'purchase.order'})
         return res
 
     @api.onchange('type')
@@ -415,16 +549,15 @@ class PurchaseOrderCustom(models.Model):
     #                         rec.date_order) <= fields.Date.from_string(x.date_to))
     #     return res
 
-
     def print_quotation(self):
-        if self.state in ['wait']:
-            self.write({'state': "sent"})
+        # if self.state in ['wait']:
+        #     self.write({'state': "sent"})
         return self.env.ref('purchase.report_purchase_quotation').report_action(self)
 
     def action_rfq_send(self):
         res = super(PurchaseOrderCustom, self).action_rfq_send()
-        if self.state == 'wait':
-            self.state = 'sent'
+        # if self.state == 'wait':
+        #     self.state = 'sent'
         return res
 
     @api.returns('mail.message', lambda value: value.id)
@@ -435,7 +568,7 @@ class PurchaseOrderCustom(models.Model):
 
     def action_approve_po(self):
         for rec in self:
-            if rec.requisition_id and rec.requisition_id.state != 'approve':
+            if rec.requisition_id and rec.requisition_id.state != 'approve' and rec.requisition_type_exclusive == 'exclusive':
                 rec.requisition_id.write({'state': 'approve'})
             rec.write({'state': 'draft'})
 
@@ -453,22 +586,28 @@ class PurchaseOrderCustom(models.Model):
 
     def action_skip_budget(self):
         """ Skip purchase budget"""
+        _logger.info("\n\n\n Skip Purchase Budget \n\n\n")
         for po_id in self:
-            if po_id.state in ('wait_for_send', 'wait') or po_id.request_id:
+            if po_id.state in ('sent', 'wait') or po_id.request_id:
                 # Deal with double validation process
                 valid_amount = self.env.user.company_id.currency_id.compute(
                     po_id.company_id.po_double_validation_amount, po_id.currency_id)
                 # second_amount = self.env.user.company_id.currency_id.compute(po_id.company_id.second_approve, po_id.currency_id)
-                if po_id.company_id.po_double_validation == 'one_step' \
-                        or (po_id.company_id.po_double_validation == 'two_step' \
-                            and po_id.amount_total > valid_amount):
+                _logger.info("\n\n\n Purchase state inside if 1 \n\n\n")
+                
+                if po_id.company_id.po_double_validation == 'two_step' and po_id.amount_total > valid_amount:
+                    _logger.info("\n\n\n Purchase state inside if 2 \n\n\n")
                     po_id.write({'state': 'to approve'})
                 else:
-                    if po_id.email_to_vendor:
-                        po_id.write({'state': 'sent'})
-                    else:
-                        po_id.write({'state': 'draft'})
+                    _logger.info("\n\n\n Purchase state inside else1 \n\n\n")
+                    # if not po_id.email_to_vendor:
+                    #     _logger.info("\n\n\n Purchase state inside if 3 \n\n\n")
+                    #     po_id.write({'state': 'sent'})
+                    # else:
+                    _logger.info("\n\n\n Purchase state inside else2 \n\n\n")
+                    po_id.write({'state': 'draft'})
 
+                    _logger.info("\n\n\n Send to budet = false \n\n\n")
                     po_id.write({'send_to_budget': False})
 
     # @api.depends('name')
@@ -505,19 +644,19 @@ class PurchaseOrderCustom(models.Model):
             line.choosen = True
         self._amount_all()
 
-    @api.constrains('requisition_id', 'partner_id')
-    def PreventSameVendor(self):
-        """
-            Constrain to prevent the same vendor in the order for the same requisition
-        """
-        orders = self.env['purchase.order'].search([
-            ('id', '!=', self.id),
-            ('requisition_id', '=', self.requisition_id.id),
-            ('requisition_id', '!=', False),
-            ('partner_id', '=', self.partner_id.id)
-        ])
-        if len(orders) != 0:
-            raise ValidationError(_("This Vendor have order before"))
+    # @api.constrains('requisition_id', 'partner_id')
+    # def PreventSameVendor(self):
+    #     """
+    #         Constrain to prevent the same vendor in the order for the same requisition
+    #     """
+    #     orders = self.env['purchase.order'].search([
+    #         ('id', '!=', self.id),
+    #         ('requisition_id', '=', self.requisition_id.id),
+    #         ('requisition_id', '!=', False),
+    #         ('partner_id', '=', self.partner_id.id)
+    #     ])
+    #     if len(orders) != 0:
+    #         raise ValidationError(_("This Vendor have order before"))
 
     # test
 
@@ -576,16 +715,17 @@ class PurchaseOrderCustom(models.Model):
                 for order in orders:
                     order.action_unsign()
         for rec in self.order_line:
-            if rec.price_unit <= 0 and rec.choosen:
+            if not rec.display_type and rec.price_unit <= 0 and rec.choosen:
                 raise ValidationError(_("Unit Price can't be Zero Or less"))
         if self.amount_total == 0:
             raise ValidationError(_("Total Amount Can't be Zero"))
         self.write({'state': 'sign', 'is_signed': True})
-        self.requisition_id.state = 'purchase_manager'
+        if self.requisition_id.type_id.exclusive == 'exclusive':
+            self.requisition_id.state = 'purchase_manager'
 
     def button_confirm(self):
         for order in self:
-            if order.state not in ['draft', 'sent', 'sign','wait']:
+            if order.state not in ['draft', 'sent', 'sign', 'wait']:
                 continue
             order._add_supplier_to_product()
             # Deal with double validation process
@@ -602,13 +742,17 @@ class PurchaseOrderCustom(models.Model):
                     x.crossovered_budget_id.state == 'done' and
                     fields.Date.from_string(x.date_from) <= fields.Date.from_string(
                         order.date_order) <= fields.Date.from_string(x.date_to))
-                amount = budget_lines.purchase_remain
+                amount = sum(item.purchase_remain for item in budget_lines)
                 amount += line.price_subtotal
                 budget_lines.write({'purchase_remain': amount})
-                budget_lines.write({'reserve': abs(line.price_subtotal - budget_lines.reserve)})
+                for b_line in budget_lines.filtered(
+                        lambda b: line.account_analytic_id.id in b.general_budget_id.account_ids.ids):
+                    b_line.reserve = abs(line.price_subtotal - b_line.reserve)
+                    # b_line.write({'reserve': abs(line.price_subtotal - b_line.reserve)})
+                # budget_lines.write({'reserve': abs(line.price_subtotal - budget_lines.reserve)})
 
-            if order.requisition_id.id:
-                order.requisition_id.state = 'done'
+            # if order.requisition_id.id:
+            #     order.requisition_id.state = 'done'
             if order.request_id:
                 order.request_id.write({'state': 'done'})
         return True
@@ -618,6 +762,7 @@ class PurchaseOrderCustom(models.Model):
             Move document to Wait state
         """
         self.write({'state': 'wait', 'is_signed': False})
+
     @api.depends('committe_members')
     def _compute_already_voted(self):
         for rec in self:
@@ -654,6 +799,10 @@ class PurchaseOrderCustom(models.Model):
             'context': {'default_order_id': self.id}
         }
 
+    def action_recommend(self):
+        for order in self:
+            order.recommendation_order = True
+
     def action_budget(self):
         confirmation_lines = []
         amount = 0
@@ -687,14 +836,16 @@ class PurchaseOrderCustom(models.Model):
                     if not account_id:
                         raise ValidationError(
                             _("This product has no expense account") + ': {}'.format(rec.product_id.name))
-                    budget_post = self.env['account.budget.post'].search([]).filtered(lambda x: account_id in x.account_ids)
+                    budget_post = self.env['account.budget.post'].search([]).filtered(
+                        lambda x: account_id in x.account_ids)
                     if len(budget_post.ids) > 1:
                         raise ValidationError(
-                            _("The Expense account %s is assigned to more than one budget position %s")%(account_id.name,[x.name for x in budget_post]))
+                            _("The Expense account %s is assigned to more than one budget position %s") % (
+                            account_id.name, [x.name for x in budget_post]))
                     if analytic_account:
                         budget_lines = self.env['crossovered.budget.lines'].search(
                             [('analytic_account_id', '=', analytic_account.id),
-                             ('general_budget_id','in',budget_post.ids),
+                             ('general_budget_id', 'in', budget_post.ids),
                              ('crossovered_budget_id.state', '=', 'done'),
                              ('crossovered_budget_id.date_from', '<=', self.date_order),
                              ('crossovered_budget_id.date_to', '>=', self.date_order)])
@@ -731,7 +882,7 @@ class PurchaseOrderCustom(models.Model):
             'lines_ids': confirmation_lines,
             'po_id': self.id
         }
-        self.env['budget.confirmation'].create(data)
+        self.env['budget.confirmation'].with_context({}).create(data)
         self.write({'state': 'waiting'})
 
     def budget_resend(self):
@@ -795,7 +946,7 @@ class Attachment(models.Model):
 
 
 class ProductCustom(models.Model):
-    _inherit = 'product.product' 
+    _inherit = 'product.product'
 
     @api.model
     def _name_search(self, name, args=None, operator='ilike', limit=100, name_get_uid=None):

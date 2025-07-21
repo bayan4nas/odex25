@@ -34,7 +34,8 @@ class FinalEvaluationWizard(models.TransientModel):
     def action_create_search(self):
         self.move_ids = False
         if not self.start_date and not self.end_date and self.purchase_requisition and self.committee_member and self.hr_department_id:
-            raise ValidationError(_('You Should Select Parameters'))
+           pass
+            # raise ValidationError(_('You Should Select Parameters'))
         domain = []
         purchase_requisition = self.purchase_requisition
         if purchase_requisition:

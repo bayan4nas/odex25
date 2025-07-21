@@ -66,6 +66,8 @@
                     <button name="act_reject" groups='exp_asset_base.group_assets_manager,exp_asset_base.group_asset_chuhad_user' string="Reject" type="object" states="draft"/>
                     <button name="act_draft" groups='exp_asset_base.group_assets_manager,exp_asset_base.group_asset_chuhad_user' states="cancel" string="Set to Draft"
                             type="object" class="oe_highlight"/>
+                     <button name="act_cancel" class="oe_highlight" groups='exp_asset_base.group_asset_chuhad_user' string="Cancel" type="object"  attrs="{'invisible':[('state','=','cancel')]}"/>
+
                     <field name="state" widget="statusbar"/>
                 </header>
                 <sheet>

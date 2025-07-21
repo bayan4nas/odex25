@@ -375,7 +375,8 @@ class HrPersonalPermission(models.Model):
         self.call_cron_function()
 
     def call_cron_function(self):
-        date = datetime.strptime(str(self.date), "%Y-%m-%d")
+        #date = datetime.strptime(str(self.date), "%Y-%m-%d")
+        date = datetime.strptime(str(self.date_from), "%Y-%m-%d %H:%M:%S").date()
         self.env['hr.attendance.transaction'].process_attendance_scheduler_queue(date, self.employee_id)
 
     # @api.constrains('date_from', 'date_to')

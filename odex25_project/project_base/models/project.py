@@ -971,6 +971,7 @@ class ReportCompletionCertificate(models.AbstractModel):
             doc.project_duration = self.get_duration(doc.project_id.start, doc.project_id.date)
 
             doc.project_duration = self.get_duration(doc.project_id.start, doc.project_id.date)
+            owner_access=doc.project_id.sudo().owner_employee_id.sudo().name
 
         return {
             'doc_ids': docids,

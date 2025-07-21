@@ -947,9 +947,16 @@ class HrTermination(models.Model):
             'date': date.today(),
             'ref': 'Termination of "%s" ' % self.employee_id.name,
             'line_ids': [(0, 0, value) for value in line_vals],
-            'res_model': 'hr.termination',
-            'res_id': self.id
         })
+        attachments = self.env['ir.attachment'].sudo().search([
+            ('res_model', '=', 'hr.termination'),
+            ('res_id', '=', self.id)
+        ])
+        for attachment in attachments:
+            attachment.sudo().copy({
+                'res_model': 'account.move',
+                'res_id': move.id,
+            })
 
         for item in self.loans_ids:
             for install in item.deduction_lines:
