@@ -235,6 +235,11 @@ class HrEmployee(models.Model):
     children = fields.Integer(string='Number of Children', groups="base.group_user", tracking=True)
     branch_name = fields.Many2one(related='department_id.branch_name', store=True, string="Branch Name")
 
+    category_ids = fields.Many2many(
+        'hr.employee.category', 'employee_category_rel',
+        'emp_id', 'category_id', groups="base.group_user",
+        string='Tags')
+
     gosi_date = fields.Date(string="GOSI Date")
     new_gosi = fields.Boolean(string="New GOSI", 
                     help='New participants who have no prior periods of contribution under the GOSI.')
@@ -310,7 +315,7 @@ class HrEmployee(models.Model):
                 dob = datetime.strptime(str(emp.birthday), '%Y-%m-%d')
                 today = date.today()
                 age = today.year - dob.year - ((today.month, today.day) < (dob.month, dob.day))
-            emp.employee_age = str(age)
+            emp.sudo().employee_age = str(age)
 
     # @api.constrains('parent_id')
     # def _check_parent_id(self):
@@ -342,6 +347,7 @@ class HrEmployee(models.Model):
     def _compute_service_duration(self):
         for rec in self:
             rec._compute_employee_age()
+            rec._compute_gosi_years()
             rec.service_year = 0
             rec.service_month = 0
             rec.service_day = 0
