@@ -20,6 +20,7 @@
         'security/ir.model.access.csv',
         'views/views.xml',
         'views/group_state_notification.xml',
+        'data/mail_data.xml',
     ],
 
 }
