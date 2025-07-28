@@ -195,10 +195,10 @@ class HrContractTrahum(models.Model):
         if self.is_branch:
             self.state = "secret_general"
         else:
-            self.state = "program_directory"
+            self.program_directory()
 
     def action_secret_general(self):
-        self.state = "program_directory"
+        self.program_directory()
 
 
 class HrOfficialMissionTrahum(models.Model):

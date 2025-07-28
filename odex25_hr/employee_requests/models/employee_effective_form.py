@@ -48,8 +48,8 @@ class EmployeeEffectiveForm(models.Model):
                if i.effective_form_date < i.contract_start:
                   raise exceptions.Warning(_('Sorry, The First Hiring Date must be after the Contract Start Date'))
 
-            if i.employee_id.contract_id.state != 'program_directory':
-                raise exceptions.Warning(_('Sorry, The Employee Contract Must Be Approved Before Hiring Date'))
+            #if i.employee_id.contract_id.state != 'program_directory':
+                #raise exceptions.Warning(_('Sorry, The Employee Contract Must Be Approved Before Hiring Date'))
             if i.employee_id.state != 'open':
                 raise exceptions.Warning(_('Sorry, The Employee Record Must Be Approved Before Hiring Date'))
 
