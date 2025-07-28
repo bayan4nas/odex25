@@ -650,6 +650,17 @@ class Contract(models.Model):
 
     def program_directory(self):
         #self.chick_saudi_percentage()
+        self.employee_id.contract_id = self.id
+        hiring_date = self.employee_id.first_hiring_date
+        effective = self.env['employee.effective.form'].search([('contract_id', '=', self.id)])
+        if not effective and not hiring_date:
+           self.env['employee.effective.form'].create({
+                'employee_id': self.employee_id.id,
+                'contract_id': self.id,
+                'department_id': self.department_id.id,
+                'contract_start': self.date_start,
+                'effective_form_date': self.date_start,
+                'state': 'draft'})
         self.state = "program_directory"
 
     def unlink(self):
@@ -665,6 +676,18 @@ class Contract(models.Model):
         if self.employee_id.contract_id.id == self._origin.id:
             self.env['resource.resource'].browse([self.employee_id.resource_id.id]).write(
                 {'calendar_id': self.working_hours.id})
+
+    # Smart Button to access effective form
+    def action_view_effective_frm(self):
+        effective_id = self.env['employee.effective.form'].search([('employee_id', '=', self.employee_id.id)])
+        return {
+            'name': _('Employee Effective Form'),
+            'domain': [('id', '=', effective_id.id)],
+            'view_mode': 'tree,form',
+            'res_model': 'employee.effective.form',
+            'view_id': False,
+            'type': 'ir.actions.act_window',
+        }
 
 
 class VacationDest(models.Model):
