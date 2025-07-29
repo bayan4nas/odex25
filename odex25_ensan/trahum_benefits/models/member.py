@@ -22,6 +22,7 @@ class FamilyMemberRelation(models.Model):
     name = fields.Char(string='Relation', required=True)
     gender = fields.Selection(selection=[('male', _('Male')), ('female', _('Female'))], string="Gender")
 
+
 class FamilyMemberQualification(models.Model):
     _name = 'family.member.qualification'
     _description = 'Family Member Qualification'
@@ -90,7 +91,7 @@ class FamilyProfileLearn(models.Model):
     graduate_date = fields.Date(string='Graduation Date')
     name = fields.Char(string="Name", required=True, default="Rehabilitation Record")
     identity_number = fields.Integer(string="Identity Number")
-    graduation_year = fields.Char(string="Graduation Year")
+    graduation_year = fields.Integer(string="Graduation Year")
     attachments = fields.Binary(string="Attachments")
 
     @api.constrains('identity_number')
@@ -170,6 +171,7 @@ class FamilyMember(models.Model):
         store=True,  # Store it in the database so it appears on page load
         readonly=True
     )
+    folder_state = fields.Selection([('Active', 'active'), ('not_active', 'Not Active')], string='Folder State')
     first_name = fields.Char("First Name")
     father_name = fields.Char("Father Name")
     grand_name = fields.Char("Grand Name")
@@ -208,14 +210,19 @@ class FamilyMember(models.Model):
     nationality_id = fields.Many2one('res.country', string='Nationality')
     qualification_id = fields.Many2one('family.member.qualification', string='Qualification')
     education_ids = fields.One2many('family.profile.learn', 'member_id', string='Education History')
-    sub_number = fields.Char(string='Sub Number')
-    additional_number = fields.Char(string='Additional Number')
+    sub_number = fields.Integer(string='Sub Number')
+    additional_number = fields.Integer(string='Additional Number')
     additional_mobile_number = fields.Char(string='Additional Mobile Number')
     street_name = fields.Char(string='Street Name')
-    district = fields.Char(string='District')
+    district_id = fields.Many2one(
+        'res.district',
+        string='District',
+        domain="[('city_id', '=', city)]")
     city = fields.Many2one("res.country.city", string='City')
     postal_code = fields.Char(string='Postal Code')
-    building_number = fields.Char(string='Building Number')
+    national_address_code = fields.Char(string='National address code')
+    building_number = fields.Integer(string='Building Number')
+    sbuilding_number = fields.Integer(string='Building Number')
     rehabilitation_ids = fields.One2many('comprehensive.rehabilitation', 'member_id',
                                          string='Comprehensive Rehabilitation')
     blood_type = fields.Selection([
@@ -284,6 +291,16 @@ class FamilyMember(models.Model):
             'target': 'new',
             'context': {'default_record_id': self.id}
         }
+    @api.onchange('additional_mobile_number')
+    def check_additional_number(self):
+        for rec in self:
+            if rec.additional_mobile_number:
+                if not str(rec.additional_mobile_number).startswith("05"):
+                    raise ValidationError(_("The Additional mobile number should starts with 05."))
+
+                    # Check if the additional_mobile_number contains exactly 10 digits
+                if len(rec.additional_mobile_number) != 10:
+                    raise ValidationError(_("The Additional mobile number must contain exactly 10 digits."))
 
     def unlink(self) -> bool:
         """Prevent deletion unless the record is in 'Draft' state."""
@@ -332,6 +349,7 @@ class FamilyMember(models.Model):
             'domain': [('member_id', '=', self.id)],
             'target': 'current',
         }
+
     def action_open_expenses(self):
         self.ensure_one()
         return {
@@ -367,7 +385,7 @@ class MemberHouse(models.Model):
     _name = 'family.member.house'
     _description = 'Member House'
 
-    benefit_id = fields.Many2one('grant.benefit',string="Benefit")
+    benefit_id = fields.Many2one('grant.benefit', string="Benefit")
 
 
 class DetaineeFile(models.Model):
