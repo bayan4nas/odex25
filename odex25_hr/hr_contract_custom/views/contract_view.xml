@@ -8,6 +8,14 @@
             <field name="priority" eval="16"/>
             <field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
             <field name="arch" type="xml">
+                <xpath expr="//div" position="before">
+                    <!-- Create effective from directly from contract -->
+                    <div class="oe_button_box" name="button_box">
+                        <button class="btn-primary" name="action_view_effective_frm" 
+                                string="Effective Form" widget="statinfo" icon="fa-book" type="object"/>
+                    </div>
+                </xpath>
+
                 <header position="replace">
                     <header>
                         <button name="program_directory" string="program Director" class="oe_highlight" type="object"

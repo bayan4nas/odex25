@@ -59,6 +59,11 @@
                 <button name="action_re_hr_manager" string="Roll Back" states="secretary_general" class="oe_highlight"
                         groups="hr_trahum.group_secretary_general" type="object"/>
 
+                        <button name="action_hr_manager" string="Shared Service Approval" states="shared_service_approval" type="object"
+                                class="oe_highlight" groups="hr_base.group_services_manager" />
+                        <button name="action_refuse" string="Refuse" states="shared_service_approval"  type="object" class="oe_highlight"
+                                groups="hr_base.group_services_manager" />
+
             </xpath>
             <xpath expr="//field[@name='state']" position="attributes">
                 <attribute name="statusbar_visible">submitted,direct_manager,done</attribute>
@@ -81,6 +86,22 @@
         </field>
     </record>
 
+
+
+    <record id="hr_extension_form_view" model="ir.ui.view">
+            <field name="name">hr.extension.form.inherit</field>
+            <field name="model">hr.employee</field>
+            <field name="priority" eval="16"/>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+                <xpath expr="//button[@name='complete_state']" position="after">
+
+                        <button name="complete_data" string="Complete Employee Data" class="oe_highlight" type="object"
+                                states="open" groups="hr.group_hr_user"/>
+
+                </xpath>
+        </field>
+    </record>
 
 
     <record id="employee_overtime_request_inherit" model="ir.ui.view">
@@ -141,7 +162,7 @@
                             confirm="Are you sure to Reset To Draft This Record?"/>
 
                     <field name="state" widget="statusbar"
-                           statusbar_visible="draft,submit,direct_manager,financial_manager,validated"/>
+                           statusbar_visible="draft,submit,direct_manager,validated"/>
                 </header>
             </xpath>
         </field>

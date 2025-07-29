@@ -20,7 +20,7 @@ import re
 class LoanController(http.Controller):
     # loans
     @http.route(['/rest_api/v2/loans'], type='http', auth='none', csrf=False, methods=['GET'])
-    def get_loan(self,approvel=None,page=None, **kw):
+    def get_loan(self,approvel=None,done=None,page=None, **kw):
         http_method, body, headers, token = http_helper.parse_request()
         result = validator.verify_token(token)
         if not result['status']:
@@ -41,8 +41,12 @@ class LoanController(http.Controller):
             loan_advantage = http.request.env['loan.request.type'].search([])
             if approvel:
                 # domain = []
-                loans = http.request.env['hr.loan.salary.advance'].search([('employee_id', '!=', employee.id),('state', '!=', 'draft')], order='date desc', offset=offset, limit=limit)
-                count = http.request.env['hr.loan.salary.advance'].search_count([('employee_id', '!=', employee.id),('state', '!=', 'draft')])
+                loans = http.request.env['hr.loan.salary.advance'].search([('employee_id', '!=', employee.id),('state', 'not in', ['pay','closed','refused','draft'])], order='date desc', offset=offset, limit=limit)
+                count = http.request.env['hr.loan.salary.advance'].search_count([('employee_id', '!=', employee.id),('state', 'not in', ['pay','closed','refused','draft'])])
+            elif done:
+                loans = http.request.env['hr.loan.salary.advance'].search(
+                    [('employee_id', '!=', employee.id), ('state', 'in', ['pay','closed','refused'])], order='date desc', offset=offset,limit=limit)
+                count = http.request.env['hr.loan.salary.advance'].search_count([('employee_id', '!=', employee.id),('state', 'in', ['pay','closed','refused'])])
             else:
                 loans = http.request.env['hr.loan.salary.advance'].search([('employee_id', '=', employee.id)], order='date desc', offset=offset, limit=limit)
                 count = http.request.env['hr.loan.salary.advance'].search_count([('employee_id', '=', employee.id)])
@@ -71,8 +75,16 @@ class LoanController(http.Controller):
                         value['lines'] = lines
                         li.append(value)
             next = validator.get_page_pagination_next(page, count)
-            url = "/rest_api/v2/loans?approvel=%s&page=%s" % (approvel, next) if next else False
-            prev_url = "/rest_api/v2/loans?approvel=%s&page=%s" % (approvel, prev) if prev else False
+            params = []
+            if approvel:
+                params.append("approvel=%s" % approvel)
+            if done:
+                params.append("done=%s" % done)
+
+            # url = "/rest_api/v2/loans?approvel=%s&done=%s&page=%s" % (approvel,done, next) if next else False
+            # prev_url = "/rest_api/v2/loans?approvel=%s&done=%s&page=%s" % (approvel,done, prev) if prev else False
+            url = f"/rest_api/v2/loans?page={next}&{'&'.join(params)}" if next else False
+            prev_url = f"/rest_api/v2/loans?page={prev}&{'&'.join(params)}" if prev else False
             data = {'links': {'prev': prev_url, 'next': url, },
                     'count': count,
                     'results':{'loan_types': types, 'employee_loans': li }}

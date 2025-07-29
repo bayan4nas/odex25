@@ -26,7 +26,7 @@ _logger = logging.getLogger(__name__)
 class LeaveController(http.Controller):
 
     def get_attchment(self, res_id):
-        attachment = http.request.env['ir.attachment'].search(
+        attachment = http.request.env['ir.attachment'].sudo().search(
             [('res_model', '=', 'hr.holidays'), ('res_id', '=', res_id.id)])
         li = []
         if attachment:
@@ -85,7 +85,7 @@ class LeaveController(http.Controller):
             employees = http.request.env['hr.employee'].sudo().search(
                 [('department_id', '=', employee.department_id.id), ('state', '=', 'open'), ('id', '!=', employee.id),
                  '|', ('parent_id', '=', employee.id), ('coach_id', '=', employee.id)])
-            balance = http.request.env['hr.holidays'].search(
+            balance = http.request.env['hr.holidays'].with_user(user.id).search(
                 [('employee_id', '=', employee.id), ('type', '=', 'add'), ('check_allocation_view', '=', 'balance'),('remaining_leaves','>',0)])
             my_leave = balance.mapped('holiday_status_id').ids
             status = http.request.env['hr.holidays.status'].search([('id', 'in', my_leave),('leave_type','!=','sick')])
@@ -95,21 +95,21 @@ class LeaveController(http.Controller):
             alternative_employees = http.request.env['hr.employee'].search_read(
                 [('state', '=', 'open')], ['name'])
             if approvel:
-                holidays = http.request.env['hr.holidays'].search(
+                holidays = http.request.env['hr.holidays'].with_user(user.id).search(
                     [('state', 'in', ['confirm','validate','approved']), ('employee_id', '!=', employee.id), ('type', '=', 'remove')],
                     offset=offset, limit=limit)
-                count = http.request.env['hr.holidays'].search_count(
+                count = http.request.env['hr.holidays'].with_user(user.id).search_count(
                     [('state', 'in', ['confirm','validate','approved']), ('employee_id', '!=', employee.id), ('type', '=', 'remove')],)
             elif done:
-                holidays = http.request.env['hr.holidays'].search(
+                holidays = http.request.env['hr.holidays'].with_user(user.id).search(
                      [('state', 'in', ['validate1','refuse','cancel']), ('employee_id', '!=', employee.id), ('type', '=', 'remove')],
                     offset=offset, limit=limit)
-                count = http.request.env['hr.holidays'].search_count(
+                count = http.request.env['hr.holidays'].with_user(user.id).search_count(
                      [('state', 'in', ['validate1','refuse','cancel']), ('employee_id', '!=', employee.id), ('type', '=', 'remove')],)
             else:
-                holidays = http.request.env['hr.holidays'].search(
+                holidays = http.request.env['hr.holidays'].with_user(user.id).search(
                     [('employee_id', '=', employee.id), ('type', '=', 'remove')], offset=offset, limit=limit)
-                count = http.request.env['hr.holidays'].search_count(
+                count = http.request.env['hr.holidays'].with_user(user.id).search_count(
                     [('employee_id', '=', employee.id), ('type', '=', 'remove')],)
             ticket_cash_type = http.request.env['hr.ticket.request.type'].search([])
             ticket_cash = []
@@ -141,10 +141,8 @@ class LeaveController(http.Controller):
                     value = {
                         "id": s.id,
                         "name": s.holiday_status_id.name or "",
-                        # "total": s.leave_balance,
-                        # "remain": s.remaining_leaves,
-                        "remain": s.leave_balance,
-                        "total": s.remaining_leaves,
+                        "remain": s.remaining_leaves,
+                        "total": s.leaves_taken + s.remaining_leaves,
                         "taken": s.leaves_taken,
                     }
                     li.append(value)
@@ -153,11 +151,21 @@ class LeaveController(http.Controller):
                 for hol in holidays:
                     value = self.get_return_data(hol, approvel)
                     leaves.append(value)
+
+            params = []
+            if approvel:
+                params.append("approvel=%s" % approvel)
+            if done:
+                params.append("done=%s" % done)
+
+
             next = validator.get_page_pagination_next(page, count)
-            url = "/rest_api/v2/leaves?approvel=%s&page=%s" % (
-                approvel, next) if next else False
-            prev_url = "/rest_api/v2/leaves?approvel=%s&page=%s" % (
-                approvel, prev) if prev else False
+            # url = "/rest_api/v2/leaves?approvel=%s&page=%s" % (
+            #     approvel, next) if next else False
+            # prev_url = "/rest_api/v2/leaves?approvel=%s&page=%s" % (
+            #     approvel, prev) if prev else False
+            url = f"/rest_api/v2/leaves?page={next}&{'&'.join(params)}" if next else False
+            prev_url = f"/rest_api/v2/leaves?page={prev}&{'&'.join(params)}" if prev else False
             data = {'links':
                         {'prev': prev_url,
                          'next': url, },
@@ -331,7 +339,8 @@ class LeaveController(http.Controller):
             with request.env.cr.savepoint():
                 holidays = http.request.env['hr.holidays'].search([('id', '=', int(id))])
                 if holidays:
-                    days = holidays._get_number_of_days(body['start_date'], body['end_date'], employee)
+                    days = holidays._get_number_of_days(body['start_date'], body['end_date'], employee.id,holidays.holiday_status_id.official_holidays,
+                                                                    holidays.holiday_status_id.working_days)
                     local_tz = pytz.timezone(
                         user.tz or 'GMT')
                     from_date = fields.Datetime.from_string(body["start_date"]).replace(hour=0, minute=0, second=0,
@@ -381,11 +390,11 @@ class LeaveController(http.Controller):
                             'att_holiday_ids': holidays.id,
                         })
                         holidays.attach_ids = [(4, attach.id)]
-                        holidays._onchange_employee()
-                        holidays._onchange_date_from()
-                        holidays._onchange_date_to()
-                        holidays._get_end_date()
-                        holidays._get_holiday_related_date()                                                                                                
+                    holidays._onchange_employee()
+                    holidays._onchange_date_from()
+                    holidays._onchange_date_to()
+                    holidays._get_end_date()
+                    holidays._get_holiday_related_date()
                     data = self.get_return_data(holidays, approvel)
                     return http_helper.response(message=_("Leave Updated Successfully"), data={'leaves': [data]})
                 else:

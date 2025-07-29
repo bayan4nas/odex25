@@ -15,7 +15,7 @@ import logging
 _logger = logging.getLogger(__name__)
 from odoo.tools.translate import _
 import re
-
+import pytz
 from odoo import fields
 
 SENSITIVE_FIELDS = ['password', 'password_crypt', 'new_password', 'create_uid', 'write_uid']
@@ -189,6 +189,17 @@ class AttendanceController(http.Controller):
         employee = http.request.env['hr.employee'].sudo().search([('user_id', '=', user.id)], limit=1)
         if not employee:
             return http_helper.response(code=400, message=_("You are not allowed to perform this operation. please check with one of your team admins"), success=False)
+        if body.get('action') and body.get('action') == 'sign_in':
+            timezone = user.tz or 'GMT'
+            local_tz = pytz.timezone(timezone)
+            now_gmt = datetime.now(local_tz)
+            current_time_float = now_gmt.hour + now_gmt.minute / 60.0
+            calendar = employee.resource_calendar_id
+            before_work = getattr(calendar, 'grace_hour_before_work', 8.0)
+            after_work = getattr(calendar, 'grace_hour_after_work', 16.0)
+            if before_work and after_work:
+                if current_time_float < before_work or current_time_float > after_work:
+                    return http_helper.response(code=400, message=_("Dear employee, your working hours have not started yet."), success=False)
         if employee.device_id != body.get('device_id'):
             return http_helper.errcode(code=403, message=_("Device id not matching with already exist in system please contact system admin"))
         try:
@@ -260,6 +271,9 @@ class AttendanceController(http.Controller):
             return http_helper.response(code=400, message=_("You are not allowed to perform this operation. please check with one of your team admins"), success=False)
         if not body.get('date'):
             return http_helper.response(code=400, message=_("Enter Date First"), success=False)
+        sequence = 1
+        if body.get('sequence'):
+            sequence = int(body.get('sequence'))
         employee = http.request.env['hr.employee'].search([('user_id', '=', user.id)], limit=1)
         if not employee:
             return http_helper.response(code=400, message=_("You are not allowed to perform this operation. please check with one of your team admins"), success=False)
@@ -274,13 +288,13 @@ class AttendanceController(http.Controller):
             month_end = now
         try:
             records = http.request.env['hr.attendance.transaction'].sudo().search([('employee_id', '=', employee.id),
-            ('date', '>=', str(month_start)), ('date', '<=', str(month_end))])
+            ('date', '>=', str(month_start)), ('date', '<=', str(month_end)),('sequence','=',sequence)])
             # records = http.request.env['hr.attendance.transaction'].search([('employee_id','=',employee.id),
             # ('normal_leave', '=', True),('public_holiday', '=', True), ('is_absent','=',True),('date', '>=', str(month_start)), ('date', '<=', str(month_end))])
             li = []
             total_months = {}
             if records:
-                records.get_hours()
+                #records.get_hours()
 
                 total_plan_hours = sum(records.mapped('plan_hours'))
                 total_office_hours = sum(records.mapped('office_hours'))
@@ -314,6 +328,7 @@ class AttendanceController(http.Controller):
                 for rec in records:
                     attendance = {
                         'id':rec.id,
+                        'sequence':rec.sequence,
                         'date':str(rec.date),
                         'tr_date':self.get_translation_field(rec, 'date'),
                         'first_check_in':self.convert_float_2time(rec.sign_in),

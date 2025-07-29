@@ -10,6 +10,9 @@ from datetime import datetime
 _logger = logging.getLogger(__name__)
 
 
+class HrPayrollStructureType(models.Model):
+    _inherit = 'hr.payroll.structure.type'
+
 class EmployeeOvertimeRequestTrahum(models.Model):
     _inherit = 'employee.overtime.request'
 
@@ -25,6 +28,13 @@ class EmployeeOvertimeRequestTrahum(models.Model):
          ('secret_general', _('Secret General')),
          ('validated', _('Transferred')),
          ('refused', _('Refused'))], default="draft", tracking=True)
+
+    def financial_manager(self):
+        if not self.is_branch:
+            self.state = "financial_manager"
+        else:
+            self.state='hr_aaproval'
+
 
     def hr_aaproval(self):
         super(EmployeeOvertimeRequestTrahum, self).hr_aaproval()
@@ -49,12 +59,34 @@ class HrReContract(models.Model):
         ('direct_manager', 'Direct Manager'),
         ('hr_manager', 'HR Manager'),
         ('secretary_general', 'Secretary General'),
+        ('shared_service_approval', 'Shared Service Approval'),
         ('executive_manager', 'Executive Manager'),
         ('done', 'Re-Contract'),
         ('refuse', 'Refuse'),
     ], default='submitted', tracking=True)
 
     is_branch = fields.Many2one(related='department_id.branch_name', store=True, readonly=True)
+
+    def action_direct_manager(self):
+        # if self.employee_id.parent_id and self._uid != self.employee_id.parent_id.user_id.id:
+        #    raise exceptions.Warning(_('This is Not Your Role beacuse Your Direct Manager'))
+
+        self._get_employee_data()
+        self._check_contract()
+        employee = self.sudo().employee_id
+        parent = employee.parent_id
+        hr_manager = self.sudo().employee_id.company_id.hr_manager_id
+
+        if parent:
+            user_id = self.env.uid
+            if parent.user_id.id == user_id or hr_manager.user_id.id == user_id:
+                self.state = "hr_manager" if not self.is_branch else "shared_service_approval"
+            else:
+                raise exceptions.Warning(_(
+                    'Sorry, The Approval For The Direct Manager %s Only OR HR Manager!'
+                ) % parent.name)
+        else:
+            self.state = "hr_manager" if not self.is_branch else "shared_service_approval"
 
 
     def action_hr_manager(self):
@@ -163,10 +195,10 @@ class HrContractTrahum(models.Model):
         if self.is_branch:
             self.state = "secret_general"
         else:
-            self.state = "program_directory"
+            self.program_directory()
 
     def action_secret_general(self):
-        self.state = "program_directory"
+        self.program_directory()
 
 
 class HrOfficialMissionTrahum(models.Model):
@@ -187,16 +219,18 @@ class HrOfficialMissionTrahum(models.Model):
                               ('refused', _('Refused'))], default="draft", tracking=True)
 
     def hr_manager_approve(self):
-        if self.is_branch:
             self.state = "hr_manager_approve2"
-        else:
-            self.state = "hr_manager_approve"
+        # else:
+        #     self.state = "hr_manager_approve"
 
     def hr_aaproval(self):
         # self.chick_employee_ids()
         self.employee_ids.chick_not_overtime()
         self.employee_ids.compute_Training_cost_emp()
-        self.state = "hr_aaproval"
+        if self.is_branch:
+            self.state = "hr_aaproval"
+        else:
+            self.state = 'hr_manager_approve'
 
     def direct_manager(self):
         self.employee_ids.chick_not_overtime()
@@ -205,17 +239,17 @@ class HrOfficialMissionTrahum(models.Model):
         for rec in self:
             is_especial = rec.process_type == 'especially_hours'
             employee = rec.sudo().employee_id
-            coach = employee.coach_id
+            parent = employee.parent_id
             hr_manager = employee.user_id.company_id.hr_manager_id
 
-            if coach:
+            if parent:
                 user_id = rec.env.uid
-                if coach.user_id.id == user_id or hr_manager.user_id.id == user_id:
+                if parent.user_id.id == user_id or hr_manager.user_id.id == user_id:
                     rec.state = "direct_hr" if is_especial else "direct_manager"
                 else:
                     raise exceptions.Warning(_(
-                        'Sorry, The Approval For The Department Manager %s Only OR HR Manager!'
-                    ) % coach.name)
+                        'Sorry, The Approval For The Direct Manager %s Only OR HR Manager!'
+                    ) % parent.name)
             else:
                 rec.state = "direct_hr" if is_especial else "direct_manager"
 
@@ -275,6 +309,14 @@ class HrLoanSalaryAdvanceInherit(models.Model):
         else:
             self.state = 'wait_transfer'
 
+    def direct_manager(self):
+        if not self.is_branch:
+            self.state = "direct_manager"
+        else:
+            self.state = 'director_financial_management'
+
+
+
 
 class HrSalaryAdvanceInherit(models.Model):
     _inherit = 'hr.payroll.raise'
@@ -326,13 +368,29 @@ class TerminationpPatchinherit(models.Model):
         self.state = "branch_gm_manager"
 
     def hr_manager_approve(self):
-        if self.is_branch:
             self.state = "shared_service_approval"
-        else:
-            self.state = "sector_head_approval"
+
+
 
     def action_secret_general(self):
         self.state = "done"
+
+    def finance_manager(self):
+        self.re_compute_salary_rules_and_loans()
+        # check for clearance for employee
+        employee_clearance = self.env['hr.clearance.form'].sudo().search([('employee_id', '=', self.employee_id.id),
+                                                                   ('clearance_type', '!=', 'vacation'),
+                                                                   ('state', 'in', ['done', 'wait'])])
+        if len(employee_clearance) == 0 and self.cause_type.clearance:
+            raise exceptions.Warning(
+                _('You can not create termination when missing clearance for Employee %s') % self.employee_id.name)
+        if self.employee_id:
+            #             self.employee_id.state = 'under_out_of_service'
+            self.employee_id.sudo().contract_id.state = 'end_contract'
+        if not self.is_branch:
+            self.state = 'finance_manager'
+        else:
+            self.state = "sector_head_approval"
 
 
 class HrPayslip(models.Model):
@@ -445,6 +503,9 @@ class Employee(models.Model):
             if employee.emp_no == "new":
                 employee.emp_no = self._generate_emp_no()
             employee.state = "complete"
+    def complete_data(self):
+        for employee in self:
+            employee.state = "complete"
 
     @api.constrains("emp_no", "birthday", 'attachment_ids')
     def e_unique_field_name_constrains(self):
@@ -455,9 +516,9 @@ class Employee(models.Model):
                     raise ValidationError(
                         _("You cannot create Employee with the same employee number")
                     )
-
-            if item.birthday >= date.today():
-                raise Warning(_("Sorry, The Birthday Must Be Less than Date Today"))
+            if item.birthday:
+                if item.birthday >= date.today():
+                    raise Warning(_("Sorry, The Birthday Must Be Less than Date Today"))
 
             if item.attachment_ids:
                 for rec in item.attachment_ids:

@@ -24,6 +24,8 @@ class HrEmployee(models.Model):
     message_sent = fields.Boolean(string="Message Sent", default=False)
     # Used internally by the API
     last_active_time = fields.Datetime(readonly=True)
+    attendance_zone_id = fields.Many2many('attendance.zone', string='Attendance Zone')
+
 
 
     def user_push_notification(self, notification):
