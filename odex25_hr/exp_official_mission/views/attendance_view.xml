@@ -27,7 +27,8 @@
                     <attribute name="decoration-warning">is_official==True</attribute>
                 </xpath>
                 <xpath expr="//field[@name='approve_lateness']" position="after">
-                    <field name="is_official"/>
+                    <field name="is_official" invisible="1"/>
+                    <field name="mission_name"/>
                 </xpath>
             </field>
         </record>
