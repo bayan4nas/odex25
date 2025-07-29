@@ -602,14 +602,9 @@ class HrEmployee(models.Model):
     def e_unique_user_id(self):
         for item in self:
             items = self.search([("user_id", "=", item.user_id.id)]).ids
-            if (
-                    len(items) > 1 and item.user_id.id > 1
-            ):  # return more than one item with the same value
+            if (len(items) > 1 and item.user_id.id > 1):  # return more than one item with the same value
                 raise ValidationError(
-                    _(
-                        "This User Cannot Be Selected While He is Linked to Another Employee"
-                    )
-                )
+                    _("This User Cannot Be Selected While He is Linked to Another Employee"))
 
     @api.onchange('department_id')
     def onchange_department_id(self):
