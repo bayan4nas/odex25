@@ -38,6 +38,7 @@
         'views/output_setting_views.xml',
         'views/service_request_views.xml', 
         'views/case_info.xml',
+        'views/res_district.xml',
     ],
     # only loaded in demonstration mode
     'demo': [

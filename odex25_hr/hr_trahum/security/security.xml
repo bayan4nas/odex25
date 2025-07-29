@@ -1,26 +1,27 @@
 <odoo>
+
+
+
     <record id="group_sector_head_approval" model="res.groups">
         <field name="name">Sector Head Approval</field>
-        <field name="category_id" ref="base.module_category_human_resources_employees"/>
-        <field name="implied_ids" eval="[
-        (4, ref('hr.group_hr_user')),
-        (4, ref('hr.group_hr_manager')),
-        (4, ref('hr_base.group_general_manager'))]"/>
+        <field name="category_id" ref="odex25_account_payment_fix.module_category_payment_access"/>
         <field name="comment">This group grants Sector Head Approval permissions with HR User, HR Manager, and General
             Manager privileges.
         </field>
     </record>
 
-    <record id="group_secretary_general" model="res.groups">
-        <field name="name">Secretary General</field>
+
+    <record id="group_secret_general" model="res.groups">
+        <field name="name">Secret General</field>
         <field name="category_id" ref="base.module_category_human_resources_employees"/>
-        <field name="implied_ids" eval="[
-        (4, ref('hr.group_hr_user')),
-        (4, ref('hr.group_hr_manager')),
-        (4, ref('hr_base.group_general_manager')
-        )]"/>
-        <field name="comment">This group grants Secretary General permissions with HR User, HR Manager, General Manager,
-            and Sector Head Approval privileges.
+        <field name="comment">This group grants Secret General permissions with HR User
+        </field>
+    </record>
+
+    <record id="group_secret_general" model="res.groups">
+        <field name="name">Secret General</field>
+        <field name="category_id" ref="base.module_category_human_resources_employees"/>
+        <field name="comment">This group grants Secretary General permissions
         </field>
     </record>
 

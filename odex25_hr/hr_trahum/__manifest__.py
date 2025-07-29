@@ -20,7 +20,7 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base','hr_contract_custom','employee_requests','exp_ticket_request','exp_official_mission','exp_hr_payroll','exp_payroll_promotion','account','hr'],
+    'depends': ['base','hr_contract_custom','employee_requests','exp_ticket_request','exp_official_mission','exp_hr_payroll','exp_payroll_promotion','account','hr','hr_base'],
 
     # always loaded
     'data': [
@@ -30,6 +30,7 @@
         'views/hr_payslip.xml',
         'views/employee_overtime.xml',
         'views/templates.xml',
+        # 'views/hr_employee.xml',
         'report/report.xml',
         'data/sequence.xml',
     ],
