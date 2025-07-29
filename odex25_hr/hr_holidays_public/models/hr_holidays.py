@@ -1556,9 +1556,12 @@ class HRHolidays(models.Model):
             start_date = datetime.strptime(str(self.date_from), "%Y-%m-%d %H:%M:%S")
             end_date = datetime.strptime(str(self.date_to), "%Y-%m-%d %H:%M:%S")
             delta = end_date - start_date
+            today = datetime.now().date()
+            today = datetime.strptime(str(today), "%Y-%m-%d").date()
             for i in range(delta.days + 1):
                 day = start_date + timedelta(days=i)
-                transaction.process_attendance_scheduler_queue(day, self.employee_id)
+                if today >= day.date():
+                   transaction.process_attendance_scheduler_queue(day, self.employee_id)
 
     def cancel(self):
         for item in self:
