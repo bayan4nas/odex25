@@ -234,6 +234,11 @@ class HrEmployee(models.Model):
     ], 'Certificate Level', default='other', groups="base.group_user", tracking=True)
     children = fields.Integer(string='Number of Children', groups="base.group_user", tracking=True)
     branch_name = fields.Many2one(related='department_id.branch_name', store=True, string="Branch Name")
+    
+    category_ids = fields.Many2many(
+        'hr.employee.category', 'employee_category_rel',
+        'emp_id', 'category_id', groups="base.group_user",
+        string='Tags')
 
     gosi_date = fields.Date(string="GOSI Date")
     new_gosi = fields.Boolean(string="New GOSI", 
