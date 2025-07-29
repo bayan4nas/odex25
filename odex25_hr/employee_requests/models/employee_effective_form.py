@@ -44,7 +44,7 @@ class EmployeeEffectiveForm(models.Model):
             employee_id = self.env['employee.effective.form'].search([('id', '!=', i.id),('employee_id', '=', i.employee_id.id), ('state', '=', 'done')], limit=1)
             if employee_id:
                 raise exceptions.Warning(_('Sorry, Not possible to request a effective Form more than once'))
-            if i.contract_start:
+            if i.contract_start and i.effective_form_date:
                if i.effective_form_date < i.contract_start:
                   raise exceptions.Warning(_('Sorry, The First Hiring Date must be after the Contract Start Date'))
 
