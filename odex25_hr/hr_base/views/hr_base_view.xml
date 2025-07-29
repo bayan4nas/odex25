@@ -353,6 +353,7 @@
                 <field name="user_id" position="attributes">
                     <attribute name="attrs">{'readonly':[('state','!=','draft')]}
                     </attribute>
+                    <attribute name="domain">[('employee_ids', '=', False)]</attribute>
                 </field>
 
                 <!--                <field name="address_home_id" position="attributes">-->
