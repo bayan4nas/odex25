@@ -16,10 +16,14 @@
         'security/ir.model.access.csv',
 
         'data/hr_personal_permission_type_data.xml',
-
+        'data/employee_attachment_name_data.xml',
+        'report/salary_definition.xml',
+        'report/report_action.xml',
         'views/employee_effective_form.xml',
         'views/employee_overtime_request.xml',
         'views/hr_clearance_form.xml',
+        'views/employee_job_domain_view.xml',
+        'views/hr_employee_history_view.xml',
         'views/hr_personal_permission.xml',
         'views/hr_personal_permission_type_views.xml',
         'views/customize_hr_employee.xml',
@@ -27,6 +31,7 @@
 
         'views/other_request.xml',
         'views/attendance_view.xml',
+        'views/res_company.xml',
 
         'report/employee_clearance_report/employee_clearance_form_reports.xml',
         'report/employee_clearance_report/employee_clearance_form_template1.xml',

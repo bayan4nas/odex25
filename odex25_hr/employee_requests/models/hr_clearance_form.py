@@ -38,8 +38,8 @@ class HrClearanceForm(models.Model):
     state = fields.Selection(selection=[("draft", _("Draft")),
                                         ("submit", _("Waiting Direct Manager")),
                                         ("direct_manager", _("Waiting IT Department")),
-                                        ("info_system", _("Waiting Cyber ​​Security")),
                                         ('cyber_security', _('Waiting Admin Affairs')),
+                                        ("info_system", _("Waiting Cyber ​​Security")),
                                         ('admin_manager', _('Waiting Finance Approvals')),
                                         ("wait", _("Waiting HR Manager")),
                                         ("services_manager", _("Waiting Services Manager")),
@@ -123,7 +123,7 @@ class HrClearanceForm(models.Model):
 
     def info_system(self):
         self.check_custody()
-        self.state = "info_system"
+        self.state = "cyber_security"
 
     def admin_manager(self):
         self.check_custody()
@@ -139,7 +139,7 @@ class HrClearanceForm(models.Model):
 
     def cyber_security(self):
         self.check_custody()
-        self.state = "cyber_security"
+        self.state = "info_system"
 
     def services_manager(self):
         self.check_custody()

@@ -38,6 +38,9 @@ class ResCompanyExt(models.Model):
     financial_manager_id = fields.Many2one('hr.employee', string='Financial Manager')
     cyber_security_id = fields.Many2one('hr.employee', string='Cyber ​​Security')
 
+    gosi_active_date = fields.Date(string="Gosi Activation Date",default='2024-07-01',
+                       help='Activation Date Of The New GOSI Subscription')
+
     @api.constrains('saudi_percentage')
     def saudi_percentage_less_100(self):
         for item in self:

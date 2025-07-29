@@ -21,7 +21,7 @@ from odoo.tools.translate import _
 class PermissionController(http.Controller):
     # Permission
     @http.route(['/rest_api/v2/permissions'], type='http', auth='none', csrf=False, methods=['GET'])
-    def get_permission(self, approvel=None, page=None, **kw):
+    def get_permission(self, approvel=None, done=None,page=None, **kw):
         page = page if page else 1
         page, offset, limit, prev = validator.get_page_pagination(page)
         http_method, body, headers, token = http_helper.parse_request()
@@ -43,7 +43,11 @@ class PermissionController(http.Controller):
             count = 0
             emp = []
             if approvel:
-                domain = [('state', '!=', 'draft'), ('employee_id', '!=', employee.id)]
+                domain = [('state', 'not in', ['approve','refused','draft']), ('employee_id', '!=', employee.id)]
+                permissions = http.request.env['hr.personal.permission'].search(domain, offset=offset, limit=limit)
+                count = http.request.env['hr.personal.permission'].search_count(domain)
+            elif done:
+                domain = [('state', 'in', ['approve','refused']), ('employee_id', '!=', employee.id)]
                 permissions = http.request.env['hr.personal.permission'].search(domain, offset=offset, limit=limit)
                 count = http.request.env['hr.personal.permission'].search_count(domain)
             else:
@@ -70,9 +74,18 @@ class PermissionController(http.Controller):
                         "attachment": self.get_attchment(per),
                     }
                     emp.append(value)
+
+            params = []
+            if approvel:
+                params.append("approvel=%s" % approvel)
+            if done:
+                params.append("done=%s" % done)
+
             next = validator.get_page_pagination_next(page, count)
-            url = "/rest_api/v2/permissions?approvel=%s&page=%s" % (approvel, next) if next else False
-            prev_url = "/rest_api/v2/permissions?approvel=%s&page=%s" % (approvel, prev) if prev else False
+            # url = "/rest_api/v2/permissions?approvel=%s&done=%s&page=%s" % (approvel,done, next) if next else False
+            # prev_url = "/rest_api/v2/permissions?approvel=%s&done=%s&page=%s" % (approvel,done, prev) if prev else False
+            url = f"/rest_api/v2/permissions?page={next}&{'&'.join(params)}" if next else False
+            prev_url = f"/rest_api/v2/permissions?page={prev}&{'&'.join(params)}" if prev else False
             data = {'links': {'prev': prev_url, 'next': url, }, 'count': count,
                     'results': {'permission_types': permission_types, 'permissions': emp, 'groups': ['group_division_manager', 'group_hr_user']}}
             return http_helper.response(message="Data Found", data=data)

@@ -58,6 +58,12 @@ class AttendanceZone(models.Model):
             for r in record:
                 r.active_check = False
 
+    @api.model
+    def get_coordinates(self):
+        coordinates = self.env['attendance.zone'].search([], limit=1)
+        data = {"lng":coordinates.longitude,"lat": coordinates.latitude,'range':coordinates.allowed_range}
+        return data
+
 class ResConfigSettings(models.TransientModel):
     _inherit = 'res.config.settings'
 

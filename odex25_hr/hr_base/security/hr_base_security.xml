@@ -1,12 +1,18 @@
 <?xml version="1.0" ?>
 <odoo>
 
+             <record id="hr_top_management_approval" model="res.groups">
+                <field name="name"> HR Top Management Approval </field>
+            </record>
+
+
     <record id="group_division_manager" model="res.groups">
         <field name="name">Division Manager</field>
         <field name="category_id" ref="base.module_category_human_resources_employees" />
         <field name="implied_ids" eval="[(4, ref('base.group_user'))]" />
         <field name="comment">This user is the head of a division and it is the direct manager of the employee.</field>
     </record>
+
 
     <record id="group_department_manager" model="res.groups">
         <field name="name">Department Manager</field>

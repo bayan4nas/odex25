@@ -3,9 +3,6 @@ from odoo import models, fields, api,_
 from odoo.exceptions import ValidationError
 
 from odoo import models, fields, api
-
-
-
 class CommitteeTypesInherit(models.Model):
     _inherit = 'purchase.committee.type'
 
@@ -36,7 +33,6 @@ class CommitteeTypesInherit(models.Model):
     # def _onchange_available_types(self):
     #     if self.available_types == 'operational':
     #         self.available_types = False
-
 class CommitteeTypesInheritLine(models.Model):
     _name = 'purchase.committee.type.line'
 
@@ -51,8 +47,6 @@ class CommitteeTypesInheritLine(models.Model):
         for rec in self:
             if rec.evaluation and rec.degree and rec.evaluation > rec.degree:
                 raise ValidationError(_("Evaluation can't be greater than Degree"))
-
-
 class PurchaseRequisitionCustomInherit(models.Model):
     _inherit = 'purchase.requisition'
 
@@ -79,10 +73,9 @@ class PurchaseRequisitionCustomInherit(models.Model):
         else:
             self.committee_type_id = False
 
-
-
 class PurchaseOrderCustomSelect(models.Model):
     _inherit = "purchase.order"
+    eval_date = fields.Date(string='date',)
 
     initial_evaluation_lines = fields.One2many(comodel_name='initial.evaluation.criteria', inverse_name='po_id', string='Initial Evaluation Criteria',)
 
@@ -109,7 +102,6 @@ class PurchaseOrderCustomSelect(models.Model):
 
     def get_remain_last(self):
         res = self.get_budget_id()
-        print('res = ',res)
         if res :
             for rec in res.lines_ids:
                 return rec.remain
@@ -118,17 +110,14 @@ class PurchaseOrderCustomSelect(models.Model):
         res = self.get_budget_id()
         if res:
             for rec in res.lines_ids:
-                res = rec.crossovered_budget_id
-                for lin in res.crossovered_budget_line:
-                    return lin.general_budget_id.name
+                return rec.account_id.name
 
     def get_remain(self):
         res = self.get_budget_id()
         if res:
          for rec in res.lines_ids:
-            res = rec.crossovered_budget_id
-            for lin in res.crossovered_budget_line:
-                return lin.remain
+            # res = rec.crossovered_budget_id
+                return rec.new_balance
 
     def get_user_approve_budget_id(self):
         res = self.get_budget_id()
@@ -137,6 +126,15 @@ class PurchaseOrderCustomSelect(models.Model):
             res = self.get_budget_id()
             return res.approved_date
 
+    def get_evaluation_summary(self):
+        member_totals = {}  # {member_name: total_evaluation}
+        for line in self.initial_evaluation_lines:
+            name = line.user_id.name
+            member_totals[name] = member_totals.get(name, 0) + line.evaluation
+        return {
+            'members': list(member_totals.keys()),
+            'totals': member_totals,
+        }
     @api.depends('initial_evaluation_lines', 'initial_evaluation_lines.user_id')
     def _compute_committee_members(self):
         for rec in self:
@@ -165,6 +163,7 @@ class PurchaseOrderCustomSelect(models.Model):
             if member.user_id.id == self.env.user.id and member.select == True:
                 raise ValidationError(_('You have already select this Quotation'))
         self.requisition_id.actual_vote += 1
+        self.eval_date = fields.Date.today()
         return {
             'type': 'ir.actions.act_window',
             'name': 'Select Reason',
@@ -173,18 +172,6 @@ class PurchaseOrderCustomSelect(models.Model):
             'target': 'new',
             'context': {'default_order_id': self.id, 'default_purchase_committee_type': self.requisition_id.committee_type_id.id if self.requisition_id else False}
         }
-
-    def get_evaluation_summary(self):
-        member_totals = {}  # {member_name: total_evaluation}
-        for line in self.initial_evaluation_lines:
-            name = line.user_id.name
-            member_totals[name] = member_totals.get(name, 0) + line.evaluation
-        return {
-            'members': list(member_totals.keys()),
-            'totals': member_totals,
-        }
-
-
 class SelectReason(models.TransientModel):
     _inherit = "select.reason"
 

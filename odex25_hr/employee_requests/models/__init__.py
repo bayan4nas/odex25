@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 from . import employee_effective_form
+from . import employee_job_domain
+from . import hr_employee_history
 from . import employee_overtime_request
 from . import hr_clearance_form
 from . import document_directory
@@ -10,3 +12,4 @@ from . import employee
 from . import employee_department_jobs
 from .  import attendance
 from .  import other_request
+from .  import res_company

@@ -12,7 +12,7 @@
     'website': 'http://exp-sa.com',
     'license': 'AGPL-3',
     'author': 'Expert Co. Ltd.',
-    'depends': ['exp_employee_custody','exp_asset_custody','purchase'],
+    'depends': ['exp_employee_custody','exp_asset_custody','purchase','stock'],
 
     # always loaded
     'data': [

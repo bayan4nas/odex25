@@ -75,6 +75,7 @@ odoo.define('odx_m2m_attachment_preview.DocumentViewer', function (require) {
          * @override
          */
         start: function () {
+
             this.$el.modal('show');
             this.$el.on('hidden.bs.modal', _.bind(this._onDestroy, this));
             this.$('.o_viewer_img').on("load", _.bind(this._onImageLoaded, this));

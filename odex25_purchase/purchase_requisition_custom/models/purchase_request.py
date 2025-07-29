@@ -54,7 +54,9 @@ class PurchaseRequest(models.Model):
         [('draft', 'Draft'), ('direct_manager', 'Direct Manager'),
          ('waiting', 'In Purchase'), ('done', 'Done'), ('cancel', 'Cancel'), ('refuse', 'Refuse')], default="draft",
         tracking=True, )
-    product_category_ids = fields.Many2many('product.category', string='Items Categories')
+    product_category_ids = fields.Many2many('product.category', string='Items Categories',inverse='_inverse_product_category_ids',
+                                            compute='_compute_product_category_ids',
+                                            store=True)
     purchase_purpose = fields.Char("Purpose")
     note = fields.Text(string='Note', copy=False)
     partner_id = fields.Many2one(string='Vendor', comodel_name='res.partner', copy=False)
@@ -71,7 +73,7 @@ class PurchaseRequest(models.Model):
                                       domain="['|', ('warehouse_id', '=', False), ('warehouse_id.company_id', '=', company_id)]",
                                       help="This will determine operation type of incoming shipment")
 
-    purchase_create = fields.Boolean(string='Purchase Create',copy=False)
+    purchase_create = fields.Boolean(string='Purchase Create', copy=False)
     by_purchase = fields.Boolean('Requested by Purchase')
     type = fields.Selection([('project', 'Project'), ('operational', 'Operational')], default='operational')
     edit_partner_id = fields.Boolean(compute="compute_edit_partner_id")
@@ -81,6 +83,17 @@ class PurchaseRequest(models.Model):
     is_creator = fields.Boolean(string='Is Creator', compute='_compute_is_creator')
     select = fields.Boolean(string="Select")
     reject_reason = fields.Text(string='Reject Reson')
+
+
+
+    def _inverse_product_category_ids(self):
+
+        pass
+    @api.depends('line_ids.product_id')
+    def _compute_product_category_ids(self):
+        for rec in self:
+            categories = rec.line_ids.mapped('product_id.categ_id')
+            rec.product_category_ids = categories
 
     @api.depends('create_uid')
     def _compute_is_creator(self):
@@ -111,7 +124,8 @@ class PurchaseRequest(models.Model):
     def compute_edit_partner_id(self):
         """Compute For Group Edit Partner Id"""
         for rec in self:
-            if self.env.user.has_group("purchase.group_purchase_user") or self.env.user.has_group("purchase.group_purchase_manager"):
+            if self.env.user.has_group("purchase.group_purchase_user") or self.env.user.has_group(
+                    "purchase.group_purchase_manager"):
                 rec.edit_partner_id = True
             else:
                 rec.edit_partner_id = False
@@ -140,9 +154,6 @@ class PurchaseRequest(models.Model):
                       (formview_ref and formview_ref.id or False, 'form')],
             'context': {'create': False}
         }
-
-
-
 
     # test empty department
     @api.onchange('employee_id', 'department_id', 'line_ids')
@@ -221,7 +232,7 @@ class PurchaseRequest(models.Model):
                 'name': line.product_id.name,
                 'account_analytic_id': line.account_id.id,
             }))
-        requisition_id = self.env['purchase.requisition'].sudo().create({
+        requisition_id = self.env['purchase.requisition'].with_context(skip_category_constraint=True).sudo().create({
             'category_ids': self.product_category_ids.ids,
             'type_id_test': self.type_id.id,
             'department_id': self.employee_id.department_id.id,
@@ -231,9 +242,9 @@ class PurchaseRequest(models.Model):
             'user_id': self.employee_id.user_id.id,
             'line_ids': line_ids,
             'res_id': self.id,
-            'res_model':"purchase.request",
-                
-                    })
+            'res_model': "purchase.request",
+
+        })
         self.write({'purchase_create': True})
 
         return {
@@ -258,7 +269,7 @@ class PurchaseRequest(models.Model):
             line_ids.append((0, 6, {
                 'product_id': line.product_id.id,
                 'product_qty': line.qty,
-                'name':line.description or line.product_id.name,
+                'name': line.description or line.product_id.name,
                 'department_name': self.employee_id.department_id.id,
                 'account_analytic_id': analytic_account,
                 'date_planned': datetime.today(),
@@ -276,7 +287,6 @@ class PurchaseRequest(models.Model):
             'order_line': line_ids,
             # 'res_model':"purchase.request",
             # 'res_id': self.id,  # Reference to the current purchase order
-           
 
         })
         self.write({'purchase_create': True})
@@ -298,11 +308,10 @@ class PurchaseRequestLine(models.Model):
     account_id = fields.Many2one(related='request_id.department_id.analytic_account_id', copy=False)
     request_id = fields.Many2one(comodel_name='purchase.request', string='Request Ref.')
     product_id = fields.Many2one(comodel_name='product.product', string='Item')
-    description=fields.Char("Description")
+    description = fields.Char("Description")
     qty = fields.Integer(string='Qty')
     uom_id = fields.Many2one('uom.uom',
-        related='product_id.uom_po_id',readonly=True)
-
+                             related='product_id.uom_po_id', readonly=True)
 
     def _product_id_change(self):
         if not self.product_id:

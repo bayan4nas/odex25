@@ -61,6 +61,8 @@ class ProjectInvoice(models.Model):
         string="Attachments",
         help="Attach invoice-related documents"
     )
+    prepaid = fields.Boolean(string="Prepaid")
+    description = fields.Text(string="Description")
 
     @api.model
     def create(self, vals):
@@ -72,32 +74,20 @@ class ProjectInvoice(models.Model):
     def write(self, vals):
         """Ensure attachments are synced when attachments are updated."""
         res = super(ProjectInvoice, self).write(vals)
-        if 'attachment_ids' in vals:
+        if 'attachment_ids' in vals or 'invoice_id' in vals:
             self._sync_attachments_to_invoice()
         return res
 
     def _sync_attachments_to_invoice(self):
         """Sync attachments from project.invoice to its related account.move."""
         for record in self:
-            if record.invoice_id:  # Ensure there is an invoice to sync with
-                for attachment in record.attachment_ids:
-                    # Check if the attachment already exists for the invoice
-                    existing_attachment = self.env['ir.attachment'].search([
-                        ('res_model', '=', 'account.move'),
-                        ('res_id', '=', record.invoice_id.id),
-                        ('datas', '=', attachment.datas)
-                    ], limit=1)
+            for attachment in record.attachment_ids:
+                if record.invoice_id:
+                    attachment.write({
+                                'res_model': 'account.move',
+                                'res_id': record.invoice_id.id
+                            })
 
-                    if not existing_attachment:
-                        # Copy attachment to invoice
-                        attachment.copy({
-                            'res_model': 'account.move',
-                            'res_id': record.invoice_id.id
-                        })
-
-                # Update the attachment count on the invoice
-                record.invoice_id._compute_attach_no()
-    
     @api.onchange("project_invline_ids")
     def get_price_unit_value_test(self):
         for rec in self.project_invline_ids:
@@ -110,8 +100,11 @@ class ProjectInvoice(models.Model):
         for record in self:
             record.actual_date = record.invoice_id.invoice_date
             record.residual_amount = record.invoice_id.amount_residual
-            record.payment_state = record.invoice_id.payment_state
-            
+            if record.prepaid:
+                record.payment_state ='paid'
+            else:
+                record.payment_state = record.invoice_id.payment_state
+
     @api.depends('project_id', 'project_id.is_down_payment', 'project_downinv_ids')
     def _check_downpayment(self):
         for rec in self:
@@ -154,7 +147,7 @@ class ProjectInvoice(models.Model):
             else:
                 rec.actual_payment_date = False
 
-    @api.depends('invoice_id', 'invoice_id.amount_residual', 'invoice_id.invoice_payments_widget','name')
+    @api.depends('invoice_id', 'invoice_id.amount_residual', 'invoice_id.invoice_payments_widget','name','prepaid')
     def _compute_payment_amount(self):
         for rec in self:
             rec.payment_amount = rec.invoice_id.amount_total - rec.residual_amount
@@ -171,12 +164,7 @@ class ProjectInvoice(models.Model):
                  ))
         invoice_vals['invoice_line_ids'] = invoice_line_vals
         invoice_id = self.env['account.move'].sudo().with_context(default_move_type='out_invoice').create(invoice_vals)
-        for attachment in self.attachment_ids:
-            attachment.copy({
-                'res_model': 'account.move',
-                'res_id': invoice_id.id
-            })
-        invoice_id._compute_attach_no()
+
 
         if abs(sum(self.project_downinv_ids.mapped('price_total'))) > abs(
                 sum(self.project_invline_ids.mapped('price_total'))):
@@ -262,6 +250,11 @@ class ProjectInvoice(models.Model):
 
     def action_confirm(self):
         for rec in self:
+            if rec.prepaid:
+                rec.payment_amount = rec.amount
+                rec.state = 'done'
+                rec.payment_state = 'paid'
+                continue
             if rec.phase_id:
                 certificate = self.env['completion.certificate'].search(
                     [('phase_id4', '=', rec.phase_id.id)],
@@ -325,6 +318,12 @@ class ProjectInvoice(models.Model):
         if self.invoice_id and self.invoice_id.state!='draft':
                 raise UserError(_("Kindly The invoice is not in draft state, so it cannot be unlinked."))
 
+        if self.attachment_ids :
+            for attachment in self.attachment_ids:
+                attachment.write({
+                    'res_model': "account.invoice",
+                    'res_id': self.id,
+                })
         if self.invoice_id:
             self.invoice_id.sudo().write({'posted_before':False})
             self.invoice_id.sudo().unlink()

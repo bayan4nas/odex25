@@ -29,8 +29,8 @@
                                 class="oe_highlight" groups="purchase.group_purchase_manager"
                                 attrs="{'invisible' : ['|',('state' , '!=' , 'waiting'),('purchase_create' , '=' , True)]}"/>
 
-                        <button name="action_refuse" type="object" string="Refuse"
-                                groups="purchase_requisition_custom.group_direct_manger,purchase_requisition_custom.group_refuse_purchase"
+                        <button name="action_refuse" type="object" string="Refuse" id="prc_request_refuse"
+                                groups="purchase_requisition_custom.group_refuse_purchase"
                                 attrs="{'invisible' : [('state' , 'not in' , ('direct_manager','waiting'))]}"/>
 
                         <button name="action_done" type="object" string="Done" class="oe_stat_button"
@@ -69,14 +69,13 @@
                                    readonly="1"/>
                             <field name="employee_id" attrs="{'readonly':[('by_purchase' , '=' , False)]}" required="1"
                                    options="{'no_create' : True , 'no_edit' : True ,'no_open' : True}"/>
-                            <field name="product_category_ids" widget="many2many_tags" required="1"
-                                   attrs="{'readonly':[('state' , '!=' , 'draft')]}"
-                                   options="{'no_create' : True , 'no_edit' : True ,'no_open' : True}"/>
+                            <field name="product_category_ids" widget="many2many_tags"/>
                             <field name="purchase_purpose" required="1"
                                    attrs="{'readonly':[('state' , '!=' , 'draft')]}"/>
                             <field name="date" readonly="1"/>
                             <field name="purchase_create" invisible="1"/>
                             <field name="partner_id"
+                                   domain="[('supplier_rank','>', 0)]"
                                    options="{'no_create' : True , 'no_edit' : True ,'no_open' : True}"
                                    attrs="{'readonly':['|',('edit_partner_id' , '=' , False),('state' , '!=' , 'waiting')]}"/>
                             <!--                            <div>-->
@@ -96,7 +95,7 @@
                                 <field name="line_ids" attrs="{'readonly':[('state' , '!=' , 'draft')]}">
                                     <tree editable="bottom">
                                         <field name="product_id"
-                                               domain="[('purchase_ok', '=', True),('categ_id','in',parent.product_category_ids)]"
+                                               domain="[('purchase_ok', '=', True)]"
                                                options="{'no_create' : True , 'no_edit' : True ,'no_open' : True}"
                                                optional="show"
                                                 required="1"/>

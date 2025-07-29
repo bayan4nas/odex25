@@ -267,7 +267,7 @@ odoo.define('odx_m2m_attachment_preview.odx_many2many_attachment_preview', funct
                     return {
                         id: r.id,
                         mimetype: r.mimetype,
-                        fileType: r.index_content
+                        fileType:r.index_content,
                     }
                 });
                 var attachmentViewer = new DocumentViewer(this, this.attachments, activeAttachmentID);

@@ -320,23 +320,7 @@ class OdooWorkflowNode(models.Model):
     pre_active = fields.Boolean(default=True,readonly=True)
 
     def toggle_pre_active(self):
-        if self.pre_active:
-            if self.in_link_ids or self.out_link_ids:
-                raise ValidationError(_("""Node with an outgoing/ingoing links can not archived"""))
-            rec = self.env[self.model].with_context(active_test=False).search([('state', '=', self.node_name)])
-            if rec:
-                return {
-                    'name': _('Alternative Node'),
-                    'type': 'ir.actions.act_window',
-                    'view_type': 'form',
-                    'view_mode': 'form',
-                    'res_model': 'workflow.mobile.node.wizard',
-                    'target': 'new',
-                    'context': {
-                        'default_node_id': self.id,
-                        'default_workflow_id': self.workflow_id.id,
-                    },
-                }
+        self.active = False
         self.pre_active = not self.pre_active
 
 

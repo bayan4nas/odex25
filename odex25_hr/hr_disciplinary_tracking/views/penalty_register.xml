@@ -82,7 +82,7 @@
                                 <field name="deduction_value" string="Deduction Value" widget="radio"
                                        attrs="{'readonly':[('state','not in',('draft','officer'))],'invisible':[('state','=','draft')]}"/>
                                 <field name="deduction_amount" string="Deduction Amount"
-                                       attrs="{'readonly':[('state','not in',('draft','officer'))],'invisible':[('state','=','draft')]}"/>
+                                       attrs="{'readonly':[('state','not in',('draft','officer'))]}"/>
                             </group>
                             <group>
                                 <field name="deduction_id" string="Deduction" groups="hr.group_hr_manager"

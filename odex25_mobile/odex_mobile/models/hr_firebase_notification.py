@@ -249,3 +249,85 @@ class HrSalaryAdvance(models.Model):
             self.employee_id.user_id.partner_id.send_notification(
                 _("Loan %s") % (self.code), _("Has been updated to %s") % (validator.get_state_name(self, self.state)),
                 data=data, all_device=True)
+
+class HrOfficialMission(models.Model):
+    _inherit = 'hr.official.mission'
+
+    def firebase_notification(self, users=None):
+        if self.employee_id:
+            value = {'employee_id':self.employee_id.id, 'employee_name':self.employee_id.name, 'id': self.id, 'date_from': str(self.date_from), 'date_to': str(self.date_to), 'duration': self.date_duration,
+                     'date': str(self.date), 'state_name': self.state,
+                     'state': validator.get_state_name(self, self.state)}
+
+            _logger.warning("Write inner")
+            data = {
+                'meta': json.dumps({
+                    'type': 'mission',
+                    'data': value
+                })
+            }
+            _logger.warning(type(data))
+            if users:
+                partner = users.mapped('partner_id')
+                for part in partner:
+                    if not self.env.context.get('refuse'):
+                        part.send_notification(_("Employee %s Mission Waiting Your Approve") % (self.employee_id.name),
+                                               " %s - %s" % (self.date_from, self.date_to), data=data, all_device=True)
+            self.employee_id.user_id.partner_id.send_notification(
+                _("Mission Request has been updated to %s ") % (validator.get_state_name(self, self.state)) , " %s - %s" % (self.date_from, self.date_to),
+                data=data, all_device=True)
+
+
+class EmployeeOtherRequest(models.Model):
+    _inherit = 'employee.other.request'
+
+    def firebase_notification(self, users=None):
+        if self.employee_id:
+            value = {'employee_id':self.employee_id.id, 'employee_name':self.employee_id.name, 'id': self.id, 'request_type': self.request_type,
+                     'date': str(self.date), 'state_name': self.state,
+                     'state': validator.get_state_name(self, self.state)}
+
+            _logger.warning("Write inner")
+            data = {
+                'meta': json.dumps({
+                    'type': 'other_request',
+                    'data': value
+                })
+            }
+            _logger.warning(type(data))
+            if users:
+                partner = users.mapped('partner_id')
+                for part in partner:
+                    if not self.env.context.get('refuse'):
+                        part.send_notification(_("Employee %s Salary Definition and Confirmation Order Waiting Your Approve") % (self.employee_id.name),
+                                               " %s" % self.date, data=data, all_device=True)
+            self.employee_id.user_id.partner_id.send_notification(
+                _("The Salary Definition and Confirmation Order Request has been updated to %s ") % (validator.get_state_name(self, self.state)) , " %s" % self.date,
+                data=data, all_device=True)
+
+class HrAttendanceRegister(models.Model):
+    _inherit = 'hr.attendance.register'
+
+    def firebase_notification(self, users=None):
+        if self.employee_id:
+            value = {'employee_id':self.employee_id.id, 'employee_name':self.employee_id.name, 'id': self.id, 'action_type': self.action_type,
+                     'register_date': str(self.register_date), 'action_date': str(self.action_date),'state_name': self.state,
+                     'state': validator.get_state_name(self, self.state)}
+
+            _logger.warning("Write inner")
+            data = {
+                'meta': json.dumps({
+                    'type': 'attendance_register',
+                    'data': value
+                })
+            }
+            _logger.warning(type(data))
+            if users:
+                partner = users.mapped('partner_id')
+                for part in partner:
+                    if not self.env.context.get('refuse'):
+                        part.send_notification(_("Employee %s Attendance Register Order Waiting Your Approve") % (self.employee_id.name),
+                                               " %s" % self.register_date, data=data, all_device=True)
+            self.employee_id.user_id.partner_id.send_notification(
+                _("Attendance Register Order Request has been updated to %s ") % (validator.get_state_name(self, self.state)) , " %s" % self.register_date,
+                data=data, all_device=True)

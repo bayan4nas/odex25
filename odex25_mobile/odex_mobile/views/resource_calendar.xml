@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+        <record id="resource_calendar_grace_inherited_form" model="ir.ui.view">
+            <field name="name">resource.calendar.inherited.form</field>
+            <field name="model">resource.calendar</field>
+            <field name="inherit_id" ref="attendances.resource_calendar_inherited_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group[@id='sign_out_period']" position="after">
+                    <group colspan="2">
+                        <field name="grace_hour_before_work" widget="float_time"/>
+                    </group>
+                    <group colspan="2">
+                        <field name="grace_hour_after_work" widget="float_time"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

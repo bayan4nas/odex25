@@ -212,6 +212,7 @@ class AuthenticationController(http.Controller):
             employee.sudo().write({'fcm_token':kw.get('fcm_token')})
 
         dic['token'] = token
-        dic['is_approve'] = 'group_division_manager' in dic.get('groups',[])
-        http_helper.cleanup();
+        dic['is_approve'] = 'group_division_manager' in dic.get('groups',[]) or 'group_hr_user' in dic.get('groups', [])
+        dic['is_done'] = 'group_division_manager' in dic.get('groups',[]) or 'group_hr_user' in dic.get('groups', [])
+        http_helper.cleanup()
         return http_helper.response(data=dic, message=_("User log in successfully"))

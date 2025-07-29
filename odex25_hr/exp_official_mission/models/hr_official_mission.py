@@ -328,9 +328,12 @@ class HrOfficialMission(models.Model):
                 start_date = datetime.strptime(str(self.date_from), '%Y-%m-%d')
                 end_date = datetime.strptime(str(self.date_to), "%Y-%m-%d")
                 delta = end_date - start_date
+                today = datetime.now().date()
+                today = datetime.strptime(str(today), "%Y-%m-%d").date()
                 for i in range(delta.days + 1):
                     day = start_date + timedelta(days=i)
-                    transaction.process_attendance_scheduler_queue(day, self.employee_ids.mapped(
+                    if today >= day.date():
+                       transaction.process_attendance_scheduler_queue(day, self.employee_ids.mapped(
                         'employee_id'))
         #else:
            # day = datetime.strptime(str(self.date), '%Y-%m-%d')
@@ -393,7 +396,7 @@ class HrOfficialMission(models.Model):
             hr_manager = rec.sudo().employee_id.user_id.company_id.hr_manager_id
             if coach:
                 if coach.user_id.id == rec.env.uid or hr_manager.user_id.id == rec.env.uid:
-                   rec.state = 'depart_manager'
+                    rec.state = 'depart_manager'
                 else:
                     raise exceptions.Warning(
                         _('Sorry, The Approval For The Department Manager %s Only OR HR Manager!') % (coach.name))
@@ -458,7 +461,7 @@ class HrOfficialMission(models.Model):
                                 'partner_id': item.employee_id.user_id.partner_id.id
                             }
                             if not item.account_move_id:
-                               move = self.env['account.move'].create({
+                               move = self.env['account.move'].sudo().create({
                                    'state': 'draft',
                                    'journal_id': journal_id.id,
                                    'date': date.today(),
@@ -469,6 +472,15 @@ class HrOfficialMission(models.Model):
                                })
                                # fill account move for each employee
                                item.write({'account_move_id': move.id})
+                               attachments = self.env['ir.attachment'].sudo().search([
+                                   ('res_model', '=', 'hr.official.mission'),
+                                   ('res_id', '=', self.id)
+                               ])
+                               for attachment in attachments:
+                                   attachment.sudo().copy({
+                                       'res_model': 'account.move',
+                                       'res_id': move.id,
+                                   })
                 #else:
                     #raise exceptions.Warning(
                         #_('You do not have account or journal in mission type "%s" ') % self.mission_type.name)
@@ -527,7 +539,7 @@ class HrOfficialMission(models.Model):
                
                     # 'partner_id': item.employee_id.user_id.partner_id.id
                 }
-                invoice = self.env['account.move'].create({
+                invoice = self.env['account.move'].sudo().create({
                     'state': 'draft',
                     'move_type': 'in_invoice',
                     'journal_id': item.mission_type.journal_id.id,
@@ -535,12 +547,23 @@ class HrOfficialMission(models.Model):
                     'invoice_date': date.today(),
                     'ref': 'Training Cost for Course Name %s ' % item.course_name.name,
                     'invoice_line_ids': [(0, 0, invoice_line_vals)],
-                    'res_model': 'hr.official.mission',
-                    'res_id': self.id
-                })
-                item.write({'Tra_cost_invo_id': invoice.id})
 
-        self.state = "approve"
+                })
+                attachments = self.env['ir.attachment'].sudo().search([
+                    ('res_model', '=', 'hr.official.mission'),
+                    ('res_id', '=', self.id)
+                ])
+                for attachment in attachments:
+                    attachment.sudo().copy({
+                        'res_model': 'account.move',
+                        'res_id': invoice.id,
+                    })
+                item.write({'Tra_cost_invo_id': invoice.id})
+        if self.is_branch:
+
+            self.state = "secret_general"
+        else:
+            self.state = 'approve'
         if self.mission_type.work_state and self.mission_type.duration_type == 'days':
             for emp in self.employee_ids:
                 if emp.date_to >= fields.Date.today() >= emp.date_from:

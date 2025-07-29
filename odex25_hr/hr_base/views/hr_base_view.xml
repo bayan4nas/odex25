@@ -49,13 +49,13 @@
                                 states="draft" groups="hr.group_hr_user"/>
 
                         <button name="open_sate" string="Approved" type="object" class="oe_highlight"
-                                states="complete" groups="hr.group_hr_manager"/>
+                                states="complete" groups="hr.group_hr_manager,hr.group_hr_user"/>
 
                         <button name="create_contract" string="Create Contract" class="oe_highlight" type="object"
                                 states="complete" groups="hr.group_hr_manager,hr.group_hr_user"/>
 
                         <button name="draft_state" string="Rest TO Draft" class="oe_highlight" type="object"
-                                states="complete,open" groups="hr.group_hr_manager"
+                                states="complete,open" groups="hr.group_hr_manager,hr.group_hr_user"
                                 confirm="Are you sure to Rest To Draft This Record?"/>
                         <field name="state" widget="statusbar"/>
                 </button>
@@ -351,8 +351,8 @@
 
 
                 <field name="user_id" position="attributes">
-                    <attribute name="attrs">{'readonly':[('state','!=','draft')]}
-                    </attribute>
+                    <attribute name="attrs">{'readonly':[('state','!=','draft')]} </attribute>
+                    <attribute name="domain">[('employee_ids', '=', False)] </attribute>
                 </field>
 
                 <!--                <field name="address_home_id" position="attributes">-->

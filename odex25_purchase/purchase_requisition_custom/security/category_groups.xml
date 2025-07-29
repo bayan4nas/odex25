@@ -88,6 +88,11 @@
         <field name="menu_access" eval="[(4,ref('purchase.menu_purchase_root'))]"/>
     </record>
 
+    <record id="group_select_recommended_offer" model="res.groups">
+        <field name="name">Select Recommended Offer</field>
+        <field name="category_id" ref="purchase_requisition_custom.module_category_purchase_requisition_custom"/>
+    </record>
+
     <record id="purchase_rfq_send_to_committee" model="res.groups">
         <field name="name">Send to the Committee</field>
         <field name="category_id" ref="purchase_requisition_custom.module_category_purchase_requisition_custom"/>
