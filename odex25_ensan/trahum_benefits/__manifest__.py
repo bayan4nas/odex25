@@ -39,6 +39,8 @@
         'views/service_request_views.xml', 
         'views/case_info.xml',
         'views/res_district.xml',
+        'views/disability_type.xml',
+        'views/job_title.xml',
     ],
     # only loaded in demonstration mode
     'demo': [

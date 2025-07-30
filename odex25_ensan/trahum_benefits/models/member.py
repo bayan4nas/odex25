@@ -218,6 +218,7 @@ class FamilyMember(models.Model):
         'res.district',
         string='District',
         domain="[('city_id', '=', city)]")
+
     city = fields.Many2one("res.country.city", string='City')
     postal_code = fields.Char(string='Postal Code')
     national_address_code = fields.Char(string='National address code')
@@ -239,6 +240,7 @@ class FamilyMember(models.Model):
         ('inactive', 'Inactive'),
         ('active_inactive', 'Active Inactive')
     ], string='Social Insurance Status')
+    social_security_state = fields.Boolean(string='Social Security State')
     social_security_income = fields.Float(string='Social Security Income')
     social_security_status = fields.Selection([
         ('active', 'Active'),
@@ -276,6 +278,14 @@ class FamilyMember(models.Model):
     ], string="Status", default='draft', tracking=True)
 
     cancel_reason: fields.Text = fields.Text(string="Rejection Reason", tracking=True, copy=False)
+    # Professional Experiences Fields
+    dest_name = fields.Char(string='Destination Name')
+    start_date = fields.Date(string='Start Date')
+    end_date = fields.Date(string='End Date')
+    in_work = fields.Boolean(string='In Work')
+    experience_certificate = fields.Many2many('ir.attachment', string="Experience Certificate", tracking=True)
+    job_title = fields.Many2one('job.title',string='Job Title')
+
 
     def action_confirm(self) -> None:
         """Change status to 'Confirmed'."""
@@ -291,6 +301,7 @@ class FamilyMember(models.Model):
             'target': 'new',
             'context': {'default_record_id': self.id}
         }
+
     @api.onchange('additional_mobile_number')
     def check_additional_number(self):
         for rec in self:
@@ -379,6 +390,13 @@ class FamilyMember(models.Model):
     def _onchange_full_name(self):
         """Ensures 'name' updates dynamically in the form view when fields change."""
         self._compute_full_name()
+
+
+class JobTitle(models.Model):
+    _name = 'job.title'
+    _description = 'Job Title'
+
+    name = fields.Char(string="Job Title")
 
 
 class MemberHouse(models.Model):
