@@ -62,7 +62,6 @@ class hr_extend(models.Model):
 
     def action_submit(self):
         self._get_employee_data()
-        print('ssssssssss')
         self.state = 'direct_manager'
 
     def action_direct_manager(self):
