@@ -203,8 +203,11 @@
                                         <field name="social_insurance_status"/>
                                     </group>
                                     <group string="Social Security">
-                                        <field name="social_security_income"/>
-                                        <field name="social_security_status"/>
+                                        <field name="social_security_state"/>
+                                        <field name="social_security_income"
+                                               attrs="{'invisible': [('social_security_state', '=', False)]}"/>
+                                        <field name="social_security_status"
+                                               attrs="{'invisible': [('social_security_state', '=', False)]}"/>
                                     </group>
                                 </group>
                             </page>
@@ -265,7 +268,7 @@
                                         <field name="income_type"/>
                                         <field name="side"/>
                                         <field name="salary_amount"/>
-                                        <field name="salary_attach" widget="many2many_attachment_preview"/>
+                                        <field name="salary_attach" widget="many2many_attachment_preview" required="1"/>
                                         <field name="revenue_periodicity"/>
                                         <field name="is_required" invisible="1"/>
                                         <field name="is_default" invisible="1"/>
@@ -276,13 +279,24 @@
                                             <field name="income_type"/>
                                             <field name="side"/>
                                             <field name="salary_amount"/>
-                                            <field name="salary_attach" widget="many2many_attachment_preview"/>
+                                            <field name="salary_attach" required="1"
+                                                   widget="many2many_attachment_preview"/>
                                             <field name="revenue_periodicity"/>
                                             <field name="is_required"/>
                                             <field name="is_default"/>
                                         </group>
                                     </form>
                                 </field>
+                            </page>
+                            <page string="Professional Experiences">
+                                <group>
+                                    <field name="job_title"/>
+                                    <field name="dest_name"/>
+                                    <field name="start_date"/>
+                                    <field name="in_work"/>
+                                    <field name="end_date" attrs="{'invisible': [('in_work', '=', True)]}"/>
+                                    <field name="experience_certificate" required="1" widget="many2many_attachment_preview"/>
+                                </group>
                             </page>
                         </notebook>
                     </sheet>

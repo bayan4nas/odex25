@@ -198,15 +198,15 @@ class FamilyMemberProfile(models.Model):
         "salary.line", "member_id", string="Salaries"
     )
 
-    @api.constrains('birth_date')
-    def _check_birth_date(self):
-        for record in self:
-            if record.birth_date:
-                today = date.today()
-                age = today.year - record.birth_date.year - (
-                        (today.month, today.day) < (record.birth_date.month, record.birth_date.day))
-                if age < 18:
-                    raise ValidationError('العمر يجب أن لا يقل عن 18 سنة.')
+    # @api.constrains('birth_date')
+    # def _check_birth_date(self):
+    #     for record in self:
+    #         if record.birth_date:
+    #             today = date.today()
+    #             age = today.year - record.birth_date.year - (
+    #                     (today.month, today.day) < (record.birth_date.month, record.birth_date.day))
+    #             if age < 18:
+    #                 raise ValidationError('العمر يجب أن لا يقل عن 18 سنة.')
 
     def unlink(self):
         for order in self:
