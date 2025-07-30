@@ -62,18 +62,18 @@ class hr_extend(models.Model):
 
     def action_submit(self):
         self._get_employee_data()
-        self.state = 'submitted'
+        self.state = 'direct_manager'
 
     def action_direct_manager(self):
         # if self.employee_id.parent_id and self._uid != self.employee_id.parent_id.user_id.id:
         #    raise exceptions.Warning(_('This is Not Your Role beacuse Your Direct Manager'))
         self._get_employee_data()
         self._check_contract()
-        self.state = "direct_manager"
+        self.state = "hr_manager"
 
     def action_hr_manager(self):
         self._get_employee_data()
-        self.state = "hr_manager"
+        self.state = "done"
 
     def action_done(self):
         self._check_contract()
