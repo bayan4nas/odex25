@@ -9,3 +9,4 @@ from . import res_partner
 from . import hr_firebase_notification
 from . import base
 from . import ir_property
+from . import resource

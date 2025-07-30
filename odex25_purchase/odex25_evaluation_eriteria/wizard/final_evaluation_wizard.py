@@ -34,7 +34,8 @@ class FinalEvaluationWizard(models.TransientModel):
     def action_create_search(self):
         self.move_ids = False
         if not self.start_date and not self.end_date and self.purchase_requisition and self.committee_member and self.hr_department_id:
-            raise ValidationError(_('You Should Select Parameters'))
+           pass
+            # raise ValidationError(_('You Should Select Parameters'))
         domain = []
         purchase_requisition = self.purchase_requisition
         if purchase_requisition:
@@ -64,6 +65,25 @@ class FinalEvaluationWizard(models.TransientModel):
         if not self.move_ids:
             raise ValidationError(_('There is No Data to present'))
         # return self.move_ids
+
+    def get_evaluation_summary(self):
+        self.ensure_one()
+        member_totals = {}  # {member_name: total_evaluation}
+
+        for move in self.move_ids:
+            if not move.initial_evaluation_lines:
+                continue
+            for po in move.initial_evaluation_lines:
+                if self.committee_member and po.user_id != self.committee_member:
+                    continue
+
+                name = po.user_id.name
+                member_totals[name] = member_totals.get(name, 0) + po.evaluation
+
+        return {
+            'members': list(member_totals.keys()),
+            'totals': member_totals,
+        }
 
     def get_max_average_evaluation(self):
         max_avg = 0

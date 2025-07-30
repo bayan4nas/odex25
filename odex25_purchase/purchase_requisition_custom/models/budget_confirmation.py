@@ -1,4 +1,4 @@
-from odoo import fields, models, _, api
+from odoo import fields, models, _
 
 
 class BudgetConfirmationCustom(models.Model):
@@ -15,34 +15,6 @@ class BudgetConfirmationCustom(models.Model):
     specifications_conform = fields.Boolean(string="Technical specifications conform")
     specifications_not_conform = fields.Boolean(string="Technical specifications do not match")
 
-    attachment_count = fields.Integer(
-        string='Documents',
-        compute='_compute_attachment_count'
-    )
-
-    @api.depends('po_id')
-    def _compute_attachment_count(self):
-        for record in self:
-            if record.po_id:
-                record.attachment_count = self.env['ir.attachment'].search_count([
-                    ('res_model', '=', 'purchase.order'),
-                    ('res_id', '=', record.po_id.id)
-                ])
-            else:
-                record.attachment_count = 0
-
-    def action_view_attachments(self):
-        self.ensure_one()
-        return {
-            'type': 'ir.actions.act_window',
-            'name': 'Purchase Order Attachments',
-            'view_mode': 'tree,form',
-            'res_model': 'ir.attachment',
-            'domain': [('res_model', '=', 'purchase.order'), ('res_id', '=', self.po_id.id)],
-            'context': dict(self.env.context, default_res_model='purchase.order', default_res_id=self.po_id.id),
-        }
-
-
     def cancel(self):
         super(BudgetConfirmationCustom, self).cancel()
         for rec in self:
@@ -50,7 +22,8 @@ class BudgetConfirmationCustom(models.Model):
                 rec.po_id.write({'state': 'budget_rejected'})
                 body = _(
                     "Purchase Order %s is Rejected By : %s  With Reject Reason : %s" % (
-                    str(rec.name), str(rec.env.user.name), str(rec.reject_reason or self.env.context.get('reject_reason',''))))
+                        str(rec.name), str(rec.env.user.name),
+                        str(rec.reject_reason or self.env.context.get('reject_reason', ''))))
                 # Send Notifications
                 subject = _('Reject Purchase Order')
                 author_id = rec.env.user.partner_id.id or None
@@ -60,7 +33,8 @@ class BudgetConfirmationCustom(models.Model):
                 rec.request_id.write({'state': 'refuse'})
                 body = _(
                     "Purchase Request %s is Rejected By : %s  With Reject Reason : %s" % (
-                        str(rec.name), str(rec.env.user.name), str(rec.reject_reason or self.env.context.get('reject_reason',''))))
+                        str(rec.name), str(rec.env.user.name),
+                        str(rec.reject_reason or self.env.context.get('reject_reason', ''))))
                 # Send Notifications
                 subject = _('Reject Purchase Request Budget Confirmation')
                 author_id = rec.env.user.partner_id.id or None
@@ -84,13 +58,17 @@ class BudgetConfirmationCustom(models.Model):
                     amount += line.amount
                     budget_lines.write({'reserve': amount})
 
-        if self.po_id.requisition_id:
+        if self.po_id.requisition_id and self.po_id.requisition_type_exclusive == 'exclusive':
             self.po_id.requisition_id.write({'state': 'checked'})
         if self.po_id:
-            self.po_id.write({'state': 'to approve'})
+            if self.po_id.requisition_id:
+                self.po_id.write({'state': 'to approve'})
+            else:
+                self.po_id.write({'state': 'draft'})
         if self.request_id and self.type == 'purchase.request':
             # Update reserve of budget_lines
             self.request_id.write({'state': 'waiting'})
+
 
 class CrossoveredBudgetLines(models.Model):
     _inherit = "crossovered.budget.lines"

@@ -26,7 +26,7 @@ class EmployeeReceiveCustody(models.Model):
         ("done", _("Return Done")),
         ("refuse", _("Refuse"))
     ], default='draft')
-    call_compute_function = fields.Char(compute='_get_custody_line_domain')
+    call_compute_function = fields.Char(compute='_get_custody_line_domain',store=True)
 
     # Relational fields
     department_id = fields.Many2one(related="employee_id.department_id", readonly=True)

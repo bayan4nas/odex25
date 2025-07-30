@@ -1,6 +1,7 @@
 import logging
 import jwt
 import re
+import pytz
 import datetime
 import traceback
 from odoo import http, service, registry, SUPERUSER_ID,_
@@ -38,6 +39,22 @@ class Validator:
             return page
 
     def get_attendance_check(self,employee):
+        if not employee:
+            return 'sign_out'
+        user = employee.user_id
+        timezone = user.tz or 'GMT'
+        local_tz = pytz.timezone(timezone)
+        now_gmt = datetime.datetime.now(local_tz)
+        current_time_float = now_gmt.hour + now_gmt.minute / 60.0
+
+        calendar = employee.resource_calendar_id
+        before_work = getattr(calendar, 'grace_hour_before_work', 8.0)
+        after_work = getattr(calendar, 'grace_hour_after_work', 16.0)
+
+        if before_work and after_work:
+            if current_time_float < before_work or current_time_float > after_work:
+                return 'sign_out'
+
         last = http.request.env['attendance.attendance'].sudo().search([('employee_id', '=', employee.id), ], order='name desc',
                                                        limit=1)
         if last:

@@ -23,10 +23,12 @@
     },
     'data': [
         'security/ir.model.access.csv',
+        'data/data.xml',
         'views/attendance_zone_config_view.xml',
         'views/hr_employee_view.xml',
         'views/firebase_notifications.xml',
         'views/firebase_registration.xml',
+        # 'views/resource_calendar.xml',
         'wizard/firebase_registration_wizard.xml',
         'templates/terms.xml',
         'data/zone_crone.xml',

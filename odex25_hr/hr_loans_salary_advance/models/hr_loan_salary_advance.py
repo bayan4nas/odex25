@@ -166,8 +166,17 @@ class HrSalaryAdvance(models.Model):
                     'journal_id': item.request_type.journal_id.id,
                     'date': item.date,
                     'ref': 'Loan',
-                    'line_ids': [(0, 0, debit_line_vals), (0, 0, credit_line_vals)]
+                    'line_ids': [(0, 0, debit_line_vals), (0, 0, credit_line_vals)],
                 })
+                attachments = self.env['ir.attachment'].sudo().search([
+                    ('res_model', '=', 'hr.loan.salary.advance'),
+                    ('res_id', '=', item.id)
+                ])
+                for attachment in attachments:
+                    attachment.sudo().copy({
+                        'res_model': 'account.move',
+                        'res_id': move.id,
+                    })
                 if not item.moves_ids:
                    self.env['hr.account.moves'].create({
                        'number': item.code,

@@ -3,6 +3,28 @@
 
 from odoo import models, fields, api, exceptions, _
 
+class HrEmployee(models.Model):
+    _inherit = 'hr.employee'
+
+    @api.model
+    def name_search(self, name='', args=None, operator='ilike', limit=100):
+        if (
+            self._context.get('from_new_employee_field') and
+            self.env.user.has_group('exp_asset_base.group_asset_chuhad_user')
+        ):
+            args = args or []
+            employees = self.sudo().search([('name', operator, name)] + args, limit=limit)
+            return employees.name_get()
+        return super().name_search(name, args, operator, limit)
+
+    @api.model
+    def search(self, args, offset=0, limit=None, order=None, count=False):
+        if (
+            self._context.get('from_new_employee_field') and
+            self.env.user.has_group('exp_asset_base.group_asset_chuhad_user')
+        ):
+            return super(HrEmployee, self.sudo()).search(args, offset=offset, limit=limit, order=order, count=count)
+        return super().search(args, offset=offset, limit=limit, order=order, count=count)
 
 class AccountAssetOperation(models.Model):
     _name = 'account.asset.operation'
@@ -38,7 +60,7 @@ class AccountAssetOperation(models.Model):
                                             readonly=True, string='Department', )
     current_location_id = fields.Many2one(comodel_name='account.asset.location',states={'draft': [('readonly', False)]},
                                           readonly=True, string='Location')
-    new_employee_id = fields.Many2one(comodel_name='hr.employee', string='Employee')
+    new_employee_id = fields.Many2one(comodel_name='hr.employee', string='Employee',context={'from_new_employee_field': True,'no_open': True})
     new_department_id = fields.Many2one(comodel_name='hr.department', string='Department', )
     new_location_id = fields.Many2one(comodel_name='account.asset.location', string='Location')
     amount = fields.Float(states={'draft': [('readonly', False)]}, readonly=True, )
@@ -115,6 +137,8 @@ class AccountAssetOperation(models.Model):
 
     def act_cancel(self):
         self.state = 'cancel'
+        self.asset_id.status = 'available'
+
 
     def act_draft(self):
         self.state = 'draft'
@@ -128,6 +152,7 @@ class AccountAssetOperation(models.Model):
         self.asset_id.return_date = self.return_date
         self.asset_id.purpose = self.note
         if self.type == 'assignment':
+            self.asset_id.state = 'assign'
             self.asset_id.status = 'assigned'
         elif self.type == 'release':
             self.asset_id.status = 'available'

@@ -292,7 +292,10 @@
                                         <t t-esc="line.procedure_id.name"/>
                                     </td>
                                     <td>
-                                        <t t-esc="line.cc_ids.name"/>
+                                         <t t-foreach="line.cc_ids" t-as="cc">
+                                            <span t-esc="cc.name"/>
+                                              <span>, </span>
+                                        </t>                             
                                     </td>
                                     <td>
                                         <t t-esc="line.note"/>

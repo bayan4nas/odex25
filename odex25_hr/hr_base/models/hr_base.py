@@ -235,6 +235,39 @@ class HrEmployee(models.Model):
     children = fields.Integer(string='Number of Children', groups="base.group_user", tracking=True)
     branch_name = fields.Many2one(related='department_id.branch_name', store=True, string="Branch Name")
 
+    category_ids = fields.Many2many(
+        'hr.employee.category', 'employee_category_rel',
+        'emp_id', 'category_id', groups="base.group_user",
+        string='Tags')
+
+    gosi_date = fields.Date(string="GOSI Date")
+    new_gosi = fields.Boolean(string="New GOSI", 
+                    help='New participants who have no prior periods of contribution under the GOSI.')
+    gosi_years = fields.Integer(string="GOSI Years", compute='_compute_gosi_years', store=True,
+                                help='GOSI Years According To The New activation Date Until Today')
+
+    @api.depends('new_gosi')
+    def _compute_gosi_years(self):
+        for emp in self:
+            years = 0
+            date_activation = datetime.strptime(str(emp.sudo().company_id.gosi_active_date), '%Y-%m-%d')
+            if emp.new_gosi==True:
+                if date_activation:
+                   today = date.today()
+                   years = today.year - date_activation.year - ((today.month, today.day) < (date_activation.month, date_activation.day))
+            emp.sudo().gosi_years = years
+
+    @api.constrains('gosi_date','new_gosi')
+    def _check_gosi_date(self):
+        for rec in self:
+            today = date.today()
+            date_activation = rec.sudo().company_id.gosi_active_date
+            if date_activation and rec.gosi_date and rec.new_gosi==True:
+               if rec.gosi_date < date_activation :
+                  raise ValidationError(_("The Gosi Date Must Be Greater Than Or Equal The New Gosi Activation Date"))
+               if rec.gosi_date > today :
+                  raise ValidationError(_("The Gosi subscription date Must Be Less Than Today"))
+
     '''employee_cars_count = fields.Integer(compute="_compute_employee_cars_count", string="Cars",
                                          groups="base.group_user")
 
@@ -282,7 +315,7 @@ class HrEmployee(models.Model):
                 dob = datetime.strptime(str(emp.birthday), '%Y-%m-%d')
                 today = date.today()
                 age = today.year - dob.year - ((today.month, today.day) < (dob.month, dob.day))
-            emp.employee_age = str(age)
+            emp.sudo().employee_age = str(age)
 
     # @api.constrains('parent_id')
     # def _check_parent_id(self):
@@ -314,6 +347,7 @@ class HrEmployee(models.Model):
     def _compute_service_duration(self):
         for rec in self:
             rec._compute_employee_age()
+            rec._compute_gosi_years()
             rec.service_year = 0
             rec.service_month = 0
             rec.service_day = 0
@@ -427,17 +461,23 @@ class HrEmployee(models.Model):
                         else:
                             rec.emp_no = str(rec.employee_type_id.code) + str(fix_code)'''
 
-    # get address_home_id field from user_id partner and email
-    @api.onchange('user_id','work_email','name')
+    @api.onchange('user_id', 'work_email', 'name')
     def _get_address_home_id(self):
         for item in self:
             if item.user_id:
-               item.address_home_id = item.user_id.partner_id.id
-               ''' reset email in related partner user '''
-               item.user_id.write({'name': item.name})
-               if item.work_email:
-                  item.user_id.partner_id.write({'email': item.work_email, 'employee': True})
+                item.address_home_id = item.user_id.partner_id.id
+                if item.name:
+                    item.user_id.partner_id.write({'name': item.name})
+                    try:
+                        item.user_id.write({'name': item.name})
+                    except:
+                        pass
 
+                if item.work_email:
+                    item.user_id.partner_id.write({
+                        'email': item.work_email,
+                        'employee': True
+                    })
     @api.depends("country_id")
     def _check_nationality_type(self):
         for item in self:
@@ -562,14 +602,9 @@ class HrEmployee(models.Model):
     def e_unique_user_id(self):
         for item in self:
             items = self.search([("user_id", "=", item.user_id.id)]).ids
-            if (
-                    len(items) > 1 and item.user_id.id > 1
-            ):  # return more than one item with the same value
+            if (len(items) > 1 and item.user_id.id > 1):  # return more than one item with the same value
                 raise ValidationError(
-                    _(
-                        "This User Cannot Be Selected While He is Linked to Another Employee"
-                    )
-                )
+                    _("This User Cannot Be Selected While He is Linked to Another Employee"))
 
     @api.onchange('department_id')
     def onchange_department_id(self):

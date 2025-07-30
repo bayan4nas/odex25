@@ -7,7 +7,7 @@
             <field name="inherit_id" ref="exp_official_mission.employee_official_mission_form_view"/>
              <field name="arch" type="xml">
                  <xpath expr="//field[@name='destination']" position="after">
-                     <field name="include_in_experience"  attrs="{'readonly':[('state','not in',('direct_manager','depart_manager'))]}"/>
+                     <field name="include_in_experience"  attrs="{'readonly':[('state','not in',('direct_manager','depart_manager'))]}" invisible='1'/>
                  </xpath>
                  <xpath expr="//field/tree/field[@name='account_move_id']" position="after">
                      <field name="include_in_experience" attrs="{'column_invisible':[('parent.include_in_experience','!=',True)],'readonly':[('parent.state','not in',('direct_manager','depart_manager'))]}"/>

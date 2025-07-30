@@ -17,7 +17,6 @@ class OnlinePurchaseRequisition(models.Model):
     available_until = fields.Date('Availablity date')
 
 
-    
     def extend_availability(self):
         return {     
             'type': 'ir.actions.act_window',
@@ -66,7 +65,14 @@ class OnlinePurchaseRequisition(models.Model):
             if po.state != "purchase":
                 email = template.send_mail(po.id,force_send=True,)
         return sup
-
+    
+    def copy(self, default=None):
+        data = super(OnlinePurchaseRequisition, self).copy(default)
+        data.published_in_portal = False
+        data.publish_in_portal = False
+        data.availability_period = 0
+        data.po_notification = False
+        return data
 
 
 class POCustom(models.Model):

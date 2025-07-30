@@ -36,7 +36,22 @@ class BudgetConfirmationCustom(models.Model):
                     budget_lines.write({'reserve': amount})
 
 
-class AccountMove(models.Model):
+class ExpenseSheet(models.Model):
+    _inherit = 'hr.expense.sheet'
+
+    def approve_expense_sheets(self):
+        if self.env.user.id != self.employee_id.expense_manager_id.id:
+            raise UserError(_("You can only approve your department expenses"))
+        res = super().approve_expense_sheets()
+        return res
+    @api.depends('employee_id')
+    def _compute_from_employee_id(self):
+        for sheet in self:
+            sheet.address_id = sheet.employee_id.sudo().address_home_id
+            sheet.department_id = sheet.employee_id.department_id
+            sheet.user_id = sheet.employee_id.expense_manager_id or sheet.employee_id.parent_id.user_id
+
+class Expense(models.Model):
     _inherit = 'hr.expense'
 
     partner_id = fields.Many2one(
@@ -64,8 +79,8 @@ class AccountMove(models.Model):
                         raise UserError(_('Please Check Budget First'))
                     elif record.state == 'confirm' and record.is_approve:
                         break
-                    elif record.state == 'wait_budget':
-                        raise UserError(_("The Budget Confirmation Doesn't Approve yet"))
+                    # elif record.state == 'wait_budget':
+                    #     raise UserError(_("The Budget Confirmation Doesn't Approve yet"))
                     elif record.state == 'budget_approve':
                         if record.is_approve:
                             confirm_budget = self.env['budget.confirmation'].search([('expense_id', '=', record.id)])
@@ -104,10 +119,10 @@ class AccountMove(models.Model):
                                 'res_id': sheet.id,
                             }
                 else:
-                    return super(AccountMove, record).action_submit_expenses()
-            return super(AccountMove, self).action_submit_expenses()
+                    return super(Expense, record).action_submit_expenses()
+            return super(Expense, self).action_submit_expenses()
     def button_cancel(self):
-        res = super(AccountMove, self).button_cancel()
+        res = super(Expense, self).button_cancel()
         if self.is_check:
             date = fields.Date.from_string(self.date)
             for line in self.invoice_line_ids:
@@ -125,7 +140,7 @@ class AccountMove(models.Model):
         return res
 
     def button_draft(self):
-        res = super(AccountMove, self).button_draft()
+        res = super(Expense, self).button_draft()
         if self.is_check:
             date = fields.Date.from_string(self.date)
             for line in self.invoice_line_ids:
@@ -198,3 +213,5 @@ class AccountMove(models.Model):
             'state': 'confirm'
         })
         return True
+
+

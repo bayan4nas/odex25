@@ -68,7 +68,9 @@ class Users(models.Model):
             d["job"] = employee.job_id.name if employee and employee.job_id else None
             d["employe_id"] = employee.id if employee and employee.id else None
             d["attendance_status"] = attendance_status if attendance_status else None
-            d['is_approve'] = 'group_division_manager' in d.get('groups',[])
+            d['is_approve'] = 'group_division_manager' in d.get('groups',[]) or 'group_hr_user' in d.get('groups', [])
+            d['is_done'] = 'group_division_manager' in d.get('groups',[]) or 'group_hr_user' in d.get('groups', [])
+            d['has_two_periods'] = not employee.resource_calendar_id.is_full_day if employee.resource_calendar_id else False
             res.append(d)
 
         return res[0] if single else res

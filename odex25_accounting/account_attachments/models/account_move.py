@@ -10,6 +10,50 @@ class AccountMove(models.Model):
     res_model = fields.Char()
 
     def get_attachments(self):
+        # If only one record is passed, use the original logic
+        self.ensure_one()
+    
+        action = self.env['ir.actions.act_window']._for_xml_id('base.action_attachment')
+
+        # get account.move attachments
+        attachments_ids = self.env['ir.attachment'].sudo().search([
+            ('res_model', '=', 'account.move'),
+            ('res_id', '=', self.id), 
+        ]).ids
+
+        if self.purchase_id:
+            # get purchase order attachments
+            po_attachments = self.env['ir.attachment'].sudo().search([
+                ('res_model', '=', 'purchase.order'),
+                ('res_id', '=', self.purchase_id.id), 
+            ])
+            attachments_ids += po_attachments.ids
+            if self.purchase_id.request_id:
+                # get purchase request attachments
+                pr_attachments = self.env['ir.attachment'].sudo().search([
+                    ('res_model', '=', 'purchase.request'),
+                    ('res_id', '=', self.purchase_id.request_id.id), 
+                ])
+                attachments_ids += pr_attachments.ids
+            
+
+        action['domain'] = [
+            ('id', 'in', attachments_ids), 
+        ]
+        domain = [
+            ('id', 'in', attachments_ids), 
+        ]
+
+        # Context for creating new attachments
+        action['context'] = "{'default_res_model': '%s','default_res_id': %d}" % (self._name, self.id)
+        
+        # Update attachment count for smart button
+        self.attach_no = self.env['ir.attachment'].sudo().search_count(domain)
+    
+        return action
+
+
+    def get_attachments_old(self):
         # Check if multiple records are passed, and handle them in a loop
         if len(self) > 1:
             action = self.env['ir.actions.act_window']._for_xml_id('base.action_attachment')
@@ -35,7 +79,7 @@ class AccountMove(models.Model):
                 action['context'] = "{'default_res_model': '%s','default_res_id': %d}" % (record._name, record.id)
                 
                 # Update attachment count for each record
-                record.attach_no = self.env['ir.attachment'].search_count([
+                record.attach_no = self.env['ir.attachment'].sudo().search_count([
                     ('res_model', 'in', related_models),
                     ('res_id', 'in', related_ids)
                 ])
@@ -73,7 +117,7 @@ class AccountMove(models.Model):
         action['context'] = "{'default_res_model': '%s','default_res_id': %d}" % (self._name, self.id)
         
         # Update attachment count for smart button
-        self.attach_no = self.env['ir.attachment'].search_count(domain)
+        self.attach_no = self.env['ir.attachment'].sudo().search_count(domain)
     
         return action
 

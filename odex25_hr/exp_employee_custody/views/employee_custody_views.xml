@@ -13,36 +13,31 @@
             <field name="arch" type="xml">
                 <form>
                     <header>
-                        <button name="submit" string="submit" class="oe_highlight" type="object"
-                                states="draft"
-                                groups="base.group_user"/>
-                        <button name="direct" string="Direct Manager" class="oe_highlight" type="object"
-                                states="submit"
-                                groups="hr_base.group_division_manager"/>
-                        <button name="refuse" string="Refuse" class="oe_highlight" type="object"
-                                states="submit"
-                                groups="hr_base.group_division_manager"/>
-
-                        <button name="admin" string="Human Resources Manager" class="oe_highlight" type="object"
+                        <button name="direct" string="Submit" class="oe_highlight" type="object"
+                                states="draft"/>
+                        <button name="admin" string="Direct" class="oe_highlight" type="object"
                                 states="direct"
-                                groups="hr.group_hr_manager"/>
+                                groups="exp_employee_custody.group_custody_department_manager"/>
                         <button name="refuse" string="Refuse" class="oe_highlight" type="object"
                                 states="direct"
-                                groups="hr.group_hr_manager"/>
+                                groups="exp_employee_custody.group_custody_manager"/>
 
-                        <button name="approve" string="Warehouse Keeper" class="oe_highlight" type="object"
+                        <button name="approve" string="Admin" class="oe_highlight" type="object"
                                 states="admin"
-                                groups="hr_base.group_general_manager,hr_base.group_executive_manager"/>
+                                groups="exp_employee_custody.group_custody_hr_approval"/>
                         <button name="refuse" string="Refuse" class="oe_highlight" type="object"
                                 states="admin"
-                                groups="hr_base.group_general_manager,hr_base.group_executive_manager"/>
+                                groups="exp_employee_custody.group_custody_hr_approval"/>
 
-                        <button name="done" string="Return Done" class="oe_highlight" type="object"
+                        <button name="done" string="approve" class="oe_highlight" type="object"
                                 states="approve"
-                                groups="hr.group_hr_user"/>
+                                groups="stock.group_stock_manager"/>
+                        <button name="finish" string="Done" class="oe_highlight" type="object"
+                                states="assign"
+                                groups="exp_employee_custody.group_custody_manager,stock.group_stock_manager"/>
                         <button name="refuse" string="Refuse" class="oe_highlight" type="object"
-                                states="approve"
-                                groups="hr.group_hr_user"/>
+                                states="approve" groups="stock.group_stock_manager"/>
+
 
                         <button name="draft" string="Rest To Draft" class="oe_highlight" type="object"
                                 states="done"
@@ -50,7 +45,8 @@
                         <button name="draft" string="Rest To Draft" class="oe_highlight" type="object"
                                 states="refuse"
                                 groups="hr.group_hr_user"/>
-                        <field name="state" widget="statusbar"/>
+                        <field statusbar_visible="draft,direct,admin,approve,wait_release,assign,wait,done,refuse"
+                               name="state" widget="statusbar"/>
                     </header>
                     <sheet>
                         <group>
@@ -76,12 +72,14 @@
                                        attrs="{'readonly':[('state','!=','draft')]}">
                                     <tree string="Custody Lines" editable="top">
                                         <field name="name" required="1" string="Description"/>
-                                        <field name="serial" string="Identification code" groups="hr.group_hr_user,hr_base.group_general_manager,hr_base.group_executive_manager"/>
+                                        <field name="serial" string="Identification code"
+                                               groups="hr.group_hr_user,hr_base.group_general_manager,hr_base.group_executive_manager"/>
                                         <field name="quantity" required="1" string="Quantity"/>
                                         <field name="receiving_quantity" readonly="1" string="Receiving Quantity"/>
                                         <field name="note" string="Notes"/>
                                         <field name="receiving_date" string="Date Delivering"/>
-                                        <field name="amount" string="Amount" readonly="1" groups="hr.group_hr_user,hr_base.group_general_manager,hr_base.group_executive_manager"/>
+                                        <field name="amount" string="Amount" readonly="1"
+                                               groups="hr.group_hr_user,hr_base.group_general_manager,hr_base.group_executive_manager"/>
                                     </tree>
                                 </field>
                             </page>
@@ -103,7 +101,8 @@
             <field name="name">Employee Custody</field>
             <field name="model">custom.employee.custody</field>
             <field name="arch" type="xml">
-                <tree decoration-danger="state == 'refuse'" decoration-info="state == 'draft'" string="Employee Custody">
+                <tree decoration-danger="state == 'refuse'" decoration-info="state == 'draft'"
+                      string="Employee Custody">
                     <field name="current_date" string="Date"/>
                     <field name="employee_id" string="Employee"/>
                     <field name="department_id" string="Department"/>
@@ -111,14 +110,32 @@
                 </tree>
             </field>
         </record>
+        <!---->
+        <!-- Inherit Form View to Modify it -->
+        <record id="view_account_asset_operation_form_extend" model="ir.ui.view">
+            <field name="name">view_account_asset_operation_form_inherit</field>
+            <field name="model">account.asset.operation</field>
+            <field name="inherit_id" ref="exp_asset_custody.view_account_asset_operation_form"/>
+            <field name="arch" type="xml">
 
-       <menuitem name="Custody" id="custody_submenu"
+                <xpath expr="//button[@name='act_confirm']" position="attributes">
+                    <attribute name="groups">exp_employee_custody.group_custody_manager</attribute>
+                </xpath>
+                <xpath expr="//button[@name='act_reject']" position="attributes">
+                    <attribute name="groups">exp_employee_custody.group_custody_manager</attribute>
+                </xpath>
+                <xpath expr="//button[@name='act_draft']" position="attributes">
+                    <attribute name="groups">exp_employee_custody.group_custody_manager</attribute>
+                </xpath>
+
+            </field>
+        </record>
+        <!--        -->
+        <menuitem name="Custody" id="custody_submenu"
                   parent="employee_requests.employee_request_menu_item" sequence="11"/>
 
         <menuitem name="Employee Custody" id="employee_custody"
                   parent="custody_submenu" action="employee_custody_action"/>
-
-
 
 
     </data>

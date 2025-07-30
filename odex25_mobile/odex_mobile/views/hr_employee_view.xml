@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <data>
         <!--hr-->
@@ -6,13 +6,20 @@
         <record id="employee_mobile_inherited_form" model="ir.ui.view">
             <field name="name">employee.mobile.inherited.form</field>
             <field name="model">hr.employee</field>
-            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="inherit_id" ref="hr.view_employee_form" />
             <field name="priority">200</field>
             <field name="arch" type="xml">
                 <field name="user_id" position="after">
-                    <field name="device_id"/>
-                    <field name="fcm_token"/> 
+                    <field name="device_id" />
+                    <field name="fcm_token" />
                 </field>
+                <xpath
+                    expr="//field[@name='resource_calendar_id']"
+                    position="before">
+                    <field name="attendance_zone_id" widget="many2many_tags" />
+
+                </xpath>
+
             </field>
         </record>
 
@@ -22,11 +29,11 @@
         <record id="attendance_mobile_inherited_form" model="ir.ui.view">
             <field name="name">attendance.mobile.inherited.form</field>
             <field name="model">attendance.attendance</field>
-            <field name="inherit_id" ref="attendances.attendance_custom_form"/>
+            <field name="inherit_id" ref="attendances.attendance_custom_form" />
             <field name="priority">100</field>
             <field name="arch" type="xml">
                 <field name="action_type" position="after">
-                    <field name="zone" readonly="1"/>
+                    <field name="zone" readonly="1" />
                 </field>
             </field>
         </record>
@@ -34,28 +41,30 @@
         <record id="attendance_mobile_inherited_tree" model="ir.ui.view">
             <field name="name">attendance.mobile.inherited.tree</field>
             <field name="model">attendance.attendance</field>
-            <field name="inherit_id" ref="attendances.attendance_custom_tree"/>
+            <field name="inherit_id" ref="attendances.attendance_custom_tree" />
             <field name="priority">100</field>
             <field name="arch" type="xml">
                 <field name="action_type" position="after">
-                    <field name="zone"/>
+                    <field name="zone" />
                     <!--                    <field name="latitude"/>-->
                     <!--                    <field name="longitude"/>-->
-                    <button name="open_url" string="Open Location" class="oe_highlight" type="object"
-                            attrs="{'invisible':[('zone','=',False)]}"/>
+                    <button name="open_url" string="Open Location" class="oe_highlight"
+                        type="object"
+                        attrs="{'invisible':[('zone','=',False)]}" />
                 </field>
             </field>
         </record>
 
-        <!--Employee Notification-->
+        <!--Employee
+        Notification-->
         <record id="employee_notification_search" model="ir.ui.view">
             <field name="name">employee.notification.search</field>
             <field name="model">employee.notification</field>
             <field name="arch" type="xml">
                 <search string="Employee Notification">
                     <field name="auto_send" />
-                    <filter name="auto_send" string="Auto"  domain="[('auto_send','=', True)]"/>
-                    <filter name="not_auto_send" string="Manual"  domain="[('auto_send','=', False)]"/>
+                    <filter name="auto_send" string="Auto" domain="[('auto_send','=', True)]" />
+                    <filter name="not_auto_send" string="Manual" domain="[('auto_send','=', False)]" />
                 </search>
             </field>
         </record>
@@ -66,31 +75,39 @@
             <field name="arch" type="xml">
                 <form string="Employee Notification">
                     <header>
-                        <button name="send" string="Send" states="draft" class="oe_highlight" type="object"/>
-                        <field name="state" widget="statusbar"/>
+                        <button name="send" string="Send" states="draft" class="oe_highlight"
+                            type="object" />
+                        <field name="state" widget="statusbar" />
                     </header>
                     <sheet>
                         <div class="oe_title">
-                            <label for="name" class="oe_inline"/>
+                            <label for="name" class="oe_inline" />
                             <h2>
-                                <field name="name" attrs="{'readonly':[('state','!=','draft')],'required':True}"/>
+                                <field name="name"
+                                    attrs="{'readonly':[('state','!=','draft')],'required':True}" />
                             </h2>
                         </div>
                         <group>
-                            <field name="general" attrs="{'readonly':[('state','!=','draft')],'required':True}"/>
-                            <field name="specific" attrs="{'readonly':[('state','!=','draft')],'required':True}"/>
-                            <field name="auto_send" invisible="1"/>
+                            <field name="general"
+                                attrs="{'readonly':[('state','!=','draft')],'required':True}" />
+                            <field name="specific"
+                                attrs="{'readonly':[('state','!=','draft')],'required':True}" />
+                            <field name="auto_send" invisible="1" />
                         </group>
                         <group col="4" colspan="2">
-                            <field name="subject" attrs="{'readonly':[('state','!=','draft')],'required':True}"/>
-                            <field name="number" attrs="{'readonly':[('state','!=','draft')],'required':True}"/>
+                            <field name="subject"
+                                attrs="{'readonly':[('state','!=','draft')],'required':True}" />
+                            <field name="number"
+                                attrs="{'readonly':[('state','!=','draft')],'required':True}" />
                         </group>
                         <group>
-                            <field name="msg" attrs="{'readonly':[('state','!=','draft')],'required':True}"/>
+                            <field name="msg"
+                                attrs="{'readonly':[('state','!=','draft')],'required':True}" />
                         </group>
                         <group>
-                            <field name="employee_ids" nolabel="1" attrs="{'readonly':[('state','!=','draft')]}">
-                                <field name="name"/>
+                            <field name="employee_ids" nolabel="1"
+                                attrs="{'readonly':[('state','!=','draft')]}">
+                                <field name="name" />
                                 <!-- <field name="department_id"/> -->
                             </field>
                         </group>
@@ -104,7 +121,7 @@
             <field name="arch" type="xml">
                 <tree string="Employee Notification">
                     <field name="name" />
-                    <field name="state"/>
+                    <field name="state" />
                 </tree>
             </field>
         </record>
@@ -119,16 +136,15 @@
 
         <!--        <menuitem-->
         <menuitem id="menu_employee_notification"
-                  name="Employee Notification"
-                  parent="attendances.menu_hr_attendance_configurations"
-                  sequence="4"
-                  action="employee_notification_action"/>
+            name="Employee Notification"
+            parent="attendances.menu_hr_attendance_configurations"
+            sequence="4"
+            action="employee_notification_action" />
 
 
+        <!--        Attendance Log      -->
 
-<!--        Attendance Log      -->
-
-         <record model="ir.actions.act_window" id="attendance_log_custom_action">
+        <record model="ir.actions.act_window" id="attendance_log_custom_action">
             <field name="name">Employee attendances Log</field>
             <field name="res_model">attendance.log</field>
             <field name="view_mode">tree,form</field>
@@ -141,12 +157,12 @@
                 <form string="attendances Log">
                     <sheet>
                         <group>
-                            <field name="employee_id"/>
-                            <field name="date"/>
-                            <field name="old"/>
-                            <field name="time"/>
-                            <field name="longitude"/>
-                            <field name="latitude"/>
+                            <field name="employee_id" />
+                            <field name="date" />
+                            <field name="old" />
+                            <field name="time" />
+                            <field name="longitude" />
+                            <field name="latitude" />
                         </group>
                     </sheet>
                 </form>
@@ -158,8 +174,8 @@
             <field name="model">attendance.log</field>
             <field name="arch" type="xml">
                 <tree>
-                    <field name="employee_id"/>
-                    <field name="time"/>
+                    <field name="employee_id" />
+                    <field name="time" />
                 </tree>
             </field>
         </record>
@@ -169,21 +185,23 @@
             <field name="model">attendance.log</field>
             <field name="arch" type="xml">
                 <search string="Attendance Log">
-                    <field name="employee_id"/>
-                    <separator/>
-                    <!-- <filter string="My attendances" domain="[('employee_id.user_id.id', '=', uid)]"/> -->
+                    <field name="employee_id" />
+                    <separator />
+                    <!-- <filter string="My attendances" domain="[('employee_id.user_id.id', '=',
+                    uid)]"/> -->
                     <group expand="0" string="Group By">
-                        <filter name="employee" string="Employee" context="{'group_by':'employee_id'}"/>
-                        <separator/>
+                        <filter name="employee" string="Employee"
+                            context="{'group_by':'employee_id'}" />
+                        <separator />
                     </group>
                 </search>
             </field>
         </record>
         <menuitem id="menu_attendance_log"
-                  name="Attendance Log"
-                  parent="attendances.menu_hr_attendance_configurations"
-                  sequence="5"
-                  action="attendance_log_custom_action"/>
+            name="Attendance Log"
+            parent="attendances.menu_hr_attendance_configurations"
+            sequence="5"
+            action="attendance_log_custom_action" />
 
     </data>
 </odoo>

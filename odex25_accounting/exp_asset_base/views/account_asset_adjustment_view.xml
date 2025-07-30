@@ -35,9 +35,9 @@
             <form string="Asset Adjustment">
                 <header>
                     <button name="act_progress" states="draft" string="Start" type="object" class="oe_highlight"/>
-                    <button name="act_done" states="in_progress" groups='exp_asset_base.group_assets_manager' string="Confirm" type="object" class="oe_highlight"/>
-                    <button name="act_cancel" states="in_progress" groups="exp_asset_base.group_assets_manager" string="Reject" type="object"/>
-                    <button name="act_draft" states="cancel" groups='exp_asset_base.group_assets_manager' string="Set to Draft" type="object" class="oe_highlight"/>
+                    <button name="act_done" states="in_progress" groups='exp_asset_base.group_assets_manager,exp_asset_base.group_asset_chuhad_user' string="Confirm" type="object" class="oe_highlight"/>
+                    <button name="act_cancel" states="in_progress" groups='exp_asset_base.group_assets_manager,exp_asset_base.group_asset_chuhad_user' string="Reject" type="object"/>
+                    <button name="act_draft" states="cancel" groups='exp_asset_base.group_assets_manager,exp_asset_base.group_asset_chuhad_user' string="Set to Draft" type="object" class="oe_highlight"/>
                     <field name="state" widget="statusbar" statusbar_visible="draft,in_progress,done"/>
                 </header>
                 <sheet>

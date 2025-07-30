@@ -56,7 +56,7 @@ class OverTimeController(http.Controller):
             return http_helper.errcode(code=403, message=message)
 
     @http.route(['/rest_api/v2/overtimes'], type='http', auth='none', csrf=False, methods=['GET'])
-    def get_overtime(self,approvel=None,page=None, **kw):
+    def get_overtime(self,approvel=None,done=None,page=None, **kw):
         page = page if page else 1
         page, offset, limit, prev = validator.get_page_pagination(page)
         http_method, body, headers, token = http_helper.parse_request()
@@ -75,8 +75,13 @@ class OverTimeController(http.Controller):
                                         success=False)
         try:
             if approvel:
-                domain = [('state','!=','draft'),('line_ids_over_time.employee_id', '!=', employee.id)]
+                domain = [('state','not in',['refused','validated','draft']),('line_ids_over_time.employee_id', '!=', employee.id)]
                 overtime = http.request.env['employee.overtime.request'].search(domain, order='request_date desc', offset=offset, limit=limit)
+                count = http.request.env['employee.overtime.request'].search_count(domain)
+            elif done:
+                domain = [('state', 'in', ['refused','validated']), ('line_ids_over_time.employee_id', '!=', employee.id)]
+                overtime = http.request.env['employee.overtime.request'].search(domain, order='request_date desc',
+                                                                                offset=offset, limit=limit)
                 count = http.request.env['employee.overtime.request'].search_count(domain)
             else:
                 overtime = http.request.env['employee.overtime.request'].search([('line_ids_over_time.employee_id', '=', employee.id)], order='request_date desc', offset=offset, limit=limit)
@@ -134,8 +139,16 @@ class OverTimeController(http.Controller):
                     value['employees'] = emps
                     over.append(value)
             next = validator.get_page_pagination_next(page, count)
-            url = "/rest_api/v2/overtimes?page=%s" % (approvel, next) if next else False
-            prev_url = "/rest_api/v2/overtimes?page=%s" % (approvel, prev) if prev else False
+            params = []
+            if approvel:
+                params.append("approvel=%s" % approvel)
+            if done:
+                params.append("done=%s" % done)
+
+            # url = "/rest_api/v2/overtimes?approvel=%s&done=%s&page=%s" % (approvel,done, next) if next else False
+            # prev_url = "/rest_api/v2/overtimes?approvel=%s&done=%s&page=%s" % (approvel,done, prev) if prev else False
+            url = f"/rest_api/v2/overtimes?page={next}&{'&'.join(params)}" if next else False
+            prev_url = f"/rest_api/v2/overtimes?page={prev}&{'&'.join(params)}" if prev else False
             data = {'links': {'prev': prev_url, 'next': url, },
                     'count': count, 
                     'results': {'overtimes': over,}}

@@ -25,4 +25,6 @@
     'application': True,
     'installable': True,
     'images': ['static/description/thumbnail2.gif'],
+
+
 }

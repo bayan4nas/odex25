@@ -30,7 +30,7 @@
         'views/hr_payslip.xml',
         'views/employee_overtime.xml',
         'views/templates.xml',
-        # 'views/hr_employee.xml',
+        'views/hr_employee.xml',
         'report/report.xml',
         'data/sequence.xml',
     ],
