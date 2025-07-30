@@ -75,6 +75,11 @@
                                        attrs="{'readonly':[('state','!=','draft')],
                                        'invisible':[('promotion_type','not in',['department','both'])],
                                        'required':[('promotion_type','in',['department','both'])]}"/>
+
+                                <field name="new_employee_type" string="New Employee Type"
+                                       attrs="{'readonly':[('state','!=','draft')],
+                                       'invisible':[('promotion_type','not in',['department','both'])]}"/>
+
                                 <field name="new_manager_id" string="New Manager" readonly="1" force_save="1"
                                        attrs="{'invisible':[('promotion_type','not in',['department','both'])]}"/>
                                 <field name="new_job_id" string="New job"
@@ -92,6 +97,7 @@
                                 <field name="old_manager_id" string="Old Manager" readonly="1" force_save="1"/>
                                 <!--field name="old_job_id" string="Old Job" invisible="1"/-->
                                 <field name="old_job_2_id" string="Old Job" readonly="1" force_save="1"/>
+                                <field name="employee_type" string="Employee Type" readonly="1" force_save="1"/>
                                 <field name="old_job_date" string="Old Job Date" readonly="1" force_save="1"
                                              attrs="{'invisible':[('promotion_type','not in',['job','both'])]}"/>
                                 <label for="service_year" string="Duration"/>
