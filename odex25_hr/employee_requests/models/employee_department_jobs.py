@@ -44,7 +44,11 @@ class EmployeeDepartmentJobs(models.Model):
 
     company_id = fields.Many2one(related='employee_id.company_id', string="Company")
 
-    @api.onchange('new_department_id', 'new_job_id')
+    employee_type = fields.Many2one('hr.contract.type', string="Employee Type",readonly=True, store=True)
+
+    new_employee_type = fields.Many2one('hr.contract.type', string="New Employee Type")
+
+    @api.onchange('new_department_id', 'new_job_id','new_employee_type')
     def not_reused_same_dep_job(self):
         for item in self:
             if item.new_department_id.department_type == 'unit':
@@ -57,6 +61,9 @@ class EmployeeDepartmentJobs(models.Model):
                     raise exceptions.Warning(_('You Can Not Choose The Same Department Name'))
                 if item.old_job_2_id.id == item.new_job_id.id:
                     raise exceptions.Warning(_('You Can Not Choose The Same Job Name'))
+
+                if item.new_employee_type.id == item.employee_type.id:
+                    raise exceptions.Warning(_('You Can Not Choose The Same Employee Type'))
 
             if  item.new_job_id:
               if item.new_job_id.no_of_recruitment < 1:
@@ -74,6 +81,7 @@ class EmployeeDepartmentJobs(models.Model):
             item.old_job_2_id = item.employee_id.job_id
             item.old_manager_id = item.old_department_2_id.manager_id
             item.old_job_date = item.employee_id.joining_date
+            item.employee_type = item.employee_id.employee_type_id
 
     @api.depends('date', 'old_job_date')
     def _compute_duration(self):
@@ -129,7 +137,8 @@ class EmployeeDepartmentJobs(models.Model):
             if item.promotion_type == 'department':
                 if item.new_department_id:
                     item.employee_id.write({
-                        'department_id': item.new_department_id.id
+                        'department_id': item.new_department_id.id,
+                        'employee_type_id': item.new_employee_type.id
                     })
                     item.employee_id._onchange_department()
             elif item.promotion_type == 'job':
@@ -143,7 +152,8 @@ class EmployeeDepartmentJobs(models.Model):
                     item.employee_id.write({
                         'department_id': item.new_department_id.id,
                         'job_id': item.new_job_id.id,
-                        'joining_date': item.date
+                        'joining_date': item.date,
+                        'employee_type_id': item.new_employee_type.id
                     })
                     item.employee_id._onchange_department()
         self.state = 'approved'
@@ -164,7 +174,8 @@ class EmployeeDepartmentJobs(models.Model):
             if item.promotion_type == 'department':
                 if item.new_department_id:
                     item.employee_id.write({
-                        'department_id': item.old_department_2_id.id
+                        'department_id': item.old_department_2_id.id,
+                        'employee_type_id': item.employee_type.id
                     })
                     item.employee_id._onchange_department()
             elif item.promotion_type == 'job':
@@ -178,7 +189,8 @@ class EmployeeDepartmentJobs(models.Model):
                     item.employee_id.write({
                         'department_id': item.old_department_2_id.id,
                         'job_id': item.old_job_2_id.id,
-                        'joining_date': item.old_job_date
+                        'joining_date': item.old_job_date,
+                        'employee_type_id': item.employee_type.id
                     })
                     item.employee_id._onchange_department()
             if previous_record:
