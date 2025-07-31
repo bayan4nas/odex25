@@ -199,8 +199,11 @@
                             <page string="Social Insurance and Security">
                                 <group>
                                     <group string="Social Insurance">
-                                        <field name="social_insurance_income"/>
-                                        <field name="social_insurance_status"/>
+                                         <field name="social_security_state"/>
+                                        <field name="social_security_income"
+                                               attrs="{'invisible': [('social_security_state', '=', False)]}"/>
+                                        <field name="social_security_status"
+                                               attrs="{'invisible': [('social_security_state', '=', False)]}"/>
                                     </group>
                                     <group string="Social Security">
                                         <field name="social_security_state"/>
