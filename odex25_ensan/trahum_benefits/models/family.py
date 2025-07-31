@@ -433,7 +433,7 @@ class GrantBenefitMember(models.Model):
     # relationship = fields.Many2one(related='member_id.relation_id', string="Relationship", readonly=True)
     is_breadwinner = fields.Boolean(string=" Is Breadwinner?")
     relation_id = fields.Many2one('family.member.relation', string='Relation with res')
-    rel_with_resd = fields.Char(string='Relation', default='Follower')
+    rel_with_resd = fields.Char(string='Relation', default=lambda self: _('Follower'))
 
 
 class GrantBenefitBreadwinner(models.Model):
@@ -443,4 +443,4 @@ class GrantBenefitBreadwinner(models.Model):
     grant_benefit_ids = fields.Many2one('grant.benefit', string="Grant Benefit", ondelete="cascade")
     member_name = fields.Many2one('family.member', string="Member name")
     relation_id = fields.Many2one('family.member.relation', string='Relation with res')
-    breadwinner = fields.Char(string='Breadwinner', default='Breadwinner')
+    breadwinner = fields.Char(string='Breadwinner', default=lambda self: _('Breadwinner'))
