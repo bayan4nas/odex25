@@ -332,6 +332,11 @@ msgid "Beneficiary Category"
 msgstr "حالة المستفيد اﻷساسي"
 
 #. module: trahum_benefits
+#: model:ir.model.fields,field_description:trahum_benefits.field_grant_benefit__beneficiary_category
+msgid "Beneficiary Category"
+msgstr "الفئة المستفيدة"
+
+#. module: trahum_benefits
 #: model:ir.model.fields,field_description:trahum_benefits.field_attachment__benefit_id
 #: model:ir.model.fields,field_description:trahum_benefits.field_benefit_rejection_wizard__benefit_id
 #: model:ir.model.fields,field_description:trahum_benefits.field_expenses_line__benefit_id
@@ -409,7 +414,7 @@ msgstr ""
 #. module: trahum_benefits
 #: model:ir.model.fields,field_description:trahum_benefits.field_grant_benefit__branch_details_id
 msgid "Branch Name"
-msgstr "اسم الفرع"
+msgstr "اللجنة الفرعية"
 
 #. module: trahum_benefits
 #: model_terms:ir.ui.view,arch_db:trahum_benefits.view_nazil_kanban_custom
@@ -424,10 +429,17 @@ msgstr "بيانات الفرع"
 #. module: trahum_benefits
 #: model:ir.model.fields,field_description:trahum_benefits.field_grant_benefit__breadwinner_member_id
 #: model:ir.model.fields,field_description:trahum_benefits.field_grant_benefit__breadwinner_name
+#: model:ir.model.fields,field_description:trahum_benefits.field_grant_benefit_breadwinner__breadwinner
 #: model:ir.model.fields.selection,name:trahum_benefits.selection__family_member__benefit_type__breadwinner
+#: model_terms:ir.ui.view,arch_db:trahum_benefits.view_grant_benefit_form
 #: model_terms:ir.ui.view,arch_db:trahum_benefits.view_grant_benefit_search
 msgid "Breadwinner"
 msgstr "العائل"
+
+#. module: trahum_benefits
+#: model:ir.model.fields,field_description:trahum_benefits.field_grant_benefit_breadwinner__member_name
+msgid "Member name"
+msgstr "الفرد"
 
 #. module: trahum_benefits
 #: model:ir.model.fields,field_description:trahum_benefits.field_family_member__building_number
@@ -2306,9 +2318,14 @@ msgstr ""
 #: model:ir.model.fields,field_description:trahum_benefits.field_family_member__relation_id
 #: model:ir.model.fields,field_description:trahum_benefits.field_family_member_relation__name
 #: model:ir.model.fields,field_description:trahum_benefits.field_grant_benefit__relation_id
-#: model:ir.model.fields,field_description:trahum_benefits.field_grant_benefit_member__relation_id
 msgid "Relation"
 msgstr "العلاقة بالنزيل"
+
+#. module: trahum_benefits
+#: model:ir.model.fields,field_description:trahum_benefits.field_grant_benefit_member__relation_id
+msgid "Relation with res"
+msgstr "صلة القرابة"
+
 
 #. module: trahum_benefits
 #: model:ir.model.fields,field_description:trahum_benefits.field_grant_benefit__relation_to_family
