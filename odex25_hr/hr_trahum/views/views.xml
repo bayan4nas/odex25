@@ -675,7 +675,8 @@
         <field name="inherit_id" ref="hr_contract_custom.hr_contract_form_view"/>
         <field name="arch" type="xml">
             <field name="class_contract" position="after">
-                <field name="delgiation_status_type"/>
+                <field name="delgiation_status_type" string="Delgiation Type"  required='1'
+                       attrs="{'readonly':[('state','!=','draft')]}"/>
             </field>
         </field>
     </record>

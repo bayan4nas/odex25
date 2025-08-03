@@ -175,7 +175,7 @@ class HrContractTrahum(models.Model):
     delgiation_status_type = fields.Selection(selection=[
         ('employee', 'Employee'),
         ('manager', 'Manager'),
-        ('gm', 'General Manager'), ])
+        ('gm', 'General Manager'), ],string='Delgiation Type')
 
     # def action_sector_head_approval(self):
     #     """Approve contract by Sector Head"""
