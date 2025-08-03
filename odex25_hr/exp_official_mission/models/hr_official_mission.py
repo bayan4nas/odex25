@@ -36,8 +36,8 @@ class HrOfficialMission(models.Model):
                               ('approve', _('Approved')),
                               ('refused', _('Refused'))], default="draft", tracking=True)
     duration_type = fields.Selection(default='days', related='mission_type.duration_type')
-    move_type = fields.Selection(selection=[('payroll', _('Payroll')),
-                                            ('accounting', _('Accounting'))], default='payroll')
+    move_type = fields.Selection(selection=[('payroll', _('Payroll')),('accounting', _('Accounting'))],
+                                             default='accounting', tracking=True)
     related_with_financial = fields.Boolean(related='mission_type.related_with_financial')
 
     # Relational fields
