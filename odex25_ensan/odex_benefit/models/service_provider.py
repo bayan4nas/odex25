@@ -8,5 +8,5 @@ class ServiceProvider(models.Model):
     need_partner = fields.Boolean(string="Need Partner",default=False)
 
     _sql_constraints = [
-        ("name_unique", "unique(name)", "الاسم موجود مسبقًا!"),
+        ("name_unique", "unique(name)", "the name its take it"),
     ]
