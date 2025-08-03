@@ -1,0 +1,337 @@
+<odoo>
+    <data>
+
+        <record id="email_template_appraisal_request_employee" model="mail.template">
+            <field name="name">Performance Appraisal Notification</field>
+            <field name="model_id" ref="exp_hr_appraisal_kpi.model_hr_employee_appraisal"/>
+            <field name="email_to">${object.employee_id.work_email}</field>
+            <field name="subject">إشعار بدء تقييم الأداء - ${object.employee_id.name}</field>
+            <field name="body_html">
+                   <![CDATA[
+                   <div style="font-family: Arial, sans-serif; text-align: right; direction: rtl; background-color: #f4f4f4; padding: 20px;">
+                       <!-- Header with Logo -->
+
+                       <div style="text-align: right; padding: 15px; background-color: #ffffff;">
+                           <img src="${object.company_id.get_base_url()}/web/image/res.company/${object.company_id.id}/logo" alt="Company Logo"
+                                 style="max-width: 150px; height: auto;"/>
+                       </div>
+
+                       <!-- Title Section -->
+                       <div style="background-color: #006666; color: #ffffff; padding: 15px; text-align: center; font-size: 18px; font-weight: bold;">
+                         إشعار بدء تقييم الأداء
+                       </div>
+
+                       <!-- Content Section -->
+                       <div style="background-color: #ffffff; padding: 20px; border-radius: 10px; margin: 20px auto; max-width: 600px;">
+                          <p style="font-size: 16px;">عزيزي/تي <strong>${object.employee_id.name}</strong>,</p>
+                          <p style="font-size: 14px;">
+                                نود إعلامك ببدء عملية تقييم أدائك للفترة من
+                                <strong>${object.year_id.date_start}</strong>
+                                إلى
+                                <strong>${object.year_id.date_end}</strong>.
+                          </p>
+                          <div style="margin: 20px 0; text-align: center;">
+                             <a href="${object.get_base_url()}/web#id=${object.id}&model=hr.employee.appraisal&view_type=form"
+                                style="background-color: #006666; color: #fff; padding: 12px 20px; text-decoration: none; font-size: 16px; font-weight: bold; border-radius: 5px; display: inline-block;">
+                                عرض التقييم
+                             </a>
+                          </div>
+                          <p style="font-size: 14px;">
+                                يُرجى متابعة الإجراءات مع مديرك المباشر واتخاذ الخطوات اللازمة لضمان نجاح التقييم.
+                          </p>
+                           <p>مع جزيل الشكر.</p>
+                           <p><strong>فريق الموارد البشرية</strong></p>
+                       </div>
+
+                       <!-- Footer -->
+                       <div style="text-align: center; font-size: 12px; color: #666;">
+                           للاستفسارات، يرجى التواصل عبر البريد الإلكتروني:
+                           <a href="mailto:performance@yourcompany.com" style="color: #007867;">performance@example.com</a>
+                       </div>
+                   </div>
+                ]]>
+            </field>
+        </record>
+
+        <record id="email_template_appraisal_request_manager" model="mail.template">
+            <field name="name">Appraisal Request Approval by Direct Manager</field>
+            <field name="model_id" ref="exp_hr_appraisal_kpi.model_hr_employee_appraisal"/>
+            <field name="email_to">${object.sudo().manager_id.work_email}</field>
+            <field name="subject">تقييم الأداء للموظف: ${object.employee_id.name}</field>
+            <field name="body_html">
+                <![CDATA[
+                   <div style="font-family: Arial, sans-serif; text-align: right; direction: rtl; background-color: #f4f4f4; padding: 20px;">
+                       <!-- Header with Logo -->
+
+                       <div style="text-align: right; padding: 15px; background-color: #ffffff;">
+                           <img src="${object.company_id.get_base_url()}/web/image/res.company/${object.company_id.id}/logo" alt="Company Logo"
+                                 style="max-width: 150px; height: auto;"/>
+                       </div>
+
+                       <!-- Title Section -->
+                       <div style="background-color: #006666; color: #ffffff; padding: 15px; text-align: center; font-size: 18px; font-weight: bold;">
+                          طلب تقييم أداء للإعتماد
+                       </div>
+
+                       <!-- Content Section -->
+                       <div style="background-color: #ffffff; padding: 20px; border-radius: 10px; margin: 20px auto; max-width: 600px;">
+                           <p style="font-size: 16px;">عزيزي/تي <strong>${object.sudo().manager_id.name}</strong>,</p>
+                            <p>تم إرسال تقييم أداء الموظف <strong>${object.employee_id.name}</strong></p>
+                            <p> للفترة من <strong>${object.year_id.date_start}</strong> إلى <strong>${object.year_id.date_end}</strong>.</p>
+                            <div style="margin: 20px 0; text-align: center;">
+                             <a href="${object.get_base_url()}/web#id=${object.id}&model=hr.employee.appraisal&view_type=form"
+                                style="background-color: #006666; color: #fff; padding: 12px 20px; text-decoration: none; font-size: 16px; font-weight: bold; border-radius: 5px; display: inline-block;">
+                                عرض التقييم
+                             </a>
+                          </div>
+                           <p>يرجى مراجعة التقييم النهائي واتخاذ الإجراءات المناسبة.</p>
+                           <p>مع جزيل الشكر.</p>
+                           <p><strong>فريق الموارد البشرية</strong></p>
+                       </div>
+
+                       <!-- Footer -->
+                       <div style="text-align: center; font-size: 12px; color: #666;">
+                           للاستفسارات، يرجى التواصل عبر البريد الإلكتروني:
+                           <a href="mailto:performance@yourcompany.com" style="color: #007867;">performance@example.com</a>
+                       </div>
+                   </div>
+                ]]>
+            </field>
+        </record>
+
+         <record id="email_template_appraisal_request_executive_director" model="mail.template">
+            <field name="name">Appraisal Request Approval by Executive Director</field>
+            <field name="model_id" ref="exp_hr_appraisal_kpi.model_hr_employee_appraisal"/>
+            <field name="email_to">${object.sudo().coach_id.work_email}</field>
+            <field name="subject">تقييم الأداء للموظف: ${object.employee_id.name}</field>
+            <field name="body_html">
+                <![CDATA[
+                   <div style="font-family: Arial, sans-serif; text-align: right; direction: rtl; background-color: #f4f4f4; padding: 20px;">
+                       <!-- Header with Logo -->
+
+                       <div style="text-align: right; padding: 15px; background-color: #ffffff;">
+                           <img src="${object.company_id.get_base_url()}/web/image/res.company/${object.company_id.id}/logo" alt="Company Logo"
+                                 style="max-width: 150px; height: auto;"/>
+                       </div>
+
+                       <!-- Title Section -->
+                       <div style="background-color: #006666; color: #ffffff; padding: 15px; text-align: center; font-size: 18px; font-weight: bold;">
+                          طلب تقييم أداء للإعتماد
+                       </div>
+
+                       <!-- Content Section -->
+                       <div style="background-color: #ffffff; padding: 20px; border-radius: 10px; margin: 20px auto; max-width: 600px;">
+                           <p style="font-size: 16px;">عزيزي/تي <strong>${object.sudo().coach_id.name}</strong>,</p>
+                            <p>تم إرسال تقييم أداء الموظف <strong>${object.employee_id.name}</strong></p>
+                            <p> للفترة من <strong>${object.year_id.date_start}</strong> إلى <strong>${object.year_id.date_end}</strong>.</p>
+                            <div style="margin: 20px 0; text-align: center;">
+                             <a href="${object.get_base_url()}/web#id=${object.id}&model=hr.employee.appraisal&view_type=form"
+                                style="background-color: #006666; color: #fff; padding: 12px 20px; text-decoration: none; font-size: 16px; font-weight: bold; border-radius: 5px; display: inline-block;">
+                                عرض التقييم
+                             </a>
+                          </div>
+                           <p>يرجى مراجعة التقييم النهائي واتخاذ الإجراءات المناسبة.</p>
+                           <p>مع جزيل الشكر.</p>
+                           <p><strong>فريق الموارد البشرية</strong></p>
+                       </div>
+
+                       <!-- Footer -->
+                       <div style="text-align: center; font-size: 12px; color: #666;">
+                           للاستفسارات، يرجى التواصل عبر البريد الإلكتروني:
+                           <a href="mailto:performance@yourcompany.com" style="color: #007867;">performance@example.com</a>
+                       </div>
+                   </div>
+                ]]>
+            </field>
+        </record>
+
+
+        <record id="email_template_appraisal_request_performance_officer" model="mail.template">
+            <field name="name">Appraisal Request Submitted to Performance Officer</field>
+            <field name="model_id" ref="exp_hr_appraisal_kpi.model_hr_employee_appraisal"/>
+            <field name="subject">تقييم الأداء للموظف: ${object.employee_id.name}</field>
+            <field name="body_html">
+                 <![CDATA[
+                    <div style="font-family: Arial, sans-serif; text-align: right; direction: rtl; background-color: #f4f4f4; padding: 20px;">
+                        <!-- Header with Logo -->
+
+                        <div style="text-align: right; padding: 15px; background-color: #ffffff;">
+                            <img src="${object.company_id.get_base_url()}/web/image/res.company/${object.company_id.id}/logo" alt="Company Logo"
+                                 style="max-width: 150px; height: auto;"/>
+                        </div>
+
+                        <!-- Title Section -->
+                        <div style="background-color: #006666; color: #ffffff; padding: 15px; text-align: center; font-size: 18px; font-weight: bold;">
+                          طلب تقييم أداء للإعتماد
+                        </div>
+
+                        <!-- Content Section -->
+                        <div style="background-color: #ffffff; padding: 20px; border-radius: 10px; margin: 20px auto; max-width: 600px;">
+                            <p><strong>السادة مسؤولي إدارة التقييم </strong>,</p>
+                            <p>تم إرسال تقييم أداء الموظف <strong>${object.employee_id.name}</strong></p>
+                            <p> للفترة من <strong>${object.year_id.date_start}</strong> إلى <strong>${object.year_id.date_end}</strong>.</p>
+                            <div style="margin: 20px 0; text-align: center;">
+                             <a href="${object.get_base_url()}/web#id=${object.id}&model=hr.employee.appraisal&view_type=form"
+                                style="background-color: #006666; color: #fff; padding: 12px 20px; text-decoration: none; font-size: 16px; font-weight: bold; border-radius: 5px; display: inline-block;">
+                                عرض التقييم
+                             </a>
+                          </div>
+                           <p>يرجى مراجعة التقييم النهائي واتخاذ الإجراءات المناسبة.</p>
+                           <p>مع جزيل الشكر.</p>
+                           <p><strong>فريق الموارد البشرية</strong></p>
+                        </div>
+
+                        <!-- Footer -->
+                        <div style="text-align: center; font-size: 12px; color: #666;">
+                            للاستفسارات، يرجى التواصل عبر البريد الإلكتروني:
+                            <a href="mailto:performance@yourcompany.com" style="color: #007867;">performance@example.com</a>
+                        </div>
+                    </div>
+            ]]>
+            </field>
+        </record>
+
+        <record id="email_template_appraisal_request_performance_manager" model="mail.template">
+            <field name="name">Appraisal Request Approved by Performance Manager</field>
+            <field name="model_id" ref="exp_hr_appraisal_kpi.model_hr_employee_appraisal"/>
+            <field name="subject">تقييم الأداء للموظف: ${object.employee_id.name}</field>
+            <field name="body_html">
+            <![CDATA[
+                    <div style="font-family: Arial, sans-serif; text-align: right; direction: rtl; background-color: #f4f4f4; padding: 20px;">
+                        <!-- Header with Logo -->
+
+                        <div style="text-align: right; padding: 15px; background-color: #ffffff;">
+                            <img src="${object.company_id.get_base_url()}/web/image/res.company/${object.company_id.id}/logo" alt="Company Logo"
+                                 style="max-width: 150px; height: auto;"/>
+                        </div>
+
+                        <!-- Title Section -->
+                        <div style="background-color: #006666; color: #ffffff; padding: 15px; text-align: center; font-size: 18px; font-weight: bold;">
+                           طلب تقييم أداء للإعتماد
+                        </div>
+
+                        <!-- Content Section -->
+                        <div style="background-color: #ffffff; padding: 20px; border-radius: 10px; margin: 20px auto; max-width: 600px;">
+                            <p><strong>السيد مدير إدارة التقييم </strong>,</p>
+                            <p>تم إرسال تقييم أداء الموظف <strong>${object.employee_id.name}</strong></p>
+                            <p> للفترة من <strong>${object.year_id.date_start}</strong> إلى <strong>${object.year_id.date_end}</strong>.</p>
+                            <div style="margin: 20px 0; text-align: center;">
+                             <a href="${object.get_base_url()}/web#id=${object.id}&model=hr.employee.appraisal&view_type=form"
+                                style="background-color: #006666; color: #fff; padding: 12px 20px; text-decoration: none; font-size: 16px; font-weight: bold; border-radius: 5px; display: inline-block;">
+                                عرض التقييم
+                             </a>
+                          </div>
+                           <p>يرجى مراجعة التقييم النهائي واتخاذ الإجراءات المناسبة.</p>
+                           <p>مع جزيل الشكر.</p>
+                           <p><strong>فريق الموارد البشرية</strong></p>
+                        </div>
+
+                        <!-- Footer -->
+                        <div style="text-align: center; font-size: 12px; color: #666;">
+                            للاستفسارات، يرجى التواصل عبر البريد الإلكتروني:
+                            <a href="mailto:performance@yourcompany.com" style="color: #007867;">performance@example.com</a>
+                        </div>
+                    </div>
+            ]]>
+            </field>
+        </record>
+        <record id="email_template_appraisal_stage_notification" model="mail.template">
+            <field name="name">Appraisal Stage Notification - Division Managers</field>
+            <field name="model_id" ref="exp_hr_appraisal_kpi.model_goals_stages"/>
+            <field name="subject">إشعار بدء مرحلة التقييم: ${object.name}</field>
+            <field name="body_html">
+                       <![CDATA[
+        <div style="font-family: sans-serif; text-align: right; direction: rtl; background-color: #f4f4f4; padding: 20px;">
+            <!-- Header with Logo -->
+
+            <div style="text-align: right; padding: 15px; background-color: #ffffff;">
+                <img src="${object.company_id.get_base_url()}/web/image/res.company/${object.company_id.id}/logo" alt="Company Logo"
+                     style="max-width: 150px; height: auto;"/>
+            </div>
+
+            <!-- Title Section -->
+            <div style="background-color: #006666; color: #ffffff; padding: 15px; text-align: center; font-size: 18px; font-weight: bold;">
+                إشعار بدء مرحلة التقييم
+            </div>
+
+            <!-- Content Section -->
+            <div style="background-color: #ffffff; padding: 20px; border-radius: 10px; margin: 20px auto; max-width: 600px;">
+                <p><strong>عزيزي/تي مدير القسم</strong>,</p>
+                <p>نود إشعارك بأن مرحلة التقييم <strong>${object.name}</strong> قد بدأت.</p>
+
+                <ul style="padding-right: 20px; line-height: 1.8;">
+                    <li><strong>تاريخ البدء:</strong> ${object.start_date}</li>
+                            <li><strong>تاريخ الانتهاء:</strong> ${object.end_date}</li>
+                </ul>
+                <p>يرجى اتخاذ الإجراءات المناسبة.</p>
+                        <p>مع جزيل الشكر.</p>
+                        <p><strong>فريق الموارد البشرية</strong></p>
+            </div>
+
+            <!-- Footer -->
+            <div style="text-align: center; font-size: 12px; color: #666;">
+                للاستفسارات، يرجى التواصل عبر البريد الإلكتروني:
+                <a href="mailto:performance@yourcompany.com" style="color: #007867;">performance@example.com</a>
+            </div>
+        </div>
+    ]]>
+            </field>
+        </record>
+        <record id="email_template_appraisal_result" model="mail.template">
+            <field name="name">إشعار نتيجة تقييم الأداء</field>
+            <field name="model_id" ref="exp_hr_appraisal_kpi.model_hr_employee_appraisal"/>
+            <field name="subject">نتيجة تقييم الأداء</field>
+<!--            <field name="email_from">${(object.env.user.email or 'no-reply@yourcompany.com')}</field>-->
+            <field name="email_to">${object.employee_id.work_email or ''}</field>
+            <field name="body_html">
+                <![CDATA[
+        <div style="font-family: Arial, sans-serif; text-align: right; direction: rtl; background-color: #f4f4f4; padding: 20px;">
+            <!-- Header with Logo -->
+
+            <div style="text-align: right; padding: 15px; background-color: #ffffff;">
+                <img src="${object.company_id.get_base_url()}/web/image/res.company/${object.company_id.id}/logo" alt="Company Logo"
+                     style="max-width: 150px; height: auto;"/>
+            </div>
+
+            <!-- Title Section -->
+            <div style="background-color: #006666; color: #ffffff; padding: 15px; text-align: center; font-size: 18px; font-weight: bold;">
+                إشعار نتيجة تقييم الأداء
+            </div>
+
+            <!-- Content Section -->
+            <div style="background-color: #ffffff; padding: 20px; border-radius: 10px; margin: 20px auto; max-width: 600px;">
+                <p>عزيزي <strong>${object.employee_id.name}</strong>,</p>
+                <p>يسرنا إبلاغك بنتائج تقييم أدائك للفترة التالية:</p>
+
+                <ul style="padding-right: 20px; line-height: 1.8;">
+                    <li><strong>فترة التقييم:</strong> ${object.year_id.name}</li>
+                    <li><strong>تاريخ التقييم:</strong> ${object.appraisal_date}</li>
+                    <li><strong>علامة تقييم الأهداف:</strong> ${'{:.2f}'.format(object.goals_mark)}</li>
+                    <li><strong>علامة تقييم المهارات:</strong> ${'{:.2f}'.format(object.skill_mark)}</li>
+                    <li><strong>المجموع الكلي:</strong> ${'{:.2f}'.format(object.total_score)}</li>
+                    <li><strong>نتيجة التقييم:</strong> ${object.appraisal_result.name}</li>
+                </ul>
+
+                <div style="margin: 20px 0; text-align: center;">
+                    <a href="${object.get_base_url()}/web#id=${object.id}&model=hr.employee.appraisal&view_type=form"
+                       style="background-color: #006666; color: #fff; padding: 12px 20px; text-decoration: none; font-size: 16px; font-weight: bold; border-radius: 5px; display: inline-block;">
+                        عرض التقييم
+                    </a>
+                </div>
+
+                <p style="color: #555;">يرجى التواصل مع مديرك المباشر في حال كان لديك أي استفسارات.</p>
+            </div>
+
+            <!-- Footer -->
+            <div style="text-align: center; font-size: 12px; color: #666;">
+                للاستفسارات، يرجى التواصل عبر البريد الإلكتروني:
+                <a href="mailto:performance@yourcompany.com" style="color: #007867;">performance@example.com</a>
+            </div>
+        </div>
+    ]]>
+            </field>
+        </record>
+
+
+    </data>
+</odoo>

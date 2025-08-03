@@ -12,7 +12,6 @@
                             <field name="name" string="Plan name" required="1"/>
                             <field name="department_id" string="Department"/>
                             <field name="is_manager" string="Is manager?"/>
-                            <field name="company_id" groups="base.group_multi_company" readonly="1"/>
                         </group>
 
                         <field name="standard_appraisal_id" string=""
@@ -78,8 +77,8 @@
         </record>
 
         <!-- This Menu Item Must have a parent -->
-        <menuitem id="appraisal_configuration" name="Configuration" parent="appraisal_menu_id" sequence="3"
-                  groups="exp_hr_appraisal.group_appraisal_manager"/>
+        <menuitem id="appraisal_configuration" name="Configuration" parent="appraisal_menu_id" sequence="10"
+                  groups="exp_hr_appraisal.group_appraisal_manager,exp_hr_appraisal.group_appraisal_employee"/>
         <!-- This Menu Item must have a parent and an action -->
         <menuitem id="appraisal_plan_menu" name="Appraisal plan" parent="appraisal_configuration"
                   action="appraisal_plan_action_view" sequence="1"/>
