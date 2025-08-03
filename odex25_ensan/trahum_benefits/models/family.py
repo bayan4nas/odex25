@@ -211,7 +211,8 @@ class GrantBenefit(models.Model):
     def _compute_member_count(self):
         self.member_count = 0
         for rec in self:
-            rec.member_count = len(rec.benefit_member_ids)
+            filtered = rec.benefit_breadwinner_ids.filtered(lambda bw: bw.relation_id.name != 'زوجة مطلقة')
+            rec.member_count = len(rec.benefit_member_ids) + len(filtered)
 
     def action_revert_state(self):
         return {
