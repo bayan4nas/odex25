@@ -44,7 +44,7 @@ class EmployeeDepartmentJobs(models.Model):
 
     company_id = fields.Many2one(related='employee_id.company_id', string="Company")
 
-    employee_type = fields.Many2one(comodel_name='hr.contract.type', string="Employee Type",readonly=True)
+    employee_type = fields.Many2one(comodel_name='hr.contract.type', string="Employee Type")
 
     new_employee_type = fields.Many2one(comodel_name='hr.contract.type', string="New Employee Type")
 
