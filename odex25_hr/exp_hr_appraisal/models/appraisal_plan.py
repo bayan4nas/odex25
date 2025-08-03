@@ -17,7 +17,6 @@ class AppraisalPlan(models.Model):
     department_id = fields.Many2one('hr.department')
     standard_appraisal_id = fields.One2many('standard.appraisal', 'standard_appraisal_line')
     manager_appraisal_id = fields.One2many('manager.appraisal', 'manager_appraisal_line')
-    company_id = fields.Many2one('res.company', string='Company', default=lambda self: self.env.company)
 
     # Compute total field
 

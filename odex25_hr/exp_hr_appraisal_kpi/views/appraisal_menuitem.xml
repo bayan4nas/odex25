@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <menuitem name="Goals"
+              id="menu_kpi_categories"
+              parent="exp_hr_appraisal.appraisal_configuration"
+              action="kpi_scorecard.kpi_category_action"
+              sequence="1"
+              groups="kpi_scorecard.group_kpi_admin,exp_hr_appraisal.group_appraisal_employee,exp_hr_appraisal.group_appraisal_manager"/>
+    <menuitem name="KPI"
+              id="menu_kpi_kpi"
+              parent="exp_hr_appraisal.appraisal_configuration"
+              action="kpi_scorecard.kpi_item_action"
+              sequence="2"
+              groups="kpi_scorecard.group_kpi_admin,exp_hr_appraisal.group_appraisal_manager,exp_hr_appraisal.group_appraisal_employee"/>
+    <menuitem
+            id="menu_kpi_period"
+            parent="exp_hr_appraisal.appraisal_configuration"
+            action="kpi_scorecard.kpi_period_action"
+            sequence="4"
+            groups="kpi_scorecard.group_kpi_admin,exp_hr_appraisal.group_appraisal_manager,exp_hr_appraisal.group_appraisal_employee"/>
+
+    <menuitem name="Goals and Skills" id="menu_kpi_goal_skill" parent="exp_hr_appraisal.appraisal_menu_id" active="False"
+              sequence="3"/>
+
+
+    <record model="ir.ui.menu" id="exp_hr_appraisal.appraisal_plan_menu">
+        <field name="groups_id" eval="[(6,0,[ref('exp_hr_appraisal_kpi.apprisal_kpi_group')])]"/>
+    </record>
+
+    <record model="ir.ui.menu" id="exp_hr_appraisal.appraisal_setting_menu">
+        <field name="groups_id" eval="[(6,0,[ref('exp_hr_appraisal_kpi.apprisal_kpi_group')])]"/>
+    </record>
+    <record model="ir.ui.menu" id="exp_hr_appraisal.appraisal_menu">
+        <field name="groups_id" eval="[(6,0,[ref('exp_hr_appraisal_kpi.apprisal_kpi_group')])]"/>
+    </record>
+
+    <record model="ir.ui.menu" id="exp_hr_appraisal.appraisal_degree_menu">
+        <field name="groups_id" eval="[(6,0,[ref('exp_hr_appraisal_kpi.apprisal_kpi_group')])]"/>
+    </record>
+</odoo>

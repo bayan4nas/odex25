@@ -27,6 +27,8 @@
                     </header>
                     <sheet>
                         <group>
+                            <field name="name" string="Name" required="1"
+                                       attrs="{'readonly':[('state','!=','draft')]}"/>
                             <group>
                                 <field name="date" string="Date" required="1"
                                        attrs="{'readonly':[('state','!=','draft')]}"/>
@@ -98,7 +100,6 @@
 
             </field>
         </record>
-
         <record model="ir.actions.act_window" id="employee_appraisal_action">
             <field name="name">Appraisal for employees</field>
             <field name="res_model">hr.group.employee.appraisal</field>
@@ -113,7 +114,6 @@
         <menuitem name="Appraisal for employees" id="employee_appraisal_menu_item"
                   parent="appraisal_menu_id"
                   action="employee_appraisal_action"
-                  groups="exp_hr_appraisal.group_appraisal_user"
                   sequence="1"/>
 
     </data>

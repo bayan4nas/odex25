@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <template id="performance_evaluation_report">
+            <t t-call="web.html_container">
+                <t t-call="hr_base.hr_layout">
+                    <style>
+                        @font-face {
+                        font-family: "Sakkal Majalla";
+                        src: url("/employee_requests/static/fonts/ce7b5754581057e6f7444e2192850cc8.eot");
+                        src: url("/employee_requests/static/fonts/ce7b5754581057e6f7444e2192850cc8.eot?#iefix")
+                        format("embedded-opentype"),
+                        url("/employee_requests/static/fonts/ce7b5754581057e6f7444e2192850cc8.woff2") format("woff2"),
+                        url("/employee_requests/static/fonts/ce7b5754581057e6f7444e2192850cc8.woff") format("woff"),
+                        url("/employee_requests/static/fonts/ce7b5754581057e6f7444e2192850cc8.ttf") format("truetype");
+                        }
+
+                        /* General Report Styling */
+                        .report-container {
+                        font-family: "Sakkal Majalla" !important;
+                        direction: rtl;
+                        font-size: 15pt;
+                        padding: 20px;
+                        }
+
+                        .report-header {
+                        text-align: center;
+                        margin-bottom: 20px;
+                        }
+
+                        .report-header h2 {
+                        font-weight: bold;
+                        }
+
+                        .report-header p {
+                        font-size: 14pt;
+                        font-weight: bold;
+                        }
+
+                        /* Table Styling */
+                        .table-bordered {
+                        width: 100%;
+                        border-collapse: collapse;
+                        text-align: center;
+                        }
+
+                        .table-bordered th, .table-bordered td {
+                        border: 1px solid #333;
+                        padding: 10px;
+                        }
+
+                        .table-bordered thead,.table-bordered thead tr {
+                        background-color: #006666;
+                        color: white;
+                        font-weight: bold;
+                        }
+
+
+                        /* Align Numbers */
+                        .text-right {
+                        text-align: right;
+                        }
+                    </style>
+
+                    <div class="report-container">
+                        <!-- Report Header -->
+                        <div class="report-header">
+                            <h2>ملخص تقييم الأداء</h2>
+                            <p>فترة التاريخ:
+                                <t t-esc="date_from"/>
+                                -
+                                <t t-esc="date_to"/>
+                            </p>
+                        </div>
+
+                        <!-- Employee Info -->
+                        <table class="table-bordered">
+                            <thead>
+                                <tr>
+                                    <t t-foreach="labels" t-as="label">
+                                        <th>
+                                            <t t-esc="label"/>
+                                        </th>
+                                    </t>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="docs" t-as="doc">
+                                    <tr>
+                                        <td>
+                                            <t t-esc="doc.employee_id.emp_no or ''"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="doc.employee_id.name or ''"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="doc.employee_id.department_id.name or ''"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="doc.employee_id.job_id.name or ''"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="doc.appraisal_stage_id.name or ''"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="doc.appraisal_date.strftime('%Y-%m-%d') if doc.appraisal_date else ''"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="doc.year_id.name or ''"/>
+                                        </td>
+                                        <td class="text-right">
+                                            <t t-esc="round(doc.goals_mark or 0,2)"/>
+                                        </td>
+                                        <td class="text-right">
+                                            <t t-esc="round(doc.skill_mark or 0,2)"/>
+                                        </td>
+                                        <td class="text-right">
+                                            <t t-esc="round(doc.total_score or 0,2)"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="doc.appraisal_result.name or 'لم حساب درجة التقييم'"/>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </template>
+
+
+        <record id="performance_evaluation_report_action" model="ir.actions.report">
+            <field name="model">hr.employee.appraisal</field>
+            <field name="name">Performance Evaluation Summary</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">exp_hr_appraisal_kpi.performance_evaluation_report</field>
+            <field name="report_file">exp_hr_appraisal_kpi.performance_evaluation_report</field>
+        </record>
+        <record id="performance_evaluation_report_xlsx_action" model="ir.actions.report">
+            <field name="model">hr.employee.appraisal</field>
+            <field name="name">Performance Evaluation Summary</field>
+            <field name="report_type">xlsx</field>
+            <field name="report_name">exp_hr_appraisal_kpi.performance_evaluation_report_xlsx</field>
+            <field name="report_file">exp_hr_appraisal_kpi.performance_evaluation_report_xlsx</field>
+        </record>
+    </data>
+</odoo>

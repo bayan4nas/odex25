@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="apprisal_percentag_form_view" model="ir.ui.view">
+            <field name="name">apprisal.apprisal_percentag.form</field>
+            <field name="model">job.class.apprisal</field>
+            <field name="arch" type="xml">
+                <form string="Apprisal Job Class">
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="percentage_kpi" widget="percentage"/>
+                                <field name="percentage_skills" widget="percentage"/>
+                            </group>
+                        </group>
+                        <group>
+                        <group string="Goals Numbers">
+                            <field name="max_no_goals" />
+                            <field name="min_no_goals" />
+                        </group>
+                        <group string="Goals Weight">
+                            <field name="max_goal_weight" />
+                            <field name="min_goal_weight" />
+                        </group>
+                    </group>
+
+                        <notebook>
+                            <page string="jobs">
+                                <field name="job_ids"/>
+                            </page>
+                            <page string="Skill Percentage">
+                                <field name="skill_percentage_ids">
+                                    <tree editable="bottom">
+                                        <field name="skill_type_ids" widget="many2many_tags" width="15"/>
+                                        <field name="skill_percentage" sum="Total Percentage" width="8"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="apprisal_percentag_tree_view" model="ir.ui.view">
+            <field name="name">apprisal.apprisal_percentag.tree</field>
+            <field name="model">job.class.apprisal</field>
+            <field name="arch" type="xml">
+                <tree string="Apprisal Job Class">
+                    <field name="name"/>
+                    <field name="percentage_kpi"/>
+                    <field name="percentage_skills"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="apprisal_percentag_act_window1" model="ir.actions.act_window">
+            <field name="name">Apprisal Job Class</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">job.class.apprisal</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem
+                id="menu_kpi_percentage"
+                parent="exp_hr_appraisal.appraisal_configuration"
+                action="apprisal_percentag_act_window1"
+                sequence="6"
+                groups="exp_hr_appraisal.group_appraisal_manager,exp_hr_appraisal.group_appraisal_employee"
+
+        />
+    </data>
+</odoo>

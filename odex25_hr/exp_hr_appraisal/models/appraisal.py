@@ -7,6 +7,7 @@ class Appraisal(models.Model):
     _name = 'hr.employee.appraisal'
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _rec_name = 'employee_id'
+    _order = 'id desc'
     _description = 'Appraisal'
 
     date_from = fields.Date()
@@ -16,9 +17,13 @@ class Appraisal(models.Model):
     level_achieved_percentage = fields.Float(tracking=True)
     appraisal_date = fields.Date()
     is_manager = fields.Boolean(related='appraisal_plan_id.is_manager')
-    state = fields.Selection([
-        ("draft", _("Draft")), ("state_done", _("Done")), ("closed", _("Closed"))
-    ], default='draft', tracking=True)
+    state = fields.Selection(
+        [("draft", "Draft"), ("wait_employee", "Wait Employee"), 
+         ("wait_performance_officer", "Waiting the Performance Officer"),
+         ("closed", "Closed"),('state_done', 'Done'), ('refused', 'Refused')], default='draft')
+    # state = fields.Selection([
+    #     ("draft", _("Draft")), ("state_done", _("Done")), ("closed", _("Closed"))
+    # ], default='draft', tracking=True)
     start_compute = fields.Char(
         compute='fill_employee_or_manager_appraisal')  # Invisible filed to call compute function
 
@@ -31,13 +36,13 @@ class Appraisal(models.Model):
                                                            'standard_appraisal_employee_line')
     manager_appraisal_line_id = fields.One2many('manager.appraisal.complete', 'manager_appraisal_line_for_employee')
     appraisal_result = fields.Many2one('appraisal.result', tracking=True)
+    appraisal_result_color = fields.Selection(related='appraisal_result.color', string="Result Color", store=True)
     appraisal_type = fields.Selection(selection=[('performance', 'Performance'),
                                        ('trial', 'Trial Period'),
                                        ('training', 'Training'),
                                        ('mission', 'Mission'),
                                        ('general', 'General'),
                                        ('other', 'Other')], string='Appraisal Type')
-    company_id = fields.Many2one('res.company', string='Company',default=lambda self: self.env.company)
 
     @api.onchange('appraisal_plan_id')
     def onchange_applicants(self):
@@ -172,7 +177,7 @@ class Appraisal(models.Model):
                 # Determine which appraisal result from appraisal percentage
                 appraisal_result = self.env['appraisal.result'].search([
                     ('result_from', '<=', item.level_achieved_percentage),
-                    ('result_to', '>=', item.level_achieved_percentage)])
+                    ('result_to', '>', item.level_achieved_percentage)])
 
                 if len(appraisal_result) > 1:
                     for line in appraisal_result:
@@ -193,13 +198,13 @@ class Appraisal(models.Model):
 
     def draft(self):
         for item in self:
-            if item.employee_appraisal:
-               if item.employee_appraisal.state not in ('draft', 'gen_appraisal', 'start_appraisal'):
-                  raise exceptions.Warning(_('You can not Re-draft when there is appraisal not in state '
-                                           'draft for employees.'))
-
             if item.employee_id.contract_id.appraisal_result_id:
                 item.employee_id.contract_id.appraisal_result_id = False
+        #     if item.employee_appraisal.state not in ('draft', 'gen_appraisal', 'start_appraisal'):
+        #         raise exceptions.Warning(_('You can not Re-draft when there is appraisal not in state '
+        #                                    'draft for employees.'))
+        #
+
         self.state = 'draft'
 
     def set_state_done(self):
@@ -217,13 +222,13 @@ class Appraisal(models.Model):
     def closed(self):
         self.state = 'closed'
 
-    # Override unlink function
-    def unlink(self):
-        for item in self:
-            if item.state != 'draft':
-                raise exceptions.Warning(
-                    _('You can not delete record in state not in draft for employee "%s" ') % item.employee_id.name)
-        return super(Appraisal, self).unlink()
+    # # Override unlink function
+    # def unlink(self):
+    #     for item in self:
+    #         if item.state != 'draft':
+    #             raise exceptions.Warning(
+    #                 _('You can not delete record in state not in draft for employee "%s" ') % item.employee_id.name)
+    #     return super(Appraisal, self).unlink()
 
 
 class StandardAppraisalLines(models.Model):
