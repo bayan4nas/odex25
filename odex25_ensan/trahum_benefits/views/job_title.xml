@@ -1,0 +1,40 @@
+<odoo>
+    <record id="view_job_title_tree" model="ir.ui.view">
+        <field name="name">job.title.tree</field>
+        <field name="model">job.title</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_job_title_form" model="ir.ui.view">
+        <field name="name">job.title.form</field>
+        <field name="model">job.title</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                    </group>
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="res_job_title_list_action">
+        <field name="name">job Title</field>
+        <field name="res_model">job.title</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">Create the first Job Title
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="job_title_menu" name="job Title" sequence="2"
+              parent="odex_benefit.menu_benefits_config_benefits" action="res_job_title_list_action"/>
+
+</odoo>

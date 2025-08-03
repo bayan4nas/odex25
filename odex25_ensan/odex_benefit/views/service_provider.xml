@@ -1,0 +1,36 @@
+<odoo>
+
+<record id="view_service_provider_tree" model="ir.ui.view">
+  <field name="name">service.provider.tree</field>
+  <field name="model">service.provider</field>
+  <field name="arch" type="xml">
+    <tree>
+        <field name="name"/>
+        <field name="need_partner"/>
+    </tree>
+  </field>
+</record>
+
+<record id="view_service_provider_form" model="ir.ui.view">
+  <field name="name">service.provider.form</field>
+  <field name="model">service.provider</field>
+  <field name="arch" type="xml">
+    <form string="Service Need Status">
+        <sheet>
+            <group>
+                <field name="name"/>
+                <field name="need_partner"/>
+            </group>
+        </sheet>
+    </form>
+  </field>
+</record>
+
+    <record id="action_service_provider_list" model="ir.actions.act_window">
+  <field name="name">Service Provider</field>
+  <field name="res_model">service.provider</field>
+  <field name="view_mode">tree,form</field>
+</record>
+
+
+</odoo>
