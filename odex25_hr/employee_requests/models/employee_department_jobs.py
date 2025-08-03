@@ -44,9 +44,9 @@ class EmployeeDepartmentJobs(models.Model):
 
     company_id = fields.Many2one(related='employee_id.company_id', string="Company")
 
-    employee_type = fields.Many2one('hr.contract.type', string="Employee Type",readonly=True, store=True)
+    employee_type = fields.Many2one(comodel_name='hr.contract.type', string="Employee Type")
 
-    new_employee_type = fields.Many2one('hr.contract.type', string="New Employee Type")
+    new_employee_type = fields.Many2one(comodel_name='hr.contract.type', string="New Employee Type")
 
     @api.onchange('new_department_id', 'new_job_id','new_employee_type')
     def not_reused_same_dep_job(self):
