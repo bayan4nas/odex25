@@ -30,11 +30,28 @@ class GrantBenefit(models.Model):
     previous_state = fields.Selection(STATE_SELECTION, string="Previous State")
     need_calculator = fields.Selection([('high', 'High Need'), ('medium', 'Medium Need'), ('low', 'Low Need'), ],
                                        readonly=1, string="Need Calculator", )
+    beneficiary_category = fields.Selection(related='detainee_file_id.beneficiary_category',
+                                            string='Beneficiary Category')
 
     total_income = fields.Float(string="Total Income", store=True, readonly=True)
     expected_income = fields.Float(string="Expected  Income", readonly=True)
     name_member = fields.Char(string="Expected  Income", compute='_compute_member_name', readonly=True)
     researcher_insights = fields.Char('Researcher Insights')
+    researcher_id = fields.Many2one("committees.line", string='Researcher Name')
+    folder_state = fields.Selection([('Active', 'active'), ('not_active', 'Not Active')], string='Folder State')
+
+    building_number = fields.Integer(string='Building Number')
+    sub_number = fields.Integer(string='Sub Number')
+    additional_number = fields.Integer(string='Additional Number')
+    street_name = fields.Char(string='Street Name')
+    city = fields.Many2one("res.country.city", string='City')
+
+    district_name = fields.Many2one(
+        'res.district',
+        string='District',)
+
+    postal_code = fields.Char(string='Postal Code')
+    national_address_code = fields.Char(string='National address code')
 
     @api.depends('benefit_member_ids')
     def _compute_member_name(self):
@@ -170,11 +187,23 @@ class GrantBenefit(models.Model):
             'target': 'current',
         }
 
+    def action_open_family_member(self):
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_window',
+            'res_model': 'family.member',
+            'view_mode': 'tree,form',
+            'domain': [('id', 'in', self.benefit_member_ids.mapped('member_id').ids)],
+            'target': 'current',
+        }
+
     # add new customuzation
     state = fields.Selection(STATE_SELECTION, default='draft', tracking=True)
     detainee_file_id = fields.Many2one('detainee.file', string="Detainee File", tracking=True, related='')
 
     benefit_member_ids = fields.One2many('grant.benefit.member', 'grant_benefit_id', string="Benefit Member")
+    benefit_breadwinner_ids = fields.One2many('grant.benefit.breadwinner', 'grant_benefit_ids',
+                                              string="Benefit breadwinner")
 
     member_count = fields.Integer(string="Members Count", compute="_compute_member_count", readonly=1)
 
@@ -182,7 +211,8 @@ class GrantBenefit(models.Model):
     def _compute_member_count(self):
         self.member_count = 0
         for rec in self:
-            rec.member_count = len(rec.benefit_member_ids)
+            filtered = rec.benefit_breadwinner_ids.filtered(lambda bw: bw.relation_id.name != 'زوجة مطلقة')
+            rec.member_count = len(rec.benefit_member_ids) + len(filtered)
 
     def action_revert_state(self):
         return {
@@ -236,14 +266,21 @@ class GrantBenefit(models.Model):
 
     @api.model
     def create(self, vals):
-        if 'name' not in vals or not vals['name']:
-            vals['name'] = 'Unnamed Contact'
-        record = super(GrantBenefit, self).create(vals)
-        if record.detainee_file_id:
-            prefix = record.detainee_file_id.name
-            existing = self.search_count([('detainee_file_id', '=', record.detainee_file_id.id)])
-            record.name = f"{prefix}/{existing}"
-        return record
+        name = 'Unnamed'
+
+        breadwinner_lines = vals.get('benefit_breadwinner_ids')
+        if breadwinner_lines:
+            for command in breadwinner_lines:
+                if command[0] == 0 and isinstance(command[2], dict):
+                    member_name = command[2].get('member_name')
+                    print(member_name, 'member_name')
+                    if member_name:
+                        member = self.env['family.member'].browse(member_name)
+                        name = member.name or 'Unnamed'
+                        break
+
+        vals['name'] = name
+        return super(GrantBenefit, self).create(vals)
 
     @api.constrains('benefit_member_ids')
     def _check_duplicate_members(self):
@@ -362,11 +399,17 @@ class attachment(models.Model):
 
     benefit_id = fields.Many2one('grant.benefit')
     note = fields.Char()
-    attachment_name = fields.Char(string='Attachment name')
+    attachment_name = fields.Many2one('attachment.type', string='Attachment name')
     classification = fields.Selection(
         [('active', 'Active'), ('inactive', 'Inactive')],
         string="Classification")
     attachment_attachment = fields.Binary(string='Attachment')
+
+
+class AttachmentType(models.Model):
+    _name = 'attachment.type'
+
+    name = fields.Char('Name')
 
 
 class ExpensesInheritLine(models.Model):
@@ -410,7 +453,18 @@ class GrantBenefitMember(models.Model):
     _description = 'Grant Benefit Member'
 
     grant_benefit_id = fields.Many2one('grant.benefit', string="Grant Benefit", ondelete="cascade")
-    member_id = fields.Many2one('family.member', string="Member", domain=[('state', '=', 'confirmed')])
+    member_id = fields.Many2one('family.member', string="Member")
     # relationship = fields.Many2one(related='member_id.relation_id', string="Relationship", readonly=True)
-    relation_id = fields.Many2one('family.member.relation', string='Relation')
     is_breadwinner = fields.Boolean(string=" Is Breadwinner?")
+    relation_id = fields.Many2one('family.member.relation', string='Relation with res')
+    rel_with_resd = fields.Char(string='Relation', default=lambda self: _('Follower'))
+
+
+class GrantBenefitBreadwinner(models.Model):
+    _name = 'grant.benefit.breadwinner'
+    _description = 'Grant Benefit Breadwinner'
+
+    grant_benefit_ids = fields.Many2one('grant.benefit', string="Grant Benefit", ondelete="cascade")
+    member_name = fields.Many2one('family.member', string="Member name")
+    relation_id = fields.Many2one('family.member.relation', string='Relation with res')
+    breadwinner = fields.Char(string='Breadwinner', default=lambda self: _('Breadwinner'))

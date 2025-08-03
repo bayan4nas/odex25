@@ -8,6 +8,7 @@ from odoo.tools import DEFAULT_SERVER_DATE_FORMAT
 import qrcode
 import base64
 from io import BytesIO
+
 SAUDI_MOBILE_PATTERN = "(^(05|5)(5|0|3|6|4|9|1|8|7)([0-9]{7})$)"
 import re
 
@@ -26,64 +27,84 @@ class FamilyMemberProfile(models.Model):
         return self._context.get('active_id')
 
     member_first_name = fields.Char(string="Member First Name")
-    member_second_name = fields.Char(string="Member Second Name",related="benefit_id.father_name")
-    member_third_name = fields.Char(string="Member Third Name",related="benefit_id.father_second_name")
-    member_family_name = fields.Char(string="Member Family Name",related="benefit_id.father_family_name")
+    member_second_name = fields.Char(string="Member Second Name", related="benefit_id.father_name")
+    member_third_name = fields.Char(string="Member Third Name", related="benefit_id.father_second_name")
+    member_family_name = fields.Char(string="Member Family Name", related="benefit_id.father_family_name")
     mother_first_name = fields.Char(string="Mother First Name")
     mother_second_name = fields.Char(string="Mother Second Name")
     mother_third_name = fields.Char(string="Mother Third Name")
     mother_family_name = fields.Char(string="MotherFamily Name")
-    name = fields.Char(string="Name", compute='get_partner_name', store=True,readonly = False)
+    name = fields.Char(string="Name", compute='get_partner_name', store=True, readonly=False)
     member_id_number = fields.Char(string="Member Id Number")
-    benefit_id = fields.Many2one("grant.benefit",string="Responsable",default=_default_benefit)
+    benefit_id = fields.Many2one("grant.benefit", string="Responsable", default=_default_benefit)
     gender = fields.Selection(selection=[('male', 'Male'), ('female', 'Female')], string="Gender")
     member_phone = fields.Char(string="Member Phone")
     member_location = fields.Selection(selection=[('with_family', 'With Family'), ('with_relative', 'with a relative'),
-                                                  ('study_inside_saudi_arabia', 'Study Inside Saudi Arabia'),('study_outside_saudi_arabia', 'Study Outside Saudi Arabia'),
-                                                  ('rehabilitation_center_for_the_disabled', 'Rehabilitation center for the disabled'),('house_of_social_observations', 'House of Social Observations'),
-                                                  ('girls_home','Girls Home'),('university_housing','University Housing'),('with_husband','With_husband'),('work_inside_saudi_arabia','Work Inside Saudi Arabia')], string="Member Location")
-    member_location_conf = fields.Many2one('location.settings',string='Member Location',domain="[('location_type','=','member')]")
+                                                  ('study_inside_saudi_arabia', 'Study Inside Saudi Arabia'),
+                                                  ('study_outside_saudi_arabia', 'Study Outside Saudi Arabia'),
+                                                  ('rehabilitation_center_for_the_disabled',
+                                                   'Rehabilitation center for the disabled'),
+                                                  ('house_of_social_observations', 'House of Social Observations'),
+                                                  ('girls_home', 'Girls Home'),
+                                                  ('university_housing', 'University Housing'),
+                                                  ('with_husband', 'With_husband'),
+                                                  ('work_inside_saudi_arabia', 'Work Inside Saudi Arabia')],
+                                       string="Member Location")
+    member_location_conf = fields.Many2one('location.settings', string='Member Location',
+                                           domain="[('location_type','=','member')]")
     # member_location = fields.Many2one('member.location', string="Member Location")
     birth_date = fields.Date(string="Birth Date")
-    age = fields.Integer(string="Age", compute='_compute_get_age_date',store=True)
+    age = fields.Integer(string="Age", compute='_compute_get_age_date', store=True)
     is_work = fields.Boolean('Is Work?')
     is_dead = fields.Boolean('Is Dead?')
     member_income = fields.Float('Member Income')
     is_married = fields.Boolean('Is Married?')
-    relationn = fields.Many2one('relation.settings',domain="['|',('relation_type','=','son'),('relation_type','=','daughter')]",string="Relation")
+    relationn = fields.Many2one('relation.settings',
+                                domain="['|',('relation_type','=','son'),('relation_type','=','daughter')]",
+                                string="Relation")
     relation = fields.Selection(
         [('son', _('Son')), ('daughter', _('Daughter'))])
     mother_marital = fields.Selection(
         [('married', _('Married')), ('widower', _('Widower')), ('divorced', _('Divorced')),
-         ('divorced_from_another_man', _('Divorced From Another Man')), ('prisoner', _('Prisoner')), ('dead', _('Dead')), ('hanging', _('Hanging'))],
+         ('divorced_from_another_man', _('Divorced From Another Man')), ('prisoner', _('Prisoner')),
+         ('dead', _('Dead')), ('hanging', _('Hanging'))],
         _('Marital Status'))
-    mother_marital_conf = fields.Many2one('marital.status',string='Mother Marital')
+    mother_marital_conf = fields.Many2one('marital.status', string='Mother Marital')
     mother_location = fields.Selection(
         [('with_husband_and_children', _('With Husband And Children')), ('with_children', _('With Children')),
          ('not_live_with_children', _('Not live with children'))], string='Mother Location')
-    mother_location_conf = fields.Many2one('location.settings',string='Mother Location',domain="[('location_type','=','mother_location')]")
+    mother_location_conf = fields.Many2one('location.settings', string='Mother Location',
+                                           domain="[('location_type','=','mother_location')]")
     need_transportation = fields.Boolean('Need Transportation?')
-    attachment_ids = fields.One2many("ir.attachment",'member_id',domain=[('hobbies_id', '=', False),('diseases_id', '=', False),('disabilities_id', '=', False)])
-    hobbies_attachment_ids = fields.One2many('ir.attachment', 'member_id', string='Hobbies Attachments',domain=[('hobbies_id', '!=', False)])
-    diseases_attachment_ids = fields.One2many('ir.attachment', 'member_id', string='Diseases Attachments',domain=[('diseases_id', '!=', False)])
-    disabilities_attachment_ids = fields.One2many('ir.attachment','member_id', string='Disabilities Attachments',domain=[('disabilities_id', '!=', False)])
-    hobbies_ids = fields.One2many("member.hobbies",'member_id')
-    diseases_ids = fields.One2many("member.diseases",'member_id')
-    disabilities_ids = fields.One2many("member.disabilities",'member_id')
-    is_scientific_specialty = fields.Boolean('Is Scientific Specialty?',related="specialization_ids.is_scientific_specialty")
-    is_medical_specialty = fields.Boolean('Is Medical Specialty?',related="specialization_ids.is_medical_specialty")
+    attachment_ids = fields.One2many("ir.attachment", 'member_id',
+                                     domain=[('hobbies_id', '=', False), ('diseases_id', '=', False),
+                                             ('disabilities_id', '=', False)])
+    hobbies_attachment_ids = fields.One2many('ir.attachment', 'member_id', string='Hobbies Attachments',
+                                             domain=[('hobbies_id', '!=', False)])
+    diseases_attachment_ids = fields.One2many('ir.attachment', 'member_id', string='Diseases Attachments',
+                                              domain=[('diseases_id', '!=', False)])
+    disabilities_attachment_ids = fields.One2many('ir.attachment', 'member_id', string='Disabilities Attachments',
+                                                  domain=[('disabilities_id', '!=', False)])
+    hobbies_ids = fields.One2many("member.hobbies", 'member_id')
+    diseases_ids = fields.One2many("member.diseases", 'member_id')
+    disabilities_ids = fields.One2many("member.disabilities", 'member_id')
+    is_scientific_specialty = fields.Boolean('Is Scientific Specialty?',
+                                             related="specialization_ids.is_scientific_specialty")
+    is_medical_specialty = fields.Boolean('Is Medical Specialty?', related="specialization_ids.is_medical_specialty")
     has_disabilities = fields.Boolean('Has Disabilities?')
     minor_siblings = fields.Boolean('minor siblings?')
     is_alhaju = fields.Boolean(string='Member Hajj')
     is_amra = fields.Boolean(string='Member Umra')
     # Education_data
-    education_status = fields.Selection(string='Education Status',selection=[('educated', 'educated'), ('illiterate', 'illiterate'),('under_study_age', 'Under Study Age')])
+    education_status = fields.Selection(string='Education Status',
+                                        selection=[('educated', 'educated'), ('illiterate', 'illiterate'),
+                                                   ('under_study_age', 'Under Study Age')])
     case_study = fields.Selection(string='Case Study',
                                   selection=[('continuous', 'continuous'), ('intermittent', 'intermittent'),
                                              ('graduate', 'Graduate')])
     illiterate_reason = fields.Char(string='Illiterate Reason')
-    intermittent_reason = fields.Many2one('education.illiterate.reason',string='Intermittent Reason')
-    educational_certificate = fields.Binary(attachment=True,string='Educational Certificate')
+    intermittent_reason = fields.Many2one('education.illiterate.reason', string='Intermittent Reason')
+    educational_certificate = fields.Binary(attachment=True, string='Educational Certificate')
     education_entity = fields.Selection(string='Education Entity', selection=[('governmental', 'Governmental'),
                                                                               ('special', 'Special')])
     last_education_entity = fields.Selection(string='Last Education Entity',
@@ -97,7 +118,7 @@ class FamilyMemberProfile(models.Model):
     literacy_school_note = fields.Text(string="Literacy School Note", required=False)
     classroom = fields.Many2one('education.classroom', string='Classroom')
     last_classroom = fields.Many2one('education.classroom', string='Last Classroom')
-    last_educational_certificate = fields.Binary(attachment=True,string='Last Educational Certificate')
+    last_educational_certificate = fields.Binary(attachment=True, string='Last Educational Certificate')
     degree = fields.Many2one('education.result', string='Degree')
     last_degree = fields.Many2one('education.result', string='Last Degree')
     percentage = fields.Float(string="Percentage%")
@@ -144,17 +165,19 @@ class FamilyMemberProfile(models.Model):
     member_status = fields.Selection(selection=[
         ('benefit', 'Benefit'),
         ('non_benefit', 'Non Benefit'),
-    ], string='Benefit Status', compute="check_member_status",default = False,store=True)
+    ], string='Benefit Status', compute="check_member_status", default=False, store=True)
     suspend_reason = fields.Many2one('suspend.reason', string='Suspend Reason')
     reason = fields.Text(string='Reason')
     suspend_description = fields.Text(string='Suspend Description')
     suspend_attachment = fields.Binary(string='Suspend Attachment', attachment=True)
     suspend_type = fields.Selection(
         selection=[('temporarily_suspend', 'Temporarily Suspended'), ('suspend', 'Suspend')], string="Suspend Type")
-    suspend_method = fields.Selection(selection=[('manual', 'Manual'), ('auto', 'Auto')], string="Suspend Method",default='auto')
+    suspend_method = fields.Selection(selection=[('manual', 'Manual'), ('auto', 'Auto')], string="Suspend Method",
+                                      default='auto')
     is_member_workflow = fields.Boolean('Is Member Workflow?')
-    sponsor_id = fields.Many2one('res.partner', string='Sponsor',domain="[('account_type','=','sponsor')]")
-    required_attach = fields.Selection(selection=[('true', 'True'), ('false', 'False')], compute='get_required_attach',store=True,string='Member Required Attach')
+    sponsor_id = fields.Many2one('res.partner', string='Sponsor', domain="[('account_type','=','sponsor')]")
+    required_attach = fields.Selection(selection=[('true', 'True'), ('false', 'False')], compute='get_required_attach',
+                                       store=True, string='Member Required Attach')
     # Exception fields
     exception_reason = fields.Many2one('exception.reason', string='Exception Reason')
     exception_description = fields.Text(string='Exception Description')
@@ -175,7 +198,15 @@ class FamilyMemberProfile(models.Model):
         "salary.line", "member_id", string="Salaries"
     )
 
-    
+    # @api.constrains('birth_date')
+    # def _check_birth_date(self):
+    #     for record in self:
+    #         if record.birth_date:
+    #             today = date.today()
+    #             age = today.year - record.birth_date.year - (
+    #                     (today.month, today.day) < (record.birth_date.month, record.birth_date.day))
+    #             if age < 18:
+    #                 raise ValidationError('العمر يجب أن لا يقل عن 18 سنة.')
 
     def unlink(self):
         for order in self:
@@ -183,7 +214,7 @@ class FamilyMemberProfile(models.Model):
                 raise UserError(_('You cannot delete this record'))
         return super(FamilyMemberProfile, self).unlink()
 
-    @api.depends('is_member_workflow', 'benefit_id.state','state_a')
+    @api.depends('is_member_workflow', 'benefit_id.state', 'state_a')
     def _get_state(self):
         for rec in self:
             if not rec.is_member_workflow:
@@ -217,7 +248,7 @@ class FamilyMemberProfile(models.Model):
                     raise ValidationError('The attachment name is missing.')
                 default_attachments_data.append((0, 0, {
                     'name': attach.name,
-                    'attach_id':attach.id,
+                    'attach_id': attach.id,
                     'is_required': attach.is_required,
                     'is_default': attach.is_default,
                 }))
@@ -248,8 +279,10 @@ class FamilyMemberProfile(models.Model):
     #         'account_type': 'benefit',
     #         'code': self.benefit_id.code,
     #     })
-    @api.depends('relationn','birth_date', 'is_scientific_specialty', 'is_medical_specialty', 'has_disabilities', 'is_married',
-                  'minor_siblings','member_income','is_married','member_location_conf','education_status','case_study','state','is_dead')
+    @api.depends('relationn', 'birth_date', 'is_scientific_specialty', 'is_medical_specialty', 'has_disabilities',
+                 'is_married',
+                 'minor_siblings', 'member_income', 'is_married', 'member_location_conf', 'education_status',
+                 'case_study', 'state', 'is_dead')
     def check_member_status(self):
         for rec in self:
             if rec.state == 'second_approve' and rec.is_excluded_suspension:
@@ -277,7 +310,7 @@ class FamilyMemberProfile(models.Model):
                     if rec.age > male_benefit_age:
                         if rec.has_disabilities and rec.age > exceptional_age_has_disabilities:
                             rec.member_status = 'non_benefit'
-                        elif rec.is_scientific_specialty and rec.age > exceptional_age_scientific_specialty and not rec.has_disabilities and not rec.minor_siblings :
+                        elif rec.is_scientific_specialty and rec.age > exceptional_age_scientific_specialty and not rec.has_disabilities and not rec.minor_siblings:
                             rec.member_status = 'non_benefit'
                         elif rec.is_medical_specialty and rec.age > exceptional_age_medical_specialty and not rec.has_disabilities and not rec.minor_siblings:
                             rec.member_status = 'non_benefit'
@@ -297,8 +330,9 @@ class FamilyMemberProfile(models.Model):
                         rec.member_status = 'non_benefit'
                 elif rec.relationn.relation_type == 'daughter':
                     if rec.age < female_benefit_age and rec.is_married:
-                       rec.member_status = 'non_benefit'
-                    if rec.age < female_benefit_age and rec.is_work and rec.education_status not in ['educated'] and rec.case_study != 'continuous':
+                        rec.member_status = 'non_benefit'
+                    if rec.age < female_benefit_age and rec.is_work and rec.education_status not in [
+                        'educated'] and rec.case_study != 'continuous':
                         rec.member_status = 'non_benefit'
                     if rec.age > female_benefit_age:
                         if rec.age > minor_siblings_age and not rec.minor_siblings:
@@ -314,13 +348,14 @@ class FamilyMemberProfile(models.Model):
                             rec.member_status = 'non_benefit'
                         # elif not rec.minor_siblings:
                         #     rec.member_status = 'non_benefit'
-                    if rec.is_work and rec.member_income > max_income_for_benefit and rec.education_status in ['educated'] and rec.case_study == 'continuous':
+                    if rec.is_work and rec.member_income > max_income_for_benefit and rec.education_status in [
+                        'educated'] and rec.case_study == 'continuous':
                         rec.member_status = 'non_benefit'
-                    if rec.is_work and rec.education_status in ['illiterate'] :
-                            rec.member_status = 'non_benefit'
+                    if rec.is_work and rec.education_status in ['illiterate']:
+                        rec.member_status = 'non_benefit'
                     if rec.is_work and rec.education_status in ['educated'] and rec.case_study in [
-                            'graduate', 'intermittent']:
-                            rec.member_status = 'non_benefit'
+                        'graduate', 'intermittent']:
+                        rec.member_status = 'non_benefit'
                     if not rec.member_location_conf.is_benefit:
                         rec.member_status = 'non_benefit'
                     if rec.state == 'suspended_second_approve' or rec.is_dead == True:
@@ -356,30 +391,36 @@ class FamilyMemberProfile(models.Model):
                 if not rec.member_id_number.isdigit():
                     raise ValidationError(_("The ID number should contain only digits."))
 
+                if not str(rec.member_id_number).startswith("1"):
+                    raise ValidationError(_("The ID number should starts with one."))
+
                 # Check if the ID number contains exactly 10 digits
                 if len(rec.member_id_number) != 10:
                     raise ValidationError(_("The ID number must contain exactly 10 digits."))
 
                 # Check if the father ID and mother ID are the same on the same record
                 if rec.member_id_number == rec.benefit_id.mother_id_number or rec.member_id_number == rec.benefit_id.father_id_number or rec.member_id_number == rec.benefit_id.replacement_mother_id_number:
-                    raise ValidationError(_("ID number cannot be the same with mother or replacement mother or father id number"))
+                    raise ValidationError(
+                        _("ID number cannot be the same with mother or replacement mother or father id number"))
 
                 # Check if the ID number exists in other records or in family members
                 exist = self.search([
                     ('member_id_number', '=', rec.member_id_number)
-                ],limit=1)
+                ], limit=1)
                 exist_in_family = self.env["grant.benefit"].search([
-                    '|','|',
+                    '|', '|',
                     ('father_id_number', '=', rec.member_id_number),
                     ('mother_id_number', '=', rec.member_id_number),
                     ('replacement_mother_id_number', '=', rec.member_id_number),
-                ],limit=1)
+                ], limit=1)
                 if exist or exist_in_family:
                     if exist_in_family:
-                        raise ValidationError(_("The ID Number already exists in Family with code %s")%exist_in_family.code)
-                    if exist :
+                        raise ValidationError(
+                            _("The ID Number already exists in Family with code %s") % exist_in_family.code)
+                    if exist:
                         raise ValidationError(
                             _("The ID Number already exists in Family with code %s") % exist.benefit_id.code)
+
     # @api.onchange("member_id_number")
     # def onchange_member_id_number(self):
     #     for rec in self:
@@ -389,19 +430,21 @@ class FamilyMemberProfile(models.Model):
     #                 raise ValidationError(
     #                     _('The ID Number Already Exist!'))
 
-    @api.onchange('relationn','member_status','gender','birth_date', 'is_scientific_specialty', 'is_medical_specialty', 'has_disabilities', 'is_married',
-                  'minor_siblings','member_income','is_married','member_location_conf','education_status','case_study')
+    @api.onchange('relationn', 'member_status', 'gender', 'birth_date', 'is_scientific_specialty',
+                  'is_medical_specialty', 'has_disabilities', 'is_married',
+                  'minor_siblings', 'member_income', 'is_married', 'member_location_conf', 'education_status',
+                  'case_study')
     def onchange_member_status(self):
-        res ={}
+        res = {}
         for rec in self:
             if rec.member_status == 'non_benefit':
                 res['warning'] = {'title': _('ValidationError'),
-                                       'message': _('Not Benefit')}
+                                  'message': _('Not Benefit')}
                 return res
 
-    #Member Suspend Manual
+    # Member Suspend Manual
     def action_suspend(self):
-        for rec in self :
+        for rec in self:
             rec.is_member_workflow = True
             rec.is_excluded_suspension = False
         return {
@@ -413,16 +456,20 @@ class FamilyMemberProfile(models.Model):
             'view_id': self.env.ref('odex_benefit.view_suspend_member_reason_wizard_form').id,
             'target': 'new',
         }
+
     def action_suspend_first_accept(self):
         for rec in self:
             rec.state_a = 'suspended_first_approve'
+
     def action_suspend_second_accept(self):
         for rec in self:
             rec.state_a = 'suspended_second_approve'
+
     def action_suspend_refuse(self):
         for rec in self:
             rec.state_a = 'second_approve'
             rec.is_member_workflow = False
+
     # Excption Work flow
     def action_exception(self):
         for rec in self:
@@ -485,9 +532,11 @@ class FamilyMemberProfile(models.Model):
         message = self.create_message('waiting_approve')
         # self.partner_id.send_sms_notification(message, self.phone)
         self.state_a = 'waiting_approve'
+
     def action_accepted(self):
         """Accept  registration"""
         self.state_a = "second_approve"
+
     def action_first_refusal(self):
         """First refusal to entity registration"""
         domain = []
@@ -507,6 +556,7 @@ class FamilyMemberProfile(models.Model):
             'domain': domain,
             'context': context,
         }
+
     def action_refuse(self):
         """Refuse entity registration"""
         domain = []
@@ -524,6 +574,7 @@ class FamilyMemberProfile(models.Model):
             'domain': domain,
             'context': context,
         }
+
     def action_black_list(self):
         """Move benefit to black list"""
         domain = []
@@ -541,6 +592,7 @@ class FamilyMemberProfile(models.Model):
             'domain': domain,
             'context': context,
         }
+
     def action_edit_info(self):
         # user = self.user_id
         # if not user:
@@ -558,11 +610,13 @@ class FamilyMemberProfile(models.Model):
         # except:
         #     pass
         self.state = 'edit_info'
+
     def action_finish_edit(self):
         for rec in self:
             # group_e = self.env.ref('odex_benefit.group_benefit_edit', False)
             # group_e.write({'users': [(3, self.user_id.id)]})
             rec.state_a = rec.old_stage
+
     def create_manual_visit(self):
         self.env['visit.location'].create({
             'benefit_id': self.id,
@@ -574,6 +628,7 @@ class FamilyMemberProfile(models.Model):
             # 'researcher_team': rec.researcher_team.id,
             'state': 'draft'
         })
+
     def not_alive(self):
         self.life = False
         self.state_a = 'not_leaving'
@@ -613,7 +668,3 @@ class FamilyMemberProfile(models.Model):
                 if exist:
                     raise ValidationError(
                         _("The phone Number already exists in Family with code %s") % exist.benefit_id.code)
-
-
-
-

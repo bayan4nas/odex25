@@ -29,13 +29,16 @@
                                 attrs="{'invisible': [('state', '!=', 'draft')]}"/>
 
                         <button name="action_approve_call_center" type="object" string="Approve Call Center"
-                                class="oe_highlight" groups="trahum_benefits.group_benefit_confirm" attrs="{'invisible': [('state', '!=', 'confirm')]}"/>
+                                class="oe_highlight" groups="trahum_benefits.group_benefit_confirm"
+                                attrs="{'invisible': [('state', '!=', 'confirm')]}"/>
 
                         <button name="action_approve_social" type="object" string="Validate"
-                                class="oe_highlight" groups="trahum_benefits.group_benefit_validate" attrs="{'invisible': [('state', '!=', 'validate')]}"/>
+                                class="oe_highlight" groups="trahum_benefits.group_benefit_validate"
+                                attrs="{'invisible': [('state', '!=', 'validate')]}"/>
 
                         <button name="action_approve_branch" type="object" string="Approve Branch Manager"
-                                class="oe_highlight" groups="trahum_benefits.group_benefit_review" attrs="{'invisible': [('state', '!=', 'review')]}"/>
+                                class="oe_highlight" groups="trahum_benefits.group_benefit_review"
+                                attrs="{'invisible': [('state', '!=', 'review')]}"/>
 
                         <button name="action_close" type="object" string="Close"
                                 class="oe_highlight"
@@ -62,17 +65,23 @@
 
                     </header>
                     <sheet>
-                         <div class="oe_button_box" name="button_box">
+                        <div class="oe_button_box" name="button_box">
                             <button type="object"
                                     name="action_open_salary_income"
                                     class="btn btn-primary" icon="fa-money">
                                 عرض اﻹيرادات
                             </button>
 
-                             <button type="object"
+                            <button type="object"
                                     name="action_open_expenses"
                                     class="btn btn-primary" icon="fa-money">
                                 عرض المصروفات
+                            </button>
+
+                            <button type="object"
+                                    name="action_open_family_member"
+                                    class="btn btn-primary" icon="fa-money">
+                                الأفراد
                             </button>
                         </div>
                         <group>
@@ -85,17 +94,28 @@
                                        context="{'form_view_ref': 'trahum_benefits.view_family_member_form'}"/>
                                 <field name="breadwinner_member_id" invisible="1"/>
                                 <field name="branch_details_id"/>
+                                <field name="beneficiary_category"/>
                                 <field name="member_count" invisible="1"/>
 
                             </group>
                         </group>
                         <notebook>
+                            <page string="Breadwinner">
+                                <field name="benefit_breadwinner_ids" nolabel="1">
+                                    <tree editable="bottom">
+                                        <field name="member_name" options="{'no_create': True}"/>
+                                        <field name="relation_id"/>
+                                        <field name="breadwinner" readonly="1"/>
+                                    </tree>
+                                </field>
+                            </page>
+
                             <page string="Members">
                                 <field name="benefit_member_ids" nolabel="1">
                                     <tree editable="bottom">
                                         <field name="member_id"/>
                                         <field name="relation_id"/>
-                                        <field name="is_breadwinner"/>
+                                        <field name="rel_with_resd" readonly="1"/>
                                     </tree>
                                 </field>
                             </page>
@@ -105,7 +125,7 @@
                                     <field name="property_type"/>
                                     <field name="exchange_period"/>
                                     <field name="housing_value"/>
-                                    <field name="accommodation_attachments"/>
+                                    <field name="accommodation_attachments" required="1"/>
                                 </group>
 
 
@@ -123,7 +143,7 @@
                                             <field name="revenue_periodicity"/>
                                             <field name="amount" sum="amount"/>
                                             <field name="side"/>
-                                            <field name="attachment"/>
+                                            <field name="attachment" required="1"/>
                                         </tree>
                                     </field>
                                 </group>
@@ -212,7 +232,7 @@
                             </page>
                             <page string="Attachment">
                                 <field name="attachment_id">
-                                    <tree>
+                                    <tree editable="bottom">
                                         <field name="attachment_name"/>
                                         <field name="classification"/>
                                         <field name="attachment_attachment"/>
@@ -231,13 +251,33 @@
                                     </group>
                                 </group>
                             </page>
-                            <page string="Researcher's insights" attrs="{'invisible': [('state', '=', 'draft')]}">
+                            <page string="Researcher's insights" attrs="{'invisible': [('state', '=', 'validate')]}">
                                 <group>
                                     <group>
-                                        <field name="researcher_insights" attrs="{'required': [('state', '=', 'validate')]}"/>
+                                        <field name="researcher_insights"/>
+                                        <field name="researcher_id"/>
+                                        <field name="folder_state"/>
                                     </group>
                                 </group>
                             </page>
+
+                            <page string="National Address">
+                                <group>
+                                    <group>
+                                        <field name="building_number"/>
+                                        <field name="sub_number"/>
+                                        <field name="additional_number"/>
+                                        <field name="street_name"/>
+                                    </group>
+                                    <group>
+                                        <field name="district_name"/>
+                                        <field name="city"/>
+                                        <field name="postal_code"/>
+                                        <field name="national_address_code"/>
+                                    </group>
+                                </group>
+                            </page>
+
                         </notebook>
                     </sheet>
                     <div class="oe_chatter">

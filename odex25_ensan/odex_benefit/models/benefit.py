@@ -98,6 +98,8 @@ class GrantBenefitProfile(models.Model):
     step = fields.Integer('Step')
     has_needs = fields.Boolean(compute='_onchange_is_has_needs',
                                store=True)  # This boolean filed for check if benefit has need in
+
+    researcher_insights = fields.Text(string='Researcher Insights')
     # Job
     job_position = fields.Char()
     job_department = fields.Char()
@@ -374,10 +376,10 @@ class GrantBenefitProfile(models.Model):
     request_activity_id = fields.Many2one('mail.activity')
     STATE_SELECTION = [
         ('draft', 'Draft'),
-        ('call_center', 'Approved'),
-        ('social_researcher', 'Approved'),
-        ('branch_manager', 'Approved'),
-        ('ceo', 'Approved'),
+        ('confirm', 'Confirm'),
+        ('validate', 'Validate'),
+        ('review', 'Approved'),
+        ('approve', 'Approve'),
         ('cancelled', 'Cancelled'),
         ('closed', 'Closed'),
     ]
@@ -525,6 +527,39 @@ class GrantBenefitProfile(models.Model):
     replacement_last_educational_certificate = fields.Many2many('ir.attachment','rel_replacement_last_educational__certificate_attachment','benefit_id','attachment_id',string='Last Educational Certificate')
     replacement_weak_study = fields.Many2many('study.material',relation='grant_benefit_replacement_weak_study_rel',string='Weak Study')
 
+    member_id = fields.Many2one('family.member', string='Member', ondelete='cascade', )
+
+    exchange_period = fields.Selection(
+        [
+            ('monthly', 'Monthly'),
+            ('every_three_months', 'Every Three Months'),
+            ('every_six_months', 'Every Six Months'),
+            ('every_nine_months', 'Every Nine Months'),
+            ('annually', 'Annually'),
+            ('two_years', 'Two Years'),
+        ],
+        string="Exchange Period",
+        attrs="{'readonly': [('housing_status', 'not in', ['usufruct', 'rent'])]}"
+    )
+
+    housing_status = fields.Selection(
+        [
+            ('owned', 'Owned'),
+            ('shared', 'Shared'),
+            ('usufruct', 'Usufruct'),
+            ('rent', 'Rent'),
+        ],
+        string="Housing Status"
+    )
+
+    housing_value = fields.Integer(
+        string="Housing Value",
+        attrs="{'readonly': [('housing_status', 'not in', ['usufruct', 'rent'])]}"
+    )
+
+    accommodation_attachments = fields.Binary(string="Accommodation Attachments", attachment=True)
+
+
     @api.depends('attachment_ids')
     def get_required_attach(self):
         for rec in self.attachment_ids:
@@ -537,6 +572,33 @@ class GrantBenefitProfile(models.Model):
                 self.required_attach = 'true'
             else:
                 self.required_attach = 'true'
+
+    def action_open_salary_income(self):
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_window',
+            'res_model': 'salary.line',
+            'view_mode': 'tree,form',
+            'views': [
+                (self.env.ref('odex_benefit.view_salary_line_tree').id, 'tree'),
+                (self.env.ref('odex_benefit.view_salary_line_form').id, 'form'),
+            ],
+            'domain': [('benefit_id', '=', self.id)],
+            'target': 'current',
+        }
+    def action_open_expenses(self):
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_window',
+            'res_model': 'expenses.line',
+            'view_mode': 'tree,form',
+            'views': [
+                (self.env.ref('odex_benefit.view_expense_line_tree').id, 'tree'),
+                (self.env.ref('odex_benefit.view_expense_line_form').id, 'form'),
+            ],
+            'domain': [('benefit_id', '=', self.id)],
+            'target': 'current',
+        }
 
     @api.depends('salary_ids')
     def get_income_required_attach(self):
