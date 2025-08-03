@@ -81,7 +81,7 @@
                             <button type="object"
                                     name="action_open_family_member"
                                     class="btn btn-primary" icon="fa-money">
-الأفراد
+                                الأفراد
                             </button>
                         </div>
                         <group>
@@ -125,7 +125,7 @@
                                     <field name="property_type"/>
                                     <field name="exchange_period"/>
                                     <field name="housing_value"/>
-                                    <field name="accommodation_attachments"/>
+                                    <field name="accommodation_attachments" required="1"/>
                                 </group>
 
 
@@ -143,7 +143,7 @@
                                             <field name="revenue_periodicity"/>
                                             <field name="amount" sum="amount"/>
                                             <field name="side"/>
-                                            <field name="attachment"/>
+                                            <field name="attachment" required="1"/>
                                         </tree>
                                     </field>
                                 </group>
@@ -232,7 +232,7 @@
                             </page>
                             <page string="Attachment">
                                 <field name="attachment_id">
-                                    <tree>
+                                    <tree editable="bottom">
                                         <field name="attachment_name"/>
                                         <field name="classification"/>
                                         <field name="attachment_attachment"/>
@@ -251,14 +251,33 @@
                                     </group>
                                 </group>
                             </page>
-                            <page string="Researcher's insights" attrs="{'invisible': [('state', '=', 'draft')]}">
+                            <page string="Researcher's insights" attrs="{'invisible': [('state', '=', 'validate')]}">
                                 <group>
                                     <group>
-                                        <field name="researcher_insights"
-                                               attrs="{'required': [('state', '=', 'validate')]}"/>
+                                        <field name="researcher_insights"/>
+                                        <field name="researcher_id"/>
+                                        <field name="folder_state"/>
                                     </group>
                                 </group>
                             </page>
+
+                            <page string="National Address">
+                                <group>
+                                    <group>
+                                        <field name="building_number"/>
+                                        <field name="sub_number"/>
+                                        <field name="additional_number"/>
+                                        <field name="street_name"/>
+                                    </group>
+                                    <group>
+                                        <field name="district_name"/>
+                                        <field name="city"/>
+                                        <field name="postal_code"/>
+                                        <field name="national_address_code"/>
+                                    </group>
+                                </group>
+                            </page>
+
                         </notebook>
                     </sheet>
                     <div class="oe_chatter">

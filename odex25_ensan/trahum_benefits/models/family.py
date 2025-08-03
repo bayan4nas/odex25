@@ -30,12 +30,28 @@ class GrantBenefit(models.Model):
     previous_state = fields.Selection(STATE_SELECTION, string="Previous State")
     need_calculator = fields.Selection([('high', 'High Need'), ('medium', 'Medium Need'), ('low', 'Low Need'), ],
                                        readonly=1, string="Need Calculator", )
-    beneficiary_category = fields.Selection(related='detainee_file_id.beneficiary_category',string='Beneficiary Category')
+    beneficiary_category = fields.Selection(related='detainee_file_id.beneficiary_category',
+                                            string='Beneficiary Category')
 
     total_income = fields.Float(string="Total Income", store=True, readonly=True)
     expected_income = fields.Float(string="Expected  Income", readonly=True)
     name_member = fields.Char(string="Expected  Income", compute='_compute_member_name', readonly=True)
     researcher_insights = fields.Char('Researcher Insights')
+    researcher_id = fields.Many2one("committees.line", string='Researcher Name')
+    folder_state = fields.Selection([('Active', 'active'), ('not_active', 'Not Active')], string='Folder State')
+
+    building_number = fields.Integer(string='Building Number')
+    sub_number = fields.Integer(string='Sub Number')
+    additional_number = fields.Integer(string='Additional Number')
+    street_name = fields.Char(string='Street Name')
+    city = fields.Many2one("res.country.city", string='City')
+
+    district_name = fields.Many2one(
+        'res.district',
+        string='District',)
+
+    postal_code = fields.Char(string='Postal Code')
+    national_address_code = fields.Char(string='National address code')
 
     @api.depends('benefit_member_ids')
     def _compute_member_name(self):
@@ -170,6 +186,7 @@ class GrantBenefit(models.Model):
             # 'domain': [('member_id', '=', self.id)],
             'target': 'current',
         }
+
     def action_open_family_member(self):
         self.ensure_one()
         return {
@@ -381,11 +398,17 @@ class attachment(models.Model):
 
     benefit_id = fields.Many2one('grant.benefit')
     note = fields.Char()
-    attachment_name = fields.Char(string='Attachment name')
+    attachment_name = fields.Many2one('attachment.type', string='Attachment name')
     classification = fields.Selection(
         [('active', 'Active'), ('inactive', 'Inactive')],
         string="Classification")
     attachment_attachment = fields.Binary(string='Attachment')
+
+
+class AttachmentType(models.Model):
+    _name = 'attachment.type'
+
+    name = fields.Char('Name')
 
 
 class ExpensesInheritLine(models.Model):

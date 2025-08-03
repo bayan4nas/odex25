@@ -142,6 +142,7 @@ msgstr "رقم الجوال الإضافى"
 
 #. module: trahum_benefits
 #: model:ir.model.fields,field_description:trahum_benefits.field_family_member__additional_number
+#: model:ir.model.fields,field_description:trahum_benefits.field_grant_benefit__additional_number
 msgid "Additional Number"
 msgstr "الرقم الإضافى"
 
@@ -219,9 +220,20 @@ msgid "Attachment Count"
 msgstr "عدد المرفقات"
 
 #. module: trahum_benefits
+#: model:ir.actions.act_window,name:trahum_benefits.attach_type_list_action
+msgid "Attach Type"
+msgstr "نوع المرفق"
+
+#. module: trahum_benefits
 #: model:ir.model.fields,field_description:trahum_benefits.field_attachment__attachment_name
 msgid "Attachment name"
-msgstr "اسم المرفق"
+msgstr "نوع المرفق"
+
+#. module: trahum_benefits
+#: model:ir.ui.menu,name:trahum_benefits.attach_type_menu
+msgid "Attachment Type"
+msgstr "نوع المرفق"
+
 
 #. module: trahum_benefits
 #: model:ir.model.fields,field_description:trahum_benefits.field_attachment__attachment_ids
@@ -469,6 +481,8 @@ msgstr "الفرد"
 
 #. module: trahum_benefits
 #: model:ir.model.fields,field_description:trahum_benefits.field_family_member__building_number
+#: model:ir.model.fields,field_description:trahum_benefits.field_family_member__sbuilding_number
+#: model:ir.model.fields,field_description:trahum_benefits.field_grant_benefit__building_number
 msgid "Building Number"
 msgstr "رقم المبنى"
 
@@ -1000,10 +1014,12 @@ msgid "District Name"
 msgstr "اسم الحي"
 
 #. module: trahum_benefits
-#: model:ir.actions.act_window,name:trahum_benefits.res_district_list_action
-#: model:ir.ui.menu,name:trahum_benefits.res_district_menu
-msgid "Districts"
+#: model:ir.model,name:trahum_benefits.model_res_district
+#: model:ir.model.fields,field_description:trahum_benefits.field_family_member__district_id
+#: model:ir.model.fields,field_description:trahum_benefits.field_grant_benefit__district_name
+msgid "District"
 msgstr "الحي"
+
 
 
 #. module: trahum_benefits
@@ -1489,7 +1505,7 @@ msgstr "قيمة السكن"
 #. module: trahum_benefits
 #: model:ir.model.fields,field_description:trahum_benefits.field_grant_benefit__Add_appendix
 msgid "IBAN"
-msgstr "رقم الآي بان"
+msgstr "مرفق الأيبان"
 
 #. module: trahum_benefits
 #: model:ir.model.fields,field_description:trahum_benefits.field_attachment__id
@@ -1929,6 +1945,7 @@ msgstr "نهاية الوقت المعين للنشاط"
 #: model:ir.model.fields,field_description:trahum_benefits.field_identity_proof__name
 #: model:ir.model.fields,field_description:trahum_benefits.field_work_type__name
 #: model_terms:ir.ui.view,arch_db:trahum_benefits.view_grant_benefit_form
+#: model:ir.model.fields,field_description:trahum_benefits.field_attachment_type__name
 msgid "Name"
 msgstr "الاسم"
 
@@ -1939,8 +1956,10 @@ msgstr "اسم المندوب"
 
 #. module: trahum_benefits
 #: model_terms:ir.ui.view,arch_db:trahum_benefits.view_family_member_form
+#: model_terms:ir.ui.view,arch_db:trahum_benefits.view_grant_benefit_form
 msgid "National Address"
 msgstr "العنوان الوطني"
+
 
 #. module: trahum_benefits
 #: model:ir.model.fields,field_description:trahum_benefits.field_family_member__nationality_id
@@ -2164,7 +2183,14 @@ msgid "Phone Call"
 msgstr ""
 
 #. module: trahum_benefits
+#: model:ir.model.fields,field_description:trahum_benefits.field_family_member__national_address_code
+#: model:ir.model.fields,field_description:trahum_benefits.field_grant_benefit__national_address_code
+msgid "National address code"
+msgstr "رمز العنوان الوطني"
+
+#. module: trahum_benefits
 #: model:ir.model.fields,field_description:trahum_benefits.field_family_member__postal_code
+#: model:ir.model.fields,field_description:trahum_benefits.field_grant_benefit__postal_code
 msgid "Postal Code"
 msgstr "رمز بريدي"
 
@@ -2422,12 +2448,12 @@ msgstr ""
 #. module: trahum_benefits
 #: model:ir.model.fields,field_description:trahum_benefits.field_grant_benefit__researcher_insights
 msgid "Researcher Insights"
-msgstr "مرئيات الباحث"
+msgstr "رأي الباحث"
 
 #. module: trahum_benefits
 #: model_terms:ir.ui.view,arch_db:trahum_benefits.view_grant_benefit_form
 msgid "Researcher's insights"
-msgstr "مرئيات الباحث"
+msgstr " الباحث الاجتماعي"
 
 #. module: trahum_benefits
 #: model_terms:ir.ui.view,arch_db:trahum_benefits.view_benefits_service_request_form
@@ -2719,11 +2745,13 @@ msgstr "سبب اﻹيقاف"
 
 #. module: trahum_benefits
 #: model:ir.model.fields,field_description:trahum_benefits.field_family_member__street_name
+#: model:ir.model.fields,field_description:trahum_benefits.field_grant_benefit__street_name
 msgid "Street Name"
 msgstr "اسم الشارع"
 
 #. module: trahum_benefits
 #: model:ir.model.fields,field_description:trahum_benefits.field_family_member__sub_number
+#: model:ir.model.fields,field_description:trahum_benefits.field_grant_benefit__sub_number
 msgid "Sub Number"
 msgstr "الرقم الفرعي"
 
