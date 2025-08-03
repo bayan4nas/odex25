@@ -243,7 +243,10 @@ class ResPartner(models.Model):
         """.format(
             where="" if all_partners else "AND aml.partner_id in %(partner_ids)s",
         )
-        filtered_ids = [p.id for p in self if isinstance(p.id, int) and not str(p.id).startswith('virtual_')]
+        filtered_ids = []
+        for p in self:
+            if isinstance(p.id, int) and p.id > 0 and not str(p.id).startswith('virtual_'):
+                filtered_ids.append(p.id)
         if not filtered_ids and not all_partners:
             return {}
         params = {

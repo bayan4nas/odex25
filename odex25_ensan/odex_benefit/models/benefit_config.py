@@ -284,22 +284,23 @@ class BenefitBehaviorsType(models.Model):
 
 class Salary(models.Model):
     _name = 'salary.line'
+    _inherit = ['mail.thread', 'mail.activity.mixin']
     _description = "Benefits - Salary line"
 
-    member_id = fields.Many2one('family.member', string='Member', ondelete='cascade',)
+    member_id = fields.Many2one('family.member', string='Member', ondelete='cascade',tracking=True)
 
-    benefit_id = fields.Many2one('grant.benefit', string="Benefit",ondelete='cascade')
+    benefit_id = fields.Many2one('grant.benefit', string="Benefit",ondelete='cascade',tracking=True)
     salary_type = fields.Char()
-    income_type = fields.Many2one('attachments.settings',string='Income Type',domain="[('attach_type','=','income_attach')]")
+    income_type = fields.Many2one('attachments.settings',string='Income Type',tracking=True,domain="[('attach_type','=','income_attach')]")
     salary_amount = fields.Float(
         string='Income Amount',
         required=False)
-    salary_attach = fields.Many2many('ir.attachment',string="Attachment")
-    attach_start_date = fields.Date(string='Attach Start Date')
-    attach_end_date = fields.Date(string='Attach End Date')
-    is_required = fields.Boolean(string='Is Required?')
-    is_default = fields.Boolean(string='Is Default?')
-    state = fields.Selection(string='Status',selection=[('accepted', 'Accepted'),('refused', 'Refused')])
+    salary_attach = fields.Many2many('ir.attachment',string="Attachment",tracking=True)
+    attach_start_date = fields.Date(string='Attach Start Date',tracking=True)
+    attach_end_date = fields.Date(string='Attach End Date',tracking=True)
+    is_required = fields.Boolean(string='Is Required?',tracking=True)
+    is_default = fields.Boolean(string='Is Default?',tracking=True)
+    state = fields.Selection(string='Status',tracking=True,selection=[('accepted', 'Accepted'),('refused', 'Refused')])
     # total_salary = fields.Float(string="Total Salary", compute='_compute_total_salary',store=True)
 
 
@@ -406,13 +407,15 @@ class ClothSize(models.Model):
 
 class ExpensesLine(models.Model):
     _name = 'expenses.line'
+    _inherit = ['mail.thread', 'mail.activity.mixin']
 
-    member_id = fields.Many2one('family.member', string='Member', ondelete='cascade',)
+
+    member_id = fields.Many2one('family.member', string='Member', ondelete='cascade',tracking=True)
 
     category_id = fields.Many2one(
         'benefit.category')
-    benefit_id = fields.Many2one('grant.benefit', string="Benefit",ondelete='cascade',)
-    expenses_type_custom = fields.Many2one('expenses.type')
+    benefit_id = fields.Many2one('grant.benefit', string="Benefit",ondelete='cascade',tracking=True)
+    expenses_type_custom = fields.Many2one('expenses.type',tracking=True)
     expenses_type = fields.Selection(
         string='',
         selection=[('governmental', 'Governmental Expenses'),
@@ -424,10 +427,10 @@ class ExpensesLine(models.Model):
                    ('educational', 'Educational Expenses'),
                    ('clothing', 'Clothing Expenses'),
                    ],
-        required=False, )
-    amount = fields.Float()
-    note = fields.Char()
-    state = fields.Selection(string='Status', selection=[('accepted', 'Accepted'), ('refused', 'Refused')])
+        required=False,tracking=True )
+    amount = fields.Float(tracking=True)
+    note = fields.Char(tracking=True)
+    state = fields.Selection(string='Status', selection=[('accepted', 'Accepted'), ('refused', 'Refused')],tracking=True)
     # revenue_periodicity = fields.Selection(string='Revenue Periodicity', selection=[])
     # side = fields.Char(string='The side')
     # attachment = fields.Binary(string="Attachments", attachment=True)

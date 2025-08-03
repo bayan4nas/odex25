@@ -30,16 +30,16 @@
                             <field name="mini_income_amount"/>
                             <field name="max_income_amount"/>
                         </group>
-<!--                        <group col="4" colspan="2">-->
-<!--                            <field name="gender" attrs="{'readonly':[('state','!=','draft')],'required':True}"/>-->
-<!--                            <field name="description" attrs="{'readonly':[('state','!=','draft')],'required':True}"/>-->
-<!--                        </group>-->
-<!--                        <group col="6" colspan="3">-->
-<!--                            <field name="age_from" attrs="{'readonly':[('state','!=','draft')],'required':True}"/>-->
-<!--                            <p>Year</p>-->
-<!--                            <field name="age_to" attrs="{'readonly':[('state','!=','draft')],'required':True}"/>-->
-<!--                            <p>Year</p>-->
-<!--                        </group>-->
+                        <!--                        <group col="4" colspan="2">-->
+                        <!--                            <field name="gender" attrs="{'readonly':[('state','!=','draft')],'required':True}"/>-->
+                        <!--                            <field name="description" attrs="{'readonly':[('state','!=','draft')],'required':True}"/>-->
+                        <!--                        </group>-->
+                        <!--                        <group col="6" colspan="3">-->
+                        <!--                            <field name="age_from" attrs="{'readonly':[('state','!=','draft')],'required':True}"/>-->
+                        <!--                            <p>Year</p>-->
+                        <!--                            <field name="age_to" attrs="{'readonly':[('state','!=','draft')],'required':True}"/>-->
+                        <!--                            <p>Year</p>-->
+                        <!--                        </group>-->
                         <group>
                             <field name="expenses_ids">
                                 <tree editable="bottom">
@@ -61,7 +61,7 @@
                     <field name="name"/>
                     <field name="mini_income_amount"/>
                     <field name="max_income_amount"/>
-<!--                    <field name="gender"/>-->
+                    <!--                    <field name="gender"/>-->
                 </tree>
             </field>
         </record>
@@ -291,6 +291,121 @@
                 </tree>
             </field>
         </record>
+        <!--        salary line views  -->
+        <record id="view_salary_line_form" model="ir.ui.view">
+            <field name="name">view.salary.line.form</field>
+            <field name="model">salary.line</field>
+            <field name="arch" type="xml">
+                <form string="Income and Salary">
+                    <sheet>
+                        <group>
+                            <field name="member_id"/>
+                            <field name="benefit_id"/>
+                            <field name="salary_type"/>
+                            <field name="income_type"/>
+                            <field name="salary_amount"/>
+                        </group>
+                        <group>
+                            <field name="salary_attach"/>
+                            <field name="attach_start_date"/>
+                            <field name="attach_end_date"/>
+                            <field name="is_required"/>
+                            <field name="is_default"/>
+                            <field name="state"/>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+        <record id="view_salary_line_tree" model="ir.ui.view">
+            <field name="name">view.salary.line.tree</field>
+            <field name="model">salary.line</field>
+            <field name="arch" type="xml">
+                <tree string="Income and Salary">
+                    <field name="member_id"/>
+                    <field name="benefit_id"/>
+                    <field name="salary_type"/>
+                    <field name="income_type"/>
+                    <field name="salary_amount"/>
+                    <field name="salary_attach"/>
+                    <field name="attach_start_date"/>
+                    <field name="attach_end_date"/>
+                    <field name="is_required"/>
+                    <field name="is_default"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_salary_line" model="ir.actions.act_window">
+            <field name="name">Income and Salary</field>
+            <field name="res_model">salary.line</field>
+            <field name="view_mode">tree,form</field>
+            <!--            <field name="search_view_id" ref="view_detainee_file_search"/>-->
+        </record>
+
+        <menuitem id="menu_salary_line" name="Income and Salary"
+                  parent="odex_benefit.menu_benefits_config_others"
+                  sequence="1" action="action_salary_line"/>
+        <!--expense line views-->
+        <record id="view_expense_line_form" model="ir.ui.view">
+            <field name="name">view.expense.line.form</field>
+            <field name="model">expenses.line</field>
+            <field name="arch" type="xml">
+                <form string="Expenses">
+                    <sheet>
+                        <group>
+                            <field name="member_id"/>
+                            <field name="category_id"/>
+                            <field name="benefit_id"/>
+                            <field name="expenses_type_custom"/>
+                            <field name="expenses_type"/>
+                        </group>
+                        <group>
+                            <field name="amount"/>
+                            <field name="note"/>
+                            <field name="state"/>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+        <record id="view_expense_line_tree" model="ir.ui.view">
+            <field name="name">view.expense.line.tree</field>
+            <field name="model">expenses.line</field>
+            <field name="arch" type="xml">
+                <tree string="Expenses">
+                    <field name="member_id"/>
+                    <field name="category_id"/>
+                    <field name="benefit_id"/>
+                    <field name="expenses_type_custom"/>
+                    <field name="expenses_type"/>
+                    <field name="amount"/>
+                    <field name="note"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_expense_line" model="ir.actions.act_window">
+            <field name="name">Expenses</field>
+            <field name="res_model">expenses.line</field>
+            <field name="view_mode">tree,form</field>
+            <!--            <field name="search_view_id" ref="view_detainee_file_search"/>-->
+        </record>
+
+        <menuitem id="menu_expense_line" name="Expenses"
+                  parent="odex_benefit.menu_benefits_config_others"
+                  sequence="2" action="action_expense_line"/>
+
 
         <!-- Housing -->
         <record id="view_benefit_housing_form" model="ir.ui.view">
@@ -388,19 +503,19 @@
                 </form>
             </field>
         </record>
-<!--        <record id="grant_benefit_tree" model="ir.ui.view">-->
-<!--            <field name="name">grant.benefit.tree</field>-->
-<!--            <field name="model">grant.benefit</field>-->
-<!--            <field name="arch" type="xml">-->
-<!--                <tree string="Benefit" default_order="create_date">-->
-<!--                    &lt;!&ndash;                    <field name="code"/>&ndash;&gt;-->
-<!--                    <field name="name"/>-->
-<!--                    <field name="email"/>-->
-<!--                    <field name="phone"/>-->
-<!--                    <field name="state"/>-->
-<!--                </tree>-->
-<!--            </field>-->
-<!--        </record>-->
+        <!--        <record id="grant_benefit_tree" model="ir.ui.view">-->
+        <!--            <field name="name">grant.benefit.tree</field>-->
+        <!--            <field name="model">grant.benefit</field>-->
+        <!--            <field name="arch" type="xml">-->
+        <!--                <tree string="Benefit" default_order="create_date">-->
+        <!--                    &lt;!&ndash;                    <field name="code"/>&ndash;&gt;-->
+        <!--                    <field name="name"/>-->
+        <!--                    <field name="email"/>-->
+        <!--                    <field name="phone"/>-->
+        <!--                    <field name="state"/>-->
+        <!--                </tree>-->
+        <!--            </field>-->
+        <!--        </record>-->
         <!-- Rooms tree -->
         <record id="housing_rooms_tree" model="ir.ui.view">
             <field name="name">housing_rooms_tree</field>
@@ -572,19 +687,19 @@
                 </tree>
             </field>
         </record>
-<!--        <record id="grant_benefit_tree" model="ir.ui.view">-->
-<!--            <field name="name">grant.benefit.tree</field>-->
-<!--            <field name="model">grant.benefit</field>-->
-<!--            <field name="arch" type="xml">-->
-<!--                <tree string="Benefit" default_order="create_date">-->
-<!--                    &lt;!&ndash;                    <field name="code"/>&ndash;&gt;-->
-<!--                    <field name="name"/>-->
-<!--                    <field name="email"/>-->
-<!--                    <field name="phone"/>-->
-<!--                    <field name="state"/>-->
-<!--                </tree>-->
-<!--            </field>-->
-<!--        </record>-->
+        <!--        <record id="grant_benefit_tree" model="ir.ui.view">-->
+        <!--            <field name="name">grant.benefit.tree</field>-->
+        <!--            <field name="model">grant.benefit</field>-->
+        <!--            <field name="arch" type="xml">-->
+        <!--                <tree string="Benefit" default_order="create_date">-->
+        <!--                    &lt;!&ndash;                    <field name="code"/>&ndash;&gt;-->
+        <!--                    <field name="name"/>-->
+        <!--                    <field name="email"/>-->
+        <!--                    <field name="phone"/>-->
+        <!--                    <field name="state"/>-->
+        <!--                </tree>-->
+        <!--            </field>-->
+        <!--        </record>-->
         <record id="benefit_housing_kanban_view" model="ir.ui.view">
             <field name="name">benefit.housing.kanban</field>
             <field name="model">benefit.housing</field>
@@ -696,8 +811,8 @@
                                 <field name="description"/>
                             </group>
                             <group>
-                            <field name="is_scientific_specialty"/>
-                            <field name="is_medical_specialty"/>
+                                <field name="is_scientific_specialty"/>
+                                <field name="is_medical_specialty"/>
                             </group>
                         </group>
                     </sheet>
@@ -800,15 +915,15 @@
                 </tree>
             </field>
         </record>
-<!--        <record id="branch_settings_tree" model="ir.ui.view">-->
-<!--            <field name="name">branch.settings.tree</field>-->
-<!--            <field name="model">branch.settings</field>-->
-<!--            <field name="arch" type="xml">-->
-<!--                <tree string="Branch settings">-->
-<!--                    <field name="branch_id"/>-->
-<!--                </tree>-->
-<!--            </field>-->
-<!--        </record>-->
+        <!--        <record id="branch_settings_tree" model="ir.ui.view">-->
+        <!--            <field name="name">branch.settings.tree</field>-->
+        <!--            <field name="model">branch.settings</field>-->
+        <!--            <field name="arch" type="xml">-->
+        <!--                <tree string="Branch settings">-->
+        <!--                    <field name="branch_id"/>-->
+        <!--                </tree>-->
+        <!--            </field>-->
+        <!--        </record>-->
 
         <record id="districts_tree" model="ir.ui.view">
             <field name="name">res.districts.tree</field>
@@ -884,31 +999,31 @@
             </field>
         </record>
 
-     <record id="survey_setting_form" model="ir.ui.view">
-        <field name="name">Survey URL</field>
-        <field name="model">survey.setting</field>
-        <field name="arch" type="xml">
-            <form>
-                <sheet>
-                    <group>
+        <record id="survey_setting_form" model="ir.ui.view">
+            <field name="name">Survey URL</field>
+            <field name="model">survey.setting</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
                         <group>
-                            <field name="survey_url"/>
+                            <group>
+                                <field name="survey_url"/>
+                            </group>
                         </group>
-                    </group>
-                </sheet>
-            </form>
-        </field>
-    </record>
-     <record id="survey_setting_tree" model="ir.ui.view">
-        <field name="name">Survey URL</field>
-        <field name="model">survey.setting</field>
-        <field name="arch" type="xml">
-            <tree>
-                <field name="survey_url"/>
-            </tree>
-        </field>
-    </record>
-     <record id="suspend_reason_form" model="ir.ui.view">
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="survey_setting_tree" model="ir.ui.view">
+            <field name="name">Survey URL</field>
+            <field name="model">survey.setting</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="survey_url"/>
+                </tree>
+            </field>
+        </record>
+        <record id="suspend_reason_form" model="ir.ui.view">
             <field name="name">Suspend Reason</field>
             <field name="model">suspend.reason</field>
             <field name="arch" type="xml">
@@ -948,7 +1063,7 @@
                 </form>
             </field>
         </record>
-     <record id="branch_settings_tree" model="ir.ui.view">
+        <record id="branch_settings_tree" model="ir.ui.view">
             <field name="name">Branch Settings</field>
             <field name="model">branch.settings</field>
             <field name="arch" type="xml">
@@ -958,7 +1073,7 @@
                 </tree>
             </field>
         </record>
-       <record id="relation_settings_form" model="ir.ui.view">
+        <record id="relation_settings_form" model="ir.ui.view">
             <field name="name">Relation Settings</field>
             <field name="model">relation.settings</field>
             <field name="arch" type="xml">
@@ -984,7 +1099,7 @@
                 </tree>
             </field>
         </record>
-         <record id="location_settings_form" model="ir.ui.view">
+        <record id="location_settings_form" model="ir.ui.view">
             <field name="name">Location Settings</field>
             <field name="model">location.settings</field>
             <field name="arch" type="xml">
@@ -1006,7 +1121,7 @@
             <field name="model">location.settings</field>
             <field name="arch" type="xml">
                 <tree>
-                     <field name="name"/>
+                    <field name="name"/>
                     <field name="location_type"/>
                     <field name="is_benefit"/>
                 </tree>
@@ -1022,12 +1137,15 @@
                             <group>
                                 <field name="name"/>
                                 <field name="attach_type"/>
-                                <field name="family_appearance_seq" attrs="{'invisible':[('attach_type','!=','family_attach')]}"/>
-                                <field name="member_appearance_seq" attrs="{'invisible':[('attach_type','!=','member_attach')]}"/>
-                                <field name="income_appearance_seq" attrs="{'invisible':[('attach_type','!=','income_attach')]}"/>
-<!--                                <field name="hobby_id"/>-->
-<!--                                <field name="diseases_id"/>-->
-<!--                                <field name="disabilities_id"/>-->
+                                <field name="family_appearance_seq"
+                                       attrs="{'invisible':[('attach_type','!=','family_attach')]}"/>
+                                <field name="member_appearance_seq"
+                                       attrs="{'invisible':[('attach_type','!=','member_attach')]}"/>
+                                <field name="income_appearance_seq"
+                                       attrs="{'invisible':[('attach_type','!=','income_attach')]}"/>
+                                <!--                                <field name="hobby_id"/>-->
+                                <!--                                <field name="diseases_id"/>-->
+                                <!--                                <field name="disabilities_id"/>-->
                                 <field name="is_required"/>
                                 <field name="is_default"/>
                             </group>
@@ -1048,7 +1166,7 @@
                 </tree>
             </field>
         </record>
-       <record id="education_illiterate_reason_form" model="ir.ui.view">
+        <record id="education_illiterate_reason_form" model="ir.ui.view">
             <field name="name">Education Illiterate Reason</field>
             <field name="model">education.illiterate.reason</field>
             <field name="arch" type="xml">
@@ -1072,8 +1190,8 @@
                 </tree>
             </field>
         </record>
-    <!-- Income Type Form and Tree -->
-       <record id="income_type_form" model="ir.ui.view">
+        <!-- Income Type Form and Tree -->
+        <record id="income_type_form" model="ir.ui.view">
             <field name="name">Income Type</field>
             <field name="model">income.type</field>
             <field name="arch" type="xml">
@@ -1088,7 +1206,7 @@
                 </form>
             </field>
         </record>
-       <record id="income_type_tree" model="ir.ui.view">
+        <record id="income_type_tree" model="ir.ui.view">
             <field name="name">Income Type Tree</field>
             <field name="model">income.type</field>
             <field name="arch" type="xml">
@@ -1097,8 +1215,8 @@
                 </tree>
             </field>
         </record>
-    <!-- Expenses Type Form and Tree -->
-         <record id="expenses_type_form" model="ir.ui.view">
+        <!-- Expenses Type Form and Tree -->
+        <record id="expenses_type_form" model="ir.ui.view">
             <field name="name">Expenses Type</field>
             <field name="model">expenses.type</field>
             <field name="arch" type="xml">
@@ -1113,7 +1231,7 @@
                 </form>
             </field>
         </record>
-       <record id="expenses_type_tree" model="ir.ui.view">
+        <record id="expenses_type_tree" model="ir.ui.view">
             <field name="name">Expenses Type Tree</field>
             <field name="model">expenses.type</field>
             <field name="arch" type="xml">
@@ -1122,8 +1240,8 @@
                 </tree>
             </field>
         </record>
-    <!-- Loan Giver FOrm AND tree -->
-         <record id="loan_giver_form" model="ir.ui.view">
+        <!-- Loan Giver FOrm AND tree -->
+        <record id="loan_giver_form" model="ir.ui.view">
             <field name="name">Loan Giver Form</field>
             <field name="model">loan.giver</field>
             <field name="arch" type="xml">
@@ -1138,7 +1256,7 @@
                 </form>
             </field>
         </record>
-       <record id="loan_giver_tree" model="ir.ui.view">
+        <record id="loan_giver_tree" model="ir.ui.view">
             <field name="name">Loan Giver Tree</field>
             <field name="model">loan.giver</field>
             <field name="arch" type="xml">
@@ -1148,7 +1266,7 @@
             </field>
         </record>
         <!-- Hobbies Settings Form AND tree -->
-         <record id="hobbies_settings_form" model="ir.ui.view">
+        <record id="hobbies_settings_form" model="ir.ui.view">
             <field name="name">Hobbies Settings Form</field>
             <field name="model">hobbies.settings</field>
             <field name="arch" type="xml">
@@ -1172,8 +1290,8 @@
                 </tree>
             </field>
         </record>
-         <!-- Disabilities Setting Form AND tree -->
-       <record id="disabilities_settings_form" model="ir.ui.view">
+        <!-- Disabilities Setting Form AND tree -->
+        <record id="disabilities_settings_form" model="ir.ui.view">
             <field name="name">Disabilities Settings Form</field>
             <field name="model">disabilities.settings</field>
             <field name="arch" type="xml">
@@ -1188,7 +1306,7 @@
                 </form>
             </field>
         </record>
-       <record id="disabilities_settings_tree" model="ir.ui.view">
+        <record id="disabilities_settings_tree" model="ir.ui.view">
             <field name="name">Disabilities Settings Tree</field>
             <field name="model">disabilities.settings</field>
             <field name="arch" type="xml">
@@ -1197,8 +1315,8 @@
                 </tree>
             </field>
         </record>
-          <!-- Diseases Settings Form AND tree -->
-       <record id="diseases_settings_form" model="ir.ui.view">
+        <!-- Diseases Settings Form AND tree -->
+        <record id="diseases_settings_form" model="ir.ui.view">
             <field name="name">Diseases Settings Form</field>
             <field name="model">diseases.settings</field>
             <field name="arch" type="xml">
@@ -1213,7 +1331,7 @@
                 </form>
             </field>
         </record>
-       <record id="diseases_settings_tree" model="ir.ui.view">
+        <record id="diseases_settings_tree" model="ir.ui.view">
             <field name="name">Diseases Settings Tree</field>
             <field name="model">diseases.settings</field>
             <field name="arch" type="xml">
@@ -1222,8 +1340,8 @@
                 </tree>
             </field>
         </record>
-      <!-- Exception Reason Form AND tree -->
-       <record id="exception_reason_form" model="ir.ui.view">
+        <!-- Exception Reason Form AND tree -->
+        <record id="exception_reason_form" model="ir.ui.view">
             <field name="name">Exception Reason Form</field>
             <field name="model">exception.reason</field>
             <field name="arch" type="xml">
@@ -1238,7 +1356,7 @@
                 </form>
             </field>
         </record>
-       <record id="exception_reason_tree" model="ir.ui.view">
+        <record id="exception_reason_tree" model="ir.ui.view">
             <field name="name">Exception Reason Tree</field>
             <field name="model">exception.reason</field>
             <field name="arch" type="xml">
@@ -1247,8 +1365,8 @@
                 </tree>
             </field>
         </record>
-              <!-- Marital Status Form AND tree -->
-       <record id="marital_status_form" model="ir.ui.view">
+        <!-- Marital Status Form AND tree -->
+        <record id="marital_status_form" model="ir.ui.view">
             <field name="name">Marital Status Form</field>
             <field name="model">marital.status</field>
             <field name="arch" type="xml">
@@ -1265,7 +1383,7 @@
                 </form>
             </field>
         </record>
-       <record id="marital_status_tree" model="ir.ui.view">
+        <record id="marital_status_tree" model="ir.ui.view">
             <field name="name">Marital Status Tree</field>
             <field name="model">marital.status</field>
             <field name="arch" type="xml">
@@ -1275,8 +1393,8 @@
                 </tree>
             </field>
         </record>
-               <!-- Age Category Form AND tree -->
-       <record id="age_category_form" model="ir.ui.view">
+        <!-- Age Category Form AND tree -->
+        <record id="age_category_form" model="ir.ui.view">
             <field name="name">Age Category Form</field>
             <field name="model">age.category</field>
             <field name="arch" type="xml">
@@ -1294,7 +1412,7 @@
                 </form>
             </field>
         </record>
-       <record id="age_category_tree" model="ir.ui.view">
+        <record id="age_category_tree" model="ir.ui.view">
             <field name="name">Age Category Tree</field>
             <field name="model">age.category</field>
             <field name="arch" type="xml">
@@ -1305,39 +1423,39 @@
                 </tree>
             </field>
         </record>
-     <!-- Complaints Category Form AND tree -->
-       <record id="complaints_category_form" model="ir.ui.view">
+        <!-- Complaints Category Form AND tree -->
+        <record id="complaints_category_form" model="ir.ui.view">
             <field name="name">Complaints Category Form</field>
             <field name="model">complaints.category</field>
             <field name="arch" type="xml">
                 <form string="Complaints Category">
-                <sheet>
-                    <div class="oe_title">
-                        <div class="oe_edit_only">
-                            <label for="name"/>
+                    <sheet>
+                        <div class="oe_title">
+                            <div class="oe_edit_only">
+                                <label for="name"/>
+                            </div>
+                            <h1>
+                                <field name="name"/>
+                            </h1>
                         </div>
-                        <h1>
-                            <field name="name"/>
-                        </h1>
-                    </div>
-                    <group>
                         <group>
-                            <field name="color" required="True"/>
+                            <group>
+                                <field name="color" required="True"/>
+                            </group>
                         </group>
-                    </group>
-                </sheet>
-            </form>
+                    </sheet>
+                </form>
             </field>
         </record>
-       <record id="age_category_tree" model="ir.ui.view">
+        <record id="age_category_tree" model="ir.ui.view">
             <field name="name">Complaints Category Tree</field>
             <field name="model">complaints.category</field>
             <field name="arch" type="xml">
-            <tree string="Complaints Category" editable="bottom">
-                <field name="name"/>
-                <field name="color" widget="color_picker" />
-            </tree>
-        </field>
+                <tree string="Complaints Category" editable="bottom">
+                    <field name="name"/>
+                    <field name="color" widget="color_picker"/>
+                </tree>
+            </field>
         </record>
     </data>
 </odoo>
