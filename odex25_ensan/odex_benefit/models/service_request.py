@@ -21,11 +21,36 @@ class ServiceRequest(models.Model):
     branch_custom_id = fields.Many2one('branch.settings', string="Branch",related='family_id.branch_custom_id',store=True)
     member_id = fields.Many2one('family.member',domain="[('benefit_id','=',family_id)]",string='Member')
     description = fields.Char(string='Description')
-    need_status = fields.Selection(string='Need Status',selection=[('urgent', 'urgent'),('not_urgent', 'Not urgent')])
+    need_status_id = fields.Many2one(
+        "service.need.status",
+        string="Need Status",
+        tracking=True,
+        required=True
+    )
+    delivery_method_id = fields.Many2one(
+        "service.delivery.method",
+        string="Service Delivery Method",
+        required=True
+
+    )
+    provider_id = fields.Many2one(
+        "service.provider",
+        string="Service Provider",
+        required=True
+
+    )
+    partner_id = fields.Many2one("res.partner", string="Partner")
+
+    provider_need_partner = fields.Boolean(
+        related="provider_id.need_partner",
+        store=True,
+        readonly=True,
+    )
+
     main_service_category = fields.Many2one('services.settings',domain="[('is_main_service','=',True)]",string="Main Service Category")
     sub_service_category = fields.Many2one('services.settings',domain="[('is_main_service','=',False),('service_type','=',False),('parent_service','=',main_service_category)]",string='Sub Service Category')
     service_cat = fields.Many2one('services.settings',string='Service Cat.')
-    service_attach = fields.Many2many('ir.attachment', 'rel_service_attachment_service_request', 'service_request_id','attachment_id', string='Service Attachment')
+    # service_attach = fields.Many2many('ir.attachment', 'rel_service_attachment_service_request', 'service_request_id','attachment_id', string='Service Attachment')
     requested_service_amount = fields.Float(string="Requested Service Amount")
     #yearly Estimated Rent Amount
     estimated_rent_amount = fields.Float(string="Estimated Rent Amount",compute="_get_estimated_rent_amount")

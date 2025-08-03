@@ -71,7 +71,15 @@
                                     <field name="service_producer_id" attrs="{'invisible':[('is_service_producer','=',False)],'readonly':[('state','not in',['draft','researcher','send_request'])]}"/>
                                 </group>
                                 <group>
-                                    <field name="need_status" attrs="{'readonly':[('state','not in',['draft','researcher','send_request'])]}"/>
+                                    <field name="provider_need_partner" invisible="1"/>
+                                    <field name="need_status_id" attrs="{'readonly':[('state','not in',['draft','researcher','send_request'])]}"/>
+                                    <field name="delivery_method_id" attrs="{'readonly':[('state','not in',['draft','researcher','send_request'])]}"/>
+                                    <field name="provider_id" attrs="{'readonly':[('state','not in',['draft','researcher','send_request'])]}"/>
+                                    <field name="partner_id"
+                                           attrs="{
+                                               'invisible': [('provider_need_partner', '=', False)],
+                                               'required': [('provider_need_partner', '=', True)]
+                                           }"/>
                                     <field name="main_service_category" attrs="{'readonly':[('state','not in',['draft','researcher','send_request'])]}" required="1"/>
                                     <field name="sub_service_category" attrs="{'readonly':[('state','not in',['draft','researcher','send_request'])]}" required="1"/>
                                     <field name="service_cat" attrs="{'readonly':[('state','not in',['draft','researcher','send_request'])]}" required="1"/>
@@ -90,7 +98,6 @@
                                     <field name="max_water_bill_amount" readonly="1" force_save="1"  attrs="{'invisible':[('service_type','!=','water_bill')]}"/>
                                     <field name="aid_amount" invisible="1"/>
                                     <field name="description" attrs="{'readonly':[('state','not in',['draft','researcher','send_request'])]}"/>
-                                    <field name="service_attach" attrs="{'readonly':[('state','not in',['draft','researcher','send_request'])]}" widget="many2many_attachment_preview"/>
                                     <field name="has_marriage_course" attrs="{'readonly':[('state','not in',['draft','researcher','send_request'])],'invisible':[('service_type','!=','marriage')],'required':[('service_type','=','marriage')]}"/>
                                     <field name="service_type" invisible="1"/>
                                 </group>
@@ -100,7 +107,6 @@
                                     <field name="attachment_lines" widget="one2many_list">
                                         <tree editable="bottom" delete="0">
                                             <field name="name"/>
-                                            <field name="service_attach" widget="many2many_attachment_preview"/>
                                             <field name="notes"/>
                                             <field name="service_type" invisible="1"/>
                                         </tree>
@@ -255,7 +261,7 @@
                 <tree>
                     <field name="name"/>
                     <field name="family_id"/>
-                      <field name="need_status"/>
+                      <field name="need_status_id"/>
                     <field name="main_service_category"/>
                     <field name="sub_service_category"/>
                     <field name="service_cat"/>

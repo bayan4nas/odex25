@@ -3,6 +3,9 @@ from . import benefit
 from . import benefit_need
 from . import benefit_config
 from . import housing_config
+from . import service_delivery_method
+from . import service_need_status
+from . import service_provider
 from . import generate_reports
 from . import Services
 from . import sms
