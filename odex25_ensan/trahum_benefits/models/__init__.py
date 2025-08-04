@@ -10,3 +10,4 @@ from . import service_setting
 from . import output_setting
 from . import service_request
 from . import case_info
+from . import res_district
