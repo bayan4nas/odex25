@@ -48,7 +48,7 @@ class GrantBenefit(models.Model):
 
     district_name = fields.Many2one(
         'res.district',
-        string='District', )
+        string='District',)
 
     postal_code = fields.Char(string='Postal Code')
     national_address_code = fields.Char(string='National address code')
@@ -213,12 +213,6 @@ class GrantBenefit(models.Model):
         for rec in self:
             filtered = rec.benefit_breadwinner_ids.filtered(lambda bw: bw.relation_id.name != 'زوجة مطلقة')
             rec.member_count = len(rec.benefit_member_ids) + len(filtered)
-
-    @api.onchange('benefit_breadwinner_ids')
-    def _onchange_benefit_breadwinner_ids(self):
-        if len(self.benefit_breadwinner_ids) > 1:
-            raise UserError(_('You can only add one breadwinner line.'))
-
 
     def action_revert_state(self):
         return {
@@ -471,7 +465,6 @@ class GrantBenefitBreadwinner(models.Model):
     _description = 'Grant Benefit Breadwinner'
 
     grant_benefit_ids = fields.Many2one('grant.benefit', string="Grant Benefit", ondelete="cascade")
-    member_name = fields.Many2one('family.member', string="Member name", domain=[('state', '=', 'confirmed')])
-
+    member_name = fields.Many2one('family.member', string="Member name")
     relation_id = fields.Many2one('family.member.relation', string='Relation with res')
     breadwinner = fields.Char(string='Breadwinner', default=lambda self: _('Breadwinner'))
