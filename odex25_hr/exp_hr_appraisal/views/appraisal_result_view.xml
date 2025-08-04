@@ -8,10 +8,12 @@
                 <form string="Appraisal Result">
                     <sheet>
                         <group>
-                            <field name="name" string="Result name" required="1"/>
-                            <field name="result_from" string="Result from" required="1"/>
-                            <field name="result_to" string="Result to" required="1"/>
-                            <field name="company_id" groups="base.group_multi_company" readonly="1"/>
+                            <group>
+                                <field name="name" string="Result name" required="1"/>
+                                <field name="color"/>
+                                <field name="result_from" string="Result from" required="1"/>
+                                <field name="result_to" string="Result to" required="1"/>
+                            </group>
                         </group>
                     </sheet>
                 </form>
@@ -31,7 +33,7 @@
         </record>
 
         <record id="appraisal_result_action" model="ir.actions.act_window">
-            <field name="name">Appraisal Result</field>
+            <field name="name">Performance Evaluation Levels</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">appraisal.result</field>
             <field name="view_mode">tree,form</field>
@@ -46,7 +48,7 @@
         </record>
 
         <!-- This Menu Item must have a parent and an action -->
-        <menuitem id="appraisal_result_menu" name="Appraisal Result" parent="appraisal_configuration"
-                  action="appraisal_result_action" sequence="4"/>
+        <menuitem id="appraisal_result_menu" parent="appraisal_configuration"
+                  action="appraisal_result_action" sequence="5"/>
     </data>
 </odoo>

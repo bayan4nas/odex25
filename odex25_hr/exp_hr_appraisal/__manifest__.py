@@ -4,7 +4,7 @@
 {
     'name': 'Appraisal',
     'version': '11.0.1.0.0',
-    'category': 'Odex25-HR/Odex25-HR',
+    'category': 'HR-Odex',
     'summary': 'Manage Appraisal',
     'description': """
         Helps you to manage Appraisal of your company's staff.

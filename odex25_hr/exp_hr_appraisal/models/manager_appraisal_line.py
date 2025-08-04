@@ -14,7 +14,6 @@ class ManagerAppraisalLine(models.Model):
 
     # Relational fields
     customize_appraisal_id = fields.One2many('customize.appraisal', 'customize_appraisal_line_id')
-    company_id = fields.Many2one('res.company', string='Company', default=lambda self: self.env.company)
 
     # Compute total degree from
     @api.onchange('customize_appraisal_id')
@@ -49,4 +48,3 @@ class AppraisalDegree(models.Model):
     name = fields.Char()
     great_degree_level = fields.Float()
     greed = fields.Float()
-    company_id = fields.Many2one('res.company', string='Company', default=lambda self: self.env.company)

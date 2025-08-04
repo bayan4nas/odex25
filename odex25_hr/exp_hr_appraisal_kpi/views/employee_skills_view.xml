@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record model="ir.ui.view" id="view_skill_appraisal_result_line_form">
+        <field name="name">skill.appraisal.result.form</field>
+        <field name="model">skill.appraisal.result</field>
+        <field name="arch" type="xml">
+            <form string="Employee Skill Appraisal" create="0" edit="0" delete="0">
+                <sheet>
+                    <group col="4">
+                        <field name="emp_appraisal_id" width="10" invisible="1"/>
+                        <field name="employee_id" width="10" options='{"no_open": True,"no_create_edit": True,"no_create":True}' readonly="1"/>
+                        <field name="appraisal_date" width="10"/>
+                        <field name="year_id" width="10" options='{"no_open": True,"no_create_edit": True,"no_create":True}' readonly="1"/>
+                        <field name="skill_ids" widget="many2many_tags" width="10" options='{"no_open": True,"no_create_edit": True,"no_create":True}' readonly="1"/>
+                        <field name="skill_weight" width="10"/>
+                        <field name="skill_result" width="10"/>
+                        <field name="skill_mark" width="10"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_skill_appraisal_result_tree">
+        <field name="name">skill.appraisal.result.tree</field>
+        <field name="model">skill.appraisal.result</field>
+        <field name="arch" type="xml">
+            <tree string="Employee Skill Appraisal" create="0" delete="0">
+                <field name="emp_appraisal_id" width="10" invisible="1"/>
+                <field name="employee_id" width="10"/>
+                <field name="appraisal_date" width="10"/>
+                <field name="year_id" width="10"/>
+                <field name="skill_ids" widget="many2many_tags" width="10"/>
+                <field name="skill_weight" width="10"/>
+                <field name="skill_result" width="10"/>
+                <field name="skill_mark" width="10"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="skill_appraisal_result_search" model="ir.ui.view">
+        <field name="name">skill.appraisal.result.search</field>
+        <field name="model">skill.appraisal.result</field>
+        <field name="arch" type="xml">
+            <search string="Employee Skill Appraisal">
+                <field name="emp_appraisal_id"/>
+                <field name="year_id"/>
+                <separator/>
+                <filter string="Date" name="filter_appraisal_date" date="appraisal_date"/>
+                <group expand="0" string="Group By">
+                    <filter name="group_emp_appraisal_id" string="Employee Skill Appraisal" domain="[]"
+                            context="{'group_by':'emp_appraisal_id'}"/>
+                </group>
+            </search>
+
+        </field>
+    </record>
+
+    <record id="action_skill_appraisal" model="ir.actions.act_window">
+        <field name="name">Employee Skill Appraisal</field>
+        <field name="res_model">skill.appraisal.result</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('show_skill_result','=', True)]</field>
+        <field name="context">{'search_default_group_emp_appraisal_id': True}</field>
+    </record>
+
+    <menuitem id="menu_skill_appraisal_list" sequence="2" name="Employee Skill Appraisal"
+              parent="exp_hr_appraisal.appraisal_menu_id" action="action_skill_appraisal"/>
+</odoo>

@@ -287,6 +287,7 @@ class FamilyMember(models.Model):
     experience_certificate = fields.Many2many('ir.attachment', string="Experience Certificate", tracking=True)
     job_title = fields.Many2one('job.title', string='Job Title')
 
+
     def action_confirm(self):
         for record in self:
             all_fields = [

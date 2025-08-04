@@ -13,7 +13,7 @@ class ContractExtension(models.Model):
         self.appraisal_id = False
         for item in self:
             appraisal_ids = self.env['hr.employee.appraisal'].search(
-                [('employee_id', '=', item.employee_id.id), ('appraisal_type', '=', 'trial')]).ids
+                [('employee_id', '=', item.employee_id.id)]).ids
             if appraisal_ids:
                 return {'domain': {'appraisal_id': [('id', 'in', appraisal_ids)]}}
             else:

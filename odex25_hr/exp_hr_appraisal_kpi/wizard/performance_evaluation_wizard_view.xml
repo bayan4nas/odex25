@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record model="ir.ui.view" id="performance_evaluation_summary_form">
+            <field name="name">performance.evaluation.report.form</field>
+            <field name="model">performance.evaluation.report</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group col="4" colspan="2">
+                            <field name="date_from" required="1"/>
+                            <field name="date_to" required="1"/>
+                            <field name="appraisal_stage_id" options="{'no_create': True, 'no_open': True}"/>
+
+                        </group>
+                        <notebook>
+                            <page string="Department">
+                                <field name="department_ids" nolabel="1" colspan="4"/>
+
+                            </page>
+                            <page string="Employee">
+                                <field name="employee_ids" nolabel="1" colspan="4">
+                                    <tree>
+                                        <field name="name"/>
+                                        <field name="department_id"/>
+                                        <field name="job_id"/>
+                                    </tree>
+                                </field>
+
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <footer>
+                        <button name="print_report" string="Print PDF" type="object" class="oe_highlight"/>
+                        <button name="print_report_xlsx" string="Print Excel" type="object" class="oe_highlight"/>
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="performance_evaluation_summary_action" model="ir.actions.act_window">
+            <field name="name">Performance Evaluation Summary</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">performance.evaluation.report</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem id="performance_evaluation_summary_root_menu" name="Reports"
+                  parent="exp_hr_appraisal.appraisal_menu_id"
+                  groups="exp_hr_appraisal.group_appraisal_manager,exp_hr_appraisal.group_appraisal_employee"/>
+        <menuitem id="performance_evaluation_summary_menu" parent="performance_evaluation_summary_root_menu"
+                  action="performance_evaluation_summary_action"/>
+
+
+    </data>
+</odoo>

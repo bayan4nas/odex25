@@ -11,7 +11,14 @@ class AppraisalResult(models.Model):
     name = fields.Char()
     result_from = fields.Float()
     result_to = fields.Float()
-    company_id = fields.Many2one('res.company', string='Company', default=lambda self: self.env.company)
+    color = fields.Selection([
+            ('red', 'Red'),
+            ('blue', 'Blue'),
+            ('green', 'Green'),
+            ('orange', 'Orange'),
+            ('purple', 'Purple')
+        ], string="Color", default='blue')
+
 
     # Constrains for result_from and result_to if it's value is less than zero or greater than 100
 
@@ -20,8 +27,7 @@ class AppraisalResult(models.Model):
         for item in self:
             if item.result_from < 0.0 or item.result_to < 0.0:
                 raise exceptions.Warning(_('Result values must be greater than zero.'))
-            elif item.result_from > 100 or item.result_to > 100:
-                raise exceptions.Warning(_('Result values must be less than 100.'))
+            
 
 
 class ContractAppraisal(models.Model):
@@ -29,7 +35,6 @@ class ContractAppraisal(models.Model):
 
     # Relational fields
     appraisal_result_id = fields.Many2one('appraisal.result')
-    appraisal_result = fields.Many2one('hr.employee.appraisal', string="Appraisal")
 
 
 class ReContractAppraisal(models.Model):

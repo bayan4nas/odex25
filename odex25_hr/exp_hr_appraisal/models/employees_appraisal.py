@@ -14,6 +14,7 @@ class EmployeesAppraisal(models.Model):
     date = fields.Date()
     state = fields.Selection([("draft", _("Draft")),
                               ("gen_appraisal", _("Generate Appraisal")),
+                              ("gen_apprgen_appraisalaisal", _("Generate Appraisal")),
                               ("start_appraisal", _("Start Appraisal")),
                               ("finish_appraisal", _("Direct Manager")),
                               ("hr_approval", _("Department Manager")),
@@ -22,7 +23,7 @@ class EmployeesAppraisal(models.Model):
 
     # Relational fields
     department_id = fields.Many2one('hr.department')
-    manager_id = fields.Many2one('hr.employee')
+    manager_id = fields.Many2one('hr.employee', related='department_id.manager_id')
     employee_ids = fields.Many2many('hr.employee')
     appraisal_id = fields.One2many('hr.employee.appraisal', 'employee_appraisal')
     appraisal_plan_id = fields.Many2one('appraisal.plan')
@@ -31,7 +32,6 @@ class EmployeesAppraisal(models.Model):
     totals_level_achieved = fields.Float(compute='fill_totals_great_level', tracking=True)
     totals_level_achieved_percentage = fields.Float(compute='fill_totals_great_level', tracking=True)
     totals_appraisal_result = fields.Many2one('appraisal.result', tracking=True, compute='fill_totals_great_level')
-    company_id = fields.Many2one('res.company', string='Company', default=lambda self: self.env.company)
 
     appraisal_type = fields.Selection(selection=[('performance', 'Performance'),
                                                  ('trial', 'Trial Period'),
@@ -50,9 +50,8 @@ class EmployeesAppraisal(models.Model):
                 employee_list = []
 
                 # Domain for manager_id
-                if item.department_id.manager_id:
-                    item.manager_id = item.department_id.manager_id.id
                 if not item.department_id.manager_id:
+                    item.manager_id = False
                     for line in employee_ids:
                         if line.department_id:
                             if line.department_id == item.department_id:
@@ -244,12 +243,12 @@ class EmployeesAppraisal(models.Model):
                 elif line.state == 'state_done':
                     self.state = 'start_appraisal'
 
-    # Override unlink function
-    def unlink(self):
-        for i in self:
-            if i.state != 'draft':
-                raise exceptions.Warning(_('You can not delete record in state not in draft'))
-        return super(EmployeesAppraisal, self).unlink()
+    # # Override unlink function
+    # def unlink(self):
+    #     for i in self:
+    #         if i.state != 'draft':
+    #             raise exceptions.Warning(_('You can not delete record in state not in draft'))
+    #     return super(EmployeesAppraisal, self).unlink()
 
     # Fill total great level
 
@@ -264,11 +263,13 @@ class EmployeesAppraisal(models.Model):
                 count_elment = 0
                 appraisal_result_list = []
                 # for line in element:
-                count_elment += len(item.appraisal_id)
+                count_elment += len(item.appraisal_id) or 1
                 item.totals_great_level += element.great_level / count_elment
                 item.totals_level_achieved += element.level_achieved / count_elment
-                item.totals_level_achieved_percentage = (item.totals_level_achieved / item.totals_great_level) * 100
-
+                if item.totals_great_level > 0:
+                    item.totals_level_achieved_percentage = (item.totals_level_achieved / item.totals_great_level) * 100
+                else:
+                    item.totals_level_achieved_percentage = 0
                 totals_appraisal_result = self.env['appraisal.result'].search([
                     ('result_from', '<=', item.totals_level_achieved_percentage),
                     ('result_to', '>=', item.totals_level_achieved_percentage)])
