@@ -19,7 +19,8 @@ class employee_overtime_request(models.Model):
     reason = fields.Text()
     date_to = fields.Date()
     date_from = fields.Date()
-    transfer_type = fields.Selection([('accounting', 'Accounting'), ('payroll', 'Payroll')], default='payroll')
+    transfer_type = fields.Selection([('accounting', 'Accounting'), ('payroll', 'Payroll')],
+                                    default='accounting', tracking=True)
 
     overtime_plase = fields.Selection([('inside', 'Inside'), ('outside', 'Outside')])
     state = fields.Selection(
