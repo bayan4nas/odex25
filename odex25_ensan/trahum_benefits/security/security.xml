@@ -3,7 +3,7 @@
 
         <record id="group_show_list" model="res.groups">
         <field name="name">Hide/show list</field>
-        <field name="category_id" ref="odex_benefit.module_category_benefit"/>
+        <field name="category_id" ref="trahum_benefits.module_category_benefit"/>
         <field name="implied_ids" eval="[
         (4, ref('hr.group_hr_user'))
 
@@ -93,7 +93,6 @@
 <!--            <field name="users" eval="[(4, ref('base.user_root'))]"/>-->
 <!--            <field name="implied_ids" eval="[(4, ref('group_benefit_info'))]"/>-->
 <!--        </record>-->
-
         <record id="group_benefit_accounting_accept" model="res.groups">
             <field name="name">Accounting Accept</field>
             <field name="category_id" ref="module_category_benefit"/>
