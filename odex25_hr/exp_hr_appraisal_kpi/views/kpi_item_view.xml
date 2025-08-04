@@ -1,0 +1,56 @@
+<odoo>
+    <record id="kpi_item_tree_extend" model="ir.ui.view">
+        <field name="name">kpi.item.tree.extend</field>
+        <field name="model">kpi.item</field>
+        <field name="inherit_id" ref="kpi_scorecard.kpi_item_view_tree"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='formula_warning']"  position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='name']"  position="before">
+                <field name="department_item_id" />
+                <field name="job_id" />
+            </xpath>
+            <xpath expr="//field[@name='name']"  position="after">
+                <field name="description" string="Description"/>
+                <field name="result_appearance" />
+                <field name="result_type" />
+            </xpath>
+
+        </field>
+    </record>
+    <record id="hpi_item_extend" model="ir.ui.view">
+        <field name="name">kpi.form.extend</field>
+        <field name="model">kpi.item</field>
+        <field name="inherit_id" ref="kpi_scorecard.kpi_item_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='formula_warning']"  position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='formula']"  position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//page[3]"  position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//h2"  position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//h2"  position="after">
+            	<h2>
+                   <field name="description" placeholder="description" />
+                </h2>
+            </xpath>           
+            <xpath expr="//field[@name='category_id']" position="after">
+                <field name="department_item_id" options='{"no_open": True,"no_create_edit": True,"no_create": True}'/>
+                <field name="responsible_item_id" options='{"no_open": True,"no_create_edit": True,"no_create": True}'/>
+                <field name="job_id" options='{"no_open": True,"no_create_edit": True,"no_create": True}'/>
+                
+            </xpath>
+            <xpath expr="//notebook/page[2]" position="attributes">
+                <attribute name="groups">kpi_scorecard.group_kpi_admin</attribute>
+            </xpath>
+        </field>
+    </record>
+</odoo>

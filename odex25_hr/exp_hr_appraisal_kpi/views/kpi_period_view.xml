@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="kpi_period_form_extend" model="ir.ui.view">
+        <field name="name">kpi.period.form.extend</field>
+        <field name="model">kpi.period</field>
+        <field name="inherit_id" ref="kpi_scorecard.kpi_period_view_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//page[1]" position="attributes">
+                <attribute name="groups">kpi_scorecard.group_kpi_admin</attribute>
+            </xpath>
+
+            <xpath expr="//page[2]" position="attributes">
+                <attribute name="groups">kpi_scorecard.group_kpi_admin</attribute>
+            </xpath>
+            <xpath expr="//button[@name='%(kpi_scorecard.kpi_copy_template_action)d']" position="attributes">
+                <attribute name="groups">kpi_scorecard.group_kpi_admin</attribute>
+            </xpath>
+            <xpath expr="//page[1]" position="after">
+                <page string="Stages">
+                    
+                    <field name="goals_stage_ids" attrs="{'readonly': [('state', 'not in', 'open')]}">
+                        <tree editable="bottom">
+                            <field name="sequence" width="4" readonly="1"/>
+                            <field name="name" width="8"/>
+                            <field name="start_date" width="12" required="1"/>
+                            <field name="end_date" width="12" required="1"/>
+                            <field name="status" width="8" readonly="0"/>
+                            <button name="start" type="object" string="Start" class="btn-primary"
+                                    attrs="{'invisible':[('status','in',['closed','running'])]}"/>
+                            <button name="close" type="object" string="close" class="btn-primary"
+                                    attrs="{'invisible':[('status','in',['closed','not_start'])]}"/>
+                        </tree>
+                        <form>
+                            <sheet>
+                                <group>
+                                    <group>
+                                        <field name="sequence" width="4" readonly="1"/>
+                                        <field name="name" width="8"/>
+                                    </group>
+                                    <group>
+                                        <field name="start_date" width="12" required="1"/>
+                                        <field name="end_date" width="12" required="1"/>
+                                        <field name="status" width="8" readonly="0"/>
+                                    </group>
+
+                                </group>
+                            </sheet>
+
+                        </form>
+                    </field>
+
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

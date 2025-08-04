@@ -219,6 +219,7 @@ class GrantBenefit(models.Model):
         if len(self.benefit_breadwinner_ids) > 1:
             raise UserError(_('You can only add one breadwinner line.'))
 
+
     def action_revert_state(self):
         return {
             'name': _('Revert State'),
@@ -458,7 +459,7 @@ class GrantBenefitMember(models.Model):
     _description = 'Grant Benefit Member'
 
     grant_benefit_id = fields.Many2one('grant.benefit', string="Grant Benefit", ondelete="cascade")
-    member_id = fields.Many2one('family.member', string="Member", domain=[('state', '=', 'confirmed')])
+    member_id = fields.Many2one('family.member', string="Member")
     # relationship = fields.Many2one(related='member_id.relation_id', string="Relationship", readonly=True)
     is_breadwinner = fields.Boolean(string=" Is Breadwinner?")
     relation_id = fields.Many2one('family.member.relation', string='Relation with res')
@@ -471,5 +472,6 @@ class GrantBenefitBreadwinner(models.Model):
 
     grant_benefit_ids = fields.Many2one('grant.benefit', string="Grant Benefit", ondelete="cascade")
     member_name = fields.Many2one('family.member', string="Member name", domain=[('state', '=', 'confirmed')])
+
     relation_id = fields.Many2one('family.member.relation', string='Relation with res')
     breadwinner = fields.Char(string='Breadwinner', default=lambda self: _('Breadwinner'))

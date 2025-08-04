@@ -1,0 +1,1851 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* exp_hr_appraisal_kpi
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-03-23 12:00+0000\n"
+"PO-Revision-Date: 2025-03-23 12:00+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: exp_hr_appraisal_kpi
+#: model:mail.template,body_html:exp_hr_appraisal_kpi.email_template_appraisal_request_performance_manager
+msgid ""
+"\n"
+"            \n"
+"                    <div style=\"font-family: Arial, sans-serif; text-align: right; direction: rtl; background-color: #f4f4f4; padding: 20px;\">\n"
+"                        <!-- Header with Logo -->\n"
+"\n"
+"                        <div style=\"text-align: right; padding: 15px; background-color: #ffffff;\">\n"
+"                            <img src=\"${object.company_id.get_base_url()}/web/image/res.company/${object.company_id.id}/logo\" alt=\"Company Logo\"\n"
+"                                 style=\"max-width: 150px; height: auto;\"/>\n"
+"                        </div>\n"
+"\n"
+"                        <!-- Title Section -->\n"
+"                        <div style=\"background-color: #006666; color: #ffffff; padding: 15px; text-align: center; font-size: 18px; font-weight: bold;\">\n"
+"                           طلب تقييم أداء للإعتماد\n"
+"                        </div>\n"
+"\n"
+"                        <!-- Content Section -->\n"
+"                        <div style=\"background-color: #ffffff; padding: 20px; border-radius: 10px; margin: 20px auto; max-width: 600px;\">\n"
+"                            <p><strong>السيد مدير إدارة التقييم </strong>,</p>\n"
+"                            <p>تم إرسال تقييم أداء الموظف <strong>${object.employee_id.name}</strong></p>\n"
+"                            <p> للفترة من <strong>${object.year_id.date_start}</strong> إلى <strong>${object.year_id.date_end}</strong>.</p>\n"
+"                            <div style=\"margin: 20px 0; text-align: center;\">\n"
+"                             <a href=\"${object.get_base_url()}/web#id=${object.id}&model=hr.employee.appraisal&view_type=form\"\n"
+"                                style=\"background-color: #006666; color: #fff; padding: 12px 20px; text-decoration: none; font-size: 16px; font-weight: bold; border-radius: 5px; display: inline-block;\">\n"
+"                                عرض التقييم\n"
+"                             </a>\n"
+"                          </div>\n"
+"                           <p>يرجى مراجعة التقييم النهائي واتخاذ الإجراءات المناسبة.</p>\n"
+"                           <p>مع جزيل الشكر.</p>\n"
+"                           <p><strong>فريق الموارد البشرية</strong></p>\n"
+"                        </div>\n"
+"\n"
+"                        <!-- Footer -->\n"
+"                        <div style=\"text-align: center; font-size: 12px; color: #666;\">\n"
+"                            للاستفسارات، يرجى التواصل عبر البريد الإلكتروني:\n"
+"                            <a href=\"mailto:performance@yourcompany.com\" style=\"color: #007867;\">performance@saip.gov.sa</a>\n"
+"                        </div>\n"
+"                    </div>\n"
+"            \n"
+"            "
+msgstr ""
+
+#. module: exp_hr_appraisal_kpi
+#: model:mail.template,body_html:exp_hr_appraisal_kpi.email_template_appraisal_request_executive_director
+msgid ""
+"\n"
+"                \n"
+"                   <div style=\"font-family: Arial, sans-serif; text-align: right; direction: rtl; background-color: #f4f4f4; padding: 20px;\">\n"
+"                       <!-- Header with Logo -->\n"
+"\n"
+"                       <div style=\"text-align: right; padding: 15px; background-color: #ffffff;\">\n"
+"                           <img src=\"${object.company_id.get_base_url()}/web/image/res.company/${object.company_id.id}/logo\" alt=\"Company Logo\"\n"
+"                                 style=\"max-width: 150px; height: auto;\"/>\n"
+"                       </div>\n"
+"\n"
+"                       <!-- Title Section -->\n"
+"                       <div style=\"background-color: #006666; color: #ffffff; padding: 15px; text-align: center; font-size: 18px; font-weight: bold;\">\n"
+"                          طلب تقييم أداء للإعتماد\n"
+"                       </div>\n"
+"\n"
+"                       <!-- Content Section -->\n"
+"                       <div style=\"background-color: #ffffff; padding: 20px; border-radius: 10px; margin: 20px auto; max-width: 600px;\">\n"
+"                           <p style=\"font-size: 16px;\">عزيزي/تي <strong>${object.sudo().coach_id.name}</strong>,</p>\n"
+"                            <p>تم إرسال تقييم أداء الموظف <strong>${object.employee_id.name}</strong></p>\n"
+"                            <p> للفترة من <strong>${object.year_id.date_start}</strong> إلى <strong>${object.year_id.date_end}</strong>.</p>\n"
+"                            <div style=\"margin: 20px 0; text-align: center;\">\n"
+"                             <a href=\"${object.get_base_url()}/web#id=${object.id}&model=hr.employee.appraisal&view_type=form\"\n"
+"                                style=\"background-color: #006666; color: #fff; padding: 12px 20px; text-decoration: none; font-size: 16px; font-weight: bold; border-radius: 5px; display: inline-block;\">\n"
+"                                عرض التقييم\n"
+"                             </a>\n"
+"                          </div>\n"
+"                           <p>يرجى مراجعة التقييم النهائي واتخاذ الإجراءات المناسبة.</p>\n"
+"                           <p>مع جزيل الشكر.</p>\n"
+"                           <p><strong>فريق الموارد البشرية</strong></p>\n"
+"                       </div>\n"
+"\n"
+"                       <!-- Footer -->\n"
+"                       <div style=\"text-align: center; font-size: 12px; color: #666;\">\n"
+"                           للاستفسارات، يرجى التواصل عبر البريد الإلكتروني:\n"
+"                           <a href=\"mailto:performance@yourcompany.com\" style=\"color: #007867;\">performance@saip.gov.sa</a>\n"
+"                       </div>\n"
+"                   </div>\n"
+"                \n"
+"            "
+msgstr ""
+
+#. module: exp_hr_appraisal_kpi
+#: model:mail.template,body_html:exp_hr_appraisal_kpi.email_template_appraisal_request_manager
+msgid ""
+"\n"
+"                \n"
+"                   <div style=\"font-family: Arial, sans-serif; text-align: right; direction: rtl; background-color: #f4f4f4; padding: 20px;\">\n"
+"                       <!-- Header with Logo -->\n"
+"\n"
+"                       <div style=\"text-align: right; padding: 15px; background-color: #ffffff;\">\n"
+"                           <img src=\"${object.company_id.get_base_url()}/web/image/res.company/${object.company_id.id}/logo\" alt=\"Company Logo\"\n"
+"                                 style=\"max-width: 150px; height: auto;\"/>\n"
+"                       </div>\n"
+"\n"
+"                       <!-- Title Section -->\n"
+"                       <div style=\"background-color: #006666; color: #ffffff; padding: 15px; text-align: center; font-size: 18px; font-weight: bold;\">\n"
+"                          طلب تقييم أداء للإعتماد\n"
+"                       </div>\n"
+"\n"
+"                       <!-- Content Section -->\n"
+"                       <div style=\"background-color: #ffffff; padding: 20px; border-radius: 10px; margin: 20px auto; max-width: 600px;\">\n"
+"                           <p style=\"font-size: 16px;\">عزيزي/تي <strong>${object.sudo().manager_id.name}</strong>,</p>\n"
+"                            <p>تم إرسال تقييم أداء الموظف <strong>${object.employee_id.name}</strong></p>\n"
+"                            <p> للفترة من <strong>${object.year_id.date_start}</strong> إلى <strong>${object.year_id.date_end}</strong>.</p>\n"
+"                            <div style=\"margin: 20px 0; text-align: center;\">\n"
+"                             <a href=\"${object.get_base_url()}/web#id=${object.id}&model=hr.employee.appraisal&view_type=form\"\n"
+"                                style=\"background-color: #006666; color: #fff; padding: 12px 20px; text-decoration: none; font-size: 16px; font-weight: bold; border-radius: 5px; display: inline-block;\">\n"
+"                                عرض التقييم\n"
+"                             </a>\n"
+"                          </div>\n"
+"                           <p>يرجى مراجعة التقييم النهائي واتخاذ الإجراءات المناسبة.</p>\n"
+"                           <p>مع جزيل الشكر.</p>\n"
+"                           <p><strong>فريق الموارد البشرية</strong></p>\n"
+"                       </div>\n"
+"\n"
+"                       <!-- Footer -->\n"
+"                       <div style=\"text-align: center; font-size: 12px; color: #666;\">\n"
+"                           للاستفسارات، يرجى التواصل عبر البريد الإلكتروني:\n"
+"                           <a href=\"mailto:performance@yourcompany.com\" style=\"color: #007867;\">performance@saip.gov.sa</a>\n"
+"                       </div>\n"
+"                   </div>\n"
+"                \n"
+"            "
+msgstr ""
+
+#. module: exp_hr_appraisal_kpi
+#: model:mail.template,body_html:exp_hr_appraisal_kpi.email_template_appraisal_result
+msgid ""
+"\n"
+"                \n"
+"        <div style=\"font-family: Arial, sans-serif; text-align: right; direction: rtl; background-color: #f4f4f4; padding: 20px;\">\n"
+"            <!-- Header with Logo -->\n"
+"\n"
+"            <div style=\"text-align: right; padding: 15px; background-color: #ffffff;\">\n"
+"                <img src=\"${object.company_id.get_base_url()}/web/image/res.company/${object.company_id.id}/logo\" alt=\"Company Logo\"\n"
+"                     style=\"max-width: 150px; height: auto;\"/>\n"
+"            </div>\n"
+"\n"
+"            <!-- Title Section -->\n"
+"            <div style=\"background-color: #006666; color: #ffffff; padding: 15px; text-align: center; font-size: 18px; font-weight: bold;\">\n"
+"                إشعار نتيجة تقييم الأداء\n"
+"            </div>\n"
+"\n"
+"            <!-- Content Section -->\n"
+"            <div style=\"background-color: #ffffff; padding: 20px; border-radius: 10px; margin: 20px auto; max-width: 600px;\">\n"
+"                <p>عزيزي <strong>${object.employee_id.name}</strong>,</p>\n"
+"                <p>يسرنا إبلاغك بنتائج تقييم أدائك للفترة التالية:</p>\n"
+"\n"
+"                <ul style=\"padding-right: 20px; line-height: 1.8;\">\n"
+"                    <li><strong>فترة التقييم:</strong> ${object.year_id.name}</li>\n"
+"                    <li><strong>تاريخ التقييم:</strong> ${object.appraisal_date}</li>\n"
+"                    <li><strong>علامة تقييم الأهداف:</strong> ${'{:.2f}'.format(object.goals_mark)}</li>\n"
+"                    <li><strong>علامة تقييم المهارات:</strong> ${'{:.2f}'.format(object.skill_mark)}</li>\n"
+"                    <li><strong>المجموع الكلي:</strong> ${'{:.2f}'.format(object.total_score)}</li>\n"
+"                    <li><strong>نتيجة التقييم:</strong> ${object.appraisal_result.name}</li>\n"
+"                </ul>\n"
+"\n"
+"                <div style=\"margin: 20px 0; text-align: center;\">\n"
+"                    <a href=\"${object.get_base_url()}/web#id=${object.id}&model=hr.employee.appraisal&view_type=form\"\n"
+"                       style=\"background-color: #006666; color: #fff; padding: 12px 20px; text-decoration: none; font-size: 16px; font-weight: bold; border-radius: 5px; display: inline-block;\">\n"
+"                        عرض التقييم\n"
+"                    </a>\n"
+"                </div>\n"
+"\n"
+"                <p style=\"color: #555;\">يرجى التواصل مع مديرك المباشر في حال كان لديك أي استفسارات.</p>\n"
+"            </div>\n"
+"\n"
+"            <!-- Footer -->\n"
+"            <div style=\"text-align: center; font-size: 12px; color: #666;\">\n"
+"                للاستفسارات، يرجى التواصل عبر البريد الإلكتروني:\n"
+"                <a href=\"mailto:performance@yourcompany.com\" style=\"color: #007867;\">performance@saip.gov.sa</a>\n"
+"            </div>\n"
+"        </div>\n"
+"    \n"
+"            "
+msgstr ""
+
+#. module: exp_hr_appraisal_kpi
+#: model:mail.template,body_html:exp_hr_appraisal_kpi.email_template_appraisal_request_performance_officer
+msgid ""
+"\n"
+"                 \n"
+"                    <div style=\"font-family: Arial, sans-serif; text-align: right; direction: rtl; background-color: #f4f4f4; padding: 20px;\">\n"
+"                        <!-- Header with Logo -->\n"
+"\n"
+"                        <div style=\"text-align: right; padding: 15px; background-color: #ffffff;\">\n"
+"                            <img src=\"${object.company_id.get_base_url()}/web/image/res.company/${object.company_id.id}/logo\" alt=\"Company Logo\"\n"
+"                                 style=\"max-width: 150px; height: auto;\"/>\n"
+"                        </div>\n"
+"\n"
+"                        <!-- Title Section -->\n"
+"                        <div style=\"background-color: #006666; color: #ffffff; padding: 15px; text-align: center; font-size: 18px; font-weight: bold;\">\n"
+"                          طلب تقييم أداء للإعتماد\n"
+"                        </div>\n"
+"\n"
+"                        <!-- Content Section -->\n"
+"                        <div style=\"background-color: #ffffff; padding: 20px; border-radius: 10px; margin: 20px auto; max-width: 600px;\">\n"
+"                            <p><strong>السادة مسؤولي إدارة التقييم </strong>,</p>\n"
+"                            <p>تم إرسال تقييم أداء الموظف <strong>${object.employee_id.name}</strong></p>\n"
+"                            <p> للفترة من <strong>${object.year_id.date_start}</strong> إلى <strong>${object.year_id.date_end}</strong>.</p>\n"
+"                            <div style=\"margin: 20px 0; text-align: center;\">\n"
+"                             <a href=\"${object.get_base_url()}/web#id=${object.id}&model=hr.employee.appraisal&view_type=form\"\n"
+"                                style=\"background-color: #006666; color: #fff; padding: 12px 20px; text-decoration: none; font-size: 16px; font-weight: bold; border-radius: 5px; display: inline-block;\">\n"
+"                                عرض التقييم\n"
+"                             </a>\n"
+"                          </div>\n"
+"                           <p>يرجى مراجعة التقييم النهائي واتخاذ الإجراءات المناسبة.</p>\n"
+"                           <p>مع جزيل الشكر.</p>\n"
+"                           <p><strong>فريق الموارد البشرية</strong></p>\n"
+"                        </div>\n"
+"\n"
+"                        <!-- Footer -->\n"
+"                        <div style=\"text-align: center; font-size: 12px; color: #666;\">\n"
+"                            للاستفسارات، يرجى التواصل عبر البريد الإلكتروني:\n"
+"                            <a href=\"mailto:performance@yourcompany.com\" style=\"color: #007867;\">performance@saip.gov.sa</a>\n"
+"                        </div>\n"
+"                    </div>\n"
+"            \n"
+"            "
+msgstr ""
+
+#. module: exp_hr_appraisal_kpi
+#: model:mail.template,body_html:exp_hr_appraisal_kpi.email_template_appraisal_request_employee
+msgid ""
+"\n"
+"                   \n"
+"                   <div style=\"font-family: Arial, sans-serif; text-align: right; direction: rtl; background-color: #f4f4f4; padding: 20px;\">\n"
+"                       <!-- Header with Logo -->\n"
+"\n"
+"                       <div style=\"text-align: right; padding: 15px; background-color: #ffffff;\">\n"
+"                           <img src=\"${object.company_id.get_base_url()}/web/image/res.company/${object.company_id.id}/logo\" alt=\"Company Logo\"\n"
+"                                 style=\"max-width: 150px; height: auto;\"/>\n"
+"                       </div>\n"
+"\n"
+"                       <!-- Title Section -->\n"
+"                       <div style=\"background-color: #006666; color: #ffffff; padding: 15px; text-align: center; font-size: 18px; font-weight: bold;\">\n"
+"                         إشعار بدء تقييم الأداء\n"
+"                       </div>\n"
+"\n"
+"                       <!-- Content Section -->\n"
+"                       <div style=\"background-color: #ffffff; padding: 20px; border-radius: 10px; margin: 20px auto; max-width: 600px;\">\n"
+"                          <p style=\"font-size: 16px;\">عزيزي/تي <strong>${object.employee_id.name}</strong>,</p>\n"
+"                          <p style=\"font-size: 14px;\">\n"
+"                                نود إعلامك ببدء عملية تقييم أدائك للفترة من\n"
+"                                <strong>${object.year_id.date_start}</strong>\n"
+"                                إلى\n"
+"                                <strong>${object.year_id.date_end}</strong>.\n"
+"                          </p>\n"
+"                          <div style=\"margin: 20px 0; text-align: center;\">\n"
+"                             <a href=\"${object.get_base_url()}/web#id=${object.id}&model=hr.employee.appraisal&view_type=form\"\n"
+"                                style=\"background-color: #006666; color: #fff; padding: 12px 20px; text-decoration: none; font-size: 16px; font-weight: bold; border-radius: 5px; display: inline-block;\">\n"
+"                                عرض التقييم\n"
+"                             </a>\n"
+"                          </div>\n"
+"                          <p style=\"font-size: 14px;\">\n"
+"                                يُرجى متابعة الإجراءات مع مديرك المباشر واتخاذ الخطوات اللازمة لضمان نجاح التقييم.\n"
+"                          </p>\n"
+"                           <p>مع جزيل الشكر.</p>\n"
+"                           <p><strong>فريق الموارد البشرية</strong></p>\n"
+"                       </div>\n"
+"\n"
+"                       <!-- Footer -->\n"
+"                       <div style=\"text-align: center; font-size: 12px; color: #666;\">\n"
+"                           للاستفسارات، يرجى التواصل عبر البريد الإلكتروني:\n"
+"                           <a href=\"mailto:performance@yourcompany.com\" style=\"color: #007867;\">performance@saip.gov.sa</a>\n"
+"                       </div>\n"
+"                   </div>\n"
+"                \n"
+"            "
+msgstr ""
+
+#. module: exp_hr_appraisal_kpi
+#: model:mail.template,body_html:exp_hr_appraisal_kpi.email_template_appraisal_stage_notification
+msgid ""
+"\n"
+"                       \n"
+"        <div style=\"font-family: sans-serif; text-align: right; direction: rtl; background-color: #f4f4f4; padding: 20px;\">\n"
+"            <!-- Header with Logo -->\n"
+"\n"
+"            <div style=\"text-align: right; padding: 15px; background-color: #ffffff;\">\n"
+"                <img src=\"${object.company_id.get_base_url()}/web/image/res.company/${object.company_id.id}/logo\" alt=\"Company Logo\"\n"
+"                     style=\"max-width: 150px; height: auto;\"/>\n"
+"            </div>\n"
+"\n"
+"            <!-- Title Section -->\n"
+"            <div style=\"background-color: #006666; color: #ffffff; padding: 15px; text-align: center; font-size: 18px; font-weight: bold;\">\n"
+"                إشعار بدء مرحلة التقييم\n"
+"            </div>\n"
+"\n"
+"            <!-- Content Section -->\n"
+"            <div style=\"background-color: #ffffff; padding: 20px; border-radius: 10px; margin: 20px auto; max-width: 600px;\">\n"
+"                <p><strong>عزيزي/تي مدير القسم</strong>,</p>\n"
+"                <p>نود إشعارك بأن مرحلة التقييم <strong>${object.name}</strong> قد بدأت.</p>\n"
+"\n"
+"                <ul style=\"padding-right: 20px; line-height: 1.8;\">\n"
+"                    <li><strong>تاريخ البدء:</strong> ${object.start_date}</li>\n"
+"                            <li><strong>تاريخ الانتهاء:</strong> ${object.end_date}</li>\n"
+"                </ul>\n"
+"                <p>يرجى اتخاذ الإجراءات المناسبة.</p>\n"
+"                        <p>مع جزيل الشكر.</p>\n"
+"                        <p><strong>فريق الموارد البشرية</strong></p>\n"
+"            </div>\n"
+"\n"
+"            <!-- Footer -->\n"
+"            <div style=\"text-align: center; font-size: 12px; color: #666;\">\n"
+"                للاستفسارات، يرجى التواصل عبر البريد الإلكتروني:\n"
+"                <a href=\"mailto:performance@yourcompany.com\" style=\"color: #007867;\">performance@saip.gov.sa</a>\n"
+"            </div>\n"
+"        </div>\n"
+"    \n"
+"            "
+msgstr ""
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields.selection,name:exp_hr_appraisal_kpi.selection__kpi_item__method_of_calculate__accumulative
+msgid "Accumulative"
+msgstr "تراكمي"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_goals_stages__message_needaction
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_skill_skill__message_needaction
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_years_employee_goals__message_needaction
+msgid "Action Needed"
+msgstr "تحتاج إلى تدخل"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_goals_stages__activity_ids
+msgid "Activities"
+msgstr ""
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_goals_stages__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr ""
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_goals_stages__activity_state
+msgid "Activity State"
+msgstr ""
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_goals_stages__activity_type_icon
+msgid "Activity Type Icon"
+msgstr ""
+
+#. module: exp_hr_appraisal_kpi
+#: model_terms:ir.ui.view,arch_db:exp_hr_appraisal_kpi.view_skill_form
+msgid "Add a Item"
+msgstr "اضافة عنصر"
+
+#. module: exp_hr_appraisal_kpi
+#: model_terms:ir.ui.view,arch_db:exp_hr_appraisal_kpi.view_skill_form
+msgid "Add a note"
+msgstr "اضافة ملاحظة"
+
+#. module: exp_hr_appraisal_kpi
+#: model_terms:ir.ui.view,arch_db:exp_hr_appraisal_kpi.view_skill_form
+msgid "Add a section"
+msgstr "اضافة قسم"
+
+#. module: exp_hr_appraisal_kpi
+#: code:addons/exp_hr_appraisal_kpi/models/kpi_period.py:0
+#, python-format
+msgid "All appraisals in the previous stage must be approved before copying."
+msgstr "يجب الموافقة على جميع التقييمات في المرحلة السابقة قبل بدء المرحلة الجديدة"
+
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_years_employee_goals__appraisal_date
+#: model_terms:ir.ui.view,arch_db:exp_hr_appraisal_kpi.hr_appraisal_view_search
+msgid "Appraisal Date"
+msgstr "تاريخ التقييم"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model,name:exp_hr_appraisal_kpi.model_job_class_apprisal
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_hr_job__appraisal_percentages_id
+msgid "Appraisal Percentage"
+msgstr "نسبة التقييم"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.actions.act_window,name:exp_hr_appraisal_kpi.action_evalution_goal_emp
+#: model_terms:ir.ui.view,arch_db:exp_hr_appraisal_kpi.view_employee_goals_line_form
+#: model_terms:ir.ui.view,arch_db:exp_hr_appraisal_kpi.view_employee_goals_line_tree
+msgid "Appraisal Performance"
+msgstr "تقييم أهداف الموظف"
+
+#. module: exp_hr_appraisal_kpi
+#: model_terms:ir.ui.view,arch_db:exp_hr_appraisal_kpi.hr_appraisal_view_search
+msgid "Appraisal Result"
+msgstr "نتيجة التقييم"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_hr_employee_appraisal__appraisal_stage_id
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_performance_evaluation_report__appraisal_stage_id
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_years_employee_goals__appraisal_stage_id
+#: model_terms:ir.ui.view,arch_db:exp_hr_appraisal_kpi.hr_appraisal_view_search
+msgid "Appraisal Stage"
+msgstr "مراحل التقييم"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_hr_employee_appraisal__year_id
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_years_employee_goals__year_id
+msgid "Appraisal Year"
+msgstr "سنة التقييم"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.ui.menu,name:exp_hr_appraisal_kpi.menu_kpi_period
+msgid "Appraisal Years"
+msgstr "سنوات التقييم"
+
+#. module: exp_hr_appraisal_kpi
+#: model_terms:ir.ui.view,arch_db:exp_hr_appraisal_kpi.apprisal_percentag_form_view
+msgid "Apprisal Percentag"
+msgstr "نسبة التقييم"
+
+#. module: exp_hr_appraisal_kpi
+#: model_terms:ir.ui.view,arch_db:exp_hr_appraisal_kpi.employee_apprisal_extend
+#: model_terms:ir.ui.view,arch_db:exp_hr_appraisal_kpi.employee_apprisal_extend_inherit
+msgid "Approve"
+msgstr "إعتماد"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields.selection,name:exp_hr_appraisal_kpi.selection__hr_employee_appraisal__state__closed
+#: model:ir.model.fields.selection,name:exp_hr_appraisal_kpi.selection__hr_employee_appraisal__state_first__closed
+msgid "Approved"
+msgstr "معتمد"
+
+#. module: exp_hr_appraisal_kpi
+#: model_terms:ir.ui.view,arch_db:exp_hr_appraisal_kpi.employee_apprisal_extend
+#: model_terms:ir.ui.view,arch_db:exp_hr_appraisal_kpi.employee_apprisal_extend_inherit
+msgid "Are you sure to Reset To Direct Manager This Record?"
+msgstr "هل أنت متأكد من إرجاع السجل إلى المدير المباشر ؟"
+
+#. module: exp_hr_appraisal_kpi
+#: model_terms:ir.ui.view,arch_db:exp_hr_appraisal_kpi.employee_apprisal_extend
+#: model_terms:ir.ui.view,arch_db:exp_hr_appraisal_kpi.employee_apprisal_extend_inherit
+msgid "Are you sure to Reset To Draft This Record?"
+msgstr "هل أنت متأكد من إرجاع السجل لحالة المبدئي؟"
+
+#. module: exp_hr_appraisal_kpi
+#: model_terms:ir.ui.view,arch_db:exp_hr_appraisal_kpi.employee_apprisal_extend_inherit
+msgid "Are you sure to Reset To Employee This Record?"
+msgstr "هل أنت متأكد من إرجاع السجل إلى الموظف ؟"
+
+#. module: exp_hr_appraisal_kpi
+#: model_terms:ir.ui.view,arch_db:exp_hr_appraisal_kpi.employee_apprisal_extend_inherit
+msgid "Are you sure to Reset To Executive Director This Record?"
+msgstr "هل أنت متأكد من إرجاع السجل إلى المدير التنفيذي للإدارة ؟"
+
+#. module: exp_hr_appraisal_kpi
+#: model_terms:ir.ui.view,arch_db:exp_hr_appraisal_kpi.employee_apprisal_extend
+msgid "Are you sure to Reset To Performance Officer This Record?"
+msgstr "هل أنت متأكد من إرجاع السجل إلى مسؤول إدارة الأداء ؟"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_years_employee_goals__choiec
+msgid "Assessment Value"
+msgstr "التقدير"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_goals_stages__message_attachment_count
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_skill_skill__message_attachment_count
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_years_employee_goals__message_attachment_count
+msgid "Attachment Count"
+msgstr "عدد المرفقات"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields.selection,name:exp_hr_appraisal_kpi.selection__kpi_item__method_of_calculate__avrerage
+msgid "Average"
+msgstr "متوسط"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_years_employee_goals__balance_number1
+msgid "Balance Number 1"
+msgstr ""
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_years_employee_goals__balance_number2
+msgid "Balance Number 2"
+msgstr ""
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_years_employee_goals__balance_number3
+msgid "Balance Number 3"
+msgstr ""
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_years_employee_goals__balance_number4
+msgid "Balance Number 4"
+msgstr ""
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_years_employee_goals__balance_number5
+msgid "Balance Number 5"
+msgstr ""
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_years_employee_goals__balance_percentage1
+msgid "Balance Percentage 1"
+msgstr ""
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_years_employee_goals__balance_percentage2
+msgid "Balance Percentage 2"
+msgstr ""
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_years_employee_goals__balance_percentage3
+msgid "Balance Percentage 3"
+msgstr ""
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_years_employee_goals__balance_percentage4
+msgid "Balance Percentage 4"
+msgstr ""
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_years_employee_goals__balance_percentage5
+msgid "Balance Percentage 5"
+msgstr ""
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_hr_employee_appraisal__can_see_appraisal_result
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_skill_item_employee_table__can_see_appraisal_result
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_years_employee_goals__can_see_appraisal_result
+msgid "Can See Appraisal Result"
+msgstr ""
+
+#. module: exp_hr_appraisal_kpi
+#: model_terms:ir.ui.view,arch_db:exp_hr_appraisal_kpi.performance_evaluation_summary_form
+msgid "Cancel"
+msgstr "إلغاء"
+
+#. module: exp_hr_appraisal_kpi
+#: model_terms:ir.ui.view,arch_db:exp_hr_appraisal_kpi.employee_apprisal_extend
+#: model_terms:ir.ui.view,arch_db:exp_hr_appraisal_kpi.view_employee_goals_line_form
+#: model_terms:ir.ui.view,arch_db:exp_hr_appraisal_kpi.view_employee_goals_line_tree
+msgid "Choies"
+msgstr ""
+
+#. module: exp_hr_appraisal_kpi
+#: code:addons/exp_hr_appraisal_kpi/wizard/performance_evaluation_wizard.py:0
+#, python-format
+msgid "Choose Date From and Date To"
+msgstr "الرجاء اختيار لتاريخ البداية و تاريخ النهاية "
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_skill_percentage__class_id
+msgid "Class"
+msgstr ""
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields.selection,name:exp_hr_appraisal_kpi.selection__goals_stages__status__closed
+msgid "Closed"
+msgstr "مغلق"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_hr_employee_appraisal__coach_id
+msgid "Coach"
+msgstr ""
+
+#. module: exp_hr_appraisal_kpi
+#: model_terms:ir.ui.view,arch_db:exp_hr_appraisal_kpi.employee_apprisal_extend
+msgid "Comments"
+msgstr "التعليقات"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_goals_stages__company_id
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_hr_employee_appraisal__company_id
+msgid "Company"
+msgstr ""
+
+#. module: exp_hr_appraisal_kpi
+#: model_terms:ir.ui.view,arch_db:exp_hr_appraisal_kpi.employee_apprisal_extend
+#: model_terms:ir.ui.view,arch_db:exp_hr_appraisal_kpi.employee_apprisal_extend_inherit
+msgid "Complete"
+msgstr "إكمال"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_goals_stages__create_uid
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_item_item__create_uid
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_job_class_apprisal__create_uid
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_performance_evaluation_report__create_uid
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_skill_item__create_uid
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_skill_item_employee_table__create_uid
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_skill_level__create_uid
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_skill_percentage__create_uid
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_skill_skill__create_uid
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_skill_type__create_uid
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_years_employee_goals__create_uid
+msgid "Created by"
+msgstr "تم الإنشاء بواسطة"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_goals_stages__create_date
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_item_item__create_date
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_job_class_apprisal__create_date
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_performance_evaluation_report__create_date
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_skill_item__create_date
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_skill_item_employee_table__create_date
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_skill_level__create_date
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_skill_percentage__create_date
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_skill_skill__create_date
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_skill_type__create_date
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_years_employee_goals__create_date
+msgid "Created on"
+msgstr "تم الإنشاء في"
+
+#. module: exp_hr_appraisal_kpi
+#: model_terms:ir.ui.view,arch_db:exp_hr_appraisal_kpi.view_employee_goals_line_search
+msgid "Date"
+msgstr "التاريخ"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_performance_evaluation_report__date_from
+msgid "Date From"
+msgstr "تاريخ البداية"
+
+#. module: exp_hr_appraisal_kpi
+#: code:addons/exp_hr_appraisal_kpi/wizard/performance_evaluation_wizard.py:0
+#, python-format
+msgid "Date From must be less than or equal Date To"
+msgstr "عفوا يجب ان يكون تاريخ البداية سابقاً لتاريخ النهاية"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_performance_evaluation_report__date_to
+msgid "Date To"
+msgstr "تاريخ النهاية"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_hr_employee_appraisal__department_id
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_hr_employee_appraisal__department_name
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_kpi_item__department_item_id
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_performance_evaluation_report__department_ids
+#: model_terms:ir.ui.view,arch_db:exp_hr_appraisal_kpi.performance_evaluation_summary_form
+msgid "Department"
+msgstr "القسم"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_skill_item__name
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_skill_item_employee_table__name
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_skill_skill__description
+msgid "Description"
+msgstr "الوصف"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_hr_employee_appraisal__dmanager_comment
+msgid "Direct Manager Comment"
+msgstr "تعليق المدير المباشر"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_goals_stages__display_name
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_hr_employee_appraisal__display_name
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_hr_job__display_name
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_item_item__display_name
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_job_class_apprisal__display_name
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_kpi_item__display_name
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_kpi_period__display_name
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_performance_evaluation_report__display_name
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_report_exp_hr_appraisal_kpi_performance_evaluation_report__display_name
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_report_exp_hr_appraisal_kpi_performance_evaluation_report_xlsx__display_name
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_skill_item__display_name
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_skill_item_employee_table__display_name
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_skill_level__display_name
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_skill_percentage__display_name
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_skill_skill__display_name
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_skill_type__display_name
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_years_employee_goals__display_name
+msgid "Display Name"
+msgstr "الاسم المعروض"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_skill_item__display_type
+msgid "Display Type"
+msgstr ""
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.actions.act_window,name:exp_hr_appraisal_kpi.apprisal_percentag_act_window1
+#: model:ir.ui.menu,name:exp_hr_appraisal_kpi.menu_kpi_percentage
+msgid "Apprisal Job Class"
+msgstr "فئات التقييم"
+
+#. module: exp_hr_appraisal_kpi
+#: model_terms:ir.ui.view,arch_db:exp_hr_appraisal_kpi.view_employee_goals_line_form
+#: model_terms:ir.ui.view,arch_db:exp_hr_appraisal_kpi.view_employee_goals_line_tree
+msgid "Done"
+msgstr "المحقق"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields.selection,name:exp_hr_appraisal_kpi.selection__hr_employee_appraisal__state__draft
+#: model:ir.model.fields.selection,name:exp_hr_appraisal_kpi.selection__hr_employee_appraisal__state_first__draft
+msgid "Draft"
+msgstr "مسودة"
+
+#. module: exp_hr_appraisal_kpi
+#: code:addons/exp_hr_appraisal_kpi/models/hr_employee_appraisal.py:0
+#, python-format
+msgid "Each goal's weight must be between %(min)d and %(max)d."
+msgstr "يجب أن يكون وزن كل هدف بين %(min)d و %(max)d."
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_hr_employee_appraisal__employee_id
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_years_employee_goals__employee_id
+#: model_terms:ir.ui.view,arch_db:exp_hr_appraisal_kpi.hr_appraisal_view_search
+#: model_terms:ir.ui.view,arch_db:exp_hr_appraisal_kpi.performance_evaluation_summary_form
+msgid "Employee"
+msgstr "الموظف"
+
+#. module: exp_hr_appraisal_kpi
+#: code:addons/exp_hr_appraisal_kpi/models/kpi_period.py:0
+#: code:addons/exp_hr_appraisal_kpi/models/kpi_period.py:0
+#, python-format
+msgid "Employee Appraisal Created"
+msgstr "تم إنشاء تقييم الموظف"
+
+#. module: exp_hr_appraisal_kpi
+#: code:addons/exp_hr_appraisal_kpi/report/performance_evaluation_report.py:0
+#, python-format
+msgid "Employee Appraisal Report"
+msgstr "ملخص تقييم الأداء"
+
+#. module: exp_hr_appraisal_kpi
+#: code:addons/exp_hr_appraisal_kpi/models/hr_employee_appraisal.py:0
+#, python-format
+msgid "Employee Appraisal must be unique per Employee, Year, and Stage !"
+msgstr "يجب أن يكون تقييم الموظف وحيدًا لكل موظف و سنة و مرحلة تقييم!"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_skill_item__employee_apprisal_id
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_skill_item_employee_table__employee_apprisal_id
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_years_employee_goals__employee_apprisal_id
+msgid "Employee Apprisal"
+msgstr "تقييم الموظفين"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_hr_employee_appraisal__employee_comment
+msgid "Employee Comment"
+msgstr "تعليق الموظف"
+
+#. module: exp_hr_appraisal_kpi
+#: model_terms:ir.ui.view,arch_db:exp_hr_appraisal_kpi.view_employee_goals_line_search
+msgid "Employee Goals"
+msgstr "أهداف الموظف"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.ui.menu,name:exp_hr_appraisal_kpi.menu_evalution_employee_goals
+msgid "Employee Goals Appraisal"
+msgstr "تقييم أهداف الموظف"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.actions.act_window,name:exp_hr_appraisal_kpi.action_skill_appraisal
+#: model:ir.ui.menu,name:exp_hr_appraisal_kpi.menu_skill_appraisal_list
+msgid "Employee Skill Appraisal"
+msgstr "تقييم جدارات الموظف"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_hr_employee_appraisal__emp_no
+msgid "Employee number"
+msgstr "الرقم الوظيفي"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_performance_evaluation_report__employee_ids
+msgid "Employees"
+msgstr "الموظفون"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_goals_stages__end_date
+msgid "End Date"
+msgstr "تاريخ الانتهاء"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_hr_employee_appraisal__executive_director_comment
+msgid "Executive Director Comment"
+msgstr "تعليق المدير التنفيذي للإدارة"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_hr_employee_appraisal__executive_id
+msgid "Executive Management"
+msgstr "الادارة التنفيذية"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_goals_stages__message_follower_ids
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_skill_skill__message_follower_ids
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_years_employee_goals__message_follower_ids
+msgid "Followers"
+msgstr "متابعون"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_goals_stages__message_channel_ids
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_skill_skill__message_channel_ids
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_years_employee_goals__message_channel_ids
+msgid "Followers (Channels)"
+msgstr "المتابعون (القنوات)"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_goals_stages__message_partner_ids
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_skill_skill__message_partner_ids
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_years_employee_goals__message_partner_ids
+msgid "Followers (Partners)"
+msgstr "المتابعون (الشركاء)"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,help:exp_hr_appraisal_kpi.field_goals_stages__activity_type_icon
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr ""
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_hr_employee_appraisal__goal_ids
+#: model:ir.ui.menu,name:exp_hr_appraisal_kpi.menu_kpi_categories
+#: model_terms:ir.ui.view,arch_db:exp_hr_appraisal_kpi.employee_apprisal_extend
+msgid "Goals"
+msgstr "الأهداف"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_hr_employee_appraisal__goals_mark
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_years_employee_goals__goals_mark
+msgid "Goals Appraisal Mark"
+msgstr "درجة تقييم الاهداف"
+
+#. module: exp_hr_appraisal_kpi
+#: model_terms:ir.ui.view,arch_db:exp_hr_appraisal_kpi.kpi_period_form_extend
+msgid "Goals Numbers"
+msgstr "عدد الأهداف"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_kpi_period__goals_stage_ids
+msgid "Goals Stage"
+msgstr "مراحل الأهداف"
+
+#. module: exp_hr_appraisal_kpi
+#: model_terms:ir.ui.view,arch_db:exp_hr_appraisal_kpi.kpi_period_form_extend
+msgid "Goals Weight"
+msgstr "وزن الأهداف"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.ui.menu,name:exp_hr_appraisal_kpi.menu_kpi_goal_skill
+msgid "Goals and Skills"
+msgstr "الأهداف والجدارات"
+
+#. module: exp_hr_appraisal_kpi
+#: model_terms:ir.ui.view,arch_db:exp_hr_appraisal_kpi.hr_appraisal_view_search
+#: model_terms:ir.ui.view,arch_db:exp_hr_appraisal_kpi.view_employee_goals_line_search
+#: model_terms:ir.ui.view,arch_db:exp_hr_appraisal_kpi.view_skill_search
+msgid "Group By"
+msgstr "تجميع حسب"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_goals_stages__id
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_hr_employee_appraisal__id
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_hr_job__id
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_item_item__id
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_job_class_apprisal__id
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_kpi_item__id
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_kpi_period__id
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_performance_evaluation_report__id
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_report_exp_hr_appraisal_kpi_performance_evaluation_report__id
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_report_exp_hr_appraisal_kpi_performance_evaluation_report_xlsx__id
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_skill_item__id
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_skill_item_employee_table__id
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_skill_level__id
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_skill_percentage__id
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_skill_skill__id
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_skill_type__id
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_years_employee_goals__id
+msgid "ID"
+msgstr "المُعرف"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_goals_stages__activity_exception_icon
+msgid "Icon"
+msgstr ""
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,help:exp_hr_appraisal_kpi.field_goals_stages__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr ""
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,help:exp_hr_appraisal_kpi.field_goals_stages__message_needaction
+#: model:ir.model.fields,help:exp_hr_appraisal_kpi.field_goals_stages__message_unread
+#: model:ir.model.fields,help:exp_hr_appraisal_kpi.field_skill_skill__message_needaction
+#: model:ir.model.fields,help:exp_hr_appraisal_kpi.field_skill_skill__message_unread
+#: model:ir.model.fields,help:exp_hr_appraisal_kpi.field_years_employee_goals__message_needaction
+#: model:ir.model.fields,help:exp_hr_appraisal_kpi.field_years_employee_goals__message_unread
+msgid "If checked, new messages require your attention."
+msgstr "إذا تم التحقق، فإن الرسائل الجديدة تحتاج إلى اهتمامك."
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,help:exp_hr_appraisal_kpi.field_goals_stages__message_has_error
+#: model:ir.model.fields,help:exp_hr_appraisal_kpi.field_goals_stages__message_has_sms_error
+#: model:ir.model.fields,help:exp_hr_appraisal_kpi.field_skill_skill__message_has_error
+#: model:ir.model.fields,help:exp_hr_appraisal_kpi.field_skill_skill__message_has_sms_error
+#: model:ir.model.fields,help:exp_hr_appraisal_kpi.field_years_employee_goals__message_has_error
+#: model:ir.model.fields,help:exp_hr_appraisal_kpi.field_years_employee_goals__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr "إذا تم التحقق، فإن بعض الرسائل بها خطأ في التسليم."
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_years_employee_goals__Individual_kpi
+msgid "Individual Indicator"
+msgstr "المؤشر الفردي"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_hr_employee_appraisal__is_appraisal_employee
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_skill_item_employee_table__is_appraisal_employee
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_years_employee_goals__is_appraisal_employee
+msgid "Is Appraisal Employee"
+msgstr ""
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_hr_employee_appraisal__is_direct_manager
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_skill_item_employee_table__is_direct_manager
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_years_employee_goals__is_direct_manager
+msgid "Is Direct Manager"
+msgstr "هل هو المدير المباشر"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_hr_employee_appraisal__is_executive_director
+msgid "Is Executive Director"
+msgstr "هل هو المدير التنفيذي"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_goals_stages__message_is_follower
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_skill_skill__message_is_follower
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_years_employee_goals__message_is_follower
+msgid "Is Follower"
+msgstr "متابع"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_hr_employee_appraisal__is_last_stage
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_skill_item_employee_table__is_last_stage
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_years_employee_goals__is_last_stage
+msgid "Is Last Stage"
+msgstr "المرحلة النهائية"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_skill_item__item_id
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_skill_item_employee_table__item_id
+msgid "Item"
+msgstr "العنصر"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_skill_skill__items_ids
+#: model_terms:ir.ui.view,arch_db:exp_hr_appraisal_kpi.employee_apprisal_extend
+#: model_terms:ir.ui.view,arch_db:exp_hr_appraisal_kpi.view_skill_form
+msgid "Items"
+msgstr "العناصر"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_hr_employee_appraisal__appraisal_percentage_id
+msgid "Job Category"
+msgstr "الفئة الوظيفية"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model,name:exp_hr_appraisal_kpi.model_hr_job
+msgid "Job Position"
+msgstr "المنصب الوظيفي"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_hr_employee_appraisal__job_id
+msgid "Job Title"
+msgstr "الوظيفة"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_job_class_apprisal__job_ids
+msgid "Jobs"
+msgstr "الوظائف"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model,name:exp_hr_appraisal_kpi.model_kpi_item
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_years_employee_goals__kpi_id
+#: model:ir.ui.menu,name:exp_hr_appraisal_kpi.menu_kpi_kpi
+msgid "KPI"
+msgstr "المؤشرات"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model,name:exp_hr_appraisal_kpi.model_kpi_period
+msgid "KPI Period"
+msgstr "مدة المؤشر"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_years_employee_goals__result_type
+msgid "KPI Type"
+msgstr "نوع المؤشر"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_goals_stages____last_update
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_hr_employee_appraisal____last_update
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_hr_job____last_update
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_item_item____last_update
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_job_class_apprisal____last_update
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_kpi_item____last_update
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_kpi_period____last_update
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_performance_evaluation_report____last_update
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_report_exp_hr_appraisal_kpi_performance_evaluation_report____last_update
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_report_exp_hr_appraisal_kpi_performance_evaluation_report_xlsx____last_update
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_skill_item____last_update
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_skill_item_employee_table____last_update
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_skill_level____last_update
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_skill_percentage____last_update
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_skill_skill____last_update
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_skill_type____last_update
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_years_employee_goals____last_update
+msgid "Last Modified on"
+msgstr "آخر تعديل في"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_goals_stages__last_stage
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_years_employee_goals__last_stage
+msgid "Last Stage"
+msgstr "أخر مرحلة"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_goals_stages__write_uid
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_item_item__write_uid
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_job_class_apprisal__write_uid
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_performance_evaluation_report__write_uid
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_skill_item__write_uid
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_skill_item_employee_table__write_uid
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_skill_level__write_uid
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_skill_percentage__write_uid
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_skill_skill__write_uid
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_skill_type__write_uid
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_years_employee_goals__write_uid
+msgid "Last Updated by"
+msgstr "آخر تحديث بواسطة"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_goals_stages__write_date
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_item_item__write_date
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_job_class_apprisal__write_date
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_performance_evaluation_report__write_date
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_skill_item__write_date
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_skill_item_employee_table__write_date
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_skill_level__write_date
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_skill_percentage__write_date
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_skill_skill__write_date
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_skill_type__write_date
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_years_employee_goals__write_date
+msgid "Last Updated on"
+msgstr "آخر تحديث في"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_goals_stages__message_main_attachment_id
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_skill_skill__message_main_attachment_id
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_years_employee_goals__message_main_attachment_id
+msgid "Main Attachment"
+msgstr "المرفق الرئيسي"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_hr_employee_appraisal__manager_id
+msgid "Manager"
+msgstr "المدير"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_skill_item_employee_table__mark
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_years_employee_goals__done
+msgid "Manager Assessment"
+msgstr "تقييم المدير"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_skill_item__mark
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_skill_item__mark_avg
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_skill_item_employee_table__mark_avg
+msgid "Mark"
+msgstr "الدرجة"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_job_class_apprisal__max_goal_weight
+msgid "Max Goal Weight"
+msgstr "الحد الأعلى لوزن الأهداف"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_job_class_apprisal__max_no_goals
+msgid "Max no of Goals"
+msgstr "الحد الأعلى للأهداف"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_years_employee_goals__result_appearance
+msgid "Measurement Standard"
+msgstr "معيار القياس"
+
+#. module: exp_hr_appraisal_kpi
+#: model:res.groups,name:exp_hr_appraisal_kpi.apprisal_kpi_group
+msgid "Menu apprisal hide/show"
+msgstr "إخفاء/إظهار قائمة التقييم"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_goals_stages__message_has_error
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_skill_skill__message_has_error
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_years_employee_goals__message_has_error
+msgid "Message Delivery error"
+msgstr "خطأ في تسليم الرسالة"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_goals_stages__message_ids
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_skill_skill__message_ids
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_years_employee_goals__message_ids
+msgid "Messages"
+msgstr "الرسائل"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_kpi_item__method_of_calculate
+msgid "Method Of Calculate"
+msgstr "طريقة الحساب"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_job_class_apprisal__min_goal_weight
+msgid "Min Goal Weight"
+msgstr "الحد الأدنى لوزن الأهداف"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_job_class_apprisal__min_no_goals
+msgid "Min no of Goals"
+msgstr "الحد الأدنى الأهداف"
+
+#. module: exp_hr_appraisal_kpi
+#: model_terms:ir.ui.view,arch_db:exp_hr_appraisal_kpi.apprisal_percentag_tree_view
+msgid "ModelTitle"
+msgstr "عنوان النموذج"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields.selection,name:exp_hr_appraisal_kpi.selection__years_employee_goals__result_appearance__monetory
+msgid "Monetary"
+msgstr "نقدي"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_years_employee_goals__morizon_rate
+msgid "Morizon Rating"
+msgstr "التقييم المورزون"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_goals_stages__my_activity_date_deadline
+msgid "My Activity Deadline"
+msgstr ""
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_goals_stages__name
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_item_item__name
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_job_class_apprisal__name
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_skill_level__name
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_skill_skill__name
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_skill_type__name
+#: model_terms:ir.ui.view,arch_db:exp_hr_appraisal_kpi.view_skill_search
+msgid "Name"
+msgstr "الاسم"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_goals_stages__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr ""
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_goals_stages__activity_summary
+msgid "Next Activity Summary"
+msgstr ""
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_goals_stages__activity_type_id
+msgid "Next Activity Type"
+msgstr ""
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields.selection,name:exp_hr_appraisal_kpi.selection__goals_stages__status__not_start
+msgid "Not Start"
+msgstr "لم تبدا"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields.selection,name:exp_hr_appraisal_kpi.selection__skill_item__display_type__line_note
+msgid "Note"
+msgstr "ملاحظات"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields.selection,name:exp_hr_appraisal_kpi.selection__years_employee_goals__result_appearance__number
+msgid "Number"
+msgstr "عدد"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_goals_stages__message_needaction_counter
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_skill_skill__message_needaction_counter
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_years_employee_goals__message_needaction_counter
+msgid "Number of Actions"
+msgstr "عدد الإجراءات"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_goals_stages__message_has_error_counter
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_skill_skill__message_has_error_counter
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_years_employee_goals__message_has_error_counter
+msgid "Number of errors"
+msgstr "عدد الأخطاء"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,help:exp_hr_appraisal_kpi.field_goals_stages__message_needaction_counter
+#: model:ir.model.fields,help:exp_hr_appraisal_kpi.field_skill_skill__message_needaction_counter
+#: model:ir.model.fields,help:exp_hr_appraisal_kpi.field_years_employee_goals__message_needaction_counter
+msgid "Number of messages which requires an action"
+msgstr "عدد الرسائل التي تتطلب إجراء"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,help:exp_hr_appraisal_kpi.field_goals_stages__message_has_error_counter
+#: model:ir.model.fields,help:exp_hr_appraisal_kpi.field_skill_skill__message_has_error_counter
+#: model:ir.model.fields,help:exp_hr_appraisal_kpi.field_years_employee_goals__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr "عدد الرسائل ذات الأخطاء في التسليم"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,help:exp_hr_appraisal_kpi.field_goals_stages__message_unread_counter
+#: model:ir.model.fields,help:exp_hr_appraisal_kpi.field_skill_skill__message_unread_counter
+#: model:ir.model.fields,help:exp_hr_appraisal_kpi.field_years_employee_goals__message_unread_counter
+msgid "Number of unread messages"
+msgstr "عدد الرسائل غير المقروءة"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields.selection,name:exp_hr_appraisal_kpi.selection__years_employee_goals__result_appearance__percentage
+msgid "Percentage"
+msgstr "نسبة"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_job_class_apprisal__percentage_skills
+msgid "Percentage of Skills Appraisal%"
+msgstr "نسبة تقييم الجدارات%"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_job_class_apprisal__percentage_kpi
+msgid "Percentage of indicator Appraisal%"
+msgstr "نسبة تقييم الأهداف%"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model,name:exp_hr_appraisal_kpi.model_performance_evaluation_report
+msgid "Performance Evaluation Report"
+msgstr "ملخص تقييم الأداء"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.actions.act_window,name:exp_hr_appraisal_kpi.performance_evaluation_summary_action
+#: model:ir.actions.report,name:exp_hr_appraisal_kpi.performance_evaluation_report_action
+#: model:ir.actions.report,name:exp_hr_appraisal_kpi.performance_evaluation_report_xlsx_action
+#: model:ir.model,name:exp_hr_appraisal_kpi.model_report_exp_hr_appraisal_kpi_performance_evaluation_report
+#: model:ir.ui.menu,name:exp_hr_appraisal_kpi.performance_evaluation_summary_menu
+msgid "Performance Evaluation Summary"
+msgstr "ملخص تقييم الأداء"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_hr_employee_appraisal__performance_manager_comment
+msgid "Performance Manager Comment"
+msgstr "تعليق مدير إدارة الأداء"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_hr_employee_appraisal__performance_officer_comment
+msgid "Performance Officer Comment"
+msgstr "تعليق مسؤول إدارة الأداء"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_goals_stages__period_id
+msgid "Period"
+msgstr "الفترة"
+
+#. module: exp_hr_appraisal_kpi
+#: code:addons/exp_hr_appraisal_kpi/models/hr_employee_appraisal.py:0
+#, python-format
+msgid ""
+"Please check appraisal result configuration , there is more than result for "
+"percentage %s  are %s "
+msgstr ""
+"يرجى التحقق من إعدادات نتائج التقييم، هناك أكثر من نتيجة لنسبة %s وهي %s."
+
+#. module: exp_hr_appraisal_kpi
+#: code:addons/exp_hr_appraisal_kpi/models/hr_employee_appraisal.py:0
+#, python-format
+msgid "Please select an Appraisal Year before submitting."
+msgstr "يرجى اختيار سنة التقييم قبل الإرسال."
+
+#. module: exp_hr_appraisal_kpi
+#: model_terms:ir.ui.view,arch_db:exp_hr_appraisal_kpi.performance_evaluation_summary_form
+msgid "Print Excel"
+msgstr "طباعة Excel"
+
+#. module: exp_hr_appraisal_kpi
+#: model_terms:ir.ui.view,arch_db:exp_hr_appraisal_kpi.performance_evaluation_summary_form
+msgid "Print PDF"
+msgstr "طباعة PDF"
+
+#. module: exp_hr_appraisal_kpi
+#: model_terms:ir.ui.view,arch_db:exp_hr_appraisal_kpi.employee_apprisal_extend
+#: model_terms:ir.ui.view,arch_db:exp_hr_appraisal_kpi.employee_apprisal_extend_inherit
+msgid "Re Send To Direct Manager"
+msgstr "إعادة إرسال للمدير المباشر"
+
+#. module: exp_hr_appraisal_kpi
+#: model_terms:ir.ui.view,arch_db:exp_hr_appraisal_kpi.employee_apprisal_extend_inherit
+msgid "Re Send To Employee"
+msgstr "إعادة إرسال للموظف"
+
+#. module: exp_hr_appraisal_kpi
+#: model_terms:ir.ui.view,arch_db:exp_hr_appraisal_kpi.employee_apprisal_extend_inherit
+msgid "Re Send To Executive Director"
+msgstr "إعادة إرسال للمدير التنفيذي للإدارة"
+
+#. module: exp_hr_appraisal_kpi
+#: model_terms:ir.ui.view,arch_db:exp_hr_appraisal_kpi.employee_apprisal_extend
+#: model_terms:ir.ui.view,arch_db:exp_hr_appraisal_kpi.employee_apprisal_extend_inherit
+msgid "Re-Draft"
+msgstr "إرجاع لمبدئي"
+
+#. module: exp_hr_appraisal_kpi
+#: model_terms:ir.ui.view,arch_db:exp_hr_appraisal_kpi.employee_apprisal_extend
+#: model_terms:ir.ui.view,arch_db:exp_hr_appraisal_kpi.employee_apprisal_extend_inherit
+msgid "Refuse"
+msgstr "رفض"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields.selection,name:exp_hr_appraisal_kpi.selection__hr_employee_appraisal__state__refused
+#: model:ir.model.fields.selection,name:exp_hr_appraisal_kpi.selection__hr_employee_appraisal__state_first__refused
+msgid "Refused"
+msgstr "مرفوض"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.ui.menu,name:exp_hr_appraisal_kpi.performance_evaluation_summary_root_menu
+msgid "Reports"
+msgstr "التقارير"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_kpi_item__responsible_item_id
+msgid "Responsible"
+msgstr "المسؤول"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_goals_stages__activity_user_id
+msgid "Responsible User"
+msgstr "المستخدم المسؤول"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields.selection,name:exp_hr_appraisal_kpi.selection__goals_stages__status__running
+msgid "Running"
+msgstr "قيد الاجراء"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_goals_stages__message_has_sms_error
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_skill_skill__message_has_sms_error
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_years_employee_goals__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr "خطأ في تسليم الرسائل النصية"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_hr_employee_appraisal__salary_group
+msgid "Salary Group"
+msgstr "الدرجة الوظيفية"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields.selection,name:exp_hr_appraisal_kpi.selection__skill_item__display_type__line_section
+msgid "Section"
+msgstr "قسم"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,help:exp_hr_appraisal_kpi.field_hr_employee_appraisal__coach_id
+msgid ""
+"Select the \"Employee\" who is the coach of this employee.\n"
+"The \"Coach\" has no specific rights or responsibilities by default."
+msgstr ""
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_skill_item_employee_table__self_assessment
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_years_employee_goals__self_assessment
+msgid "Self Assessment"
+msgstr "التقييم الذاتي"
+
+#. module: exp_hr_appraisal_kpi
+#: model_terms:ir.ui.view,arch_db:exp_hr_appraisal_kpi.employee_apprisal_extend
+#: model_terms:ir.ui.view,arch_db:exp_hr_appraisal_kpi.employee_apprisal_extend_inherit
+msgid "Send To Employee"
+msgstr "إرسال للموظف"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_goals_stages__sequence
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_skill_item__sequence
+msgid "Sequence"
+msgstr "متسلسل"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_years_employee_goals__show_goal_result
+msgid "Show Goal Result"
+msgstr ""
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_skill_item__skill_id
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_skill_item_employee_table__skill_id
+#: model_terms:ir.ui.view,arch_db:exp_hr_appraisal_kpi.skill_search_view
+#: model_terms:ir.ui.view,arch_db:exp_hr_appraisal_kpi.view_skill_form
+msgid "Skill"
+msgstr "الجدارات"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_skill_item__level_id
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_skill_item_employee_table__level_id
+msgid "Skill Level"
+msgstr "المستوى"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_job_class_apprisal__skill_percentage_ids
+#: model_terms:ir.ui.view,arch_db:exp_hr_appraisal_kpi.apprisal_percentag_form_view
+msgid "Skill Percentage"
+msgstr "نسة الجدارات"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_hr_employee_appraisal__skill_result_ids
+msgid "Skill Results"
+msgstr "نتيجة الجدارات"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_skill_item__skill_type_id
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_skill_item_employee_table__skill_type_id
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_skill_percentage__skill_type_ids
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_skill_skill__skill_type_id
+#: model_terms:ir.ui.view,arch_db:exp_hr_appraisal_kpi.view_skill_search
+msgid "Skill Type"
+msgstr "نوع الجدارة"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_hr_employee_appraisal__skill_type_ids
+#: model_terms:ir.ui.view,arch_db:exp_hr_appraisal_kpi.employee_apprisal_extend
+msgid "Skill Types"
+msgstr "أنواع الجدارت"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.actions.act_window,name:exp_hr_appraisal_kpi.skill_act_window
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_hr_employee_appraisal__skill_ids
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_hr_job__item_job_ids
+#: model:ir.ui.menu,name:exp_hr_appraisal_kpi.skill_menu
+#: model_terms:ir.ui.view,arch_db:exp_hr_appraisal_kpi.employee_apprisal_extend
+#: model_terms:ir.ui.view,arch_db:exp_hr_appraisal_kpi.hr_job_from_extend
+#: model_terms:ir.ui.view,arch_db:exp_hr_appraisal_kpi.view_skill_search
+#: model_terms:ir.ui.view,arch_db:exp_hr_appraisal_kpi.view_skill_tree
+msgid "Skills"
+msgstr "الجدارات"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_hr_employee_appraisal__skill_mark
+msgid "Skills Appraisal Mark"
+msgstr "درجة تقييم الجدارات"
+
+#. module: exp_hr_appraisal_kpi
+#: model_terms:ir.ui.view,arch_db:exp_hr_appraisal_kpi.kpi_period_form_extend
+msgid "Stages"
+msgstr "المراحل"
+
+#. module: exp_hr_appraisal_kpi
+#: model_terms:ir.ui.view,arch_db:exp_hr_appraisal_kpi.kpi_period_form_extend
+msgid "Start"
+msgstr "بدء"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_goals_stages__start_date
+msgid "Start Date"
+msgstr "تاريخ البداية"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_hr_employee_appraisal__state
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_skill_item_employee_table__state
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_years_employee_goals__state
+#: model_terms:ir.ui.view,arch_db:exp_hr_appraisal_kpi.hr_appraisal_view_search
+msgid "State"
+msgstr "الحالة"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_hr_employee_appraisal__state_first
+msgid "State First"
+msgstr "الحالة"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_goals_stages__status
+msgid "Status"
+msgstr "الحالة"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,help:exp_hr_appraisal_kpi.field_goals_stages__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,help:exp_hr_appraisal_kpi.field_skill_item__display_type
+msgid "Technical field for UX purpose."
+msgstr ""
+
+#. module: exp_hr_appraisal_kpi
+#: code:addons/exp_hr_appraisal_kpi/models/kpi_period.py:0
+#, python-format
+msgid "The Start Date must be less than the End Date"
+msgstr "تاريخ البداية يجب أن يكون أقل من تاريخ النهاية"
+
+#. module: exp_hr_appraisal_kpi
+#: code:addons/exp_hr_appraisal_kpi/models/hr_employee_appraisal.py:0
+#, python-format
+msgid "The appraisal date must be within the selected year period: %s to %s"
+msgstr "تاريخ التقييم يجب أن يكون ضمن سنة التقييم : من %s إلى %s"
+
+#. module: exp_hr_appraisal_kpi
+#: code:addons/exp_hr_appraisal_kpi/models/kpi_period.py:0
+#, python-format
+msgid "The end date must be within the period's date range!"
+msgstr "يجب أن يكون تاريخ الانتهاء ضمن نطاق تاريخ الفترة!"
+
+#. module: exp_hr_appraisal_kpi
+#: code:addons/exp_hr_appraisal_kpi/models/kpi_period.py:0
+#, python-format
+msgid ""
+"The end date of the last stage must match the end date of the associated KPI"
+" period"
+msgstr ""
+"يجب أن يتطابق تاريخ انتهاء المرحلة الأخيرة مع تاريخ انتهاء فترة مؤشر الأداء "
+"الرئيسي المرتبط بها"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields.selection,name:exp_hr_appraisal_kpi.selection__years_employee_goals__result_type__less
+msgid "The less the better"
+msgstr "اﻷقل اﻷفضل"
+
+#. module: exp_hr_appraisal_kpi
+#: code:addons/exp_hr_appraisal_kpi/models/hr_employee_appraisal.py:0
+#: code:addons/exp_hr_appraisal_kpi/models/hr_employee_appraisal.py:0
+#, python-format
+msgid "The manager's rating must be entered before submitting"
+msgstr "يجب إدخال تقييم المدير قبل الإعتماد"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields.selection,name:exp_hr_appraisal_kpi.selection__years_employee_goals__result_type__more
+msgid "The more the better"
+msgstr "اﻷكثر اﻷفضل"
+
+#. module: exp_hr_appraisal_kpi
+#: code:addons/exp_hr_appraisal_kpi/models/hr_employee_appraisal.py:0
+#, python-format
+msgid ""
+"The number of goals must be between %(min)d and %(max)d. You currently have "
+"%(current)d goals."
+msgstr ""
+"يجب أن يكون عدد الأهداف بين %(min)d و %(max)d. لديك حاليًا %(current)d "
+"أهداف."
+
+#. module: exp_hr_appraisal_kpi
+#: code:addons/exp_hr_appraisal_kpi/models/skill_skill.py:0
+#, python-format
+msgid "The skill name must be unique!"
+msgstr "يجب ألا تتكرر الجدارة داخل النظام"
+
+#. module: exp_hr_appraisal_kpi
+#: code:addons/exp_hr_appraisal_kpi/models/kpi_period.py:0
+#, python-format
+msgid "The start date cannot be after the end date!"
+msgstr "لا يمكن أن يكون تاريخ البدء بعد تاريخ الانتهاء!"
+
+#. module: exp_hr_appraisal_kpi
+#: code:addons/exp_hr_appraisal_kpi/models/kpi_period.py:0
+#, python-format
+msgid "The start date must be within the period's date range!"
+msgstr "يجب أن يكون تاريخ البدء ضمن نطاق تاريخ الفترة!"
+
+#. module: exp_hr_appraisal_kpi
+#: code:addons/exp_hr_appraisal_kpi/models/hr_employee_appraisal.py:0
+#, python-format
+msgid "There is no contract for employee \"%s\" to update appraisal result "
+msgstr "لعكس نتيجة التقييم \"%s\" لا يوجد عقد مرتبط للموظف  "
+
+#. module: exp_hr_appraisal_kpi
+#: model_terms:ir.actions.act_window,help:exp_hr_appraisal_kpi.apprisal_percentag_act_window1
+msgid "There is no examples click here to add new ModelTitle."
+msgstr ""
+
+#. module: exp_hr_appraisal_kpi
+#: model_terms:ir.actions.act_window,help:exp_hr_appraisal_kpi.skill_act_window
+msgid "There is no examples click here to add new Skill."
+msgstr "لا يوجد أمثلة انقر هنا لإضافة جدارات جديدة."
+
+#. module: exp_hr_appraisal_kpi
+#: code:addons/exp_hr_appraisal_kpi/models/kpi_period.py:0
+#: code:addons/exp_hr_appraisal_kpi/models/kpi_period.py:0
+#, python-format
+msgid "This period overlaps with an existing period!"
+msgstr "هذه الفترة تتداخل مع فترة موجودة!"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_hr_employee_appraisal__total_score
+msgid "Total Mark"
+msgstr "درجة التقييم"
+
+#. module: exp_hr_appraisal_kpi
+#: model_terms:ir.ui.view,arch_db:exp_hr_appraisal_kpi.view_employee_goals_line_form
+#: model_terms:ir.ui.view,arch_db:exp_hr_appraisal_kpi.view_employee_goals_line_tree
+msgid "Total Morizon"
+msgstr "إجمالي التقييم المورزون"
+
+#. module: exp_hr_appraisal_kpi
+#: model_terms:ir.ui.view,arch_db:exp_hr_appraisal_kpi.view_employee_goals_line_form
+#: model_terms:ir.ui.view,arch_db:exp_hr_appraisal_kpi.view_employee_goals_line_tree
+msgid "Total Target"
+msgstr "الهدف الإجمالي"
+
+#. module: exp_hr_appraisal_kpi
+#: model_terms:ir.ui.view,arch_db:exp_hr_appraisal_kpi.employee_apprisal_extend
+#: model_terms:ir.ui.view,arch_db:exp_hr_appraisal_kpi.view_employee_goals_line_form
+#: model_terms:ir.ui.view,arch_db:exp_hr_appraisal_kpi.view_employee_goals_line_tree
+msgid "Total Weight"
+msgstr "الوزن الإجمالي"
+
+#. module: exp_hr_appraisal_kpi
+#: code:addons/exp_hr_appraisal_kpi/models/hr_employee_appraisal.py:0
+#, python-format
+msgid "Total goal weight must be exactly 100."
+msgstr "يجب أن يكون الوزن الإجمالي للأهداف 100 تمامًا"
+
+#. module: exp_hr_appraisal_kpi
+#: code:addons/exp_hr_appraisal_kpi/models/job_class_appraisal.py:0
+#, python-format
+msgid "Total percentage should be 100."
+msgstr "يجب أن تكون النسبة الإجمالية 100"
+
+#. module: exp_hr_appraisal_kpi
+#: code:addons/exp_hr_appraisal_kpi/models/hr_employee_appraisal.py:0
+#, python-format
+msgid "Total skill weight must be exactly 100."
+msgstr "يجب أن يكون الوزن الإجمالي للجدارات 100 تمامًا"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,help:exp_hr_appraisal_kpi.field_goals_stages__activity_exception_decoration
+msgid "Type of the exception activity on record."
+msgstr ""
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields.selection,name:exp_hr_appraisal_kpi.selection__kpi_item__method_of_calculate__undefined
+msgid "Undefined"
+msgstr "غير محدد"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_goals_stages__message_unread
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_skill_skill__message_unread
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_years_employee_goals__message_unread
+msgid "Unread Messages"
+msgstr "الرسائل غير المقروءة"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_goals_stages__message_unread_counter
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_skill_skill__message_unread_counter
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_years_employee_goals__message_unread_counter
+msgid "Unread Messages Counter"
+msgstr "عداد الرسائل غير المقروءة"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields.selection,name:exp_hr_appraisal_kpi.selection__hr_employee_appraisal__state__wait_dmanager
+msgid "Wait Direct Manager"
+msgstr "إنتظار المدير المباشر"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields.selection,name:exp_hr_appraisal_kpi.selection__hr_employee_appraisal__state__wait_employee
+#: model:ir.model.fields.selection,name:exp_hr_appraisal_kpi.selection__hr_employee_appraisal__state_first__wait_employee
+msgid "Wait Employee"
+msgstr "انتظار الموظف"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields.selection,name:exp_hr_appraisal_kpi.selection__hr_employee_appraisal__state__wait_executive_director
+msgid "Wait Executive Director of Administration"
+msgstr "إنتظار المدير التنفيذي للإدارة"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields.selection,name:exp_hr_appraisal_kpi.selection__hr_employee_appraisal__state__wait_performance_officer
+#: model:ir.model.fields.selection,name:exp_hr_appraisal_kpi.selection__hr_employee_appraisal__state_first__wait_performance_officer
+msgid "Waiting Performance Officer"
+msgstr "إنتظار مسؤول إدارة الأداء"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_goals_stages__website_message_ids
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_skill_skill__website_message_ids
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_years_employee_goals__website_message_ids
+msgid "Website Messages"
+msgstr "رسائل الموقع الإلكتروني"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,help:exp_hr_appraisal_kpi.field_goals_stages__website_message_ids
+#: model:ir.model.fields,help:exp_hr_appraisal_kpi.field_skill_skill__website_message_ids
+#: model:ir.model.fields,help:exp_hr_appraisal_kpi.field_years_employee_goals__website_message_ids
+msgid "Website communication history"
+msgstr "سجلات التواصل عبر الموقع الإلكتروني"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_years_employee_goals__weight
+#: model_terms:ir.ui.view,arch_db:exp_hr_appraisal_kpi.employee_apprisal_extend
+msgid "Weight"
+msgstr "الوزن"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model,name:exp_hr_appraisal_kpi.model_report_exp_hr_appraisal_kpi_performance_evaluation_report_xlsx
+msgid "XLSX Performance Evaluation Summary"
+msgstr "ملخص تقييم الأداء"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_years_employee_goals__year_target
+msgid "Year Target"
+msgstr "المستهدف"
+
+#. module: exp_hr_appraisal_kpi
+#: code:addons/exp_hr_appraisal_kpi/models/years_employee_goals.py:0
+#, python-format
+msgid "Year Target cannot be negative. Please enter a valid positive value."
+msgstr "لا يمكن أن يكون المستهدف  سالباً يرجى إدخال قيمة موجبة صحيحة"
+
+#. module: exp_hr_appraisal_kpi
+#: code:addons/exp_hr_appraisal_kpi/models/kpi_period.py:0
+#, python-format
+msgid "You can not delete record in state not start"
+msgstr "لا يمكنك حذف مرحلة قيد الإجراء"
+
+#. module: exp_hr_appraisal_kpi
+#: code:addons/exp_hr_appraisal_kpi/models/kpi_period.py:0
+#, python-format
+msgid "You cannot delete a record in a state other than \"not start\""
+msgstr "لا يمكنك حذف سجل في حالة أخرى غير عدم بدء التشغيل"
+
+#. module: exp_hr_appraisal_kpi
+#: code:addons/exp_hr_appraisal_kpi/models/kpi_period.py:0
+#, python-format
+msgid "You cannot start this stage until all previous stages are completed."
+msgstr "لا يمكنك بدء هذه المرحلة حتى يتم الانتهاء من جميع المراحل السابقة"
+
+#. module: exp_hr_appraisal_kpi
+#: model_terms:ir.ui.view,arch_db:exp_hr_appraisal_kpi.hr_appraisal_view_search
+msgid "appraisal"
+msgstr "تقييم الأداء"
+
+#. module: exp_hr_appraisal_kpi
+#: model_terms:ir.ui.view,arch_db:exp_hr_appraisal_kpi.kpi_period_form_extend
+msgid "close"
+msgstr "إغلاق"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model,name:exp_hr_appraisal_kpi.model_goals_stages
+msgid "goals.stages"
+msgstr ""
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model,name:exp_hr_appraisal_kpi.model_item_item
+msgid "item.item"
+msgstr ""
+
+#. module: exp_hr_appraisal_kpi
+#: model_terms:ir.ui.view,arch_db:exp_hr_appraisal_kpi.hr_job_from_extend
+#: model_terms:ir.ui.view,arch_db:exp_hr_appraisal_kpi.item_tree_view_tree
+msgid "item_tree_tree"
+msgstr "عنصر_شجرة_عرض"
+
+#. module: exp_hr_appraisal_kpi
+#: model_terms:ir.ui.view,arch_db:exp_hr_appraisal_kpi.apprisal_percentag_form_view
+msgid "jobs"
+msgstr "الوظائف"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model.fields,field_description:exp_hr_appraisal_kpi.field_skill_percentage__skill_percentage
+msgid "skill Percentage %"
+msgstr "نسبة الجدارات"
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model,name:exp_hr_appraisal_kpi.model_skill_item
+msgid "skill.item"
+msgstr ""
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model,name:exp_hr_appraisal_kpi.model_skill_item_employee_table
+msgid "skill.item.employee.table"
+msgstr ""
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model,name:exp_hr_appraisal_kpi.model_skill_level
+msgid "skill.level"
+msgstr ""
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model,name:exp_hr_appraisal_kpi.model_skill_percentage
+msgid "skill.percentage"
+msgstr ""
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model,name:exp_hr_appraisal_kpi.model_skill_skill
+msgid "skill.skill"
+msgstr ""
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model,name:exp_hr_appraisal_kpi.model_skill_type
+msgid "skill.type"
+msgstr ""
+
+#. module: exp_hr_appraisal_kpi
+#: model:ir.model,name:exp_hr_appraisal_kpi.model_years_employee_goals
+msgid "years employee goals"
+msgstr "أهداف الموظفين السنوية"
+
+#. module: exp_hr_appraisal_kpi
+#: model:mail.template,subject:exp_hr_appraisal_kpi.email_template_appraisal_request_employee
+msgid "إشعار بدء تقييم الأداء - ${object.employee_id.name}"
+msgstr ""
+
+#. module: exp_hr_appraisal_kpi
+#: model:mail.template,subject:exp_hr_appraisal_kpi.email_template_appraisal_stage_notification
+msgid "إشعار بدء مرحلة التقييم: ${object.name}"
+msgstr ""
+
+#. module: exp_hr_appraisal_kpi
+#: model:mail.template,subject:exp_hr_appraisal_kpi.email_template_appraisal_request_executive_director
+#: model:mail.template,subject:exp_hr_appraisal_kpi.email_template_appraisal_request_manager
+#: model:mail.template,subject:exp_hr_appraisal_kpi.email_template_appraisal_request_performance_manager
+#: model:mail.template,subject:exp_hr_appraisal_kpi.email_template_appraisal_request_performance_officer
+msgid "تقييم الأداء للموظف: ${object.employee_id.name}"
+msgstr ""
+
+#. module: exp_hr_appraisal_kpi
+#: model_terms:ir.ui.view,arch_db:exp_hr_appraisal_kpi.performance_evaluation_report
+msgid "فترة التاريخ:"
+msgstr ""
+
+#. module: exp_hr_appraisal_kpi
+#: model_terms:ir.ui.view,arch_db:exp_hr_appraisal_kpi.performance_evaluation_report
+msgid "ملخص تقييم الأداء"
+msgstr ""
+
+#. module: exp_hr_appraisal_kpi
+#: model:mail.template,subject:exp_hr_appraisal_kpi.email_template_appraisal_result
+msgid "نتيجة تقييم الأداء"
+msgstr ""

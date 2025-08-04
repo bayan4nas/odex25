@@ -22,7 +22,6 @@ class EmployeesAppraisal(models.Model):
                                                  ('mission', 'Mission'),
                                                  ('general', 'General'),
                                                  ('other', 'Other')], string='Appraisal Type')
-    company_id = fields.Many2one('res.company', string='Company', default=lambda self: self.env.company)
 
     @api.model
     def create_automatic_appraisal(self):

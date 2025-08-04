@@ -175,7 +175,7 @@ class HrContractTrahum(models.Model):
     delgiation_status_type = fields.Selection(selection=[
         ('employee', 'Employee'),
         ('manager', 'Manager'),
-        ('gm', 'General Manager'), ])
+        ('gm', 'General Manager'), ],string='Delgiation Type')
 
     # def action_sector_head_approval(self):
     #     """Approve contract by Sector Head"""
@@ -227,7 +227,7 @@ class HrOfficialMissionTrahum(models.Model):
         # self.chick_employee_ids()
         self.employee_ids.chick_not_overtime()
         self.employee_ids.compute_Training_cost_emp()
-        if self.is_branch:
+        if not self.is_branch:
             self.state = "hr_aaproval"
         else:
             self.state = 'hr_manager_approve'
