@@ -235,6 +235,7 @@ class FamilyMember(models.Model):
     member_diseases_ids = fields.One2many('member.disease', 'member_id', string='Member Diseases')
     issues_ids = fields.One2many('issues.information', 'member_id', string='issues information')
     social_insurance_income = fields.Float(string='Social Insurance Income')
+    social_insurance_state = fields.Boolean(string='Social Security State')
     social_insurance_status = fields.Selection([
         ('active', 'Active'),
         ('inactive', 'Inactive'),
@@ -284,12 +285,37 @@ class FamilyMember(models.Model):
     end_date = fields.Date(string='End Date')
     in_work = fields.Boolean(string='In Work')
     experience_certificate = fields.Many2many('ir.attachment', string="Experience Certificate", tracking=True)
-    job_title = fields.Many2one('job.title',string='Job Title')
+    job_title = fields.Many2one('job.title', string='Job Title')
 
+    def action_confirm(self):
+        for record in self:
+            all_fields = [
+                'member_id_number', 'member_phone', 'identity_proof_id',
+                'birth_date', 'gender', 'qualification_id', 'additional_mobile_number',
+                'work_type_id', 'birth_place', 'marital_status_id', 'education_ids',
+                'building_number', 'sub_number', 'additional_number', 'street_name', 'district_id',
+                'city', 'postal_code', 'national_address_code', 'rehabilitation_ids', 'blood_type',
+                 'salary_ids', 'job_title', 'dest_name', 'start_date', 'experience_certificate'
+            ]
 
-    def action_confirm(self) -> None:
-        """Change status to 'Confirmed'."""
-        self.write({'state': 'confirmed'})
+            missing_fields = []
+            for field_name in all_fields:
+                field = record._fields.get(field_name)
+                if not field:
+                    continue  # Skip if field not found (typo safety)
+
+                value = getattr(record, field_name)
+                if not value:
+                    missing_fields.append(field.string)
+
+            if missing_fields:
+                raise ValidationError(
+                    _("Please fill in the following required fields before confirming:\n- ") + "\n- ".join(
+                        missing_fields)
+                )
+
+            # Confirm logic
+            record.state = 'confirmed'
 
     def action_cancel(self):
         """Open a wizard to enter the rejection reason."""
