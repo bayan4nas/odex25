@@ -15,11 +15,18 @@ class ServiceRequest(models.Model):
     # rent_lines = fields.One2many('rent.lines','services_settings_id')
     benefit_type = fields.Selection(string='Benefit Type',selection=[('family', 'Family'),('member', 'Member')])
     date = fields.Datetime(string='Request Date',default=fields.Datetime.now)
-    family_id = fields.Many2one('grant.benefit',string='Family',domain="['|','|',('state','=','second_approve'),('state','=','temporarily_suspended'),('state','=','suspended_first_approve')]")
+    family_id = fields.Many2one('grant.benefit',string='Family',domain="[('state', 'in', ['approve', 'approved'])]")
     family_category = fields.Many2one('benefit.category',string='Family Category',related='family_id.benefit_category_id')
     benefit_member_count = fields.Integer(string="Benefit Member count", related='family_id.benefit_member_count')
     branch_custom_id = fields.Many2one('branch.settings', string="Branch",related='family_id.branch_custom_id',store=True)
-    member_id = fields.Many2one('family.member',domain="[('benefit_id','=',family_id)]",string='Member')
+    member_id = fields.Many2one(
+        'family.member',
+        string='Member',
+        domain=[]
+    )
+
+
+
     description = fields.Char(string='Description')
     need_status_id = fields.Many2one(
         "service.need.status",
@@ -27,6 +34,7 @@ class ServiceRequest(models.Model):
         tracking=True,
         required=True
     )
+    need_status = fields.Char(related="need_status_id.name")
     delivery_method_id = fields.Many2one(
         "service.delivery.method",
         string="Service Delivery Method",
@@ -162,6 +170,67 @@ class ServiceRequest(models.Model):
         ], string='state',default='draft', tracking=True)
     state_a = fields.Selection(related='state', tracking=False)
     state_b = fields.Selection(related='state', tracking=False)
+
+    benefit_breadwinner_ids = fields.One2many(
+        related='family_id.benefit_breadwinner_ids',
+        string="Benefit breadwinner"
+    )
+
+    member_id_number = fields.Char(string="Id Number",related="member_id.member_id_number" ,readonly=True)
+    beneficiary_category = fields.Selection(related="family_id.beneficiary_category", string="Member Status", store=True,
+                                     readonly=True)
+    member_id_relationn = fields.Many2one(
+        related="member_id.relationn",
+        string="Relation",
+        readonly=True,
+        store=True
+    )
+    member_id_phone = fields.Char(string="Contact Phone",related="member_id.member_phone")
+    need_calculator = fields.Selection(related="family_id.need_calculator", string="Need Calculator", store=True,
+                                     readonly=True)
+    member_name= fields.Char(string="Name",related="member_id.name")
+    first_breadwinner_id = fields.Many2one(
+        'grant.benefit.breadwinner',
+        string="First Breadwinner",
+        compute="_compute_first_breadwinner",
+        store=True
+    )
+    family_id_member_name = fields.Char(string="Name",related="first_breadwinner_id.member_name.name")
+    family_id_member_id_number = fields.Char(string="Id Number",related="first_breadwinner_id.member_name.member_id_number" ,readonly=True)
+    family_id_relationn = fields.Char(
+        related="first_breadwinner_id.relation_id.name",
+        string="Relation",
+        readonly=True,
+
+    )
+    family_id_phone = fields.Char(string="Contact Phone",related="first_breadwinner_id.member_name.member_phone")
+
+    @api.depends('benefit_breadwinner_ids')
+    def _compute_first_breadwinner(self):
+        for rec in self:
+            if rec.benefit_breadwinner_ids:
+                rec.first_breadwinner_id = rec.benefit_breadwinner_ids[0]
+            else:
+                rec.first_breadwinner_id = False
+
+    @api.onchange('family_id')
+    def _onchange_family_id(self):
+        if self.family_id:
+            member_ids = self.family_id.benefit_member_ids.mapped('member_id.id')
+            if member_ids:
+                return {
+                    'domain': {'member_id': [('id', 'in', member_ids)]}
+                }
+            else:
+                self.member_id = False
+                return {
+                    'domain': {'member_id': [('id', '=', 0)]}
+                }
+        else:
+            self.member_id = False
+            return {
+                'domain': {'member_id': [('id', '=', 0)]}
+            }
 
     @api.model
     def search(self, args, offset=0, limit=None, order=None, count=False):

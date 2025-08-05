@@ -16,7 +16,7 @@ class FamilyMemberMaritalStatus(models.Model):
 
 
 class FamilyMemberRelation(models.Model):
-    _name = 'family.member.relation'
+    _inherit = 'family.member.relation'
     _description = 'Family Member Relation'
 
     name = fields.Char(string='Relation', required=True)
@@ -434,9 +434,9 @@ class MemberHouse(models.Model):
 
 
 class DetaineeFile(models.Model):
-    _name = 'detainee.file'
+    _inherit = 'detainee.file'
     _description = 'Detainee File'
-    _inherit = ['mail.thread', 'mail.activity.mixin']
+    # _inherit = ['mail.thread', 'mail.activity.mixin']
 
     name = fields.Char(string="code", readonly=True, copy=False, default=lambda self: _('New'))
     detainee_id = fields.Many2one('family.member', string="Detainee", required=True)
