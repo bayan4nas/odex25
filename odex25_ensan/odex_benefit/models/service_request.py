@@ -179,12 +179,7 @@ class ServiceRequest(models.Model):
     member_id_number = fields.Char(string="Id Number",related="member_id.member_id_number" ,readonly=True)
     beneficiary_category = fields.Selection(related="family_id.beneficiary_category", string="Member Status", store=True,
                                      readonly=True)
-    member_id_relationn = fields.Many2one(
-        related="member_id.relationn",
-        string="Relation",
-        readonly=True,
-        store=True
-    )
+
     member_id_phone = fields.Char(string="Contact Phone",related="member_id.member_phone")
     need_calculator = fields.Selection(related="family_id.need_calculator", string="Need Calculator", store=True,
                                      readonly=True)
@@ -204,6 +199,23 @@ class ServiceRequest(models.Model):
 
     )
     family_id_phone = fields.Char(string="Contact Phone",related="first_breadwinner_id.member_name.member_phone")
+    member_id_relationn = fields.Char(
+        string="Relation",
+        compute="_compute_member_relation",
+        store=True,
+        readonly=True
+    )
+
+    @api.depends('family_id', 'member_id')
+    def _compute_member_relation(self):
+        for rec in self:
+            rec.member_id_relationn = False
+            if rec.family_id and rec.member_id:
+                rel = self.env['grant.benefit.member'].search([
+                    ('grant_benefit_id', '=', rec.family_id.id),
+                    ('member_id', '=', rec.member_id.id)
+                ], limit=1)
+                rec.member_id_relationn = rel.relation_id.name if rel else False
 
     @api.depends('benefit_breadwinner_ids')
     def _compute_first_breadwinner(self):
