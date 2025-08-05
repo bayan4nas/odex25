@@ -11,107 +11,92 @@
         <field name="comment">Hide and show lists and manage beneficiaries and family members.
         </field>
     </record>
-        <record model="ir.module.category" id="module_category_benefit">
-            <field name="name">Beneficiaries Management</field>
-            <field name="description">Helps you manage Beneficiaries Program</field>
-            <field name="sequence">1</field>
-        </record>
 
         <record id="group_benefit_confirm" model="res.groups">
             <field name="name">Beneficiaries Family Confirm</field>
-            <field name="category_id" ref="module_category_benefit"/>
+            <field name="category_id" ref="odex_benefit.module_category_benefit"/>
             <field name="comment">the user will be able to confirm Beneficiaries Family requests.</field>
         </record>
 
         <record id="group_benefit_validate" model="res.groups">
             <field name="name">Beneficiaries Family Validate</field>
-            <field name="category_id" ref="module_category_benefit"/>
+            <field name="category_id" ref="odex_benefit.module_category_benefit"/>
             <field name="comment">the user will be able to validate Beneficiaries Family requests.</field>
         </record>
 
         <record id="group_benefit_review" model="res.groups">
             <field name="name">Beneficiaries Family Review</field>
-            <field name="category_id" ref="module_category_benefit"/>
+            <field name="category_id" ref="odex_benefit.module_category_benefit"/>
             <field name="comment">the user will be able to review Beneficiaries Family requests.</field>
         </record>
 
         <record id="group_benefit_approve" model="res.groups">
             <field name="name">Beneficiaries Family Approve</field>
-            <field name="category_id" ref="module_category_benefit"/>
+            <field name="category_id" ref="odex_benefit.module_category_benefit"/>
             <field name="comment">the user will be able to approve Beneficiaries Family requests.</field>
         </record>
 
 
         <!--        <record id="group_benefit_user" model="res.groups">-->
         <!--            <field name="name">Beneficiaries User</field>-->
-        <!--            <field name="category_id" ref="module_category_benefit"/>-->
+        <!--            <field name="category_id" ref="odex_benefit.module_category_benefit"/>-->
         <!--            <field name="users" eval="[(4, ref('base.user_root'))]"/>-->
         <!--&lt;!&ndash;            <field name="implied_ids" eval="[(4, ref('base.group_erp_manager'))]"/>&ndash;&gt;-->
         <!--        </record>-->
-        <record id="group_benefit_info" model="res.groups">
-            <field name="name">Beneficiaries Inforamtion</field>
-            <field name="category_id" ref="module_category_benefit"/>
-            <field name="users" eval="[(4, ref('base.user_root'))]"/>
-            <field name="comment">the user will be able to approve Beneficiaries requests.</field>
-        </record>
+
 <!--        <record id="group_benefit_edit" model="res.groups">-->
 <!--            <field name="name">Beneficiaries Edit User</field>-->
-<!--            <field name="category_id" ref="module_category_benefit"/>-->
+<!--            <field name="category_id" ref="odex_benefit.module_category_benefit"/>-->
 <!--            <field name="users" eval="[(4, ref('base.user_root'))]"/>-->
-<!--            <field name="implied_ids" eval="[(4, ref('group_benefit_info'))]"/>-->
+<!--            <field name="implied_ids" eval="[(4, ref('odex_benefit.group_benefit_info'))]"/>-->
 <!--        </record>-->
         <!--         <record id="group_benefit_officer" model="res.groups">-->
         <!--            <field name="name">Beneficiaries Officer</field>-->
-        <!--            <field name="category_id" ref="module_category_benefit"/>-->
+        <!--            <field name="category_id" ref="odex_benefit.module_category_benefit"/>-->
         <!--            <field name="users" eval="[(4, ref('base.user_root'))]"/>-->
         <!--            <field name="implied_ids" eval="[(4, ref('group_benefit_user')),(4, ref('group_benefit_edit'))]"/>-->
         <!--        </record>-->
 <!--        <record id="group_benefit_manager" model="res.groups">-->
 <!--            <field name="name">Beneficiaries Manager</field>-->
-<!--            <field name="category_id" ref="module_category_benefit"/>-->
+<!--            <field name="category_id" ref="odex_benefit.module_category_benefit"/>-->
 <!--            <field name="users" eval="[(4, ref('base.user_root'))]"/>-->
-<!--            <field name="implied_ids" eval="[(4, ref('group_benefit_info'))]"/>-->
+<!--            <field name="implied_ids" eval="[(4, ref('odex_benefit.group_benefit_info'))]"/>-->
 <!--            <field name="comment">the user will be able to approve Beneficiaries requests.</field>-->
 <!--        </record>-->
-        <record id="group_benefit_researcher" model="res.groups">
-            <field name="name">Beneficiaries Researcher</field>
-            <field name="category_id" ref="module_category_benefit"/>
-            <field name="users" eval="[(4, ref('base.user_root'))]"/>
-            <field name="implied_ids" eval="[(4, ref('group_benefit_info'))]"/>
-        </record>
+
 
 <!--        <record id="group_benefit_woman_commitee" model="res.groups">-->
 <!--            <field name="name">Head of the Women's Committee</field>-->
-<!--            <field name="category_id" ref="module_category_benefit"/>-->
+<!--            <field name="category_id" ref="odex_benefit.module_category_benefit"/>-->
 <!--            <field name="users" eval="[(4, ref('base.user_root'))]"/>-->
-<!--            <field name="implied_ids" eval="[(4, ref('group_benefit_info'))]"/>-->
+<!--            <field name="implied_ids" eval="[(4, ref('odex_benefit.group_benefit_info'))]"/>-->
 <!--        </record>-->
 
 <!--        <record id="group_benefit_branch_manager" model="res.groups">-->
 <!--            <field name="name">Branch Manager</field>-->
-<!--            <field name="category_id" ref="module_category_benefit"/>-->
+<!--            <field name="category_id" ref="odex_benefit.module_category_benefit"/>-->
 <!--            <field name="users" eval="[(4, ref('base.user_root'))]"/>-->
-<!--            <field name="implied_ids" eval="[(4, ref('group_benefit_info'))]"/>-->
+<!--            <field name="implied_ids" eval="[(4, ref('odex_benefit.group_benefit_info'))]"/>-->
 <!--        </record>-->
 
         <record id="group_benefit_accounting_accept" model="res.groups">
             <field name="name">Accounting Accept</field>
-            <field name="category_id" ref="module_category_benefit"/>
-            <!--            <field name="implied_ids" eval="[(4, ref('group_benefit_info'))]"/>-->
+            <field name="category_id" ref="odex_benefit.module_category_benefit"/>
+            <!--            <field name="implied_ids" eval="[(4, ref('odex_benefit.group_benefit_info'))]"/>-->
         </record>
         <record id="group_benefit_accountant_accept" model="res.groups">
             <field name="name">Service Request Accountant Accept</field>
-            <field name="category_id" ref="module_category_benefit"/>
-            <!--            <field name="implied_ids" eval="[(4, ref('group_benefit_info'))]"/>-->
+            <field name="category_id" ref="odex_benefit.module_category_benefit"/>
+            <!--            <field name="implied_ids" eval="[(4, ref('odex_benefit.group_benefit_info'))]"/>-->
         </record>
         <record id="group_benefit_payment_accountant_accept" model="res.groups">
             <field name="name">Payment Orders Accountant Accept</field>
-            <field name="category_id" ref="module_category_benefit"/>
-            <!--            <field name="implied_ids" eval="[(4, ref('group_benefit_info'))]"/>-->
+            <field name="category_id" ref="odex_benefit.module_category_benefit"/>
+            <!--            <field name="implied_ids" eval="[(4, ref('odex_benefit.group_benefit_info'))]"/>-->
         </record>
         <record id="group_accept_income_and_expenses" model="res.groups">
             <field name="name">Accept income and expenses</field>
-            <field name="category_id" ref="module_category_benefit"/>
+            <field name="category_id" ref="odex_benefit.module_category_benefit"/>
         </record>
     </data>
 </odoo>
