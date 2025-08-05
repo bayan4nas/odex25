@@ -4,26 +4,26 @@
         <field name="name">Head of the Women's Committee</field>
         <field name="category_id" ref="trahum_benefits.module_category_benefit"/>
         <field name="users" eval="[(4, ref('base.user_root'))]"/>
-        <field name="implied_ids" eval="[(4, ref('trahum_benefits.group_benefit_info'))]"/>
+        <field name="implied_ids" eval="[(4, ref('group_benefit_info'))]"/>
     </record>
 
     <record id="group_benefit_edit" model="res.groups">
         <field name="name">Beneficiaries Edit User</field>
         <field name="category_id" ref="trahum_benefits.module_category_benefit"/>
         <field name="users" eval="[(4, ref('base.user_root'))]"/>
-        <field name="implied_ids" eval="[(4, ref('trahum_benefits.group_benefit_info'))]"/>
+        <field name="implied_ids" eval="[(4, ref('group_benefit_info'))]"/>
     </record>
     <record id="group_benefit_branch_manager" model="res.groups">
         <field name="name">Branch Manager</field>
         <field name="category_id" ref="trahum_benefits.module_category_benefit"/>
         <field name="users" eval="[(4, ref('base.user_root'))]"/>
-        <field name="implied_ids" eval="[(4, ref('trahum_benefits.group_benefit_info'))]"/>
+        <field name="implied_ids" eval="[(4, ref('group_benefit_info'))]"/>
     </record>
     <record id="group_benefit_manager" model="res.groups">
         <field name="name">Beneficiaries Manager</field>
         <field name="category_id" ref="trahum_benefits.module_category_benefit"/>
         <field name="users" eval="[(4, ref('base.user_root'))]"/>
-        <field name="implied_ids" eval="[(4, ref('trahum_benefits.group_benefit_info'))]"/>
+        <field name="implied_ids" eval="[(4, ref('group_benefit_info'))]"/>
         <field name="comment">the user will be able to approve Beneficiaries requests.</field>
     </record>
 

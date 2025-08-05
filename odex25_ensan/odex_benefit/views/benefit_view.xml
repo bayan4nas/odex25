@@ -846,8 +846,8 @@
                                         <tree>
                                             <field name="loan_giver"/>
                                             <field name="loan_amount"/>
-                                            <button name="action_accept" type="object" string="Accept" class="oe_highlight" attrs="{'invisible':[('state','=','accepted')]}" groups="trahum_benefits.group_accept_income_and_expenses"/>
-                                            <button name="action_refuse" type="object" string="Refuse" class="oe_highlight" attrs="{'invisible':[('state','=','refused')]}" groups="trahum_benefits.group_accept_income_and_expenses"/>
+                                            <button name="action_accept" type="object" string="Accept" class="oe_highlight" attrs="{'invisible':[('state','=','accepted')]}" groups="odex_benefit.group_accept_income_and_expenses"/>
+                                            <button name="action_refuse" type="object" string="Refuse" class="oe_highlight" attrs="{'invisible':[('state','=','refused')]}" groups="odex_benefit.group_accept_income_and_expenses"/>
                                             <field name="state" readonly="1" force_save="1" widget="badge" decoration-success="state in ['accepted']" decoration-danger="state in ['refused']"/>
                                         </tree>
                                     </field>
@@ -862,8 +862,8 @@
                                             <field name="expenses_type_custom"/>
                                             <field name="note"/>
                                             <field name="amount" sum="amount"/>
-                                            <button name="action_accept" type="object" string="Accept" class="oe_highlight" attrs="{'invisible':[('state','=','accepted')]}" groups="trahum_benefits.group_accept_income_and_expenses"/>
-                                            <button name="action_refuse" type="object" string="Refuse" class="oe_highlight" attrs="{'invisible':[('state','=','refused')]}" groups="trahum_benefits.group_accept_income_and_expenses"/>
+                                            <button name="action_accept" type="object" string="Accept" class="oe_highlight" attrs="{'invisible':[('state','=','accepted')]}" groups="odex_benefit.group_accept_income_and_expenses"/>
+                                            <button name="action_refuse" type="object" string="Refuse" class="oe_highlight" attrs="{'invisible':[('state','=','refused')]}" groups="odex_benefit.group_accept_income_and_expenses"/>
                                             <field name="state" readonly="1" force_save="1" widget="badge" decoration-success="state in ['accepted']" decoration-danger="state in ['refused']"/>
                                         </tree>
                                     </field>
@@ -878,8 +878,8 @@
                                         <field name="salary_attach" widget="many2many_attachment_preview"/>
                                         <field name="attach_start_date"/>
                                         <field name="attach_end_date"/>
-                                        <button name="action_accept" type="object" string="Accept" class="oe_highlight" attrs="{'invisible':[('state','=','accepted')]}" groups="trahum_benefits.group_accept_income_and_expenses"/>
-                                        <button name="action_refuse" type="object" string="Refuse" class="oe_highlight" attrs="{'invisible':[('state','=','refused')]}" groups="trahum_benefits.group_accept_income_and_expenses"/>
+                                        <button name="action_accept" type="object" string="Accept" class="oe_highlight" attrs="{'invisible':[('state','=','accepted')]}" groups="odex_benefit.group_accept_income_and_expenses"/>
+                                        <button name="action_refuse" type="object" string="Refuse" class="oe_highlight" attrs="{'invisible':[('state','=','refused')]}" groups="odex_benefit.group_accept_income_and_expenses"/>
                                         <field name="state" readonly="1" force_save="1" widget="badge" decoration-success="state in ['accepted']" decoration-danger="state in ['refused']"/>
                                         <field name="is_required" invisible="1"/>
                                         <field name="is_default" invisible="1"/>

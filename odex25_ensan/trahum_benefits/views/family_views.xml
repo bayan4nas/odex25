@@ -78,7 +78,7 @@
                             </group>
                             <group>
                                 <field name="member_phone"/>
-                                <field name="folder_state"/>
+
 
                             </group>
                         </group>
@@ -199,11 +199,12 @@
                             <page string="Social Insurance and Security">
                                 <group>
                                     <group string="Social Insurance">
-                                         <field name="social_security_state"/>
-                                        <field name="social_security_income"
-                                               attrs="{'invisible': [('social_security_state', '=', False)]}"/>
-                                        <field name="social_security_status"
-                                               attrs="{'invisible': [('social_security_state', '=', False)]}"/>
+                                         <field name="social_insurance_state"/>
+                                        <field name="social_insurance_income"
+                                               attrs="{'invisible': [('social_insurance_state', '=', False)]}"/>
+                                        <field name="social_insurance_status"
+                                               attrs="{'invisible': [('social_insurance_state', '=', False)]}"/>
+
                                     </group>
                                     <group string="Social Security">
                                         <field name="social_security_state"/>

@@ -22,18 +22,18 @@
                         <button name="action_accounting_approve" type="object"
                                 string="Accounting Approve" class="oe_highlight"
                                 confirm="Are you sure you want to approve  ?"
-                                states="second_approve" groups="trahum_benefits.group_benefit_accounting_accept"/>
+                                states="second_approve" groups="odex_benefit.group_benefit_accounting_accept"/>
                         <button name="action_accounting_first_refuse" type="object"
                                 string="Accounting First Refuse" class="oe_highlight"
                                 confirm="Are you sure you want to first refuse  ?"
-                                states="second_approve" groups="trahum_benefits.group_benefit_accounting_accept"/>
+                                states="second_approve" groups="odex_benefit.group_benefit_accounting_accept"/>
                         <button name="action_send_request_to_supplier" type="object"
                                 string="Send Request To Supplier" class="oe_highlight"
                                 confirm="Are you sure you want to send request to supplier ?"
-                                groups="trahum_benefits.group_benefit_accounting_accept" attrs="{'invisible': ['|',('service_type','!=','electrical_devices'),('state_b','!=','accounting_approve')]}" />
+                                groups="odex_benefit.group_benefit_accounting_accept" attrs="{'invisible': ['|',('service_type','!=','electrical_devices'),('state_b','!=','accounting_approve')]}" />
                         <button name="action_family_received_device" type="object"
                                 string="Family Received Device" class="oe_highlight"
-                                groups="trahum_benefits.group_benefit_accounting_accept" attrs="{'invisible': ['|',('service_type','!=','electrical_devices'),('state_b','!=','send_request_to_supplier')]}" />
+                                groups="odex_benefit.group_benefit_accounting_accept" attrs="{'invisible': ['|',('service_type','!=','electrical_devices'),('state_b','!=','send_request_to_supplier')]}" />
                         <button name="action_refuse" type="object"
                                 string="Refuse" class="oe_highlight"
                                 confirm="Are you sure you want to refuse request  ?"
@@ -65,7 +65,7 @@
                                     <field name="account_id" attrs="{'invisible':[('service_type','=','electrical_devices')]}"/>
                                     <field name="device_account_id" attrs="{'invisible':[('service_type','!=','electrical_devices')]}"/>
                                     <field name="accountant_id" attrs="{'invisible':[('state','in',['draft','researcher','send_request','first_approve','second_approve'])]}"/>
-                                    <field name="payment_order_id" readonly="1" groups="trahum_benefits.group_benefit_accounting_accept" attrs="{'invisible':[('service_type','=','electrical_devices')]}"/>
+                                    <field name="payment_order_id" readonly="1" groups="odex_benefit.group_benefit_accounting_accept" attrs="{'invisible':[('service_type','=','electrical_devices')]}"/>
                                     <field name="vendor_bill" readonly="1" attrs="{'invisible':[('service_type','!=','electrical_devices')]}"/>
                                     <field name="is_service_producer" invisible="1"/>
                                     <field name="service_producer_id" attrs="{'invisible':[('is_service_producer','=',False)],'readonly':[('state','not in',['draft','researcher','send_request'])]}"/>
@@ -265,8 +265,8 @@
                     <field name="main_service_category"/>
                     <field name="sub_service_category"/>
                     <field name="service_cat"/>
-                    <field name="payment_order_id" groups="trahum_benefits.group_benefit_accounting_accept"/>
-                    <field name="vendor_bill" groups="trahum_benefits.group_benefit_accounting_accept"/>
+                    <field name="payment_order_id" groups="odex_benefit.group_benefit_accounting_accept"/>
+                    <field name="vendor_bill" groups="odex_benefit.group_benefit_accounting_accept"/>
                     <field name="state" widget="badge" decoration-success="state in ['second_approve']" decoration-muted="state == 'draft'"
                        decoration-danger="state in ['refused']" decoration-info="state in ['first_approve','send_request']" decoration-warning="state in ['researcher']"/>
                 </tree>
