@@ -27,7 +27,7 @@
         'views/branch_inherit.xml',
         'views/family_members.xml',
         'views/family_complaints.xml',
-
+        'views/service_request_line.xml',
         'wizards/researcher_wizard.xml',
         'wizards/suspend_reason_wizard.xml',
         'wizards/exception_wizard.xml',
