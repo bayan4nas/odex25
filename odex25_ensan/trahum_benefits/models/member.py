@@ -542,7 +542,6 @@ class DetaineeFile(models.Model):
     @api.model
     def create(self, vals):
         record = super(DetaineeFile, self).create(vals)
-
         branch_code = record.branch_id.code if record.branch_id else ''
         print(branch_code,'branch_code')
         if branch_code:
