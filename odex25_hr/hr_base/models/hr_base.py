@@ -10,7 +10,14 @@ from odoo.tools.translate import _
 class HrEmployeePublic(models.Model):
     _inherit = 'hr.employee.public'
 
+    name = fields.Char(related="user_id.employee_id.name")
     coach_id = fields.Many2one('hr.employee.public', 'Department Manager', readonly=True)
+    current_leave_id = fields.Many2one('hr.holidays.status', related="user_id.employee_id.current_leave_id",
+                                       string="Current Leave Type")
+    current_leave_state = fields.Selection(related="user_id.employee_id.current_leave_state", string="Current Leave Status")
+
+    leave_date_from = fields.Date('From Date', related="user_id.employee_id.leave_date_from")
+    leave_date_to = fields.Date('To Date', related="user_id.employee_id.leave_date_to")
 
 
 # Hr_Employee
