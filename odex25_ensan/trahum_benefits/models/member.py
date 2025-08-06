@@ -287,7 +287,6 @@ class FamilyMember(models.Model):
     experience_certificate = fields.Many2many('ir.attachment', string="Experience Certificate", tracking=True)
     job_title = fields.Many2one('job.title', string='Job Title')
 
-
     def action_confirm(self):
         for record in self:
             all_fields = [
@@ -296,7 +295,7 @@ class FamilyMember(models.Model):
                 'work_type_id', 'birth_place', 'marital_status_id', 'education_ids',
                 'building_number', 'sub_number', 'additional_number', 'street_name', 'district_id',
                 'city', 'postal_code', 'national_address_code', 'rehabilitation_ids', 'blood_type',
-                 'salary_ids', 'job_title', 'dest_name', 'start_date', 'experience_certificate'
+                'salary_ids', 'job_title', 'dest_name', 'start_date', 'experience_certificate'
             ]
 
             missing_fields = []
@@ -438,7 +437,6 @@ class DetaineeFile(models.Model):
     _description = 'Detainee File'
     # _inherit = ['mail.thread', 'mail.activity.mixin']
 
-
     name = fields.Char(string="code", readonly=True, copy=False, default=lambda self: _('New'))
 
     detainee_id = fields.Many2one('family.member', string="Detainee", required=True)
@@ -460,7 +458,7 @@ class DetaineeFile(models.Model):
         ('rejected', 'Rejected'),
     ], string="Status", default='draft', tracking=True)
 
-    branch_id = fields.Many2one('branch.details', string="Branch",required=1)
+    branch_id = fields.Many2one('branch.details', string="Branch", required=1)
 
     prison_country_id = fields.Many2one('res.prison.country', string="Prison Country")
 
@@ -543,16 +541,17 @@ class DetaineeFile(models.Model):
     def create(self, vals):
         record = super(DetaineeFile, self).create(vals)
         branch_code = record.branch_id.code if record.branch_id else ''
-        print(branch_code,'branch_code')
+        print(branch_code, 'branch_code')
         if branch_code:
             existing = self.search([
                 ('branch_id', '=', record.branch_id.id),
                 ('id', '!=', record.id),
-            ])
+            ],
+            limit = 1)
             if existing and existing.name:
-                    last_part = existing.name.split('/')[-1]
-                    last_number = int(last_part)
-                    new_number = last_number + 1
+                last_part = existing.name.split('/')[-1]
+                last_number = int(last_part)
+                new_number = last_number + 1
             else:
                 new_number = 1
 
@@ -562,4 +561,3 @@ class DetaineeFile(models.Model):
             record.name = _('New')
 
         return record
-
