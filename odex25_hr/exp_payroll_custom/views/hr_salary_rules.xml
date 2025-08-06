@@ -158,6 +158,9 @@
                 <xpath expr="//field[@name='register_id']" position="attributes">
                     <attribute name="invisible">1</attribute>
                 </xpath>
+                <xpath expr="//field[@name='code']" position="after">
+                    <field name="company_id" groups="base.group_multi_company"/>
+                </xpath>
             </field>
         </record>
     </data>
