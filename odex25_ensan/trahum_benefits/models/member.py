@@ -6,6 +6,7 @@ from odoo.exceptions import ValidationError
 from odoo.exceptions import UserError
 from lxml import etree
 import json
+from dateutil.relativedelta import relativedelta
 
 
 class FamilyMemberMaritalStatus(models.Model):
@@ -145,6 +146,13 @@ class IssuesInformation(models.Model):
     prison_id = fields.Many2one('res.prison', readonly=0, related='detainee_id.prison_id')
     arrest_date = fields.Date('Arrest Date', related='detainee_id.arrest_date', readonly=0)
 
+
+    @api.constrains('release_date', 'detainee_id')
+    def _check_release_date_required(self):
+        for rec in self:
+            if rec.detainee_id and rec.detainee_id.prisoner_state == 'convicted':
+                if not rec.release_date:
+                    raise ValidationError(_("Release Date is required when the prisoner state is 'Convicted'."))
     @api.onchange('case_type')
     def _onchange_case_type(self):
         if self.case_type:
@@ -159,6 +167,17 @@ class IssuesInformation(models.Model):
                     'case_name': []
                 }
             }
+
+    @api.model
+    def create(self, vals):
+        record = super(IssuesInformation, self).create(vals)
+        record._check_release_date_required()
+        return record
+
+    def write(self, vals):
+        res = super(IssuesInformation, self).write(vals)
+        self._check_release_date_required()
+        return res
 
 
 class FamilyMember(models.Model):
@@ -462,14 +481,69 @@ class DetaineeFile(models.Model):
 
     prison_country_id = fields.Many2one('res.prison.country', string="Prison Country")
 
-    prison_id = fields.Many2one('res.prison', string="Prison")
+    prison_id = fields.Many2one('res.prison', string="Prison", domain=[('country_id', '=', prison_country_id)])
 
     cancel_reason: fields.Text = fields.Text(string="Rejection Reason", tracking=True, copy=False)
+    file_state = fields.Selection([('active', 'Active'), ('inactive', 'Inactive')], string='File Status')
 
-    prisoner_state = fields.Selection([('convicted', 'Convicted'), ('not_convicted', 'Not Convicted')], string='State')
+    prisoner_state = fields.Selection([('convicted', 'Convicted'), ('not_convicted', 'Not Convicted')], string='Inmate Status')
     beneficiary_category = fields.Selection([('gust', 'Gust'), ('released', 'Released')], string='Beneficiary Category')
     entitlement_status = fields.Selection([('deserved', 'Deserved'), ('undeserved', 'Undeserved')],
                                           string='Entitlement Status')
+
+    period_text = fields.Char(string="Detention Period", compute="_compute_period", store=True)
+
+    @api.onchange('prison_id')
+    def _onchange_prison_id(self):
+        if self.prison_id:
+            self.prison_country_id = self.prison_id.country_id
+
+    @api.onchange('prison_country_id')
+    def _onchange_prison_country_id(self):
+        if self.prison_country_id:
+            domain = [('country_id', '=', self.prison_country_id.id)]
+            # إذا السجن الحالي لا يتبع المنطقة المختارة، أفرغه
+            if self.prison_id and self.prison_id.country_id != self.prison_country_id:
+                self.prison_id = False
+            return {'domain': {'prison_id': domain}}
+        else:
+            return {'domain': {'prison_id': []}}
+
+    @api.depends('arrest_date', 'expected_release_date')
+    def _compute_period(self):
+        for record in self:
+            if record.arrest_date and record.expected_release_date:
+                delta = relativedelta(record.expected_release_date, record.arrest_date)
+                years = delta.years
+                months = delta.months
+                days = delta.days
+
+                def arabic_plural(value, singular, dual, plural):
+                    if value == 1:
+                        return f"1 {singular}"
+                    elif value == 2:
+                        return dual
+                    elif 3 <= value <= 10:
+                        return f"{value} {plural}"
+                    else:
+                        return f"{value} {singular}"
+
+                year_txt = arabic_plural(years, "سنة", "سنتان", "سنوات")
+                month_txt = arabic_plural(months, "شهر", "شهران", "أشهر")
+                day_txt = arabic_plural(days, "يومًا", "يومان", "أيام")
+
+                parts = []
+                if years:
+                    parts.append(year_txt)
+                if months:
+                    parts.append(month_txt)
+                if days:
+                    parts.append(day_txt)
+
+                rtl_marker = '\u200F'
+                record.period_text = rtl_marker + " و ".join(parts)
+            else:
+                record.period_text = "\u200Fالمدة غير متوفرة"
 
     def action_open_family_files(self):
         self.ensure_one()
@@ -541,7 +615,10 @@ class DetaineeFile(models.Model):
     def create(self, vals):
         record = super(DetaineeFile, self).create(vals)
         branch_code = record.branch_id.code if record.branch_id else ''
+<<<<<<< Updated upstream
         print(branch_code, 'branch_code')
+=======
+>>>>>>> Stashed changes
         if branch_code:
             existing = self.search([
                 ('branch_id', '=', record.branch_id.id),
@@ -561,3 +638,17 @@ class DetaineeFile(models.Model):
             record.name = _('New')
 
         return record
+<<<<<<< Updated upstream
+=======
+
+    # def write(self, vals):
+    #     print(vals)
+    #     if 'prisoner_state' in vals and vals['prisoner_state'] == 'convicted':
+    #         for record in self:
+    #             incomplete_issues = record.issues_ids.filtered(lambda issue: not issue.release_date)
+    #             if incomplete_issues:
+    #                 raise ValidationError(_(
+    #                  "   Release Date is required when the prisoner state is 'Convicted'."
+    #                 ))
+    #     return super(DetaineeFile, self).write(vals)
+>>>>>>> Stashed changes

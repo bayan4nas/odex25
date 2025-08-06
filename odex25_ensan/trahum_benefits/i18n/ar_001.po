@@ -86,17 +86,6 @@ msgstr "حالة الحساب لتحديد ما إذا كان الحساب نش�
 msgid "Action Needed"
 msgstr "يحتاج لإجراء"
 
-#. module: trahum_benefits
-#: model:ir.model.fields,field_description:trahum_benefits.field_benefits_output__active
-#: model:ir.model.fields,field_description:trahum_benefits.field_benefits_service__active
-#: model:ir.model.fields,field_description:trahum_benefits.field_benefits_service_classification__active
-#: model:ir.model.fields.selection,name:trahum_benefits.selection__attachment__classification__active
-#: model:ir.model.fields.selection,name:trahum_benefits.selection__family_member__social_insurance_status__active
-#: model:ir.model.fields.selection,name:trahum_benefits.selection__family_member__social_security_status__active
-#: model:ir.model.fields.selection,name:trahum_benefits.selection__grant_benefit__account_status__active
-#: model:ir.model.fields.selection,name:trahum_benefits.selection__issues_information__account_status__active
-msgid "Active"
-msgstr "نشط"
 
 #. module: trahum_benefits
 #: model:ir.model.fields.selection,name:trahum_benefits.selection__family_member__social_insurance_status__active_inactive
@@ -2716,11 +2705,46 @@ msgid "Start Date"
 msgstr "تاريخ فتح الملف"
 
 #. module: trahum_benefits
-#: model:ir.model.fields,field_description:trahum_benefits.field_detainee_file__prisoner_state
 #: model:ir.model.fields,field_description:trahum_benefits.field_grant_benefit__state
 #: model_terms:ir.ui.view,arch_db:trahum_benefits.view_grant_benefit_search
 msgid "State"
 msgstr "الحالة"
+
+
+#. module: trahum_benefits
+#: model:ir.model.fields,field_description:trahum_benefits.field_detainee_file__file_state
+msgid "File Status"
+msgstr "حالة الملف"
+
+#. module: trahum_benefits
+#: model:ir.model.fields,field_description:trahum_benefits.field_detainee_file__period_text
+msgid "Detention Period"
+msgstr "مدة الحكم"
+
+
+#. module: trahum_benefits
+#: model:ir.model.fields,field_description:trahum_benefits.field_benefits_output__active
+#: model:ir.model.fields,field_description:trahum_benefits.field_benefits_service__active
+#: model:ir.model.fields,field_description:trahum_benefits.field_benefits_service_classification__active
+#: model:ir.model.fields.selection,name:trahum_benefits.selection__attachment__classification__active
+#: model:ir.model.fields.selection,name:trahum_benefits.selection__detainee_file__file_state__active
+#: model:ir.model.fields.selection,name:trahum_benefits.selection__family_member__social_insurance_status__active
+#: model:ir.model.fields.selection,name:trahum_benefits.selection__family_member__social_security_status__active
+#: model:ir.model.fields.selection,name:trahum_benefits.selection__grant_benefit__account_status__active
+#: model:ir.model.fields.selection,name:trahum_benefits.selection__issues_information__account_status__active
+msgid "Active"
+msgstr "نشط"
+
+
+#. module: trahum_benefits
+#: model:ir.model.fields.selection,name:trahum_benefits.selection__detainee_file__file_state__inactive
+msgid "Inactive"
+msgstr " غير نشط"
+
+#. module: trahum_benefits
+#: model:ir.model.fields,field_description:trahum_benefits.field_detainee_file__prisoner_state
+msgid "Inmate Status"
+msgstr "حالة النزيل"
 
 #. module: trahum_benefits
 #: model_terms:ir.ui.view,arch_db:trahum_benefits.view_nazil_kanban_custom
