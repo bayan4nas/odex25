@@ -614,6 +614,7 @@ class BranchSettings(models.Model):
             ('branches', 'Branches'),
             ('governorates', 'Governorates')],
         string='Branch Type')
+    branch_code = fields.Char(string='Branch Code')
 class RelationSettings(models.Model):
     _name = 'relation.settings'
     _description = "Relation Settings"

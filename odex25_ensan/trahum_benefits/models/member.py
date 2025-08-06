@@ -438,7 +438,9 @@ class DetaineeFile(models.Model):
     _description = 'Detainee File'
     _inherit = ['mail.thread', 'mail.activity.mixin']
 
+
     name = fields.Char(string="code", readonly=True, copy=False, default=lambda self: _('New'))
+
     detainee_id = fields.Many2one('family.member', string="Detainee", required=True)
     detainee_status = fields.Selection([
         ('convicted', 'Convicted'),
@@ -458,7 +460,7 @@ class DetaineeFile(models.Model):
         ('rejected', 'Rejected'),
     ], string="Status", default='draft', tracking=True)
 
-    branch_id = fields.Many2one('branch.details', string="Branch")
+    branch_id = fields.Many2one('branch.details', string="Branch",required=1)
 
     prison_country_id = fields.Many2one('res.prison.country', string="Prison Country")
 
@@ -539,7 +541,26 @@ class DetaineeFile(models.Model):
 
     @api.model
     def create(self, vals):
-        if vals.get('name', _('New')) == _('New'):
-            vals['name'] = self.env['ir.sequence'].next_by_code('detainee.sequence') or _('New')
-        res = super(DetaineeFile, self).create(vals)
-        return res
+        record = super(DetaineeFile, self).create(vals)
+
+        branch_code = record.branch_id.code if record.branch_id else ''
+        print(branch_code,'branch_code')
+        if branch_code:
+            existing = self.search([
+                ('branch_id', '=', record.branch_id.id),
+                ('id', '!=', record.id),
+            ])
+            if existing and existing.name:
+                    last_part = existing.name.split('/')[-1]
+                    last_number = int(last_part)
+                    new_number = last_number + 1
+            else:
+                new_number = 1
+
+            record.name = f"{branch_code}/{str(new_number).zfill(4)}"
+
+        else:
+            record.name = _('New')
+
+        return record
+
