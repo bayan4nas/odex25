@@ -271,54 +271,43 @@ class GrantBenefit(models.Model):
                 raise UserError(_("You can only delete the record when it's in draft state."))
         return super().unlink()
 
-    @api.model_create_multi
-    def create(self, vals_list):
-        records = super(GrantBenefit, self).create(vals_list)
-        for record in records:
-            # Logic for each record
-            detainee = record.detainee_file_id
-            branch = record.branch_details_id
-            family_name = record.family_name or ''
+    @api.model
+    def create(self, vals):
+        vals['name' ]= _('New')
+        record = super(GrantBenefit, self).create(vals)
+        branch = record.branch_details_id
+        detainee_name_seq = record.detainee_file_id.name or ''
+        family_name = record.family_name or ''
 
-            if not detainee:
-                raise ValidationError(_("You must select a detainee."))
+        if not branch:
+            record.name = _('New')
+            return record
 
-            if not detainee.name:
-                raise ValidationError(_("The detainee must have a name."))
-
-            if not branch:
-                raise ValidationError(_("You must select a branch."))
-
-            if not branch.code:
-                raise ValidationError(_("The branch must have a code."))
-
-            if not family_name:
-                raise ValidationError(_("You must enter a family name."))
-
-            # Family Sequence logic
-            family_existing = self.search([
-                ('branch_details_id', '=', branch.id),
-                ('family_name', '=', family_name),
-                ('id', '!=', record.id)
+        family_existing = self.search([
+            ('branch_details_id', '=', branch.id),
+            ('id', '!=', record.id)
+        ], order='id desc', limit=1)
+        if family_existing:
+            family_seq_part = family_existing.name.split('/')[0][-4:]
+            family_seq = int(family_seq_part)
+        else:
+            last_family = self.search([
+                ('branch_details_id', '=', branch.id)
             ], order='id desc', limit=1)
-
-            if family_existing:
-                family_seq_part = family_existing.name.split('/')[0][-4:]  # Extract 0001
-                family_seq = int(family_seq_part)
+            print(last_family,'last_family888888888')
+            if last_family and '/' in last_family.name:
+                last_family_seq_part = last_family.name.split('/')[0][-4:]
+                family_seq = int(last_family_seq_part) + 1
+                print(last_family_seq_part,'last_family_seq_part')
+                print(family_seq,'family_seq')
             else:
-                last_family = self.search([
-                    ('branch_details_id', '=', branch.id)
-                ], order='id desc', limit=1)
+                family_seq = 1
+                print(branch.code,'branch.code')
+                print(family_seq,'family_seq')
+                print(detainee_name_seq,'detainee_name_seq')
+        record.name = f"{branch.code}{str(family_seq).zfill(4)}/{detainee_name_seq}"
 
-                if last_family and '/' in last_family.name:
-                    last_family_seq_part = last_family.name.split('/')[0][-4:]
-                    family_seq = int(last_family_seq_part) + 1
-                else:
-                    family_seq = 1
-
-            record.name = f"{branch.code}{str(family_seq).zfill(4)}/{detainee.name}"
-
-        return records
+        return record
 
     @api.constrains('benefit_member_ids')
     def _check_duplicate_members(self):
