@@ -231,7 +231,7 @@ class ServiceRequest(models.Model):
             else:
                 rec.first_breadwinner_id = False
 
-    @api.onchange('family_id')
+    @api.onchange('family_id','member_id')
     def _onchange_family_id(self):
         if self.family_id:
             member_ids = self.family_id.benefit_member_ids.mapped('member_id.id')
