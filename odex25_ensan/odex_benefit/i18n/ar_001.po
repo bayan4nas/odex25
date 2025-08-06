@@ -3370,14 +3370,15 @@ msgid "Contact Information"
 msgstr "بيانات التواصل"
 
 #. module: odex_benefit
-#: model:ir.model.fields,field_description:odex_benefit.field_grant_benefit__sms_phone
-msgid "Contact Phone"
-msgstr "رقم الجوال للتواصل"
-
-#. module: odex_benefit
 #: model:ir.model.fields,field_description:odex_benefit.field_visit_location__contact_type
 msgid "Contact Type"
 msgstr "نوع التواصل"
+
+#. module: odex_benefit
+#: model:ir.model.fields,field_description:odex_benefit.field_grant_benefit__need_calculator
+#: model:ir.model.fields,field_description:odex_benefit.field_service_request__need_calculator
+msgid "Need Calculator"
+msgstr "فئة الاحتياج"
 
 #. module: odex_benefit
 #: model:ir.model.fields,field_description:odex_benefit.field_grant_benefit__contract_num
@@ -6630,6 +6631,9 @@ msgstr "تاريخ انتهاء الهوية"
 #. module: odex_benefit
 #: model:ir.model.fields,field_description:odex_benefit.field_grant_benefit__father_id_number
 #: model:ir.model.fields,field_description:odex_benefit.field_grant_benefit__mother_id_number
+#: model:ir.model.fields,field_description:odex_benefit.field_service_request__member_id_number
+#: model:ir.model.fields,field_description:odex_benefit.field_service_request__family_id_member_id_number
+
 msgid "Id Number"
 msgstr "رقم الهوية"
 
@@ -8563,6 +8567,7 @@ msgstr "هل قام بأداء الحج؟"
 
 #. module: odex_benefit
 #: model:ir.model.fields,field_description:odex_benefit.field_family_member__member_id_number
+#: model:ir.model.fields,field_description:odex_benefit.field_service_request__member_id_number
 msgid "Member Id Number"
 msgstr "رقم هوية الفرد"
 
@@ -9057,6 +9062,8 @@ msgstr "نهاية الوقت المعين للنشاط"
 #: model_terms:ir.ui.view,arch_db:odex_benefit.grant_benefit_form
 #: model_terms:ir.ui.view,arch_db:odex_benefit.view_benefit_category_form
 #: model_terms:ir.ui.view,arch_db:odex_benefit.view_benefit_housing_form
+#: model:ir.model.fields,field_description:odex_benefit.field_service_request__family_id_member_name
+#: model:ir.model.fields,field_description:odex_benefit.field_service_request__member_name
 msgid "Name"
 msgstr "الاسم"
 
@@ -10659,6 +10666,8 @@ msgstr "مؤسسة متعلقة"
 #. module: odex_benefit
 #: model:ir.model.fields,field_description:odex_benefit.field_family_member__relation
 #: model:ir.model.fields,field_description:odex_benefit.field_family_member__relationn
+#: model:ir.model.fields,field_description:odex_benefit.field_service_request__member_id_relationn
+#: model:ir.model.fields,field_description:odex_benefit.field_service_request__family_id_relationn
 #: model_terms:ir.ui.view,arch_db:odex_benefit.family_member_form
 #: model_terms:ir.ui.view,arch_db:odex_benefit.grant_benefit_form
 msgid "Relation"
@@ -10670,6 +10679,14 @@ msgstr "صلة القرابة"
 #: model:ir.ui.menu,name:odex_benefit.relation_settings_menu
 msgid "Relation Settings"
 msgstr "صلة القرابة"
+
+#. module: odex_benefit
+#: model:ir.model.fields,field_description:odex_benefit.field_grant_benefit__sms_phone
+#: model:ir.model.fields,field_description:odex_benefit.field_service_request__family_id_phone
+#: model:ir.model.fields,field_description:odex_benefit.field_service_request__member_id_phone
+msgid "Contact Phone"
+msgstr "رقم الجوال للتواصل"
+
 
 #. module: odex_benefit
 #: model:ir.model.fields,field_description:odex_benefit.field_relation_settings__relation_type
@@ -15323,3 +15340,29 @@ msgstr "طريقة تسليم الخدمة"
 #: model:ir.ui.menu,name:odex_benefit.service_provider_list_menu
 msgid "Service Provider"
 msgstr "مقدم الخدمة"
+
+#. module: odex_benefit
+#: model_terms:ir.ui.view,arch_db:odex_benefit.service_request_form
+msgid "Member Details"
+msgstr "معلومات الفرد"
+
+
+#. module: odex_benefit
+#: model:ir.model.fields,field_description:odex_benefit.field_service_request__member_name
+msgid "Member Name"
+msgstr "الاسم"
+
+#. module: odex_benefit
+#: model:ir.model.fields,field_description:odex_benefit.field_service_request__beneficiary_category
+msgid "Member Status"
+msgstr "حالة المستفيد"
+
+#. module: odex_benefit
+#: model:ir.model.fields,field_description:odex_benefit.field_service_attachments_settings__name
+msgid "Name Attachment"
+msgstr "اسم المرفق"
+
+#. module: odex_benefit
+#: model_terms:ir.ui.view,arch_db:odex_benefit.service_request_form
+msgid "Benefit breadwinner Details"
+msgstr "معلومات العائل"

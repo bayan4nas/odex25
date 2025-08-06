@@ -467,7 +467,7 @@ class GrantBenefitMember(models.Model):
 
 
 class GrantBenefitBreadwinner(models.Model):
-    _name = 'grant.benefit.breadwinner'
+    _inherit = 'grant.benefit.breadwinner'
     _description = 'Grant Benefit Breadwinner'
 
     grant_benefit_ids = fields.Many2one('grant.benefit', string="Grant Benefit", ondelete="cascade")

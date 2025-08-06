@@ -60,8 +60,7 @@
                                     <field name="benefit_member_count" force_save="1"/>
                                     <field name="eid_gift_benefit_count" attrs="{'invisible':['|',('service_type','!=','eid_gift'),('benefit_type','!=','family')]}"/>
                                     <field name="branch_custom_id" force_save="1"/>
-                                    <field name="member_id" attrs="{'invisible':[('benefit_type','!=','member')],'readonly':[('state','not in',['draft','researcher','send_request'])],'required':[('benefit_type','=','member')]}"/>
-                                    <field name="member_age" attrs="{'invisible':[('benefit_type','!=','member')]}"/>
+                                    <field name="member_id"    attrs="{'invisible':[('benefit_type','!=','member')],'readonly':[('state','not in',['draft','researcher','send_request'])],'required':[('benefit_type','=','member')]}"/>
                                     <field name="account_id" attrs="{'invisible':[('service_type','=','electrical_devices')]}"/>
                                     <field name="device_account_id" attrs="{'invisible':[('service_type','!=','electrical_devices')]}"/>
                                     <field name="accountant_id" attrs="{'invisible':[('state','in',['draft','researcher','send_request','first_approve','second_approve'])]}"/>
@@ -73,6 +72,8 @@
                                 <group>
                                     <field name="provider_need_partner" invisible="1"/>
                                     <field name="need_status_id" attrs="{'readonly':[('state','not in',['draft','researcher','send_request'])]}"/>
+                                    <field name="need_status" invisible="1"/>
+
                                     <field name="delivery_method_id" attrs="{'readonly':[('state','not in',['draft','researcher','send_request'])]}"/>
                                     <field name="provider_id" attrs="{'readonly':[('state','not in',['draft','researcher','send_request'])]}"/>
                                     <field name="partner_id"
@@ -112,6 +113,28 @@
                                         </tree>
                                     </field>
                                 </page>
+                                <page string="Member Details"  attrs="{'invisible': ['|', ('benefit_type', '!=', 'member'), ('member_id', '=', False)]}">
+                                 <group>
+                                     <field name="member_name"/>
+                                    <field name="member_id_number"/>
+                                    <field name="beneficiary_category"/>
+                                     <field name="benefit_member_count" readonly="1"/>
+                                     <field name="member_id_relationn"/>
+                                     <field name="member_id_phone"/>
+                                     <field name="need_calculator"/>
+                                 </group>
+                             </page>
+                             <page string="Benefit breadwinner Details"  attrs="{'invisible': ['|', ('benefit_type', '!=', 'family'), ('family_id', '=', False)]}">
+                                 <group>
+                                     <field name="family_id_member_name"/>
+                                    <field name="family_id_member_id_number"/>
+                                    <field name="beneficiary_category"/>
+                                     <field name="benefit_member_count" readonly="1"/>
+                                     <field name="family_id_relationn"/>
+                                     <field name="family_id_phone"/>
+                                     <field name="need_calculator"/>
+                                 </group>
+                             </page>
                                 <page string="Rent Information" attrs="{'invisible':[('service_type', '!=', 'rent'),'|',('service_type', '!=', 'alternative_housing'),('providing_alternative_housing_based_rent','=',False)]}">
                                 <form>
                                     <sheet>
@@ -240,7 +263,7 @@
                              </page>
                             <page string="Marriage Service" attrs="{'invisible':[('service_type','!=','marriage')]}">
                                     <group>
-                                        <field name="member_age"/>
+                                        <field name="member_age" invisible="1"/>
                                         <field name="member_payroll"/>
                                     </group>
                                 </page>
@@ -261,7 +284,7 @@
                 <tree>
                     <field name="name"/>
                     <field name="family_id"/>
-                      <field name="need_status_id"/>
+                    <field name="need_status_id"/>
                     <field name="main_service_category"/>
                     <field name="sub_service_category"/>
                     <field name="service_cat"/>

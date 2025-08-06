@@ -20,7 +20,9 @@
         <record id="view_grant_benefit_form" model="ir.ui.view">
             <field name="name">grant.benefit.form</field>
             <field name="model">grant.benefit</field>
+              <field name="inherit_id" ref="odex_benefit.grant_benefit_form"/>
             <field name="arch" type="xml">
+                 <xpath expr="." position="replace">
                 <form string="Family Profile">
                     <!-- Header with statusbar -->
                     <header>
@@ -288,6 +290,7 @@
                         <field name="message_ids" widget="mail_thread"/>
                     </div>
                 </form>
+                </xpath>
             </field>
         </record>
 
