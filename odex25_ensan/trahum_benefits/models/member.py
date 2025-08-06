@@ -502,7 +502,6 @@ class DetaineeFile(models.Model):
     def _onchange_prison_country_id(self):
         if self.prison_country_id:
             domain = [('country_id', '=', self.prison_country_id.id)]
-            # إذا السجن الحالي لا يتبع المنطقة المختارة، أفرغه
             if self.prison_id and self.prison_id.country_id != self.prison_country_id:
                 self.prison_id = False
             return {'domain': {'prison_id': domain}}
@@ -611,36 +610,6 @@ class DetaineeFile(models.Model):
             result.append((rec.id, name))
         return result
 
-    @api.model
-    def create(self, vals):
-        record = super(DetaineeFile, self).create(vals)
-        branch_code = record.branch_id.code if record.branch_id else ''
-<<<<<<< Updated upstream
-        print(branch_code, 'branch_code')
-=======
->>>>>>> Stashed changes
-        if branch_code:
-            existing = self.search([
-                ('branch_id', '=', record.branch_id.id),
-                ('id', '!=', record.id),
-            ],
-            limit = 1)
-            if existing and existing.name:
-                last_part = existing.name.split('/')[-1]
-                last_number = int(last_part)
-                new_number = last_number + 1
-            else:
-                new_number = 1
-
-            record.name = f"{branch_code}/{str(new_number).zfill(4)}"
-
-        else:
-            record.name = _('New')
-
-        return record
-<<<<<<< Updated upstream
-=======
-
     # def write(self, vals):
     #     print(vals)
     #     if 'prisoner_state' in vals and vals['prisoner_state'] == 'convicted':
@@ -651,4 +620,3 @@ class DetaineeFile(models.Model):
     #                  "   Release Date is required when the prisoner state is 'Convicted'."
     #                 ))
     #     return super(DetaineeFile, self).write(vals)
->>>>>>> Stashed changes
