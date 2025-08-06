@@ -17,7 +17,7 @@ class ServiceRequest(models.Model):
     date = fields.Datetime(string='Request Date',default=fields.Datetime.now)
     family_id = fields.Many2one('grant.benefit',string='Family',domain="[('state', 'in', ['approve', 'approved'])]")
     family_category = fields.Many2one('benefit.category',string='Family Category',related='family_id.benefit_category_id')
-    benefit_member_count = fields.Integer(string="Benefit Member count", related='family_id.benefit_member_count')
+    benefit_member_count = fields.Integer(string="Benefit Member count", related='family_id.member_count')
     branch_custom_id = fields.Many2one('branch.settings', string="Branch",related='family_id.branch_custom_id',store=True)
     member_id = fields.Many2one(
         'family.member',
@@ -54,6 +54,8 @@ class ServiceRequest(models.Model):
         store=True,
         readonly=True,
     )
+    need_products = fields.Boolean(related="delivery_method_id.need_products",)
+
 
     main_service_category = fields.Many2one('services.settings',domain="[('is_main_service','=',True)]",string="Main Service Category")
     sub_service_category = fields.Many2one('services.settings',domain="[('is_main_service','=',False),('service_type','=',False),('parent_service','=',main_service_category)]",string='Sub Service Category')
@@ -170,6 +172,10 @@ class ServiceRequest(models.Model):
         ], string='state',default='draft', tracking=True)
     state_a = fields.Selection(related='state', tracking=False)
     state_b = fields.Selection(related='state', tracking=False)
+    line_ids = fields.One2many('service.request.line', 'request_id', string='Product Lines')
+
+
+
 
     benefit_breadwinner_ids = fields.One2many(
         related='family_id.benefit_breadwinner_ids',

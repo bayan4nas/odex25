@@ -9064,6 +9064,8 @@ msgstr "نهاية الوقت المعين للنشاط"
 #: model_terms:ir.ui.view,arch_db:odex_benefit.view_benefit_housing_form
 #: model:ir.model.fields,field_description:odex_benefit.field_service_request__family_id_member_name
 #: model:ir.model.fields,field_description:odex_benefit.field_service_request__member_name
+#: model:ir.model.fields,field_description:odex_benefit.field_service_request__need_status
+#: model:ir.model.fields,field_description:odex_benefit.field_service_delivery_method__name
 msgid "Name"
 msgstr "الاسم"
 
@@ -10156,6 +10158,7 @@ msgstr "هل الأسرة منتجة؟"
 #: model:ir.model.fields,field_description:odex_benefit.field_receive_appliances_furniture__prod_id
 #: model:ir.model.fields,field_description:odex_benefit.field_receive_benefit_zkat__product_id
 #: model:ir.model.fields,field_description:odex_benefit.field_receive_food_basket__product_id
+#: model:ir.model.fields,field_description:odex_benefit.field_service_request_line__product_id
 msgid "Product"
 msgstr "المنتج"
 
@@ -10309,6 +10312,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:odex_benefit.field_receive_food_surplus__quantity
 #: model:ir.model.fields,field_description:odex_benefit.field_zkat_line__quantity
 #: model_terms:ir.ui.view,arch_db:odex_benefit.benefit_food_surplus_form
+#: model:ir.model.fields,field_description:odex_benefit.field_service_request_line__quantity
 msgid "Quantity"
 msgstr "الكمية"
 
@@ -15366,3 +15370,38 @@ msgstr "اسم المرفق"
 #: model_terms:ir.ui.view,arch_db:odex_benefit.service_request_form
 msgid "Benefit breadwinner Details"
 msgstr "معلومات العائل"
+
+#. module: odex_benefit
+#: model:ir.model.fields,field_description:odex_benefit.field_service_delivery_method__need_products
+#: model:ir.model.fields,field_description:odex_benefit.field_service_request__need_products
+msgid "Need Products"
+msgstr " منتجات من المخزون"
+
+#. module: odex_benefit
+#: model:ir.actions.act_window,name:odex_benefit.action_service_need_status_list
+#: model:ir.ui.menu,name:odex_benefit.service_need_status_list_menu
+#: model_terms:ir.ui.view,arch_db:odex_benefit.view_service_need_status_form
+#: model_terms:ir.ui.view,arch_db:odex_benefit.view_service_provider_form
+msgid "Service Need Status"
+msgstr "حالة الإحتياج"
+
+#. module: odex_benefit
+#: model:ir.model.fields,field_description:odex_benefit.field_service_request__line_ids
+msgid "Product Lines"
+msgstr "المنتجات"
+
+#. module: odex_benefit
+#: model_terms:ir.ui.view,arch_db:odex_benefit.service_request_form
+msgid "Products"
+msgstr "المنتجات"
+
+
+#. module: odex_benefit
+#: model:ir.model.fields,field_description:odex_benefit.field_service_request_line__uom_id
+msgid "Unit of Measure"
+msgstr "الوحدة"
+
+#. module: odex_benefit
+#: model:ir.model.fields,field_description:odex_benefit.field_service_request_line__description
+msgid "Description"
+msgstr "الوصف"
