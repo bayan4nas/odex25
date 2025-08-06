@@ -211,7 +211,12 @@ class ServiceRequest(models.Model):
         store=True,
         readonly=True
     )
+    allowed_member_ids = fields.Many2many('family.member', compute='_compute_allowed_members')
 
+    @api.depends('family_id')
+    def _compute_allowed_members(self):
+        for rec in self:
+            rec.allowed_member_ids = rec.family_id.benefit_member_ids.mapped('member_id')
     @api.depends('family_id', 'member_id')
     def _compute_member_relation(self):
         for rec in self:
