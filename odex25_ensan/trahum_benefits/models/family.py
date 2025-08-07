@@ -296,6 +296,8 @@ class GrantBenefit(models.Model):
             if name.startswith(branch_code) and '/' in name:
                 try:
                     seq_part = name[len(branch_code):].split('/')[0]
+                    if not seq_part.isdigit():
+                        continue
                     seq_num = int(seq_part)
                     max_seq = max(max_seq, seq_num)
                 except Exception:
@@ -304,7 +306,6 @@ class GrantBenefit(models.Model):
         new_seq = max_seq + 1
         formatted_seq = str(new_seq).zfill(4)
 
-        # Final format: D0010003/D0020
         record.name = f"{branch_code}{formatted_seq}/{detainee_name_seq}"
 
         return record
