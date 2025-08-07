@@ -52,7 +52,7 @@
                      </tr>
                     <tr>
                         <th rowspan="2">Sequence</th>
-                        <th rowspan="2">Identity</th>
+                        <th rowspan="2">Iqama</th>
                         <th rowspan="2">Name</th>
                         <th rowspan="2">Job</th>
                         <th rowspan="2">Salary</th>
@@ -83,37 +83,21 @@
                                 </td>
                                 <td style="width: 1.5in;"><t t-esc="doc['employee_id'].name"/></td>
                                 <td><t t-esc="doc['employee_id'].job_id.name"/></td>
-                                <td><t t-esc="doc['employee_id'].contract_id.total_allowance" t-esc-options="{'widget': 'float', 'precision': 2}"/></td>
+                                <td><t t-esc="doc['employee_id'].contract_id.total_allowance"/></td>
                                 <td><t t-esc="doc['daily_hourly_rate']" t-esc-options="{'widget': 'float', 'precision': 2}"/></td>
                                 <td><t t-esc="doc['holiday_hourly_rate']" t-esc-options="{'widget': 'float', 'precision': 2}"/></td>
                                 <td><t t-esc="doc['over_time_workdays_hours']"/></td>
                                 <td><t t-esc="doc['over_time_vacation_hours']"/></td>
-
-                                <!--td><t t-esc="doc['over_time_workdays_hours'] * doc['daily_hourly_rate']" t-esc-options="{'widget': 'float', 'precision': 2}"/></td>
+                                <td><t t-esc="doc['over_time_workdays_hours'] * doc['daily_hourly_rate']" t-esc-options="{'widget': 'float', 'precision': 2}"/></td>
                                 <td><t t-esc="doc['holiday_hourly_rate'] * doc['over_time_vacation_hours']" t-esc-options="{'widget': 'float', 'precision': 2}"/></td>
-                                <td><t t-esc="doc['over_time_workdays_hours'] * doc['daily_hourly_rate'] + doc['holiday_hourly_rate'] * doc['over_time_vacation_hours']" t-esc-options="{'widget': 'float', 'precision': 2}"/></td-->
-                                <td><t t-esc="doc['daily_amount']" t-esc-options="{'widget': 'float', 'precision': 2}"/></td>
-                                <td><t t-esc="doc['vacation_amount']" t-esc-options="{'widget': 'float', 'precision': 2}"/></td>
-                                <td><t t-esc="doc['price_hour']" t-esc-options="{'widget': 'float', 'precision': 2}"/></td>
+                                <td><t t-esc="doc['over_time_workdays_hours'] * doc['daily_hourly_rate'] + doc['holiday_hourly_rate'] * doc['over_time_vacation_hours']" t-esc-options="{'widget': 'float', 'precision': 2}"/></td>
                                 <td></td>
                             </tr>
                             <t t-set="count" t-value="count+1"/>
-
-                            <!--t t-set="total_workdays_hours" t-value="total_workdays_hours+doc['over_time_workdays_hours']"/>
-                            <t t-set="total_vacation_hours" t-value="total_vacation_hours+doc['over_time_vacation_hours']"/-->
-                            <t t-set="total_workdays_hours" t-value="total_workdays_hours+doc['daily_amount']"/>
-                            <t t-set="total_vacation_hours" t-value="total_vacation_hours+doc['vacation_amount']"/>
-
-
-                            <!--t t-set="total_daily_hours" t-value="total_daily_hours + doc['over_time_workdays_hours'] * doc['daily_hourly_rate']"  t-esc-options="{'widget': 'float', 'precision': 2}"/>
-
-                            <t t-set="total_holiday_hours" t-value="total_holiday_hours+doc['holiday_hourly_rate'] * doc['over_time_vacation_hours']" t-esc-options="{'widget': 'float', 'precision': 2}"/-->
-                            <t t-set="total_daily_hours" t-value="total_daily_hours + doc['daily_amount']"  t-esc-options="{'widget': 'float', 'precision': 2}"/>
-
-
-
-                            <t t-set="total_holiday_hours" t-value="total_holiday_hours + doc['vacation_amount']" t-esc-options="{'widget': 'float', 'precision': 2}"/>
-
+                            <t t-set="total_workdays_hours" t-value="total_workdays_hours+doc['over_time_workdays_hours']"/>
+                            <t t-set="total_vacation_hours" t-value="total_vacation_hours+doc['over_time_vacation_hours']"/>
+                            <t t-set="total_daily_hours" t-value="total_daily_hours + doc['over_time_workdays_hours'] * doc['daily_hourly_rate']"  t-esc-options="{'widget': 'float', 'precision': 2}"/>
+                            <t t-set="total_holiday_hours" t-value="total_holiday_hours+doc['holiday_hourly_rate'] * doc['over_time_vacation_hours']" t-esc-options="{'widget': 'float', 'precision': 2}"/>
                             <t t-set="total" t-value="total + total_daily_hours + total_holiday_hours" t-esc-options="{'widget': 'float', 'precision': 2}"/>
                         </t>
                         <tr style="background-color : #a7c4f2;">

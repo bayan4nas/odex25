@@ -20,7 +20,7 @@ class EmployeeHandoverReport(models.AbstractModel):
             # domain += [('state','=','open')]
             employees = self.env['hr.employee'].sudo().search(domain)
         value = [('last_work_date', '>=', form['date_from']), ('create_date', '<=', form['date_to']),
-                 ('state', '!=', 'refused')]
+                 ('state', '!=', 'cancel')]
         if employees:
             value += [('employee_id', 'in', employees.ids)]
         records = self.env['hr.termination'].sudo().search(value)
@@ -82,11 +82,11 @@ class EmployeeHandoverReportXlsx(models.AbstractModel):
             sheet.write(row, clm + 2, rec.employee_id.name, format1)
             sheet.write(row, clm + 3, rec.job_id.name, format1)
             sheet.write(row, clm + 4, rec.employee_id.department_id.name, format1)
-            sheet.write(row, clm + 5, rec.first_hire_date, format1)
-            sheet.write(row, clm + 6, rec.reason, format1)
-            sheet.write(row, clm + 7, rec.create_date, format1)
-            sheet.write(row, clm + 8, rec.last_work_date, format1)
-            sheet.write(row, clm + 9, rec.employee_id.working_location, format1)
+            sheet.write(row, clm + 5, str(rec.first_hire_date), format1)
+            sheet.write(row, clm + 6, rec.cause_type.name, format1)
+            sheet.write(row, clm + 7, str(rec.create_date), format1)
+            sheet.write(row, clm + 8, str(rec.last_work_date), format1)
+            sheet.write(row, clm + 9, rec.employee_id.working_location.name, format1)
             sheet.write(row, clm + 10, rec.employee_id.parent_id.name, format1)
             row += 1
 

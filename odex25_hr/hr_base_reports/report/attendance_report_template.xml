@@ -133,6 +133,7 @@
             <field name="report_file">hr_base_reports.employee_attendance_report</field>
             <field name="paperformat_id" ref="paperformat_attendance_landscape"/>
         </record>
+
         <record id="employee_attendance_report_act_xlsx" model="ir.actions.report">
             <field name="model">hr.attendance.transaction</field>
             <field name="name">Attendance Transaction Report</field>
@@ -140,5 +141,22 @@
             <field name="report_name">hr_base_reports.employee_attendance_report_xlsx</field>
             <field name="report_file">hr_base_reports.employee_attendance_report_xlsx</field>
         </record>
+		<record id="employee_attendance_report_act_details_xlsx" model="ir.actions.report">
+            <field name="model">hr.attendance.transaction</field>
+            <field name="name">Details Attendance Transaction Report</field>
+            <field name="report_type">xlsx</field>
+            <field name="report_name">hr_base_reports.employee_attendance_report_details_xlsx</field>
+            <field name="report_file">hr_base_reports.employee_attendance_report_details_xlsx</field>
+        </record>
+		<record id="employee_attendance_act_dept_xlsx" model="ir.actions.report">
+            <field name="model">hr.attendance.transaction</field>
+            <field name="name">Department Attendance Transaction Report</field>
+            <field name="report_type">xlsx</field>
+            <field name="report_name">hr_base_reports.employee_attendance_dept_xlsx</field>
+            <field name="report_file">hr_base_reports.employee_attendance_dept_xlsx</field>
+        </record>
+
+
+
     </data>
 </odoo>
