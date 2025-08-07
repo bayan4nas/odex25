@@ -296,6 +296,8 @@ class GrantBenefit(models.Model):
             if name.startswith(branch_code) and '/' in name:
                 try:
                     seq_part = name[len(branch_code):].split('/')[0]
+                    if not seq_part.isdigit():
+                        continue
                     seq_num = int(seq_part)
                     max_seq = max(max_seq, seq_num)
                 except Exception:
