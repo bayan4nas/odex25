@@ -273,7 +273,7 @@ class GrantBenefit(models.Model):
 
     @api.model
     def create(self, vals):
-        vals['name'] = _('New')  # Temporary default name
+        vals['name'] = _('New')
         record = super(GrantBenefit, self).create(vals)
 
         branch = record.branch_details_id
@@ -284,7 +284,6 @@ class GrantBenefit(models.Model):
 
         branch_code = branch.code
 
-        # Search previous records with same branch and matching pattern
         previous_records = self.search([
             ('branch_details_id', '=', branch.id),
             ('name', 'like', f'{branch_code}%/%'),
@@ -300,7 +299,7 @@ class GrantBenefit(models.Model):
                     seq_num = int(seq_part)
                     max_seq = max(max_seq, seq_num)
                 except Exception:
-                    continue  # skip if invalid format
+                    continue
 
         new_seq = max_seq + 1
         formatted_seq = str(new_seq).zfill(4)
