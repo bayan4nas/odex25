@@ -3,7 +3,6 @@
 from datetime import datetime, date
 from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError
-from dateutil.relativedelta import relativedelta
 
 
 class OvertimeReport(models.TransientModel):
@@ -17,11 +16,6 @@ class OvertimeReport(models.TransientModel):
         [('inside', 'Inside'), ('outside', 'Outside')], default='inside')
     date_from = fields.Date()
     date_to = fields.Date()
-
-    @api.onchange('date_from')
-    def check_date_from(self):
-        if self.date_from :
-            self.date_to = fields.Date.from_string(self.date_from)+relativedelta(months=+1, day=1, days=-1)
 
     @api.onchange('department_ids')
     def _onchange_department_ids(self):
@@ -85,15 +79,12 @@ class OvertimeReportView(models.AbstractModel):
         overtime_place = data['overtime_place']
         overtime_domain = [('date_from', '>=', date_from), ('date_from', '<=', date_to),
                            ('date_to', '<=', date_to), ('date_to', '>=', date_from),
-                           ('state', 'not in', ['draft', 'refused']),
+                           ('state', 'not in', ['draft', 'cancel']),
                            ('overtime_plase', '=', overtime_place)]
         for employee in employee_ids:
             employee_lines = []
             over_time_workdays_hours = 0
             over_time_vacation_hours = 0
-            price_hour = 0
-            daily_amount = 0
-            vacation_amount = 0
 
             for record in self.env['employee.overtime.request'].search(overtime_domain):
                 for line in record.line_ids_over_time.filtered(lambda l: l.employee_id.id == employee):
@@ -104,21 +95,14 @@ class OvertimeReportView(models.AbstractModel):
                     holiday_hourly_rate = l[0].holiday_hourly_rate
                     over_time_workdays_hours += l.over_time_workdays_hours
                     over_time_vacation_hours += l.over_time_vacation_hours
-
-                    daily_amount += l.over_time_workdays_hours*l.daily_hourly_rate
-                    vacation_amount += l.over_time_vacation_hours*l.holiday_hourly_rate
-                    price_hour += l.price_hour
                 report_values.append({
                         'employee_id': self.env['hr.employee'].browse(employee),
                         'daily_hourly_rate': daily_hourly_rate,
                         'holiday_hourly_rate': holiday_hourly_rate,
                         'over_time_workdays_hours': over_time_workdays_hours,
                         'over_time_vacation_hours': over_time_vacation_hours,
-
-                        'daily_amount': daily_amount,
-                        'vacation_amount': vacation_amount,
-                        'price_hour': price_hour,
                     })
+
         if len(report_values) == 0:
             raise ValidationError(_("There is no Data"))
 
@@ -139,6 +123,7 @@ class OvertimeReportXls(models.AbstractModel):
     def generate_xlsx_report(self, workbook, data, datas):
         x = self.env['report.hr_base_reports.overtime_report']
         result = OvertimeReportView._get_report_values(x, False, data['form'])
+        print('result', result)
         start_date = data['form']['date_from']
         end_date = data['form']['date_to']
         sheet = workbook.add_worksheet(U'Overtime Report')
@@ -193,27 +178,19 @@ class OvertimeReportXls(models.AbstractModel):
                 sheet.write(row, 1, line['employee_id'].iqama_number.iqama_id, format2)
             sheet.write(row, 2, line['employee_id'].name, format2)
             sheet.write(row, 3, line['employee_id'].job_id.name, format2)
-            sheet.write(row, 4, "{0:.2f}".format(line['employee_id'].contract_id.total_allowance), format2)
+            sheet.write(row, 4, line['employee_id'].contract_id.total_allowance, format2)
             sheet.write(row, 5, "{0:.2f}".format(line['daily_hourly_rate']), format2)
             sheet.write(row, 6,  "{0:.2f}".format(line['holiday_hourly_rate']), format2)
             sheet.write(row, 7, line['over_time_workdays_hours'], format2)
             sheet.write(row, 8, line['over_time_vacation_hours'], format2)
-            #sheet.write(row, 9, line['over_time_workdays_hours'] * line['daily_hourly_rate'], format2)
-            #sheet.write(row, 10, line['over_time_vacation_hours'] * line['holiday_hourly_rate'], format2)
-            #sheet.write(row, 11, line['over_time_workdays_hours'] * line['daily_hourly_rate'] +
-            #            line['over_time_vacation_hours'] * line['holiday_hourly_rate'], format2)
-            #total_daily_hours += line['over_time_workdays_hours'] * line['daily_hourly_rate']
-            #total_holiday_hours += line['over_time_vacation_hours'] * line['holiday_hourly_rate']
-            #total += line['over_time_workdays_hours'] * line['daily_hourly_rate'] + line['over_time_vacation_hours'] * line['holiday_hourly_rate']
-
-            sheet.write(row, 9, line['daily_amount'], format2)
-            sheet.write(row, 10, line['vacation_amount'], format2)
-            sheet.write(row, 11, line['price_hour'], format2)
+            sheet.write(row, 9, line['over_time_workdays_hours'] * line['daily_hourly_rate'], format2)
+            sheet.write(row, 10, line['over_time_vacation_hours'] * line['holiday_hourly_rate'], format2)
+            sheet.write(row, 11, line['over_time_workdays_hours'] * line['daily_hourly_rate'] +
+                        line['over_time_vacation_hours'] * line['holiday_hourly_rate'], format2)
             sequence += 1
-
-            total_daily_hours += line['daily_amount']
-            total_holiday_hours += line['vacation_amount']
-            total  += line['price_hour']
+            total_daily_hours += line['over_time_workdays_hours'] * line['daily_hourly_rate']
+            total_holiday_hours += line['over_time_vacation_hours'] * line['holiday_hourly_rate']
+            total += line['over_time_workdays_hours'] * line['daily_hourly_rate'] + line['over_time_vacation_hours'] * line['holiday_hourly_rate']
 
         row += 1
         sheet.merge_range(row, 0, row, 8, _("Total"), format2)

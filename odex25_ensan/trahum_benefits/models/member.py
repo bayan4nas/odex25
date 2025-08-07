@@ -147,12 +147,6 @@ class IssuesInformation(models.Model):
     arrest_date = fields.Date('Arrest Date', related='detainee_id.arrest_date', readonly=0)
 
 
-    @api.constrains('release_date', 'detainee_id')
-    def _check_release_date_required(self):
-        for rec in self:
-            if rec.detainee_id and rec.detainee_id.prisoner_state == 'convicted':
-                if not rec.release_date:
-                    raise ValidationError(_("Release Date is required when the prisoner state is 'Convicted'."))
     @api.onchange('case_type')
     def _onchange_case_type(self):
         if self.case_type:

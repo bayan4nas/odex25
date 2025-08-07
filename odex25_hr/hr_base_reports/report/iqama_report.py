@@ -30,7 +30,7 @@ class EmployeeIqamaReport(models.AbstractModel):
         labels = [
             (_('#')), (_('Employee ID')), (_('Employee Name')), (_('Location')), (_('Department')), (_('Job Title')),
             (_('Join Date')), (_('Line Manager')), (_('Date Of Payment')), (_('The Amount')), (_('Nationality')),
-            (_('Identity Expiry Date'))]
+            (_('Iqama Expiry Date'))]
         return [labels, records]
 
     @api.model
@@ -54,7 +54,7 @@ class EmployeeIqamaReportXlsx(models.AbstractModel):
     def generate_xlsx_report(self, workbook, data, objs):
         docs = self.env[
             'report.hr_base_reports.employee_iqama_report'].get_result(data)
-        sheet = workbook.add_worksheet('Identity Report')
+        sheet = workbook.add_worksheet('Iqama Report')
         if self.env.user.lang != 'en_US':
             sheet.right_to_left()
         format0 = workbook.add_format(
@@ -66,7 +66,7 @@ class EmployeeIqamaReportXlsx(models.AbstractModel):
              'bold': True, 'bg_color': '#ffffff', 'font_color': 'black'})
 
         format2.set_align('center')
-        sheet.merge_range('A9:L9', (_("Identity Report")) + " ", format2)
+        sheet.merge_range('A9:L9', (_("Iqama Report")) + " ", format2)
         sheet.set_column('B:D', 15)
         sheet.set_column('E:L', 10)
         row = 9
