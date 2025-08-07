@@ -528,6 +528,7 @@ class GrantBenefitProfile(models.Model):
     replacement_weak_study = fields.Many2many('study.material',relation='grant_benefit_replacement_weak_study_rel',string='Weak Study')
 
     member_id = fields.Many2one('family.member', string='Member', ondelete='cascade', )
+    benefit_member_ids = fields.One2many('grant.benefit.member', 'grant_benefit_id', string="Benefit Member")
 
     exchange_period = fields.Selection(
         [
@@ -558,8 +559,24 @@ class GrantBenefitProfile(models.Model):
     )
 
     accommodation_attachments = fields.Binary(string="Accommodation Attachments", attachment=True)
+    need_calculator = fields.Selection([('high', 'High Need'), ('medium', 'Medium Need'), ('low', 'Low Need'), ],
+                                       readonly=1, string="Need Calculator", )
+    detainee_file_id = fields.Many2one('detainee.file', string="Detainee File", tracking=True, related='')
+    beneficiary_category = fields.Selection(related='detainee_file_id.beneficiary_category',
+                                            string='Beneficiary Category')
+    benefit_breadwinner_ids = fields.One2many('grant.benefit.breadwinner', 'grant_benefit_ids',
+                                              string="Benefit breadwinner")
 
 
+
+    member_count = fields.Integer(string="Members Count", compute="_compute_member_count", readonly=1)
+
+    @api.depends('benefit_member_ids')
+    def _compute_member_count(self):
+        self.member_count = 0
+        for rec in self:
+            filtered = rec.benefit_breadwinner_ids.filtered(lambda bw: bw.relation_id.name != 'زوجة مطلقة')
+            rec.member_count = len(rec.benefit_member_ids) + len(filtered)
     @api.depends('attachment_ids')
     def get_required_attach(self):
         for rec in self.attachment_ids:

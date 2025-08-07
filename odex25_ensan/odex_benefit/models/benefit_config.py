@@ -614,6 +614,7 @@ class BranchSettings(models.Model):
             ('branches', 'Branches'),
             ('governorates', 'Governorates')],
         string='Branch Type')
+    branch_code = fields.Char(string='Branch Code')
 class RelationSettings(models.Model):
     _name = 'relation.settings'
     _description = "Relation Settings"
@@ -728,7 +729,7 @@ class ServiceAttachmentsSettings(models.Model):
     _name = 'service.attachments.settings'
     _description = "Service Attachments Settings"
 
-    name = fields.Char(string='name')
+    name = fields.Char(string='Name Attachment')
     service_attach = fields.Many2many('ir.attachment','rel_service_attachments', 'service_id', 'attach_id',string="Attachment")
     service_type = fields.Selection(
         [('rent', 'Rent'), ('home_restoration', 'Home Restoration'), ('alternative_housing', 'Alternative Housing'),

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+from . import res_district
 from . import member
 from . import family
 from . import res_prison

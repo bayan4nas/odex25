@@ -1,0 +1,40 @@
+<odoo>
+    <record id="view_attach_type_tree" model="ir.ui.view">
+        <field name="name">attach.type.tree</field>
+        <field name="model">attachment.type</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_attach_type_form" model="ir.ui.view">
+        <field name="name">attachment.type.tree</field>
+        <field name="model">attachment.type</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                    </group>
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="attach_type_list_action">
+        <field name="name">Attach Type</field>
+        <field name="res_model">attachment.type</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">Create the first Attach Type
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="attach_type_menu" name="Attachment Type"
+              parent="odex_benefit.menu_benefits_config_addresses" action="attach_type_list_action"/>
+
+</odoo>

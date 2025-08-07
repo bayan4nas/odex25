@@ -53,7 +53,7 @@
 <!--            <field name="view_type">form</field>-->
             <field name="view_mode">tree,form,graph</field>
             <field name="context">{'create': False}</field>
-            <field name="domain">[('state','=','second_approve')]</field>
+            <field name="domain">[('state','=','approved')]</field>
         </record>
         <record model="ir.actions.act_window" id="grant_benefit_reject_action">
             <field name="name">Benefit Reject List</field>
@@ -1018,9 +1018,15 @@
 
         <menuitem id="health_mental_illnesses_menu" name="Health Mental Illnesses"
                 parent="menu_benefits_config_benefits" action="health_mental_illnesses_action" sequence="12"/>
-
+action_service_provider_list
         <menuitem id="health_chronic_diseases_menu" name="Health Chronic Diseases"
                 parent="menu_benefits_config_benefits" action="health_chronic_diseases_action" sequence="13"/>
+        <menuitem id="service_delivery_method_menu" name="Service Delivery Method"
+                parent="menu_benefits_config_benefits" action="action_service_delivery_method_list" sequence="13"/>
+        <menuitem id="service_need_status_list_menu" name="Service Need Status"
+                parent="menu_benefits_config_benefits" action="action_service_need_status_list" sequence="13"/>
+        <menuitem id="service_provider_list_menu" name="Service Provider"
+                parent="menu_benefits_config_benefits" action="action_service_provider_list" sequence="13"/>
 <!--        <menuitem id="sport_type_menu" name="Sport Type"-->
 <!--                  parent="menu_benefits_config_benefits" action="sport_type_action" sequence="5"/>-->
 <!--        <menuitem id="needs_categories_menu" name="Needs Categories"-->

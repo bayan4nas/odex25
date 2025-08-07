@@ -16,7 +16,9 @@
         'data/scheduled_actions.xml',
         'data/server_actions.xml',
         'data/email_temps.xml',
-        
+        'views/service_delivery_method.xml',
+        'views/service_need_status.xml',
+        'views/service_provider.xml',
         'views/benefit_config_view.xml',
         'views/actions_and_menus.xml',
         'views/benefit_view.xml',
@@ -25,7 +27,7 @@
         'views/branch_inherit.xml',
         'views/family_members.xml',
         'views/family_complaints.xml',
-
+        'views/service_request_line.xml',
         'wizards/researcher_wizard.xml',
         'wizards/suspend_reason_wizard.xml',
         'wizards/exception_wizard.xml',

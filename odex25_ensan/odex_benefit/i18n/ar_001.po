@@ -2157,7 +2157,7 @@ msgstr "الأخصائي الاجتماعي"
 #. module: odex_benefit
 #: model:ir.ui.menu,name:odex_benefit.benefit_to_complete_menu
 msgid "Beneficiaries To Complete"
-msgstr "تسجيل البيانات التفصلية للأسر"
+msgstr "تسجيل البيانات التفصلية للفرد"
 
 #. module: odex_benefit
 #: model:ir.ui.menu,name:odex_benefit.benefit_draft_menu
@@ -3370,14 +3370,15 @@ msgid "Contact Information"
 msgstr "بيانات التواصل"
 
 #. module: odex_benefit
-#: model:ir.model.fields,field_description:odex_benefit.field_grant_benefit__sms_phone
-msgid "Contact Phone"
-msgstr "رقم الجوال للتواصل"
-
-#. module: odex_benefit
 #: model:ir.model.fields,field_description:odex_benefit.field_visit_location__contact_type
 msgid "Contact Type"
 msgstr "نوع التواصل"
+
+#. module: odex_benefit
+#: model:ir.model.fields,field_description:odex_benefit.field_grant_benefit__need_calculator
+#: model:ir.model.fields,field_description:odex_benefit.field_service_request__need_calculator
+msgid "Need Calculator"
+msgstr "فئة الاحتياج"
 
 #. module: odex_benefit
 #: model:ir.model.fields,field_description:odex_benefit.field_grant_benefit__contract_num
@@ -6630,6 +6631,9 @@ msgstr "تاريخ انتهاء الهوية"
 #. module: odex_benefit
 #: model:ir.model.fields,field_description:odex_benefit.field_grant_benefit__father_id_number
 #: model:ir.model.fields,field_description:odex_benefit.field_grant_benefit__mother_id_number
+#: model:ir.model.fields,field_description:odex_benefit.field_service_request__member_id_number
+#: model:ir.model.fields,field_description:odex_benefit.field_service_request__family_id_member_id_number
+
 msgid "Id Number"
 msgstr "رقم الهوية"
 
@@ -8563,6 +8567,7 @@ msgstr "هل قام بأداء الحج؟"
 
 #. module: odex_benefit
 #: model:ir.model.fields,field_description:odex_benefit.field_family_member__member_id_number
+#: model:ir.model.fields,field_description:odex_benefit.field_service_request__member_id_number
 msgid "Member Id Number"
 msgstr "رقم هوية الفرد"
 
@@ -9015,6 +9020,9 @@ msgstr "نهاية الوقت المعين للنشاط"
 #: model:ir.model.fields,field_description:odex_benefit.field_generate_reports__name
 #: model:ir.model.fields,field_description:odex_benefit.field_generate_reports_log__name
 #: model:ir.model.fields,field_description:odex_benefit.field_grant_benefit__name
+#: model:ir.model.fields,field_description:odex_benefit.field_health_chronic_diseases__name
+#: model:ir.model.fields,field_description:odex_benefit.field_health_genetic_diseases__name
+#: model:ir.model.fields,field_description:odex_benefit.field_health_mental_illnesses__name
 #: model:ir.model.fields,field_description:odex_benefit.field_hobbies_settings__name
 #: model:ir.model.fields,field_description:odex_benefit.field_hospital_hospital__name
 #: model:ir.model.fields,field_description:odex_benefit.field_housing_rooms_type__name
@@ -9039,6 +9047,7 @@ msgstr "نهاية الوقت المعين للنشاط"
 #: model:ir.model.fields,field_description:odex_benefit.field_res_districts__name
 #: model:ir.model.fields,field_description:odex_benefit.field_rooms_categories__name
 #: model:ir.model.fields,field_description:odex_benefit.field_rooms_items__name
+#: model:ir.model.fields,field_description:odex_benefit.field_service_provider__name
 #: model:ir.model.fields,field_description:odex_benefit.field_specialization_specialization__name
 #: model:ir.model.fields,field_description:odex_benefit.field_sport_type__name
 #: model:ir.model.fields,field_description:odex_benefit.field_study_material__name
@@ -9053,8 +9062,13 @@ msgstr "نهاية الوقت المعين للنشاط"
 #: model_terms:ir.ui.view,arch_db:odex_benefit.grant_benefit_form
 #: model_terms:ir.ui.view,arch_db:odex_benefit.view_benefit_category_form
 #: model_terms:ir.ui.view,arch_db:odex_benefit.view_benefit_housing_form
+#: model:ir.model.fields,field_description:odex_benefit.field_service_request__family_id_member_name
+#: model:ir.model.fields,field_description:odex_benefit.field_service_request__member_name
+#: model:ir.model.fields,field_description:odex_benefit.field_service_request__need_status
+#: model:ir.model.fields,field_description:odex_benefit.field_service_delivery_method__name
 msgid "Name"
 msgstr "الاسم"
+
 
 #. module: odex_benefit
 #: model:ir.model.fields,field_description:odex_benefit.field_grant_benefit__name_in_bank
@@ -9125,7 +9139,7 @@ msgstr "يحتاج إلى أمر صرف"
 
 #. module: odex_benefit
 #: model:ir.model.fields,field_description:odex_benefit.field_benefits_needs__need_status
-#: model:ir.model.fields,field_description:odex_benefit.field_service_request__need_status
+#: model:ir.model.fields,field_description:odex_benefit.field_service_request__need_status_id
 msgid "Need Status"
 msgstr "حالة الاحتياج"
 
@@ -10144,6 +10158,7 @@ msgstr "هل الأسرة منتجة؟"
 #: model:ir.model.fields,field_description:odex_benefit.field_receive_appliances_furniture__prod_id
 #: model:ir.model.fields,field_description:odex_benefit.field_receive_benefit_zkat__product_id
 #: model:ir.model.fields,field_description:odex_benefit.field_receive_food_basket__product_id
+#: model:ir.model.fields,field_description:odex_benefit.field_service_request_line__product_id
 msgid "Product"
 msgstr "المنتج"
 
@@ -10297,6 +10312,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:odex_benefit.field_receive_food_surplus__quantity
 #: model:ir.model.fields,field_description:odex_benefit.field_zkat_line__quantity
 #: model_terms:ir.ui.view,arch_db:odex_benefit.benefit_food_surplus_form
+#: model:ir.model.fields,field_description:odex_benefit.field_service_request_line__quantity
 msgid "Quantity"
 msgstr "الكمية"
 
@@ -10654,6 +10670,8 @@ msgstr "مؤسسة متعلقة"
 #. module: odex_benefit
 #: model:ir.model.fields,field_description:odex_benefit.field_family_member__relation
 #: model:ir.model.fields,field_description:odex_benefit.field_family_member__relationn
+#: model:ir.model.fields,field_description:odex_benefit.field_service_request__member_id_relationn
+#: model:ir.model.fields,field_description:odex_benefit.field_service_request__family_id_relationn
 #: model_terms:ir.ui.view,arch_db:odex_benefit.family_member_form
 #: model_terms:ir.ui.view,arch_db:odex_benefit.grant_benefit_form
 msgid "Relation"
@@ -10665,6 +10683,14 @@ msgstr "صلة القرابة"
 #: model:ir.ui.menu,name:odex_benefit.relation_settings_menu
 msgid "Relation Settings"
 msgstr "صلة القرابة"
+
+#. module: odex_benefit
+#: model:ir.model.fields,field_description:odex_benefit.field_grant_benefit__sms_phone
+#: model:ir.model.fields,field_description:odex_benefit.field_service_request__family_id_phone
+#: model:ir.model.fields,field_description:odex_benefit.field_service_request__member_id_phone
+msgid "Contact Phone"
+msgstr "رقم الجوال للتواصل"
+
 
 #. module: odex_benefit
 #: model:ir.model.fields,field_description:odex_benefit.field_relation_settings__relation_type
@@ -15294,3 +15320,88 @@ msgstr ""
 #, python-format
 msgid "عفواءً القالب المخصص يتوجب وجود رقم الهوية"
 msgstr ""
+
+
+#. module: odex_benefit
+#: model:ir.model.fields,field_description:odex_benefit.field_service_provider__need_partner
+#: model:ir.model.fields,field_description:odex_benefit.field_service_request__provider_need_partner
+msgid "Need Partner"
+msgstr "يحتاج الى شريك"
+
+#. module: odex_benefit
+#: model:ir.actions.act_window,name:odex_benefit.action_service_delivery_method_list
+#: model:ir.model.fields,field_description:odex_benefit.field_service_request__delivery_method_id
+#: model:ir.ui.menu,name:odex_benefit.service_delivery_method_menu
+#: model_terms:ir.ui.view,arch_db:odex_benefit.view_service_delivery_method_form
+msgid "Service Delivery Method"
+msgstr "طريقة تسليم الخدمة"
+
+
+#. module: odex_benefit
+#: model:ir.actions.act_window,name:odex_benefit.action_service_provider_list
+#: model:ir.model,name:odex_benefit.model_service_provider
+#: model:ir.model.fields,field_description:odex_benefit.field_service_request__provider_id
+#: model:ir.ui.menu,name:odex_benefit.service_provider_list_menu
+msgid "Service Provider"
+msgstr "مقدم الخدمة"
+
+#. module: odex_benefit
+#: model_terms:ir.ui.view,arch_db:odex_benefit.service_request_form
+msgid "Member Details"
+msgstr "معلومات الفرد"
+
+
+#. module: odex_benefit
+#: model:ir.model.fields,field_description:odex_benefit.field_service_request__member_name
+msgid "Member Name"
+msgstr "الاسم"
+
+#. module: odex_benefit
+#: model:ir.model.fields,field_description:odex_benefit.field_service_request__beneficiary_category
+msgid "Member Status"
+msgstr "حالة المستفيد"
+
+#. module: odex_benefit
+#: model:ir.model.fields,field_description:odex_benefit.field_service_attachments_settings__name
+msgid "Name Attachment"
+msgstr "اسم المرفق"
+
+#. module: odex_benefit
+#: model_terms:ir.ui.view,arch_db:odex_benefit.service_request_form
+msgid "Benefit breadwinner Details"
+msgstr "معلومات العائل"
+
+#. module: odex_benefit
+#: model:ir.model.fields,field_description:odex_benefit.field_service_delivery_method__need_products
+#: model:ir.model.fields,field_description:odex_benefit.field_service_request__need_products
+msgid "Need Products"
+msgstr " منتجات من المخزون"
+
+#. module: odex_benefit
+#: model:ir.actions.act_window,name:odex_benefit.action_service_need_status_list
+#: model:ir.ui.menu,name:odex_benefit.service_need_status_list_menu
+#: model_terms:ir.ui.view,arch_db:odex_benefit.view_service_need_status_form
+#: model_terms:ir.ui.view,arch_db:odex_benefit.view_service_provider_form
+msgid "Service Need Status"
+msgstr "حالة الإحتياج"
+
+#. module: odex_benefit
+#: model:ir.model.fields,field_description:odex_benefit.field_service_request__line_ids
+msgid "Product Lines"
+msgstr "المنتجات"
+
+#. module: odex_benefit
+#: model_terms:ir.ui.view,arch_db:odex_benefit.service_request_form
+msgid "Products"
+msgstr "المنتجات"
+
+
+#. module: odex_benefit
+#: model:ir.model.fields,field_description:odex_benefit.field_service_request_line__uom_id
+msgid "Unit of Measure"
+msgstr "الوحدة"
+
+#. module: odex_benefit
+#: model:ir.model.fields,field_description:odex_benefit.field_service_request_line__description
+msgid "Description"
+msgstr "الوصف"

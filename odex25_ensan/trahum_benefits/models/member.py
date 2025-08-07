@@ -6,6 +6,7 @@ from odoo.exceptions import ValidationError
 from odoo.exceptions import UserError
 from lxml import etree
 import json
+from dateutil.relativedelta import relativedelta
 
 
 class FamilyMemberMaritalStatus(models.Model):
@@ -16,7 +17,7 @@ class FamilyMemberMaritalStatus(models.Model):
 
 
 class FamilyMemberRelation(models.Model):
-    _name = 'family.member.relation'
+    _inherit = 'family.member.relation'
     _description = 'Family Member Relation'
 
     name = fields.Char(string='Relation', required=True)
@@ -145,6 +146,13 @@ class IssuesInformation(models.Model):
     prison_id = fields.Many2one('res.prison', readonly=0, related='detainee_id.prison_id')
     arrest_date = fields.Date('Arrest Date', related='detainee_id.arrest_date', readonly=0)
 
+
+    @api.constrains('release_date', 'detainee_id')
+    def _check_release_date_required(self):
+        for rec in self:
+            if rec.detainee_id and rec.detainee_id.prisoner_state == 'convicted':
+                if not rec.release_date:
+                    raise ValidationError(_("Release Date is required when the prisoner state is 'Convicted'."))
     @api.onchange('case_type')
     def _onchange_case_type(self):
         if self.case_type:
@@ -159,6 +167,17 @@ class IssuesInformation(models.Model):
                     'case_name': []
                 }
             }
+
+    @api.model
+    def create(self, vals):
+        record = super(IssuesInformation, self).create(vals)
+        record._check_release_date_required()
+        return record
+
+    def write(self, vals):
+        res = super(IssuesInformation, self).write(vals)
+        self._check_release_date_required()
+        return res
 
 
 class FamilyMember(models.Model):
@@ -235,6 +254,7 @@ class FamilyMember(models.Model):
     member_diseases_ids = fields.One2many('member.disease', 'member_id', string='Member Diseases')
     issues_ids = fields.One2many('issues.information', 'member_id', string='issues information')
     social_insurance_income = fields.Float(string='Social Insurance Income')
+    social_insurance_state = fields.Boolean(string='Social Security State')
     social_insurance_status = fields.Selection([
         ('active', 'Active'),
         ('inactive', 'Inactive'),
@@ -284,12 +304,37 @@ class FamilyMember(models.Model):
     end_date = fields.Date(string='End Date')
     in_work = fields.Boolean(string='In Work')
     experience_certificate = fields.Many2many('ir.attachment', string="Experience Certificate", tracking=True)
-    job_title = fields.Many2one('job.title',string='Job Title')
+    job_title = fields.Many2one('job.title', string='Job Title')
 
+    def action_confirm(self):
+        for record in self:
+            all_fields = [
+                'member_id_number', 'member_phone', 'identity_proof_id',
+                'birth_date', 'gender', 'qualification_id', 'additional_mobile_number',
+                'work_type_id', 'birth_place', 'marital_status_id', 'education_ids',
+                'building_number', 'sub_number', 'additional_number', 'street_name', 'district_id',
+                'city', 'postal_code', 'national_address_code', 'rehabilitation_ids', 'blood_type',
+                'salary_ids', 'job_title', 'dest_name', 'start_date', 'experience_certificate'
+            ]
 
-    def action_confirm(self) -> None:
-        """Change status to 'Confirmed'."""
-        self.write({'state': 'confirmed'})
+            missing_fields = []
+            for field_name in all_fields:
+                field = record._fields.get(field_name)
+                if not field:
+                    continue  # Skip if field not found (typo safety)
+
+                value = getattr(record, field_name)
+                if not value:
+                    missing_fields.append(field.string)
+
+            if missing_fields:
+                raise ValidationError(
+                    _("Please fill in the following required fields before confirming:\n- ") + "\n- ".join(
+                        missing_fields)
+                )
+
+            # Confirm logic
+            record.state = 'confirmed'
 
     def action_cancel(self):
         """Open a wizard to enter the rejection reason."""
@@ -407,11 +452,12 @@ class MemberHouse(models.Model):
 
 
 class DetaineeFile(models.Model):
-    _name = 'detainee.file'
+    _inherit = 'detainee.file'
     _description = 'Detainee File'
-    _inherit = ['mail.thread', 'mail.activity.mixin']
+    # _inherit = ['mail.thread', 'mail.activity.mixin']
 
     name = fields.Char(string="code", readonly=True, copy=False, default=lambda self: _('New'))
+
     detainee_id = fields.Many2one('family.member', string="Detainee", required=True)
     detainee_status = fields.Selection([
         ('convicted', 'Convicted'),
@@ -431,18 +477,72 @@ class DetaineeFile(models.Model):
         ('rejected', 'Rejected'),
     ], string="Status", default='draft', tracking=True)
 
-    branch_id = fields.Many2one('branch.details', string="Branch")
+    branch_id = fields.Many2one('branch.details', string="Branch", required=1)
 
     prison_country_id = fields.Many2one('res.prison.country', string="Prison Country")
 
-    prison_id = fields.Many2one('res.prison', string="Prison")
+    prison_id = fields.Many2one('res.prison', string="Prison", domain=[('country_id', '=', prison_country_id)])
 
     cancel_reason: fields.Text = fields.Text(string="Rejection Reason", tracking=True, copy=False)
+    file_state = fields.Selection([('active', 'Active'), ('inactive', 'Inactive')], string='File Status')
 
-    prisoner_state = fields.Selection([('convicted', 'Convicted'), ('not_convicted', 'Not Convicted')], string='State')
+    prisoner_state = fields.Selection([('convicted', 'Convicted'), ('not_convicted', 'Not Convicted')], string='Inmate Status')
     beneficiary_category = fields.Selection([('gust', 'Gust'), ('released', 'Released')], string='Beneficiary Category')
     entitlement_status = fields.Selection([('deserved', 'Deserved'), ('undeserved', 'Undeserved')],
                                           string='Entitlement Status')
+
+    period_text = fields.Char(string="Detention Period", compute="_compute_period", store=True)
+
+    @api.onchange('prison_id')
+    def _onchange_prison_id(self):
+        if self.prison_id:
+            self.prison_country_id = self.prison_id.country_id
+
+    @api.onchange('prison_country_id')
+    def _onchange_prison_country_id(self):
+        if self.prison_country_id:
+            domain = [('country_id', '=', self.prison_country_id.id)]
+            if self.prison_id and self.prison_id.country_id != self.prison_country_id:
+                self.prison_id = False
+            return {'domain': {'prison_id': domain}}
+        else:
+            return {'domain': {'prison_id': []}}
+
+    @api.depends('arrest_date', 'expected_release_date')
+    def _compute_period(self):
+        for record in self:
+            if record.arrest_date and record.expected_release_date:
+                delta = relativedelta(record.expected_release_date, record.arrest_date)
+                years = delta.years
+                months = delta.months
+                days = delta.days
+
+                def arabic_plural(value, singular, dual, plural):
+                    if value == 1:
+                        return f"1 {singular}"
+                    elif value == 2:
+                        return dual
+                    elif 3 <= value <= 10:
+                        return f"{value} {plural}"
+                    else:
+                        return f"{value} {singular}"
+
+                year_txt = arabic_plural(years, "سنة", "سنتان", "سنوات")
+                month_txt = arabic_plural(months, "شهر", "شهران", "أشهر")
+                day_txt = arabic_plural(days, "يومًا", "يومان", "أيام")
+
+                parts = []
+                if years:
+                    parts.append(year_txt)
+                if months:
+                    parts.append(month_txt)
+                if days:
+                    parts.append(day_txt)
+
+                rtl_marker = '\u200F'
+                record.period_text = rtl_marker + " و ".join(parts)
+            else:
+                record.period_text = "\u200Fالمدة غير متوفرة"
 
     def action_open_family_files(self):
         self.ensure_one()
@@ -510,9 +610,34 @@ class DetaineeFile(models.Model):
             result.append((rec.id, name))
         return result
 
+
     @api.model
     def create(self, vals):
-        if vals.get('name', _('New')) == _('New'):
-            vals['name'] = self.env['ir.sequence'].next_by_code('detainee.sequence') or _('New')
-        res = super(DetaineeFile, self).create(vals)
-        return res
+        record = super(DetaineeFile, self).create(vals)
+
+        branch_code = record.branch_id.code if record.branch_id else ''
+
+        if branch_code:
+            existing = self.search([
+                ('branch_id', '=', record.branch_id.id),
+                ('name', 'ilike', f"{branch_code}/%")
+            ], order='id desc', limit=1)
+
+            if existing and existing.name and existing.name.startswith(branch_code):
+                try:
+                    last_part = existing.name.split('/')[-1]
+                    last_number = int(last_part)
+                    new_number = last_number + 1
+                except (IndexError, ValueError):
+                    new_number = 1
+            else:
+                new_number = 1
+
+            record.name = f"{branch_code}{str(new_number).zfill(4)}"
+        else:
+            record.name = _('New')
+
+        return record
+
+
+

@@ -22,6 +22,7 @@
                     <sheet>
                         <group>
                             <field name="name"/>
+                            <field name="code"/>
                         </group>
                     </sheet>
                 </form>
@@ -36,7 +37,7 @@
         </record>
 
         <!-- Menu Item to access the Branch Details -->
-        <menuitem id="menu_branch_details_root" name="Branches" parent="odex_benefit.benefit_tools" groups="odex_benefit.group_hide_not_needed_menus"/>
+        <menuitem id="menu_branch_details_root" name="Branches" parent="odex_benefit.benefit_tools"/>
         <menuitem id="menu_branch_details" name="Branch Details" parent="menu_branch_details_root"
                   action="action_branch_details"/>
 

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record model="ir.ui.view" id="view_employee_goals_line_form">
+        <field name="name">years.employee.goals.form</field>
+        <field name="model">years.employee.goals</field>
+        <field name="arch" type="xml">
+            <form string="Appraisal Performance" create="0" edit="0" delete="0">
+                <sheet>
+                    <group col="4">
+                        <field name="employee_apprisal_id"  options='{"no_open": True,"no_create_edit": True,"no_create":True}' readonly="1"/>
+                        <field name="employee_id" options='{"no_open": True,"no_create_edit": True,"no_create":True}' readonly="1"/>
+                        <field name="appraisal_date"/>
+                        <field name="year_id" options='{"no_open": True,"no_create_edit": True,"no_create":True}' readonly="1"/>
+                        <field name="kpi_id" width="10"
+                               options='{"no_open": True,"no_create_edit": True,"no_create":True}'/>
+                        <field name="result_appearance" width="5" optional="hide"/>
+                        <field name="weight" sum="Total Weight" width="4"/>
+                        <field name="year_target" sum="Total Target" width="4"/>
+                        <field name="self_assessment" width="5" optional="hide"/>
+                        <field name="done" width="5" sum="Done"/>
+                        
+                        
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_employee_goals_line_tree">
+        <field name="name">years.employee.goals.tree</field>
+        <field name="model">years.employee.goals</field>
+        <field name="arch" type="xml">
+            <tree string="Appraisal Performance" create="0" delete="0">
+                <field name="employee_apprisal_id" width="10" invisible="0"/>
+                <field name="employee_id" width="10" invisible="1"/>
+                <field name="appraisal_date" width="5"/>
+                <field name="year_id" width="5"/>
+                <field name="kpi_id" width="10" options='{"no_open": True,"no_create_edit": True,"no_create":True}'/>
+                <field name="result_appearance" width="5" optional="hide"/>
+                <field name="weight" sum="Total Weight" width="4"/>
+                <field name="year_target" sum="Total Target" width="4"/>
+                <field name="self_assessment" width="5" optional="hide"/>
+                <field name="done" width="5" sum="Done"/>
+                
+                
+            </tree>
+        </field>
+    </record>
+    <record id="view_employee_goals_line_search" model="ir.ui.view">
+        <field name="name">years.employee.goals.search</field>
+        <field name="model">years.employee.goals</field>
+        <field name="arch" type="xml">
+            <search string="Employee Goals">
+                <field name="employee_apprisal_id"/>
+                <field name="appraisal_stage_id"/>
+                <field name="year_id"/>
+                <separator/>
+                <filter string="Date" name="filter_appraisal_date" date="appraisal_date"/>
+                <group expand="0" string="Group By">
+                    <filter name="group_employee_apprisal_id" string="Employee Goals" domain="[]" context="{'group_by':'employee_apprisal_id'}"/>
+                </group>
+            </search>
+
+        </field>
+    </record>
+
+    <record id="action_evalution_goal_emp" model="ir.actions.act_window">
+        <field name="name">Appraisal Performance</field>
+        <field name="res_model">years.employee.goals</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('show_goal_result','=', True)]</field>
+        <field name="context">{'search_default_group_employee_apprisal_id': True}</field>
+    </record>
+
+    <menuitem id="menu_evalution_employee_goals" sequence="2"
+              name="Employee Goals Appraisal" parent="exp_hr_appraisal.appraisal_menu_id"
+              action="action_evalution_goal_emp" active="False"/>
+</odoo>
