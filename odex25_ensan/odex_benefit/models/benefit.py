@@ -566,6 +566,17 @@ class GrantBenefitProfile(models.Model):
                                             string='Beneficiary Category')
     benefit_breadwinner_ids = fields.One2many('grant.benefit.breadwinner', 'grant_benefit_ids',
                                               string="Benefit breadwinner")
+
+
+
+    member_count = fields.Integer(string="Members Count", compute="_compute_member_count", readonly=1)
+
+    @api.depends('benefit_member_ids')
+    def _compute_member_count(self):
+        self.member_count = 0
+        for rec in self:
+            filtered = rec.benefit_breadwinner_ids.filtered(lambda bw: bw.relation_id.name != 'زوجة مطلقة')
+            rec.member_count = len(rec.benefit_member_ids) + len(filtered)
     @api.depends('attachment_ids')
     def get_required_attach(self):
         for rec in self.attachment_ids:

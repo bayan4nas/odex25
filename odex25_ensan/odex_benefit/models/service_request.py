@@ -17,7 +17,7 @@ class ServiceRequest(models.Model):
     date = fields.Datetime(string='Request Date',default=fields.Datetime.now)
     family_id = fields.Many2one('grant.benefit',string='Family',domain="[('state', 'in', ['approve', 'approved'])]")
     family_category = fields.Many2one('benefit.category',string='Family Category',related='family_id.benefit_category_id')
-    benefit_member_count = fields.Integer(string="Benefit Member count", related='family_id.benefit_member_count')
+    benefit_member_count = fields.Integer(string="Benefit Member count", related='family_id.member_count')
     branch_custom_id = fields.Many2one('branch.settings', string="Branch",related='family_id.branch_custom_id',store=True)
     member_id = fields.Many2one(
         'family.member',
@@ -54,6 +54,8 @@ class ServiceRequest(models.Model):
         store=True,
         readonly=True,
     )
+    need_products = fields.Boolean(related="delivery_method_id.need_products",)
+
 
     main_service_category = fields.Many2one('services.settings',domain="[('is_main_service','=',True)]",string="Main Service Category")
     sub_service_category = fields.Many2one('services.settings',domain="[('is_main_service','=',False),('service_type','=',False),('parent_service','=',main_service_category)]",string='Sub Service Category')
@@ -170,6 +172,10 @@ class ServiceRequest(models.Model):
         ], string='state',default='draft', tracking=True)
     state_a = fields.Selection(related='state', tracking=False)
     state_b = fields.Selection(related='state', tracking=False)
+    line_ids = fields.One2many('service.request.line', 'request_id', string='Product Lines')
+
+
+
 
     benefit_breadwinner_ids = fields.One2many(
         related='family_id.benefit_breadwinner_ids',
@@ -205,7 +211,12 @@ class ServiceRequest(models.Model):
         store=True,
         readonly=True
     )
+    allowed_member_ids = fields.Many2many('family.member', compute='_compute_allowed_members')
 
+    @api.depends('family_id')
+    def _compute_allowed_members(self):
+        for rec in self:
+            rec.allowed_member_ids = rec.family_id.benefit_member_ids.mapped('member_id')
     @api.depends('family_id', 'member_id')
     def _compute_member_relation(self):
         for rec in self:
@@ -225,7 +236,7 @@ class ServiceRequest(models.Model):
             else:
                 rec.first_breadwinner_id = False
 
-    @api.onchange('family_id')
+    @api.onchange('family_id','member_id')
     def _onchange_family_id(self):
         if self.family_id:
             member_ids = self.family_id.benefit_member_ids.mapped('member_id.id')

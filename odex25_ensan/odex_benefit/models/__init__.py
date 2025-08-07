@@ -2,6 +2,7 @@ from . import detainee_file
 from . import family_member_relation
 from . import grant_benefit_member
 from . import ir_attachment_inherit
+from . import service_request_line
 from . import benefit
 from . import grant_benefit_breadwinner
 from . import benefit_need

@@ -1,0 +1,42 @@
+<odoo>
+
+<record id="view_service_request_line_tree" model="ir.ui.view">
+  <field name="name">service.request.line.tree</field>
+  <field name="model">service.request.line</field>
+  <field name="arch" type="xml">
+    <tree>
+        <field name="product_id"/>
+        <field name="quantity"/>
+        <field name="uom_id" />
+        <field name="description" />
+
+    </tree>
+  </field>
+</record>
+
+<record id="view_service_request_line_form" model="ir.ui.view">
+  <field name="name">service.request.line.form</field>
+  <field name="model">service.request.line</field>
+  <field name="arch" type="xml">
+    <form string="Product Service Request">
+        <sheet>
+            <group>
+                <field name="product_id"/>
+                <field name="request_id" invisible="1"/>
+                <field name="quantity" />
+                <field name="uom_id" />
+                <field name="description" />
+            </group>
+        </sheet>
+    </form>
+  </field>
+</record>
+
+<record id="action_service_request_line_list" model="ir.actions.act_window">
+  <field name="name">Product Service Request</field>
+  <field name="res_model">service.request.line</field>
+  <field name="view_mode">tree,form</field>
+</record>
+
+
+</odoo>

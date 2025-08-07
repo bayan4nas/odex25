@@ -53,14 +53,16 @@
                                         </h1>
                                 </div>
                                 <group>
+                                    <field name="need_products" invisible="1"/>
+                                    <field name="allowed_member_ids" invisible="1"/>
                                     <field name="date" attrs="{'readonly':[('state','not in',['draft','researcher','send_request'])]}" required="1"/>
                                     <field name="benefit_type" attrs="{'readonly':[('state','not in',['draft','researcher','send_request'])]}" required="1"/>
                                     <field name="family_id" attrs="{'readonly':[('state','not in',['draft','researcher','send_request'])]}" required="1"/>
-                                    <field name="family_category" force_save="1"/>
-                                    <field name="benefit_member_count" force_save="1"/>
+                                    <field name="family_category" invisible="1"/>
+                                    <field name="benefit_member_count" invisible="1" />
                                     <field name="eid_gift_benefit_count" attrs="{'invisible':['|',('service_type','!=','eid_gift'),('benefit_type','!=','family')]}"/>
                                     <field name="branch_custom_id" force_save="1"/>
-                                    <field name="member_id"    attrs="{'invisible':[('benefit_type','!=','member')],'readonly':[('state','not in',['draft','researcher','send_request'])],'required':[('benefit_type','=','member')]}"/>
+                                    <field name="member_id"  domain="[('id', 'in', allowed_member_ids)]"   attrs="{'invisible':[('benefit_type','!=','member')],'readonly':[('state','not in',['draft','researcher','send_request'])],'required':[('benefit_type','=','member')]}"/>
                                     <field name="account_id" attrs="{'invisible':[('service_type','=','electrical_devices')]}"/>
                                     <field name="device_account_id" attrs="{'invisible':[('service_type','!=','electrical_devices')]}"/>
                                     <field name="accountant_id" attrs="{'invisible':[('state','in',['draft','researcher','send_request','first_approve','second_approve'])]}"/>
@@ -124,6 +126,19 @@
                                      <field name="need_calculator"/>
                                  </group>
                              </page>
+                                <page string="Products" attrs="{'invisible': [('need_products', '=', False)]}">
+                                    <group>
+                                        <field name="line_ids" mode="tree" >
+                                            <tree editable="bottom">
+                                                <field name="product_id"/>
+                                                <field name="quantity" />
+                                                <field name="uom_id" />
+                                                <field name="description" />
+                                            </tree>
+                                        </field>
+                                    </group>
+                                </page>
+
                              <page string="Benefit breadwinner Details"  attrs="{'invisible': ['|', ('benefit_type', '!=', 'family'), ('family_id', '=', False)]}">
                                  <group>
                                      <field name="family_id_member_name"/>
