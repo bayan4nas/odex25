@@ -306,7 +306,6 @@ class GrantBenefit(models.Model):
         new_seq = max_seq + 1
         formatted_seq = str(new_seq).zfill(4)
 
-        # Final format: D0010003/D0020
         record.name = f"{branch_code}{formatted_seq}/{detainee_name_seq}"
 
         return record
