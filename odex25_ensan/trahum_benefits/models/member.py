@@ -633,7 +633,7 @@ class DetaineeFile(models.Model):
             else:
                 new_number = 1
 
-            record.name = f"{branch_code}/{str(new_number).zfill(4)}"
+            record.name = f"{branch_code}{str(new_number).zfill(4)}"
         else:
             record.name = _('New')
 

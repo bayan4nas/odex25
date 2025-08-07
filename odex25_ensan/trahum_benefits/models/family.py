@@ -273,39 +273,39 @@ class GrantBenefit(models.Model):
 
     @api.model
     def create(self, vals):
-        vals['name' ]= _('New')
+        vals['name'] = _('New')
         record = super(GrantBenefit, self).create(vals)
+
         branch = record.branch_details_id
         detainee_name_seq = record.detainee_file_id.name or ''
-        family_name = record.family_name or ''
 
-        if not branch:
-            record.name = _('New')
+        if not branch or not branch.code:
             return record
 
-        family_existing = self.search([
+        branch_code = branch.code
+
+        previous_records = self.search([
             ('branch_details_id', '=', branch.id),
+            ('name', 'like', f'{branch_code}%/%'),
             ('id', '!=', record.id)
-        ], order='id desc', limit=1)
-        if family_existing:
-            family_seq_part = family_existing.name.split('/')[0][-4:]
-            family_seq = int(family_seq_part)
-        else:
-            last_family = self.search([
-                ('branch_details_id', '=', branch.id)
-            ], order='id desc', limit=1)
-            print(last_family,'last_family888888888')
-            if last_family and '/' in last_family.name:
-                last_family_seq_part = last_family.name.split('/')[0][-4:]
-                family_seq = int(last_family_seq_part) + 1
-                print(last_family_seq_part,'last_family_seq_part')
-                print(family_seq,'family_seq')
-            else:
-                family_seq = 1
-                print(branch.code,'branch.code')
-                print(family_seq,'family_seq')
-                print(detainee_name_seq,'detainee_name_seq')
-        record.name = f"{branch.code}{str(family_seq).zfill(4)}/{detainee_name_seq}"
+        ])
+
+        max_seq = 0
+        for rec in previous_records:
+            name = rec.name or ''
+            if name.startswith(branch_code) and '/' in name:
+                try:
+                    seq_part = name[len(branch_code):].split('/')[0]
+                    seq_num = int(seq_part)
+                    max_seq = max(max_seq, seq_num)
+                except Exception:
+                    continue
+
+        new_seq = max_seq + 1
+        formatted_seq = str(new_seq).zfill(4)
+
+        # Final format: D0010003/D0020
+        record.name = f"{branch_code}{formatted_seq}/{detainee_name_seq}"
 
         return record
 
