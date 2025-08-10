@@ -152,7 +152,6 @@ class GrantBenefitProfile(models.Model):
     # Father's case and his data # Birth Date # Address # dead data
     # Father's case and his data
     # family_name = fields.Char(string="Family Name", tracking=True)
-    # name = fields.Char(string="Name", compute='get_partner_name', store=True,readonly = False)
     # father_name = fields.Char(string="Father First Name", tracking=True)
     # father_second_name = fields.Char(string="Father Second Name", tracking=True)
     # father_third_name = fields.Char(string="Father Third Name", tracking=True)
