@@ -34,6 +34,7 @@ class GrantBenefit(models.Model):
                                        readonly=1, string="Need Calculator", )
     beneficiary_category = fields.Selection(related='detainee_file_id.beneficiary_category',
                                             string='Beneficiary Category')
+    name = fields.Char(string="Folder State", store=True,readonly = True)
 
     total_income = fields.Float(string="Total Income", store=True, readonly=True)
     expected_income = fields.Float(string="Expected  Income", readonly=True)
