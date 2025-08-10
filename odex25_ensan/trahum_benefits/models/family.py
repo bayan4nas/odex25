@@ -34,7 +34,7 @@ class GrantBenefit(models.Model):
                                        readonly=1, string="Need Calculator", )
     beneficiary_category = fields.Selection(related='detainee_file_id.beneficiary_category',
                                             string='Beneficiary Category')
-    name = fields.Char(string="Folder State", store=True,readonly = True)
+    # name = fields.Char(string="Folder State", readonly=True)
 
     total_income = fields.Float(string="Total Income", store=True, readonly=True)
     expected_income = fields.Float(string="Expected  Income", readonly=True)
@@ -202,7 +202,7 @@ class GrantBenefit(models.Model):
 
     # add new customuzation
     state = fields.Selection(STATE_SELECTION, default='draft', tracking=True)
-    detainee_file_id = fields.Many2one('detainee.file', string="Detainee File", tracking=True, related='')
+    detainee_file_id = fields.Many2one('detainee.file', string="Detainee File", tracking=True, required=1)
 
     benefit_member_ids = fields.One2many('grant.benefit.member', 'grant_benefit_id', string="Benefit Member")
     benefit_breadwinner_ids = fields.One2many('grant.benefit.breadwinner', 'grant_benefit_ids',
@@ -275,8 +275,9 @@ class GrantBenefit(models.Model):
     @api.model
     def create(self, vals):
         vals['name'] = _('New')
+        print(vals['name'], 'iiiiiiiiiiiiiii')
         record = super(GrantBenefit, self).create(vals)
-
+        print('qqqqqqqqqqqqqqqqqq')
         branch = record.branch_details_id
         detainee_name_seq = record.detainee_file_id.name or ''
 
@@ -349,7 +350,7 @@ class GrantBenefit(models.Model):
                                          string='Comprehensive Rehabilitation')
     salary_ids = fields.One2many('salary.line', 'benefit_id', string='')
     health_data_ids = fields.One2many('family.member', 'benefit_id', string='Health Data')
-    branch_details_id = fields.Many2one(comodel_name='branch.details', string='Branch Name', tracking=True)
+    branch_details_id = fields.Many2one(comodel_name='branch.details', string='Branch Name', tracking=True, required=1)
     breadwinner_name = fields.Many2one('family.member', 'Breadwinner')
     relation_id = fields.Many2one('family.member.relation', string='Relation')
 
@@ -421,6 +422,7 @@ class GrantBenefit(models.Model):
             if not rec.benefit_breadwinner_ids:
                 raise ValidationError(_("You must add at least one Breadwinner"))
 
+
 class BankStopReason(models.Model):
     _name = 'bank.stop.reason'
     _inherit = ['mail.thread', 'mail.activity.mixin']
@@ -487,19 +489,45 @@ class GrantBenefitMember(models.Model):
     _description = 'Grant Benefit Member'
 
     grant_benefit_id = fields.Many2one('grant.benefit', string="Grant Benefit", ondelete="cascade")
-    member_id = fields.Many2one('family.member', string="Member", domain=[('state', '=', 'confirmed')])
+    member_id = fields.Many2one('family.member', string="Member")
     # relationship = fields.Many2one(related='member_id.relation_id', string="Relationship", readonly=True)
     is_breadwinner = fields.Boolean(string=" Is Breadwinner?")
     relation_id = fields.Many2one('family.member.relation', string='Relation with res')
     rel_with_resd = fields.Char(string='Relation', default=lambda self: _('Follower'))
+
+    @api.onchange('member_id')
+    def _onchange_member_name(self):
+        linked_member_ids = self.env['detainee.file'].search([]).mapped('detainee_id').ids
+
+        return {
+            'domain': {
+                'member_id': [
+                    ('state', '=', 'confirmed'),
+                    ('id', 'not in', linked_member_ids)
+                ]
+            }
+        }
 
 
 class GrantBenefitBreadwinner(models.Model):
     _inherit = 'grant.benefit.breadwinner'
     _description = 'Grant Benefit Breadwinner'
 
-    grant_benefit_ids = fields.Many2one('grant.benefit', string="Grant Benefit", ondelete="cascade",required=1)
-    member_name = fields.Many2one('family.member', string="Member name", domain=[('state', '=', 'confirmed')])
+    grant_benefit_ids = fields.Many2one('grant.benefit', string="Grant Benefit", ondelete="cascade", required=1)
 
     relation_id = fields.Many2one('family.member.relation', string='Relation with res')
     breadwinner = fields.Char(string='Breadwinner', default=lambda self: _('Breadwinner'))
+    member_name = fields.Many2one('family.member', string="Member name")
+
+    @api.onchange('member_name')
+    def _onchange_member_name(self):
+        linked_member_ids = self.env['detainee.file'].search([]).mapped('detainee_id').ids
+
+        return {
+            'domain': {
+                'member_name': [
+                    ('state', '=', 'confirmed'),
+                    ('id', 'not in', linked_member_ids)
+                ]
+            }
+        }

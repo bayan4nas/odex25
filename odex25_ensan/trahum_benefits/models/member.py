@@ -561,6 +561,21 @@ class DetaineeFile(models.Model):
             'context': {'default_detainee_file_id': self.id}
         }
 
+    @api.onchange('detainee_id')
+    def _onchange_detainee_id(self):
+        domain = []
+        if self.id:  # Record is already saved in DB
+            linked_member_ids = self.search([('id', '!=', self.id)]).mapped('detainee_id').ids
+        else:  # New unsaved record
+            linked_member_ids = self.search([]).mapped('detainee_id').ids
+
+        return {
+            'domain': {
+                'detainee_id': [
+                    ('id', 'not in', linked_member_ids)
+                ]
+            }
+        }
     # Restrict deletion & modification based on status
     def unlink(self):
         for record in self:
