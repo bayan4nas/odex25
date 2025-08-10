@@ -414,6 +414,11 @@ class GrantBenefit(models.Model):
                 if len(record.delegate_mobile) != 10 or not record.delegate_mobile.isdigit():
                     raise ValidationError("The authorized mobile number must contain exactly 10 digits.")
 
+    @api.constrains('benefit_breadwinner_ids')
+    def check_benefit_breadwinner_ids(self):
+        for rec in self:
+            if not rec.benefit_breadwinner_ids:
+                raise ValidationError(_("You must add at least one Breadwinner"))
 
 class BankStopReason(models.Model):
     _name = 'bank.stop.reason'
@@ -492,7 +497,7 @@ class GrantBenefitBreadwinner(models.Model):
     _inherit = 'grant.benefit.breadwinner'
     _description = 'Grant Benefit Breadwinner'
 
-    grant_benefit_ids = fields.Many2one('grant.benefit', string="Grant Benefit", ondelete="cascade")
+    grant_benefit_ids = fields.Many2one('grant.benefit', string="Grant Benefit", ondelete="cascade",required=1)
     member_name = fields.Many2one('family.member', string="Member name", domain=[('state', '=', 'confirmed')])
 
     relation_id = fields.Many2one('family.member.relation', string='Relation with res')
