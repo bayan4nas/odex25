@@ -326,6 +326,13 @@ class EmployeeOtherRequest(models.Model):
         hijri_date = convert.Gregorian(year, month, day).to_hijri()
         return hijri_date
 
+    @api.constrains('certification_employee')
+    def check_attachment(self):
+        if self.certification_employee:
+            for rec in self.certification_employee:
+                if not rec.attachment:
+                    raise ValidationError(_("You must add an attachment for all certifications."))
+
 
 class salaryDestination(models.Model):
     _name = 'salary.destination'
