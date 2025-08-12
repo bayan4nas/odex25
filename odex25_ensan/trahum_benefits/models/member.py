@@ -497,9 +497,7 @@ class DetaineeFile(models.Model):
     @api.constrains('issues_ids')
     def check_prisoner_state(self):
         for rec in self:
-            print('3333333333')
             if rec.prisoner_state == 'convicted' and not rec.issues_ids:
-                print('222222222222222')
                 raise UserError(_("You Have to Add Issue"))
 
     @api.onchange('prison_id')
