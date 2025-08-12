@@ -153,6 +153,7 @@ class IssuesInformation(models.Model):
                 if not rec.release_date:
                     raise ValidationError(_("Release Date is required when the prisoner state is 'Convicted'."))
 
+
     @api.onchange('case_type')
     def _onchange_case_type(self):
         if self.case_type:

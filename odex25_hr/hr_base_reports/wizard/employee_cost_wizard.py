@@ -18,7 +18,8 @@ class EmployeeCostReport(models.TransientModel):
     date_from = fields.Date(string='Date From',
                             default=lambda self: date(date.today().year, date.today().month, 1))
     date_to = fields.Date(string='Date To',
-                          default=lambda self: date(date.today().year, date.today().month, 1))
+                          default=lambda self: date(date.today().year, date.today().month, 1) + relativedelta(months=1,
+                                                                                  days=-1))
     employee_ids = fields.Many2many('hr.employee', string='Employees')
     department_ids = fields.Many2many('hr.department', string='Department')
     mission_type = fields.Many2one('hr.official.mission.type', string="Type")
@@ -35,12 +36,17 @@ class EmployeeCostReport(models.TransientModel):
         ('saudi', 'Saudi'),
         ('loan', 'Loan'),
         ('appraisal', 'Appraisal'),
-        ('iqama', 'Identity'),
+        ('iqama', 'Iqama'),
         ('re_entry', 'Re-Entry'),
         ('absence', 'Absence'),
         ('promotion', 'Promotion'),
         ('executions', 'Execution'),
     ])
+    report_type_selec = fields.Selection([
+        ('employee_cost', _('Records')),
+        ('general', _('Employee Summary')),
+        ('overtime', _('Management Summary')),
+    ], string=_("Report Type"), default='employee_cost')
 
     @api.onchange('department_ids')
     def get_department_employee(self):
@@ -57,6 +63,8 @@ class EmployeeCostReport(models.TransientModel):
             return {'domain': {'employee_ids': domain}}
 
     def check_data(self):
+        if not self.report_type_selec:
+            raise UserError(_("Report type is not selected."))
         if self.date_from and not self.date_to or not self.date_from and self.date_to:
             raise UserError(_('Choose Date From and Date To'))
         if self.date_from and self.date_to and self.date_from > self.date_to:
@@ -64,6 +72,8 @@ class EmployeeCostReport(models.TransientModel):
         return {'form': (self.read()[0]), }
 
     def print_report(self):
+        if not self.report_type_selec:
+            raise UserError(_("Report type is not selected."))
         datas = self.check_data()
         if self.report_type == 'employee_cost':
             return self.env.ref('hr_base_reports.employee_cost_report_act').report_action(self, data=datas)
@@ -78,7 +88,13 @@ class EmployeeCostReport(models.TransientModel):
         elif self.report_type == 'training':
             return self.env.ref('hr_base_reports.employee_training_report_act').report_action(self, data=datas)
         elif self.report_type == 'attendance':
-            return self.env.ref('hr_base_reports.employee_attendance_report_act').report_action(self, data=datas)
+            if self.report_type_selec=='general':
+                return self.env.ref('hr_base_reports.employee_attendance_summary_report_act').report_action(self,
+                                                                                                         data=datas)
+            elif self.report_type_selec == 'overtime':
+                return self.env.ref('hr_base_reports.department_attendance_summary_report_act').report_action(self,data=datas)
+            else:
+                return self.env.ref('hr_base_reports.employee_attendance_report_act').report_action(self, data=datas)
         elif self.report_type == 'saudi':
             return self.env.ref('hr_base_reports.employee_saudi_report_act').report_action(self, data=datas)
         elif self.report_type == 'loan':
@@ -97,6 +113,8 @@ class EmployeeCostReport(models.TransientModel):
             return self.env.ref('hr_base_reports.employee_re_entry_report_act').report_action(self, data=datas)
 
     def print_report_xlsx(self):
+        if not self.report_type_selec:
+            raise UserError(_("Report type is not selected."))
         datas = self.check_data()
         if self.report_type == 'employee_cost':
             return self.env.ref('hr_base_reports.employee_cost_report_act_xlsx').report_action(self, data=datas)
@@ -111,7 +129,13 @@ class EmployeeCostReport(models.TransientModel):
         elif self.report_type == 'training':
             return self.env.ref('hr_base_reports.employee_training_report_act_xlsx').report_action(self, data=datas)
         elif self.report_type == 'attendance':
-            return self.env.ref('hr_base_reports.employee_attendance_report_act_xlsx').report_action(self, data=datas)
+            if self.report_type_selec=='general':
+                return self.env.ref('hr_base_reports.employee_attendance_report_act_details_xlsx').report_action(self,
+                                                                                                         data=datas)
+            elif self.report_type_selec == 'overtime':
+                return self.env.ref('hr_base_reports.employee_attendance_act_dept_xlsx').report_action(self,data=datas)
+            else:
+                return self.env.ref('hr_base_reports.employee_attendance_report_act_xlsx').report_action(self, data=datas)
         elif self.report_type == 'saudi':
             return self.env.ref('hr_base_reports.employee_saudi_report_act_xlsx').report_action(self, data=datas)
         elif self.report_type == 'loan':

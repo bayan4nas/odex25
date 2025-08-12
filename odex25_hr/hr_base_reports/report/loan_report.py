@@ -96,7 +96,7 @@ class EmployeeLoanReportXlsx(models.AbstractModel):
             sheet.write(row, clm + 3, rec.department_id.name, format1)
             sheet.write(row, clm + 4, rec.request_type.name, format1)
             sheet.write(row, clm + 5, rec.date, format1)
-            sheet.write(row, clm + 6, round(rec.gm_propos_amount,2), format1)
+            sheet.write(row, clm + 6, rec.gm_propos_amount, format1)
             sheet.write(row, clm + 7, rec.months, format1)
             # sheet.write(row, clm+8,rec.deduction_lines[0].installment_date, format1)
             # sheet.write(row, clm+8, rec.deduction_lines[num].installment_date, format1)

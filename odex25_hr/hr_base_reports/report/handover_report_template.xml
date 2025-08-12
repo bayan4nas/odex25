@@ -58,7 +58,7 @@
 											<t t-esc="o.first_hire_date"/>
 										</td>
 										<td>
-											<span t-esc="o.reason"/>
+											<span t-esc="o.cause_type.name"/>
 										</td>
 										<td>
 											<span t-esc="o.create_date"/>
@@ -67,7 +67,7 @@
 											<span t-esc="o.last_work_date"/>
 										</td>
 										<td>
-											<span t-esc="o.employee_id.working_location"/>
+											<span t-esc="o.employee_id.working_location.name"/>
 										</td>
 										<td>
 											<span t-esc="o.employee_id.parent_id.name"/>

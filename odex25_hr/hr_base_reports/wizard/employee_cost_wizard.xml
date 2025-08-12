@@ -18,6 +18,7 @@
 							<field name="mission_type"
 								   attrs="{'invisible':[('report_type','not in',['mission','training'])]}"/>
 							<field name="report_type" invisible="1"/>
+							<field name="report_type_selec"/>
 						</group>
 						<notebook>
 							<page string="Department">
@@ -212,7 +213,7 @@
 		<!--		iqama-->
 
 		<record id="iqama_report_actions" model="ir.actions.act_window">
-			<field name="name">Identity Report</field>
+			<field name="name">Iqama Report</field>
 			<field name="type">ir.actions.act_window</field>
 			<field name="res_model">employee.cost.report</field>
 			<field name="view_mode">form</field>
@@ -222,7 +223,7 @@
 
 		<menuitem
 				id="iqama_report_menu"
-				name="Identity Report"
+				name="Iqama Report"
 				parent="main_reports_menu"
 				action="iqama_report_actions"
 		/>
@@ -269,7 +270,7 @@
 				id="appraisal_report_menu"
 				name="Appraisal Report"
 				parent="appraisal_report_root_menu"
-				action="appraisal_report_actions"
+				action="appraisal_report_actions" groups="hr.group_hr_user,exp_hr_appraisal.group_appraisal_manager,exp_hr_appraisal.group_appraisal_user"
 		/>
 
 

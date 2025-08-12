@@ -1,0 +1,115 @@
+<odoo>
+
+
+
+    <template id="department_attendance_summary_template">
+    <t t-call="web.html_container">
+        <t t-call="hr_base.hr_layout">
+
+            <style>
+                @font-face {
+                    font-family: "Sakkal Majalla";
+                    src: url("/employee_requests/static/fonts/ce7b5754581057e6f7444e2192850cc8.eot");
+                    src: url("/employee_requests/static/fonts/ce7b5754581057e6f7444e2192850cc8.eot?#iefix") format("embedded-opentype"),
+                         url("/employee_requests/static/fonts/ce7b5754581057e6f7444e2192850cc8.woff2") format("woff2"),
+                         url("/employee_requests/static/fonts/ce7b5754581057e6f7444e2192850cc8.woff") format("woff"),
+                         url("/employee_requests/static/fonts/ce7b5754581057e6f7444e2192850cc8.ttf") format("truetype");
+                }
+
+                * {
+                    font-family: "Sakkal Majalla", sans-serif;
+                }
+
+                table {
+                    width: 100%;
+                    border-collapse: collapse;
+                    margin-top: 20px;
+                    font-size: 12px;
+                }
+
+                th, td {
+                    border: 1px solid #000;
+                    padding: 5px;
+                    text-align: center;
+                }
+
+                th {
+                    background-color: #eee;
+                }
+            </style>
+
+            <main>
+                <div class="page">
+                    <table>
+                        <thead>
+                        <tr>
+                            <td colspan="100%" style="text-align: center;">
+                            <div style="display: flex; justify-content: center; align-items: center; width: 100%; padding:10px">
+                                <h2 style="margin-left: 20px;">ملخص حضور الأقسام </h2>
+                                <div style="display: flex; ">
+                                    <h2 style="text-align: center;">
+                                        <t t-esc="start_date"/>
+                                    </h2>
+                                    <h2 style="text-align: center; margin:0px 20px">-</h2>
+                                    <h2 style="text-align: center;">
+                                        <t t-esc="end_date"/>
+                                    </h2>
+                                </div>
+                            </div>
+
+                            </td>
+                        </tr>
+
+                            <tr>
+                            <t t-foreach="headers" t-as="header">
+                                <th style="font-weight: bold; text-align: center;">
+                                    <t t-esc="header"/>
+                                </th>
+                            </t>
+                        </tr>
+
+                        </thead>
+                        <tbody>
+                            <t t-foreach="docs" t-as="row">
+                                <tr>
+                                    <t t-foreach="field_keys" t-as="key">
+                                        <td style="text-align: center;">
+                                            <t t-esc="row.get(key) or 0"/>
+                                        </td>
+                                    </t>
+                                </tr>
+                            </t>
+                            <tr style="font-weight: bold;">
+                                <t t-foreach="field_keys" t-as="key">
+                                    <td>
+                                        <t t-esc="totals.get(key, '')"/>
+                                    </td>
+                                </t>
+                            </tr>
+
+                        </tbody>
+                    </table>
+
+                </div>
+            </main>
+
+        </t>
+    </t>
+</template>
+
+
+
+
+
+
+
+
+        <record id="department_attendance_summary_report_act" model="ir.actions.report">
+    <field name="name">عرض ملخص حضور الأقسام</field>
+    <field name="model">employee.attendance.summary</field>
+    <field name="report_type">qweb-pdf</field>
+    <field name="report_name">hr_base_reports.department_attendance_summary_template</field>
+    <field name="report_file">hr_base_reports.department_attendance_summary_template</field>
+    <field name="paperformat_id" ref="hr_base_reports.paperformat_attendance_landscape"/>
+</record>
+</odoo>

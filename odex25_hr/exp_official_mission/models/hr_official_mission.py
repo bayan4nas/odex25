@@ -86,7 +86,7 @@ class HrOfficialMission(models.Model):
     employee_id = fields.Many2one('hr.employee', 'Responsible', default=lambda item: item.get_user_id(),
                                   domain=[('state', '=', 'open')])
     employee_no = fields.Char(related='employee_id.emp_no', readonly=True,string='Employee Number', store=True)
-    reference = fields.Char(string="Reference Number")
+    reference = fields.Integer(string="Reference Number", store=True)
 
     company_id = fields.Many2one('res.company',string="Company", default=lambda self: self.env.user.company_id)
 
@@ -106,19 +106,28 @@ class HrOfficialMission(models.Model):
     def _add_process_type(self):
         if self.mission_type.work_state != 'training' and self.mission_type.special_hours != True:
             self.process_type = 'mission'
+            last_mission = self.search([('process_type', '=', 'mission'),('reference', '!=', 0)], 
+                                  order='reference desc', limit=1)
+            self.reference = last_mission.reference + 1 if last_mission else 1
         if self.mission_type.work_state == 'training' and self.mission_type.special_hours != True:
             self.process_type = 'training'
+            last_training = self.search([('process_type', '=', 'training'),('reference', '!=', 0)],
+                                 order='reference desc', limit=1)
+            self.reference = last_training.reference + 1 if last_training else 1
         if self.mission_type.special_hours == True:
             self.process_type = 'especially_hours'
+            last_especially = self.search([('process_type', '=', 'especially_hours'),('reference', '!=', 0)], 
+                                  order='reference desc', limit=1)
+            self.reference = last_especially.reference + 1 if last_especially else 1
 
-    @api.model
+    '''@api.model
     def create(self, vals):
         if self.process_type == 'mission':
             seq = self.env['ir.sequence'].next_by_code('hr.official.mission') or '/'
             vals['reference'] = seq
         new_record = super(HrOfficialMission, self).create(vals)
 
-        return new_record
+        return new_record'''
 
     #########################################
 
