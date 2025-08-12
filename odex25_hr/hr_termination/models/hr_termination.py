@@ -223,10 +223,13 @@ class HrTermination(models.Model):
     def _compute_holiday_amount(self):
         for item in self:
             if item.salary:
-                days = item.employee_id.resource_calendar_id.work_days
-                day_amount = item.salary / days
-                holiday_amount = item.leave_balance * day_amount
-                item.leave_balance_money = round(holiday_amount, 2)
+                days = item.employee_id.resource_calendar_id.work_days or 0
+                if days > 0:
+                    day_amount = item.salary / days
+                    holiday_amount = item.leave_balance * day_amount
+                    item.leave_balance_money = round(holiday_amount, 2)
+                else:
+                    item.leave_balance_money = 0
 
     @api.onchange('salary_termination')
     def _check_last_salary(self):
