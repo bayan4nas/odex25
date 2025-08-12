@@ -146,6 +146,13 @@ class IssuesInformation(models.Model):
     prison_id = fields.Many2one('res.prison', readonly=0, related='detainee_id.prison_id')
     arrest_date = fields.Date('Arrest Date', related='detainee_id.arrest_date', readonly=0)
 
+    @api.constrains('release_date', 'detainee_id')
+    def _check_release_date_required(self):
+        for rec in self:
+            if rec.detainee_id and rec.detainee_id.prisoner_state == 'convicted':
+                if not rec.release_date:
+                    raise ValidationError(_("Release Date is required when the prisoner state is 'Convicted'."))
+
 
     @api.onchange('case_type')
     def _onchange_case_type(self):
@@ -480,12 +487,19 @@ class DetaineeFile(models.Model):
     cancel_reason: fields.Text = fields.Text(string="Rejection Reason", tracking=True, copy=False)
     file_state = fields.Selection([('active', 'Active'), ('inactive', 'Inactive')], string='File Status')
 
-    prisoner_state = fields.Selection([('convicted', 'Convicted'), ('not_convicted', 'Not Convicted')], string='Inmate Status')
+    prisoner_state = fields.Selection([('convicted', 'Convicted'), ('not_convicted', 'Not Convicted')],
+                                      string='Inmate Status')
     beneficiary_category = fields.Selection([('gust', 'Gust'), ('released', 'Released')], string='Beneficiary Category')
     entitlement_status = fields.Selection([('deserved', 'Deserved'), ('undeserved', 'Undeserved')],
                                           string='Entitlement Status')
 
     period_text = fields.Char(string="Detention Period", compute="_compute_period", store=True)
+
+    @api.constrains('issues_ids')
+    def check_prisoner_state(self):
+        for rec in self:
+            if rec.prisoner_state == 'convicted' and not rec.issues_ids:
+                raise UserError(_("You Have to Add Issue"))
 
     @api.onchange('prison_id')
     def _onchange_prison_id(self):
@@ -570,6 +584,7 @@ class DetaineeFile(models.Model):
                 ]
             }
         }
+
     # Restrict deletion & modification based on status
     def unlink(self):
         for record in self:
@@ -619,7 +634,6 @@ class DetaineeFile(models.Model):
             result.append((rec.id, name))
         return result
 
-
     @api.model
     def create(self, vals):
         record = super(DetaineeFile, self).create(vals)
@@ -647,6 +661,3 @@ class DetaineeFile(models.Model):
             record.name = _('New')
 
         return record
-
-
-
