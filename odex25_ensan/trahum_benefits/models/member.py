@@ -307,6 +307,19 @@ class FamilyMember(models.Model):
     experience_certificate = fields.Many2many('ir.attachment', string="Experience Certificate", tracking=True)
     job_title = fields.Many2one('job.title', string='Job Title')
 
+    @api.constrains(
+        'social_insurance_state',
+        'social_insurance_income',
+        'social_insurance_status',
+        'social_security_income'
+    )
+    def _check_social_insurance_fields(self):
+        for rec in self:
+            if rec.social_insurance_state:
+                if not rec.social_security_income or rec.social_security_income == 0.0:
+                    raise ValidationError("Social Security Income must be greater than 0.")
+                if not rec.social_insurance_income or rec.social_insurance_income == 0.0:
+                    raise ValidationError("Social Insurance Income must be greater than 0.")
     def action_confirm(self):
         for record in self:
             all_fields = [
