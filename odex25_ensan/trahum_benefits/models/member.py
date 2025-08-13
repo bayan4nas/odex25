@@ -307,6 +307,44 @@ class FamilyMember(models.Model):
     experience_certificate = fields.Many2many('ir.attachment', string="Experience Certificate", tracking=True)
     job_title = fields.Many2one('job.title', string='Job Title')
 
+
+    grant_benefit_member_ids = fields.One2many(
+        'grant.benefit.member',
+        'member_id',
+        string='Grant Benefit Members'
+    )
+    detainee_file_link = fields.Many2one(
+        'detainee.file',
+        string="File Number",
+        compute='_compute_file_links',
+        readonly=True
+    )
+    detainee_file_link_name = fields.Char(  related='detainee_file_link.name',string='File number' ,  readonly=True)
+    detainee_file_link_file_state = fields.Selection(  related='detainee_file_link.file_state',string='File State' , readonly=True)
+    detainee_file_link_beneficiary_category =fields.Selection(  related='detainee_file_link.beneficiary_category',string='beneficiary category ' ,  readonly=True)
+    detainee_file_link_prisoner_state =fields.Selection(  related='detainee_file_link.prisoner_state',string='Inmate Status', readonly=True)
+    detainee_file_link_entitlement_status =fields.Selection(  related='detainee_file_link.entitlement_status',string='Needs Assessment', readonly=True)
+
+    family_file_link = fields.Many2one(
+        'grant.benefit',
+        string="File Number",
+        compute='_compute_file_links',
+        readonly=True
+    )
+    family_file_link_name = fields.Char(  related='family_file_link.name',string='File number' , readonly=True)
+    family_file_link_folder_state = fields.Selection(  related='family_file_link.folder_state',string='File State', readonly=True)
+    family_file_link_beneficiary_category =fields.Selection(  related='family_file_link.beneficiary_category',string='beneficiary category ', readonly=True)
+    family_file_link_need_calculator =fields.Selection(  related='family_file_link.need_calculator',string='Needs Assessment', readonly=True)
+
+
+    def _compute_file_links(self):
+        for member in self:
+            detainee_file = self.env['detainee.file'].search([('detainee_id', '=', member.id)], limit=1)
+            member.detainee_file_link = detainee_file.id if detainee_file else False
+
+            grant_benefit_member = member.grant_benefit_member_ids.filtered(lambda x: x.grant_benefit_id)
+            member.family_file_link = grant_benefit_member[0].grant_benefit_id.id if grant_benefit_member else False
+
     @api.constrains(
         'social_insurance_state',
         'social_insurance_income',
@@ -317,9 +355,9 @@ class FamilyMember(models.Model):
         for rec in self:
             if rec.social_insurance_state:
                 if not rec.social_security_income or rec.social_security_income == 0.0:
-                    raise ValidationError("Social Security Income must be greater than 0.")
+                    raise ValidationError(_("Social Security Income must be greater than 0."))
                 if not rec.social_insurance_income or rec.social_insurance_income == 0.0:
-                    raise ValidationError("Social Insurance Income must be greater than 0.")
+                    raise ValidationError(_("Social Insurance Income must be greater than 0."))
     def action_confirm(self):
         for record in self:
             all_fields = [
