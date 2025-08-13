@@ -41,6 +41,7 @@
             <field name="arch" type="xml">
                 <form string="Members">
                     <header>
+                        <field name="grant_benefit_member_ids" invisible="1"/>
                         <button name="action_confirm" string="Confirm" type="object" class="oe_highlight"
                                 attrs="{'invisible': [('state', 'not in', ['draft'])]}"/>
 
@@ -309,6 +310,29 @@
                                     <field name="experience_certificate" required="1" widget="many2many_attachment_preview"/>
                                 </group>
                             </page>
+                            <page string="Detainee File" attrs="{'invisible': [('detainee_file_link', '=', False)]}">
+                                <group>
+                                    <field name="detainee_file_link"/>
+                                    <field name="detainee_file_link_name" invisible="1"/>
+                                    <field name="detainee_file_link_file_state"/>
+                                    <field name="detainee_file_link_beneficiary_category" />
+                                    <field name="detainee_file_link_prisoner_state"
+                                           attrs="{'invisible': [('detainee_file_link_beneficiary_category', '!=', 'gust')]}"/>
+                                    <field name="detainee_file_link_entitlement_status"/>
+                                </group>
+
+                            </page>
+                            <page string="Grant Benefit" attrs="{'invisible': [('family_file_link', '=', False)]}">
+                                <group>
+                                    <field name="family_file_link"/>
+                                    <field name="family_file_link_name" invisible="1"/>
+                                    <field name="family_file_link_folder_state"/>
+                                    <field name="family_file_link_beneficiary_category"/>
+                                    <field name="family_file_link_need_calculator"/>
+                                </group>
+
+                            </page>
+
                         </notebook>
                     </sheet>
                     <div class="oe_chatter">
