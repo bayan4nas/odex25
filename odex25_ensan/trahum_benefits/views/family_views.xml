@@ -327,8 +327,9 @@
                                     <field name="family_file_link"/>
                                     <field name="family_file_link_name" invisible="1"/>
                                     <field name="family_file_link_folder_state"/>
-                                    <field name="family_file_link_beneficiary_category"/>
+                                    <field name="family_file_link_beneficiary_category" invisible="1"/>
                                     <field name="family_file_link_need_calculator"/>
+                                    <field name="family_file_link_beneficiary_category_display"/>
                                 </group>
 
                             </page>
@@ -607,41 +608,7 @@
             <field name="padding">4</field>
         </record>
         <!--        end -->
-        <!--        add setting -->
-        <record id="res_config_settings_view_form" model="ir.ui.view">
-            <field name="name">res.config.settings.view.form.inherit.trahum_benefits</field>
-            <field name="model">res.config.settings</field>
-            <field name="priority" eval="15"/>
-            <field name="inherit_id" ref="base.res_config_settings_view_form"/>
-            <field name="arch" type="xml">
-                <xpath expr="//div[hasclass('settings')]" position="inside">
-                    <div class="app_settings_block" data-string="Benfits Management" string="Benfits Management"
-                         data-key="trahum_benefits">
-                        <h2>Benfits Management</h2>
-                        <div class="row mt16 o_settings_container">
-                            <div class="col-12 col-lg-6 o_setting_box">
-                                <div class="o_setting_left_pane"/>
-                                <div class="o_setting_right_pane">
-                                    <span class="o_form_label">Base Line</span>
-                                    <div class="text-muted content-group mt16">
-                                        <field name="base_line_value"/>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </xpath>
-            </field>
-        </record>
-        <record id="res_config_settings_action" model="ir.actions.act_window">
-            <field name="name">Configuration</field>
-            <field name="type">ir.actions.act_window</field>
-            <field name="res_model">res.config.settings</field>
-            <field name="view_mode">form</field>
-            <field name="target">inline</field>
-            <field name="context">{'module' : 'trahum_benefits'}</field>
-        </record>
-        <!--        end -->
+
 
 
     </data>

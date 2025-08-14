@@ -8,10 +8,6 @@ from datetime import date
 from odoo.tools import config
 
 
-class ResConfigSettings(models.TransientModel):
-    _inherit = 'res.config.settings'
-
-    base_line_value = fields.Float(string="Base Line", config_parameter='trahum_benefits.base_line_value')
 
 
 class GrantBenefit(models.Model):
@@ -210,6 +206,94 @@ class GrantBenefit(models.Model):
 
     member_count = fields.Integer(string="Members Count", compute="_compute_member_count", readonly=1)
 
+
+    benefit_member_count = fields.Integer(
+        string=" Count member",
+        compute="_compute_benefit_counts",
+        store=True,
+        readonly=True
+    )
+
+    benefit_breadwinner_count = fields.Integer(
+        string="Benefit Breadwinner Count",
+        compute="_compute_benefit_counts",
+        store=True,
+        readonly=True
+    )
+
+    natural_income = fields.Float(
+        string="Natural Income",
+        compute="_compute_natural_income",
+        store=True,
+        readonly=True
+    )
+
+    need_ratio = fields.Float(
+        string="Need Value Ratio",
+        compute="_compute_need_ratio",
+        store=True,
+        readonly=True
+    )
+    family_need_class_id = fields.Many2one(
+        'family.need.category',
+        string="Family Need Category",
+        compute="_compute_family_need_class",
+        store=True
+    )
+
+    @api.depends('need_ratio')
+    def _compute_family_need_class(self):
+        for rec in self:
+            rec.family_need_class_id = False
+            if rec.need_ratio:
+                category = self.env['family.need.category'].search([
+                    ('min_need', '<=', rec.need_ratio),
+                    ('max_need', '>=', rec.need_ratio)
+                ], order='min_need asc', limit=1)
+                if category:
+                    rec.family_need_class_id = category.id
+
+    @api.depends('total_salary', 'natural_income')
+    def _compute_need_ratio(self):
+        for rec in self:
+            if rec.natural_income:
+                rec.need_ratio = rec.total_salary / rec.natural_income
+            else:
+                rec.need_ratio = 0.0
+
+    @api.depends('benefit_breadwinner_ids',
+                 'members_under_18',
+                 'members_18_and_above')
+    def _compute_natural_income(self):
+        ratio_parent = float(
+            self.env['ir.config_parameter'].sudo().get_param('trahum_benefits.ratio_parent', 0)
+        )
+        ratio_under_18 = float(
+            self.env['ir.config_parameter'].sudo().get_param('trahum_benefits.ratio_under_18', 0)
+        )
+        ratio_above_18 = float(
+            self.env['ir.config_parameter'].sudo().get_param('trahum_benefits.ratio_above_18', 0)
+        )
+        base_line = float(
+            self.env['ir.config_parameter'].sudo().get_param('trahum_benefits.base_line_value', 0)
+        )
+        for rec in self:
+            breadwinner_count = len(rec.benefit_breadwinner_ids)
+            under_18_count = rec.members_under_18
+            above_18_count = rec.members_18_and_above
+
+            rec.natural_income = (
+                    (breadwinner_count * ratio_parent * base_line) +
+                    (under_18_count * ratio_under_18 * base_line) +
+                    (above_18_count * ratio_above_18 * base_line)
+            )
+
+    @api.depends('benefit_member_ids', 'benefit_breadwinner_ids')
+    def _compute_benefit_counts(self):
+        for rec in self:
+            rec.benefit_member_count = len(rec.benefit_member_ids)
+            rec.benefit_breadwinner_count = len(rec.benefit_breadwinner_ids)
+
     @api.depends('benefit_member_ids')
     def _compute_member_count(self):
         self.member_count = 0
@@ -217,6 +301,27 @@ class GrantBenefit(models.Model):
             filtered = rec.benefit_breadwinner_ids.filtered(lambda bw: bw.relation_id.name != 'زوجة مطلقة')
             rec.member_count = len(rec.benefit_member_ids) + len(filtered)
 
+    members_under_18 = fields.Integer(
+        string="Members Under 18",
+        compute="_compute_age_counts",
+        store=True,
+        readonly=True
+    )
+
+    members_18_and_above = fields.Integer(
+        string="Members 18 and Above",
+        compute="_compute_age_counts",
+        store=True,
+        readonly=True
+    )
+
+    @api.depends('benefit_member_ids.member_id.age')
+    def _compute_age_counts(self):
+        for rec in self:
+            under_18 = rec.benefit_member_ids.filtered(lambda m: m.member_id.age < 18)
+            above_18 = rec.benefit_member_ids.filtered(lambda m: m.member_id.age >= 18)
+            rec.members_under_18 = len(under_18)
+            rec.members_18_and_above = len(above_18)
     @api.onchange('benefit_breadwinner_ids')
     def _onchange_benefit_breadwinner_ids(self):
         if len(self.benefit_breadwinner_ids) > 1:
@@ -408,6 +513,17 @@ class GrantBenefit(models.Model):
     delegate_document = fields.Binary(string="Authorization form", attachment=True)
     delegate_family_rel = fields.Char('Delegat Family Relation')
     house_ids = fields.One2many('family.member.house', 'benefit_id', string="House Profile")
+
+    total_salary = fields.Float(
+        string="Total Salary",
+        compute="_compute_total_salary",
+        store=True
+    )
+
+    @api.depends('salary_ids.salary_amount')
+    def _compute_total_salary(self):
+        for benefit in self:
+            benefit.total_salary = sum(benefit.salary_ids.mapped('salary_amount'))
 
     @api.constrains('delegate_mobile')
     def _check_delegate_mobile(self):
