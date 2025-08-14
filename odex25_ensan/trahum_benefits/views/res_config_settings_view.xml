@@ -1,0 +1,63 @@
+<odoo>
+            <!--        add setting -->
+        <record id="res_config_settings_view_form" model="ir.ui.view">
+            <field name="name">res.config.settings.view.form.inherit.trahum_benefits</field>
+            <field name="model">res.config.settings</field>
+            <field name="priority" eval="15"/>
+            <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[hasclass('settings')]" position="inside">
+                    <div class="app_settings_block" data-string="Benfits Management" string="Benfits Management"
+                         data-key="trahum_benefits">
+                        <h2>Needs Calculator</h2>
+                        <div class="row mt16 o_settings_container">
+                            <div class="col-12 col-lg-6 o_setting_box">
+                                <div class="o_setting_left_pane"/>
+                                <div class="o_setting_right_pane">
+                                    <span class="o_form_label">Base Line</span>
+                                    <div class="text-muted content-group mt16">
+                                        <field name="base_line_value"/>
+                                    </div>
+                                </div>
+                                <div class="o_setting_right_pane">
+                                    <span class="o_form_label">Ratio Parent</span>
+                                    <div class="text-muted content-group mt16">
+                                        <field name="ratio_parent"  widget="percentage"/>
+                                    </div>
+                                </div>
+                                <div class="o_setting_right_pane">
+                                    <span class="o_form_label">Ratio Above 18</span>
+                                    <div class="text-muted content-group mt16">
+                                        <field name="ratio_above_18"  widget="percentage"/>
+                                    </div>
+                                </div>
+                                <div class="o_setting_right_pane">
+                                    <span class="o_form_label">Ratio Under 18</span>
+                                    <div class="text-muted content-group mt16">
+                                        <field name="ratio_under_18"  widget="percentage"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+        <record id="res_config_settings_action" model="ir.actions.act_window">
+            <field name="name">Configuration</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.config.settings</field>
+            <field name="view_mode">form</field>
+            <field name="target">inline</field>
+            <field name="context">{'module' : 'trahum_benefits'}</field>
+        </record>
+        <!--        end -->
+            <menuitem
+                id="menu_benefit_setting_root"
+                 name="Benefit Settings"
+                parent="odex_benefit.benefit_tools"
+                sequence="208"
+        />
+                <menuitem id="menu_benefit_setting"  name="Settings"
+                parent="trahum_benefits.menu_benefit_setting_root" action="res_config_settings_action" sequence="20"/>
+</odoo>
