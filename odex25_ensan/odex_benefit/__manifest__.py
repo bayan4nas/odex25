@@ -23,6 +23,7 @@
         'views/actions_and_menus.xml',
         'views/benefit_view.xml',
         'views/users_inherit.xml',
+        'views/branch_details.xml',
         'views/committees_view.xml',
         'views/branch_inherit.xml',
         'views/family_members.xml',

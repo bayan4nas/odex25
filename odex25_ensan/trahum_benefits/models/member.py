@@ -426,23 +426,23 @@ class FamilyMember(models.Model):
     def reset_to_draft(self):
         self.write({'state': 'draft'})
 
-    @api.model
-    def fields_view_get(self, view_id=None, view_type=False, toolbar=False, submenu=False):
-        res = super(FamilyMember, self).fields_view_get(view_id=view_id, view_type=view_type, toolbar=toolbar,
-                                                        submenu=submenu)
-        doc = etree.XML(res['arch'])
-        if view_type == 'form':
-            for node in doc.xpath("//field"):
-                modifiers = json.loads(node.get("modifiers"))
-                if 'readonly' not in modifiers:
-                    modifiers['readonly'] = [('state', 'not in', ['draft'])]
-                else:
-                    if type(modifiers['readonly']) != bool:
-                        modifiers['readonly'].insert(0, '|')
-                        modifiers['readonly'].append(('state', 'not in', ['draft']))
-                node.set("modifiers", json.dumps(modifiers))
-                res['arch'] = etree.tostring(doc)
-        return res
+    # @api.model
+    # def fields_view_get(self, view_id=None, view_type=False, toolbar=False, submenu=False):
+    #     res = super(FamilyMember, self).fields_view_get(view_id=view_id, view_type=view_type, toolbar=toolbar,
+    #                                                     submenu=submenu)
+    #     doc = etree.XML(res['arch'])
+    #     if view_type == 'form':
+    #         for node in doc.xpath("//field"):
+    #             modifiers = json.loads(node.get("modifiers"))
+    #             if 'readonly' not in modifiers:
+    #                 modifiers['readonly'] = [('state', 'not in', ['draft'])]
+    #             else:
+    #                 if type(modifiers['readonly']) != bool:
+    #                     modifiers['readonly'].insert(0, '|')
+    #                     modifiers['readonly'].append(('state', 'not in', ['draft']))
+    #             node.set("modifiers", json.dumps(modifiers))
+    #             res['arch'] = etree.tostring(doc)
+    #     return res
 
     def action_open_salary_income(self):
         self.ensure_one()
