@@ -24,8 +24,7 @@ class ServiceRequest(models.Model):
     family_category = fields.Many2one('benefit.category', string='Family Category',
                                       related='family_id.benefit_category_id')
     benefit_member_count = fields.Integer(string="Benefit Member count", related='family_id.member_count')
-    # compute = 'get_branch_custom_id', store = True
-    branches_custom_id = fields.Many2one('branch.details', string="Branch", )
+    branches_custom_id = fields.Many2one('branch.details', string="Branch", compute='get_branch_custom_id', store=True)
     member_id = fields.Many2one(
         'family.member',
         string='Member',
@@ -258,23 +257,22 @@ class ServiceRequest(models.Model):
             return {'domain': {'detainee_member': [('id', '=', member_id)]}}
         return {'domain': {'detainee_member': []}}
 
-    # @api.depends('benefit_type', 'family_id', 'member_id')
-    # def get_branch_custom_id(self):
-    #     for rec in self:
-    #         branch_id = False
-    #         if rec.benefit_type == 'family' and rec.family_id:
-    #             branch_id = rec.family_id.branch_details_id.id
-    #         elif rec.benefit_type == 'member' and rec.member_id:
-    #             pass
-                # fam = self.env['grant.benefit'].sudo().search(
-                #     [('benefit_member_ids.member_id', '=', rec.member_id.id)],
-                #     limit=1
-                # )
-                # branch_id = fam.branch_details_id.id if fam else False
-            # elif rec.benefit_type == 'detainee' and rec.detainee_file:
-            #     branch_id = rec.detainee_file.branch_id.id
+    @api.depends('benefit_type', 'family_id', 'member_id')
+    def get_branch_custom_id(self):
+        for rec in self:
+            branch_id = False
+            if rec.benefit_type == 'family' and rec.family_id:
+                branch_id = rec.family_id.branch_details_id.id
+            elif rec.benefit_type == 'member' and rec.member_id:
+                fam = self.env['grant.benefit'].search(
+                    [('benefit_member_ids.member_id', '=', rec.member_id.id)],
+                    limit=1
+                )
+                branch_id = fam.branch_details_id.id if fam else False
+            elif rec.benefit_type == 'detainee' and rec.detainee_file:
+                branch_id = rec.detainee_file.branch_id.id
 
-            # rec.branches_custom_id = branch_id
+            rec.branches_custom_id = branch_id
 
     @api.depends('family_id', 'member_id')
     def _compute_member_relation(self):
