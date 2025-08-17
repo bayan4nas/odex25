@@ -275,9 +275,7 @@ class GrantBenefit(models.Model):
     @api.model
     def create(self, vals):
         vals['name'] = _('New')
-        print(vals['name'], 'iiiiiiiiiiiiiii')
         record = super(GrantBenefit, self).create(vals)
-        print('qqqqqqqqqqqqqqqqqq')
         branch = record.branch_details_id
         detainee_name_seq = record.detainee_file_id.name or ''
 

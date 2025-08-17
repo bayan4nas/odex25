@@ -264,7 +264,7 @@ class ServiceRequest(models.Model):
             if rec.benefit_type == 'family' and rec.family_id:
                 branch_id = rec.family_id.branch_details_id.id
             elif rec.benefit_type == 'member' and rec.member_id:
-                fam = self.env['grant.benefit'].search(
+                fam = self.env['grant.benefit'].sudo().search(
                     [('benefit_member_ids.member_id', '=', rec.member_id.id)],
                     limit=1
                 )
