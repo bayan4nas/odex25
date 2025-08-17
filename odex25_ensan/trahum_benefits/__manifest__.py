@@ -42,7 +42,8 @@
         'views/job_title.xml',
         'views/attach_type.xml',
         'views/res_config_settings_view.xml',
-        'views/family_need_category_view.xml'
+        'views/family_need_category_view.xml',
+        'views/family_member_relation_views.xml',
     ],
     # only loaded in demonstration mode
     'demo': [

@@ -288,11 +288,17 @@ class GrantBenefit(models.Model):
                     (above_18_count * ratio_above_18 * base_line)
             )
 
-    @api.depends('benefit_member_ids', 'benefit_breadwinner_ids')
+    @api.depends('benefit_member_ids', 'benefit_breadwinner_ids', 'benefit_breadwinner_ids.relation_id',
+        'benefit_breadwinner_ids.relation_id.exclude_need',)
     def _compute_benefit_counts(self):
         for rec in self:
-            rec.benefit_member_count = len(rec.benefit_member_ids)
-            rec.benefit_breadwinner_count = len(rec.benefit_breadwinner_ids)
+            rec.benefit_member_count = len(rec.benefit_member_ids) + len(rec.benefit_breadwinner_ids)
+            filtered = rec.benefit_breadwinner_ids.filtered(
+                lambda bw: bw.relation_id and not bw.relation_id.exclude_need
+            )
+            rec.benefit_breadwinner_count = len(filtered)
+            rec.benefit_member_count = len(rec.benefit_member_ids) + len(filtered)
+            rec.benefit_breadwinner_count = len(filtered)
 
     @api.depends('benefit_member_ids')
     def _compute_member_count(self):
@@ -453,7 +459,7 @@ class GrantBenefit(models.Model):
                                          string='Comprehensive Rehabilitation')
     salary_ids = fields.One2many('salary.line', 'benefit_id', string='')
     health_data_ids = fields.One2many('family.member', 'benefit_id', string='Health Data')
-    branch_details_id = fields.Many2one(comodel_name='branch.details', string='Branch Name', tracking=True, required=1)
+
     breadwinner_name = fields.Many2one('family.member', 'Breadwinner')
     relation_id = fields.Many2one('family.member.relation', string='Relation')
 
