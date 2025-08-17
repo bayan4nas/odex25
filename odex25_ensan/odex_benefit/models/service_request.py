@@ -1,31 +1,36 @@
+from multiprocessing.connection import families
+
 from odoo import fields, models, api, _
 from odoo.exceptions import UserError, ValidationError
 from datetime import timedelta
 from dateutil.relativedelta import relativedelta
 
+
 class ServiceRequest(models.Model):
     _name = 'service.request'
     _inherit = ['mail.thread', 'mail.activity.mixin']
 
-    name = fields.Char(string='Reference', required=True, copy=False, readonly=True, index=True,default=lambda self: _('New'))
+    name = fields.Char(string='Reference', required=True, copy=False, readonly=True, index=True,
+                       default=lambda self: _('New'))
     # family_id = fields.Many2one('grant.benefit',string='Family')
     # is_main_service = fields.Boolean(string='Is Main Service?')
     # max_amount_for_student = fields.Float(string='Max Amount for Student')
     # raise_amount_for_orphan = fields.Float(string='Raise Amount For Orphan')
     # rent_lines = fields.One2many('rent.lines','services_settings_id')
-    benefit_type = fields.Selection(string='Benefit Type',selection=[('family', 'Family'),('member', 'Member')])
-    date = fields.Datetime(string='Request Date',default=fields.Datetime.now)
-    family_id = fields.Many2one('grant.benefit',string='Family',domain="[('state', 'in', ['approve', 'approved'])]")
-    family_category = fields.Many2one('benefit.category',string='Family Category',related='family_id.benefit_category_id')
+    benefit_type = fields.Selection(string='Benefit Type',
+                                    selection=[('family', 'Family'), ('member', 'Member'), ('detainee', 'Detainee')])
+    date = fields.Datetime(string='Request Date', default=fields.Datetime.now)
+    family_id = fields.Many2one('grant.benefit', string='Family',)
+    family_category = fields.Many2one('benefit.category', string='Family Category',
+                                      related='family_id.benefit_category_id')
     benefit_member_count = fields.Integer(string="Benefit Member count", related='family_id.member_count')
-    branch_custom_id = fields.Many2one('branch.settings', string="Branch",related='family_id.branch_custom_id',store=True)
+    branches_custom_id = fields.Many2one('branch.details', string="Branch", compute='get_branch_custom_id', store=True)
     member_id = fields.Many2one(
         'family.member',
         string='Member',
-        domain=[]
     )
-
-
+    detainee_member = fields.Many2one('family.member', string='Detainee')
+    detainee_file = fields.Many2one('detainee.file', string='Detainee File')
 
     description = fields.Char(string='Description')
     need_status_id = fields.Many2one(
@@ -54,33 +59,39 @@ class ServiceRequest(models.Model):
         store=True,
         readonly=True,
     )
-    need_products = fields.Boolean(related="delivery_method_id.need_products",)
+    need_products = fields.Boolean(related="delivery_method_id.need_products", )
 
-
-    main_service_category = fields.Many2one('services.settings',domain="[('is_main_service','=',True)]",string="Main Service Category")
-    sub_service_category = fields.Many2one('services.settings',domain="[('is_main_service','=',False),('service_type','=',False),('parent_service','=',main_service_category)]",string='Sub Service Category')
-    service_cat = fields.Many2one('services.settings',string='Service Cat.')
+    main_service_category = fields.Many2one('services.settings', domain="[('is_main_service','=',True)]",
+                                            string="Main Service Category")
+    sub_service_category = fields.Many2one('services.settings',
+                                           domain="[('is_main_service','=',False),('service_type','=',False),('parent_service','=',main_service_category)]",
+                                           string='Sub Service Category')
+    service_cat = fields.Many2one('services.settings', string='Service Cat.')
     # service_attach = fields.Many2many('ir.attachment', 'rel_service_attachment_service_request', 'service_request_id','attachment_id', string='Service Attachment')
     requested_service_amount = fields.Float(string="Requested Service Amount")
-    #yearly Estimated Rent Amount
-    estimated_rent_amount = fields.Float(string="Estimated Rent Amount",compute="_get_estimated_rent_amount")
-    #The value of payment by payment method(yearly-half-quartarly)
-    estimated_rent_amount_payment = fields.Float(string="Estimated Rent Amount Payment",compute="_get_estimated_rent_amount_payment")
-    paid_rent_amount = fields.Float(string="Paid Rent Amount",compute="_get_paid_rent_amount")
-    service_type = fields.Selection([('rent', 'Rent')],string='Service Type',related='service_cat.service_type')
+    # yearly Estimated Rent Amount
+    estimated_rent_amount = fields.Float(string="Estimated Rent Amount", compute="_get_estimated_rent_amount")
+    # The value of payment by payment method(yearly-half-quartarly)
+    estimated_rent_amount_payment = fields.Float(string="Estimated Rent Amount Payment",
+                                                 compute="_get_estimated_rent_amount_payment")
+    paid_rent_amount = fields.Float(string="Paid Rent Amount", compute="_get_paid_rent_amount")
+    service_type = fields.Selection([('rent', 'Rent')], string='Service Type', related='service_cat.service_type')
     # is_alternative_housing = fields.Boolean(string='Is Alternative Housing?')
-    rent_contract_number = fields.Char(string="Rent Contract Number",compute='_compute_rent_details',store=True)
-    rent_start_date = fields.Date(string='Rent Start Date',compute='_compute_rent_details',store=True)
-    rent_end_date = fields.Date(string='Rent End Date' ,compute='_compute_rent_details',store=True)
-    rent_amount = fields.Float(string='Rent Amount',compute='_compute_rent_details',store=True)
-    rent_amount_payment = fields.Float(string='Rent Amount Payment',compute ='_get_rent_amount_payment')
-    payment_type = fields.Selection([('1', 'Yearly'),('2', 'Half Year'),('4', 'Quarterly')],string='Payment Type',compute='_compute_rent_details',store=True)
-    rent_attachment = fields.Many2many('ir.attachment', 'rel_rent_attachment_service_request', 'service_request_id', 'attachment_id',string='Rent Attachment',compute='_compute_rent_details',store=True)
+    rent_contract_number = fields.Char(string="Rent Contract Number", compute='_compute_rent_details', store=True)
+    rent_start_date = fields.Date(string='Rent Start Date', compute='_compute_rent_details', store=True)
+    rent_end_date = fields.Date(string='Rent End Date', compute='_compute_rent_details', store=True)
+    rent_amount = fields.Float(string='Rent Amount', compute='_compute_rent_details', store=True)
+    rent_amount_payment = fields.Float(string='Rent Amount Payment', compute='_get_rent_amount_payment')
+    payment_type = fields.Selection([('1', 'Yearly'), ('2', 'Half Year'), ('4', 'Quarterly')], string='Payment Type',
+                                    compute='_compute_rent_details', store=True)
+    rent_attachment = fields.Many2many('ir.attachment', 'rel_rent_attachment_service_request', 'service_request_id',
+                                       'attachment_id', string='Rent Attachment', compute='_compute_rent_details',
+                                       store=True)
     rent_payment_date = fields.Date(string='Rent Payment Date')
     rent_payment_date_exception = fields.Boolean(string='Rent Payment Date Exception?')
     start = fields.Date(string="Start Date")
     end = fields.Date(string='End Date')
-    #New Rent Contract
+    # New Rent Contract
     new_rent_contract = fields.Boolean(string='New Rent Contract?')
     new_start = fields.Date(string="Start Date")
     new_end = fields.Date(string='End Date')
@@ -88,54 +99,66 @@ class ServiceRequest(models.Model):
     new_rent_start_date = fields.Date(string='Rent Start Date')
     new_rent_end_date = fields.Date(string='Rent End Date')
     new_rent_amount = fields.Float(string='Rent Amount')
-    new_rent_amount_payment = fields.Float(string='New Rent Amount Payment',compute='_get_new_rent_amount_payment')
-    new_payment_type = fields.Selection([('1', 'Yearly'), ('2', 'Half Year'), ('4', 'Quarterly')], string='Payment Type')
+    new_rent_amount_payment = fields.Float(string='New Rent Amount Payment', compute='_get_new_rent_amount_payment')
+    new_payment_type = fields.Selection([('1', 'Yearly'), ('2', 'Half Year'), ('4', 'Quarterly')],
+                                        string='Payment Type')
     new_rent_attachment = fields.Many2many('ir.attachment', 'rel_rent_attachment_service_request', 'service_request_id',
-                                       'attachment_id', string='Rent Attachment')
+                                           'attachment_id', string='Rent Attachment')
     new_rent_payment_date = fields.Date(string='Rent Payment Date')
     new_rent_payment_date_exception = fields.Boolean(string='Rent Payment Date Exception?')
     # Rent details for member
     member_rent_contract_number = fields.Char(string="Rent Contract Number")
     member_rent_start_date = fields.Date(string='Rent Start Date')
     member_rent_end_date = fields.Date(string='Rent End Date')
-    member_rent_attachment = fields.Many2many('ir.attachment', 'rel_member_rent_attachment_service_request', 'service_request_id',
-                                       'attachment_id', string='Rent Attachment')
-    added_amount_if_mother_dead = fields.Float(string="Added Amount (If mother dead)",compute="_get_added_amount_if_mother_dead")
-    attachment_lines = fields.One2many('service.attachments.settings','service_request_id',related='service_cat.attachment_lines',readonly=False)
-    account_id = fields.Many2one('account.account',string='Expenses Account',related='service_cat.account_id')
-    device_account_id = fields.Many2one('account.account',string='Expenses Account',related='device_id.account_id')
-    accountant_id = fields.Many2one('res.users',string='Accountant',related='service_cat.accountant_id',readonly=False)
-    service_producer_id = fields.Many2one('res.partner',string='Service Producer',related='service_cat.service_producer_id')
-    is_service_producer = fields.Boolean(string='Is Service Producer?',related='service_cat.is_service_producer')
+    member_rent_attachment = fields.Many2many('ir.attachment', 'rel_member_rent_attachment_service_request',
+                                              'service_request_id',
+                                              'attachment_id', string='Rent Attachment')
+    added_amount_if_mother_dead = fields.Float(string="Added Amount (If mother dead)",
+                                               compute="_get_added_amount_if_mother_dead")
+    attachment_lines = fields.One2many('service.attachments.settings', 'service_request_id',
+                                       related='service_cat.attachment_lines', readonly=False)
+    account_id = fields.Many2one('account.account', string='Expenses Account', related='service_cat.account_id')
+    device_account_id = fields.Many2one('account.account', string='Expenses Account', related='device_id.account_id')
+    accountant_id = fields.Many2one('res.users', string='Accountant', related='service_cat.accountant_id',
+                                    readonly=False)
+    service_producer_id = fields.Many2one('res.partner', string='Service Producer',
+                                          related='service_cat.service_producer_id')
+    is_service_producer = fields.Boolean(string='Is Service Producer?', related='service_cat.is_service_producer')
     # maintenance_items_id = fields.Many2one('home.maintenance.lines', string="Maintenance Items")
-    maintenance_items_ids = fields.One2many('home.maintenance.items','service_request_id', string="Maintenance Items",)
-    #Home restoration fields
-    restoration_max_amount = fields.Float(string='Restoration Max Amount',compute='_get_restoration_max_amount')
-    has_money_to_pay_first_payment = fields.Selection([('yes', 'Yes'), ('no', 'No')],string='Has money to pay first payment?')
-    has_money_field_is_appearance = fields.Boolean(string='Has money Field is appearance?',compute='_get_money_field_is_appearance')
-    payment_order_id = fields.Many2one('payment.orders',string='Payment Order')
+    maintenance_items_ids = fields.One2many('home.maintenance.items', 'service_request_id',
+                                            string="Maintenance Items", )
+    # Home restoration fields
+    restoration_max_amount = fields.Float(string='Restoration Max Amount', compute='_get_restoration_max_amount')
+    has_money_to_pay_first_payment = fields.Selection([('yes', 'Yes'), ('no', 'No')],
+                                                      string='Has money to pay first payment?')
+    has_money_field_is_appearance = fields.Boolean(string='Has money Field is appearance?',
+                                                   compute='_get_money_field_is_appearance')
+    payment_order_id = fields.Many2one('payment.orders', string='Payment Order')
     is_payment_order_done = fields.Boolean(string='Is Payment Order Done?')
-    aid_amount = fields.Float(string='Aid Amount',compute='_get_aid_amount')
-    #Fields for alternative house
+    aid_amount = fields.Float(string='Aid Amount', compute='_get_aid_amount')
+    # Fields for alternative house
     providing_alternative_housing_based_rent = fields.Boolean(string='Providing alternative housing based on rent')
-    rent_for_alternative_housing = fields.Many2one('services.settings',compute='_get_rent_for_alternative_housing')
+    rent_for_alternative_housing = fields.Many2one('services.settings', compute='_get_rent_for_alternative_housing')
 
     # this field for complete building house service
-    has_money_for_payment_is_appearance = fields.Boolean(string='Has money Field is appearance?',compute='_get_money_for_payment_is_appearance')
+    has_money_for_payment_is_appearance = fields.Boolean(string='Has money Field is appearance?',
+                                                         compute='_get_money_for_payment_is_appearance')
     has_money_for_payment = fields.Selection([('yes', 'Yes'), ('no', 'No')], string='Has money for payment?')
-    max_complete_building_house_amount = fields.Float(string='Max Complete Building House Amount',related='service_cat.max_complete_building_house_amount')
-    #Fields for electrical_devices service
-    device_id = fields.Many2one('electrical.devices',string='Device',domain="[('min_count_member','<=',benefit_member_count),('max_count_member','>=',benefit_member_count)]")
+    max_complete_building_house_amount = fields.Float(string='Max Complete Building House Amount',
+                                                      related='service_cat.max_complete_building_house_amount')
+    # Fields for electrical_devices service
+    device_id = fields.Many2one('electrical.devices', string='Device',
+                                domain="[('min_count_member','<=',benefit_member_count),('max_count_member','>=',benefit_member_count)]")
     vendor_bill = fields.Many2one('account.move')
     requested_quantity = fields.Integer(string='Requested Quantity')
     exception_or_steal = fields.Boolean(string='Exception Or Steal?')
-    #Home furnishing Exception
+    # Home furnishing Exception
     home_furnishing_exception = fields.Boolean(string='Exception(Fire Or Steal or Natural disaster)')
-    furnishing_items_ids = fields.One2many('home.furnishing.items','service_request_id', string="Furnishing Items")
-    #Electricity_bill
+    furnishing_items_ids = fields.One2many('home.furnishing.items', 'service_request_id', string="Furnishing Items")
+    # Electricity_bill
     max_electricity_bill_amount = fields.Float(string='Max Electricity Bill Amount')
     max_water_bill_amount = fields.Float(string='Max Water Bill Amount')
-    #Transportation insurance
+    # Transportation insurance
     service_reason = fields.Selection(selection=[
         ('government_transportation', 'Government Transportation'),
         ('universities_training_institutes_transportation', 'Universities Training Institutes Transportation'),
@@ -143,10 +166,11 @@ class ServiceRequest(models.Model):
         ('programs_transportation', 'Programs Transportation'),
     ], string='Service Reason')
     max_government_transportation_amount = fields.Float(string='Max Government Transportation Amount')
-    max_universities_training_institutes_transportation_amount = fields.Float(string='Max Universities Training Institutes Transportation Amount')
+    max_universities_training_institutes_transportation_amount = fields.Float(
+        string='Max Universities Training Institutes Transportation Amount')
     max_hospitals_transportation_amount = fields.Float(string='Max Hospitals Transportation Amount')
     max_programs_transportation_amount = fields.Float(string='Max Programs Transportation Amount')
-    requests_counts = fields.Integer(string='Requests Counts',default = 1)
+    requests_counts = fields.Integer(string='Requests Counts', default=1)
     # Marriage
     member_age = fields.Integer(string="Member Age", related="member_id.age")
     member_payroll = fields.Float(string="Member Payroll", related="member_id.member_income")
@@ -154,57 +178,57 @@ class ServiceRequest(models.Model):
         ('yes', 'Yes'),
         ('no', 'No'),
     ], string='Has Marriage Course')
-    #Eid Gift
-    eid_gift_benefit_count = fields.Integer(string='Eid Gift Benefit Count',compute="_get_eid_gift_benefit_count")
-    #Buy home
-    amount_for_buy_home_for_member_count = fields.Float(string="Amount For Buy Home for member count",compute='_get_amount_for_buy_home')
+    # Eid Gift
+    eid_gift_benefit_count = fields.Integer(string='Eid Gift Benefit Count', compute="_get_eid_gift_benefit_count")
+    # Buy home
+    amount_for_buy_home_for_member_count = fields.Float(string="Amount For Buy Home for member count",
+                                                        compute='_get_amount_for_buy_home')
     home_age = fields.Integer(string='Home Age')
-    state = fields.Selection( selection = [
-            ('draft', 'Draft'),
-            ('researcher', 'Researcher'),
-            ('send_request', 'Send Request'),
-            ('first_approve', 'Request First Approve'),
-            ('second_approve', 'Request Second Approve'),
-            ('accounting_approve', 'Accounting Approve'),
-            ('send_request_to_supplier', 'Send Request To Supplier'),
-            ('family_received_device', 'Family Received Device'),
-            ('refused', 'Refused')
-        ], string='state',default='draft', tracking=True)
+    state = fields.Selection(selection=[
+        ('draft', 'Draft'),
+        ('researcher', 'Researcher'),
+        ('send_request', 'Send Request'),
+        ('first_approve', 'Request First Approve'),
+        ('second_approve', 'Request Second Approve'),
+        ('accounting_approve', 'Accounting Approve'),
+        ('send_request_to_supplier', 'Send Request To Supplier'),
+        ('family_received_device', 'Family Received Device'),
+        ('refused', 'Refused')
+    ], string='state', default='draft', tracking=True)
     state_a = fields.Selection(related='state', tracking=False)
     state_b = fields.Selection(related='state', tracking=False)
     line_ids = fields.One2many('service.request.line', 'request_id', string='Product Lines')
-
-
-
 
     benefit_breadwinner_ids = fields.One2many(
         related='family_id.benefit_breadwinner_ids',
         string="Benefit breadwinner"
     )
 
-    member_id_number = fields.Char(string="Id Number",related="member_id.member_id_number" ,readonly=True)
-    beneficiary_category = fields.Selection(related="family_id.beneficiary_category", string="Member Status", store=True,
-                                     readonly=True)
+    member_id_number = fields.Char(string="Id Number", related="member_id.member_id_number", readonly=True)
+    beneficiary_category = fields.Selection(related="family_id.beneficiary_category", string="Member Status",
+                                            store=True,
+                                            readonly=True)
 
-    member_id_phone = fields.Char(string="Contact Phone",related="member_id.member_phone")
+    member_id_phone = fields.Char(string="Contact Phone", related="member_id.member_phone")
     need_calculator = fields.Selection(related="family_id.need_calculator", string="Need Calculator", store=True,
-                                     readonly=True)
-    member_name= fields.Char(string="Name",related="member_id.name")
+                                       readonly=True)
+    member_name = fields.Char(string="Name", related="member_id.name")
     first_breadwinner_id = fields.Many2one(
         'grant.benefit.breadwinner',
         string="First Breadwinner",
         compute="_compute_first_breadwinner",
         store=True
     )
-    family_id_member_name = fields.Char(string="Name",related="first_breadwinner_id.member_name.name")
-    family_id_member_id_number = fields.Char(string="Id Number",related="first_breadwinner_id.member_name.member_id_number" ,readonly=True)
+    family_id_member_name = fields.Char(string="Name", related="first_breadwinner_id.member_name.name")
+    family_id_member_id_number = fields.Char(string="Id Number",
+                                             related="first_breadwinner_id.member_name.member_id_number", readonly=True)
     family_id_relationn = fields.Char(
         related="first_breadwinner_id.relation_id.name",
         string="Relation",
         readonly=True,
 
     )
-    family_id_phone = fields.Char(string="Contact Phone",related="first_breadwinner_id.member_name.member_phone")
+    family_id_phone = fields.Char(string="Contact Phone", related="first_breadwinner_id.member_name.member_phone")
     member_id_relationn = fields.Char(
         string="Relation",
         compute="_compute_member_relation",
@@ -217,6 +241,39 @@ class ServiceRequest(models.Model):
     def _compute_allowed_members(self):
         for rec in self:
             rec.allowed_member_ids = rec.family_id.benefit_member_ids.mapped('member_id')
+
+    # @api.depends('member_id')
+    # def compute_allowed_family(self):
+    #     for rec in self:
+    #         if rec.member_id.family_file_link:
+    #             family_id = rec.env['grant.benefit'].search([('id', '=', rec.member_id.family_file_link.id)],
+    #                                                             limit=1).id
+    #             return {'domain': {'family_id': [('id', '=', family_id),('state','=','approved')]}}
+
+    @api.onchange('detainee_file')
+    def _onchange_detainee_file_id(self):
+        if self.detainee_file:
+            member_id = self.detainee_file.detainee_id.id
+            return {'domain': {'detainee_member': [('id', '=', member_id)]}}
+        return {'domain': {'detainee_member': []}}
+
+    @api.depends('benefit_type', 'family_id', 'member_id')
+    def get_branch_custom_id(self):
+        for rec in self:
+            branch_id = False
+            if rec.benefit_type == 'family' and rec.family_id:
+                branch_id = rec.family_id.branch_details_id.id
+            elif rec.benefit_type == 'member' and rec.member_id:
+                fam = self.env['grant.benefit'].search(
+                    [('benefit_member_ids.member_id', '=', rec.member_id.id)],
+                    limit=1
+                )
+                branch_id = fam.branch_details_id.id if fam else False
+            elif rec.benefit_type == 'detainee' and rec.detainee_file:
+                branch_id = rec.detainee_file.branch_id.id
+
+            rec.branches_custom_id = branch_id
+
     @api.depends('family_id', 'member_id')
     def _compute_member_relation(self):
         for rec in self:
@@ -236,7 +293,7 @@ class ServiceRequest(models.Model):
             else:
                 rec.first_breadwinner_id = False
 
-    @api.onchange('family_id','member_id')
+    @api.onchange('family_id', 'member_id')
     def _onchange_family_id(self):
         if self.family_id:
             member_ids = self.family_id.benefit_member_ids.mapped('member_id.id')
@@ -249,19 +306,22 @@ class ServiceRequest(models.Model):
                 return {
                     'domain': {'member_id': [('id', '=', 0)]}
                 }
-        else:
-            self.member_id = False
+        elif self.member_id:
+            families = self.member_id.family_file_link.id
+            print(families, 'family_file_link')
             return {
-                'domain': {'member_id': [('id', '=', 0)]}
+                'domain': {'family_id': [('id', '=', families)]}
             }
 
     @api.model
     def search(self, args, offset=0, limit=None, order=None, count=False):
-        if self.env.user and self.env.user.id and self.env.user.has_group("odex_benefit.group_benefit_accountant_accept")\
-                and not self.env.user.has_group("odex_benefit.group_benefit_payment_accountant_accept") :
+        if self.env.user and self.env.user.id and self.env.user.has_group(
+                "odex_benefit.group_benefit_accountant_accept") \
+                and not self.env.user.has_group("odex_benefit.group_benefit_payment_accountant_accept"):
             args += [('accountant_id', '=', self.env.user.id)]
-        if self.env.user and self.env.user.id and self.env.user.has_group("odex_benefit.group_benefit_accountant_accept")\
-                and self.env.user.has_group("odex_benefit.group_benefit_payment_accountant_accept") :
+        if self.env.user and self.env.user.id and self.env.user.has_group(
+                "odex_benefit.group_benefit_accountant_accept") \
+                and self.env.user.has_group("odex_benefit.group_benefit_payment_accountant_accept"):
             args += []
         return super(ServiceRequest, self).search(args, offset, limit, order, count)
 
@@ -313,13 +373,13 @@ class ServiceRequest(models.Model):
                 if record.family_id:
                     # Prepare values for family_id write
                     update_values = {}
-                     # Add fields to update_values only if they exist in vals
+                    # Add fields to update_values only if they exist in vals
                     if 'new_rent_contract_number' in vals:
                         update_values['contract_num'] = vals['new_rent_contract_number']
                     if 'new_rent_start_date' in vals:
                         update_values['rent_start_date'] = vals['new_rent_start_date']
                     if 'new_rent_end_date' in vals:
-                        update_values['rent_end_date'] =  vals['new_rent_end_date']
+                        update_values['rent_end_date'] = vals['new_rent_end_date']
                     if 'new_rent_amount' in vals:
                         update_values['rent_amount'] = vals['new_rent_amount']
                     if 'new_payment_type' in vals:
@@ -369,7 +429,7 @@ class ServiceRequest(models.Model):
                         continue
 
                     # Determine rent amount based on branch type and property type
-                    branch_type = rec.family_id.branch_custom_id.branch_type
+                    branch_type = rec.family_id.branches_custom_id.branch_type
                     is_shared_rent = rec.family_id.property_type == 'rent_shared'
 
                     if branch_type == 'branches':
@@ -385,7 +445,7 @@ class ServiceRequest(models.Model):
                         continue
 
                     # Determine rent amount based on branch type and property type
-                    branch_type = rec.family_id.branch_custom_id.branch_type
+                    branch_type = rec.family_id.branches_custom_id.branch_type
                     is_shared_rent = rec.family_id.property_type == 'rent_shared'
 
                     if branch_type == 'branches':
@@ -409,6 +469,7 @@ class ServiceRequest(models.Model):
                 rec.rent_amount_payment = rec.rent_amount / int(rec.payment_type)
             else:
                 rec.rent_amount_payment = 0.0
+
     def _get_new_rent_amount_payment(self):
         for rec in self:
             if rec.new_rent_amount and rec.new_payment_type:
@@ -425,7 +486,8 @@ class ServiceRequest(models.Model):
             rec.added_amount_if_mother_dead = 0.0
             if rec.family_id.mother_marital_conf.is_dead:
                 rec.added_amount_if_mother_dead = rec.service_cat.raise_amount_for_orphan
-    @api.depends('service_cat','family_id')
+
+    @api.depends('service_cat', 'family_id')
     def _get_restoration_max_amount(self):
         self.restoration_max_amount = 0.0
         for line in self.service_cat.home_restoration_lines:
@@ -433,10 +495,11 @@ class ServiceRequest(models.Model):
                 self.restoration_max_amount = line.max_amount
             # else:
             #     self.restoration_max_amount = 0.0
+
     @api.depends('requested_service_amount', 'restoration_max_amount')
     def _get_money_field_is_appearance(self):
         for rec in self:
-            if rec.requested_service_amount and rec.restoration_max_amount and rec.requested_service_amount > rec.restoration_max_amount :
+            if rec.requested_service_amount and rec.restoration_max_amount and rec.requested_service_amount > rec.restoration_max_amount:
                 rec.has_money_field_is_appearance = True
             else:
                 rec.has_money_field_is_appearance = False
@@ -459,28 +522,34 @@ class ServiceRequest(models.Model):
     def _get_rent_for_alternative_housing(self):
         for rec in self:
             if rec.service_cat.service_type == 'alternative_housing':
-                rec.rent_for_alternative_housing = self.env['services.settings'].search([('service_type','=','rent')],limit=1).id
+                rec.rent_for_alternative_housing = self.env['services.settings'].search([('service_type', '=', 'rent')],
+                                                                                        limit=1).id
             else:
                 rec.rent_for_alternative_housing = False
+
     @api.depends('family_id')
     def _get_eid_gift_benefit_count(self):
         for rec in self:
             rec.eid_gift_benefit_count = 0
             if rec.family_id:
-                rec.eid_gift_benefit_count = len(rec.family_id.member_ids.filtered(lambda x: x.age <= rec.service_cat.member_max_age))
-    @api.onchange('requests_counts','service_type')
+                rec.eid_gift_benefit_count = len(
+                    rec.family_id.member_ids.filtered(lambda x: x.age <= rec.service_cat.member_max_age))
+
+    @api.onchange('requests_counts', 'service_type')
     def _get_max_transportation_amounts(self):
         for rec in self:
             rec.max_government_transportation_amount = rec.requests_counts * rec.service_cat.max_government_transportation_amount
             rec.max_universities_training_institutes_transportation_amount = rec.requests_counts * rec.service_cat.max_universities_training_institutes_transportation_amount
             rec.max_hospitals_transportation_amount = rec.requests_counts * rec.service_cat.max_hospitals_transportation_amount
             rec.max_programs_transportation_amount = rec.requests_counts * rec.service_cat.max_programs_transportation_amount
-    @api.depends('service_cat','family_id')
+
+    @api.depends('service_cat', 'family_id')
     def _get_amount_for_buy_home(self):
         for rec in self:
             rec.amount_for_buy_home_for_member_count = 0
             if rec.service_type == 'buy_home':
-               rec.amount_for_buy_home_for_member_count = (rec.service_cat.buy_home_lines.filtered(lambda x : x.min_count_member <= rec.benefit_member_count <= rec.benefit_member_count)).amount_for_buy_home
+                rec.amount_for_buy_home_for_member_count = (rec.service_cat.buy_home_lines.filtered(lambda
+                                                                                                        x: x.min_count_member <= rec.benefit_member_count <= rec.benefit_member_count)).amount_for_buy_home
 
     def action_for_researcher(self):
         for rec in self:
@@ -520,7 +589,7 @@ class ServiceRequest(models.Model):
         for rec in self:
             rec.state = 'refused'
 
-    @api.onchange('service_cat','family_id')
+    @api.onchange('service_cat', 'family_id')
     def onchange_service_cat(self):
         for rec in self:
             if rec.service_cat.service_type == 'rent' and rec.family_id.property_type != 'rent' and rec.family_id.property_type != 'rent_shared' and rec.benefit_type == 'family':
@@ -528,7 +597,7 @@ class ServiceRequest(models.Model):
             if rec.service_cat.service_type == 'home_restoration' and rec.family_id.property_type != 'ownership' and rec.family_id.property_type != 'ownership_shared' and rec.family_id.property_type != 'charitable' and rec.benefit_type == 'family':
                 raise UserError(_("You cannot benefit from this service (property type not ownership)"))
 
-    @api.onchange('rent_payment_date','new_rent_payment_date')
+    @api.onchange('rent_payment_date', 'new_rent_payment_date')
     def onchange_rent_payment_date(self):
         today_date = fields.Date.today()
         for rec in self:
@@ -548,7 +617,7 @@ class ServiceRequest(models.Model):
             furnishing_cost_sum += rec.furnishing_cost
         self.requested_service_amount = furnishing_cost_sum
 
-    @api.onchange('member_id','family_id','eid_gift_benefit_count','service_cat')
+    @api.onchange('member_id', 'family_id', 'eid_gift_benefit_count', 'service_cat')
     def _onchange_member(self):
         for rec in self:
             if rec.benefit_type == 'member' and rec.service_type == 'marriage':
@@ -568,15 +637,17 @@ class ServiceRequest(models.Model):
             if rec.benefit_type == 'family' and rec.service_type == 'ramadan_basket':
                 rec.requested_service_amount = rec.service_cat.ramadan_basket_member_amount
 
-
-    @api.onchange('service_cat','family_id')
+    @api.onchange('service_cat', 'family_id')
     def _onchange_service_cat(self):
-        electricity_bill_amount = self.service_cat.electricity_bill_lines.filtered(lambda x : x.benefit_category_id.id == self.family_category.id and  x.max_count_member > self.benefit_member_count >  x.min_count_member )
-        water_bill_amount = self.service_cat.water_bill_lines.filtered(lambda x : x.benefit_category_id.id == self.family_category.id and  x.max_count_member > self.benefit_member_count >  x.min_count_member )
+        electricity_bill_amount = self.service_cat.electricity_bill_lines.filtered(lambda
+                                                                                       x: x.benefit_category_id.id == self.family_category.id and x.max_count_member > self.benefit_member_count > x.min_count_member)
+        water_bill_amount = self.service_cat.water_bill_lines.filtered(lambda
+                                                                           x: x.benefit_category_id.id == self.family_category.id and x.max_count_member > self.benefit_member_count > x.min_count_member)
         self.max_electricity_bill_amount = electricity_bill_amount.max_amount_for_electricity_bill
         self.max_water_bill_amount = water_bill_amount.max_amount_for_water_bill
 
-    @api.onchange('requested_service_amount', 'benefit_type', 'date','service_cat','family_id','exception_or_steal','home_furnishing_exception','has_marriage_course','home_age')
+    @api.onchange('requested_service_amount', 'benefit_type', 'date', 'service_cat', 'family_id', 'exception_or_steal',
+                  'home_furnishing_exception', 'has_marriage_course', 'home_age')
     def onchange_requested_service_amount(self):
         res = {}
         today = fields.Date.today()
@@ -724,7 +795,7 @@ class ServiceRequest(models.Model):
                 domain = [
                     ('family_id', '=', self.family_id.id),
                     ('service_cat.service_type', '=', 'water_bill'),
-                    ('date', '>', date_before_year),('id','!=',self._origin.id)
+                    ('date', '>', date_before_year), ('id', '!=', self._origin.id)
                 ]
                 # Search for existing requests
                 existing_requests_within_year = self.search(domain)
@@ -926,8 +997,7 @@ class ServiceRequest(models.Model):
                     raise UserError(
                         _("You cannot request this service Again Because the home Age More than %s") % rec.service_cat.home_age)
 
-
-    @api.onchange('requested_quantity','benefit_type')
+    @api.onchange('requested_quantity', 'benefit_type')
     def onchange_requested_quantity(self):
         res = {}
         for rec in self:
@@ -943,7 +1013,8 @@ class ServiceRequest(models.Model):
             if rec.member_id and rec.member_id.member_location != 'study_inside_saudi_arabia' and rec.service_type == 'rent':
                 raise UserError(_("You Cannot request Service if you not study inside Saudi Arabia"))
 
-    @api.onchange('start', 'end', 'rent_start_date', 'rent_end_date','new_start', 'new_end', 'new_rent_start_date', 'new_rent_end_date', 'new_rent_contract')
+    @api.onchange('start', 'end', 'rent_start_date', 'rent_end_date', 'new_start', 'new_end', 'new_rent_start_date',
+                  'new_rent_end_date', 'new_rent_contract')
     def _check_date_range(self):
         for rec in self:
             # Ensure both start and end dates are set
@@ -953,7 +1024,7 @@ class ServiceRequest(models.Model):
                         rec.rent_start_date <= rec.end <= rec.rent_end_date):
                     raise UserError(
                         "The Start Date and End Date must be within the Rent Start Date and Rent End Date range.")
-            if rec.new_start and rec.new_end and rec.new_rent_start_date and rec.new_rent_end_date and rec.new_rent_contract :
+            if rec.new_start and rec.new_end and rec.new_rent_start_date and rec.new_rent_end_date and rec.new_rent_contract:
                 # Check if `start` and `end` are within `rent_start_date` and `rent_end_date`
                 if not (rec.new_rent_start_date <= rec.new_start <= rec.new_rent_end_date and
                         rec.new_rent_start_date <= rec.new_end <= rec.new_rent_end_date):
@@ -966,7 +1037,7 @@ class ServiceRequest(models.Model):
         domain = []
         if self.benefit_type == 'family':
             domain = [
-                '|','|','|','|',
+                '|', '|', '|', '|',
                 ('rent_lines.benefit_category_id', 'in', [self.family_category.id]),
                 ('home_restoration_lines.benefit_category_id', 'in', [self.family_category.id]),
                 ('electricity_bill_lines.benefit_category_id', 'in', [self.family_category.id]),
@@ -985,14 +1056,14 @@ class ServiceRequest(models.Model):
                 ('is_main_service', '=', False),
                 ('service_type', '!=', False),
                 ('parent_service', '=', self.sub_service_category.id),
-                ('is_this_service_for_student','=',True)
+                ('is_this_service_for_student', '=', True)
             ]
             # Apply the domain
         return {'domain': {'service_cat': domain}}
 
     def action_set_to_draft(self):
-     for rec in self:
-         rec.state= 'draft'
+        for rec in self:
+            rec.state = 'draft'
 
     def action_open_exchange_order_wizard(self):
         ids = []
@@ -1006,20 +1077,21 @@ class ServiceRequest(models.Model):
             raise UserError(_("All selected requests should be not has payment order"))
         else:
             return {
-            'type': 'ir.actions.act_window',
-            'name': 'Exchange Order',
-            'res_model': 'exchange.order.wizard',
-            'view_mode': 'form',
-            'target': 'new',
-            'context': {'default_service_ids': ids}
-        }
+                'type': 'ir.actions.act_window',
+                'name': 'Exchange Order',
+                'res_model': 'exchange.order.wizard',
+                'view_mode': 'form',
+                'target': 'new',
+                'context': {'default_service_ids': ids}
+            }
+
     def create_vendor_bill(self):
         ids = []
         line_ids = []
         for rec in self:
             ids.append(rec.id)
         service_requests = self.env['service.request'].browse(ids)
-        service_producer_id = self.env['service.request'].search([('id','=',ids[0])],limit=1)
+        service_producer_id = self.env['service.request'].search([('id', '=', ids[0])], limit=1)
         if any(request.state not in 'family_received_device' for request in service_requests):
             raise UserError(_("All selected requests should be in Family Received Device state"))
         if any(request.vendor_bill for request in service_requests):
@@ -1028,14 +1100,14 @@ class ServiceRequest(models.Model):
             invoice_line = (0, 0, {
                 'name': f'{request.family_id.name}/{request.device_id.device_name}/{request.description}/{request.name}',
                 'account_id': request.device_account_id.id,
-                'analytic_account_id': request.branch_custom_id.branch.analytic_account_id.id,
-                'quantity' : request.requested_quantity,
-                'price_unit' : request.requested_service_amount,
+                'analytic_account_id': request.branches_custom_id.branch.analytic_account_id.id,
+                'quantity': request.requested_quantity,
+                'price_unit': request.requested_service_amount,
             })
             line_ids.append(invoice_line)
         vendor_bill = self.env['account.move'].create({
-            'move_type':'in_invoice',
-            'partner_id':service_producer_id.service_producer_id.id,
+            'move_type': 'in_invoice',
+            'partner_id': service_producer_id.service_producer_id.id,
             # 'accountant_id': self.accountant_id.id,
             'invoice_line_ids': line_ids,
         })

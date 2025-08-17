@@ -1,3 +1,4 @@
+from . import branch_details
 from . import detainee_file
 from . import family_member_relation
 from . import grant_benefit_member

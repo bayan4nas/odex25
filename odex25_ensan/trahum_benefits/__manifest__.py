@@ -31,7 +31,6 @@
         'views/menuitems.xml',
         'views/res_prison.xml',
         'views/identity_proof.xml',
-        'views/branch_details.xml',
         'wizards/cancel_request.xml',
         'views/service_classification_views.xml',
         'views/service_setting_views.xml',
