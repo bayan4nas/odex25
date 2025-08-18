@@ -67,7 +67,6 @@ class GrantBenefitProfile(models.Model):
         ('non_benefit', 'Non Benefit'),
     ], string='Mother Status', compute="check_mother_status", store=True, default=False)
     phone2 = fields.Char(string="Phone2")
-    branch_details_id = fields.Many2one(comodel_name='branch.details', string='Branch Name', tracking=True, required=1)
     relative_phone = fields.Char(string="Relative Phone")
     relative_relation = fields.Char(string="Relative Relation")
     sms_phone = fields.Char(string="Contact Phone")
