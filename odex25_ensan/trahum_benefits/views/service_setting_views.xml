@@ -37,6 +37,8 @@
                         <group string="Basic Information">
                             <field name="code" string="Service Code" help="Unique identifier for the service"/>
                             <field name="path" widget="radio" options="{'horizontal': true}"/>
+                            <field name="beneficiary_category"/>
+
                             <field name="classification_id"/>
                             <field name="provider_ids" widget="many2many_tags" 
                                    domain="[('is_company', '=', True)]" 
@@ -45,7 +47,7 @@
                         </group>
                         <group string="Status">
                             <field name="enable_disbursement_periodicity" widget="boolean_toggle"/>
-                            <field name="active" invisible="1"/>
+                            <field name="active" widget="boolean_toggle"/>
                         </group>
                     </group>
 
@@ -72,6 +74,16 @@
                                 </kanban>
                                 <tree editable="bottom">
                                     <field name="name"/>
+                                </tree>
+                            </field>
+                        </page>
+
+                        <!-- Attachments -->
+                        <page string="Attachments">
+                            <field name="attachment_ids" string="Service Attachments" mode="tree">
+                                <tree editable="bottom">
+                                    <field name="attach_type"/>
+                                    <field name="attach" widget="binary" filename="attachment_file_name" attrs="{'required': [('attach_type', '=', True)]}"/>
                                 </tree>
                             </field>
                         </page>

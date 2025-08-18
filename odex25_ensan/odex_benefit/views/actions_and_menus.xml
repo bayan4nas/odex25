@@ -591,6 +591,9 @@
                 </p>
             </field>
         </record>
+
+
+
          <record model="ir.actions.act_window" id="service_request_accounting_action">
             <field name="name">Services Requests</field>
             <field name="res_model">service.request</field>
@@ -1059,12 +1062,15 @@ action_service_provider_list
         <!--##########################################-->
         <menuitem id="services_settings_menu" name="Services Settings" sequence="1"
                   parent="odex_benefit.benefit_services" />
-        <menuitem id="services_settings_menu" name="Services Settings" sequence="1"
+        <menuitem id="services_settings_menu" name="Services Settings" sequence="2"
                   parent="odex_benefit.benefit_services" action="services_settings_action" groups="odex_benefit.group_benefit_manager"/>
-        <menuitem id="services_requests_menu" name="Services Requests" sequence="2"
+        <menuitem id="services_requests_menu" name="Services Requests" sequence="3"
                   parent="odex_benefit.benefit_services" action="service_request_action"/>
+
         <menuitem id="menu_service_request_accounting_accept" name="Services Requests" parent="account.menu_finance_payables"
               action="service_request_accounting_action" sequence="9"/>
+
+
         <!--        <menuitem id="benefit_need_menu" name="Benefit Need" sequence="1"-->
         <!--                  parent="odex_benefit.benefit_services" action="benefit_need_action"/>-->
 <!--        <menuitem id="benefit_zkat_main_menu" name="Benefit Zkat" sequence="2"-->

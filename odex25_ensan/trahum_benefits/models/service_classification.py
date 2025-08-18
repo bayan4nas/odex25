@@ -9,6 +9,7 @@ class ServiceClassification(models.Model):
     code = fields.Char(string='Code', required=True)
     description = fields.Text(string='Description')
     active = fields.Boolean(string='Active', default=True)
+    benefit_path_id = fields.Many2one('beneficiary.path',string='Benefit Path')
     
     _sql_constraints = [
         ('code_unique', 'UNIQUE(code)', 'Classification code must be unique!'),

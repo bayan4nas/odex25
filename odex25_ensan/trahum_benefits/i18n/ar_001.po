@@ -642,7 +642,7 @@ msgstr "اغلاق"
 #. module: trahum_benefits
 #: model:ir.model.fields,field_description:trahum_benefits.field_benefits_service_classification__code
 msgid "Code"
-msgstr ""
+msgstr "الكود"
 
 #. module: trahum_benefits
 #: model:ir.model.fields.selection,name:trahum_benefits.selection__benefits_service_request__request_type__complaint
@@ -863,14 +863,7 @@ msgstr "علاقة المفوض باﻷسرة"
 msgid "Department"
 msgstr "قسم"
 
-#. module: trahum_benefits
-#: model:ir.model.fields,field_description:trahum_benefits.field_benefits_output__description
-#: model:ir.model.fields,field_description:trahum_benefits.field_benefits_service_classification__description
-#: model:ir.model.fields,field_description:trahum_benefits.field_benefits_service_request__description
-#: model_terms:ir.ui.view,arch_db:trahum_benefits.view_output_form
-#: model_terms:ir.ui.view,arch_db:trahum_benefits.view_service_form
-msgid "Description"
-msgstr ""
+
 
 #. module: trahum_benefits
 #: model:ir.model.fields.selection,name:trahum_benefits.selection__detainee_file__entitlement_status__deserved
@@ -1323,6 +1316,58 @@ msgstr "الإسم الاول"
 #: model:ir.model.fields,field_description:trahum_benefits.field_detainee_file__message_follower_ids
 msgid "Followers"
 msgstr "المتابعون"
+
+#. module: trahum_benefits
+#: model:ir.model,name:trahum_benefits.model_beneficiary_path
+msgid "Beneficiary Path"
+msgstr "المسارات"
+
+#. module: trahum_benefits
+#: model:ir.model.fields,field_description:trahum_benefits.field_beneficiary_path__category_types
+msgid "Category types"
+msgstr "فئات الخدمات"
+
+
+#. module: trahum_benefits
+#: model:ir.model.fields,field_description:trahum_benefits.field_benefits_service_classification__benefit_path_id
+#: model_terms:ir.ui.view,arch_db:trahum_benefits.benefit_path_form
+msgid "Benefit Path"
+msgstr "المسار"
+
+#. module: trahum_benefits
+#: model:ir.model.fields,field_description:trahum_benefits.field_benefits_output__description
+#: model:ir.model.fields,field_description:trahum_benefits.field_benefits_service_classification__description
+#: model:ir.model.fields,field_description:trahum_benefits.field_benefits_service_request__description
+#: model_terms:ir.ui.view,arch_db:trahum_benefits.view_output_form
+#: model_terms:ir.ui.view,arch_db:trahum_benefits.view_service_form
+msgid "Description"
+msgstr "الوصف"
+
+
+#. module: trahum_benefits
+#: model:ir.model.constraint,message:trahum_benefits.constraint_beneficiary_path_code_unique
+msgid "Path code must be unique!"
+msgstr "الكود يجب أن سكون فريد"
+
+#. module: trahum_benefits
+#: model:ir.actions.act_window,name:trahum_benefits.benefit_path_action
+#: model:ir.ui.menu,name:trahum_benefits.benefit_paths_menu
+msgid "Paths"
+msgstr "المسارات"
+
+#. module: trahum_benefits
+#: model:ir.model.fields,field_description:trahum_benefits.field_beneficiary_path__descriptions
+msgid "Descriptions"
+msgstr "الوصف"
+
+
+#. module: trahum_benefits
+#: model_terms:ir.actions.act_window,help:trahum_benefits.benefit_path_action
+msgid "Create the Beneficiary Path"
+msgstr "أنشئ مسار المستفيدين"
+
+
+
 
 #. module: trahum_benefits
 #: model:ir.model.fields,field_description:trahum_benefits.field_bank_stop_reason__message_channel_ids
@@ -2150,7 +2195,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:trahum_benefits.view_output_tree
 #: model_terms:ir.ui.view,arch_db:trahum_benefits.view_service_form
 msgid "Outputs"
-msgstr ""
+msgstr "المخرجات"
 
 #. module: trahum_benefits
 #: model:ir.model.fields.selection,name:trahum_benefits.selection__grant_benefit__housing_status__owned
@@ -2569,19 +2614,19 @@ msgstr ""
 #: model:ir.ui.menu,name:trahum_benefits.benfits_service_classification
 #: model_terms:ir.ui.view,arch_db:trahum_benefits.view_service_classification_form
 msgid "Service Classification"
-msgstr ""
+msgstr "فئات الخدمات"
 
 #. module: trahum_benefits
 #: model:ir.actions.act_window,name:trahum_benefits.action_service_classification
 #: model_terms:ir.ui.view,arch_db:trahum_benefits.view_service_classification_tree
 msgid "Service Classifications"
-msgstr ""
+msgstr "فئات الخدمات"
 
 #. module: trahum_benefits
 #: model:ir.model.fields,field_description:trahum_benefits.field_benefits_service__code
 #: model_terms:ir.ui.view,arch_db:trahum_benefits.view_service_form
 msgid "Service Code"
-msgstr ""
+msgstr "كود الخدمة"
 
 #. module: trahum_benefits
 #: model:ir.model.fields,field_description:trahum_benefits.field_benefits_service_request__service_count
@@ -2642,7 +2687,7 @@ msgstr ""
 #: model:ir.model,name:trahum_benefits.model_benefits_service
 #: model:ir.ui.menu,name:trahum_benefits.benfits_service_settings
 msgid "Service Settings"
-msgstr ""
+msgstr "مسمى الخدمة"
 
 #. module: trahum_benefits
 #: model:ir.model.constraint,message:trahum_benefits.constraint_benefits_service_code_unique
@@ -3163,6 +3208,24 @@ msgstr "تقدير الاحتياج"
 #: model:ir.model.fields,field_description:trahum_benefits.field_family_member__family_file_link_beneficiary_category_display
 msgid "beneficiary category "
 msgstr "حالة المستفيد "
+
+#. module: trahum_benefits
+#: model:ir.model.fields.selection,name:trahum_benefits.selection__benefits_service__beneficiary_category__detainee_family
+msgid "Detainee Family"
+msgstr "أسرة النزيل"
+
+
+#. module: trahum_benefits
+#: model:ir.model.fields.selection,name:trahum_benefits.selection__benefits_service__beneficiary_category__released_family
+msgid "Released Family"
+msgstr "أسرة المفرج عنه"
+
+
+
+#. module: trahum_benefits
+#: model:ir.model.fields,field_description:trahum_benefits.field_benefits_service__beneficiary_category
+msgid "Beneficiary Category"
+msgstr "الفئات المستفيدة"
 
 
 
