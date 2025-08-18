@@ -335,6 +335,29 @@ class FamilyMember(models.Model):
     family_file_link_folder_state = fields.Selection(  related='family_file_link.folder_state',string='File State', readonly=True)
     family_file_link_beneficiary_category =fields.Selection(  related='family_file_link.beneficiary_category',string='beneficiary category ', readonly=True)
     family_file_link_need_calculator =fields.Selection(  related='family_file_link.need_calculator',string='Needs Assessment', readonly=True)
+    family_file_link_beneficiary_category_display = fields.Char(
+        string='beneficiary category ',
+        compute='_compute_family_beneficiary_category_display',
+        readonly=True
+    )
+
+    @api.depends('family_file_link.beneficiary_category')
+    def _compute_family_beneficiary_category_display(self):
+        for rec in self:
+            if rec.family_file_link and rec.family_file_link.beneficiary_category:
+                field = self.env['grant.benefit']._fields['beneficiary_category']
+
+                if callable(field.selection):
+                    selection_list = field.selection(self.env['grant.benefit'])
+                else:
+                    selection_list = field.selection
+
+                selection_dict = dict(selection_list)
+
+                rec.family_file_link_beneficiary_category_display = \
+                    _(' family ') + selection_dict.get(rec.family_file_link.beneficiary_category, ' ')
+            else:
+                rec.family_file_link_beneficiary_category_display = False
 
 
     def _compute_file_links(self):
