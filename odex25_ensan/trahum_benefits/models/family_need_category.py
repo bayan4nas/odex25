@@ -1,6 +1,5 @@
 from odoo import models, fields, api
 from odoo.exceptions import ValidationError
-from packaging.utils import _
 
 
 class FamilyNeedCategory(models.Model):
