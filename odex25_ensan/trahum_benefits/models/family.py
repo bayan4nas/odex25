@@ -8,8 +8,6 @@ from datetime import date
 from odoo.tools import config
 
 
-
-
 class GrantBenefit(models.Model):
     _inherit = 'grant.benefit'
 
@@ -131,20 +129,15 @@ class GrantBenefit(models.Model):
             doc = etree.XML(res['arch'])
 
             for node in doc.xpath("//field"):
-                field_name = node.get('name')
                 modifiers = json.loads(node.get("modifiers", '{}'))
 
-                if field_name == 'researcher_insights':  # Make this field editable in 'confirm'
-                    modifiers['readonly'] = [('state', 'not in', ['validate'])]
+                if 'readonly' not in modifiers:
+                    modifiers['readonly'] = [('state', 'not in', ['draft'])]
                 else:
-                    # Make all other fields readonly unless in 'draft'
-                    if 'readonly' not in modifiers:
-                        modifiers['readonly'] = [('state', 'not in', ['draft'])]
-                    else:
-                        if not isinstance(modifiers['readonly'], bool):
-                            if ('state', 'not in', ['draft']) not in modifiers['readonly']:
-                                modifiers['readonly'].insert(0, '|')
-                                modifiers['readonly'].append(('state', 'not in', ['draft']))
+                    if not isinstance(modifiers['readonly'], bool):
+                        if ('state', 'not in', ['draft']) not in modifiers['readonly']:
+                            modifiers['readonly'].insert(0, '|')
+                            modifiers['readonly'].append(('state', 'not in', ['draft']))
 
                 node.set("modifiers", json.dumps(modifiers))
 
@@ -205,7 +198,6 @@ class GrantBenefit(models.Model):
                                               string="Benefit breadwinner", required=1)
 
     member_count = fields.Integer(string="Members Count", compute="_compute_member_count", readonly=1)
-
 
     benefit_member_count = fields.Integer(
         string=" Count member",
@@ -322,6 +314,7 @@ class GrantBenefit(models.Model):
             above_18 = rec.benefit_member_ids.filtered(lambda m: m.member_id.age >= 18)
             rec.members_under_18 = len(under_18)
             rec.members_18_and_above = len(above_18)
+
     @api.onchange('benefit_breadwinner_ids')
     def _onchange_benefit_breadwinner_ids(self):
         if len(self.benefit_breadwinner_ids) > 1:
