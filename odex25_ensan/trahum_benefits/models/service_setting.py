@@ -94,33 +94,31 @@ class ServiceSetting(models.Model):
     #         return {'domain': {'classification_id': domain}}
 
 
-@api.constrains('disbursement_periodicity_ids')
+    @api.constrains('disbursement_periodicity_ids')
+    def _check_disbursement_periodicity(self):
+        for service in self:
+            if service.enable_disbursement_periodicity:
+                categories = service.disbursement_periodicity_ids.mapped('category')
+                if len(categories) != len(set(categories)):
+                    raise ValidationError(_("Duplicate category found in disbursement periodicity settings."))
+                if not categories:
+                    raise ValidationError(_("At least one disbursement periodicity setting is required when enabled."))
 
 
-def _check_disbursement_periodicity(self):
-    for service in self:
-        if service.enable_disbursement_periodicity:
-            categories = service.disbursement_periodicity_ids.mapped('category')
-            if len(categories) != len(set(categories)):
-                raise ValidationError(_("Duplicate category found in disbursement periodicity settings."))
-            if not categories:
-                raise ValidationError(_("At least one disbursement periodicity setting is required when enabled."))
+    @api.model
+    def name_search(self, name, args=None, operator='ilike', limit=100):
+        args = args or []
+        domain = ['|', ('name', operator, name), ('code', operator, name)]
+        return self.search(domain + args, limit=limit).name_get()
 
 
-@api.model
-def name_search(self, name, args=None, operator='ilike', limit=100):
-    args = args or []
-    domain = ['|', ('name', operator, name), ('code', operator, name)]
-    return self.search(domain + args, limit=limit).name_get()
+    def name_get(self):
+        return [(rec.id, f"[{rec.code}] {rec.name}" if rec.code else rec.name) for rec in self]
 
 
-def name_get(self):
-    return [(rec.id, f"[{rec.code}] {rec.name}" if rec.code else rec.name) for rec in self]
-
-
-def toggle_active(self):
-    """ Override to prevent deactivation if linked to active records """
-    return super().toggle_active()
+    def toggle_active(self):
+        """ Override to prevent deactivation if linked to active records """
+        return super().toggle_active()
 
 
 class ServiceDisbursementPeriodicity(models.Model):
