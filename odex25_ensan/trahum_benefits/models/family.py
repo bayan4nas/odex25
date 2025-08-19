@@ -8,8 +8,6 @@ from datetime import date
 from odoo.tools import config
 
 
-
-
 class GrantBenefit(models.Model):
     _inherit = 'grant.benefit'
 
@@ -35,7 +33,7 @@ class GrantBenefit(models.Model):
     total_income = fields.Float(string="Total Income", store=True, readonly=True)
     expected_income = fields.Float(string="Expected  Income", readonly=True)
     name_member = fields.Char(string="Expected  Income", compute='_compute_member_name', readonly=True)
-    researcher_insights = fields.Char('Researcher Insights')
+    researcher_insights = fields.Text('Researcher Insights')
     researcher_id = fields.Many2one("committees.line", string='Researcher Name')
     folder_state = fields.Selection([('Active', 'active'), ('not_active', 'Not Active')], string='Folder State')
 
@@ -135,7 +133,7 @@ class GrantBenefit(models.Model):
                 modifiers = json.loads(node.get("modifiers", '{}'))
 
                 if field_name == 'researcher_insights':  # Make this field editable in 'confirm'
-                    modifiers['readonly'] = [('state', 'not in', ['validate'])]
+                    modifiers['readonly'] = [('state', 'not in', ['review'])]
                 else:
                     # Make all other fields readonly unless in 'draft'
                     if 'readonly' not in modifiers:
@@ -205,7 +203,6 @@ class GrantBenefit(models.Model):
                                               string="Benefit breadwinner", required=1)
 
     member_count = fields.Integer(string="Members Count", compute="_compute_member_count", readonly=1)
-
 
     benefit_member_count = fields.Integer(
         string=" Count member",
@@ -328,6 +325,7 @@ class GrantBenefit(models.Model):
             above_18 = rec.benefit_member_ids.filtered(lambda m: m.member_id.age >= 18)
             rec.members_under_18 = len(under_18)
             rec.members_18_and_above = len(above_18)
+
     @api.onchange('benefit_breadwinner_ids')
     def _onchange_benefit_breadwinner_ids(self):
         if len(self.benefit_breadwinner_ids) > 1:

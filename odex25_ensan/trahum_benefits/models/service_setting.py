@@ -29,7 +29,8 @@ class ServiceSetting(models.Model):
         'benefits.service.classification',
         string='Service Classification',
         required=True,
-        tracking=True
+        tracking=True,
+
     )
 
     beneficiary_category = fields.Selection(
@@ -80,47 +81,45 @@ class ServiceSetting(models.Model):
         ('code_unique', 'UNIQUE(code)', 'Service code must be unique!'),
     ]
 
-    # @api.onchange('path')
-    # def _onchange_path(self):
-    #     for rec in self:
-    #         domain = []
-    #         if rec.path:
-    #             linked_classifications = self.env['beneficiary.path'].search([
-    #                 ('path_id', '=', rec.path.id)
-    #             ]).mapped('classification_id').ids
-    #             if linked_classifications:
-    #                 domain.append(('id', 'in', linked_classifications))
-    #
-    #         return {'domain': {'classification_id': domain}}
+    @api.onchange('path')
+    def _onchange_path(self):
+        for rec in self:
+            domain = []
+            if rec.path:
+                linked_classifications = self.env['benefits.service.classification'].search([
+                    ('path_id', '=', rec.path.id)
+                ]).mapped('classification_id').ids
+                if linked_classifications:
+                    domain.append(('id', 'in', linked_classifications))
+
+            return {'domain': {'classification_id': domain}}
 
 
-@api.constrains('disbursement_periodicity_ids')
+    @api.constrains('disbursement_periodicity_ids')
+    def _check_disbursement_periodicity(self):
+        for service in self:
+            if service.enable_disbursement_periodicity:
+                categories = service.disbursement_periodicity_ids.mapped('category')
+                if len(categories) != len(set(categories)):
+                    raise ValidationError(_("Duplicate category found in disbursement periodicity settings."))
+                if not categories:
+                    raise ValidationError(_("At least one disbursement periodicity setting is required when enabled."))
 
 
-def _check_disbursement_periodicity(self):
-    for service in self:
-        if service.enable_disbursement_periodicity:
-            categories = service.disbursement_periodicity_ids.mapped('category')
-            if len(categories) != len(set(categories)):
-                raise ValidationError(_("Duplicate category found in disbursement periodicity settings."))
-            if not categories:
-                raise ValidationError(_("At least one disbursement periodicity setting is required when enabled."))
+    @api.model
+    def name_search(self, name, args=None, operator='ilike', limit=100):
+        args = args or []
+        domain = ['|', ('name', operator, name), ('code', operator, name)]
+        return self.search(domain + args, limit=limit).name_get()
 
 
-@api.model
-def name_search(self, name, args=None, operator='ilike', limit=100):
-    args = args or []
-    domain = ['|', ('name', operator, name), ('code', operator, name)]
-    return self.search(domain + args, limit=limit).name_get()
+    def name_get(self):
+        return [(rec.id, f"[{rec.code}] {rec.name}" if rec.code else rec.name) for rec in self]
 
 
-def name_get(self):
-    return [(rec.id, f"[{rec.code}] {rec.name}" if rec.code else rec.name) for rec in self]
-
-
-def toggle_active(self):
-    """ Override to prevent deactivation if linked to active records """
-    return super().toggle_active()
+    def toggle_active(self):
+        """ Override to prevent deactivation if linked to active records """
+        return super().toggle_active()
 
 
 class ServiceDisbursementPeriodicity(models.Model):
