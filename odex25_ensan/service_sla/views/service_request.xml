@@ -1,0 +1,21 @@
+<odoo>
+    <record id="view_service_request_form_sla" model="ir.ui.view">
+        <field name="name">service.request.form.sla</field>
+        <field name="model">service.request</field>
+        <field name="inherit_id" ref="odex_benefit.service_request_form"/> <!-- XML ID للنموذج الأصلي -->
+        <field name="arch" type="xml">
+
+            <xpath expr="//notebook" position="inside">
+                <page string="SLA Details">
+                    <group>
+                        <field name="date"/>
+                        <field name="deadline" readonly="1"/>
+                        <field name="escalated"/>
+                        <field name="service_id"/>
+                    </group>
+                </page>
+            </xpath>
+
+        </field>
+    </record>
+</odoo>
