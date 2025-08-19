@@ -271,6 +271,22 @@
             <field name="model_id" ref="model_employee_other_request"/>
             <field name="domain_force">['|',('company_id','=',False),('company_id', 'in', company_ids)]</field>
         </record>
+           <record id="group_hcm" model="res.groups">
+                <field name="name">Human Capital manager</field>
+                <field name="category_id" ref="base.module_category_human_resources_employees" />
+            </record>
+
+        <record id="rule_employee_other_request_hcm" model="ir.rule">
+            <field name="name">HCM Access Employee Other Requests</field>
+            <field name="model_id" ref="employee_requests.model_employee_other_request"/>
+            <field name="groups" eval="[(4, ref('employee_requests.group_hcm'))]"/>
+            <field name="domain_force">[('request_type', 'in', ['qualification', 'certification' ,'years_of_experienc'])]</field>
+        </record>
+
+
+
+
+
 
     </data>
 </odoo>

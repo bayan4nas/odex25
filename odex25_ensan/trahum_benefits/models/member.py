@@ -22,7 +22,10 @@ class FamilyMemberRelation(models.Model):
 
     name = fields.Char(string='Relation', required=True)
     gender = fields.Selection(selection=[('male', _('Male')), ('female', _('Female'))], string="Gender")
-
+    exclude_need = fields.Boolean(
+        string="Exclude from Need Calculation",
+        default=False
+    )
 
 class FamilyMemberQualification(models.Model):
     _name = 'family.member.qualification'

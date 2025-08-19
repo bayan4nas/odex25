@@ -261,29 +261,28 @@
                                 </field>
                             </page>
                             <page string="Need Assessment">
-                                <group>
-                                    <group>
-                                        <field name="total_income" invisible="1"/>
-                                        <field name="expected_income" readonly="1"/>
+                                <group col="4">
+                                    <group string="Summary" col="4">
+                                        <field name="benefit_member_count" readonly="1" class="oe_inline"/>
+                                        <field name="benefit_breadwinner_count" readonly="1" class="oe_inline"/>
+                                        <field name="members_under_18" readonly="1" class="oe_inline"/>
+                                        <field name="members_18_and_above" readonly="1" class="oe_inline"/>
                                     </group>
-                                    <group>
+                                    <group string="Income" col="2">
                                         <field name="total_salary" readonly="1"/>
-                                        <field name="member_count" invisible="1"/>
-                                        <field name="need_calculator" readonly="1"/>
-                                    </group>
-                                    <group>
-                                        <field name="benefit_member_count" readonly="1"/>
-                                        <field name="benefit_breadwinner_count" readonly="1"/>
-                                        <field name="members_under_18" readonly="1"/>
-                                        <field name="members_18_and_above" readonly="1"/>
-                                    </group>
-                                    <group>
                                         <field name="natural_income" readonly="1"/>
-                                        <field name="need_ratio" readonly="1"/>
-                                        <field name="family_need_class_id" readonly="1" />
+                                        <field name="total_income" readonly="1" attrs="{'invisible': True}"/>
+                                        <field name="expected_income" readonly="1" attrs="{'invisible': True}"/>
                                     </group>
-                                </group>
+                                    <group string="Need Calculation" col="2">
+                                        <field name="need_ratio" readonly="1" widget="progressbar" options="{'max_value': 100}"/>
+                                        <field name="family_need_class_id" readonly="1"/>
+                                        <field name="member_count" readonly="1" attrs="{'invisible': True}"/>
+                                        <field name="need_calculator" readonly="1" attrs="{'invisible': True}"/>
+                                        </group>
+                                    </group>
                             </page>
+
                             <page string="Researcher's insights" attrs="{'invisible': [('state', '=', 'validate')]}">
                                 <group>
                                     <group>
