@@ -20,26 +20,21 @@ class ServiceSetting(models.Model):
         help="Unique identifier for the service"
     )
 
-    path = fields.Selection([
-        ('primary_care', 'Primary Care'),
-        ('family_care', 'Family Care'),
-        ('capacity_development', 'Capacity Development')
-    ],
-        string='Path',
-        required=True,
-        tracking=True
-    )
-    beneficiary_category = fields.Selection(
-        [('detainee', 'Detainee'), ('detainee_family', 'Detainee Family'), ('released_family', 'Released Family')],
-        string='Beneficiary Category')
-
+    paths = fields.Many2one('beneficiary.path',
+                           string='Path',
+                           required=True,
+                           tracking=True
+                           )
     classification_id = fields.Many2one(
         'benefits.service.classification',
         string='Service Classification',
         required=True,
-        domain=[('active', '=', True)],
         tracking=True
     )
+
+    beneficiary_category = fields.Selection(
+        [('detainee', 'Detainee'), ('detainee_family', 'Detainee Family'), ('released_family', 'Released Family')],
+        string='Beneficiary Category')
 
     description = fields.Html(
         string='Service Description',
@@ -47,7 +42,7 @@ class ServiceSetting(models.Model):
         strip_style=False,
         help="Detailed description of the service"
     )
-    attachment_ids = fields.One2many('service.attachment','attachment_id')
+    attachment_ids = fields.One2many('service.attachment', 'attachment_id')
     provider_ids = fields.Many2many(
         'res.partner',
         string='Service Providers',
@@ -85,28 +80,47 @@ class ServiceSetting(models.Model):
         ('code_unique', 'UNIQUE(code)', 'Service code must be unique!'),
     ]
 
-    @api.constrains('disbursement_periodicity_ids')
-    def _check_disbursement_periodicity(self):
-        for service in self:
-            if service.enable_disbursement_periodicity:
-                categories = service.disbursement_periodicity_ids.mapped('category')
-                if len(categories) != len(set(categories)):
-                    raise ValidationError(_("Duplicate category found in disbursement periodicity settings."))
-                if not categories:
-                    raise ValidationError(_("At least one disbursement periodicity setting is required when enabled."))
+    # @api.onchange('path')
+    # def _onchange_path(self):
+    #     for rec in self:
+    #         domain = []
+    #         if rec.path:
+    #             linked_classifications = self.env['beneficiary.path'].search([
+    #                 ('path_id', '=', rec.path.id)
+    #             ]).mapped('classification_id').ids
+    #             if linked_classifications:
+    #                 domain.append(('id', 'in', linked_classifications))
+    #
+    #         return {'domain': {'classification_id': domain}}
 
-    @api.model
-    def name_search(self, name, args=None, operator='ilike', limit=100):
-        args = args or []
-        domain = ['|', ('name', operator, name), ('code', operator, name)]
-        return self.search(domain + args, limit=limit).name_get()
 
-    def name_get(self):
-        return [(rec.id, f"[{rec.code}] {rec.name}" if rec.code else rec.name) for rec in self]
+@api.constrains('disbursement_periodicity_ids')
 
-    def toggle_active(self):
-        """ Override to prevent deactivation if linked to active records """
-        return super().toggle_active()
+
+def _check_disbursement_periodicity(self):
+    for service in self:
+        if service.enable_disbursement_periodicity:
+            categories = service.disbursement_periodicity_ids.mapped('category')
+            if len(categories) != len(set(categories)):
+                raise ValidationError(_("Duplicate category found in disbursement periodicity settings."))
+            if not categories:
+                raise ValidationError(_("At least one disbursement periodicity setting is required when enabled."))
+
+
+@api.model
+def name_search(self, name, args=None, operator='ilike', limit=100):
+    args = args or []
+    domain = ['|', ('name', operator, name), ('code', operator, name)]
+    return self.search(domain + args, limit=limit).name_get()
+
+
+def name_get(self):
+    return [(rec.id, f"[{rec.code}] {rec.name}" if rec.code else rec.name) for rec in self]
+
+
+def toggle_active(self):
+    """ Override to prevent deactivation if linked to active records """
+    return super().toggle_active()
 
 
 class ServiceDisbursementPeriodicity(models.Model):
@@ -150,6 +164,6 @@ class ServiceAttachment(models.Model):
     _name = 'service.attachment'
     _description = 'Service Attachment'
 
-    attachment_id = fields.Many2one('benefits.service','attachment id')
+    attachment_id = fields.Many2one('benefits.service', 'attachment id')
     attach = fields.Binary('Attachment')
     attach_type = fields.Boolean('Attachment Type')
