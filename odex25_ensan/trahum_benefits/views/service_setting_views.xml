@@ -7,7 +7,7 @@
             <tree string="Services" default_order="code" decoration-muted="active == False">
                 <field name="code" widget="handle"/>
                 <field name="name"/>
-                <field name="path" widget="selection"/>
+                <field name="paths" />
                 <field name="classification_id" widget="many2one_clickable"/>
                 <field name="provider_ids" widget="many2many_tags" options="{'no_open': True}"/>
                 <field name="enable_disbursement_periodicity" widget="boolean_toggle" invisible="1"/>
@@ -36,7 +36,7 @@
                     <group>
                         <group string="Basic Information">
                             <field name="code" string="Service Code" help="Unique identifier for the service"/>
-                            <field name="path" widget="radio" options="{'horizontal': true}"/>
+                            <field name="paths"  />
                             <field name="beneficiary_category"/>
 
                             <field name="classification_id"/>
@@ -152,10 +152,10 @@
         <field name="name">service.kanban</field>
         <field name="model">benefits.service</field>
         <field name="arch" type="xml">
-            <kanban default_group_by="path">
+            <kanban default_group_by="paths">
                 <field name="name"/>
                 <field name="code"/>
-                <field name="path"/>
+                <field name="paths"/>
                 <field name="classification_id"/>
                 <field name="provider_ids"/>
                 <field name="active" invisible="1"/>
@@ -170,8 +170,8 @@
                                     'primary_care': 'primary',
                                     'family_care': 'success',
                                     'capacity_development': 'info'
-                                }[record.path.raw_value] or 'default'}}">
-                                    <t t-esc="record.path.value"/>
+                                }[record.s.raw_value] or 'default'}}">
+                                    <t t-esc="record.paths.value"/>
                                 </span>
                             </div>
                             <div t-if="record.classification_id.value">
@@ -191,7 +191,7 @@
     <!-- Menu Item -->
     <menuitem id="benfits_service_settings"
               name="Service Settings"
-              parent="odex_benefit.menu_benefits_config_benefits"
+              parent="odex_benefit.benefit_services"
               action="action_service"
               sequence="20"/>
 </odoo>

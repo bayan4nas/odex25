@@ -1,4 +1,3 @@
-
 <odoo>
     <!-- Tree View -->
     <record id="view_service_classification_tree" model="ir.ui.view">
@@ -24,7 +23,7 @@
                         <field name="name"/>
                         <field name="code"/>
                         <field name="description"/>
-                        <field name="active"/>
+                        <field name="active" invisibale="1"/>
                         <field name="benefit_path_id"/>
                     </group>
                 </sheet>
@@ -44,9 +43,9 @@
         </field>
     </record>
 
-      <menuitem id="benfits_service_classification"
+    <menuitem id="benfits_service_classification"
               name="Service Classification"
-              parent="odex_benefit.menu_benefits_config_benefits"
+              parent="odex_benefit.benefit_services"
               action="action_service_classification"
               sequence="40"/>
 </odoo>
