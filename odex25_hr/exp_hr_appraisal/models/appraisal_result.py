@@ -18,6 +18,7 @@ class AppraisalResult(models.Model):
             ('orange', 'Orange'),
             ('purple', 'Purple')
         ], string="Color", default='blue')
+    company_id = fields.Many2one('res.company',string="Company", default=lambda self: self.env.user.company_id)
 
 
     # Constrains for result_from and result_to if it's value is less than zero or greater than 100
