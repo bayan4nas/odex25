@@ -29,7 +29,8 @@ class ServiceSetting(models.Model):
         'benefits.service.classification',
         string='Service Classification',
         required=True,
-        tracking=True
+        tracking=True,
+
     )
 
     beneficiary_category = fields.Selection(
@@ -80,18 +81,18 @@ class ServiceSetting(models.Model):
         ('code_unique', 'UNIQUE(code)', 'Service code must be unique!'),
     ]
 
-    # @api.onchange('path')
-    # def _onchange_path(self):
-    #     for rec in self:
-    #         domain = []
-    #         if rec.path:
-    #             linked_classifications = self.env['beneficiary.path'].search([
-    #                 ('path_id', '=', rec.path.id)
-    #             ]).mapped('classification_id').ids
-    #             if linked_classifications:
-    #                 domain.append(('id', 'in', linked_classifications))
-    #
-    #         return {'domain': {'classification_id': domain}}
+    @api.onchange('path')
+    def _onchange_path(self):
+        for rec in self:
+            domain = []
+            if rec.path:
+                linked_classifications = self.env['benefits.service.classification'].search([
+                    ('path_id', '=', rec.path.id)
+                ]).mapped('classification_id').ids
+                if linked_classifications:
+                    domain.append(('id', 'in', linked_classifications))
+
+            return {'domain': {'classification_id': domain}}
 
 
     @api.constrains('disbursement_periodicity_ids')
