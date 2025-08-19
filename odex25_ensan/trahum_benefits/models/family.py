@@ -33,7 +33,7 @@ class GrantBenefit(models.Model):
     total_income = fields.Float(string="Total Income", store=True, readonly=True)
     expected_income = fields.Float(string="Expected  Income", readonly=True)
     name_member = fields.Char(string="Expected  Income", compute='_compute_member_name', readonly=True)
-    researcher_insights = fields.Char('Researcher Insights')
+    researcher_insights = fields.Text('Researcher Insights')
     researcher_id = fields.Many2one("committees.line", string='Researcher Name')
     folder_state = fields.Selection([('Active', 'active'), ('not_active', 'Not Active')], string='Folder State')
 
@@ -129,15 +129,20 @@ class GrantBenefit(models.Model):
             doc = etree.XML(res['arch'])
 
             for node in doc.xpath("//field"):
+                field_name = node.get('name')
                 modifiers = json.loads(node.get("modifiers", '{}'))
 
-                if 'readonly' not in modifiers:
-                    modifiers['readonly'] = [('state', 'not in', ['draft'])]
+                if field_name == 'researcher_insights':  # Make this field editable in 'confirm'
+                    modifiers['readonly'] = [('state', 'not in', ['review'])]
                 else:
-                    if not isinstance(modifiers['readonly'], bool):
-                        if ('state', 'not in', ['draft']) not in modifiers['readonly']:
-                            modifiers['readonly'].insert(0, '|')
-                            modifiers['readonly'].append(('state', 'not in', ['draft']))
+                    # Make all other fields readonly unless in 'draft'
+                    if 'readonly' not in modifiers:
+                        modifiers['readonly'] = [('state', 'not in', ['draft'])]
+                    else:
+                        if not isinstance(modifiers['readonly'], bool):
+                            if ('state', 'not in', ['draft']) not in modifiers['readonly']:
+                                modifiers['readonly'].insert(0, '|')
+                                modifiers['readonly'].append(('state', 'not in', ['draft']))
 
                 node.set("modifiers", json.dumps(modifiers))
 
