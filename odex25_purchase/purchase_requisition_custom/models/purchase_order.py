@@ -755,7 +755,7 @@ class PurchaseOrderCustom(models.Model):
             #     order.requisition_id.state = 'done'
             if order.request_id:
                 order.request_id.write({'state': 'done'})
-        return True
+        return super(PurchaseOrderCustom, self).button_confirm()
 
     def action_unsign(self):
         """
