@@ -116,6 +116,25 @@
                         <field name="attach_no" widget="statinfo" string="Documents"/>
                     </button>
                 </xpath>
+                <xpath expr="//field[@name='date_order']" position="after">
+<!--                    <field name="type"-->
+<!--                           attrs="{'readonly':[('state','!=','draft')], 'required' : [('state' , '=' , 'draft')]}"/>-->
+                    <field name="contract_name" force_save="1"
+                           attrs="{'readonly':[('state','!=','draft')],'invisible':[('type','!=', 'contract')],'required':[('type','=', 'contract'),('state','=','draft')]}"/>
+                    <field name="responsible_id" options="{'no_create': True, 'no_create_edit':True,'no_open': True}"
+                           attrs="{'readonly':[('state','!=','draft')],'invisible':[('type','!=', 'contract')],'required':[('type','=', 'contract'),('state','=','draft')]}"/>
+                    <field name="start_date"
+                           attrs="{'readonly':[('state','!=','draft')],'invisible':[('type','!=', 'contract')],'required':[('type','=', 'contract'),('state','=','draft')]}"/>
+                    <field name="end_date"
+                           attrs="{'readonly':[('state','!=','draft')],'invisible':[('type','!=', 'contract')],'required':[('type','=', 'contract'),('state','=','draft')]}"/>
+                    <field name="auto_notification"
+                           attrs="{'invisible':[('type','!=', 'contract')],'readonly':[('state','!=','draft')]}"/>
+                    <field name="notify_before" string="Notify Before End"
+                           attrs="{'invisible':['|',('type','!=', 'contract'), ('auto_notification','=', False)], 'required':[('auto_notification','=', True),]}"/>
+                    <field name="period_type"
+                           attrs="{'invisible':['|',('type','!=', 'contract'), ('auto_notification','=', False)], 'required':[('auto_notification','=', True),]}"/>
+                    <field name="cron_end_date" invisible="1"/>
+                </xpath>
                 <xpath expr="//field[@name='payment_term_id']" position="after">
                     <field invisible="1" readonly="1" name='res_model'/>
                     <field invisible="1" readonly="1" name='res_id'/>
@@ -641,7 +660,9 @@
             <field name="res_model">purchase.requisition</field>
             <field name="view_mode">search,tree,form</field>
             <field name="domain">[('state' , '=' , 'committee')]</field>
-            <field name="context">{'create':False,'edit':False, 'delete': False, 'duplicate':False, 'from_committee_action': True}</field>
+            <field name="context">{'create':False,'edit':False, 'delete': False, 'duplicate':False,
+                'from_committee_action': True}
+            </field>
             <field name="groups_id" eval="[(4, ref('purchase_requisition_custom.committe_member'))]"/>
         </record>
         <!-- add domain toaction supplier form -->

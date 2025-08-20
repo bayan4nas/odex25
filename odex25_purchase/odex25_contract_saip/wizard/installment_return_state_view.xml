@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_installment_return_state_form" model="ir.ui.view">
+            <field name="name">installment.Return.wizard.form</field>
+            <field name="model">installment.return.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <field name="installment_id" readonly="1" invisible="1"/>
+                        <field name="state" readonly="0" required="1"/>
+                        <field name="new_state" readonly="0" invisible="1" force_save="True"/>
+                        <field name="old_state" readonly="0" invisible="1" force_save="True"/>
+                    </group>
+                    <group>
+                        <field name="note" required="1"/>
+                    </group>
+                    <footer>
+                        <button string="Confirm" type="object" class="oe_highlight" name="confirm_return"/>
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</odoo>

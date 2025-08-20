@@ -315,6 +315,7 @@ class PurchaseRequisitionCustom(models.Model):
                 "default_purpose": self.purpose,
                 "default_send_to_budget": True,
                 "default_res_id": self.id,
+                "default_type": 'contract',
                 "default_res_model": 'purchase.requisition',
                 "default_request_id": self.request_id.id if self.request_id else False},
         }
