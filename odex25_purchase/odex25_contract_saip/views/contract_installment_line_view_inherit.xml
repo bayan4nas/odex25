@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data >
+        <!-- purchase.order inherit form view -->
+        <record id="contract_installment_form_view_inherit" model="ir.ui.view">
+            <field name="name">line.contract.installment.inherit.view.form</field>
+            <field name="model">line.contract.installment</field>
+            <field name="inherit_id" ref="contract.contract_installment_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[hasclass('oe_title')]" position="before">
+                    <div class="oe_button_box" name="button_box">
+                        <button type="object" name="action_view_coc" class="oe_stat_button" icon="fa-check" attrs="{'invisible':[('coc_count','=', 0)]}">
+                            <field name="coc_count" widget="statinfo" string="CoCs" help="Certificates of Completion"/>
+                            <field name="coc_ids" invisible="1"/>
+                            <field name="is_in_progress" invisible="1"/>
+                        </button>
+                    </div>
+                </xpath>
+                <xpath expr="//header" position="replace">
+                    <header>
+                        <button name="create_coc" string="Create COC" type="object" class="oe_highlight" attrs="{'invisible': ['|',('state','!=','confirmed'),('check','=',True)]}"/>
+                        <button name="create_coc" string="Create COC" type="object" class="oe_highlight" attrs="{'invisible': ['|',('is_in_progress', '=', False),('state','!=','coc')]}"/>
+                        <button name="change_state_to_invoiced" string="To Pay" class="oe_highlight" type="object"
+                                attrs="{'invisible' : ['|',('state' , '!=' , 'not_invoiced'),('taxed_invoice' , '=' , 'without_invoice')]}"/>
+                        <button string="Return" name="action_open_return_installment_wizard" type="object" states="not_invoiced" class="oe_highlight"/>
+<!--                        <button name="set_to_not_invoiced" string="Return" class="oe_highlight" type="object" states="not_invoiced" groups="odex25_account_saip.group_post_account_department" />-->
+                        <button name="cancel_state" string="Cancel" class="oe_highlight" type="object" states="not_invoiced"/>
+                        <field name="state" widget="statusbar" statusbar_visible="coc,confirmed,not_invoiced,invoiced,paid"/>
+                    </header>
+                    <div class="alert alert-warning text-center" role="alert"
+                         attrs="{'invisible': [('note', '=', False)]}">
+                        <h5>Note :</h5>
+                        <p>
+                            <field name="note" readonly="1" class="oe_inline"/>
+                        </p>
+                        <hr/>
+                        <button name="solve_note" type="object" class="oe_link" string="Solve Note"
+                                confirm="Are you sure you want to do this?"/>
+                    </div>
+                </xpath>
+                  <xpath expr="//field[@name='taxed_invoice']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='taxed_invoice']" position="after">
+                    <field name="check" invisible="1"/>
+                    <field name="payment_no" readonly="1"/>
+<!--                    <field name="payment_no" attrs="{'readonly':[('state','!=','coc')],'required':[('state','=','coc')]}"/>-->
+                    <field name="need_coc" required="1" widget="radio" attrs="{'readonly':[('state','!=','coc')]}" options="{'horizontal': true}"/>
+                    <field name="explanation" attrs="{'readonly':[('state','in',['invoiced','paid','not_invoiced','confirmed'])],'invisible':[('need_coc','=','yes')],'required':[('need_coc','=','no')]}"/>
+                </xpath>
+                 <xpath expr="//field[@name='contract_id']" position="after">
+                       <field name="contract_no"/>
+                 </xpath>
+                <xpath expr="//field[@name='description']" position="before">
+                    <field name="coc_bill_attachment_ids" widget="many2many_binary" required="1" attrs="{'readonly':[('state','!=','confirmed')],'required':[('state','=','confirmed')]}"/>
+                </xpath>
+
+                <xpath expr="//field[@name='contract_type']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='name']" position="attributes">
+                    <attribute name="attrs">{'readonly':[('state','in',['invoiced','paid','not_invoiced','confirmed'])]}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='analytic_account_id']" position="attributes">
+                    <attribute name="attrs">{'readonly':[('state','in',['invoiced','paid','confirmed'])]}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='account_id']" position="attributes">
+                    <attribute name="attrs">{'readonly':[('state','in',['invoiced','paid','confirmed'])]}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='description']" position="attributes">
+                    <attribute name="attrs">{'readonly':[('state','in',['invoiced','paid','not_invoiced','confirmed'])]}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='due_date']" position="attributes">
+                    <attribute name="attrs">{'readonly':[('state','in',['invoiced','paid','not_invoiced','confirmed'])]}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='installment_type']" position="attributes">
+                    <attribute name="attrs">{'readonly':['|',('state','!=','coc'),('taxed_invoice','=','final_invoice')]}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='amount']" position="attributes">
+                    <attribute name="attrs">{'readonly':['|',('state','!=','coc'),('taxed_invoice','=','final_invoice')]}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='percent']" position="attributes">
+                    <attribute name="attrs">{'readonly':[('state','!=','coc')],'invisible':[('installment_type','!=','percent')],'required':[('installment_type','=','percent')]}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='tax_id']" position="attributes">
+                    <attribute name="attrs">{'readonly':[('state','!=','coc')], 'invisible':[('taxed_invoice','=','without_invoice')]}</attribute>
+                    <attribute name="required">1</attribute>
+                </xpath>
+                  <xpath expr="//field[@name='invoice_id']" position="attributes">
+                    <attribute name="attrs">{'readonly':[('state','!=','not_invoiced')], 'invisible':[('state','not in',['invoiced','paid'])]}</attribute>
+                </xpath>
+
+            </field>
+        </record>
+        <!-- line.contract.installment.coc form view -->
+        <record id="line_contract_installment_coc_form" model="ir.ui.view">
+            <field name="name">line.contract.installment.coc.view.form</field>
+            <field name="model">line.contract.installment.coc</field>
+            <field name="arch" type="xml">
+                <form string="" create="false" delete="false">
+                    <header>
+                        <button name="action_confirm" type="object" class="oe_highlight" groups="odex25_contract_saip.group_coc_manager,odex25_contract_saip.group_coc_user" states="draft" string="Confirm" />
+                        <button name="action_approve" type="object" class="oe_highlight" groups="odex25_contract_saip.group_coc_manager" states="confirm" string="Approve" />
+                        <button name="action_cancel" type="object" class="oe_highlight" groups="odex25_contract_saip.group_coc_manager" states="draft,confirm" string="Reject"/>
+                        <button name="action_draft" type="object" class="oe_highlight" groups="odex25_contract_saip.group_coc_manager" states="cancel" string="Set to Draft"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,confirm,approve,cancel"/>
+                    </header>
+                    <sheet>
+                        <group col="4" colspan="2">
+                            <field name="installment_id" readonly="1"/>
+                            <field name="vendor_id" readonly="1"/>
+                            <field name="date" readonly="1"/>
+                            <field name="coc_stage" readonly="1"/>
+                            <field name="reject_reason" readonly="1" />
+                        </group>
+                        <group name ="coc_info" string="COC Info" col="4" colspan="2">
+                            <field name="comptetion_date" attrs="{'readonly':[('state','in',['approve'])]}"/>
+                            <field name="contract_id"  options='{"no_open": True, "no_create": True}' attrs="{'readonly':[('state','in',['approve'])]}"/>
+                            <field name="bill_date" attrs="{'readonly':[('state','in',['approve'])]}" required="1"/>
+                            <field name="bill_no" attrs="{'readonly':[('state','in',['approve'])]}" required="1" />
+                            <field name="total_amount" readonly="1" />
+                            <field name="tax_amount" readonly="1" />
+                            <field name="coc_attachment_ids" widget="many2many_binary" required="1" attrs="{'readonly':[('state','!=','draft')]}"/>
+                        </group>
+                        <group>
+                            <field name="requested_department" widget="many2many_tags"/>
+                        </group>
+                        <notebook>
+                            <page string="Description Of Completed Work" name="description_completed">
+                                <group>
+                                    <field nolabel="1" attrs="{'readonly':[('state','in',['approve'])]}" name="description_completed"/>
+                                </group>
+                            </page>
+                            <page string="Note" name="note">
+                                <field name="note"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- line.contract.installment.coc tree view -->
+        <record id="line_contract_installment_coc_tree" model="ir.ui.view">
+            <field name="name">model.name.view.tree</field>
+            <field name="model">line.contract.installment.coc</field>
+            <field name="arch" type="xml">
+                <tree create="false" delete="false" edit="false">
+                    <field name="name"/>
+                    <field name="installment_id"/>
+                    <field name="vendor_id"/>
+                    <field name="date"/>
+                    <field name="coc_stage"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <!-- line.contract.installment.coc action window -->
+        <record id="line_contract_installment_coc_action" model="ir.actions.act_window">
+            <field name="name">Certificate of Completion</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">line.contract.installment.coc</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+        <!-- This Menu Item must have a parent and an action -->
+        <menuitem id="coc_menu" name="Certificat of Completion CoC" groups="odex25_contract_saip.group_coc_user,odex25_contract_saip.group_coc_manager" parent="contract.contract_contract_menu" action="line_contract_installment_coc_action" sequence="3"/>
+
+
+
+    </data>
+
+
+</odoo>

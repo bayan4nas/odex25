@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+    <record id="account.action_account_payments_payable" model="ir.actions.act_window">
+        <field name="name">Payments</field>
+        <field name="res_model">account.payment</field>
+        <field name="view_mode">tree,kanban,form,graph</field>
+        <field name="context">{
+            'default_payment_type': 'outbound',
+            'default_partner_type': 'supplier',
+            'search_default_outbound_filter': 1,
+            'create':False,'edit':False,
+            'default_move_journal_types': ('bank', 'cash'),
+            }
+        </field>
+        <field name="view_id" ref="account.view_account_supplier_payment_tree"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Register a payment
+            </p>
+            <p>
+                Payments are used to register liquidity movements. You can process those payments by your own means or
+                by using installed facilities.
+            </p>
+        </field>
+    </record>
+    <record id="view_account_payment_new_approve_form" model="ir.ui.view">
+        <field name="name">account.payment.new.approve.view.form</field>
+        <field name="model">account.payment</field>
+        <field name="mode">primary</field>
+        <field name="inherit_id" ref="account.view_account_payment_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="replace">
+                <header>
+                    <button name="action_draft_accountant" states="draft" string="Approve - 1" type="object"
+                            class="oe_highlight"/>
+                    <button name="action_accountant" states="accountant" groups="odex25_account_saip.group_accountant"
+                            string="Approve - 2" type="object" class="oe_highlight"/>
+<!--                    <button name="action_senior_accountant" states="senior_accountant"-->
+<!--                            groups="odex25_account_saip.group_senior_accountant" string="Approve - 1" type="object"-->
+<!--                            class="oe_highlight"/>-->
+                    <button name="action_budget_management" states="budget_management"
+                            groups="odex25_account_saip.group_budget_management" string="Approve - 5" type="object"
+                            class="oe_highlight"/>
+                    <button name="action_head_accounting" states="head_accounting"
+                            groups="odex25_account_saip.group_head_accounting" string="Approve - 6" type="object"
+                            class="oe_highlight"/>
+                    <button name="action_executive_director_finance" states="executive_director_finance"
+                            groups="odex25_account_saip.group_executive_director_finance" string="Approve - 8"
+                            type="object" class="oe_highlight"/>
+                    <button name="action_vice_president_resources" states="vice_president_resources"
+                            groups="odex25_account_saip.group_vice_president_resources" string="Approve - 9"
+                            type="object" class="oe_highlight"/>
+                    <button name="action_chief_executive_officer" states="chief_executive_officer"
+                            groups="odex25_account_saip.group_chief_executive_officer" string="Approve - 10"
+                            type="object" class="oe_highlight"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,accountant,senior_accountant,budget_management,head_accounting,executive_director_finance,vice_president_resources,chief_executive_officer,posted"/>
+
+                </header>
+            </xpath>
+            <field name="payment_type" position="attributes">
+                <attribute name="readonly">1</attribute>
+            </field>
+            <!-- <xpath expr="//field[@name='payment_type']" position="attributes">
+                <attribute name="invisible">1</attribute>
+                <attribute name="attrs">{}</attribute>
+              </xpath> -->
+        </field>
+    </record>
+
+    <record id="view_account_supplier_payment_inherit_tree" model="ir.ui.view">
+        <field name="name">account.supplier.payment.tree</field>
+        <field name="model">account.payment</field>
+        <field name="inherit_id" ref="account.view_account_supplier_payment_tree"/>
+        <field name="arch" type="xml">
+             <field name="name" position="attributes">
+                <attribute name="attrs">{'invisible': [('state', '!=', 'posted')]}</attribute>
+             </field>
+            <field name="name" position="after">
+                <field name="ref"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="action_account_payments_approve_payable" model="ir.actions.act_window">
+        <field name="name">Payments</field>
+        <field name="res_model">account.payment</field>
+        <field name="view_mode">tree,kanban,form,graph</field>
+        <field name="context">{
+            'default_payment_type': 'outbound',
+            'default_partner_type': 'supplier',
+            'search_default_outbound_filter': 1,
+            'default_move_journal_types': ('bank', 'cash'),
+            }
+        </field>
+        <field name="view_ids" eval="[(5, 0, 0),
+        (0, 0, {'view_mode': 'tree' ,'view_id': ref('account.view_account_supplier_payment_tree')}),
+        (0, 0, {'view_mode': 'form', 'view_id': ref('view_account_payment_new_approve_form')})]"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Register a payment
+            </p>
+            <p>
+                Payments are used to register liquidity movements. You can process those payments by your own means or
+                by using installed facilities.
+            </p>
+        </field>
+    </record>
+
+
+    <menuitem id="menu_action_account_payments_payable" name="Payments" action="action_account_payments_approve_payable"
+              parent="odex25_account_accountant.menu_accounting" sequence="3"/>
+
+</odoo>
