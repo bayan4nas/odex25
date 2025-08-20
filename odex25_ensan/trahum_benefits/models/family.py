@@ -275,7 +275,11 @@ class GrantBenefit(models.Model):
             self.env['ir.config_parameter'].sudo().get_param('trahum_benefits.base_line_value', 0)
         )
         for rec in self:
-            breadwinner_count = len(rec.benefit_breadwinner_ids)
+
+            filtered = rec.benefit_breadwinner_ids.filtered(
+                lambda bw: bw.relation_id and not bw.relation_id.exclude_need
+            )
+            breadwinner_count = len(filtered)
             under_18_count = rec.members_under_18
             above_18_count = rec.members_18_and_above
 
