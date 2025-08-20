@@ -3,6 +3,7 @@
 from odoo import models, fields, api, _
 from odoo.exceptions import ValidationError, UserError
 
+
 class BenefitsServiceRequest(models.Model):
     _name = 'benefits.service.request'
     _description = 'Benefits Service Request'
@@ -41,7 +42,7 @@ class BenefitsServiceRequest(models.Model):
         required=True,
         tracking=True
     )
-    
+
     # Family Information
     family_id = fields.Many2one(
         'grant.benefit',
@@ -78,7 +79,7 @@ class BenefitsServiceRequest(models.Model):
         compute='_compute_family_info',
         store=True
     )
-    
+
     # Request Details
     request_type = fields.Selection(
         [
@@ -107,7 +108,7 @@ class BenefitsServiceRequest(models.Model):
         string='Description',
         tracking=True
     )
-    
+
     # Outputs
     output_ids = fields.One2many(
         'benefits.service.request.output',
@@ -115,7 +116,7 @@ class BenefitsServiceRequest(models.Model):
         string='Outputs',
         tracking=True
     )
-    
+
     # Approval Workflow
     state = fields.Selection(
         [
@@ -133,7 +134,7 @@ class BenefitsServiceRequest(models.Model):
         tracking=True,
         group_expand='_expand_states'
     )
-    
+
     cancel_reason = fields.Text(string="Cancellation Reason", tracking=True)
     return_reason = fields.Text(string="Return Reason", tracking=True)
 
@@ -266,3 +267,26 @@ class BenefitsServiceRequestOutput(models.Model):
 
     def action_confirm_execute(self):
         self.write({'state': 'executed'})
+
+
+class ServiceRequest(models.Model):
+    _inherit = 'service.request'
+
+    branches_custom = fields.Many2one('branch.details', string="Branch", compute='get_branch_custom_id', store=True)
+
+    @api.depends('benefit_type', 'family_id', 'member_id')
+    def get_branch_custom_id(self):
+        for rec in self:
+            branch_id = False
+            if rec.benefit_type == 'family' and rec.family_id:
+                branch_id = rec.family_id.branch_details_id.id
+            elif rec.benefit_type == 'member' and rec.member_id:
+                fam = self.env['grant.benefit'].search(
+                    [('benefit_member_ids.member_id', '=', rec.member_id.id)],
+                    limit=1
+                )
+                branch_id = fam.branch_details_id.id if fam else False
+            elif rec.benefit_type == 'detainee' and rec.detainee_file:
+                branch_id = rec.detainee_file.branch_id.id
+
+            rec.branches_custom = branch_id
