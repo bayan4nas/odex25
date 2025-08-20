@@ -328,6 +328,7 @@ class Contract(models.Model):
 
     check_nationality = fields.Boolean(related='employee_id.check_nationality', store=True, string="Saudi?")
 
+    last_salary_gosi = fields.Float(string='Last Salary Gosi', help='The Last Salary Gosi After The Age 50 Years.')
 
     def _get_employee_dependant_count(self):
         for rec in self:
