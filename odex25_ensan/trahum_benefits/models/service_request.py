@@ -273,6 +273,10 @@ class ServiceRequest(models.Model):
     _inherit = 'service.request'
 
     branches_custom = fields.Many2one('branch.details', string="Branch", compute='get_branch_custom_id', store=True)
+    service_path = fields.Many2one('beneficiary.path', 'Service Path', related='service_cats.paths')
+    sub_service_path = fields.Many2one('benefits.service.classification', 'Sub Service Path',
+                                       related='service_cats.classification_id')
+    account_expense = fields.Many2one('account.account',related='service_cats.account_id' )
 
     @api.depends('benefit_type', 'family_id', 'member_id')
     def get_branch_custom_id(self):

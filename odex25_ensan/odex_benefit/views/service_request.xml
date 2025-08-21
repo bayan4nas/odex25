@@ -79,11 +79,15 @@
                                 <field name="benefit_member_count" invisible="1"/>
                                 <field name="eid_gift_benefit_count"
                                        attrs="{'invisible':['|',('service_type','!=','eid_gift'),('benefit_type','!=','family')]}"/>
-                                <field name="branches_custom" force_save="1"/>
                                 <field name="detainee_file" attrs="{'invisible':[('benefit_type','!=','detainee')]}"/>
 
                                 <field name="detainee_member"
                                        attrs="{'invisible':[('benefit_type','!=','detainee')],'readonly':[('state','not in',['draft','researcher','send_request'])],'required':[('benefit_type','=','detainee')]}"/>
+                                <field name="branches_custom" force_save="1"/>
+
+                                <field name="need_status_id"
+                                       attrs="{'readonly':[('state','not in',['draft','researcher','send_request'])]}"/>
+
                                 <field name="account_id"
                                        attrs="{'invisible':[('service_type','=','electrical_devices')]}"/>
                                 <field name="device_account_id"
@@ -101,14 +105,8 @@
                             </group>
                             <group>
                                 <field name="provider_need_partner" invisible="1"/>
-                                <field name="need_status_id"
-                                       attrs="{'readonly':[('state','not in',['draft','researcher','send_request'])]}"/>
                                 <field name="need_status" invisible="1"/>
 
-                                <field name="delivery_method_id"
-                                       attrs="{'readonly':[('state','not in',['draft','researcher','send_request'])]}"/>
-                                <field name="provider_id"
-                                       attrs="{'readonly':[('state','not in',['draft','researcher','send_request'])]}"/>
                                 <field name="partner_id"
                                        attrs="{
                                                'invisible': [('provider_need_partner', '=', False)],
@@ -123,9 +121,7 @@
                                 <field name="service_cat"
                                        attrs="{'readonly':[('state','not in',['draft','researcher','send_request'])]}"
                                        invisible="1"/>
-                                <field name="service_cats"
-                                       attrs="{'readonly':[('state','not in',['draft','researcher','send_request'])]}"
-                                       required="0"/>
+
                                 <field name="requested_service_amount" attrs="{'readonly': ['|', '|', '|', '|', '|', '|',
                                     '&amp;',('state', 'not in', ['draft', 'researcher', 'send_request']),('service_type', '!=', 'electrical_devices'),
                                     '&amp;',('state', 'not in', ['draft', 'researcher', 'send_request', 'first_approve', 'second_approve', 'accounting_approve']),
@@ -135,6 +131,12 @@
                                     ('service_type', '=', 'eid_gift'),
                                     ('service_type', '=', 'winter_clothing'),
                                     ('service_type', '=', 'ramadan_basket')]}" force_save="1" required="1"/>
+                                <field name="delivery_method_id"
+                                       attrs="{'readonly':[('state','not in',['draft','researcher','send_request'])]}"/>
+                                <field name="provider_id"
+                                       attrs="{'readonly':[('state','not in',['draft','researcher','send_request'])]}"/>
+
+
                                 <field name="amount_for_buy_home_for_member_count"
                                        attrs="{'invisible':[('service_type','!=','buy_home')]}"/>
                                 <field name="home_age" attrs="{'invisible':[('service_type','!=','buy_home')]}"/>
