@@ -375,11 +375,13 @@ class GrantBenefitProfile(models.Model):
     member_income = fields.Integer(string="Member Income Average", compute="get_member_income",store=True)
     request_activity_id = fields.Many2one('mail.activity')
     STATE_SELECTION = [
-        ('draft', 'الباحث الاجتماعي'),
-        ('basic_manager', 'اعتماد مدير الرعاية الأساسية'),
-        ('service_manager', 'اعتماد مدير مركز خدمات المستفيدين'),
-        ('approved', 'معتمد'),
-        ('rejected', 'مرفوض'),
+        ('draft', 'Draft'),
+        ('confirm', 'Confirm'),
+        ('validate', 'Validate'),
+        ('review', 'Approved'),
+        ('approve', 'Approve'),
+        ('cancelled', 'Cancelled'),
+        ('closed', 'Closed'),
     ]
 
     # add new customuzation
