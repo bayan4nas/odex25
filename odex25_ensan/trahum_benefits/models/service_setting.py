@@ -94,16 +94,19 @@ class ServiceSetting(models.Model):
         ('code_unique', 'UNIQUE(code)', 'Service code must be unique!'),
     ]
 
-    @api.onchange('path')
+    @api.onchange('paths')
     def _onchange_path(self):
+        print('sdcccccccccccc')
         for rec in self:
             domain = []
-            if rec.path:
+            if rec.paths:
+                print(rec.paths,'ddddddddddddddddd')
                 linked_classifications = self.env['benefits.service.classification'].search([
-                    ('path_id', '=', rec.path.id)
-                ]).mapped('classification_id').ids
+                    ('benefit_path_id', '=', rec.paths.id)
+                ])
+                print(linked_classifications,'lllllllllllllll')
                 if linked_classifications:
-                    domain.append(('id', 'in', linked_classifications))
+                    domain.append(('id', 'in', linked_classifications.ids))
 
             return {'domain': {'classification_id': domain}}
 
