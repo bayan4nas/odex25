@@ -37,18 +37,46 @@ class GrantBenefit(models.Model):
     researcher_id = fields.Many2one("committees.line", string='Researcher Name')
     folder_state = fields.Selection([('Active', 'active'), ('not_active', 'Not Active')], string='Folder State')
 
-    building_number = fields.Integer(string='Building Number')
-    sub_number = fields.Integer(string='Sub Number')
-    additional_number = fields.Integer(string='Additional Number')
-    street_name = fields.Char(string='Street Name')
-    city = fields.Many2one("res.country.city", string='City')
+    # related = 'benefit_breadwinner_ids[0].member_name.building_number'
+    building_number = fields.Integer(string='Building Number',compute='_compute_breadwinner_address')
+    sub_number = fields.Integer(string='Sub Number',compute='_compute_breadwinner_address')
+    additional_number = fields.Integer(string='Additional Number',compute='_compute_breadwinner_address')
+    street_name = fields.Char(string='Street Name',compute='_compute_breadwinner_address')
+    city = fields.Many2one("res.country.city", string='City',compute='_compute_breadwinner_address')
 
     district_name = fields.Many2one(
         'res.district',
-        string='District', )
+        string='District', compute='_compute_breadwinner_address')
 
-    postal_code = fields.Char(string='Postal Code')
-    national_address_code = fields.Char(string='National address code')
+    postal_code = fields.Char(string='Postal Code',compute='_compute_breadwinner_address')
+    national_address_code = fields.Char(string='National address code',compute='_compute_breadwinner_address')
+
+    @api.depends(
+        'benefit_breadwinner_ids.member_name.building_number',
+        'benefit_breadwinner_ids.member_name.sub_number',
+        'benefit_breadwinner_ids.member_name.additional_number',
+        'benefit_breadwinner_ids.member_name.street_name',
+        'benefit_breadwinner_ids.member_name.district_id',
+        'benefit_breadwinner_ids.member_name.city',
+        'benefit_breadwinner_ids.member_name.postal_code',
+        'benefit_breadwinner_ids.member_name.national_address_code',
+    )
+    def _compute_breadwinner_address(self):
+        for rec in self:
+            if rec.benefit_breadwinner_ids:
+                member = rec.benefit_breadwinner_ids[0].member_name
+                rec.building_number = member.building_number
+                rec.sub_number = member.sub_number
+                rec.additional_number = member.additional_number
+                rec.street_name = member.street_name
+                rec.district_name = member.district_id
+                rec.city = member.city
+                rec.postal_code = member.postal_code
+                rec.national_address_code = member.national_address_code
+            else:
+                rec.building_number = rec.sub_number = rec.additional_number = False
+                rec.street_name = rec.district_name = rec.city = False
+                rec.postal_code = rec.national_address_code = False
 
     @api.depends('benefit_member_ids')
     def _compute_member_name(self):

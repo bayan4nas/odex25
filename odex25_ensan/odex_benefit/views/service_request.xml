@@ -89,7 +89,7 @@
                                        attrs="{'readonly':[('state','not in',['draft','researcher','send_request'])]}"/>
 
                                 <field name="account_id"
-                                       attrs="{'invisible':[('service_type','=','electrical_devices')]}"/>
+                                       invisible="1"/>
                                 <field name="device_account_id"
                                        attrs="{'invisible':[('service_type','!=','electrical_devices')]}"/>
                                 <field name="accountant_id"
@@ -113,11 +113,9 @@
                                                'required': [('provider_need_partner', '=', True)]
                                            }"/>
                                 <field name="main_service_category"
-                                       attrs="{'readonly':[('state','not in',['draft','researcher','send_request'])]}"
-                                       required="1"/>
+                                       invisible="1"/>
                                 <field name="sub_service_category"
-                                       attrs="{'readonly':[('state','not in',['draft','researcher','send_request'])]}"
-                                       required="1"/>
+                                       invisible="1"/>
                                 <field name="service_cat"
                                        attrs="{'readonly':[('state','not in',['draft','researcher','send_request'])]}"
                                        invisible="1"/>
