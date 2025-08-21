@@ -329,7 +329,7 @@ msgstr "مستفيد"
 
 #. module: trahum_benefits
 #: model:ir.model.fields,field_description:trahum_benefits.field_detainee_file__beneficiary_category
-msgid "Beneficiary Category"
+msgid "  Beneficiary Category"
 msgstr "حالة المستفيد اﻷساسي"
 
 #. module: trahum_benefits
@@ -447,14 +447,14 @@ msgstr "حالة الضمان"
 #. module: trahum_benefits
 #: code:addons/trahum_benefits/models/family.py:0
 #, python-format
-msgid "Breadwinner"
+msgid "Breadwinner  "
 msgstr "عائل"
 
 
 #. module: trahum_benefits
 #: model:ir.model.fields,field_description:trahum_benefits.field_grant_benefit_breadwinner__breadwinner
 #, python-format
-msgid "Breadwinner"
+msgid " Breadwinner"
 msgstr "العلاقة بالنزيل"
 
 #. module: trahum_benefits
@@ -685,8 +685,6 @@ msgid "Configure different disbursement periods for different need categories"
 msgstr ""
 
 #. module: trahum_benefits
-#: model:ir.model.fields.selection,name:trahum_benefits.selection__grant_benefit__previous_state__confirm
-#: model:ir.model.fields.selection,name:trahum_benefits.selection__grant_benefit__state__confirm
 #: model_terms:ir.ui.view,arch_db:trahum_benefits.view_detainee_file_form
 #: model_terms:ir.ui.view,arch_db:trahum_benefits.view_family_member_form
 #: model_terms:ir.ui.view,arch_db:trahum_benefits.view_revert_state_wizard
@@ -988,7 +986,7 @@ msgstr "اسم العرض"
 
 #. module: trahum_benefits
 #: model:ir.model.fields,field_description:trahum_benefits.field_family_member__district
-msgid "District"
+msgid " District"
 msgstr "الصرف"
 
 #. module: trahum_benefits
@@ -1039,8 +1037,6 @@ msgstr "مغلق"
 #: model:ir.model.fields.selection,name:trahum_benefits.selection__benefits_service_request__state__draft
 #: model:ir.model.fields.selection,name:trahum_benefits.selection__detainee_file__state__draft
 #: model:ir.model.fields.selection,name:trahum_benefits.selection__family_member__state__draft
-#: model:ir.model.fields.selection,name:trahum_benefits.selection__grant_benefit__previous_state__draft
-#: model:ir.model.fields.selection,name:trahum_benefits.selection__grant_benefit__state__draft
 #: model_terms:ir.ui.view,arch_db:trahum_benefits.view_benefits_service_request_search
 msgid "Draft"
 msgstr "مسودة"
@@ -2400,6 +2396,8 @@ msgstr ""
 #. module: trahum_benefits
 #: model:ir.model.fields.selection,name:trahum_benefits.selection__detainee_file__state__rejected
 #: model:ir.model.fields.selection,name:trahum_benefits.selection__family_member__state__cancelled
+#: model:ir.model.fields.selection,name:trahum_benefits.selection__grant_benefit__previous_state__cancelled
+#: model:ir.model.fields.selection,name:trahum_benefits.selection__grant_benefit__state__cancelled
 msgid "Rejected"
 msgstr "مرفوض"
 
@@ -2780,7 +2778,7 @@ msgstr "نشط"
 
 #. module: trahum_benefits
 #: model:ir.model.fields.selection,name:trahum_benefits.selection__detainee_file__file_state__inactive
-msgid "Inactive"
+msgid "Inactive "
 msgstr " غير نشط"
 
 
@@ -2928,8 +2926,6 @@ msgid "Usufruct"
 msgstr "حق انتفاع"
 
 #. module: trahum_benefits
-#: model:ir.model.fields.selection,name:trahum_benefits.selection__grant_benefit__previous_state__validate
-#: model:ir.model.fields.selection,name:trahum_benefits.selection__grant_benefit__state__validate
 #: model_terms:ir.ui.view,arch_db:trahum_benefits.view_grant_benefit_form
 msgid "Validate"
 msgstr "بانتظار التحقق"
@@ -3224,7 +3220,7 @@ msgstr "أسرة المفرج عنه"
 
 #. module: trahum_benefits
 #: model:ir.model.fields,field_description:trahum_benefits.field_benefits_service__beneficiary_category
-msgid "Beneficiary Category"
+msgid "Beneficiary Category  "
 msgstr "الفئات المستفيدة"
 
 
@@ -3408,3 +3404,45 @@ msgstr "صلة القرابه"
 #: model_terms:ir.ui.view,arch_db:trahum_benefits.view_family_member_relation_tree
 msgid "Family Member Relations"
 msgstr "علاقات أفراد الأسرة"
+
+#. module: trahum_benefits
+#: code:addons/trahum_benefits/models/family.py:0
+#, python-format
+msgid ""
+"Please fill in both Researcher Name and Folder State before submitting."
+msgstr ".يرجى ملء اسم الباحث وحالة المجلد قبل الإرسال"
+
+#. modules: trahum_benefits
+#: model:ir.model.fields.selection,name:trahum_benefits.selection__grant_benefit__previous_state__draft
+#: model:ir.model.fields.selection,name:trahum_benefits.selection__grant_benefit__state__draft
+msgid "Family Researcher"
+msgstr "الباحث الاجتماعي"
+
+
+#. module: trahum_benefits
+#: model:ir.model.fields.selection,name:trahum_benefits.selection__grant_benefit__previous_state__confirm
+#: model:ir.model.fields.selection,name:trahum_benefits.selection__grant_benefit__state__confirm
+msgid "Primary Care Director Accreditation"
+msgstr "اعتماد مدير الرعاية الأساسية"
+
+#. module: trahum_benefits
+#: model:ir.model.fields.selection,name:trahum_benefits.selection__grant_benefit__previous_state__validate
+#: model:ir.model.fields.selection,name:trahum_benefits.selection__grant_benefit__state__validate
+msgid "Beneficiary Services Center Director Approval"
+msgstr "اعتماد مدير خدمات المستفيدين"
+
+
+#. module: trahum_benefits
+#: model_terms:ir.ui.view,arch_db:trahum_benefits.view_grant_benefit_form
+msgid "Initial Accreditation"
+msgstr "الاعتماد الأولي"
+
+#. module: trahum_benefits
+#: model_terms:ir.ui.view,arch_db:trahum_benefits.view_grant_benefit_form
+msgid "Final Approval"
+msgstr "الاعتماد النهائي"
+
+#. modules: trahum_benefits
+#: model_terms:ir.ui.view,arch_db:trahum_benefits.view_grant_benefit_form
+msgid "Refuse"
+msgstr "رفض"
