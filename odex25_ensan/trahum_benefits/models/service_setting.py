@@ -94,24 +94,24 @@ class ServiceSetting(models.Model):
         ('code_unique', 'UNIQUE(code)', 'Service code must be unique!'),
     ]
 
-    # @api.onchange('path')
-    # def _onchange_path(self):
-    #     for rec in self:
-    #         domain = []
-    #         if rec.path:
-    #             linked_classifications = self.env['benefits.service.classification'].search([
-    #                 ('path_id', '=', rec.path.id)
-    #             ]).mapped('classification_id').ids
-    #             if linked_classifications:
-    #                 domain.append(('id', 'in', linked_classifications))
-    #
-    #         return {'domain': {'classification_id': domain}}
+    @api.onchange('path')
+    def _onchange_path(self):
+        for rec in self:
+            domain = []
+            if rec.path:
+                linked_classifications = self.env['benefits.service.classification'].search([
+                    ('path_id', '=', rec.path.id)
+                ]).mapped('classification_id').ids
+                if linked_classifications:
+                    domain.append(('id', 'in', linked_classifications))
+
+            return {'domain': {'classification_id': domain}}
 
     @api.constrains('disbursement_periodicity_ids')
     def _check_disbursement_periodicity(self):
         for service in self:
             if service.enable_disbursement_periodicity:
-                categories = service.disbursement_periodicity_ids.mapped('category')
+                categories = service.disbursement_periodicity_ids.mapped('categories')
                 if len(categories) != len(set(categories)):
                     raise ValidationError(_("Duplicate category found in disbursement periodicity settings."))
                 if not categories:
