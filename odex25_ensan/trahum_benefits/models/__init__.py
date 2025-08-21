@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 from . import res_district
+from . import family_need_category
+
 from . import member
 from . import family
 from . import res_prison
@@ -13,5 +15,4 @@ from . import res_district
 from . import benificiary_path
 
 from . import res_config_settings_need_calculat
-from . import family_need_category
 

@@ -28,44 +28,31 @@
                     <header>
 
                         <!-- Action Buttons -->
-                        <button name="action_submit_call_center" type="object" string="Approve"
+                        <button name="action_set_basic_manager" type="object" string="Approve"
                                 class="oe_highlight"
+                                groups="odex_benefit.group_family_researcher"
                                 attrs="{'invisible': [('state', '!=', 'draft')]}"/>
 
-                        <button name="action_approve_call_center" type="object" string="Approve Call Center"
-                                class="oe_highlight" groups="trahum_benefits.group_benefit_confirm"
+                        <button name="action_set_service_manager" type="object" string="Initial Accreditation"
+                                class="oe_highlight" groups="odex_benefit.group_basic_care_manager"
                                 attrs="{'invisible': [('state', '!=', 'confirm')]}"/>
 
-                        <button name="action_approve_social" type="object" string="Validate"
-                                class="oe_highlight" groups="trahum_benefits.group_benefit_validate"
+                        <button name="action_approve" type="object" string="Final Approval"
+                                class="oe_highlight" groups="odex_benefit.group_service_manager"
                                 attrs="{'invisible': [('state', '!=', 'validate')]}"/>
 
-                        <button name="action_approve_branch" type="object" string="Approve Branch Manager"
-                                class="oe_highlight" groups="trahum_benefits.group_benefit_review"
-                                attrs="{'invisible': [('state', '!=', 'review')]}"/>
 
-                        <button name="action_close" type="object" string="Close"
-                                class="oe_highlight"
-                                confirm="Are you sure?" attrs="{'invisible': [('state', '!=', 'approved')]}"/>
-
-                        <button name="action_done" type="object" string="CEO Approve"
-                                class="oe_highlight" groups="trahum_benefits.group_benefit_approve"
-                                confirm="Are you sure?" attrs="{'invisible': [('state', '!=', 'approve')]}"/>
-
-                        <button name="action_revert_state" type="object" string="Return"
-                                class="btn-secondary"
-                                attrs="{'invisible': [('state', 'in', ['draft', 'cancelled', 'closed'])]}"/>
-
-                        <button name="action_cancel" type="object" string="Cancel"
+                        <button name="action_reject" type="object" string="Refuse"
                                 class="btn-danger"
-                                attrs="{'invisible': [('state', 'in', ['cancelled', 'closed','draft'])]}"/>
+                                groups="odex_benefit.group_service_manager,odex_benefit.group_basic_care_manager"
+                                attrs="{'invisible': [('state','not in', ('confirm','validate'))]}"/>
 
                         <button name="reset_to_draft" type="object" string="Reset to Draft"
                                 class="btn-secondary"
                                 confirm="Are you sure?" attrs="{'invisible': [('state', '!=', 'cancelled')]}"/>
 
                         <field name="state" widget="statusbar"
-                               statusbar_visible="draft,confirm,validate,review,approve,approved,closed"/>
+                               statusbar_visible="draft,confirm,validate,approved,cancelled"/>
 
                     </header>
                     <sheet>

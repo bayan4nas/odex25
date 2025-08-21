@@ -48,7 +48,7 @@ class ServiceSetting(models.Model):
 
     beneficiary_category = fields.Selection(
         [('detainee', 'Detainee'), ('detainee_family', 'Detainee Family'), ('released_family', 'Released Family')],
-        string='Beneficiary Category')
+        string='Beneficiary Category  ')
 
     description = fields.Html(
         string='Service Description',

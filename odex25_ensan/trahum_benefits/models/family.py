@@ -12,14 +12,14 @@ class GrantBenefit(models.Model):
     _inherit = 'grant.benefit'
 
     STATE_SELECTION = [
-        ('draft', 'Draft'),
-        ('confirm', 'Confirm'),
-        ('validate', 'Validate'),
+        ('draft', 'الباحث الاجتماعي'),
+        ('confirm', 'Primary Care Director Accreditation'),
+        ('validate', 'Beneficiary Services Center Director Approval'),
         ('review', 'Review'),
         ('approve', 'Approve'),
         ('approved', 'Approved'),
         ('closed', 'Done'),
-        ('cancelled', 'Cancelled'),
+        ('cancelled', 'Rejected'),
 
     ]
 
@@ -271,10 +271,13 @@ class GrantBenefit(models.Model):
         for rec in self:
             rec.family_need_class_id = False
             if rec.need_ratio:
-                category = self.env['family.need.category'].search([
-                    ('min_need', '<=', rec.need_ratio),
-                    ('max_need', '>=', rec.need_ratio)
+
+                ratio = rec.need_ratio /100
+                category = self.env['family.need.category'].sudo().search([
+                    ('min_need', '<=', ratio),
+                    ('max_need', '>=', ratio)
                 ], order='min_need asc', limit=1)
+                print("ratio",ratio)
                 if category:
                     rec.family_need_class_id = category.id
 
@@ -376,7 +379,7 @@ class GrantBenefit(models.Model):
     def reset_to_draft(self):
         self.state = 'draft'
 
-    def action_cancel(self):
+    def action_reject(self):
         return {
             'name': _('Cancel Benefit'),
             'type': 'ir.actions.act_window',
@@ -391,18 +394,22 @@ class GrantBenefit(models.Model):
         if self.detainee_file_id:
             self.inmate_member_id = self.detainee_file_id.detainee_id
 
-    def action_submit_call_center(self):
+
+
+    def action_set_basic_manager(self):
+        self.ensure_one()
+        if not self.researcher_id or not self.folder_state:
+            raise UserError(_("Please fill in both Researcher Name and Folder State before submitting."))
         self._compute_need_calculator()
         self.state = 'confirm'
 
-    def action_approve_call_center(self):
+
+    def action_set_service_manager(self):
         self.state = 'validate'
 
-    def action_approve_social(self):
-        self.state = 'review'
 
-    def action_approve_branch(self):
-        self.state = 'approve'
+    def action_approve(self):
+        self.state = 'approved'
 
     def action_close(self):
         self.state = 'closed'
@@ -666,7 +673,7 @@ class GrantBenefitBreadwinner(models.Model):
     grant_benefit_ids = fields.Many2one('grant.benefit', string="Grant Benefit", ondelete="cascade", required=1)
 
     relation_id = fields.Many2one('family.member.relation', string='Relation with res')
-    breadwinner = fields.Char(string='Breadwinner', default=lambda self: _('Breadwinner'))
+    breadwinner = fields.Char(string=' Breadwinner', default=lambda self: _('Breadwinner  '))
     member_name = fields.Many2one('family.member', string="Member name")
 
     @api.onchange('member_name')

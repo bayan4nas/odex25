@@ -239,7 +239,7 @@ class FamilyMember(models.Model):
     street_name = fields.Char(string='Street Name')
     district_id = fields.Many2one(
         'res.district',
-        string='District',
+        string=' District',
         domain="[('city_id', '=', city)]")
 
     city = fields.Many2one("res.country.city", string='City')
@@ -562,11 +562,11 @@ class DetaineeFile(models.Model):
     prison_id = fields.Many2one('res.prison', string="Prison", domain=[('country_id', '=', prison_country_id)])
 
     cancel_reason: fields.Text = fields.Text(string="Rejection Reason", tracking=True, copy=False)
-    file_state = fields.Selection([('active', 'Active'), ('inactive', 'Inactive')], string='File Status')
+    file_state = fields.Selection([('active', 'Active'), ('inactive', 'Inactive ')], string='File Status')
 
     prisoner_state = fields.Selection([('convicted', 'Convicted'), ('not_convicted', 'Not Convicted')],
                                       string='Inmate Status')
-    beneficiary_category = fields.Selection([('gust', 'Gust'), ('released', 'Released')], string='Beneficiary Category')
+    beneficiary_category = fields.Selection([('gust', 'Gust'), ('released', 'Released')], string='  Beneficiary Category')
     entitlement_status = fields.Selection([('deserved', 'Deserved'), ('undeserved', 'Undeserved')],
                                           string='Entitlement Status')
 
