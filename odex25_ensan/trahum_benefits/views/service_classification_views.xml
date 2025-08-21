@@ -7,7 +7,7 @@
             <tree string="Service Classifications">
                 <field name="name"/>
                 <field name="code"/>
-                <field name="active"/>
+                <field name="active" invisible="1"/>
             </tree>
         </field>
     </record>
@@ -22,9 +22,10 @@
                     <group>
                         <field name="name"/>
                         <field name="code"/>
-                        <field name="description"/>
-                        <field name="active" invisibale="1"/>
                         <field name="benefit_path_id"/>
+
+                        <field name="description"/>
+                        <field name="active" invisible="1"/>
                     </group>
                 </sheet>
             </form>
@@ -47,5 +48,5 @@
               name="Service Classification"
               parent="odex_benefit.benefit_services"
               action="action_service_classification"
-              sequence="40"/>
+              sequence="3"/>
 </odoo>
