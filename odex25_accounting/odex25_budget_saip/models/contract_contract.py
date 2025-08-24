@@ -94,7 +94,7 @@ class CnotractContract(models.Model):
         confirmation_lines = []
         balance = 0.0
         amount = sum(rec.price_subtotal for rec in self.contract_line_ids)
-        initial_reserve_deduction = sum(rec.sum_total for rec in self.request_id.line_ids)
+        initial_reserve_deduction = sum(rec.line_total for rec in self.request_id.line_ids)
         initial_reserve_updated = False  # Flag to ensure initial reserve deduction is applied only once
 
         for rec in self.contract_line_ids:
@@ -120,18 +120,18 @@ class CnotractContract(models.Model):
             balance += rec.price_subtotal
 
             # Apply initial reserve deduction only once
-            if self.request_id.is_competition_divisible == 'no':
-                if initial_reserve_deduction > 0 and not initial_reserve_updated:
-                    initial_reserve = budget_lines[0].initial_reserve - initial_reserve_deduction
-                    budget_lines.write({'initial_reserve': abs(initial_reserve)})
-                    initial_reserve_updated = True
-            else:
-                if initial_reserve_deduction > 0 and not initial_reserve_updated:
-                    contracts = self.env['contract.contract'].search_count([('request_id', '=', self.request_id.id),('budget_checked','=',False)])
-                    if contracts == 1:
-                        initial_reserve = budget_lines[0].initial_reserve - initial_reserve_deduction
-                        budget_lines.write({'initial_reserve': abs(initial_reserve)})
-                        initial_reserve_updated = True
+            # if self.request_id.is_competition_divisible == 'no':
+            #     if initial_reserve_deduction > 0 and not initial_reserve_updated:
+            initial_reserve = budget_lines[0].initial_reserve - initial_reserve_deduction
+            budget_lines.write({'initial_reserve': abs(initial_reserve)})
+                    # initial_reserve_updated = True
+            # else:
+            #     if initial_reserve_deduction > 0 and not initial_reserve_updated:
+            #         contracts = self.env['contract.contract'].search_count([('request_id', '=', self.request_id.id),('budget_checked','=',False)])
+            #         if contracts == 1:
+            #             initial_reserve = budget_lines[0].initial_reserve - initial_reserve_deduction
+            #             budget_lines.write({'initial_reserve': abs(initial_reserve)})
+            #             initial_reserve_updated = True
             new_remain = remain - balance
             confirmation_lines.append((0, 0, {
                 'amount': rec.price_subtotal,

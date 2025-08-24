@@ -82,7 +82,7 @@ class CrossoveredBudgetLines(models.Model):
                                                     compute='_compute_current_year_payment_contract')
     currency_id = fields.Many2one('res.currency', string='Currency', required=True)
     contract_reserve = fields.Float(string='Contract Amount', compute='_compute_contract_reserve_amount')
-    # initial_reserve = fields.Float(string='Initial Reserve', compute='_compute_purchase_request_reserve_amount')
+    purchase_reserve = fields.Float(string='Purchase Reserve', compute='_compute_purchase_reserve_amount')
     is_transferd = fields.Boolean()
 
     def name_get(self):
@@ -121,18 +121,18 @@ class CrossoveredBudgetLines(models.Model):
             ]).mapped('amount')
             rec.contract_reserve = sum(contract_reserve_amount) if contract_reserve_amount else 0.0
 
-    # @api.depends('item_budget_id')
-    # def _compute_purchase_request_reserve_amount(self):
-    #     for rec in self:
-    #         initial_reserve_amount = self.env['budget.confirmation.line'].search([
-    #             ('item_budget_id', '=', rec.item_budget_id.id),
-    #             ('account_id', 'in', rec.general_budget_id.account_ids.ids),
-    #             ('confirmation_id.date', '>=', rec.date_from),
-    #             ('confirmation_id.date', '<=', rec.date_to),
-    #             ('confirmation_id.type', '=', 'purchase.request'),
-    #             ('confirmation_id.state', '=', 'done')
-    #         ]).mapped('amount')
-    #         rec.initial_reserve = sum(initial_reserve_amount) if initial_reserve_amount else 0.0
+    @api.depends('item_budget_id')
+    def _compute_purchase_reserve_amount(self):
+        for rec in self:
+            purchase_reserve_amount = self.env['budget.confirmation.line'].search([
+                ('item_budget_id', '=', rec.item_budget_id.id),
+                ('account_id', 'in', rec.general_budget_id.account_ids.ids),
+                ('confirmation_id.date', '>=', rec.date_from),
+                ('confirmation_id.date', '<=', rec.date_to),
+                ('confirmation_id.type', '=', 'purchase.order'),
+                ('confirmation_id.state', '=', 'done')
+            ]).mapped('amount')
+            rec.purchase_reserve = sum(purchase_reserve_amount) if purchase_reserve_amount else 0.0
 
     @api.depends('item_budget_id')
     def _compute_contract_count(self):
@@ -222,7 +222,7 @@ class CrossoveredBudgetLines(models.Model):
                 ('payment_id.date', '<=', line.date_to),
                 ('payment_id.state', '=', 'posted')
             ]).mapped('amount')
-            line.remain = line.after_modification - line.contract_reserve - line.initial_reserve - sum(non_contract_payment_amount) - abs(line.transferd_balance)
+            line.remain = line.after_modification - line.contract_reserve - line.purchase_reserve -  line.initial_reserve - sum(non_contract_payment_amount) - abs(line.transferd_balance)
 
     @api.constrains('item_budget_id')
     def _check_item_budget_id(self):

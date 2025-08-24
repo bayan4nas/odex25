@@ -41,8 +41,8 @@
 
                     <button string="Approve" name="action_budget_done" states="validate" type="object"
                             class="oe_highlight" groups="odex25_budget_saip.group_approve_budget"/>
-                    <button string="Reset to Draft" name="action_budget_draft" states="validate" type="object"
-                            groups="odex25_budget_saip.group_approve_budget"/>
+                    <button string="Reset to Draft" name="action_budget_draft" states="done" type="object"
+                           />
                     <button string="Cancel Budget" name="action_budget_cancel" states="validate" type="object"
                             groups="odex25_budget_saip.group_approve_budget"/>
 
@@ -72,8 +72,8 @@
 <!--                <field name="cost_after_modification" sum="Cost Amount After MOD" widget="monetary"/>-->
                 <field name="after_modification" sum="After Modification" readonly="1" widget="monetary"/>
             </xpath>
-            <xpath expr="//field[@name='crossovered_budget_line']/tree/field[@name='contract_reserve']"
-                   position="after">
+            <xpath expr="//field[@name='crossovered_budget_line']/tree/field[@name='contract_reserve']" position="after">
+                <field name="purchase_reserve" sum="Purchase Reserve" readonly="1"/>
                 <field name="contract_count" sum="Contract Count" readonly="1"/>
                 <field name="financial_reserve" sum="Financial Amount" readonly="1" widget="monetary"/>
                 <field name="current_year_payment" sum="Current Amount" readonly="1" widget="monetary"/>
@@ -133,13 +133,23 @@
     <record id="purchase_request_form_view_inherit_2" model="ir.ui.view">
         <field name="name">purchase.request.view.form</field>
         <field name="model">purchase.request</field>
-        <field name="inherit_id" ref="odex25_purchase_saip.inherit_purchase_request_form"/>
+        <field name="inherit_id" ref="purchase_requisition_custom.purchase_request_form"/>
         <field name="arch" type="xml">
-            <field name="cancel_reason" position="after">
-                <field name="item_budget_id"
-                       attrs="{'readonly':[('state', 'not in', ['send_budget'])],'required':[('state', 'in', ['send_budget'])],'invisible':[('state', 'not in', ['send_budget'])]}"/>
+            <xpath expr="//button[@name='action_submit']" position="after">
+                <button name="initial_engagement"
+                        type="object" string="Initial Engagement" states="wait_for_send" class="oe_highlight"/>
+
+                <button name="action_skip_budget" type="object" string="Skip Budget" attrs="{'invisible':[('state','not in',('wait_for_send'))]}"
+                            groups="purchase_requisition_custom.group_skip_purchase_budget"/>
+
+            </xpath>
+            <xpath expr="//button[@name='action_refuse']" position="attributes">
+                <attribute name="states">direct_manager,wait_for_send</attribute>
+            </xpath>
+            <field name="partner_id" position="after">
+                <field name="item_budget_id" attrs="{'readonly':[('state', 'not in', ['wait_for_send'])],'required':[('state', 'in', ['wait_for_send'])],'invisible':[('state', 'not in', ['wait_for_send'])]}"/>
             </field>
-            <xpath expr="//field[@name='line_ids']/tree/field[@name='sum_total']" position="after">
+            <xpath expr="//field[@name='line_ids']/tree/field[@name='product_id']" position="after">
                 <field name="item_budget_id"/>
             </xpath>
         </field>

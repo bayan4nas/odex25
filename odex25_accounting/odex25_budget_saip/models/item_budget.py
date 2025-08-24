@@ -30,13 +30,6 @@ class odex25_budget_saip(models.Model):
             if record.item_no and not record.item_no.isdigit():
                 raise ValidationError(_("The item budget Number must contain digits only"))
 
-    @api.constrains('name')
-    def _check_name_is_arabic_only(self):
-        allowed_regex = re.compile(r'^[\u0600-\u06FFA-Za-z\s]+$')
-        for record in self:
-            if record.name and not allowed_regex.match(record.name):
-                pass
-                # raise ValidationError(_("item budget Name must contain letters only (no digits or special characters)."))
 
     def name_get(self):
         result = []

@@ -75,6 +75,7 @@ class BudgetConfirmationCustom(models.Model):
 
             if self.request_id and self.type == 'purchase.request':
                 amount = budget_lines.initial_reserve + line.amount
+                self.request_id.write({"state": "waiting"})
                 budget_lines.update({'initial_reserve': amount})
             if self.contract_id and self.type == 'contract.contract':
                 self.contract_id.write({'state': 'EDPC'})

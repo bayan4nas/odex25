@@ -127,11 +127,11 @@ class AccountMove(models.Model):
                 ]
         return super(AccountMove, self).search(args, **kwargs)
 
-    @api.model
-    def create(self, vals):
-        if not vals.get('journal_id'):
-            raise ValidationError(_("⚠️ Please note: You must select a journal."))
-        return super().create(vals)
+    # @api.model
+    # def create(self, vals):
+    #     if not vals.get('journal_id'):
+    #         raise ValidationError(_("⚠️ Please note: You must select a journal."))
+    #     return super().create(vals)
 
 
 

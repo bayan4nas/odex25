@@ -15,7 +15,7 @@
             - add budget report
             - add budget operation report
     """,
-    'depends': ['odex25_contract_saip', 'odex25_account_saip'],
+    'depends': ['odex25_contract_saip','purchase_custom_stock','odex25_account_saip'],
     'data': [
         'security/res_groups.xml',
         'security/ir.model.access.csv',

@@ -14,7 +14,7 @@
     'data': [
         'security/res_groups.xml',
         'security/ir.model.access.csv',
-        'views/employee_other_request.xml',
+        # 'views/employee_other_request.xml',
         'views/hr_salary_rules_views.xml',
         'views/payroll_account_move_views.xml',
         'views/hr_official_mission.xml',

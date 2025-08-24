@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-01 07:45+0000\n"
-"PO-Revision-Date: 2025-05-01 07:45+0000\n"
+"POT-Creation-Date: 2025-08-24 10:49+0000\n"
+"PO-Revision-Date: 2025-08-24 10:49+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -193,7 +193,7 @@ msgstr "جيمع سطور الفاتورة بها قيمة صفرية للسعر
 #: code:addons/odex25_budget_saip/models/budget_confirmation.py:0
 #, python-format
 msgid "All lines should have accounts"
-msgstr "كل البنود يجب أن يكون لها حسابات"
+msgstr "يجب أن تحتوي جميع البنود على حسابات"
 
 #. module: odex25_budget_saip
 #: model:ir.model.fields,field_description:odex25_budget_saip.field_account_payment_budget_item__amount
@@ -257,13 +257,20 @@ msgstr "إعتماد(نائب الرئيس + مجلس الإدارة)"
 #. module: odex25_budget_saip
 #: model:ir.model.fields.selection,name:odex25_budget_saip.selection__crossovered_budget__state__done
 msgid "Approved"
-msgstr "مصدقة"
+msgstr "معتمدة"
 
 #. module: odex25_budget_saip
 #: model:ir.model.fields,field_description:odex25_budget_saip.field_budget_operations_line__message_attachment_count
 #: model:ir.model.fields,field_description:odex25_budget_saip.field_item_budget__message_attachment_count
 msgid "Attachment Count"
 msgstr "عدد المرفقات"
+
+#. module: odex25_budget_saip
+#: model:ir.model.fields,field_description:odex25_budget_saip.field_account_payment_line__attachment_ids
+#: model:ir.model.fields,field_description:odex25_budget_saip.field_budget_operations_line__attachment_ids
+#: model:ir.model.fields,field_description:odex25_budget_saip.field_item_budget__attachment_ids
+msgid "Attachments"
+msgstr "المرفقات"
 
 #. module: odex25_budget_saip
 #: model:ir.model.fields.selection,name:odex25_budget_saip.selection__crossovered_budget__state__confirm
@@ -327,7 +334,7 @@ msgstr "من باب إلى باب"
 #: code:addons/odex25_budget_saip/models/contract_contract.py:0
 #, python-format
 msgid "Bill Invoices"
-msgstr "فواتير المورد"
+msgstr "الفواتير"
 
 #. module: odex25_budget_saip
 #: model:ir.model,name:odex25_budget_saip.model_crossovered_budget
@@ -335,7 +342,7 @@ msgstr "فواتير المورد"
 #: model_terms:ir.ui.view,arch_db:odex25_budget_saip.view_budget_support_operations_search
 #: model_terms:ir.ui.view,arch_db:odex25_budget_saip.view_budget_transfer_operations_search
 msgid "Budget"
-msgstr "الميزانية"
+msgstr "الموازنة"
 
 #. module: odex25_budget_saip
 #: model_terms:ir.ui.view,arch_db:odex25_budget_saip.report_budget_operation
@@ -353,7 +360,7 @@ msgstr "تم التحقق من الميزانية"
 #: model_terms:ir.ui.view,arch_db:odex25_budget_saip.contract_contract_form_view_inherit
 #, python-format
 msgid "Budget Confirmation"
-msgstr "مصادقة"
+msgstr "تعميد الموازنة"
 
 #. module: odex25_budget_saip
 #: code:addons/odex25_budget_saip/wizard/budget_operation_reject_wizard.py:0
@@ -364,7 +371,7 @@ msgstr "سبب إلغاء المصادقة :{}"
 #. module: odex25_budget_saip
 #: model:ir.model,name:odex25_budget_saip.model_budget_confirmation_line
 msgid "Budget Confirmation details"
-msgstr "تفاصيل تصديق الميزانية"
+msgstr "تفاصيل تصديق الموازنة"
 
 #. module: odex25_budget_saip
 #: model_terms:ir.ui.view,arch_db:odex25_budget_saip.view_operations_transfer_search
@@ -411,7 +418,7 @@ msgstr "بنود الميزانية"
 #. module: odex25_budget_saip
 #: model:ir.model,name:odex25_budget_saip.model_crossovered_budget_lines
 msgid "Budget Line"
-msgstr "بند الميزانية"
+msgstr "بند الموازنة"
 
 #. module: odex25_budget_saip
 #: model:ir.model.fields,field_description:odex25_budget_saip.field_budget_operations_line__budget_line_from_id
@@ -451,7 +458,7 @@ msgstr "نموذج طلب مناقلة"
 #: model_terms:ir.ui.view,arch_db:odex25_budget_saip.view_budget_transfer_operations_search
 #: model_terms:ir.ui.view,arch_db:odex25_budget_saip.view_operations_transfer_search
 msgid "Budget Operations"
-msgstr "عمليات الميزانية"
+msgstr "عمليات الموازنة"
 
 #. module: odex25_budget_saip
 #: model:ir.model,name:odex25_budget_saip.model_budget_operations_line
@@ -519,7 +526,7 @@ msgstr "سبب الرفض :{}"
 #: model:ir.model.fields,field_description:odex25_budget_saip.field_budget_operations__general_budget_id
 #: model:ir.model.fields,field_description:odex25_budget_saip.field_budget_operations_line__general_budget_id
 msgid "Budgetary Position"
-msgstr "التصنيف الاقتصادي"
+msgstr "بند الموازنة"
 
 #. module: odex25_budget_saip
 #: model:ir.model.fields.selection,name:odex25_budget_saip.selection__item_budget__item_type__cabex
@@ -555,6 +562,11 @@ msgid "Company"
 msgstr "المؤسسة"
 
 #. module: odex25_budget_saip
+#: model:ir.model.fields,field_description:odex25_budget_saip.field_purchase_request__confirm_id
+msgid "Confirm"
+msgstr ""
+
+#. module: odex25_budget_saip
 #: model:ir.model.fields,field_description:odex25_budget_saip.field_contract_contract__confirmation_ids
 #: model:ir.model.fields,field_description:odex25_budget_saip.field_operation_reject_wizard__confirmation
 msgid "Confirmation"
@@ -563,7 +575,7 @@ msgstr "إرتباط  الميزانية"
 #. module: odex25_budget_saip
 #: model:ir.model.fields.selection,name:odex25_budget_saip.selection__budget_operations__state__confirmed
 msgid "Confirmed"
-msgstr "معتمد"
+msgstr "مؤكد"
 
 #. module: odex25_budget_saip
 #: code:addons/odex25_budget_saip/models/purchase_order.py:0
@@ -597,11 +609,6 @@ msgstr "بند"
 #, python-format
 msgid "Copied From (-)"
 msgstr "منقول منة (-)"
-
-#. module: odex25_budget_saip
-#: model:ir.model.fields,field_description:odex25_budget_saip.field_crossovered_budget_lines__cost_after_modification
-msgid "Cost After Modification"
-msgstr "قيمة التكاليف بعد التعديل"
 
 #. module: odex25_budget_saip
 #: code:addons/odex25_budget_saip/report/account_budget_report.py:0
@@ -684,7 +691,7 @@ msgstr "تاريخ البداية"
 #: code:addons/odex25_budget_saip/wizard/account_budget_report_wizard.py:0
 #, python-format
 msgid "Date From must be less than or equal Date To"
-msgstr "عفوا يجب ان يكون تاريخ البداية سابقاً لتاريخ النهاية"
+msgstr ""
 
 #. module: odex25_budget_saip
 #: model:ir.model.fields,field_description:odex25_budget_saip.field_account_budget_report_wizard__date_to
@@ -715,30 +722,13 @@ msgid "Disbursed Until The End Of Last Year"
 msgstr "المنصرف حتي نهاية السنة الماضية"
 
 #. module: odex25_budget_saip
-#: model:ir.model.fields,field_description:odex25_budget_saip.field_account_budget_post__display_name
 #: model:ir.model.fields,field_description:odex25_budget_saip.field_account_budget_report_wizard__display_name
-#: model:ir.model.fields,field_description:odex25_budget_saip.field_account_move__display_name
-#: model:ir.model.fields,field_description:odex25_budget_saip.field_account_move_line__display_name
-#: model:ir.model.fields,field_description:odex25_budget_saip.field_account_payment__display_name
 #: model:ir.model.fields,field_description:odex25_budget_saip.field_account_payment_budget_item__display_name
 #: model:ir.model.fields,field_description:odex25_budget_saip.field_account_payment_line__display_name
-#: model:ir.model.fields,field_description:odex25_budget_saip.field_account_payment_register__display_name
-#: model:ir.model.fields,field_description:odex25_budget_saip.field_budget_confirmation__display_name
-#: model:ir.model.fields,field_description:odex25_budget_saip.field_budget_confirmation_line__display_name
 #: model:ir.model.fields,field_description:odex25_budget_saip.field_budget_line_wizard__display_name
-#: model:ir.model.fields,field_description:odex25_budget_saip.field_budget_operations__display_name
 #: model:ir.model.fields,field_description:odex25_budget_saip.field_budget_operations_line__display_name
-#: model:ir.model.fields,field_description:odex25_budget_saip.field_contract_contract__display_name
-#: model:ir.model.fields,field_description:odex25_budget_saip.field_contract_line__display_name
-#: model:ir.model.fields,field_description:odex25_budget_saip.field_crossovered_budget__display_name
-#: model:ir.model.fields,field_description:odex25_budget_saip.field_crossovered_budget_lines__display_name
 #: model:ir.model.fields,field_description:odex25_budget_saip.field_item_budget__display_name
-#: model:ir.model.fields,field_description:odex25_budget_saip.field_line_contract_installment__display_name
 #: model:ir.model.fields,field_description:odex25_budget_saip.field_operation_reject_wizard__display_name
-#: model:ir.model.fields,field_description:odex25_budget_saip.field_purchase_order__display_name
-#: model:ir.model.fields,field_description:odex25_budget_saip.field_purchase_order_line__display_name
-#: model:ir.model.fields,field_description:odex25_budget_saip.field_purchase_request__display_name
-#: model:ir.model.fields,field_description:odex25_budget_saip.field_purchase_request_line__display_name
 #: model:ir.model.fields,field_description:odex25_budget_saip.field_report_odex25_budget_saip_account_budget_report__display_name
 #: model:ir.model.fields,field_description:odex25_budget_saip.field_report_odex25_budget_saip_account_budget_report_xlsx__display_name
 #: model:ir.model.fields,field_description:odex25_budget_saip.field_report_odex25_budget_saip_report_budget_operation__display_name
@@ -750,16 +740,6 @@ msgstr "الاسم المعروض"
 #, python-format
 msgid "Economic Classification"
 msgstr "التصنيف الاقتصادى"
-
-#. module: odex25_budget_saip
-#: code:addons/odex25_budget_saip/models/account_move_payment.py:0
-#, python-format
-msgid ""
-"Empty or incomplete lines are not allowed. Please fill all required fields "
-"in the line items."
-msgstr ""
-"لا يُسمح بالسطور الفارغة أو غير المكتملة. يُرجى ملء جميع الحقول المطلوبة في "
-"بنود السطر."
 
 #. module: odex25_budget_saip
 #: model:ir.model.fields.selection,name:odex25_budget_saip.selection__budget_operations__state__finance_ceo
@@ -841,30 +821,13 @@ msgid "Hr Operation"
 msgstr "عمليات الموارد البشرية"
 
 #. module: odex25_budget_saip
-#: model:ir.model.fields,field_description:odex25_budget_saip.field_account_budget_post__id
 #: model:ir.model.fields,field_description:odex25_budget_saip.field_account_budget_report_wizard__id
-#: model:ir.model.fields,field_description:odex25_budget_saip.field_account_move__id
-#: model:ir.model.fields,field_description:odex25_budget_saip.field_account_move_line__id
-#: model:ir.model.fields,field_description:odex25_budget_saip.field_account_payment__id
 #: model:ir.model.fields,field_description:odex25_budget_saip.field_account_payment_budget_item__id
 #: model:ir.model.fields,field_description:odex25_budget_saip.field_account_payment_line__id
-#: model:ir.model.fields,field_description:odex25_budget_saip.field_account_payment_register__id
-#: model:ir.model.fields,field_description:odex25_budget_saip.field_budget_confirmation__id
-#: model:ir.model.fields,field_description:odex25_budget_saip.field_budget_confirmation_line__id
 #: model:ir.model.fields,field_description:odex25_budget_saip.field_budget_line_wizard__id
-#: model:ir.model.fields,field_description:odex25_budget_saip.field_budget_operations__id
 #: model:ir.model.fields,field_description:odex25_budget_saip.field_budget_operations_line__id
-#: model:ir.model.fields,field_description:odex25_budget_saip.field_contract_contract__id
-#: model:ir.model.fields,field_description:odex25_budget_saip.field_contract_line__id
-#: model:ir.model.fields,field_description:odex25_budget_saip.field_crossovered_budget__id
-#: model:ir.model.fields,field_description:odex25_budget_saip.field_crossovered_budget_lines__id
 #: model:ir.model.fields,field_description:odex25_budget_saip.field_item_budget__id
-#: model:ir.model.fields,field_description:odex25_budget_saip.field_line_contract_installment__id
 #: model:ir.model.fields,field_description:odex25_budget_saip.field_operation_reject_wizard__id
-#: model:ir.model.fields,field_description:odex25_budget_saip.field_purchase_order__id
-#: model:ir.model.fields,field_description:odex25_budget_saip.field_purchase_order_line__id
-#: model:ir.model.fields,field_description:odex25_budget_saip.field_purchase_request__id
-#: model:ir.model.fields,field_description:odex25_budget_saip.field_purchase_request_line__id
 #: model:ir.model.fields,field_description:odex25_budget_saip.field_report_odex25_budget_saip_account_budget_report__id
 #: model:ir.model.fields,field_description:odex25_budget_saip.field_report_odex25_budget_saip_account_budget_report_xlsx__id
 #: model:ir.model.fields,field_description:odex25_budget_saip.field_report_odex25_budget_saip_report_budget_operation__id
@@ -903,6 +866,11 @@ msgid "Initial Amount"
 msgstr "المبلغ المبدئي"
 
 #. module: odex25_budget_saip
+#: model_terms:ir.ui.view,arch_db:odex25_budget_saip.purchase_request_form_view_inherit_2
+msgid "Initial Engagement"
+msgstr "الإرتباط المبدئي"
+
+#. module: odex25_budget_saip
 #: code:addons/odex25_budget_saip/report/account_budget_report.py:0
 #, python-format
 msgid "Initial Engagements"
@@ -924,6 +892,7 @@ msgstr "متابع"
 #: model:ir.model.fields,field_description:odex25_budget_saip.field_account_move__is_related_to_cotract
 #: model:ir.model.fields,field_description:odex25_budget_saip.field_account_payment__is_related_to_cotract
 #: model:ir.model.fields,field_description:odex25_budget_saip.field_account_payment_register__is_related_to_cotract
+#: model:ir.model.fields,field_description:odex25_budget_saip.field_line_contract_installment__is_related_to_cotract
 msgid "Is Related To Cotract"
 msgstr "مرتبط بالعقود"
 
@@ -980,30 +949,13 @@ msgid "Justifications for the transfer"
 msgstr "مبررات المناقلة"
 
 #. module: odex25_budget_saip
-#: model:ir.model.fields,field_description:odex25_budget_saip.field_account_budget_post____last_update
 #: model:ir.model.fields,field_description:odex25_budget_saip.field_account_budget_report_wizard____last_update
-#: model:ir.model.fields,field_description:odex25_budget_saip.field_account_move____last_update
-#: model:ir.model.fields,field_description:odex25_budget_saip.field_account_move_line____last_update
-#: model:ir.model.fields,field_description:odex25_budget_saip.field_account_payment____last_update
 #: model:ir.model.fields,field_description:odex25_budget_saip.field_account_payment_budget_item____last_update
 #: model:ir.model.fields,field_description:odex25_budget_saip.field_account_payment_line____last_update
-#: model:ir.model.fields,field_description:odex25_budget_saip.field_account_payment_register____last_update
-#: model:ir.model.fields,field_description:odex25_budget_saip.field_budget_confirmation____last_update
-#: model:ir.model.fields,field_description:odex25_budget_saip.field_budget_confirmation_line____last_update
 #: model:ir.model.fields,field_description:odex25_budget_saip.field_budget_line_wizard____last_update
-#: model:ir.model.fields,field_description:odex25_budget_saip.field_budget_operations____last_update
 #: model:ir.model.fields,field_description:odex25_budget_saip.field_budget_operations_line____last_update
-#: model:ir.model.fields,field_description:odex25_budget_saip.field_contract_contract____last_update
-#: model:ir.model.fields,field_description:odex25_budget_saip.field_contract_line____last_update
-#: model:ir.model.fields,field_description:odex25_budget_saip.field_crossovered_budget____last_update
-#: model:ir.model.fields,field_description:odex25_budget_saip.field_crossovered_budget_lines____last_update
 #: model:ir.model.fields,field_description:odex25_budget_saip.field_item_budget____last_update
-#: model:ir.model.fields,field_description:odex25_budget_saip.field_line_contract_installment____last_update
 #: model:ir.model.fields,field_description:odex25_budget_saip.field_operation_reject_wizard____last_update
-#: model:ir.model.fields,field_description:odex25_budget_saip.field_purchase_order____last_update
-#: model:ir.model.fields,field_description:odex25_budget_saip.field_purchase_order_line____last_update
-#: model:ir.model.fields,field_description:odex25_budget_saip.field_purchase_request____last_update
-#: model:ir.model.fields,field_description:odex25_budget_saip.field_purchase_request_line____last_update
 #: model:ir.model.fields,field_description:odex25_budget_saip.field_report_odex25_budget_saip_account_budget_report____last_update
 #: model:ir.model.fields,field_description:odex25_budget_saip.field_report_odex25_budget_saip_account_budget_report_xlsx____last_update
 #: model:ir.model.fields,field_description:odex25_budget_saip.field_report_odex25_budget_saip_report_budget_operation____last_update
@@ -1113,6 +1065,7 @@ msgid "Next Activity Type"
 msgstr "نوع النشاط التالي"
 
 #. module: odex25_budget_saip
+#: code:addons/odex25_budget_saip/models/purchase_order.py:0
 #: code:addons/odex25_budget_saip/models/purchase_request.py:0
 #, python-format
 msgid "No budget for this account: {}"
@@ -1125,6 +1078,7 @@ msgid "No budget for this service"
 msgstr "عفوا!! لا توجد ميزانية كافية, أو هذا البند غير موجود بالميزانية"
 
 #. module: odex25_budget_saip
+#: code:addons/odex25_budget_saip/models/purchase_order.py:0
 #: code:addons/odex25_budget_saip/models/purchase_request.py:0
 #, python-format
 msgid "No budget for this service: {} - {}"
@@ -1132,6 +1086,7 @@ msgstr "لا يوجد ميزانية كافية :{} - {}"
 
 #. module: odex25_budget_saip
 #: code:addons/odex25_budget_saip/models/contract_contract.py:0
+#: code:addons/odex25_budget_saip/models/purchase_order.py:0
 #: code:addons/odex25_budget_saip/models/purchase_request.py:0
 #, python-format
 msgid "No budget item selected"
@@ -1226,17 +1181,18 @@ msgstr "أمر صرف"
 #. module: odex25_budget_saip
 #: model:ir.model.fields,field_description:odex25_budget_saip.field_account_payment_budget_item__register_id
 msgid "Payment Register"
-msgstr ""
+msgstr "تسجيل الدفعة"
 
 #. module: odex25_budget_saip
 #: model:ir.model,name:odex25_budget_saip.model_account_payment_budget_item
 msgid "Payment Register Budget Item"
-msgstr ""
+msgstr "بند الميزانية لتسجيل الدفعة"
+
 
 #. module: odex25_budget_saip
 #: model:ir.model,name:odex25_budget_saip.model_account_payment
 msgid "Payments"
-msgstr "أوامر الصرف"
+msgstr "تسوية الدفعات"
 
 #. module: odex25_budget_saip
 #: model:ir.model.fields,field_description:odex25_budget_saip.field_budget_operations_line__percentage
@@ -1286,7 +1242,7 @@ msgstr "من فضلك لابد من اضافة بنود في الفاتورة ق
 #. module: odex25_budget_saip
 #: model:ir.model.fields.selection,name:odex25_budget_saip.selection__crossovered_budget__state__draft
 msgid "Prepare"
-msgstr "مراجعة"
+msgstr "تجهيز"
 
 #. module: odex25_budget_saip
 #: model:ir.model.fields.selection,name:odex25_budget_saip.selection__budget_operations__state__president
@@ -1311,7 +1267,7 @@ msgstr "طباعة PDF"
 #. module: odex25_budget_saip
 #: model:ir.model,name:odex25_budget_saip.model_purchase_order
 msgid "Purchase Order"
-msgstr "أوامر الشراء المؤكدة"
+msgstr "أمر شراء"
 
 #. module: odex25_budget_saip
 #: model:ir.model,name:odex25_budget_saip.model_purchase_order_line
@@ -1324,6 +1280,12 @@ msgid "Purchase Request"
 msgstr "طلبات الشراء"
 
 #. module: odex25_budget_saip
+#: model:ir.model.fields,field_description:odex25_budget_saip.field_crossovered_budget_lines__purchase_reserve
+#: model_terms:ir.ui.view,arch_db:odex25_budget_saip.crossovered_budget_view_form_inherit
+msgid "Purchase Reserve"
+msgstr "حجوزات المشتريات"
+
+#. module: odex25_budget_saip
 #: code:addons/odex25_budget_saip/models/budget_operations.py:0
 #, python-format
 msgid "Re-Budget Management Budget Operation"
@@ -1333,6 +1295,12 @@ msgstr "إرجاع إلى إدارة الموازنة"
 #: model:ir.model.fields,field_description:odex25_budget_saip.field_operation_reject_wizard__reason
 msgid "Reason"
 msgstr "حدد السبب"
+
+#. module: odex25_budget_saip
+#: model:ir.model.fields,field_description:odex25_budget_saip.field_budget_operations_line__reason
+#: model:ir.model.fields,field_description:odex25_budget_saip.field_item_budget__reason
+msgid "Reason/Justification"
+msgstr "السبب/التبرير"
 
 #. module: odex25_budget_saip
 #: model_terms:ir.ui.view,arch_db:odex25_budget_saip.support_budget_operations_form_view
@@ -1348,7 +1316,7 @@ msgstr "مرفوض"
 #. module: odex25_budget_saip
 #: model:ir.model,name:odex25_budget_saip.model_account_payment_register
 msgid "Register Payment"
-msgstr "إعداد أمر الصرف"
+msgstr "تسجيل دفعة"
 
 #. module: odex25_budget_saip
 #: model_terms:ir.ui.view,arch_db:odex25_budget_saip.inherit_view_budget_confirmation_form
@@ -1443,6 +1411,11 @@ msgstr "إرسال"
 #: model_terms:ir.ui.view,arch_db:odex25_budget_saip.view_budget_operations_transfer_budget_form
 msgid "Sequence"
 msgstr "الرقم المتسلسل"
+
+#. module: odex25_budget_saip
+#: model_terms:ir.ui.view,arch_db:odex25_budget_saip.purchase_request_form_view_inherit_2
+msgid "Skip Budget"
+msgstr "تخطي الميزانية"
 
 #. module: odex25_budget_saip
 #: code:addons/odex25_budget_saip/models/contract_contract.py:0
@@ -1609,6 +1582,7 @@ msgstr "القيمة النظرية"
 
 #. module: odex25_budget_saip
 #: code:addons/odex25_budget_saip/models/contract_contract.py:0
+#: code:addons/odex25_budget_saip/models/purchase_order.py:0
 #: code:addons/odex25_budget_saip/models/purchase_request.py:0
 #, python-format
 msgid "There is no product"
@@ -1634,9 +1608,10 @@ msgstr "لا يمكن عمل هذا الإجراء نظرا لإغلاق الس�
 #: code:addons/odex25_budget_saip/models/contract_contract.py:0
 #, python-format
 msgid "This product has no expense account"
-msgstr "هذا المنتج/ الخدمة لا يوجد حساب مصروفات مرتبط به"
+msgstr "لا يوجد حساب مصروفات لهذا المنتج"
 
 #. module: odex25_budget_saip
+#: code:addons/odex25_budget_saip/models/purchase_order.py:0
 #: code:addons/odex25_budget_saip/models/purchase_request.py:0
 #, python-format
 msgid "This product has no expense account: {}"
@@ -1829,7 +1804,7 @@ msgstr "إضافة بند في الميزانية"
 #: code:addons/odex25_budget_saip/models/contract_contract.py:0
 #, python-format
 msgid "You Cant Create Invoice With Amout Zero Or Less"
-msgstr ""
+msgstr "لا يمكنك إنشاء فاتورة بمبلغ صفر أو أقل"
 
 #. module: odex25_budget_saip
 #: code:addons/odex25_budget_saip/models/budget_operations.py:0
@@ -1875,14 +1850,6 @@ msgid "e.g. Budget Item XYZ"
 msgstr "مثلًا: بند ميزانية س ع ص"
 
 #. module: odex25_budget_saip
-#: code:addons/odex25_budget_saip/models/item_budget.py:0
-#, python-format
-msgid ""
-"item budget Name must contain letters only (no digits or special "
-"characters)."
-msgstr "يجب أن يحتوي اسم ميزانية البند على أحرف فقط (بدون أرقام أو أحرف خاصة)"
-
-#. module: odex25_budget_saip
 #: model_terms:ir.ui.view,arch_db:odex25_budget_saip.view_budget_support_operations_search
 #: model_terms:ir.ui.view,arch_db:odex25_budget_saip.view_budget_transfer_operations_search
 #: model_terms:ir.ui.view,arch_db:odex25_budget_saip.view_operations_transfer_search
@@ -1913,4 +1880,4 @@ msgstr "النوع"
 #: code:addons/odex25_budget_saip/models/contract_contract.py:0
 #, python-format
 msgid "you cant create invoice without contract"
-msgstr "الرجاء ادحال العقد اولا"
+msgstr "لا يمكنك إنشاء فاتورة بدون عقد"

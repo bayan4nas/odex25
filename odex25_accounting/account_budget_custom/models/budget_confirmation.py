@@ -90,7 +90,8 @@ class BudgetConfirmation(models.Model):
         comodel_name='account.analytic.account',
         string='Cost Center')
 
-    type = fields.Selection(string='type', selection=[('purchase.order', 'Purchase Requisition'), ('purchase.request', 'Purchase Request')])
+    type = fields.Selection(string='type', selection=[('purchase.order', 'Purchase Requisition'), ('purchase.request', 'Purchase Request'),
+                                                      ('contract.contract', 'Contract')])
 
     ref = fields.Char(string='Reference')
 
@@ -199,67 +200,21 @@ class BudgetConfirmationLine(models.Model):
     _name = 'budget.confirmation.line'
     _description = 'Budget Confirmation details'
 
-    confirmation_id = fields.Many2one(
-        comodel_name='budget.confirmation',
-        string='Budget Confirmation',
-        ondelete='cascade', index=True
-    )
-    account_id = fields.Many2one(
-        comodel_name='account.account',
-        string='Account'
-    )
-    amount = fields.Float(
-        string='Amount',
-        digits='Product Price',
-        help="Total amount in services request line"
-    )
-    remain = fields.Float(
-        string='Remain',
-        digits='Product Price',
-        help="Remain in services budget for this cost center"
-    )
-    new_balance = fields.Float(
-        string='New Balance',
-        digits='Product Price',
-        help="New Balance"
-    )
-    analytic_account_id = fields.Many2one(
-        comodel_name='account.analytic.account',
-        string='Cost Center',
-        required=True
-    )
-    date = fields.Date(
-        related='confirmation_id.date',
-        string='Date', store=True,
-        readonly=True, related_sudo=False
-    )
-    state = fields.Selection(
-        default='draft', string='Status',
-        readonly=True, related='confirmation_id.state',
-        store=True, related_sudo=False
-    )
-    budget_line_id = fields.Many2one(
-        comodel_name='crossovered.budget.lines',
-        string='Cost Center'
-    )
-    company_id = fields.Many2one(
-        comodel_name='res.company', string='Company',
-        related='confirmation_id.company_id', store=True,
-        readonly=True, related_sudo=False
-    )
-    currency_id = fields.Many2one(
-        comodel_name='res.currency',
-        related='confirmation_id.currency_id',
-        store=True, related_sudo=False
-    )
-    description = fields.Text(
-        string='Description'
-    )
-    crossovered_budget_id = fields.Many2one(
-        comodel_name='crossovered.budget',
-        string='Budget',
-        related='budget_line_id.crossovered_budget_id',
-    )
+    confirmation_id = fields.Many2one(comodel_name='budget.confirmation',string='Budget Confirmation',ondelete='cascade', index=True)
+    account_id = fields.Many2one(comodel_name='account.account',string='Account')
+    amount = fields.Float(string='Amount',digits='Product Price',help="Total amount in services request line")
+    remain = fields.Float(string='Remain',digits='Product Price',help="Remain in services budget for this cost center")
+    new_balance = fields.Float(string='New Balance', digits='Product Price', help="New Balance")
+    analytic_account_id = fields.Many2one(comodel_name='account.analytic.account',string='Cost Center',
+        # required=True
+       )
+    date = fields.Date(related='confirmation_id.date', string='Date', store=True, readonly=True, related_sudo=False)
+    state = fields.Selection(default='draft', string='Status',readonly=True, related='confirmation_id.state',store=True, related_sudo=False)
+    budget_line_id = fields.Many2one(comodel_name='crossovered.budget.lines',string='Cost Center')
+    company_id = fields.Many2one(comodel_name='res.company', string='Company',related='confirmation_id.company_id', store=True,readonly=True, related_sudo=False)
+    currency_id = fields.Many2one(comodel_name='res.currency',related='confirmation_id.currency_id',store=True, related_sudo=False)
+    description = fields.Text(string='Description')
+    crossovered_budget_id = fields.Many2one(comodel_name='crossovered.budget',string='Budget',related='budget_line_id.crossovered_budget_id')
 
     def check_budget(self):
         """
