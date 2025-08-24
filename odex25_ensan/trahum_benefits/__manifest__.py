@@ -44,6 +44,7 @@
         'views/beneficiary_paths.xml',
         'views/family_need_category_view.xml',
         'views/family_member_relation_views.xml',
+        'views/sr_rule_view.xml',
 
         'views/res_config_settings_view.xml',
         'views/family_need_category_view.xml'

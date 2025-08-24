@@ -272,7 +272,7 @@ class GrantBenefit(models.Model):
             rec.family_need_class_id = False
             if rec.need_ratio:
 
-                ratio = rec.need_ratio /100
+                ratio = round(rec.need_ratio / 100, 2)
                 category = self.env['family.need.category'].sudo().search([
                     ('min_need', '<=', ratio),
                     ('max_need', '>=', ratio)
