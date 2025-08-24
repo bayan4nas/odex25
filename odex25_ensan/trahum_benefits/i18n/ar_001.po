@@ -2594,8 +2594,9 @@ msgstr "البحث عن ملف نزيل"
 
 #. module: trahum_benefits
 #: model:ir.model.fields,field_description:trahum_benefits.field_benefits_service_request_output__sequence
+#: model:ir.model.fields,field_description:trahum_benefits.field_sr_rule__sequence
 msgid "Sequence"
-msgstr ""
+msgstr "التسلسل"
 
 #. module: trahum_benefits
 #: model:ir.model.fields,field_description:trahum_benefits.field_benefits_service_disbursement_periodicity__service_id
@@ -2772,6 +2773,7 @@ msgstr "مدة الحكم"
 #: model:ir.model.fields.selection,name:trahum_benefits.selection__family_member__social_security_status__active
 #: model:ir.model.fields.selection,name:trahum_benefits.selection__grant_benefit__account_status__active
 #: model:ir.model.fields.selection,name:trahum_benefits.selection__issues_information__account_status__active
+#: model:ir.model.fields,field_description:trahum_benefits.field_sr_rule__active
 msgid "Active"
 msgstr "نشط"
 
@@ -3446,3 +3448,172 @@ msgstr "الاعتماد النهائي"
 #: model_terms:ir.ui.view,arch_db:trahum_benefits.view_grant_benefit_form
 msgid "Refuse"
 msgstr "رفض"
+
+#. module: trahum_benefits
+#: model:ir.actions.act_window,name:trahum_benefits.action_sr_rule
+#: model_terms:ir.ui.view,arch_db:trahum_benefits.view_sr_rule_form
+msgid "Services Request Rule"
+msgstr "شروط طلب الخدمات"
+
+#. module: trahum_benefits
+#: model_terms:ir.ui.view,arch_db:trahum_benefits.view_sr_rule_form
+msgid "Rule Name"
+msgstr "إسم الشرط"
+
+#. module: trahum_benefits
+#: model:ir.model.fields,field_description:trahum_benefits.field_sr_rule__severity
+msgid "Severity"
+msgstr "درجة الخطورة"
+
+#. module: trahum_benefits
+#: model:ir.model.fields,field_description:trahum_benefits.field_sr_rule__rule_type
+msgid "Rule Type"
+msgstr "نوع الشرط"
+
+#. module: trahum_benefits
+#: model:ir.model.fields,field_description:trahum_benefits.field_sr_rule__scope
+msgid "Scope"
+msgstr "النطاق"
+
+#. module: trahum_benefits
+#: model:ir.model.fields,field_description:trahum_benefits.field_sr_rule__metric
+msgid "Metric"
+msgstr "المقياس"
+
+#. module: trahum_benefits
+#: model:ir.model.fields,field_description:trahum_benefits.field_sr_rule__operator
+msgid "Operator"
+msgstr "العملية"
+
+#. module: trahum_benefits
+#: model:ir.model.fields,field_description:trahum_benefits.field_sr_rule__threshold_value
+msgid "Threshold Value"
+msgstr "القيمة / الحد"
+
+#. module: trahum_benefits
+#: model:ir.model.fields,field_description:trahum_benefits.field_sr_rule__period
+msgid "Period"
+msgstr "الفترة"
+
+#. module: trahum_benefits
+#: model_terms:ir.ui.view,arch_db:trahum_benefits.view_sr_rule_form
+msgid "Violation of Condition Message"
+msgstr "رسالة انتهاك الشرط"
+
+#. module: trahum_benefits
+#: model:ir.model.fields,field_description:trahum_benefits.field_sr_rule__breadwinner_value
+msgid "Breadwinner Value"
+msgstr "قيمة العائل"
+
+#. module: trahum_benefits
+#: model:ir.model.fields,field_description:trahum_benefits.field_sr_rule__member_value
+msgid "Member Value"
+msgstr "قيمة الفرد"
+
+#. module: trahum_benefits
+#: model:ir.model.fields.selection,name:trahum_benefits.selection__sr_rule__operator__>
+msgid "Less than"
+msgstr "اقل من"
+
+#. module: trahum_benefits
+#: model:ir.model.fields.selection,name:trahum_benefits.selection__sr_rule__operator__>=
+msgid "Less than or equal to"
+msgstr "اقل من او يساوي"
+
+#. module: trahum_benefits
+#: model:ir.model.fields.selection,name:trahum_benefits.selection__sr_rule__operator__==
+msgid "Equal to"
+msgstr "يساوي"
+
+
+#. module: trahum_benefits
+#: model:ir.model.fields.selection,name:trahum_benefits.selection__sr_rule__operator__!=
+msgid "Not equal to"
+msgstr "لايساوي"
+
+#. module: trahum_benefits
+#: model:ir.model.fields.selection,name:trahum_benefits.selection__sr_rule__operator__<
+msgid "Greater than"
+msgstr "اكبر من"
+
+#. module: trahum_benefits
+#: model:ir.model.fields.selection,name:trahum_benefits.selection__sr_rule__operator__<=
+msgid "Greater than or equal to"
+msgstr "اكبر من او يساوي"
+
+#. module: trahum_benefits
+#: model:ir.model.fields.selection,name:trahum_benefits.selection__sr_rule__metric__request_total
+msgid "Total Requests"
+msgstr "إجمالي الطلب"
+
+#. module: trahum_benefits
+#: model:ir.model.fields.selection,name:trahum_benefits.selection__sr_rule__metric__sum_amount_period
+msgid "Total Amount in Period"
+msgstr "مجموع المبالغ للفترة"
+
+#. module: trahum_benefits
+#: model:ir.model.fields.selection,name:trahum_benefits.selection__sr_rule__metric__count_requests_period
+msgid "Number of Requests in Period"
+msgstr "عدد الطلبات في الفترة"
+
+#. module: trahum_benefits
+#: model:ir.model.fields.selection,name:trahum_benefits.selection__sr_rule__metric__days_since_last_request
+msgid "Days Since Last Request"
+msgstr "أيام منذ آخر طلب"
+
+#. module: trahum_benefits
+#: model:ir.model.fields,field_description:trahum_benefits.field_benefits_service_request__family_member_count
+#: model:ir.model.fields.selection,name:trahum_benefits.selection__sr_rule__metric__family_members_count
+msgid "Family Members Count"
+msgstr "عدد أفراد الأسرة"
+
+#. module: trahum_benefits
+#: model:ir.model.fields.selection,name:trahum_benefits.selection__sr_rule__metric__family_value
+msgid "Family Value"
+msgstr "قيم تابع العائلة"
+
+#. module: trahum_benefits
+#: model_terms:ir.ui.view,arch_db:trahum_benefits.view_sr_rule_form
+msgid "Message when the rule is violated"
+msgstr "رسالة عند انتهاك الشرط"
+
+#. module: trahum_benefits
+#: model_terms:ir.ui.view,arch_db:trahum_benefits.view_service_form
+msgid "Rules"
+msgstr "الشروط"
+
+#. module: trahum_benefits
+#: model:ir.model.fields.selection,name:trahum_benefits.selection__sr_rule__period__none
+msgid "No Period"
+msgstr "بدون فترة"
+
+#. module: trahum_benefits
+#: model:ir.model.fields.selection,name:trahum_benefits.selection__sr_rule__period__month
+msgid "Monthly"
+msgstr "شهري"
+
+#. module: trahum_benefits
+#: model:ir.model.fields.selection,name:trahum_benefits.selection__sr_rule__period__year
+msgid "Yearly"
+msgstr "سنوي"
+
+#. module: trahum_benefits
+#: model:ir.model.fields.selection,name:trahum_benefits.selection__sr_rule__period__days
+msgid "Days"
+msgstr "أيام"
+
+#. module: trahum_benefits
+#: model:ir.model.fields.selection,name:trahum_benefits.selection__sr_rule__severity__error
+msgid "Blocker"
+msgstr "مانع"
+
+#. module: trahum_benefits
+#: model:ir.model.fields.selection,name:trahum_benefits.selection__sr_rule__severity__warning
+msgid "Warning"
+msgstr "تحذير"
+
+#. module: trahum_benefits
+#: model:ir.model.fields,field_description:trahum_benefits.field_sr_rule__message
+msgid "Violation Message"
+msgstr "رسالة الانتهاك"
+
