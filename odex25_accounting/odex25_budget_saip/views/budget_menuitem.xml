@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="account_budget_custom.main_budgets_menu" model="ir.ui.menu">
+            <field name="groups_id" eval="[(4,ref('odex25_budget_saip.group_review_budget')),
+           (4,ref('odex25_budget_saip.group_authentication_budget')),
+           (4,ref('odex25_account_saip.group_vice_president_resources')),
+           (4,ref('odex25_account_saip.group_chief_executive_officer')),
+           (4,ref('odex25_budget_saip.group_approve_budget'))]"/>
+        </record>
+
+        <record id="odex25_account_budget.menu_act_crossovered_budget_view" model="ir.ui.menu">
+            <field name="groups_id" eval="[(4,ref('odex25_budget_saip.group_review_budget')),
+           (4,ref('odex25_budget_saip.group_authentication_budget')),
+           (4,ref('odex25_account_saip.group_chief_executive_officer')),
+           (4,ref('odex25_budget_saip.group_approve_budget'))]"/>
+        </record>
+
+        <menuitem id="budget_operations_menu" name="Transfer Operations" parent="account_budget_custom.menu_budget_operations" action="budget_operations_action"
+        groups="account_budget_custom.group_budget_user,odex25_account_saip.group_vice_president_resources,odex25_account_saip.group_chief_executive_officer"/>
+
+        <menuitem id="support_operations_menu" name="Support Operations" parent="account_budget_custom.menu_budget_operations" action="budget_support_operations_action"
+        groups="account_budget_custom.group_budget_user,odex25_account_saip.group_vice_president_resources,odex25_account_saip.group_chief_executive_officer"/>
+
+        <menuitem id="transfer_operations_menu" name="Transfer Budgets Balance" parent="account_budget_custom.menu_budget_operations" action="budget_operations_transfer_action"
+        groups="account_budget_custom.group_budget_user,odex25_account_saip.group_vice_president_resources,odex25_account_saip.group_chief_executive_officer"/>
+
+        <record id="account_budget_custom.menu_budget_operations" model="ir.ui.menu">
+            <field name="groups_id" eval="[(4,ref('odex25_account_saip.group_vice_president_resources')),(4,ref('odex25_account_saip.group_chief_executive_officer'))]"/>
+        </record>
+
+        <record id="account_budget_custom.menu_budget_operations_form" model="ir.ui.menu">
+            <field name="active" eval="False"/>
+        </record>
+    </data>
+</odoo>

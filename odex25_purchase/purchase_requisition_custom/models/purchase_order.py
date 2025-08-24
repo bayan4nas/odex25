@@ -586,28 +586,17 @@ class PurchaseOrderCustom(models.Model):
 
     def action_skip_budget(self):
         """ Skip purchase budget"""
-        _logger.info("\n\n\n Skip Purchase Budget \n\n\n")
         for po_id in self:
             if po_id.state in ('sent', 'wait') or po_id.request_id:
                 # Deal with double validation process
                 valid_amount = self.env.user.company_id.currency_id.compute(
                     po_id.company_id.po_double_validation_amount, po_id.currency_id)
                 # second_amount = self.env.user.company_id.currency_id.compute(po_id.company_id.second_approve, po_id.currency_id)
-                _logger.info("\n\n\n Purchase state inside if 1 \n\n\n")
-                
+
                 if po_id.company_id.po_double_validation == 'two_step' and po_id.amount_total > valid_amount:
-                    _logger.info("\n\n\n Purchase state inside if 2 \n\n\n")
                     po_id.write({'state': 'to approve'})
                 else:
-                    _logger.info("\n\n\n Purchase state inside else1 \n\n\n")
-                    # if not po_id.email_to_vendor:
-                    #     _logger.info("\n\n\n Purchase state inside if 3 \n\n\n")
-                    #     po_id.write({'state': 'sent'})
-                    # else:
-                    _logger.info("\n\n\n Purchase state inside else2 \n\n\n")
                     po_id.write({'state': 'draft'})
-
-                    _logger.info("\n\n\n Send to budet = false \n\n\n")
                     po_id.write({'send_to_budget': False})
 
     # @api.depends('name')
@@ -735,19 +724,19 @@ class PurchaseOrderCustom(models.Model):
                 order.write({'state': 'to approve'})
             if order.partner_id not in order.message_partner_ids:
                 order.message_subscribe([order.partner_id.id])
-            for line in order.order_line:
-                analytic_account = line.account_analytic_id
-                budget_lines = analytic_account.crossovered_budget_line.filtered(
-                    lambda x:
-                    x.crossovered_budget_id.state == 'done' and
-                    fields.Date.from_string(x.date_from) <= fields.Date.from_string(
-                        order.date_order) <= fields.Date.from_string(x.date_to))
-                amount = sum(item.purchase_remain for item in budget_lines)
-                amount += line.price_subtotal
-                budget_lines.write({'purchase_remain': amount})
-                for b_line in budget_lines.filtered(
-                        lambda b: line.account_analytic_id.id in b.general_budget_id.account_ids.ids):
-                    b_line.reserve = abs(line.price_subtotal - b_line.reserve)
+            # for line in order.order_line:
+            #     analytic_account = line.account_analytic_id
+            #     budget_lines = analytic_account.crossovered_budget_line.filtered(
+            #         lambda x:
+            #         x.crossovered_budget_id.state == 'done' and
+            #         fields.Date.from_string(x.date_from) <= fields.Date.from_string(
+            #             order.date_order) <= fields.Date.from_string(x.date_to))
+            #     amount = sum(item.purchase_remain for item in budget_lines)
+            #     amount += line.price_subtotal
+            #     budget_lines.write({'purchase_remain': amount})
+            #     for b_line in budget_lines.filtered(
+            #             lambda b: line.account_analytic_id.id in b.general_budget_id.account_ids.ids):
+            #         b_line.reserve = abs(line.price_subtotal - b_line.reserve)
                     # b_line.write({'reserve': abs(line.price_subtotal - b_line.reserve)})
                 # budget_lines.write({'reserve': abs(line.price_subtotal - budget_lines.reserve)})
 

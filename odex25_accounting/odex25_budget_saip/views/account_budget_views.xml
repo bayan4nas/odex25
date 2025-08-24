@@ -1,0 +1,149 @@
+<odoo>
+
+    <record model="ir.ui.view" id="view_budget_post_form">
+        <field name="name">account.budget.post.inherit.form</field>
+        <field name="model">account.budget.post</field>
+        <field name="inherit_id" ref="odex25_account_budget.view_budget_post_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <group>
+                    <field name="item_budget_ids" widget="many2many_tags"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="crossovered_budget_view_form_inherit">
+        <field name="name">crossovered.budget.view.inherit.form</field>
+        <field name="model">crossovered.budget</field>
+        <field name="inherit_id" ref="account_budget_custom.crossovered_budget_view_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//header" position="replace">
+                <header>
+                    <button string="Approve" name="action_budget_prepare" states="draft" type="object"
+                            class="oe_highlight"
+                            groups="account_budget_custom.group_department_manager_budget,account_budget_custom.group_budget_user"/>
+
+                    <button string="Approve" name="action_budget_confirm" states="prepare" type="object"
+                            class="oe_highlight" groups="odex25_budget_saip.group_review_budget"/>
+                    <button string="Reset to Draft" name="action_budget_draft" states="prepare" type="object"
+                            groups="odex25_budget_saip.group_review_budget"/>
+                    <button string="Cancel Budget" name="action_budget_cancel" states="prepare" type="object"
+                            groups="odex25_budget_saip.group_review_budget"/>
+
+                    <button string="Approve" name="action_budget_validate" states="confirm" type="object"
+                            class="oe_highlight" groups="odex25_budget_saip.group_authentication_budget"/>
+                    <button string="Reset to Draft" name="action_budget_draft" states="confirm" type="object"
+                            groups="odex25_budget_saip.group_authentication_budget"/>
+                    <button string="Cancel Budget" name="action_budget_cancel" states="confirm" type="object"
+                            groups="odex25_budget_saip.group_authentication_budget"/>
+
+                    <button string="Approve" name="action_budget_done" states="validate" type="object"
+                            class="oe_highlight" groups="odex25_budget_saip.group_approve_budget"/>
+                    <button string="Reset to Draft" name="action_budget_draft" states="validate" type="object"
+                            groups="odex25_budget_saip.group_approve_budget"/>
+                    <button string="Cancel Budget" name="action_budget_cancel" states="validate" type="object"
+                            groups="odex25_budget_saip.group_approve_budget"/>
+
+                     <button name="%(action_budget_line_wizard)d" type="action" string="Add Budget Line" class="btn-primary" attrs="{'invisible': [('state', '!=', 'done')]}"
+                         groups="account_budget_custom.group_department_manager_budget"/>
+
+                    <!--                    <button string="Reset to Draft" name="action_budget_draft" states="cancel,done" type="object"/>-->
+                    <!--                    <button string="Cancel Budget" name="action_budget_cancel" states="confirm,validate" type="object"/>-->
+                    <field name="state" widget="statusbar"/>
+                </header>
+            </xpath>
+
+            <xpath expr="//field[@name='crossovered_budget_line']/tree/field[@name='general_budget_id']"
+                   position="after">
+                <field name="item_budget_id" options="{'no_create': True, 'no_open': True}"/>
+                <field name="item_type" readonly="1"/>
+                <field name="period" readonly="1"/>
+            </xpath>
+            <xpath expr="//field[@name='crossovered_budget_line']/tree/field[@name='planned_amount']" position="after">
+                <field name="opening_amount" sum="Opening Amount" readonly="1" widget="monetary"/>
+<!--                <field name="transferd_balance" sum="Transfered Amount" readonly="1" widget="monetary"/>-->
+                <field name="additions" sum="Additions Amount" readonly="1" widget="monetary"/>
+                <field name="transfer_credit" sum="Credit Amount" readonly="1" widget="monetary"/>
+                <field name="transfer_debit" sum="Debit Amount" readonly="1" widget="monetary"/>
+                <field name="cost_amount" sum="Cost Amount" widget="monetary"
+                       attrs="{'readonly':[('period','=','annually')]}"/>
+<!--                <field name="cost_after_modification" sum="Cost Amount After MOD" widget="monetary"/>-->
+                <field name="after_modification" sum="After Modification" readonly="1" widget="monetary"/>
+            </xpath>
+            <xpath expr="//field[@name='crossovered_budget_line']/tree/field[@name='contract_reserve']"
+                   position="after">
+                <field name="contract_count" sum="Contract Count" readonly="1"/>
+                <field name="financial_reserve" sum="Financial Amount" readonly="1" widget="monetary"/>
+                <field name="current_year_payment" sum="Current Amount" readonly="1" widget="monetary"/>
+            </xpath>
+            <xpath expr="//field[@name='crossovered_budget_line']/tree/field[@name='remain']" position="after">
+                <field name="available_liquidity" sum="Available Liquidity Amount" readonly="1" widget="monetary"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_crossovered_budget_line_tree_inherit">
+        <field name="name">crossovered.budget.line.tree</field>
+        <field name="model">crossovered.budget.lines</field>
+        <field name="inherit_id" ref="account_budget_custom.view_crossovered_budget_line_tree"/>
+        <field name="arch" type="xml">
+            <field name="analytic_account_id" position="after">
+                <field name="item_budget_id"/>
+                <field name="opening_amount"/>
+                <field name="additions"/>
+                <field name="transfer_debit"/>
+                <field name="transfer_credit"/>
+                <field name="cost_amount"/>
+                <field name="after_modification"/>
+                <field name="contract_count"/>
+                <field name="financial_reserve"/>
+                <field name="available_liquidity"/>
+                <field name="current_year_payment"/>
+                <field name="previous_year_payment"/>
+                <field name="current_year_payment_contract"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="view_crossovered_budget_line_pivot_inherit" model="ir.ui.view">
+        <field name="name">crossovered.budget.lines.pivot</field>
+        <field name="model">crossovered.budget.lines</field>
+        <field name="inherit_id" ref="account_budget_custom.view_crossovered_budget_line_pivot"/>
+        <field name="arch" type="xml">
+            <field name="analytic_account_id" position="after">
+                <field name="item_budget_id"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="view_crossovered_budget_line_graph_inherit" model="ir.ui.view">
+        <field name="name">crossovered.budget.lines.graph</field>
+        <field name="model">crossovered.budget.lines</field>
+        <field name="inherit_id" ref="account_budget_custom.view_crossovered_budget_line_graph"/>
+        <field name="arch" type="xml">
+            <field name="analytic_account_id" position="after" type="row">
+                <field name="item_budget_id"/>
+            </field>
+        </field>
+    </record>
+
+
+    <record id="purchase_request_form_view_inherit_2" model="ir.ui.view">
+        <field name="name">purchase.request.view.form</field>
+        <field name="model">purchase.request</field>
+        <field name="inherit_id" ref="odex25_purchase_saip.inherit_purchase_request_form"/>
+        <field name="arch" type="xml">
+            <field name="cancel_reason" position="after">
+                <field name="item_budget_id"
+                       attrs="{'readonly':[('state', 'not in', ['send_budget'])],'required':[('state', 'in', ['send_budget'])],'invisible':[('state', 'not in', ['send_budget'])]}"/>
+            </field>
+            <xpath expr="//field[@name='line_ids']/tree/field[@name='sum_total']" position="after">
+                <field name="item_budget_id"/>
+            </xpath>
+        </field>
+    </record>
+
+
+</odoo>

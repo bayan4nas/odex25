@@ -1,0 +1,55 @@
+<odoo>
+    <record id="purchase_order_custom_form_view" model="ir.ui.view">
+        <field name="name">purchase.order.form.custom</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field eval="100" name="priority"/>
+        <field name="arch" type="xml">
+<!--            <xpath expr="//div[hasclass('oe_button_box')]" position="inside">-->
+<!--                <button name="action_view_contract" class="oe_stat_button" string="contract"-->
+<!--                        icon="fa-book" type="object" attrs="{'invisible':[('state','not in',['purchase'])]}">-->
+<!--                </button>-->
+<!--            </xpath>-->
+              <button name="action_create_invoice" position="attributes">
+                  <attribute name="invisible">1</attribute>
+              </button>
+            <xpath expr="//field[@name='order_line']/tree/field[@name='price_subtotal']" position="after">
+                <field name="item_budget_id" optional="show"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="contract_contract_form_view_inherit" model="ir.ui.view">
+        <field name="name">contract.contract.form</field>
+        <field name="model">contract.contract</field>
+        <field name="inherit_id" ref="odex25_contract_saip.inherit_contract_contract_supplier_form_view"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//div[hasclass('oe_button_box')]" position="inside">
+                <button class="oe_stat_button" name="open_confirmation" type="object" string="Budget Confirmation"
+                        icon="fa-list-ol"/>
+            </xpath>
+
+            <button name="confirmed_state" position="after">
+                <button name="sent_to_budget_management" states="budget_management"
+                            groups="account_budget_custom.group_budget_user" string="Budget Confirmation"
+                            class="oe_highlight" type="object"/>
+            </button>
+            <xpath expr="//field[@name='contract_line_ids']/tree/field[@name='analytic_account_id']" position="after">
+                <field name="item_budget_id" optional="show"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="contract_installment_form_view_item_budget_inherit" model="ir.ui.view">
+            <field name="name">line.contract.installment.inherit.item.budget.view.form</field>
+            <field name="model">line.contract.installment</field>
+            <field name="inherit_id" ref="odex25_contract_saip.contract_installment_form_view_inherit"/>
+            <field name="arch" type="xml">
+                 <xpath expr="//field[@name='contract_no']" position="after">
+                <field name="item_budget_id" />
+            </xpath>
+
+            </field>
+    </record>
+</odoo>

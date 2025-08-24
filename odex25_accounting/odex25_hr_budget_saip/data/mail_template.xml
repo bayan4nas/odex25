@@ -1,0 +1,20 @@
+<odoo>
+    <data>
+        <record id="email_template_compensation_budget" model="mail.template">
+            <field name="name">Compensation Request Approval by Budget Manager</field>
+            <field name="model_id" ref="employee_requests.model_employee_other_request"/>
+            <field name="email_to">${object.get_email_to()}</field>
+            <field name="subject">طلب تعويض تعليم الأبناء: ${object.employee_id.name}</field>
+            <field name="body_html">
+                <![CDATA[
+                <div style="text-align: right;direction:rtl">
+                    <p>عزيزي/تي</p>
+                    <p>  نود اشعارك بوجود طلب تعويض تعليم الأبناء لاتخاذ الاجراء المناسب.</p>
+                    <p> للموظف ${object.employee_id.name} بتاريخ  ${object.date}     </p>
+                    <p>مع جزيل الشكر.</p>
+                </div>
+                ]]>
+            </field>
+        </record>
+    </data>
+</odoo>

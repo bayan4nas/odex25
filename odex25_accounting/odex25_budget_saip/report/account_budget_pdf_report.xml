@@ -1,0 +1,161 @@
+<odoo>
+    <data>
+        <template id="odex25_budget_saip.account_budget_report">
+            <t t-call="web.html_container">
+                <t t-call="odex25_budget_saip.budget_layout">
+                    <style type="text/css">
+                        @charset "UTF-8";
+                        @font-face {
+                        font-family: "bukra";
+                        font-style: normal;
+                        font-weight: 400;
+                        src: url(/saip_custom_theme/static/src/fonts/29ltbukraregular.otf) format("opentype"),
+                        url(/saip_custom_theme/static/src/fonts/29ltbukralight.ttf) format("truetype");
+                        }
+                        @font-face {
+                        font-family: "bukra";
+                        font-style: normal;
+                        font-weight: 700;
+                        src: url(/saip_custom_theme/static/src/fonts/29ltbukrabold.otf) format("opentype"),
+                        url(/saip_custom_theme/static/src/fonts/alfont_com_خط-بكرا-عريض.ttf) format("truetype");
+                        }
+                        .report-container {
+                        font-family: 'bukra', serif;
+                        width: 100%;
+                        border-collapse: collapse;
+                        }
+                        .report-container th, .report-container td {
+                        padding: 8px;
+                        text-align: center;
+                        font-size: 12px;
+                        border: 1px solid black;
+                        white-space: nowrap; /* Prevent text wrapping */
+                        }
+                        .report-container th {
+                        background-color: #006666;
+                        color: white;
+                        }
+                        .report-header {
+                        text-align: center;
+                        font-size: 18px;
+                        margin-bottom: 20px;
+                        }
+                        .report-date {
+                        text-align: center;
+                        font-size: 12px;
+                        margin-bottom: 10px;
+                        }
+                    </style>
+                    <div class="report-container">
+                        <div class="report-header">
+                            <h3>Account Budget Report</h3>
+                        </div>
+                        <div class="report-date">
+                            <span>From:
+                                <t t-esc="date_from"/>
+                            </span>
+                            ----
+                            <span style="margin-left: 20px;">To:
+                                <t t-esc="date_to"/>
+                            </span>
+                        </div>
+                        <table class="table table-condensed">
+                            <thead>
+                                <tr>
+                                    <t t-foreach="labels" t-as="label">
+                                        <th style="width: auto;">
+                                            <t t-esc="label"/>
+                                        </th>
+                                    </t>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="records" t-as="record">
+                                    <tr>
+                                        <td>
+                                            <t t-esc="record['item_budget_id'].item_no"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="record['item_budget_id'].name"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="record['general_budget_id'].name"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="record['item_type']"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="record['period']"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="record['planned_amount']"
+                                               t-options="{'widget': 'monetary', 'display_currency': record['currency_id']}"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="record['additions']"
+                                               t-options="{'widget': 'monetary', 'display_currency': record['currency_id']}"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="record['transfer_debit']"
+                                               t-options="{'widget': 'monetary', 'display_currency': record['currency_id']}"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="record['transfer_credit']"
+                                               t-options="{'widget': 'monetary', 'display_currency': record['currency_id']}"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="record['cost_amount']"
+                                               t-options="{'widget': 'monetary', 'display_currency': record['currency_id']}"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="record['after_modification']"
+                                               t-options="{'widget': 'monetary', 'display_currency': record['currency_id']}"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="record['initial_reserve']"
+                                               t-options="{'widget': 'monetary', 'display_currency': record['currency_id']}"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="record['contract_reserve']"
+                                               t-options="{'widget': 'monetary', 'display_currency': record['currency_id']}"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="record['current_year_payment_contract']"
+                                               t-options="{'widget': 'monetary', 'display_currency': record['currency_id']}"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="record['contract_count']"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="record['financial_reserve']"
+                                               t-options="{'widget': 'monetary', 'display_currency': record['currency_id']}"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="record['current_year_payment']"
+                                               t-options="{'widget': 'monetary', 'display_currency': record['currency_id']}"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="record['previous_year_payment']"
+                                               t-options="{'widget': 'monetary', 'display_currency': record['currency_id']}"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="record['remain']"
+                                               t-options="{'widget': 'monetary', 'display_currency': record['currency_id']}"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="record['available_liquidity']"
+                                               t-options="{'widget': 'monetary', 'display_currency': record['currency_id']}"/>
+                                        </td>
+                                        <td>
+                                            <t  t-esc="'{}%'.format(round(record['percentage'] * 100, 2))"/>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>
