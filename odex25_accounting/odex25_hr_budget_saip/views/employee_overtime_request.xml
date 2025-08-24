@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="employee_overtime_request_hr_budget_form_view" model="ir.ui.view">
+        <field name="name">employee.overtime.request</field>
+        <field name="model">employee.overtime.request</field>
+        <field name="inherit_id" ref="employee_requests.employee_overtime_request_form_view"/>
+        <field name="arch" type="xml">
+
+            <button name="submit" position="after">
+              <button name="account_manager" states="account_manager" string="Approves" class="oe_highlight" type="object" groups="odex25_account_saip.group_post_account_department"/>
+              <button string="Return" name="action_overtime_return" states="account_manager" type="object" groups="odex25_account_saip.group_post_account_department"/>
+              <button name="refused" string="Refuse" class="oe_highlight" type="object" states="account_manager" groups="odex25_account_saip.group_post_account_department"/>
+            </button>
+<!--            <button name="hr_aaproval" position="attributes">-->
+<!--                <attribute name="states">account_manager</attribute>-->
+<!--            </button>-->
+<!--            <xpath expr="//field[@name='benefits_discounts']" position="attributes">-->
+<!--                 <attribute name="options">{'no_create': True, 'no_create_edit':True,'no_open': True}</attribute>-->
+<!--                <attribute name="attrs">{'invisible':[('state','in',['draft','director_administration','sector_concerned'])], 'readonly':[('state','!=','submit')], 'required': [('state','=','submit')]}</attribute>-->
+<!--            </xpath>-->
+
+
+<!--            <xpath expr="//field[@name='state']" position="attributes">-->
+<!--                <attribute name="statusbar_visible">draft,director_administration,sector_concerned,submit,account_manager,hr_aaproval,executive_office,direct_manager,validated,financial_manager,done,refused</attribute>-->
+<!--            </xpath>-->
+
+            <xpath expr="//field[@name='journal_id']" position="attributes">
+<!--                <attribute name="attrs">{'invisible':[('state','in',['draft','director_administration','sector_concerned','submit'])], 'readonly':[('state','!=','account_manager')], 'required': [('state','=','account_manager')]}</attribute>-->
+                <attribute name="domain">[('type','=','purchase'),('hr_journal', '=', True)]</attribute>
+                <attribute name="options">{'no_create': True, 'no_create_edit':True,'no_open': True}</attribute>
+
+
+            </xpath>
+<!--              <xpath expr="//field[@name='account_id']" position="replace">-->
+<!--                   <field name="account_id" string="Account" invisible="1" required="0"/>-->
+<!--            </xpath>-->
+<!--            <xpath expr="//field[@name='line_ids_over_time']/tree/field[@name='journal_id']" position="attributes">-->
+<!--                <attribute name="invisible">1</attribute>.-->
+<!--            </xpath>-->
+
+<!--              <xpath expr="//field[@name='line_ids_over_time']/tree/field[@name='account_id']" position="attributes">-->
+<!--                <attribute name="invisible">1</attribute>.-->
+<!--            </xpath>-->
+
+<!--             <xpath expr="//field[@name='line_ids_over_time']/tree/field[@name='price_hour']" position="after">-->
+<!--                <field name="move_id"/>-->
+<!--            </xpath>-->
+
+
+
+
+
+        </field>
+    </record>
+
+
+</odoo>

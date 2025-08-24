@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!---->
+    <record id="view_move_form_custom" model="ir.ui.view">
+        <field name="name">account.move.form.custom</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='invoice_vendor_bill_id']" position="after">
+                <field widget="many2many_tags"
+                       attrs="{'invisible':[('move_type','!=','in_receipt')],'required':[('move_type','=','in_receipt')]}"
+                       name="product_category_ids"/>
+            </xpath>
+            <xpath expr="//field[@name='invoice_date']" position="after">
+                <field name="purpose" readonly="1" invisible="1"/>
+            </xpath>
+            <xpath expr="//field[@name='journal_id']" position="attributes">
+                <attribute name="attrs">{'required': [('state', '=', 'accounting_department')]}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='partner_id']" position="attributes">
+                <attribute name="attrs">{'required':[('state','=','draft'), ('move_type','=','in_invoice')]}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='journal_id']" position="attributes">
+                <attribute name="attrs">{'required':[('state','=','draft'), ('move_type','=','in_invoice')]}</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <!--    -->
+    <record id="account_payment_budget_inhert_view" model="ir.ui.view">
+        <field name="name">account.payment.budget.view.form</field>
+        <field name="model">account.payment</field>
+        <field name="inherit_id" ref="odex25_budget_saip.view_account_payment_budget_item_form_inhert"/>
+        <field name="arch" type="xml">
+<!--            <button name="action_senior_accountant" position="after">-->
+<!--                <button name="action_budget_management" states="budget_management"-->
+<!--                        groups="odex25_account_saip.group_budget_management" string="Approve - 5" type="object"-->
+<!--                        class="oe_highlight"/>-->
+<!--            </button>-->
+            <field name="is_internal_transfer" position="after">
+                <field name="skip_budget"  attrs="{'invisible':[('state','!=','budget_management')]}"/>
+            </field>
+            <field name="amount" position="attributes">
+                 <attribute name="readonly">1</attribute>
+                 <attribute name="force_save">1</attribute>
+            </field>
+
+            <xpath expr="//field[@name='item_budget_ids']/tree/field[@name='amount']" position="after">
+                <field name="remaining_item_budget"/>
+                <field name="remaining_available_liquidity" invisible="1"/>
+            </xpath>
+            <xpath expr="//field[@name='item_budget_ids']/form/group/group/field[@name='amount']" position="after">
+                <field name="remaining_item_budget"/>
+                <field name="remaining_available_liquidity" invisible="1"/>
+            </xpath>
+        </field>
+    </record>
+
+
+    <record id="account.action_move_in_invoice_type" model="ir.actions.act_window">
+        <field name="domain">[('move_type', '=', 'in_invoice'),('hr_operation', '=', False)]</field>
+    </record>
+
+    <!-- Tree View without Create -->
+    <record id="view_in_invoice_tree_no_create" model="ir.ui.view">
+        <field name="name">account.move.tree.no.create</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_in_invoice_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//tree" position="attributes">
+                <attribute name="create">true</attribute>
+            </xpath>
+            <field name="amount_untaxed_signed" position="before">
+                <field name="amount_tax" sum="Amount Taxe"/>
+            </field>
+        </field>
+    </record>
+    <record id="view_in_invoice_tree_no_create1" model="ir.ui.view">
+        <field name="name">account.move.tree.no.create1</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_in_invoice_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//tree" position="attributes">
+                <attribute name="create">true</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Form View without Create -->
+    <record id="view_move_form_no_create" model="ir.ui.view">
+        <field name="name">account.move.form.no.create</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="attributes">
+                <attribute name="create">true</attribute>
+            </xpath>
+        </field>
+    </record>
+    <record id="view_move_form_no_create1" model="ir.ui.view">
+        <field name="name">account.move.form.no.create1</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="attributes">
+                <attribute name="create">true</attribute>
+            </xpath>
+            <!--            <xpath expr="//field[@name='journal_id']" position="attributes">-->
+            <!--                <attribute name="domain">[('id', 'in', suitable_journal_ids),('commitee_expense','=',True)]</attribute>-->
+            <!--            </xpath>-->
+            <xpath expr="//header" position="inside">
+                <button attrs="{'invisible':[('state', 'not in', ['budget_management','accounting_department'])]}"
+                        string="Return" type="object" class="oe_highlight" name="action_open_return_state_wizard"/>
+            </xpath>
+            <xpath expr="//field[@name='invoice_date']" position="attributes">
+                <attribute name="string">Commitee Expenses Date</attribute>
+            </xpath>
+            <xpath expr="//label[@for='invoice_date'][2]" position="attributes">
+                <attribute name="string">Commitee Expenses Date</attribute>
+            </xpath>
+            <xpath expr="//field[@name='partner_id']" position="attributes">
+                <attribute name="string">Beneficiary Partner</attribute>
+            </xpath>
+            <xpath expr="//label[@for='partner_id'][2]" position="attributes">
+                <attribute name="string">Beneficiary Partner</attribute>
+            </xpath>
+            <xpath expr="//group[@id='header_right_group']" position="inside">
+                <field name="employee_id"/>
+                <field name="department_id"/>
+                <field invisible="1" name="is_recipte"/>
+                <field widget='radio' name="is_commite_expenses"
+                       attrs="{'required':[('is_recipte', '=', True)],'invisible':[('is_recipte', '=', False)]}"/>
+            </xpath>
+            <xpath expr="//button[@name='action_post']" position="attributes">
+                <attribute name="confirm">
+                    Warning! You can modify the accounting date to avoid having the journal entry dated the same as the
+                    transaction date.\nA payment will be generated automatically for this due amount.
+                </attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="employee_benefits_payroll_bill_action" model="ir.actions.act_window">
+        <field name="name">Employee Benefits</field>
+        <field name="res_model">account.move</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+                            (0, 0, {'view_mode': 'tree', 'view_id': ref('view_in_invoice_tree_no_create')}),
+                            (0, 0, {'view_mode': 'form', 'view_id': ref('view_move_form_no_create')})]"/>
+        <field name="search_view_id" ref="account.view_account_invoice_filter"/>
+
+        <field name="context">{'default_move_type': 'in_invoice'}</field>
+        <field name="domain">[('hr_operation', '=', True),('move_type', '=', 'in_invoice')]</field>
+    </record>
+    <!-- new action -->
+    <!-- Action -->
+    <record id="action_account_move_commitee_expense" model="ir.actions.act_window">
+        <field name="name">Commitee Expenses</field>
+        <field name="res_model">account.move</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('journal_id.commitee_expense', '=', True),('move_type', 'in', ['in_receipt'])]
+        </field>
+        <field name="context">{'default_move_type': 'in_receipt', 'from_exit_menu': True,'default_is_recipte':True}
+        </field>
+        <field name="view_ids" eval="[(5, 0, 0),
+                            (0, 0, {'view_mode': 'tree', 'view_id': ref('view_in_invoice_tree_no_create1')}),
+                            (0, 0, {'view_mode': 'form', 'view_id': ref('view_move_form_no_create1')})]"/>
+        <field name="search_view_id" ref="account.view_account_invoice_filter"/>
+    </record>
+    <!--    end -->
+
+    <menuitem id="menu_employee_benefits" name="Employee Benefits" parent="odex25_account_accountant.menu_accounting"
+              groups="group_account_employee_benefit" sequence="4"/>
+    <menuitem id="menu_employee_payroll" action="employee_benefits_payroll_bill_action" parent="menu_employee_benefits"
+              groups="group_account_employee_benefit" sequence="1"/>
+
+    <menuitem id="menu_employee_expense" name="Commitee Expenses" parent="odex25_account_accountant.menu_accounting"
+              groups="group_account_expenses_manager,group_account_expenses_user" sequence="5"/>
+
+    <menuitem id="employee_expense_menu" action="action_account_move_commitee_expense" parent="menu_employee_expense"
+              groups="group_account_expenses_manager,group_account_expenses_user" sequence="1"/>
+
+
+</odoo>

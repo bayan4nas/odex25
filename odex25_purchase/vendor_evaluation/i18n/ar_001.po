@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-10-25 12:04+0000\n"
-"PO-Revision-Date: 2022-10-25 12:04+0000\n"
+"POT-Creation-Date: 2025-08-24 10:56+0000\n"
+"PO-Revision-Date: 2025-08-24 10:56+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -15,20 +15,26 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
 
-
-
 #. module: vendor_evaluation
-#: model:ir.ui.view,arch_db:vendor_evaluation.vendor_comparison_report
+#: model_terms:ir.ui.view,arch_db:vendor_evaluation.vendor_comparison_report
 msgid "0.0"
-msgstr "0.0"
+msgstr ""
 
 #. module: vendor_evaluation
-#: model:ir.ui.view,arch_db:vendor_evaluation.res_partner_evaluation
+#: model_terms:ir.ui.view,arch_db:vendor_evaluation.res_partner_evaluation
 msgid "<strong>Final Evaluation |</strong>"
-msgstr "<strong>التقييم النهائي</strong>"
+msgstr "<strong>التقييم النهائي |</strong>"
 
 #. module: vendor_evaluation
-#: model:ir.ui.view,arch_db:vendor_evaluation.model_name_view_form
+#: model:ir.model.fields,field_description:vendor_evaluation.field_cumulative_vendor_evaluation__attachment_ids
+#: model:ir.model.fields,field_description:vendor_evaluation.field_evaluation_criteria__attachment_ids
+#: model:ir.model.fields,field_description:vendor_evaluation.field_evaluation_details__attachment_ids
+#: model:ir.model.fields,field_description:vendor_evaluation.field_vendor_evaluation__attachment_ids
+msgid "Attachments"
+msgstr "المرفقات"
+
+#. module: vendor_evaluation
+#: model_terms:ir.ui.view,arch_db:vendor_evaluation.model_name_view_form
 msgid "Cancel"
 msgstr "إلغاء"
 
@@ -38,93 +44,96 @@ msgid "Contact"
 msgstr "جهة الاتصال"
 
 #. module: vendor_evaluation
-#: model:ir.actions.act_window,help:vendor_evaluation.cumulative_evaluation_actin
-#: model:ir.actions.act_window,help:vendor_evaluation.cumulative_evaluation_actin_account
-#: model:ir.actions.act_window,help:vendor_evaluation.cumulative_evaluation_actin_stock
+#: model_terms:ir.actions.act_window,help:vendor_evaluation.cumulative_evaluation_actin
+#: model_terms:ir.actions.act_window,help:vendor_evaluation.cumulative_evaluation_actin_account
+#: model_terms:ir.actions.act_window,help:vendor_evaluation.cumulative_evaluation_actin_stock
 msgid "Create Cumulative Evaluation for a vendor"
-msgstr "إنشاء التقييم التراكمي للمورد"
+msgstr "إنشاء تقييم تراكمي للمورد"
 
 #. module: vendor_evaluation
-#: model:ir.model.fields,field_description:vendor_evaluation.field_cumulative_vendor_evaluation_create_uid
-#: model:ir.model.fields,field_description:vendor_evaluation.field_evaluation_details_create_uid
-#: model:ir.model.fields,field_description:vendor_evaluation.field_vendor_comparison_wizard_create_uid
-#: model:ir.model.fields,field_description:vendor_evaluation.field_vendor_evaluation_create_uid
-#: model:ir.model.fields,field_description:vendor_evaluation.field_vendor_type_create_uid
+#: model:ir.model.fields,field_description:vendor_evaluation.field_cumulative_vendor_evaluation__create_uid
+#: model:ir.model.fields,field_description:vendor_evaluation.field_evaluation_criteria__create_uid
+#: model:ir.model.fields,field_description:vendor_evaluation.field_evaluation_details__create_uid
+#: model:ir.model.fields,field_description:vendor_evaluation.field_vendor_comparison_wizard__create_uid
+#: model:ir.model.fields,field_description:vendor_evaluation.field_vendor_evaluation__create_uid
 msgid "Created by"
-msgstr "أنشئ بواسطة"
+msgstr ""
 
 #. module: vendor_evaluation
-#: model:ir.model.fields,field_description:vendor_evaluation.field_cumulative_vendor_evaluation_create_date
-#: model:ir.model.fields,field_description:vendor_evaluation.field_evaluation_details_create_date
-#: model:ir.model.fields,field_description:vendor_evaluation.field_vendor_comparison_wizard_create_date
-#: model:ir.model.fields,field_description:vendor_evaluation.field_vendor_evaluation_create_date
-#: model:ir.model.fields,field_description:vendor_evaluation.field_vendor_type_create_date
+#: model:ir.model.fields,field_description:vendor_evaluation.field_cumulative_vendor_evaluation__create_date
+#: model:ir.model.fields,field_description:vendor_evaluation.field_evaluation_criteria__create_date
+#: model:ir.model.fields,field_description:vendor_evaluation.field_evaluation_details__create_date
+#: model:ir.model.fields,field_description:vendor_evaluation.field_vendor_comparison_wizard__create_date
+#: model:ir.model.fields,field_description:vendor_evaluation.field_vendor_evaluation__create_date
 msgid "Created on"
-msgstr "أنشئ في"
+msgstr ""
 
 #. module: vendor_evaluation
-#: model:ir.model.fields,field_description:vendor_evaluation.field_evaluation_details_criteria_id
-#: model:ir.ui.view,arch_db:vendor_evaluation.vendor_evaluation_view_form
+#: model:ir.model.fields,field_description:vendor_evaluation.field_evaluation_details__criteria_id
+#: model_terms:ir.ui.view,arch_db:vendor_evaluation.vendor_evaluation_view_form
 msgid "Criteria"
-msgstr "المعيار"
+msgstr "المعايير"
 
 #. module: vendor_evaluation
-#: model:ir.model.fields,field_description:vendor_evaluation.field_cumulative_vendor_evaluation_cumulative_eval
+#: model:ir.model.fields,field_description:vendor_evaluation.field_cumulative_vendor_evaluation__cumulative_eval
+#: model:ir.model.fields.selection,name:vendor_evaluation.selection__vendor_comparison_wizard__type__cumulative
 msgid "Cumulative"
-msgstr "التقييم التراكمي"
+msgstr "تراكمي"
 
 #. module: vendor_evaluation
-#: model:ir.model.fields,field_description:vendor_evaluation.field_vendor_evaluation_evaluation_id
+#: model:ir.model.fields,field_description:vendor_evaluation.field_vendor_evaluation__evaluation_id
 msgid "Cumulative Evaluation"
 msgstr "التقييم التراكمي"
 
 #. module: vendor_evaluation
-#: model:ir.model.fields,field_description:vendor_evaluation.field_vendor_evaluation_date
+#: model:ir.model.fields,field_description:vendor_evaluation.field_vendor_evaluation__date
 msgid "Date"
 msgstr "التاريخ"
 
 #. module: vendor_evaluation
-#: model:ir.model.fields,field_description:vendor_evaluation.field_cumulative_vendor_evaluation_owner
-#: model:ir.model.fields,field_description:vendor_evaluation.field_vendor_evaluation_inv_owner
-#: model:ir.model.fields,field_description:vendor_evaluation.field_vendor_evaluation_owner
-#: model:ir.ui.view,arch_db:vendor_evaluation.vendor_evaluation_search
+#: model:ir.model.fields,field_description:vendor_evaluation.field_cumulative_vendor_evaluation__owner
+#: model:ir.model.fields,field_description:vendor_evaluation.field_vendor_evaluation__inv_owner
+#: model:ir.model.fields,field_description:vendor_evaluation.field_vendor_evaluation__owner
+#: model_terms:ir.ui.view,arch_db:vendor_evaluation.vendor_evaluation_search
 msgid "Department"
-msgstr "القسم"
+msgstr "الإدارة"
 
 #. module: vendor_evaluation
+#: model:ir.model.fields.selection,name:vendor_evaluation.selection__vendor_comparison_wizard__type__detailed
 msgid "Detaild"
 msgstr "تفصيلي"
 
 #. module: vendor_evaluation
-#: model:ir.model.fields,field_description:vendor_evaluation.field_vendor_evaluation_line_ids
+#: model:ir.model.fields,field_description:vendor_evaluation.field_vendor_evaluation__line_ids
 msgid "Details"
 msgstr "التفاصيل"
 
 #. module: vendor_evaluation
-#: model:ir.model.fields,field_description:vendor_evaluation.field_cumulative_vendor_evaluation_display_name
-#: model:ir.model.fields,field_description:vendor_evaluation.field_evaluation_details_display_name
-#: model:ir.model.fields,field_description:vendor_evaluation.field_report_vendor_evaluation_vendor_comparison_report_display_name
-#: model:ir.model.fields,field_description:vendor_evaluation.field_vendor_comparison_wizard_display_name
-#: model:ir.model.fields,field_description:vendor_evaluation.field_vendor_evaluation_display_name
-#: model:ir.model.fields,field_description:vendor_evaluation.field_vendor_type_display_name
+#: model:ir.model.fields,field_description:vendor_evaluation.field_cumulative_vendor_evaluation__display_name
+#: model:ir.model.fields,field_description:vendor_evaluation.field_evaluation_criteria__display_name
+#: model:ir.model.fields,field_description:vendor_evaluation.field_evaluation_details__display_name
+#: model:ir.model.fields,field_description:vendor_evaluation.field_report_vendor_evaluation_vendor_comparison_report__display_name
+#: model:ir.model.fields,field_description:vendor_evaluation.field_vendor_comparison_wizard__display_name
+#: model:ir.model.fields,field_description:vendor_evaluation.field_vendor_evaluation__display_name
 msgid "Display Name"
-msgstr "الاسم المعروض"
+msgstr "اسم العرض"
 
 #. module: vendor_evaluation
-#: model:ir.ui.view,arch_db:vendor_evaluation.invoice_form_view
-#: model:ir.ui.view,arch_db:vendor_evaluation.purchase_inherit_view
-#: model:ir.ui.view,arch_db:vendor_evaluation.view_id
+#: model_terms:ir.ui.view,arch_db:vendor_evaluation.invoice_form_view
+#: model_terms:ir.ui.view,arch_db:vendor_evaluation.purchase_inherit_view
+#: model_terms:ir.ui.view,arch_db:vendor_evaluation.view_id
 msgid "Evaluate"
 msgstr "تقييم"
 
 #. module: vendor_evaluation
-#: model:ir.model.fields,field_description:vendor_evaluation.field_evaluation_details_evaluation_id
+#: model:ir.model.fields,field_description:vendor_evaluation.field_evaluation_details__evaluation_id
 msgid "Evaluatioin"
 msgstr "التقييم"
 
 #. module: vendor_evaluation
-#: model:ir.model.fields,field_description:vendor_evaluation.field_res_partner_evaluation_ids
-#: model:ir.model.fields,field_description:vendor_evaluation.field_res_users_evaluation_ids
+#: model:ir.model.fields,field_description:vendor_evaluation.field_res_partner__evaluation_ids
+#: model:ir.model.fields,field_description:vendor_evaluation.field_res_users__evaluation_ids
+#: model:res.groups,name:vendor_evaluation.main_vendor_evalution
 msgid "Evaluation"
 msgstr "التقييم"
 
@@ -139,9 +148,9 @@ msgid "Evaluation Criteria"
 msgstr "معايير التقييم"
 
 #. module: vendor_evaluation
-#: model:ir.ui.view,arch_db:vendor_evaluation.res_partner_evaluation
+#: model_terms:ir.ui.view,arch_db:vendor_evaluation.res_partner_evaluation
 msgid "Evaluation Details"
-msgstr "تفاصيل التقييم"
+msgstr ""
 
 #. module: vendor_evaluation
 #: model:ir.actions.report,name:vendor_evaluation.action_report_model_name
@@ -150,17 +159,20 @@ msgid "Evaluation Report"
 msgstr "تقرير تقييم الموردين"
 
 #. module: vendor_evaluation
-#: model:ir.ui.view,arch_db:vendor_evaluation.cumulative_evaluation_view_form
+#: model_terms:ir.ui.view,arch_db:vendor_evaluation.cumulative_evaluation_view_form
 msgid "Evaluations"
 msgstr "التقييمات"
 
 #. module: vendor_evaluation
-#: model:ir.model.fields,field_description:vendor_evaluation.field_res_partner_final_evaluation
-#: model:ir.model.fields,field_description:vendor_evaluation.field_res_users_final_evaluation
+#: model:ir.model.fields,field_description:vendor_evaluation.field_res_partner__final_evaluation
+#: model:ir.model.fields,field_description:vendor_evaluation.field_res_users__final_evaluation
 msgid "Final Evaluation"
 msgstr "التقييم النهائي"
 
 #. module: vendor_evaluation
+#: model:ir.model.fields.selection,name:vendor_evaluation.selection__cumulative_vendor_evaluation__owner__account
+#: model:ir.model.fields.selection,name:vendor_evaluation.selection__evaluation_criteria__owner__account
+#: model:ir.model.fields.selection,name:vendor_evaluation.selection__vendor_evaluation__owner__account
 msgid "Finance"
 msgstr "المالية"
 
@@ -170,73 +182,81 @@ msgid "Finance Evaluation"
 msgstr "قسم المالية"
 
 #. module: vendor_evaluation
-#: model:ir.model.fields,field_description:vendor_evaluation.field_cumulative_vendor_evaluation_id
-#: model:ir.model.fields,field_description:vendor_evaluation.field_evaluation_details_id
-#: model:ir.model.fields,field_description:vendor_evaluation.field_evaluation_details_vendor_id
-#: model:ir.model.fields,field_description:vendor_evaluation.field_report_vendor_evaluation_vendor_comparison_report_id
-#: model:ir.model.fields,field_description:vendor_evaluation.field_vendor_comparison_wizard_id
-#: model:ir.model.fields,field_description:vendor_evaluation.field_vendor_evaluation_id
-#: model:ir.model.fields,field_description:vendor_evaluation.field_vendor_evaluation_inv_vendor_id
-#: model:ir.model.fields,field_description:vendor_evaluation.field_vendor_type_id
+#: model:ir.model.fields,field_description:vendor_evaluation.field_cumulative_vendor_evaluation__id
+#: model:ir.model.fields,field_description:vendor_evaluation.field_evaluation_criteria__id
+#: model:ir.model.fields,field_description:vendor_evaluation.field_evaluation_details__id
+#: model:ir.model.fields,field_description:vendor_evaluation.field_evaluation_details__vendor_id
+#: model:ir.model.fields,field_description:vendor_evaluation.field_report_vendor_evaluation_vendor_comparison_report__id
+#: model:ir.model.fields,field_description:vendor_evaluation.field_vendor_comparison_wizard__id
+#: model:ir.model.fields,field_description:vendor_evaluation.field_vendor_evaluation__id
+#: model:ir.model.fields,field_description:vendor_evaluation.field_vendor_evaluation__inv_vendor_id
 msgid "ID"
-msgstr "المعرف"
+msgstr ""
 
 #. module: vendor_evaluation
-#: model:ir.model,name:vendor_evaluation.model_account_invoice
-msgid "Invoice"
-msgstr "الفاتورة"
+#: model:ir.model,name:vendor_evaluation.model_account_move
+msgid "Journal Entry"
+msgstr "قيد اليومية"
 
 #. module: vendor_evaluation
-#: model:ir.model.fields,field_description:vendor_evaluation.field_cumulative_vendor_evaluation_last_eval
+#: model:ir.model.fields,field_description:vendor_evaluation.field_cumulative_vendor_evaluation__last_eval
 msgid "Last Evaluation"
-msgstr "اخر تقييم"
+msgstr "آخر تقييم"
 
 #. module: vendor_evaluation
-#: model:ir.model.fields,field_description:vendor_evaluation.field_cumulative_vendor_evaluation___last_update
-#: model:ir.model.fields,field_description:vendor_evaluation.field_evaluation_details___last_update
-#: model:ir.model.fields,field_description:vendor_evaluation.field_report_vendor_evaluation_vendor_comparison_report___last_update
-#: model:ir.model.fields,field_description:vendor_evaluation.field_vendor_comparison_wizard___last_update
-#: model:ir.model.fields,field_description:vendor_evaluation.field_vendor_evaluation___last_update
-#: model:ir.model.fields,field_description:vendor_evaluation.field_vendor_type___last_update
+#: model:ir.model.fields,field_description:vendor_evaluation.field_cumulative_vendor_evaluation____last_update
+#: model:ir.model.fields,field_description:vendor_evaluation.field_evaluation_criteria____last_update
+#: model:ir.model.fields,field_description:vendor_evaluation.field_evaluation_details____last_update
+#: model:ir.model.fields,field_description:vendor_evaluation.field_report_vendor_evaluation_vendor_comparison_report____last_update
+#: model:ir.model.fields,field_description:vendor_evaluation.field_vendor_comparison_wizard____last_update
+#: model:ir.model.fields,field_description:vendor_evaluation.field_vendor_evaluation____last_update
 msgid "Last Modified on"
-msgstr "آخر تعديل في"
+msgstr ""
 
 #. module: vendor_evaluation
-#: model:ir.model.fields,field_description:vendor_evaluation.field_cumulative_vendor_evaluation_write_uid
-#: model:ir.model.fields,field_description:vendor_evaluation.field_evaluation_details_write_uid
-#: model:ir.model.fields,field_description:vendor_evaluation.field_vendor_comparison_wizard_write_uid
-#: model:ir.model.fields,field_description:vendor_evaluation.field_vendor_evaluation_write_uid
-#: model:ir.model.fields,field_description:vendor_evaluation.field_vendor_type_write_uid
+#: model:ir.model.fields,field_description:vendor_evaluation.field_cumulative_vendor_evaluation__write_uid
+#: model:ir.model.fields,field_description:vendor_evaluation.field_evaluation_criteria__write_uid
+#: model:ir.model.fields,field_description:vendor_evaluation.field_evaluation_details__write_uid
+#: model:ir.model.fields,field_description:vendor_evaluation.field_vendor_comparison_wizard__write_uid
+#: model:ir.model.fields,field_description:vendor_evaluation.field_vendor_evaluation__write_uid
 msgid "Last Updated by"
-msgstr "آخر تحديث بواسطة"
+msgstr ""
 
 #. module: vendor_evaluation
-#: model:ir.model.fields,field_description:vendor_evaluation.field_cumulative_vendor_evaluation_write_date
-#: model:ir.model.fields,field_description:vendor_evaluation.field_evaluation_details_write_date
-#: model:ir.model.fields,field_description:vendor_evaluation.field_vendor_comparison_wizard_write_date
-#: model:ir.model.fields,field_description:vendor_evaluation.field_vendor_evaluation_write_date
-#: model:ir.model.fields,field_description:vendor_evaluation.field_vendor_type_write_date
+#: model:ir.model.fields,field_description:vendor_evaluation.field_cumulative_vendor_evaluation__write_date
+#: model:ir.model.fields,field_description:vendor_evaluation.field_evaluation_criteria__write_date
+#: model:ir.model.fields,field_description:vendor_evaluation.field_evaluation_details__write_date
+#: model:ir.model.fields,field_description:vendor_evaluation.field_vendor_comparison_wizard__write_date
+#: model:ir.model.fields,field_description:vendor_evaluation.field_vendor_evaluation__write_date
 msgid "Last Updated on"
-msgstr "آخر تحديث في"
+msgstr ""
 
 #. module: vendor_evaluation
-#: model:ir.model.fields,field_description:vendor_evaluation.field_cumulative_vendor_evaluation_line_ids
+#: model:ir.model.fields,field_description:vendor_evaluation.field_cumulative_vendor_evaluation__line_ids
 msgid "Line"
-msgstr "التفاصيل"
+msgstr "البند"
 
 #. module: vendor_evaluation
-#: model:ir.model.fields,field_description:vendor_evaluation.field_cumulative_vendor_evaluation_name
-#: model:ir.model.fields,field_description:vendor_evaluation.field_vendor_type_name
+#: model:ir.model.fields,field_description:vendor_evaluation.field_cumulative_vendor_evaluation__name
+#: model:ir.model.fields,field_description:vendor_evaluation.field_evaluation_criteria__name
 msgid "Name"
 msgstr "الاسم"
 
 #. module: vendor_evaluation
-#: model:ir.ui.view,arch_db:vendor_evaluation.model_name_view_form
+#: model:ir.model.fields,field_description:vendor_evaluation.field_evaluation_criteria__owner
+msgid "Owner"
+msgstr "المالك"
+
+#. module: vendor_evaluation
+#: model_terms:ir.ui.view,arch_db:vendor_evaluation.model_name_view_form
 msgid "Print"
 msgstr "طباعة"
 
 #. module: vendor_evaluation
-#: model:ir.ui.view,arch_db:vendor_evaluation.vendor_evaluation_search
+#: model:ir.model.fields.selection,name:vendor_evaluation.selection__cumulative_vendor_evaluation__owner__purchase
+#: model:ir.model.fields.selection,name:vendor_evaluation.selection__evaluation_criteria__owner__purchase
+#: model:ir.model.fields.selection,name:vendor_evaluation.selection__vendor_evaluation__owner__purchase
+#: model_terms:ir.ui.view,arch_db:vendor_evaluation.vendor_evaluation_search
 msgid "Purchase"
 msgstr "المشتريات"
 
@@ -251,9 +271,9 @@ msgid "Purchase Order"
 msgstr "أمر شراء"
 
 #. module: vendor_evaluation
-#: model:ir.model.fields,field_description:vendor_evaluation.field_vendor_evaluation_res_id
+#: model:ir.model.fields,field_description:vendor_evaluation.field_vendor_evaluation__res_id
 msgid "Res"
-msgstr "المصدر"
+msgstr ""
 
 #. module: vendor_evaluation
 #: model:ir.model,name:vendor_evaluation.model_evaluation_criteria
@@ -261,28 +281,41 @@ msgid "Rvaluatioin Creiteria"
 msgstr "معيار التقييم"
 
 #. module: vendor_evaluation
-#: code:addons/vendor_evaluation/models/vendor_evaluation.py:115
+#: code:addons/vendor_evaluation/models/vendor_evaluation.py:0
 #, python-format
 msgid "Sorry Evaluation must be between 1 and 10"
 msgstr "عذرا !! اقصى تقييم ممكن 10"
 
 #. module: vendor_evaluation
-#: code:addons/vendor_evaluation/models/account_invoice.py:12
-#: code:addons/vendor_evaluation/models/purchase_order.py:12
-#: code:addons/vendor_evaluation/models/vendor_evaluation.py:70
+#: code:addons/vendor_evaluation/models/account_invoice.py:0
+#: code:addons/vendor_evaluation/models/purchase_order.py:0
+#: code:addons/vendor_evaluation/models/vendor_evaluation.py:0
 #, python-format
-msgid "Sorry There is No Criteria related to purchase Department to Evaluate This Vendor"
+msgid ""
+"Sorry There is No Criteria related to purchase Department to Evaluate This "
+"Vendor"
 msgstr "لايوجد معيار تابع لقسم المشتريات "
 
 #. module: vendor_evaluation
-#: code:addons/vendor_evaluation/models/stock.py:11
+#: code:addons/vendor_evaluation/models/stock.py:0
 #, python-format
-msgid "Sorry There is No Criteria related to stock Department order to Evaluate This Vendor"
+msgid ""
+"Sorry There is No Criteria related to stock Department order to Evaluate "
+"This Vendor"
 msgstr "لايوجد معيار تابع لقسم المخازن "
 
 #. module: vendor_evaluation
+#: code:addons/vendor_evaluation/wizard/vendor_comparison.py:0
+#, python-format
+msgid "Sorry There is No Vendor,make sure you have partner as supplier"
+msgstr ""
+
+#. module: vendor_evaluation
+#: model:ir.model.fields.selection,name:vendor_evaluation.selection__cumulative_vendor_evaluation__owner__stock
+#: model:ir.model.fields.selection,name:vendor_evaluation.selection__evaluation_criteria__owner__stock
+#: model:ir.model.fields.selection,name:vendor_evaluation.selection__vendor_evaluation__owner__stock
 msgid "Stock"
-msgstr "المخازن"
+msgstr "المخزن"
 
 #. module: vendor_evaluation
 #: model:res.groups,name:vendor_evaluation.stock_group
@@ -291,7 +324,7 @@ msgstr "قسم المخازن"
 
 #. module: vendor_evaluation
 #. openerp-web
-#: code:addons/vendor_evaluation/static/src/xml/tender_templates.xml:33
+#: code:addons/vendor_evaluation/static/src/xml/tender_templates.xml:0
 #, python-format
 msgid "Submit Your Prices"
 msgstr "تأكيد الأسعار"
@@ -299,26 +332,26 @@ msgstr "تأكيد الأسعار"
 #. module: vendor_evaluation
 #: model:ir.model,name:vendor_evaluation.model_stock_picking
 msgid "Transfer"
-msgstr "نقل"
+msgstr "الشحنة"
 
 #. module: vendor_evaluation
-#: model:ir.model.fields,field_description:vendor_evaluation.field_vendor_comparison_wizard_type
+#: model:ir.model.fields,field_description:vendor_evaluation.field_vendor_comparison_wizard__type
 msgid "Type"
 msgstr "النوع"
 
 #. module: vendor_evaluation
-#: model:ir.model.fields,field_description:vendor_evaluation.field_evaluation_details_value
-#: model:ir.model.fields,field_description:vendor_evaluation.field_vendor_evaluation_value
-#: model:ir.ui.view,arch_db:vendor_evaluation.cumulative_evaluation_view_tree
-#: model:ir.ui.view,arch_db:vendor_evaluation.res_partner_evaluation
+#: model:ir.model.fields,field_description:vendor_evaluation.field_evaluation_details__value
+#: model:ir.model.fields,field_description:vendor_evaluation.field_vendor_evaluation__value
+#: model_terms:ir.ui.view,arch_db:vendor_evaluation.cumulative_evaluation_view_tree
+#: model_terms:ir.ui.view,arch_db:vendor_evaluation.res_partner_evaluation
 msgid "Value"
 msgstr "القيمة"
 
 #. module: vendor_evaluation
-#: model:ir.model.fields,field_description:vendor_evaluation.field_cumulative_vendor_evaluation_vendor_id
-#: model:ir.model.fields,field_description:vendor_evaluation.field_vendor_comparison_wizard_vendor_ids
-#: model:ir.model.fields,field_description:vendor_evaluation.field_vendor_evaluation_vendor_id
-#: model:ir.ui.view,arch_db:vendor_evaluation.vendor_evaluation_search
+#: model:ir.model.fields,field_description:vendor_evaluation.field_cumulative_vendor_evaluation__vendor_id
+#: model:ir.model.fields,field_description:vendor_evaluation.field_vendor_comparison_wizard__vendor_ids
+#: model:ir.model.fields,field_description:vendor_evaluation.field_vendor_evaluation__vendor_id
+#: model_terms:ir.ui.view,arch_db:vendor_evaluation.vendor_evaluation_search
 msgid "Vendor"
 msgstr "المورد"
 
@@ -340,15 +373,10 @@ msgid "Vendor Evaluation"
 msgstr "تقييم الموردين"
 
 #. module: vendor_evaluation
-#: model:ir.actions.act_window,name:vendor_evaluation.vendor_types_action
-#: model:ir.model.fields,field_description:vendor_evaluation.field_vendor_evaluation_vendor_type_id
+#: model:ir.model.fields,field_description:vendor_evaluation.field_evaluation_criteria__vendor_type
+#: model:ir.model.fields,field_description:vendor_evaluation.field_vendor_evaluation__vendor_type_id
 msgid "Vendor Type"
-msgstr "أنواع نشاط الموردين"
-
-#. module: vendor_evaluation
-#: model:ir.ui.menu,name:vendor_evaluation.vendor_type_menu
-msgid "Vendor Types"
-msgstr "أنواع نشاط الموردين"
+msgstr "نوع المورد"
 
 #. module: vendor_evaluation
 #: model:ir.ui.menu,name:vendor_evaluation.vendor_comparison_repport_menu
@@ -363,21 +391,31 @@ msgid "Vendors Evaluations"
 msgstr "تقييمات الموردين"
 
 #. module: vendor_evaluation
-#: model:ir.actions.act_window,help:vendor_evaluation.evaluation_criteria_action
-#: model:ir.actions.act_window,help:vendor_evaluation.evaluation_criteria_action_account
-#: model:ir.actions.act_window,help:vendor_evaluation.evaluation_criteria_action_stock
-#: model:ir.actions.act_window,help:vendor_evaluation.vendor_types_action
-msgid "create and edit Vendor Evaluation Criteria"
-msgstr "إنشاء وتحرير معايير التعييم"
+#: code:addons/vendor_evaluation/wizard/vendor_comparison.py:0
+#, python-format
+msgid "account"
+msgstr "الحسابات"
 
 #. module: vendor_evaluation
-#: model:ir.model.fields,field_description:vendor_evaluation.field_vendor_comparison_wizard_criteria_ids
+#: model:ir.model.fields,field_description:vendor_evaluation.field_evaluation_criteria__active
+msgid "active"
+msgstr "نشط"
+
+#. module: vendor_evaluation
+#: model_terms:ir.actions.act_window,help:vendor_evaluation.evaluation_criteria_action
+#: model_terms:ir.actions.act_window,help:vendor_evaluation.evaluation_criteria_action_account
+#: model_terms:ir.actions.act_window,help:vendor_evaluation.evaluation_criteria_action_stock
+msgid "create and edit Vendor Evaluation Criteria"
+msgstr "إنشاء وتحرير معايير تقييم الموردين"
+
+#. module: vendor_evaluation
+#: model:ir.model.fields,field_description:vendor_evaluation.field_vendor_comparison_wizard__criteria_ids
 msgid "criteria"
-msgstr "المعيار"
+msgstr "المعايير"
 
 #. module: vendor_evaluation
 #. openerp-web
-#: code:addons/vendor_evaluation/static/src/xml/tender_templates.xml:15
+#: code:addons/vendor_evaluation/static/src/xml/tender_templates.xml:0
 #, python-format
 msgid "delivary date"
 msgstr "تاريخ التسليم"
@@ -388,9 +426,9 @@ msgid "description"
 msgstr "الوصف"
 
 #. module: vendor_evaluation
-#: model:ir.ui.view,arch_db:vendor_evaluation.evaluation_criteria_view_form
+#: model_terms:ir.ui.view,arch_db:vendor_evaluation.evaluation_criteria_view_form
 msgid "evaluation criteria"
-msgstr "معيير التفييم"
+msgstr ""
 
 #. module: vendor_evaluation
 #: model:ir.model,name:vendor_evaluation.model_evaluation_details
@@ -398,159 +436,137 @@ msgid "evaluation.details"
 msgstr "تفاصيل التقييم"
 
 #. module: vendor_evaluation
-#: model:ir.ui.view,arch_db:vendor_evaluation.model_name_view_form
+#: model_terms:ir.ui.view,arch_db:vendor_evaluation.model_name_view_form
 msgid "leave it empty to compare all"
-msgstr "اتركه فارغا لمقارنه الكل"
+msgstr ""
 
 #. module: vendor_evaluation
-#: model:ir.ui.view,arch_db:vendor_evaluation.res_partner_evaluation
+#: model_terms:ir.ui.view,arch_db:vendor_evaluation.res_partner_evaluation
 msgid "of 10"
-msgstr "من 10"
+msgstr ""
 
 #. module: vendor_evaluation
-#: model:ir.ui.view,arch_db:vendor_evaluation.model_name_view_form
+#: model_terms:ir.ui.view,arch_db:vendor_evaluation.model_name_view_form
 msgid "or"
-msgstr "أو"
+msgstr ""
 
 #. module: vendor_evaluation
 #. openerp-web
-#: code:addons/vendor_evaluation/static/src/xml/tender_templates.xml:16
+#: code:addons/vendor_evaluation/static/src/xml/tender_templates.xml:0
 #, python-format
 msgid "price"
 msgstr "السعر"
 
 #. module: vendor_evaluation
 #. openerp-web
-#: code:addons/vendor_evaluation/static/src/xml/tender_templates.xml:13
+#: code:addons/vendor_evaluation/static/src/xml/tender_templates.xml:0
 #, python-format
 msgid "product"
-msgstr "الصنف"
+msgstr ""
 
 #. module: vendor_evaluation
 #. openerp-web
-#: code:addons/vendor_evaluation/static/src/xml/tender_templates.xml:12
+#: code:addons/vendor_evaluation/static/src/xml/tender_templates.xml:0
 #, python-format
 msgid "product id"
 msgstr "الصنف"
 
 #. module: vendor_evaluation
-#. openerp-web
-#: code:addons/vendor_evaluation/static/src/xml/tender_templates.xml:14
-#, python-format
-msgid "quantity"
-msgstr "الكمية"
-
-#. module: vendor_evaluation
-#: model:ir.model,name:vendor_evaluation.model_report_vendor_evaluation_vendor_comparison_report
-msgid "report.vendor_evaluation.vendor_comparison_report"
-msgstr "report.vendor_evaluation.vendor_comparison_report"
-
-#. module: vendor_evaluation
-#: model:ir.model,name:vendor_evaluation.model_vendor_comparison_wizard
-msgid "vendor.comparison.wizard"
-msgstr "vendor.comparison.wizard"
-
-#. module: vendor_evaluation
-#: model:ir.model,name:vendor_evaluation.model_vendor_type
-msgid "vendor.type"
-msgstr "vendor.type"
-
-#. module: vendor_evaluation
-#: model:ir.ui.view,arch_db:vendor_evaluation.vendor_comparison_report
-#: model:ir.ui.view,arch_db:vendor_evaluation.vendor_evaluation_report
-msgid "إسم المورد"
-msgstr "إسم المورد"
-
-#. module: vendor_evaluation
-#: model:ir.ui.view,arch_db:vendor_evaluation.vendor_evaluation_report
-msgid "اخر تقييم"
-msgstr "اخر تقييم"
-
-#. module: vendor_evaluation
-#: model:ir.ui.view,arch_db:vendor_evaluation.vendor_evaluation_report
-msgid "التاريخ"
-msgstr "التاريخ"
-
-#. module: vendor_evaluation
-#: model:ir.ui.view,arch_db:vendor_evaluation.vendor_evaluation_report
-msgid "التقييم"
-msgstr "التقييم"
-
-#. module: vendor_evaluation
-#: model:ir.ui.view,arch_db:vendor_evaluation.vendor_evaluation_report
-msgid "التقييم التراكمي"
-msgstr "التقييم التراكمي"
-
-#. module: vendor_evaluation
-#: model:ir.ui.view,arch_db:vendor_evaluation.vendor_evaluation_report
-msgid "الجهة المقيمة"
-msgstr "الجهة المقيمة"
-
-#. module: vendor_evaluation
-#: model:ir.ui.view,arch_db:vendor_evaluation.vendor_comparison_report
-msgid "القسم:"
-msgstr "القسم:"
-
-#. module: vendor_evaluation
-#: model:ir.ui.view,arch_db:vendor_evaluation.vendor_evaluation_report
-msgid "المعيار"
-msgstr "المعيار"
-
-#. module: vendor_evaluation
-#: model:ir.ui.view,arch_db:vendor_evaluation.vendor_evaluation_report
-msgid "بواسطة"
-msgstr "بواسطة"
-
-#. module: vendor_evaluation
-#: model:ir.ui.view,arch_db:vendor_evaluation.vendor_evaluation_report
-msgid "تفاصيل التقييم"
-msgstr "تفاصيل التقييم"
-
-#. module: vendor_evaluation
-#: model:ir.ui.view,arch_db:vendor_evaluation.vendor_evaluation_report
-msgid "سجل التقييم للمورد"
-msgstr "سجل التقييم للمورد"
-
-#. module: vendor_evaluation
-#: model:ir.ui.view,arch_db:vendor_evaluation.vendor_comparison_report
-msgid "متوسط التقييم"
-msgstr "متوسط التقييم"
-
-#. module: vendor_evaluation
-#: model:ir.ui.view,arch_db:vendor_evaluation.vendor_comparison_report
-msgid "معيار التقييم:"
-msgstr "معيار التقييم:"
-
-#. module: vendor_evaluation
-#: model:ir.ui.view,arch_db:vendor_evaluation.vendor_comparison_report
-msgid "نتيجة مفاضلة الموردين"
-msgstr "نتيجة مفاضلة الموردين"
-
-
-#. module: vendor_evaluation
-#: code:addons/vendor_evaluation/wizard/vendor_comparison.py:44
+#: code:addons/vendor_evaluation/wizard/vendor_comparison.py:0
 #, python-format
 msgid "purchase"
 msgstr "المشتريات"
 
 #. module: vendor_evaluation
-#: code:addons/vendor_evaluation/wizard/vendor_comparison.py:44
+#. openerp-web
+#: code:addons/vendor_evaluation/static/src/xml/tender_templates.xml:0
+#, python-format
+msgid "quantity"
+msgstr ""
+
+#. module: vendor_evaluation
+#: code:addons/vendor_evaluation/wizard/vendor_comparison.py:0
 #, python-format
 msgid "stock"
 msgstr "المخازن"
 
 #. module: vendor_evaluation
-#: code:addons/vendor_evaluation/wizard/vendor_comparison.py:44
-#, python-format
-msgid "account"
-msgstr "الحسابات"
+#: model:ir.model,name:vendor_evaluation.model_vendor_comparison_wizard
+msgid "vendor.comparison.wizard"
+msgstr ""
 
 #. module: vendor_evaluation
-msgid "Cumulative"
-msgstr "إجمالي"
+#: model:ir.model,name:vendor_evaluation.model_report_vendor_evaluation_vendor_comparison_report
+msgid "vendor.valuation.report"
+msgstr ""
 
 #. module: vendor_evaluation
-#: model:res.groups,name:vendor_evaluation.main_vendor_evalution
-msgid "Evaluation"
-msgstr "التقييم"
+#: model_terms:ir.ui.view,arch_db:vendor_evaluation.vendor_comparison_report
+#: model_terms:ir.ui.view,arch_db:vendor_evaluation.vendor_evaluation_report
+msgid "إسم المورد"
+msgstr ""
 
+#. module: vendor_evaluation
+#: model_terms:ir.ui.view,arch_db:vendor_evaluation.vendor_evaluation_report
+msgid "اخر تقييم"
+msgstr ""
+
+#. module: vendor_evaluation
+#: model_terms:ir.ui.view,arch_db:vendor_evaluation.vendor_evaluation_report
+msgid "التاريخ"
+msgstr ""
+
+#. module: vendor_evaluation
+#: model_terms:ir.ui.view,arch_db:vendor_evaluation.vendor_evaluation_report
+msgid "التقييم"
+msgstr ""
+
+#. module: vendor_evaluation
+#: model_terms:ir.ui.view,arch_db:vendor_evaluation.vendor_evaluation_report
+msgid "التقييم التراكمي"
+msgstr ""
+
+#. module: vendor_evaluation
+#: model_terms:ir.ui.view,arch_db:vendor_evaluation.vendor_evaluation_report
+msgid "الجهة المقيمة"
+msgstr ""
+
+#. module: vendor_evaluation
+#: model_terms:ir.ui.view,arch_db:vendor_evaluation.vendor_comparison_report
+msgid "القسم:"
+msgstr ""
+
+#. module: vendor_evaluation
+#: model_terms:ir.ui.view,arch_db:vendor_evaluation.vendor_evaluation_report
+msgid "المعيار"
+msgstr ""
+
+#. module: vendor_evaluation
+#: model_terms:ir.ui.view,arch_db:vendor_evaluation.vendor_evaluation_report
+msgid "بواسطة"
+msgstr ""
+
+#. module: vendor_evaluation
+#: model_terms:ir.ui.view,arch_db:vendor_evaluation.vendor_evaluation_report
+msgid "تفاصيل التقييم"
+msgstr ""
+
+#. module: vendor_evaluation
+#: model_terms:ir.ui.view,arch_db:vendor_evaluation.vendor_evaluation_report
+msgid "سجل التقييم للمورد"
+msgstr ""
+
+#. module: vendor_evaluation
+#: model_terms:ir.ui.view,arch_db:vendor_evaluation.vendor_comparison_report
+msgid "متوسط التقييم"
+msgstr ""
+
+#. module: vendor_evaluation
+#: model_terms:ir.ui.view,arch_db:vendor_evaluation.vendor_comparison_report
+msgid "معيار التقييم:"
+msgstr ""
+
+#. module: vendor_evaluation
+#: model_terms:ir.ui.view,arch_db:vendor_evaluation.vendor_comparison_report
+msgid "نتيجة مفاضلة الموردين"
+msgstr ""

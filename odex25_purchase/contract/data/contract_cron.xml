@@ -26,16 +26,16 @@
 <!--        <field eval="False" name="doall"/>-->
 <!--    </record>-->
 
-    <record model="ir.cron" id="contract_cron_for_invoice_payment">
-        <field name="name">Payment of Bills</field>
-        <field name="model_id" ref="model_contract_contract"/>
-        <field name="state">code</field>
-        <field name="code">model.cron_invoice_payment()</field>
-        <field name="user_id" ref="base.user_root"/>
-        <field name="interval_number">1</field>
-        <field name="interval_type">days</field>
-        <field name="numbercall">-1</field>
-        <field eval="False" name="doall"/>
-    </record>
+<!--    <record model="ir.cron" id="contract_cron_for_invoice_payment">-->
+<!--        <field name="name">Payment of Bills</field>-->
+<!--        <field name="model_id" ref="model_contract_contract"/>-->
+<!--        <field name="state">code</field>-->
+<!--        <field name="code">model.cron_invoice_payment()</field>-->
+<!--        <field name="user_id" ref="base.user_root"/>-->
+<!--        <field name="interval_number">1</field>-->
+<!--        <field name="interval_type">days</field>-->
+<!--        <field name="numbercall">-1</field>-->
+<!--        <field eval="False" name="doall"/>-->
+<!--    </record>-->
 
 </odoo>

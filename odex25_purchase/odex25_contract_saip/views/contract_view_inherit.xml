@@ -15,10 +15,6 @@
                             groups="contract.group_confirm_contract"
                             string="Send" class="oe_highlight" type="object"/>
 
-                    <button name="sent_to_budget_management" states="budget_management"
-                            groups="account_budget_custom.group_budget_user" string="Budget Confirmation"
-                            class="oe_highlight" type="object"/>
-
                     <button name="contract_management"
                             attrs="{'invisible': ['|',('state','!=','contract_management'),('check','=',True)]}"
                             groups="contract.group_contract_manager"

@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-11-28 04:04+0000\n"
-"PO-Revision-Date: 2024-11-28 04:04+0000\n"
+"POT-Creation-Date: 2025-08-24 11:04+0000\n"
+"PO-Revision-Date: 2025-08-24 11:04+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -20,11 +20,6 @@ msgstr ""
 #, python-format
 msgid " No budget for this service "
 msgstr ""
-
-#. module: purchase_requisition_custom
-#: model:res.groups,name:purchase_requisition_custom.group_select_recommended_offer
-msgid "Select Recommended Offer"
-msgstr "اختيار العرض الموصى به"
 
 #. module: purchase_requisition_custom
 #: model:ir.actions.report,print_report_name:purchase_requisition_custom.action_report_committee_meeting_minutes
@@ -95,6 +90,12 @@ msgid "Agreement Reference"
 msgstr ""
 
 #. module: purchase_requisition_custom
+#: model:ir.model.fields,field_description:purchase_requisition_custom.field_purchase_order__requisition_type_exclusive
+#: model:ir.model.fields,field_description:purchase_requisition_custom.field_purchase_requisition__type_exclusive
+msgid "Agreement Selection Type"
+msgstr "نوع اختيار الاتفاقية"
+
+#. module: purchase_requisition_custom
 #: model:ir.model.fields,field_description:purchase_requisition_custom.field_purchase_request__type_id
 #: model:ir.model.fields,field_description:purchase_requisition_custom.field_purchase_requisition__type_id_test
 msgid "Agreement Type"
@@ -108,7 +109,7 @@ msgstr "تاريخ توقيع الاتفاقية"
 #. module: purchase_requisition_custom
 #: model:ir.model.fields,field_description:purchase_requisition_custom.field_purchase_order__already_voted
 msgid "Already Voted"
-msgstr ""
+msgstr "تم التصويت بالفعل"
 
 #. module: purchase_requisition_custom
 #: model:ir.model.fields,field_description:purchase_requisition_custom.field_purchase_request_line__account_id
@@ -150,6 +151,11 @@ msgid "Approved Budget"
 msgstr "تم اعتماد الموازنة"
 
 #. module: purchase_requisition_custom
+#: model_terms:ir.ui.view,arch_db:purchase_requisition_custom.purchase_order_custom_form_view
+msgid "Are you sure you want to process ?"
+msgstr "هل أنت متأكد من المتابعة بالإجراء؟"
+
+#. module: purchase_requisition_custom
 #: model:ir.model.fields,field_description:purchase_requisition_custom.field_purchase_order__attach_no
 #: model:ir.model.fields,field_description:purchase_requisition_custom.field_purchase_requisition__attach_no
 msgid "Attach No"
@@ -166,6 +172,18 @@ msgstr "مرفق"
 #: model:ir.model.fields,field_description:purchase_requisition_custom.field_purchase_request__message_attachment_count
 msgid "Attachment Count"
 msgstr "عدد المرفقات"
+
+#. module: purchase_requisition_custom
+#: model:ir.model.fields,field_description:purchase_requisition_custom.field_change_purchase_user_state__attachment_ids
+#: model:ir.model.fields,field_description:purchase_requisition_custom.field_committe_member__attachment_ids
+#: model:ir.model.fields,field_description:purchase_requisition_custom.field_document_type__attachment_ids
+#: model:ir.model.fields,field_description:purchase_requisition_custom.field_partner_document__attachment_ids
+#: model:ir.model.fields,field_description:purchase_requisition_custom.field_purchase_committee_type__attachment_ids
+#: model:ir.model.fields,field_description:purchase_requisition_custom.field_purchase_request__attachment_ids
+#: model:ir.model.fields,field_description:purchase_requisition_custom.field_purchase_request_line__attachment_ids
+#: model:ir.model.fields,field_description:purchase_requisition_custom.field_vendor_type__attachment_ids
+msgid "Attachments"
+msgstr "مرفقات"
 
 #. module: purchase_requisition_custom
 #: model:ir.model.fields,field_description:purchase_requisition_custom.field_convert_po_contract_wizard__auto_notification
@@ -198,13 +216,17 @@ msgid "Billed Amount"
 msgstr ""
 
 #. module: purchase_requisition_custom
+#: model:ir.model,name:purchase_requisition_custom.model_crossovered_budget
 #: model:ir.model.fields,field_description:purchase_requisition_custom.field_purchase_order__budget_id
 msgid "Budget"
 msgstr "الموازنة"
 
 #. module: purchase_requisition_custom
+#: code:addons/purchase_requisition_custom/models/purchase_request.py:0
 #: model:ir.model,name:purchase_requisition_custom.model_budget_confirmation
 #: model_terms:ir.ui.view,arch_db:purchase_requisition_custom.purchase_order_custom_form_view
+#: model_terms:ir.ui.view,arch_db:purchase_requisition_custom.purchase_request_form
+#, python-format
 msgid "Budget Confirmation"
 msgstr "تعميد الموازنة"
 
@@ -214,9 +236,19 @@ msgid "Budget Line"
 msgstr "بند الموازنة"
 
 #. module: purchase_requisition_custom
+#: model:ir.model,name:purchase_requisition_custom.model_account_budget_post
+msgid "Budgetary Position"
+msgstr "بند الموازنة"
+
+#. module: purchase_requisition_custom
 #: model_terms:ir.ui.view,arch_db:purchase_requisition_custom.purchase_requisition_custom_setting
 msgid "Budgeting"
 msgstr "الموازنات"
+
+#. module: purchase_requisition_custom
+#: model:ir.model.fields,field_description:purchase_requisition_custom.field_purchase_order__can_committee_vote
+msgid "Can Committee Vote"
+msgstr "يمكن للجنة التصويت"
 
 #. module: purchase_requisition_custom
 #: model:res.groups,name:purchase_requisition_custom.can_see_his_pos_vis
@@ -224,6 +256,7 @@ msgid "Can see his purchase orders only"
 msgstr " رؤية طلبات الشراء الخاصة به فقط"
 
 #. module: purchase_requisition_custom
+#: code:addons/purchase_requisition_custom/models/purchase_request.py:0
 #: code:addons/purchase_requisition_custom/models/purchase_request.py:0
 #, python-format
 msgid "Can't Confirm Request With No Item!"
@@ -271,12 +304,12 @@ msgstr "اسم الاتفاقية/المنافسة"
 #. module: purchase_requisition_custom
 #: model:ir.model.fields,field_description:purchase_requisition_custom.field_purchase_requisition__change_state_line
 msgid "Change State Line"
-msgstr ""
+msgstr "تغيير حالة البند"
 
 #. module: purchase_requisition_custom
 #: model:ir.model.fields,field_description:purchase_requisition_custom.field_purchase_requisition__check_request
 msgid "Check Request"
-msgstr ""
+msgstr "فحص الطلب"
 
 #. module: purchase_requisition_custom
 #: model:ir.model.fields,field_description:purchase_requisition_custom.field_res_config_settings__chief_executive_officer
@@ -298,7 +331,7 @@ msgstr "أختيار الكل"
 #: code:addons/purchase_requisition_custom/models/purchase_order.py:0
 #, python-format
 msgid "Choose At Least on product to purchase"
-msgstr ""
+msgstr "اختر منتجًا واحدًا على الأقل للشراء"
 
 #. module: purchase_requisition_custom
 #: model:ir.model.fields,field_description:purchase_requisition_custom.field_purchase_requisition__city_name
@@ -361,6 +394,11 @@ msgid "Company"
 msgstr "المؤسسة"
 
 #. module: purchase_requisition_custom
+#: model:ir.actions.server,name:purchase_requisition_custom.action_compute_department_purchase_order
+msgid "Compute Department for Purchase Orders"
+msgstr "قسم الحوسبة لطلبات الشراء"
+
+#. module: purchase_requisition_custom
 #: model:ir.model,name:purchase_requisition_custom.model_res_config_settings
 msgid "Config Settings"
 msgstr "ضبط الاعدادات"
@@ -396,6 +434,7 @@ msgstr "تاكيد اتفاقيات الشراء"
 #. module: purchase_requisition_custom
 #: model:ir.model.fields,field_description:purchase_requisition_custom.field_crossovered_budget_lines__budget_confirm_line_ids
 #: model:ir.model.fields,field_description:purchase_requisition_custom.field_purchase_order__confirmation_ids
+#: model:ir.model.fields,field_description:purchase_requisition_custom.field_purchase_request__confirmation_ids
 msgid "Confirmation"
 msgstr "التأكيد"
 
@@ -404,6 +443,11 @@ msgstr "التأكيد"
 #: model:ir.model.fields.selection,name:purchase_requisition_custom.selection__purchase_requisition__state__in_progress
 msgid "Confirmed"
 msgstr "مؤكد"
+
+#. module: purchase_requisition_custom
+#: model:ir.model,name:purchase_requisition_custom.model_res_partner
+msgid "Contact"
+msgstr "جهة الاتصال"
 
 #. module: purchase_requisition_custom
 #: model:ir.model.fields.selection,name:purchase_requisition_custom.selection__purchase_order__type__contract
@@ -424,12 +468,12 @@ msgstr "اسم العقد"
 #. module: purchase_requisition_custom
 #: model:ir.model,name:purchase_requisition_custom.model_convert_po_contract_wizard
 msgid "Convert Contract wizard"
-msgstr ""
+msgstr "معالج تحويل العقد"
 
 #. module: purchase_requisition_custom
 #: model_terms:ir.ui.view,arch_db:purchase_requisition_custom.convert_to_contract_po_wizard
 msgid "Convert To Contract"
-msgstr ""
+msgstr "تحويل إلى عقد"
 
 #. module: purchase_requisition_custom
 #: model_terms:ir.actions.act_window,help:purchase_requisition_custom.purchase_request_action
@@ -531,11 +575,6 @@ msgid "Default Cost Center"
 msgstr "مركز التكلفة الافتراضي"
 
 #. module: purchase_requisition_custom
-#: model:ir.model.fields,help:purchase_requisition_custom.field_purchase_requisition_line__product_uom_id
-msgid "Default unit of measure used for all stock operations."
-msgstr "وحدة القياس الافتراضية المستخدمة لجميع عمليات المخزون."
-
-#. module: purchase_requisition_custom
 #: model:ir.model.fields,help:purchase_requisition_custom.field_purchase_request_line__uom_id
 msgid ""
 "Default unit of measure used for purchase orders. It must be in the same "
@@ -582,7 +621,7 @@ msgstr "الوصف/توضيح"
 #: code:addons/purchase_requisition_custom/models/purchase_order.py:0
 #, python-format
 msgid "Description: "
-msgstr ""
+msgstr "الوصف"
 
 #. module: purchase_requisition_custom
 #: model:ir.model.fields.selection,name:purchase_requisition_custom.selection__purchase_request__state__direct_manager
@@ -623,7 +662,7 @@ msgstr "انتهاء صلاحية المستند"
 #: model_terms:ir.ui.view,arch_db:purchase_requisition_custom.purchase_order_custom_form_view
 #: model_terms:ir.ui.view,arch_db:purchase_requisition_custom.purchase_requisition_custom_form_view
 msgid "Documents"
-msgstr ""
+msgstr "المستندات"
 
 #. module: purchase_requisition_custom
 #: model:ir.model.fields.selection,name:purchase_requisition_custom.selection__change_purchase_user_state__state__done
@@ -650,7 +689,7 @@ msgstr "مبدئي"
 #. module: purchase_requisition_custom
 #: model:ir.model.fields,field_description:purchase_requisition_custom.field_purchase_request__edit_partner_id
 msgid "Edit Partner"
-msgstr ""
+msgstr "تحرير المورد"
 
 #. module: purchase_requisition_custom
 #: model:ir.model.fields,field_description:purchase_requisition_custom.field_purchase_order__email_to_vendor
@@ -684,7 +723,7 @@ msgstr "طلبات الشراء"
 #. module: purchase_requisition_custom
 #: model:ir.actions.act_window,name:purchase_requisition_custom.purchase_request_action
 msgid "Employee Request"
-msgstr "طلبات الادارات"
+msgstr "طلبات شراء الادارات"
 
 #. module: purchase_requisition_custom
 #: model:ir.model.fields,field_description:purchase_requisition_custom.field_convert_po_contract_wizard__end_date
@@ -707,6 +746,11 @@ msgstr "موافقة الإدارة الاستراتيجية (اكبر من او
 #: model:res.groups,name:purchase_requisition_custom.group_department_approve
 msgid "Executive Director"
 msgstr "المدير التنفيذي"
+
+#. module: purchase_requisition_custom
+#: model:ir.model.fields,field_description:purchase_requisition_custom.field_purchase_request_line__expected_price
+msgid "Expected Price"
+msgstr "السعر المتوقع"
 
 #. module: purchase_requisition_custom
 #: model:ir.model.fields,field_description:purchase_requisition_custom.field_partner_document__exp_date
@@ -747,12 +791,17 @@ msgstr "رمز الخط الرائع ، على سبيل المثال FA- الم�
 #. module: purchase_requisition_custom
 #: model:ir.model.fields,field_description:purchase_requisition_custom.field_res_company__general_supervisor_id
 msgid "General Supervisor"
-msgstr ""
+msgstr "الأمين العام"
 
 #. module: purchase_requisition_custom
 #: model:ir.model.fields.selection,name:purchase_requisition_custom.selection__change_purchase_user_state__state__general_supervisor
 msgid "General Supervisor Approval"
 msgstr "موافقة المشرف العام"
+
+#. module: purchase_requisition_custom
+#: model:ir.model.fields,field_description:purchase_requisition_custom.field_purchase_order__has_requisition
+msgid "Has Requisition"
+msgstr "لديه إتفاقية شراء"
 
 #. module: purchase_requisition_custom
 #: code:addons/purchase_requisition_custom/models/res_partner.py:0
@@ -802,7 +851,7 @@ msgstr "إذا كان محددًا، فقد حدث خطأ في تسليم بعض
 #. module: purchase_requisition_custom
 #: model:ir.model.fields.selection,name:purchase_requisition_custom.selection__purchase_request__state__waiting
 msgid "In Purchase"
-msgstr "في الشراء"
+msgstr "ادارة المشتريات"
 
 #. module: purchase_requisition_custom
 #: model:ir.model.fields,field_description:purchase_requisition_custom.field_purchase_request__is_creator
@@ -823,7 +872,7 @@ msgstr "بحاجة لميزانية الشراء"
 #. module: purchase_requisition_custom
 #: model:ir.model.fields,field_description:purchase_requisition_custom.field_purchase_request__is_requisition
 msgid "Is Requisition"
-msgstr ""
+msgstr "إتفاقية شراء"
 
 #. module: purchase_requisition_custom
 #: model:ir.model.fields,field_description:purchase_requisition_custom.field_purchase_requisition__sent_to_commitee
@@ -833,7 +882,7 @@ msgstr "هل أرسلت إلي لجنة؟"
 #. module: purchase_requisition_custom
 #: model:ir.model.fields,field_description:purchase_requisition_custom.field_purchase_order__is_signed
 msgid "Is Signed"
-msgstr ""
+msgstr "تم التوقيع"
 
 #. module: purchase_requisition_custom
 #: model:ir.model.fields,field_description:purchase_requisition_custom.field_purchase_request_line__product_id
@@ -999,9 +1048,11 @@ msgstr "اسم المستند:"
 
 #. module: purchase_requisition_custom
 #: code:addons/purchase_requisition_custom/models/purchase_request.py:0
+#: code:addons/purchase_requisition_custom/models/purchase_request.py:0
+#: code:addons/purchase_requisition_custom/models/purchase_request.py:0
 #, python-format
 msgid "New"
-msgstr ""
+msgstr "جديد"
 
 #. module: purchase_requisition_custom
 #: code:addons/purchase_requisition_custom/models/purchase_requisition_custom.py:0
@@ -1015,9 +1066,10 @@ msgstr "تم تعميد جديد للميزانية لأمر الشراء %s ل�
 #: code:addons/purchase_requisition_custom/models/purchase_order.py:0
 #, python-format
 msgid "New Product"
-msgstr ""
+msgstr "منتج جديد"
 
 #. module: purchase_requisition_custom
+#: code:addons/purchase_requisition_custom/models/purchase_requisition_custom.py:0
 #: code:addons/purchase_requisition_custom/models/purchase_requisition_custom.py:0
 #, python-format
 msgid "New Purchase Order"
@@ -1099,6 +1151,7 @@ msgstr "إشعار قبل"
 
 #. module: purchase_requisition_custom
 #: model_terms:ir.ui.view,arch_db:purchase_requisition_custom.convert_to_contract_po_wizard
+#: model_terms:ir.ui.view,arch_db:purchase_requisition_custom.purchase_order_custom_form_view
 msgid "Notify Before End"
 msgstr ""
 
@@ -1141,6 +1194,11 @@ msgstr "عدد الرسائل غير المقروءة"
 #, python-format
 msgid "On Date: "
 msgstr "بتأريخ"
+
+#. module: purchase_requisition_custom
+#: model:ir.model.fields.selection,name:purchase_requisition_custom.selection__purchase_requisition__state__ongoing
+msgid "Ongoing"
+msgstr "جاري"
 
 #. module: purchase_requisition_custom
 #: model:ir.model.fields.selection,name:purchase_requisition_custom.selection__purchase_request__type__operational
@@ -1194,13 +1252,8 @@ msgid "Partner Document Type"
 msgstr "نوع مستند المورد"
 
 #. module: purchase_requisition_custom
-#: model:ir.model.fields,field_description:purchase_requisition_custom.field_benefits_representative__documents_ids
-#: model:ir.model.fields,field_description:purchase_requisition_custom.field_external_benefits__documents_ids
-#: model:ir.model.fields,field_description:purchase_requisition_custom.field_family_member__documents_ids
-#: model:ir.model.fields,field_description:purchase_requisition_custom.field_grant_benefit__documents_ids
 #: model:ir.model.fields,field_description:purchase_requisition_custom.field_res_partner__documents_ids
 #: model:ir.model.fields,field_description:purchase_requisition_custom.field_res_users__documents_ids
-#: model:ir.model.fields,field_description:purchase_requisition_custom.field_takaful_sponsor__documents_ids
 msgid "Partner Documents"
 msgstr "مستندات المورد"
 
@@ -1227,7 +1280,7 @@ msgstr "أشعار سداد"
 #. module: purchase_requisition_custom
 #: model:ir.model,name:purchase_requisition_custom.model_account_payment
 msgid "Payments"
-msgstr "الدفعات"
+msgstr "تسوية الدفعات"
 
 #. module: purchase_requisition_custom
 #: model:ir.ui.menu,name:purchase_requisition_custom.purchase_pdf_reports
@@ -1246,6 +1299,7 @@ msgid "Planned For"
 msgstr ""
 
 #. module: purchase_requisition_custom
+#: code:addons/purchase_requisition_custom/models/purchase_request.py:0
 #: code:addons/purchase_requisition_custom/models/purchase_request.py:0
 #, python-format
 msgid "Please Select department for employee"
@@ -1286,7 +1340,7 @@ msgstr "امر شراء"
 #: model:ir.model,name:purchase_requisition_custom.model_product_product
 #: model:ir.model.fields,field_description:purchase_requisition_custom.field_purchase_requisition_line__product_id
 msgid "Product"
-msgstr "المنتج"
+msgstr "الصنف/الخدمة"
 
 #. module: purchase_requisition_custom
 #: model:ir.model.fields,field_description:purchase_requisition_custom.field_purchase_committee_type__type_cat
@@ -1309,11 +1363,6 @@ msgstr "سجل الصنف/الخدمة"
 #, python-format
 msgid "Product Quantity Can't Be Zero or less"
 msgstr "لا يمكن أن تكون كمية المنتج صفرًا أو أقل"
-
-#. module: purchase_requisition_custom
-#: model:ir.model.fields,field_description:purchase_requisition_custom.field_purchase_requisition_line__product_uom_id
-msgid "Product Unit of Measure"
-msgstr "وحدة قياس المنتج"
 
 #. module: purchase_requisition_custom
 #: model:ir.model.fields,field_description:purchase_requisition_custom.field_purchase_order__project_id
@@ -1419,12 +1468,6 @@ msgid "Purchase Order"
 msgstr "أمر شراء"
 
 #. module: purchase_requisition_custom
-#: code:addons/purchase_requisition_custom/models/budget_confirmation.py:0
-#, python-format
-msgid "Purchase Order %s is Rejected By : %s  With Reject Reason : %s"
-msgstr "طلب الشراء %s مرفوض من قبل: %s سبب الرفض: %s"
-
-#. module: purchase_requisition_custom
 #: model:ir.model,name:purchase_requisition_custom.model_purchase_order_line
 msgid "Purchase Order Line"
 msgstr "بند أمر الشراء"
@@ -1445,10 +1488,9 @@ msgstr "قائمة تقارير المشتريات"
 #: model:ir.ui.menu,name:purchase_requisition_custom.menu_purchase_request_root
 #, python-format
 msgid "Purchase Request"
-msgstr "طلبات الادارات"
+msgstr "طلبات الشراء"
 
 #. module: purchase_requisition_custom
-#: code:addons/purchase_requisition_custom/models/budget_confirmation.py:0
 #: code:addons/purchase_requisition_custom/models/purchase_requisition_custom.py:0
 #, python-format
 msgid "Purchase Request %s is Rejected By : %s  With Reject Reason : %s"
@@ -1540,9 +1582,29 @@ msgid "RFQ Sent"
 msgstr "تم إرسال طلب الشراء المدئي"
 
 #. module: purchase_requisition_custom
+#: model_terms:ir.ui.view,arch_db:purchase_requisition_custom.purchase_requisition_custom_form_view
+msgid "RFQs/Orders"
+msgstr "طلبات عروض الأسعار"
+
+#. module: purchase_requisition_custom
 #: model:ir.model.fields,field_description:purchase_requisition_custom.field_purchase_request__reason
 msgid "Reason/Justification"
 msgstr "السببظ المبرر"
+
+#. module: purchase_requisition_custom
+#: model:ir.model.fields,field_description:purchase_requisition_custom.field_purchase_order__recommendation_order
+msgid "Recommend"
+msgstr " الموصي به"
+
+#. module: purchase_requisition_custom
+#: model_terms:ir.ui.view,arch_db:purchase_requisition_custom.purchase_order_custom_tree
+msgid "Recommend Order"
+msgstr "العرض الموصي به"
+
+#. module: purchase_requisition_custom
+#: model_terms:ir.ui.view,arch_db:purchase_requisition_custom.purchase_order_custom_form_view
+msgid "Recommended"
+msgstr "موصى به"
 
 #. module: purchase_requisition_custom
 #: code:addons/purchase_requisition_custom/models/account_payment.py:0
@@ -1569,21 +1631,9 @@ msgid "Refusing Reason"
 msgstr "سبب الرفض"
 
 #. module: purchase_requisition_custom
-#: code:addons/purchase_requisition_custom/models/budget_confirmation.py:0
-#, python-format
-msgid "Reject Purchase Order"
-msgstr "رفض أمر شراء"
-
-#. module: purchase_requisition_custom
 #: code:addons/purchase_requisition_custom/models/purchase_requisition_custom.py:0
 #, python-format
 msgid "Reject Purchase Request"
-msgstr ""
-
-#. module: purchase_requisition_custom
-#: code:addons/purchase_requisition_custom/models/budget_confirmation.py:0
-#, python-format
-msgid "Reject Purchase Request Budget Confirmation"
 msgstr ""
 
 #. module: purchase_requisition_custom
@@ -1601,11 +1651,6 @@ msgstr "مرفوضة حسب الميزاينة"
 #: model:ir.model.fields,field_description:purchase_requisition_custom.field_purchase_order__remaining_amount
 msgid "Remaining Amount"
 msgstr ""
-
-#. module: purchase_requisition_custom
-#: model:ir.model,name:purchase_requisition_custom.model_res_partner
-msgid "Renter"
-msgstr "المستأجر"
 
 #. module: purchase_requisition_custom
 #: model:ir.ui.menu,name:purchase_requisition_custom.reports
@@ -1731,9 +1776,23 @@ msgid "Select"
 msgstr "إختيار"
 
 #. module: purchase_requisition_custom
+#: model:res.groups,name:purchase_requisition_custom.group_select_recommended_offer
+msgid "Select Recommended Offer"
+msgstr "اختيار العرض الموصى به"
+
+#. module: purchase_requisition_custom
 #: model:ir.model.fields,help:purchase_requisition_custom.field_purchase_order__project_id
 msgid "Select a project for tasks related to this purchase order."
 msgstr "حدد مشروعًا للمهام المتعلقة بأمر الشراء هذا."
+
+#. module: purchase_requisition_custom
+#: model:ir.model.fields,help:purchase_requisition_custom.field_purchase_order__requisition_type_exclusive
+#: model:ir.model.fields,help:purchase_requisition_custom.field_purchase_requisition__type_exclusive
+msgid ""
+"Select only one RFQ (exclusive):  when a purchase order is confirmed, cancel the remaining purchase order.\n"
+"\n"
+"                    Select multiple RFQ (non-exclusive): allows multiple purchase orders. On confirmation of a purchase order it does not cancel the remaining orders"
+msgstr ""
 
 #. module: purchase_requisition_custom
 #: model:ir.model.fields,field_description:purchase_requisition_custom.field_purchase_requisition__selected_purchase_id
@@ -1744,11 +1803,6 @@ msgstr "الشراء المحدد"
 #: model:ir.model.fields,field_description:purchase_requisition_custom.field_committe_member__selection_reason
 msgid "Selection Reason"
 msgstr "معيار الاختيار"
-
-#. module: purchase_requisition_custom
-#: model_terms:ir.ui.view,arch_db:purchase_requisition_custom.purchase_requisition_custom_form_view
-msgid "Send To Budget"
-msgstr "إرسال إلى الموازنة"
 
 #. module: purchase_requisition_custom
 #: model_terms:ir.ui.view,arch_db:purchase_requisition_custom.purchase_order_custom_form_view
@@ -1786,12 +1840,6 @@ msgstr "تنفيذ عرض سعر"
 #: model:res.groups,name:purchase_requisition_custom.group_sign_purchase_order
 msgid "Sign Purchase Order"
 msgstr "صلاحية تنفيذ (توقيع) عرض سعر"
-
-#. module: purchase_requisition_custom
-#: model_terms:ir.ui.view,arch_db:purchase_requisition_custom.purchase_order_custom_form_view
-#: model_terms:ir.ui.view,arch_db:purchase_requisition_custom.purchase_requisition_custom_form_view
-msgid "Skip Budget"
-msgstr "تخطي الميزانية"
 
 #. module: purchase_requisition_custom
 #: model:res.groups,name:purchase_requisition_custom.group_skip_purchase_budget
@@ -1872,6 +1920,7 @@ msgid "State of the parent purchase.requisition"
 msgstr ""
 
 #. module: purchase_requisition_custom
+#: model:ir.model.fields,field_description:purchase_requisition_custom.field_purchase_order__requisition_state
 #: model:ir.model.fields,field_description:purchase_requisition_custom.field_purchase_order__state
 #: model:ir.model.fields,field_description:purchase_requisition_custom.field_purchase_requisition__state
 msgid "Status"
@@ -1924,12 +1973,6 @@ msgid "Third Approval"
 msgstr "الموافقة الثالثة"
 
 #. module: purchase_requisition_custom
-#: code:addons/purchase_requisition_custom/models/purchase_order.py:0
-#, python-format
-msgid "This Vendor have order before"
-msgstr ""
-
-#. module: purchase_requisition_custom
 #: code:addons/purchase_requisition_custom/models/purchase_requisition_custom.py:0
 #, python-format
 msgid "This is Purchase Agreements, see here"
@@ -1959,6 +2002,11 @@ msgid "To Approve"
 msgstr "للموافقة"
 
 #. module: purchase_requisition_custom
+#: model:ir.model.fields,field_description:purchase_requisition_custom.field_purchase_request_line__line_total
+msgid "Total"
+msgstr ""
+
+#. module: purchase_requisition_custom
 #: code:addons/purchase_requisition_custom/models/purchase_order.py:0
 #, python-format
 msgid "Total Amount Can't be Zero"
@@ -1969,6 +2017,11 @@ msgstr ""
 #, python-format
 msgid "Total Amount MUST be greater than 0 !!!"
 msgstr ""
+
+#. module: purchase_requisition_custom
+#: model_terms:ir.ui.view,arch_db:purchase_requisition_custom.purchase_request_form
+msgid "Total amount"
+msgstr "المبلغ الإجمالي"
 
 #. module: purchase_requisition_custom
 #: model:ir.model,name:purchase_requisition_custom.model_stock_picking
@@ -2355,178 +2408,3 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:purchase_requisition_custom.committee_meeting_minutes_report_document
 msgid "نطاق العمل"
 msgstr ""
-
-#. module: purchase
-#: model:ir.ui.menu,name:purchase.menu_purchase_root
-#: model_terms:ir.ui.view,arch_db:purchase.res_config_settings_view_form_purchase
-msgid "Purchase"
-msgstr "المشتريات"
-
-
-#. module: purchase_requisition_custom
-#: model:ir.model.fields,field_description:purchase_requisition_custom.field_purchase_order__recommendation_order
-msgid "Recommend"
-msgstr "موصى به"
-
-#. module: purchase_requisition_custom
-#: model_terms:ir.ui.view,arch_db:purchase_requisition_custom.purchase_order_custom_tree
-msgid "Recommend Order"
-msgstr "العرض الموصي به"
-
-#. module: purchase_requisition_custom
-#: model_terms:ir.ui.view,arch_db:purchase_requisition_custom.purchase_order_custom_form_view
-msgid "Recommended"
-msgstr "موصى به"
-
-#. module: purchase_requisition_custom
-#: model_terms:ir.ui.view,arch_db:purchase_requisition_custom.purchase_requisition_custom_form_view
-msgid "RFQs/Orders"
-msgstr "طلبات عروض الأسعار"
-
-#. module: purchase_requisition_custom
-#: model_terms:ir.ui.view,arch_db:purchase_requisition_custom.purchase_order_custom_form_view
-msgid "Are you sure you want to process ?"
-msgstr "هل أنت متأكد من المتابعة بالإجراء؟"
-
-
-#. module: purchase
-#: model:mail.template,body_html:purchase.email_template_edi_purchase
-msgid ""
-"<div style=\"margin: 0px; padding: 0px;\">\n"
-"    <p style=\"margin: 0px; padding: 0px; font-size: 13px;\">\n"
-"        Dear ${object.partner_id.name}\n"
-"        % if object.partner_id.parent_id:\n"
-"            (${object.partner_id.parent_id.name})\n"
-"        % endif\n"
-"        <br/><br/>\n"
-"        Here is in attachment a request for quotation <strong>${object.name}</strong>\n"
-"        % if object.partner_ref:\n"
-"            with reference: ${object.partner_ref}\n"
-"        % endif\n"
-"        from ${object.company_id.name}.\n"
-"        <br/><br/>\n"
-"        If you have any questions, please do not hesitate to contact us.\n"
-"        <br/><br/>\n"
-"        Best regards,\n"
-"    </p>\n"
-"</div>"
-msgstr ""
-"<div style=\"margin: 0px; padding: 0px;\">\n"
-"    <p style=\"margin: 0px; padding: 0px; font-size: 13px;\">\n"
-"        عزيزي ${object.partner_id.name}\n"
-"        % if object.partner_id.parent_id:\n"
-"            (${object.partner_id.parent_id.name})\n"
-"        % endif\n"
-"        <br/><br/>\n"
-"        تجدون مرفقًا طلب عرض سعر <strong>${object.name}</strong>\n"
-"        % if object.partner_ref:\n"
-"            مع المرجع: ${object.partner_ref}\n"
-"        % endif\n"
-"        من ${object.company_id.name}.\n"
-"        <br/><br/>\n"
-"        إذا كانت لديكم أي استفسارات، لا تترددوا في الاتصال بنا.\n"
-"        <br/><br/>\n"
-"        مع أطيب التحيات،\n"
-"    </p>\n"
-"</div>"
-
-#. module: purchase
-#: model:mail.template,subject:purchase.email_template_edi_purchase
-#: model:mail.template,subject:purchase.email_template_edi_purchase_done
-msgid "${object.company_id.name} Order (Ref ${object.name or 'n/a' })"
-msgstr "طلب ${object.company_id.name} (المرجع ${object.name or 'n/a' })"
-
-#. module: purchase
-#: model:mail.template,body_html:purchase.email_template_edi_purchase_done
-msgid ""
-"<div style=\"margin: 0px; padding: 0px;\">\n"
-"    <p style=\"margin: 0px; padding: 0px; font-size: 13px;\">\n"
-"        Dear ${object.partner_id.name}\n"
-"        % if object.partner_id.parent_id:\n"
-"            (${object.partner_id.parent_id.name})\n"
-"        % endif\n"
-"        <br/><br/>\n"
-"        Here is in attachment a purchase order <strong>${object.name}</strong>\n"
-"        % if object.partner_ref:\n"
-"            with reference: ${object.partner_ref}\n"
-"        % endif\n"
-"        amounting in <strong>${format_amount(object.amount_total, object.currency_id)}</strong>\n"
-"        from ${object.company_id.name}. \n"
-"        <br/><br/>\n"
-"        % if object.date_planned:\n"
-"            The receipt is expected for <strong>${format_date(object.date_planned)}</strong>.\n"
-"            <br/><br/>\n"
-"            Could you please acknowledge the receipt of this order?\n"
-"        % endif\n"
-"    </p>\n"
-"</div>"
-msgstr ""
-"<div style=\"margin: 0px; padding: 0px;\">\n"
-"    <p style=\"margin: 0px; padding: 0px; font-size: 13px;\">\n"
-"        عزيزي ${object.partner_id.name}\n"
-"        % if object.partner_id.parent_id:\n"
-"            (${object.partner_id.parent_id.name})\n"
-"        % endif\n"
-"        <br/><br/>\n"
-"        تجدون مرفقًا أمر شراء <strong>${object.name}</strong>\n"
-"        % if object.partner_ref:\n"
-"            مع المرجع: ${object.partner_ref}\n"
-"        % endif\n"
-"        بمبلغ <strong>${format_amount(object.amount_total, object.currency_id)}</strong>\n"
-"        من ${object.company_id.name}.\n"
-"        <br/><br/>\n"
-"        % if object.date_planned:\n"
-"            من المتوقع استلام الطلب بتاريخ <strong>${format_date(object.date_planned)}</strong>.\n"
-"            <br/><br/>\n"
-"            هل يمكنكم تأكيد استلام هذا الطلب؟\n"
-"        % endif\n"
-"    </p>\n"
-"</div>"
-
-#. module: purchase
-#: model:mail.template,body_html:purchase.email_template_edi_purchase_reminder
-msgid ""
-"<div style=\"margin: 0px; padding: 0px;\">\n"
-"    <p style=\"margin: 0px; padding: 0px; font-size: 13px;\">\n"
-"        Dear ${object.partner_id.name}\n"
-"        % if object.partner_id.parent_id:\n"
-"            (${object.partner_id.parent_id.name})\n"
-"        % endif\n"
-"        <br/><br/>\n"
-"        Here is a reminder that the delivery of the purchase order <strong>${object.name}</strong>\n"
-"        % if object.partner_ref:\n"
-"            <strong>(${object.partner_ref})</strong>\n"
-"        % endif \n"
-"        is expected for \n"
-"        % if object.date_planned:\n"
-"            <strong>${format_date(object.date_planned)}</strong>.\n"
-"        % else:\n"
-"            <strong>undefined</strong>.\n"
-"        % endif\n"
-"        Could you please confirm it will be delivered on time?\n"
-"    </p>\n"
-"</div>"
-msgstr ""
-
-"<div style=\"margin: 0px; padding: 0px;\">\n"
-"    <p style=\"margin: 0px; padding: 0px; font-size: 13px;\">\n"
-"        عزيزي/عزيزتي ${object.partner_id.name}\n"
-"        % if object.partner_id.parent_id:\n"
-"            (${object.partner_id.parent_id.name})\n"
-"        % endif\n"
-"        <br/><br/>\n"
-"        هذا تذكير بأن تسليم طلب الشراء <strong>${object.name}</strong>\n"
-"        % if object.partner_ref:\n"
-"            <strong>(${object.partner_ref})</strong>\n"
-"        % endif \n"
-"        من المتوقع أن يتم في \n"
-"        % if object.date_planned:\n"
-"            <strong>${format_date(object.date_planned)}</strong>.\n"
-"        % else:\n"
-"            <strong>غير محدد</strong>.\n"
-"        % endif\n"
-"        هل يمكنك تأكيد أنه سيتم التسليم في الوقت المحدد؟\n"
-"    </p>\n"
-"</div>"
-
-

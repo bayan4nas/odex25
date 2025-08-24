@@ -83,7 +83,7 @@ class PurchaseRequest(models.Model):
     is_creator = fields.Boolean(string='Is Creator', compute='_compute_is_creator')
     select = fields.Boolean(string="Select")
     reject_reason = fields.Text(string='Reject Reson')
-
+    confirmation_ids = fields.One2many('budget.confirmation', 'request_id')
 
 
     def _inverse_product_category_ids(self):
@@ -284,6 +284,7 @@ class PurchaseRequest(models.Model):
             'department_id': self.department_id.id,
             'purpose': self.purchase_purpose,
             'purchase_cost': 'product_line',
+            'type': 'ordinary',
             'order_line': line_ids,
             # 'res_model':"purchase.request",
             # 'res_id': self.id,  # Reference to the current purchase order
@@ -300,6 +301,21 @@ class PurchaseRequest(models.Model):
             # 'context': {"default_res_id": self.id, "default_res_model":'purchase.request' }
         }
 
+    def open_confirmation(self):
+        formview_ref = self.env.ref('account_budget_custom.view_budget_confirmation_form', False)
+        treeview_ref = self.env.ref('account_budget_custom.view_budget_confirmation_tree', False)
+        return {
+            'name': _("Budget Confirmation"),
+            'view_mode': 'tree, form',
+            'view_id': False,
+            'res_model': 'budget.confirmation',
+            'type': 'ir.actions.act_window',
+            'target': 'current',
+            'domain': "[('id', 'in', %s)]" % self.confirmation_ids.ids,
+            'views': [(treeview_ref and treeview_ref.id or False, 'tree'),
+                      (formview_ref and formview_ref.id or False, 'form')],
+            'context': {'create': False}
+        }
 
 class PurchaseRequestLine(models.Model):
     _name = 'purchase.request.line'
@@ -310,8 +326,14 @@ class PurchaseRequestLine(models.Model):
     product_id = fields.Many2one(comodel_name='product.product', string='Item')
     description = fields.Char("Description")
     qty = fields.Integer(string='Qty')
-    uom_id = fields.Many2one('uom.uom',
-                             related='product_id.uom_po_id', readonly=True)
+    uom_id = fields.Many2one('uom.uom',related='product_id.uom_po_id', readonly=True)
+    expected_price = fields.Float(string='Expected Price', tracking=True, )
+    line_total = fields.Float(string='Total', compute='_compute_line_total', store=True)
+
+    @api.depends('qty', 'expected_price')
+    def _compute_line_total(self) -> None:
+        for line in self:
+            line.line_total = line.qty * line.expected_price
 
     def _product_id_change(self):
         if not self.product_id:

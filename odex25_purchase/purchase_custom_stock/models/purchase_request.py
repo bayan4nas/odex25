@@ -53,7 +53,7 @@ class PurchaseRequest(models.Model):
                 rec.write({"qty_purchased": rec.qty})
 
             init_active = self.env['ir.module.module'].search(
-                [('name', '=', 'initial_engagement_budget'), ('state', '=', 'installed')], limit=1)
+                [('name', '=', 'odex25_account_budget'), ('state', '=', 'installed')], limit=1)
             init_budget = True if init_active else False
             self.write({'state': 'wait_for_send' if init_budget else 'waiting'})
 
@@ -165,8 +165,8 @@ class PurchaseRequest(models.Model):
 
     def action_confirm(self):
         init_active = self.env['ir.module.module'].sudo().search(
-            [('name', '=', 'initial_engagement_budget'), ('state', '=', 'installed')], limit=1)
-        init_budget = self.initial_engagement_activate
+            [('name', '=', 'odex25_budget_saip'), ('state', '=', 'installed')], limit=1)
+        # init_budget = self.initial_engagement_activate
         if len(self.line_ids) == 0:
             raise ValidationError(_("Can't Confirm Request With No Item!"))
         if not self.department_id:
@@ -611,5 +611,5 @@ class PurchaseRequestLine(models.Model):
     @api.constrains('expected_price')
     def expected_price_validation(self):
         for rec in self:
-            if rec.request_id.initial_engagement_activate == True and rec.expected_price <= 0:
+            if rec.expected_price <= 0:
                 raise ValidationError(_("Expected Price MUST be at Least ONE!"))

@@ -1,0 +1,140 @@
+<odoo>
+    <record id="view_move_form_inherit_item_budget" model="ir.ui.view">
+        <field name="name">account.move.inherit.purchase</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="odex25_account_saip.account_move_form_inherit"/>
+        <field name="arch" type="xml">
+                <button name="accounting_department" position="after">
+                     <button name="action_budget_management"
+                            string="Send"
+                            class="oe_highlight" type="object"
+                            groups="account_budget_custom.group_department_manager_budget"
+                            attrs="{'invisible': ['|',('move_type', 'not in', ('in_receipt')),('state', '!=', 'draft')]}"/>
+                </button>
+            <xpath expr="//field[@name='state_in_receipt']" position="attributes">
+                <attribute name="statusbar_visible">draft,budget_management,accounting_department,posted</attribute>
+            </xpath>
+            <xpath expr="//button[@name='accounting_department']" position="attributes">
+                <attribute name="attrs">{'invisible': ['|',('move_type', 'not in', ('in_invoice')),('state', '!=', 'draft')]}</attribute>
+            </xpath>
+
+            <field name="ref" position="after">
+                <field name="hr_operation" invisible="1"/>
+            </field>
+            <field name="invoice_date_due" position="attributes">
+                <attribute name="readonly">1</attribute>
+            </field>
+             <field name="invoice_date" position="after">
+                   <field name="is_related_to_cotract" invisible="1"/>
+             </field>
+
+            <field name="invoice_date" position="attributes">
+                <attribute name="attrs">{'readonly': ['|',('is_related_to_cotract', '=', True),('state','=','accounting_department')]}</attribute>
+            </field>
+            <field name="journal_id" position="attributes">
+                <attribute name="attrs">{'readonly': ['|',('posted_before', '=', True),('state','=','accounting_department')]}</attribute>
+            </field>
+            <field name="ref" position="attributes">
+                <attribute name="attrs">{'readonly': ['|',('state', '=', 'posted'),('state','=','accounting_department')]}</attribute>
+            </field>
+
+
+            <xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='account_id']" position="after">
+                <field name="item_budget_id" attrs="{'column_invisible': [('parent.move_type', 'not in', ['in_invoice','in_receipt'])]}"
+               options="{'no_create': True, 'no_create_edit':True,'no_open': True}"/>
+                  <field name="remaining_item_budget" attrs="{'column_invisible': [('parent.move_type', '!=', 'in_receipt')]}"/>
+                <field name="remaining_available_liquidity" attrs="{'column_invisible': [('parent.move_type', '!=', 'in_receipt')]}"/>
+            </xpath>
+            <xpath expr="//field[@name='line_ids']/tree/field[@name='account_id']" position="after">
+                <field name="item_budget_id" attrs="{'column_invisible': [('parent.move_type', 'not in', ['in_invoice','in_receipt'])]}"
+               options="{'no_create': True, 'no_create_edit':True,'no_open': True}" invisible="1"/>
+                  <field name="remaining_item_budget" invisible="1"/>
+                <field name="remaining_available_liquidity" invisible="1"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_account_payment_budget_item_form_inhert" model="ir.ui.view">
+        <field name="name">account.payment.government.view.form</field>
+        <field name="model">account.payment</field>
+        <field name="inherit_id" ref="odex25_account_saip.view_account_payment_new_approve_form"/>
+        <field name="arch" type="xml">
+            <button name="action_accountant" position="after">
+                <button name="action_senior_accountant" states="senior_accountant"
+                            groups="odex25_account_saip.group_senior_accountant" string="Approve - 1" type="object"
+                            class="oe_highlight"/>
+            </button>
+
+
+            <field name="move_id" position="before">
+                <field name="is_related_to_cotract" invisible="1"/>
+                <field name="hr_operation" invisible="1"/>
+            </field>
+            <xpath expr="//sheet" position="inside">
+                <notebook >
+                    <page string="Budget Items" name="Budget_item" >
+                        <field name="item_budget_ids" attrs="{'readonly': [('state', '=','posted')]}">
+                            <tree>
+                                <field name="name"  attrs="{'readonly': [('parent.hr_operation', '=',True)]}"/>
+                                <field name="item_budget_id" attrs="{'readonly': [('parent.state', '=','posted')]}"/>
+                                <field name="amount" sum="Amount"  attrs="{'readonly': [('parent.hr_operation', '=',True)]}"/>
+                            </tree>
+                            <form create="false">
+                                <group>
+                                    <group>
+                                        <field name="name"/>
+                                        <field name="item_budget_id" attrs="{'readonly': [('parent.state', '=','posted')]}"/>
+                                        <field name="amount"/>
+                                    </group>
+
+                                </group>
+<!--                                <footer invisible="1"/>-->
+                            </form>
+                        </field>
+                    </page>
+                </notebook>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_account_payment_register_form_budget_item_form" model="ir.ui.view">
+        <field name="name">view.account.payment.register.form.inherit.budget_item_form</field>
+        <field name="model">account.payment.register</field>
+        <field name="inherit_id" ref="account.view_account_payment_register_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='journal_id']" position="after">
+                <field name="hr_operation" invisible="1"/>
+                <field name="item_budget_id" readonly="1" attrs="{'invisible': [('hr_operation', '=',True)]}"/>
+                <field name="is_related_to_cotract" invisible="1"/>
+
+
+            </xpath>
+            <xpath expr="//group" position="after">
+                <group name="group" col="8" >
+                    <div>
+                        <field name="budget_item_ids" readonly="1">
+                            <tree create="0" edit="0" delete="0" editable="bottom"
+                                  options="{'no_create_edit': True, 'no_open': True}">
+                                <field name="name" readonly="1" width="33%"/>
+                                <field name="item_budget_id" readonly="1" width="33%"/>
+                                <field name="amount" readonly="1" width="33%" sum="Amount"/>
+                            </tree>
+                            <form create="false" edit="false">
+                                <group>
+                                    <group>
+                                        <field name="name" readonly="1"/>
+                                        <field name="item_budget_id" readonly="1"/>
+                                        <field name="amount" readonly="1"/>
+                                    </group>
+
+                                </group>
+                                <footer invisible="1"/>
+                            </form>
+                        </field>
+                    </div>
+                </group>
+
+            </xpath>
+        </field>
+    </record>
+</odoo>

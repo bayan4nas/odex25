@@ -75,7 +75,7 @@ class PurcahseRefues(models.TransientModel):
             picking_id = self.env['stock.picking'].create(picking_vals)
             self.request_id.picking_id = picking_id.id
         init_active = self.env['ir.module.module'].sudo().search(
-            [('name', '=', 'initial_engagement_budget'), ('state', '=', 'installed')], limit=1)
+            [('name', '=', 'odex25_budget_saip'), ('state', '=', 'installed')], limit=1)
         init_budget = True if init_active else False
         for line in self.request_line_ids.filtered(lambda line: line.product_id.type not in ['product', 'consu']):
             line.qty_purchased = line.qty
@@ -106,7 +106,7 @@ class PurcahseRefues(models.TransientModel):
             picking_id = self.env['stock.picking'].create(picking_vals)
             self.request_id.picking_id = picking_id.id
         init_active = self.env['ir.module.module'].sudo().search(
-            [('name', '=', 'initial_engagement_budget'), ('state', '=', 'installed')], limit=1)
+            [('name', '=', 'odex25_budget_saip'), ('state', '=', 'installed')], limit=1)
         init_budget = True if init_active else False
         for line in self.request_line_ids:
             line.qty_purchased = line.qty - line.available_qty

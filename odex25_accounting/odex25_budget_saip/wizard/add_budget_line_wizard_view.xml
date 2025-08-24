@@ -1,0 +1,29 @@
+<odoo>
+    <record id="view_budget_line_wizard_form" model="ir.ui.view">
+        <field name="name">budget.line.wizard.form</field>
+        <field name="model">budget.line.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Add Budget Line">
+                <group>
+                    <field name="general_budget_id" required="1" options="{'no_create': True, 'no_create_edit':True,'no_open': True}"/>
+                    <field name="item_budget_id" required="1"  options="{'no_create': True, 'no_create_edit':True,'no_open': True}"/>
+                    <field name="period" invisible="1"/>
+                    <field name="added_amount"/>
+                    <field name="cost_amount" attrs="{'readonly':[('period','=','annually')]}"/>
+
+                </group>
+                <footer>
+                    <button string="Add" type="object" name="add_budget_line" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_budget_line_wizard" model="ir.actions.act_window">
+        <field name="name">Add Budget Line</field>
+        <field name="res_model">budget.line.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

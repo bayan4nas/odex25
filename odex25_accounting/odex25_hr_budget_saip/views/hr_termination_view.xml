@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<odoo>
+    <record id="termination_resignation_eos_ht_budgetform_view_inherit" model="ir.ui.view">
+        <field name="name">hr.termination</field>
+        <field name="model">hr.termination</field>
+        <field name="inherit_id" ref="hr_termination.termination_resignation_eos_form_view"/>
+        <field name="arch" type="xml">
+            <button name="pay" position="attributes">
+                <attribute name="groups">odex25_account_saip.group_post_account_department</attribute>
+            </button>
+             <button name="pay" position="after">
+              <button string="Return" name="action_termination_return" states="done" type="object" groups="odex25_account_saip.group_post_account_department"/>
+            </button>
+
+
+            <xpath expr="//field[@name='journal']" position="attributes">
+                <attribute name="domain">[('type','=','purchase'),('hr_journal', '=', True)]</attribute>
+                <attribute name="groups">odex25_account_saip.group_post_account_department,hr.group_hr_user</attribute>
+                <attribute name="options">{'no_create': True, 'no_create_edit':True,'no_open': True}</attribute>
+
+            </xpath>
+
+            <xpath expr="//field[@name='account_move_id']" position="attributes">
+                <attribute name="groups">odex25_account_saip.group_post_account_department,hr.group_hr_user</attribute>
+
+            </xpath>
+
+        </field>
+    </record>
+
+
+</odoo>

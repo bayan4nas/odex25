@@ -18,7 +18,6 @@
                                 type="object" string="Approve" states="direct_manager" class="oe_highlight"/>
 
 
-
                         <button name="create_requisition"
                                 groups="purchase.group_purchase_user,purchase.group_purchase_manager" type="object"
                                 string="Create Requisition"
@@ -46,6 +45,12 @@
                         <div class="oe_button_box" name="button_box">
                             <field name="is_requisition" invisible="1"/>
                             <field name="is_creator" invisible="1"/>
+                            <div class="oe_button_box" name="button_box">
+
+                            </div>
+                             <button class="oe_stat_button" name="open_confirmation" type="object"
+                                        string="Budget Confirmation" icon="fa-list-ol" attrs="{'invisible':['|',('state','in',['draft','dm','ppmo','direct_manager','CSO']),('note', '=', True)]}"/>
+
                             <button class="oe_stat_button" name="open_requisition" type="object"
                                     string="Purchase Agreement" icon="fa-list-ol"
                                     attrs="{'invisible' : [('is_requisition' , '=' , False)]}"
@@ -94,20 +99,18 @@
                             <page string="Items" name="purchase_request_info">
                                 <field name="line_ids" attrs="{'readonly':[('state' , '!=' , 'draft')]}">
                                     <tree editable="bottom">
-                                        <field name="product_id"
-                                               domain="[('purchase_ok', '=', True)]"
+                                        <field name="product_id" domain="[('purchase_ok', '=', True)]"
                                                options="{'no_create' : True , 'no_edit' : True ,'no_open' : True}"
-                                               optional="show"
-                                                required="1"/>
-
+                                               optional="show" required="1"/>
                                         <field name="uom_id"/>
                                         <field name="description"/>
-
                                         <field name="qty"
                                                attrs="{'column_required':[('parent.state' , '!=' , 'draft')]}"
                                                optional="show"/>
-                                        <!--                                        <field name="price_unit" attrs="{'column_required':[('parent.state' , '!=', 'draft')]}" optional="show"/>-->
-                                        <!--                                        <field name="sum_total" force_save="1" sum="Total amount" optional="show"/>-->
+                                        <field name="expected_price"
+                                               attrs="{'column_required':[('parent.state' , '!=', 'draft')]}"
+                                               optional="show"/>
+                                        <field name="line_total" force_save="1" sum="Total amount" optional="show"/>
                                         <field name="account_id" invisible="1"/>
                                     </tree>
                                 </field>
