@@ -156,7 +156,7 @@ class HrRequestPledge(models.Model):
     def _compute_is_financial_impact(self):
       for record in self:
         
-         record.is_financial_impact = record.dashboard_id.is_financial_impact
+         record.is_financial_impact = record.dashboard_id.pledge_ids.is_financial_impact
 
     
 
