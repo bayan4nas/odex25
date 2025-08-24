@@ -270,15 +270,16 @@ class GrantBenefit(models.Model):
     def _compute_family_need_class(self):
         for rec in self:
             rec.family_need_class_id = False
-            if rec.need_ratio:
 
-                ratio = round(rec.need_ratio / 100, 2)
-                category = self.env['family.need.category'].sudo().search([
+
+
+            ratio = round(rec.need_ratio / 100, 2)
+            category = self.env['family.need.category'].sudo().search([
                     ('min_need', '<=', ratio),
                     ('max_need', '>=', ratio)
                 ], order='min_need asc', limit=1)
-                print("ratio",ratio)
-                if category:
+
+            if category:
                     rec.family_need_class_id = category.id
 
     @api.depends('total_salary', 'natural_income')
