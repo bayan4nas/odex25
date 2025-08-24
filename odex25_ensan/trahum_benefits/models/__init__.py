@@ -13,6 +13,6 @@ from . import service_request
 from . import case_info
 from . import res_district
 from . import benificiary_path
-
+from . import sr_rule
 from . import res_config_settings_need_calculat
 

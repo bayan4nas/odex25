@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
+from datetime import date
 
 from odoo import models, fields, api, _
 from odoo.exceptions import ValidationError, UserError
 
+from odoo.exceptions import ValidationError
+from datetime import date, timedelta, datetime
 
 class BenefitsServiceRequest(models.Model):
     _name = 'benefits.service.request'
@@ -294,3 +297,157 @@ class ServiceRequest(models.Model):
                 branch_id = rec.detainee_file.branch_id.id
 
             rec.branches_custom = branch_id
+
+    def _get_beneficiary_domain(self):
+        """
+        Helper method to get the domain for the beneficiary (family or member).
+        This makes the rules applicable to any beneficiary type.
+        """
+        self.ensure_one()
+        if self.benefit_type in ('family', 'detainee') and self.family_id:
+            return [('family_id', '=', self.family_id.id)]
+        elif self.benefit_type == 'member' and self.member_id:
+            return [('member_id', '=', self.member_id.id)]
+        return []
+
+    def _get_period_domain(self, period, period_days=0):
+        """
+        Helper method to get the date domain based on the selected period.
+        """
+        today = date.today()
+        domain = []
+        if period == 'year':
+            start_date = today.replace(month=1, day=1)
+            end_date = today.replace(month=12, day=31)
+            domain = [('date', '>=', start_date), ('date', '<=', end_date)]
+        elif period == 'month':
+            start_date = today.replace(day=1)
+            next_month = (today.replace(day=28) + timedelta(days=4)).replace(day=1)
+            end_date = next_month - timedelta(days=1)
+            domain = [('date', '>=', start_date), ('date', '<=', end_date)]
+        elif period == 'days' and period_days > 0:
+            start_date = today - timedelta(days=period_days)
+            domain = [('date', '>=', start_date), ('date', '<=', today)]
+        return domain
+
+    def _apply_rule(self, rule):
+        """
+        Applies a single rule to the service request.
+        This function contains the core logic for each metric.
+        """
+        self.ensure_one()
+
+        #
+        # ---  (Validation Rules) ---
+        #
+        if rule.rule_type == 'validation':
+            value_to_check = 0
+            base_domain = self._get_beneficiary_domain()
+            if not base_domain:
+                return
+
+            base_domain += [('id', '!=', self.id)]
+
+            # 1.  (request_total)
+            if rule.metric == 'request_total':
+                value_to_check = self.requested_service_amount
+
+            # 2.  (sum_amount_period)
+            elif rule.metric == 'sum_amount_period':
+                period_domain = self._get_period_domain(rule.period, rule.period_days)
+                domain = base_domain + period_domain
+                requests = self.env['service.request'].search(domain)
+                total_amount = sum(requests.mapped('requested_service_amount'))
+                value_to_check = total_amount + self.requested_service_amount
+
+            # 3. (count_requests_period)
+            elif rule.metric == 'count_requests_period':
+                period_domain = self._get_period_domain(rule.period, rule.period_days)
+                domain = base_domain + period_domain
+                value_to_check = self.env['service.request'].search_count(domain)
+
+            # 4.  (days_since_last_request)
+            elif rule.metric == 'days_since_last_request':
+                # last request
+                last_request = self.env['service.request'].search(
+                    base_domain, order='date desc', limit=1
+                )
+                if last_request:
+                    days_diff = (datetime.now().date() - last_request.date.date()).days
+                    value_to_check = days_diff
+                else:
+                    return
+
+            # 5.  (family_members_count)
+            elif rule.metric == 'family_members_count':
+                if self.family_id:
+                    value_to_check = len(self.family_id.benefit_member_ids)
+                else:
+                    return
+            # 6.  (family_value)
+            elif rule.metric == 'family_value':
+                if self.family_id:
+                    member = len(self.family_id.benefit_member_ids)
+                    breadwinner = len(self.family_id.benefit_breadwinner_ids)
+                    value_to_check = (member * rule.member_value) + (breadwinner * rule.breadwinner_value)
+                    print(value_to_check)
+                    if self.requested_service_amount > value_to_check:
+                        message = rule.message or f"Rule Violation: {rule.name}"
+                        if rule.severity == 'error':
+                            raise ValidationError(message)
+
+                        elif rule.severity == 'warning':
+                            self.message_post(body=f"Warning: {message}")
+                            return
+                    else:
+                        return
+
+                else:
+                    return
+            # The `eval` function is used here for dynamic operator evaluation.
+            # It's safe because the inputs (value, operator, threshold) are controlled within Odoo.
+            condition_met = eval(f"{value_to_check} {rule.operator} {rule.threshold_value}")
+
+            if not condition_met:
+                message = rule.message or f"Rule Violation: {rule.name}"
+                if rule.severity == 'error':
+                    raise ValidationError(message)
+                elif rule.severity == 'warning':
+                    self.message_post(body=f"Warning: {message}")
+
+        #
+        # --- (Computation Rules) ---
+        #
+        # elif rule.rule_type == 'compute':
+        #     if rule.metric == 'request_total' and rule.numeric_value:
+        #         original_amount = self.requested_service_amount
+        #         new_amount = original_amount * (rule.numeric_value / 100.0)
+        #         self.write({'requested_service_amount': new_amount})
+        #
+        #         message = f"Applied rule '{rule.name}': Amount changed from {original_amount} to {new_amount}."
+        #         self.message_post(body=message)
+
+    def check_rules(self):
+        """
+        Main method to check all active rules for the selected service.
+        """
+        for rec in self:
+            if not rec.service_cats:
+                continue
+
+            rules = rec.service_cats.rule_ids.filtered(lambda r: r.active).sorted('sequence')
+
+            for rule in rules:
+                rec._apply_rule(rule)
+        return True
+
+    @api.model
+    def create(self, vals):
+        rec = super().create(vals)
+        rec.check_rules()
+        return rec
+
+    def write(self, vals):
+        res = super().write(vals)
+        self.check_rules()
+        return res
