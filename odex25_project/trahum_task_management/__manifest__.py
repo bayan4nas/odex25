@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 {
-    'name': "Trahum - Project - Management",
+    'name': "Trahum Task Management",
     'summary': "Project/Task Generation from original Project Module",
     'description': """
 This module allows to generate a project/task original Project Module.
