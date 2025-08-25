@@ -28,7 +28,7 @@ class GrantBenefitProfile(models.Model):
         result = []
         for rec in self:
             if rec.name and rec.code:
-                name = rec.name + " " + rec.code
+                name = rec.name
                 result.append((rec.id, name))
         return result
 
