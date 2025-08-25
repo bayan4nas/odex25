@@ -82,68 +82,68 @@ class AccountMove(models.Model):
             # todo end
             self.state = 'budget_management'
 
-    def action_post(self):
-        super(AccountMove, self).action_post()
-        for move in self:
-            if move.move_type in ['in_invoice', 'in_receipt']:  # Vendor Bill
-                if (move.invoice_date_due and move.invoice_date_due > fields.Date.today()) or \
-                        (not move.invoice_date_due and move.invoice_date and move.invoice_date > fields.Date.today()):
-                    raise ValidationError(_("The bill can be posted only on the due date or after it"))
-
-                # Automatically create and post the payment
-                payment_vals = {
-                    'partner_id': move.partner_id.id,
-                    'amount': move.amount_residual,
-                    'payment_type': 'outbound',
-                    'partner_type': 'supplier',
-                    'payment_method_id': self.env.ref('account.account_payment_method_manual_out').id,
-                    'journal_id': self.env['account.journal'].search([('type', '=', 'bank')], limit=1).id,
-                    'date': fields.Date.today(),
-                    'state': 'draft',
-                    'ref': move.name,
-                    "contract_id": move.contract_id.id,
-                    'installment_id': move.installment_id.id,
-                    'payment_reference': move.name,
-                     'is_related_to_cotract': move.is_related_to_cotract if move.is_related_to_cotract else False,
-                    'hr_operation': move.hr_operation,
-                }
-
-                # Add budget item details
-                budget_item_vals = [(0, 0, {
-                    'item_budget_id': item.item_budget_id.id,
-                    'amount':  item.price_total,
-                    'name': item.name,
-                }) for item in move.invoice_line_ids]
-
-                payment_vals['item_budget_ids'] = budget_item_vals
-                payment = self.env['account.payment'].create(payment_vals)
-
-    def action_register_payment(self):
-        res = super(AccountMove, self).action_register_payment()
-        res['context'].update({'default_hr_operation': self.hr_operation,'default_is_related_to_cotract': self.is_related_to_cotract})
-        move_lines = self.line_ids.filtered(lambda line: line.item_budget_id)
-        if move_lines:
-            budget_items = []
-            for line in move_lines:
-                budget_items.append({'item_budget_id': line.item_budget_id.id, 'amount':line.price_total,
-                                     'name': line.name})
-            res['context'].update({'default_budget_item_ids': budget_items})
-        return res
+    # def action_post(self):
+    #     super(AccountMove, self).action_post()
+    #     for move in self:
+    #         if move.move_type in ['in_invoice', 'in_receipt']:  # Vendor Bill
+    #             if (move.invoice_date_due and move.invoice_date_due > fields.Date.today()) or \
+    #                     (not move.invoice_date_due and move.invoice_date and move.invoice_date > fields.Date.today()):
+    #                 raise ValidationError(_("The bill can be posted only on the due date or after it"))
+    #
+    #             # Automatically create and post the payment
+    #             payment_vals = {
+    #                 'partner_id': move.partner_id.id,
+    #                 'amount': move.amount_residual,
+    #                 'payment_type': 'outbound',
+    #                 'partner_type': 'supplier',
+    #                 'payment_method_id': self.env.ref('account.account_payment_method_manual_out').id,
+    #                 'journal_id': self.env['account.journal'].search([('type', '=', 'bank')], limit=1).id,
+    #                 'date': fields.Date.today(),
+    #                 'state': 'draft',
+    #                 'ref': move.name,
+    #                 "contract_id": move.contract_id.id,
+    #                 'installment_id': move.installment_id.id,
+    #                 'payment_reference': move.name,
+    #                  'is_related_to_cotract': move.is_related_to_cotract if move.is_related_to_cotract else False,
+    #                 'hr_operation': move.hr_operation,
+    #             }
+    #
+    #             # Add budget item details
+    #             budget_item_vals = [(0, 0, {
+    #                 'item_budget_id': item.item_budget_id.id,
+    #                 'amount':  item.price_total,
+    #                 'name': item.name,
+    #             }) for item in move.invoice_line_ids]
+    #
+    #             payment_vals['item_budget_ids'] = budget_item_vals
+    #             payment = self.env['account.payment'].create(payment_vals)
+    #
+    # def action_register_payment(self):
+    #     res = super(AccountMove, self).action_register_payment()
+    #     res['context'].update({'default_hr_operation': self.hr_operation,'default_is_related_to_cotract': self.is_related_to_cotract})
+    #     move_lines = self.line_ids.filtered(lambda line: line.item_budget_id)
+    #     if move_lines:
+    #         budget_items = []
+    #         for line in move_lines:
+    #             budget_items.append({'item_budget_id': line.item_budget_id.id, 'amount':line.price_total,
+    #                                  'name': line.name})
+    #         res['context'].update({'default_budget_item_ids': budget_items})
+    #     return res
 
 
 class AccountPayment(models.Model):
     _inherit = 'account.payment'
 
-    item_budget_ids = fields.One2many('account.payment.line', 'payment_id')
+    # item_budget_ids = fields.One2many('account.payment.line', 'payment_id')
     is_related_to_cotract = fields.Boolean()
     hr_operation = fields.Boolean()
 
-    @api.onchange('item_budget_ids')
-    def _onchange_item_budget_ids(self):
-        self.amount = sum(self.item_budget_ids.mapped('amount'))
-
-    def action_senior_accountant(self):
-        self.state = 'budget_management'
+    # @api.onchange('item_budget_ids')
+    # def _onchange_item_budget_ids(self):
+    #     self.amount = sum(self.item_budget_ids.mapped('amount'))
+    #
+    # def action_senior_accountant(self):
+    #     self.state = 'budget_management'
 
         # if self.hr_operation:
         #     self.state = 'budget_management'
@@ -158,45 +158,45 @@ class AccountPayment(models.Model):
     #             raise ValidationError(_("The payment amount must be equal to the total of the payment lines."))
 
 
-class AccountPayment(models.Model):
-    _name = 'account.payment.line'
-
-    payment_id = fields.Many2one('account.payment')
-    currency_id = fields.Many2one('res.currency', default=lambda self: self.env.company.currency_id)
-    amount = fields.Monetary(currency_field="currency_id")
-    name = fields.Char()
-    item_budget_id = fields.Many2one('item.budget', 'Budget Item')
-
-
-class AccountPaymentRegister(models.TransientModel):
-    _inherit = 'account.payment.register'
-
-    item_budget_id = fields.Many2one('item.budget', 'Budget Item')
-    budget_item_ids = fields.One2many('account.payment.budget.item', 'register_id', string='Budget Items')
-    is_related_to_cotract = fields.Boolean()
-    hr_operation = fields.Boolean()
-
-    def _create_payment_vals_from_wizard(self):
-        payment_vals = super(AccountPaymentRegister, self)._create_payment_vals_from_wizard()
-        payment_vals['is_related_to_cotract'] = self.is_related_to_cotract
-        payment_vals['hr_operation'] = self.hr_operation
-        budget_item_vals = [(0, 0, {
-            'item_budget_id': item.item_budget_id.id,
-            'amount': item.amount,
-            'name': item.name,
-        }) for item in self.budget_item_ids]
-
-        payment_vals['item_budget_ids'] = budget_item_vals
-        return payment_vals
+# class AccountPayment(models.Model):
+#     _name = 'account.payment.line'
+#
+#     payment_id = fields.Many2one('account.payment')
+#     currency_id = fields.Many2one('res.currency', default=lambda self: self.env.company.currency_id)
+#     amount = fields.Monetary(currency_field="currency_id")
+#     name = fields.Char()
+#     item_budget_id = fields.Many2one('item.budget', 'Budget Item')
 
 
-class AccountPaymentRegisterBudgetItem(models.TransientModel):
-    _name = 'account.payment.budget.item'
-    _description = 'Payment Register Budget Item'
+# class AccountPaymentRegister(models.TransientModel):
+#     _inherit = 'account.payment.register'
+#
+#     item_budget_id = fields.Many2one('item.budget', 'Budget Item')
+#     budget_item_ids = fields.One2many('account.payment.budget.item', 'register_id', string='Budget Items')
+#     is_related_to_cotract = fields.Boolean()
+#     hr_operation = fields.Boolean()
+#
+#     def _create_payment_vals_from_wizard(self):
+#         payment_vals = super(AccountPaymentRegister, self)._create_payment_vals_from_wizard()
+#         payment_vals['is_related_to_cotract'] = self.is_related_to_cotract
+#         payment_vals['hr_operation'] = self.hr_operation
+#         budget_item_vals = [(0, 0, {
+#             'item_budget_id': item.item_budget_id.id,
+#             'amount': item.amount,
+#             'name': item.name,
+#         }) for item in self.budget_item_ids]
+#
+#         payment_vals['item_budget_ids'] = budget_item_vals
+#         return payment_vals
 
-    register_id = fields.Many2one('account.payment.register', string='Payment Register')
-    item_budget_id = fields.Many2one('item.budget', string='Budget Item')
-    currency_id = fields.Many2one('res.currency', default=lambda self: self.env.company.currency_id)
-    amount = fields.Monetary(currency_field="currency_id")
-    name = fields.Char()
-    currency_id = fields.Many2one('res.currency', related='register_id.currency_id', readonly=True)
+
+# class AccountPaymentRegisterBudgetItem(models.TransientModel):
+#     _name = 'account.payment.budget.item'
+#     _description = 'Payment Register Budget Item'
+#
+#     register_id = fields.Many2one('account.payment.register', string='Payment Register')
+#     item_budget_id = fields.Many2one('item.budget', string='Budget Item')
+#     currency_id = fields.Many2one('res.currency', default=lambda self: self.env.company.currency_id)
+#     amount = fields.Monetary(currency_field="currency_id")
+#     name = fields.Char()
+#     currency_id = fields.Many2one('res.currency', related='register_id.currency_id', readonly=True)

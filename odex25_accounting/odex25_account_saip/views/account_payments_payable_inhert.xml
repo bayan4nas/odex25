@@ -25,64 +25,140 @@
             </p>
         </field>
     </record>
-    <record id="view_account_payment_new_approve_form" model="ir.ui.view">
-        <field name="name">account.payment.new.approve.view.form</field>
-        <field name="model">account.payment</field>
-        <field name="mode">primary</field>
-        <field name="inherit_id" ref="account.view_account_payment_form"/>
-        <field name="arch" type="xml">
-            <xpath expr="//header" position="replace">
-                <header>
-                    <button name="action_draft_accountant" states="draft" string="Approve - 1" type="object"
-                            class="oe_highlight"/>
-                    <button name="action_accountant" states="accountant" groups="odex25_account_saip.group_accountant"
-                            string="Approve - 2" type="object" class="oe_highlight"/>
-<!--                    <button name="action_senior_accountant" states="senior_accountant"-->
-<!--                            groups="odex25_account_saip.group_senior_accountant" string="Approve - 1" type="object"-->
-<!--                            class="oe_highlight"/>-->
-                    <button name="action_budget_management" states="budget_management"
-                            groups="odex25_account_saip.group_budget_management" string="Approve - 5" type="object"
-                            class="oe_highlight"/>
-                    <button name="action_head_accounting" states="head_accounting"
-                            groups="odex25_account_saip.group_head_accounting" string="Approve - 6" type="object"
-                            class="oe_highlight"/>
-                    <button name="action_executive_director_finance" states="executive_director_finance"
-                            groups="odex25_account_saip.group_executive_director_finance" string="Approve - 8"
-                            type="object" class="oe_highlight"/>
-                    <button name="action_vice_president_resources" states="vice_president_resources"
-                            groups="odex25_account_saip.group_vice_president_resources" string="Approve - 9"
-                            type="object" class="oe_highlight"/>
-                    <button name="action_chief_executive_officer" states="chief_executive_officer"
-                            groups="odex25_account_saip.group_chief_executive_officer" string="Approve - 10"
-                            type="object" class="oe_highlight"/>
-                    <field name="state" widget="statusbar"
-                           statusbar_visible="draft,accountant,senior_accountant,budget_management,head_accounting,executive_director_finance,vice_president_resources,chief_executive_officer,posted"/>
 
-                </header>
-            </xpath>
-            <field name="payment_type" position="attributes">
-                <attribute name="readonly">1</attribute>
-            </field>
+<!--        <record id="view_account_payment_form_inherit_odex25_account_accountant_test" model="ir.ui.view">-->
+<!--        <field name="name">account.payment.form.inherit.odex25_account_accountant</field>-->
+<!--        <field name="model">account.payment</field>-->
+<!--        <field name="inherit_id" ref="account.view_account_payment_form"/>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <xpath expr="//field[@name='move_id']" position="after">-->
+<!--                <field name="analytic_account_id" attrs="{'invisible':[('partner_type','!=','GL')]}"/>-->
+<!--            </xpath>-->
+<!--        </field>-->
+<!--    </record>-->
+
+    <record id="view_account_payment_form_inherit_odex25_account_accountant" model="ir.ui.view">
+        <field name="name">account.payment.form.inherit.odex25_account_accountant</field>
+        <field name="model">account.payment</field>
+        <field name="inherit_id" ref="account.view_account_payment_form"/>
+        <field name="priority" eval="120"/>
+        <field name="arch" type="xml">
+        <xpath expr="//header" position="inside">
+
+            <button name="action_send_finance_manager" type="object" string="Approve"
+                    class="btn-primary" states="posted"/>
+
+            <button name="action_send_sector_manager" type="object" string="Approve"
+                    class="btn-primary" states="finance_manager"/>
+
+            <button name="action_send_secretary_general" type="object" string="Approve"
+                    class="btn-primary" states="sector_manager"/>
+
+            <button name="action_confirm_payment" type="object" string="Approve"
+                    class="btn-primary" states="secretary_general"/>
+
+
+
+
+        </xpath>
+
+
+
+            <xpath expr="//field[@name='state']" position="replace">
+            <field name="state" widget="statusbar"
+                   statusbar_visible="draft,posted,finance_manager,sector_manager,secretary_general,confirmed,cancel"/>
+        </xpath>
+<!--            <xpath expr="//header" position="replace">-->
+<!--                <header attrs="{'invisible':[('payment_type','!=','outbound')]}">-->
+<!--                    <button name="action_draft" type="object" string="Set to Draft" states="cancel"-->
+<!--                            class="oe_highlight" />-->
+<!--&lt;!&ndash;                    <button name="action_depart_manager" type="object" string="Department Manager" states="draft"&ndash;&gt;-->
+<!--&lt;!&ndash;                            groups="odex25_account_payment_fix.group_depart_manager" class="oe_highlight"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <button name="action_accounting_manager" type="object" string="Accounting Manager"&ndash;&gt;-->
+<!--&lt;!&ndash;                            states="depart_manager" groups="odex25_account_payment_fix.group_accounting_manager"&ndash;&gt;-->
+<!--&lt;!&ndash;                            class="oe_highlight"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <button name="action_sector_head_approval" type="object" string="Sector Head Approval"&ndash;&gt;-->
+<!--&lt;!&ndash;                            states="accounting_manager" class="oe_highlight" groups="odex25_account_payment_fix.group_sector_head_approval_account"/>&ndash;&gt;-->
+<!--                    <button name="action_general_manager" type="object" string="General Manager"-->
+<!--                            states="sector_head_approval" groups="odex25_account_payment_fix.group_general_manager"-->
+<!--                            class="oe_highlight"/>-->
+<!--                    <button name="action_post" type="object" string="Posted" states="draft"-->
+<!--                            groups="odex25_account_payment_fix.group_posted" class="oe_highlight"/>-->
+<!--                    <button name="action_cancel" type="object" string="Cancel"-->
+<!--                            groups="odex25_account_payment_fix.group_cancel"-->
+<!--                            states="draft,depart_manager,accounting_manager,general_manager,posted"-->
+<!--                            class="oe_highlight"/>-->
+<!--                    <field name="state" widget="statusbar" statusbar_visible="draft,posted"/>-->
+<!--                </header>-->
+<!--                <header attrs="{'invisible':[('payment_type','=','outbound')]}">-->
+<!--                    <button name="action_draft" type="object" string="Set to Draft" states="cancel" class="oe_highlight"/>-->
+<!--                    <button name="action_post" type="object" string="Posted" states="draft" class="oe_highlight"/>-->
+<!--                    <button name="action_depart_manager" type="object" string="Approve" states="posted" class="oe_highlight"/>-->
+<!--&lt;!&ndash;                    <button name="action_cancel" type="object" string="Cancel" states="draft,posted" class="oe_highlight"/>&ndash;&gt;-->
+<!--                    <field name="state" widget="statusbar" statusbar_visible="draft,posted,depart_manager,accounting_manager,sector_head_approval,general_manager"/>-->
+<!--                </header>-->
+
+<!--            </xpath>-->
+        </field>
+    </record>
+
+<!--    <record id="view_account_payment_new_approve_form" model="ir.ui.view">-->
+<!--        <field name="name">account.payment.new.approve.view.form</field>-->
+<!--        <field name="model">account.payment</field>-->
+<!--        <field name="mode">primary</field>-->
+<!--        <field name="inherit_id" ref="account.view_account_payment_form"/>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <xpath expr="//header" position="replace">-->
+<!--                <header>-->
+<!--                    <field name="state" widget="statusbar" statusbar_visible="draft,accountant,senior_accountant,budget_management,head_accounting,executive_director_finance,vice_president_resources,chief_executive_officer,posted"/>-->
+<!--                    <button name="action_draft_accountant" states="draft" string="Approve - 1" type="object"-->
+<!--                            class="oe_highlight"/>-->
+<!--                    <button name="action_accountant" states="accountant" groups="odex25_account_saip.group_accountant"-->
+<!--                            string="Approve - 2" type="object" class="oe_highlight"/>-->
+<!--&lt;!&ndash;                    <button name="action_senior_accountant" states="senior_accountant"&ndash;&gt;-->
+<!--&lt;!&ndash;                            groups="odex25_account_saip.group_senior_accountant" string="Approve - 1" type="object"&ndash;&gt;-->
+<!--&lt;!&ndash;                            class="oe_highlight"/>&ndash;&gt;-->
+<!--                    <button name="action_budget_management" states="budget_management"-->
+<!--                            groups="odex25_account_saip.group_budget_management" string="Approve - 5" type="object"-->
+<!--                            class="oe_highlight"/>-->
+<!--                    <button name="action_head_accounting" states="head_accounting"-->
+<!--                            groups="odex25_account_saip.group_head_accounting" string="Approve - 6" type="object"-->
+<!--                            class="oe_highlight"/>-->
+<!--                    <button name="action_executive_director_finance" states="executive_director_finance"-->
+<!--                            groups="odex25_account_saip.group_executive_director_finance" string="Approve - 8"-->
+<!--                            type="object" class="oe_highlight"/>-->
+<!--                    <button name="action_vice_president_resources" states="vice_president_resources"-->
+<!--                            groups="odex25_account_saip.group_vice_president_resources" string="Approve - 9"-->
+<!--                            type="object" class="oe_highlight"/>-->
+<!--                    <button name="action_chief_executive_officer" states="chief_executive_officer"-->
+<!--                            groups="odex25_account_saip.group_chief_executive_officer" string="Approve - 10"-->
+<!--                            type="object" class="oe_highlight"/>-->
+
+<!--                </header>-->
+<!--            </xpath>-->
+<!--            <field name="payment_type" position="attributes">-->
+<!--                <attribute name="readonly">1</attribute>-->
+<!--            </field>-->
             <!-- <xpath expr="//field[@name='payment_type']" position="attributes">
                 <attribute name="invisible">1</attribute>
                 <attribute name="attrs">{}</attribute>
               </xpath> -->
-        </field>
-    </record>
-
-    <record id="view_account_supplier_payment_inherit_tree" model="ir.ui.view">
-        <field name="name">account.supplier.payment.tree</field>
-        <field name="model">account.payment</field>
-        <field name="inherit_id" ref="account.view_account_supplier_payment_tree"/>
-        <field name="arch" type="xml">
-             <field name="name" position="attributes">
-                <attribute name="attrs">{'invisible': [('state', '!=', 'posted')]}</attribute>
-             </field>
-            <field name="name" position="after">
-                <field name="ref"/>
-            </field>
-        </field>
-    </record>
+<!--        </field>-->
+<!--    </record>-->
+<!---->
+<!--    <record id="view_account_supplier_payment_inherit_tree" model="ir.ui.view">-->
+<!--        <field name="name">account.supplier.payment.tree</field>-->
+<!--        <field name="model">account.payment</field>-->
+<!--        <field name="inherit_id" ref="account.view_account_supplier_payment_tree"/>-->
+<!--        <field name="arch" type="xml">-->
+<!--             <field name="name" position="attributes">-->
+<!--                <attribute name="attrs">{'invisible': [('state', '!=', 'posted')]}</attribute>-->
+<!--             </field>-->
+<!--            <field name="name" position="after">-->
+<!--                <field name="ref"/>-->
+<!--            </field>-->
+<!--        </field>-->
+<!--    </record>-->
 
     <record id="action_account_payments_approve_payable" model="ir.actions.act_window">
         <field name="name">Payments</field>
@@ -97,7 +173,7 @@
         </field>
         <field name="view_ids" eval="[(5, 0, 0),
         (0, 0, {'view_mode': 'tree' ,'view_id': ref('account.view_account_supplier_payment_tree')}),
-        (0, 0, {'view_mode': 'form', 'view_id': ref('view_account_payment_new_approve_form')})]"/>
+        (0, 0, {'view_mode': 'form', 'view_id': ref('account.view_account_payment_form')})]"/>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
                 Register a payment
@@ -110,7 +186,7 @@
     </record>
 
 
-    <menuitem id="menu_action_account_payments_payable" name="Payments" action="action_account_payments_approve_payable"
-              parent="odex25_account_accountant.menu_accounting" sequence="3"/>
+<!--    <menuitem id="menu_action_account_payments_payable" name="Payments" action="action_account_payments_approve_payable"-->
+<!--              parent="odex25_account_accountant.menu_accounting" sequence="3"/>-->
 
 </odoo>
