@@ -1,0 +1,244 @@
+<odoo>
+
+    <record id="edit_project_new" model="ir.ui.view">
+        <field name="name">project.project.form</field>
+        <field name="model">project.project</field>
+        <field name="arch" type="xml">
+            <form string="Project" delete="0">
+                <header>
+                    <button name="%(portal.portal_share_action)d" string="Share" type="action"
+                            class="oe_highlight oe_read_only"/>
+                </header>
+                <sheet string="Project">
+                    <div class="oe_button_box" name="button_box" groups="base.group_user">
+                        <button class="oe_stat_button" name="attachment_tree_view" type="object" icon="fa-file-text-o">
+                            <field string="Documents" name="doc_count" widget="statinfo"/>
+                        </button>
+                        <button class="oe_stat_button" type="action"
+                                name="%(project.act_project_project_2_project_task_all)d" icon="fa-tasks">
+                            <field string="Tasks In Progress" name="task_count" widget="statinfo"
+                                   options="{'label_field': 'label_tasks'}"/>
+                        </button>
+                        <button name="action_view_all_rating" type="object"
+                                attrs="{'invisible': ['|', ('rating_active', '=', False), ('rating_percentage_satisfaction', '=', -1)]}"
+                                class="oe_stat_button oe_percent oe_read_only" icon="fa-smile-o"
+                                groups="project.group_project_rating">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_value">
+                                    <field name="rating_percentage_satisfaction" nolabel="1"/>
+                                    %
+                                </span>
+                                <span class="o_stat_text">
+                                    Customer Satisfaction
+                                </span>
+                            </div>
+                        </button>
+                    </div>
+                    <widget name="web_ribbon" title="Archived" bg_color="bg-danger"
+                            attrs="{'invisible': [('active', '=', True)]}"/>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Project Name"/>
+                        </h1>
+                        <div name="options_active">
+                            <div>
+                                <label for="label_tasks" class="oe_inline" string="Name of the tasks:"/>
+                                <field name="label_tasks" class="oe_inline oe_input_align"/>
+                            </div>
+                        </div>
+                    </div>
+                    <notebook>
+                        <page name="description_page" string="Description">
+                            <field name="description" nolabel="1" placeholder="Describe your project..." type="html"/>
+                            <div class="d-none oe_clear"/>
+                        </page>
+                        <page name="settings" string="Settings">
+                            <group>
+                                <group>
+                                    <field name="active" invisible="1"/>
+                                    <field name="user_id" string="Project Manager" widget="many2one_avatar_user"
+                                           attrs="{'readonly':[('active','=',False)]}"
+                                           domain="[('share', '=', False)]"/>
+                                    <field name="partner_id" string="Customer" widget="res_partner_many2one"/>
+                                    <field name="partner_phone" widget="phone"
+                                           attrs="{'invisible': [('partner_id', '=', False)]}"/>
+                                    <field name="partner_email" widget="email"
+                                           attrs="{'invisible': [('partner_id', '=', False)]}"/>
+                                    <div name="alias_def" colspan="2"
+                                         attrs="{'invisible': [('alias_domain', '=', False)]}">
+                                        <!-- Always display the whole alias in edit mode. It depends in read only -->
+                                        <label for="alias_enabled" class="font-weight-bold"
+                                               string="Create tasks by sending an email"/>
+                                        <field name="alias_enabled" invisible="1"/>
+                                        <span>
+                                            <span class="font-weight-bold oe_read_only"
+                                                  attrs="{'invisible':  [('alias_name', '=', False)]}">to
+                                            </span>
+                                            <span class="font-weight-bold oe_edit_only">to</span>
+                                            <field name="alias_name" class="oe_inline"/>
+                                            <span class="oe_read_only"
+                                                  attrs="{'invisible':  [('alias_name', '=', False)]}">@
+                                            </span>
+                                            <span class="oe_edit_only">@</span>
+                                            <field name="alias_domain"
+                                                   attrs="{'invisible':  [('alias_name', '=', False)]}"
+                                                   class="oe_inline oe_read_only"
+                                                   readonly="1"/>
+                                            <field name="alias_domain"
+                                                   class="oe_inline oe_edit_only"
+                                                   readonly="1"/>
+                                        </span>
+                                    </div>
+                                    <!-- the alias contact must appear when the user start typing and it must disappear
+                                        when the string is deleted. -->
+                                    <field name="alias_contact" class="oe_inline oe_edit_only"
+                                           string="Accept Emails From"
+                                           attrs="{'invisible': ['|', ('alias_name', '=', ''), ('alias_name', '=', False)]}"/>
+                                </group>
+                                <group>
+                                    <field name="analytic_account_id"
+                                           domain="['|', ('company_id', '=', company_id), ('company_id', '=', False)]"
+                                           context="{'default_partner_id': partner_id}"
+                                           groups="analytic.group_analytic_accounting"/>
+                                    <field name="privacy_visibility" widget="radio"/>
+                                    <field name="allowed_internal_user_ids" widget="many2many_tags"
+                                           attrs="{'invisible': [('privacy_visibility', '!=', 'followers')]}"/>
+                                    <field name="allowed_portal_user_ids" widget="many2many_tags"
+                                           options="{'no_create': True}"
+                                           attrs="{'invisible': [('privacy_visibility', '!=', 'portal')]}"/>
+
+                                    <field name="company_id" groups="base.group_multi_company"/>
+                                </group>
+                                <group name="extra_settings">
+                                </group>
+                            </group>
+                            <div class="row mt16 o_settings_container">
+                                <div id="rating_settings" class="col-lg-6 o_setting_box"
+                                     groups="project.group_project_rating">
+                                    <div class="o_setting_left_pane">
+                                        <field name="rating_active"/>
+                                    </div>
+                                    <div class="o_setting_right_pane">
+                                        <label for="rating_active"/>
+                                        <div class="text-muted">
+                                            Get customer feedback
+                                        </div>
+                                        <div class="mt16" attrs="{'invisible':[('rating_active','==',False)]}">
+                                            <field name="rating_status" widget="radio"/>
+                                            <div attrs="{'required': [('rating_status','=','periodic')], 'invisible': [('rating_status','!=','periodic')]}">
+                                                <label for="rating_status_period"/>
+                                                <field name="rating_status_period"/>
+                                            </div>
+                                            <div class="content-group">
+                                                <div class="mt8">
+                                                    <button name="%(project.open_task_type_form_domain)d"
+                                                            context="{'project_id':id}" icon="fa-arrow-right"
+                                                            type="action" string="Set a Rating Email Template on Stages"
+                                                            class="btn-link"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 o_setting_box" id="subtask_settings"
+                                     groups="project.group_subtask_project">
+                                    <div class="o_setting_left_pane">
+                                        <field name="allow_subtasks"/>
+                                    </div>
+                                    <div class="o_setting_right_pane">
+                                        <label for="allow_subtasks"/>
+                                        <div class="text-muted">
+                                            Split your tasks to organize your work into sub-milestones
+                                        </div>
+                                        <div class="mt8" attrs="{'invisible': [('allow_subtasks', '=', False)]}">
+                                            <label for="subtask_project_id"/>
+                                            <field name="subtask_project_id"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 o_setting_box" id="recurring_tasks_setting"
+                                     groups="project.group_project_recurring_tasks">
+                                    <div class="o_setting_left_pane">
+                                        <field name="allow_recurring_tasks"/>
+                                    </div>
+                                    <div class="o_setting_right_pane">
+                                        <label for="allow_recurring_tasks"/>
+                                        <div class="text-muted">
+                                            Auto-generate tasks for regular activities
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </page>
+                    </notebook>
+
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" options="{'post_refresh':True}"
+                               help="Follow this project to automatically track the events associated to tasks and issues of this project."
+                               groups="base.group_user"/>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="open_view_projects_all" model="ir.actions.act_window">
+        <field name="name">Projects Management</field>
+        <field name="res_model">project.project</field>
+        <field name="view_mode">kanban,form</field>
+        <field name="domain">[('is_department','=',True)]</field>
+        <field name="context">{'default_is_department': True}</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+        (0, 0, {'view_mode': 'kanban', 'view_id': ref('project.view_project_kanban')}),
+        (0, 0, {'view_mode': 'form', 'view_id': ref('edit_project_new')})]"/>
+        <field name="search_view_id" ref="project.view_project_project_filter"/>
+        <field name="target">main</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No projects found. Let's create one!
+            </p>
+            <p>
+                Projects regroup tasks on the same topic and each have their own dashboard.
+            </p>
+        </field>
+    </record>
+
+    <record id="project.open_view_project_all" model="ir.actions.act_window">
+        <field name="name">Projects</field>
+        <field name="res_model">project.project</field>
+        <field name="domain">[]</field>
+        <field name="view_mode">kanban,form</field>
+        <field name="view_id" ref="project.view_project_kanban"/>
+        <field name="search_view_id" ref="project.view_project_project_filter"/>
+        <field name="target">main</field>
+        <field name="domain">[('is_department','=',False)]</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No projects found. Let's create one!
+            </p>
+            <p>
+                Projects regroup tasks on the same topic and each have their own dashboard.
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="project_management_root_menu" name="Project Management"
+              groups="project.group_project_manager,project.group_project_user"
+              action="open_view_projects_all"
+              sequence="51"/>
+
+
+    <menuitem id="project.menu_project_config" name="Configuration" parent="project_management_root_menu"
+              sequence="100" groups="project.group_project_manager"/>
+
+    <menuitem name="Tasks" id="menu_project_management" parent="project_management_root_menu"
+              action="project.action_view_all_task" sequence="2" groups="base.group_no_one,project.group_project_user"/>
+
+    <menuitem action="open_view_projects_all" id="menu_projects" name="Projects"
+              parent="project_management_root_menu" sequence="1"/>
+
+    <menuitem action="project.project_tags_action" id="menu_project_tags_act" parent="project.menu_project_config"/>
+
+
+</odoo>
