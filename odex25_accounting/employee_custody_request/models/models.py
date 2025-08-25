@@ -154,13 +154,16 @@ class HrRequestPledge(models.Model):
 
     @api.depends('dashboard_id.pledge_ids.is_financial_impact')
     def _compute_is_financial_impact(self):
-      for record in self:
-        
-         record.is_financial_impact = record.dashboard_id.pledge_ids.is_financial_impact
+        for record in self:
+            if record.dashboard_id:
+                record.is_financial_impact = any(
+                    pledge.is_financial_impact for pledge in record.dashboard_id.pledge_ids
+                )
+            else:
+                record.is_financial_impact = False
 
-    
+        # record.is_financial_impact = record.dashboard_id.pledge_ids.is_financial_impact
 
-        
     def get_user_id(self):
         employee_id = self.env['hr.employee'].search([('user_id', '=', self.env.uid)], limit=1)
         if employee_id:
