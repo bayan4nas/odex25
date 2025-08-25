@@ -343,7 +343,16 @@ class FamilyMember(models.Model):
         compute='_compute_family_beneficiary_category_display',
         readonly=True
     )
-
+    
+    @api.model
+    def name_search(self, name='', args=None, operator='ilike', limit=100):
+        args = args or []
+        domain = []
+        if name:
+            domain = ['|', ('name', operator, name), ('member_id_number', operator, name)]
+        records = self.search(domain + args, limit=limit)
+        return records.name_get()
+    # end
     @api.depends('family_file_link.beneficiary_category')
     def _compute_family_beneficiary_category_display(self):
         for rec in self:
