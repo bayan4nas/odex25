@@ -5,7 +5,7 @@
     "summary": "Base module to create xlsx report",
     "author": "ACSONE SA/NV," "Creu Blanca," "Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/reporting-engine",
-    "category": "Odex25-base",
+    "category": "Reporting",
     "version": "14.0.1.0.1",
     "license": "AGPL-3",
     "external_dependencies": {"python": ["xlsxwriter", "xlrd"]},

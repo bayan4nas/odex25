@@ -3004,7 +3004,7 @@ class HrPayslipRun(models.Model):
 
     def transfer(self):
         list_of_vals = []
-        
+        print("@@@@@@@@@@@@@@@@@@11111")
         if self.salary_scale.transfer_type == 'all':
             total_of_list = []
             for line in self.slip_ids:

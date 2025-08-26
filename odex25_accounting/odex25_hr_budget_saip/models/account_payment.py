@@ -12,55 +12,57 @@ class AccountPayment(models.Model):
 
     skip_budget = fields.Boolean()
 
-    # def action_budget_management(self):
-    #     super(AccountPayment, self).action_budget_management()
-    #     if self.item_budget_ids and not self.skip_budget:
-    #         # Check budget availability for each payment line
-    #         for line in self.item_budget_ids:  # Assuming `payment_line_ids` relates to 'account.payment.line'
-    #             if line.remaining_available_liquidity < line.amount:
-    #                 raise ValidationError(
-    #                     _("Insufficient budget for the line with item budget %s") % line.item_budget_id.name)
-    #         # Proceed with the normal budget management logic if no validation error is raised
-    #         self.state = 'head_accounting'
 
 
-# class AccountPaymentLine(models.Model):
-#     _inherit = 'account.payment.line'
-#
-#     remaining_item_budget = fields.Float("Available Liquidity", compute="_compute_budget")
-#     remaining_available_liquidity = fields.Float("Remain Balance", compute="_compute_budget")
-#
-#     def _compute_budget(self):
-#         budget_tracking = {}  # Dictionary to track remaining available liquidity per item_budget_id
-#
-#         for rec in self:
-#             rec.remaining_item_budget = 0.00  # Reset to 0 initially
-#             rec.remaining_available_liquidity = 0.00  # Reset to 0 initially
-#
-#             if rec.item_budget_id:
-#                 budget_id = rec.item_budget_id.id
-#
-#                 budget_lines = rec.item_budget_id.crossovered_budget_line.filtered(
-#                     lambda x: x.crossovered_budget_id.state == 'done'
-#                               and x.date_from and x.date_to and rec.payment_id.date  # Ensure date_from and date_to are not None
-#                               and fields.Date.from_string(
-#                         x.date_from) <= rec.payment_id.date <= fields.Date.from_string(x.date_to)
-#                 )
-#                 if budget_lines:
-#                     # Set remaining_item_budget once based on the first budget line's available liquidity
-#                     rec.remaining_item_budget = abs(budget_lines[0].available_liquidity)
-#                     # if rec.amount > rec.remaining_item_budget:
-#                     #     r
-#
-#                     # Initialize tracking for the item_budget_id if not already tracked
-#                     if budget_id not in budget_tracking:
-#                         budget_tracking[budget_id] = rec.remaining_item_budget  # Start with the full available liquidity
-#
-#                     # Set the remaining available liquidity based on the cumulative tracked value minus the current amount
-#                     rec.remaining_available_liquidity = budget_tracking[budget_id] - rec.amount
-#
-#                     # Update the cumulative tracking budget after subtracting the current amount
-#                     budget_tracking[budget_id] -= rec.amount
+    def action_budget_management(self):
+        # super(AccountPayment, self).action_budget_management()
+        if self.item_budget_ids and not self.skip_budget:
+            # Check budget availability for each payment line
+            for line in self.item_budget_ids:  # Assuming `payment_line_ids` relates to 'account.payment.line'
+                if line.remaining_available_liquidity < line.amount:
+                    raise ValidationError(
+                        _("Insufficient budget for the line with item budget %s") % line.item_budget_id.name)
+            # Proceed with the normal budget management logic if no validation error is raised
+            self.state = 'head_accounting'
+
+
+class AccountPaymentLine(models.Model):
+    _inherit = 'account.payment.line'
+
+    remaining_item_budget = fields.Float("Available Liquidity", compute="_compute_budget")
+    remaining_available_liquidity = fields.Float("Remain Balance", compute="_compute_budget")
+
+    def _compute_budget(self):
+        budget_tracking = {}  # Dictionary to track remaining available liquidity per item_budget_id
+
+        for rec in self:
+            rec.remaining_item_budget = 0.00  # Reset to 0 initially
+            rec.remaining_available_liquidity = 0.00  # Reset to 0 initially
+
+            if rec.item_budget_id:
+                budget_id = rec.item_budget_id.id
+
+                budget_lines = rec.item_budget_id.crossovered_budget_line.filtered(
+                    lambda x: x.crossovered_budget_id.state == 'done'
+                              and x.date_from and x.date_to and rec.payment_id.date  # Ensure date_from and date_to are not None
+                              and fields.Date.from_string(
+                        x.date_from) <= rec.payment_id.date <= fields.Date.from_string(x.date_to)
+                )
+                if budget_lines:
+                    # Set remaining_item_budget once based on the first budget line's available liquidity
+                    rec.remaining_item_budget = abs(budget_lines[0].available_liquidity)
+                    # if rec.amount > rec.remaining_item_budget:
+                    #     r
+
+                    # Initialize tracking for the item_budget_id if not already tracked
+                    if budget_id not in budget_tracking:
+                        budget_tracking[budget_id] = rec.remaining_item_budget  # Start with the full available liquidity
+
+                    # Set the remaining available liquidity based on the cumulative tracked value minus the current amount
+                    rec.remaining_available_liquidity = budget_tracking[budget_id] - rec.amount
+
+                    # Update the cumulative tracking budget after subtracting the current amount
+                    budget_tracking[budget_id] -= rec.amount
 
 
 class AccountMoveLine(models.Model):

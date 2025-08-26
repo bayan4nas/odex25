@@ -79,7 +79,9 @@
                                 <field name="benefit_member_count" invisible="1"/>
                                 <field name="eid_gift_benefit_count"
                                        attrs="{'invisible':['|',('service_type','!=','eid_gift'),('benefit_type','!=','family')]}"/>
-                                <field name="detainee_file" attrs="{'invisible':[('benefit_type','!=','detainee')]}"/>
+
+                                <field name="detainee_file"  attrs="{'invisible':[('benefit_type','!=','detainee')]}"/>
+
 
                                 <field name="detainee_member"
                                        attrs="{'invisible':[('benefit_type','!=','detainee')],'readonly':[('state','not in',['draft','researcher','send_request'])],'required':[('benefit_type','=','detainee')]}"/>
@@ -434,6 +436,7 @@
             <field name="arch" type="xml">
                 <search>
                     <group string="Group By">
+
                         <filter string="Branch" name="branches_custom" context="{'group_by': 'branches_custom'}"/>
                         <filter string="Main Service" name="main_service_category"
                                 context="{'group_by': 'main_service_category'}"/>

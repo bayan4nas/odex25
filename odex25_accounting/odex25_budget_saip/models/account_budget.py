@@ -160,54 +160,51 @@ class CrossoveredBudgetLines(models.Model):
         for line in self:
             line.after_modification = line.planned_amount + line.added_amount + line.opening_amount + line.additions + line.transfer_debit - abs(line.transfer_credit)
 
-    # @api.depends('cost_amount', 'planned_amount')
-    # def _compute_cost_after_modification(self):
-    #     for line in self:
-    #         if line.period == 'not_annually':
-    #             line.cost_after_modification = line.cost_amount - line.planned_amount
-    #         else:
-    #             line.cost_after_modification = 0.00
+    @api.depends('cost_amount', 'planned_amount')
+    def _compute_cost_after_modification(self):
+        for line in self:
+            if line.period == 'not_annually':
+                line.cost_after_modification = line.cost_amount - line.planned_amount
+            else:
+                line.cost_after_modification = 0.00
 
     @api.depends('item_budget_id')
     def _compute_current_year_payment(self):
         for rec in self:
-        #     payment_line_amount = self.env['account.payment.line'].search([
-        #         ('item_budget_id', '=', rec.item_budget_id.id),
-        #         ('payment_id.date', '>=', rec.date_from),
-        #         ('payment_id.date', '<=', rec.date_to),
-        #         ('payment_id.state', '=', 'posted')
-        #     ]).mapped('amount')
-        #     rec.current_year_payment = sum(payment_line_amount) if payment_line_amount else 0.0
-            rec.current_year_payment = 0.0
+            payment_line_amount = self.env['account.payment.line'].search([
+                ('item_budget_id', '=', rec.item_budget_id.id),
+                ('payment_id.date', '>=', rec.date_from),
+                ('payment_id.date', '<=', rec.date_to),
+                ('payment_id.state', '=', 'posted')
+            ]).mapped('amount')
+            rec.current_year_payment = sum(payment_line_amount) if payment_line_amount else 0.0
 
     @api.depends('item_budget_id')
     def _compute_previous_year_payment(self):
         for rec in self:
-            # if rec.date_from and rec.date_to:
-            #     previous_year_date_from = rec.date_from - timedelta(days=365)
-            #     previous_year_date_to = rec.date_to - timedelta(days=365)
-            #     payment_line_amount = self.env['account.payment.line'].search([
-            #         ('item_budget_id', '=', rec.item_budget_id.id),
-            #         ('payment_id.date', '>=', previous_year_date_from),
-            #         ('payment_id.date', '<=', previous_year_date_to),
-            #         ('payment_id.state', '=', 'posted')
-            #     ]).mapped('amount')
-            #     rec.previous_year_payment = sum(payment_line_amount) if payment_line_amount else 0.0
-            # else:
-            rec.previous_year_payment = 0.0
+            if rec.date_from and rec.date_to:
+                previous_year_date_from = rec.date_from - timedelta(days=365)
+                previous_year_date_to = rec.date_to - timedelta(days=365)
+                payment_line_amount = self.env['account.payment.line'].search([
+                    ('item_budget_id', '=', rec.item_budget_id.id),
+                    ('payment_id.date', '>=', previous_year_date_from),
+                    ('payment_id.date', '<=', previous_year_date_to),
+                    ('payment_id.state', '=', 'posted')
+                ]).mapped('amount')
+                rec.previous_year_payment = sum(payment_line_amount) if payment_line_amount else 0.0
+
 
     @api.depends('item_budget_id')
     def _compute_current_year_payment_contract(self):
         for rec in self:
-            # payment_line_amount = self.env['account.payment.line'].search([
-            #     ('item_budget_id', '=', rec.item_budget_id.id),
-            #     ('payment_id.is_related_to_cotract', '=', True),
-            #     ('payment_id.date', '>=', rec.date_from),
-            #     ('payment_id.date', '<=', rec.date_to),
-            #     ('payment_id.state', '=', 'posted')
-            # ]).mapped('amount')
-            # rec.current_year_payment_contract = sum(payment_line_amount) if payment_line_amount else 0.0
-            rec.current_year_payment_contract = 0.0
+            payment_line_amount = self.env['account.payment.line'].search([
+                ('item_budget_id', '=', rec.item_budget_id.id),
+                ('payment_id.is_related_to_cotract', '=', True),
+                ('payment_id.date', '>=', rec.date_from),
+                ('payment_id.date', '<=', rec.date_to),
+                ('payment_id.state', '=', 'posted')
+            ]).mapped('amount')
+            rec.current_year_payment_contract = sum(payment_line_amount) if payment_line_amount else 0.0
 
     @api.depends('after_modification', 'current_year_payment')
     def _compute_available_liquidity(self):
@@ -217,15 +214,14 @@ class CrossoveredBudgetLines(models.Model):
     @api.depends('after_modification', 'practical_amount', 'contract_reserve', 'initial_reserve')
     def _compute_remaining_amount(self):
         for line in self:
-            # non_contract_payment_amount = self.env['account.payment.line'].search([
-            #     ('item_budget_id', '=', line.item_budget_id.id),
-            #     ('payment_id.is_related_to_cotract', '=', False),
-            #     ('payment_id.date', '>=', line.date_from),
-            #     ('payment_id.date', '<=', line.date_to),
-            #     ('payment_id.state', '=', 'posted')
-            # ]).mapped('amount')
-            # line.remain = line.after_modification - line.contract_reserve - line.purchase_reserve -  line.initial_reserve - sum(non_contract_payment_amount) - abs(line.transferd_balance)
-            line.remain = line.after_modification - line.contract_reserve - line.purchase_reserve -  line.initial_reserve  - abs(line.transferd_balance)
+            non_contract_payment_amount = self.env['account.payment.line'].search([
+                ('item_budget_id', '=', line.item_budget_id.id),
+                ('payment_id.is_related_to_cotract', '=', False),
+                ('payment_id.date', '>=', line.date_from),
+                ('payment_id.date', '<=', line.date_to),
+                ('payment_id.state', '=', 'posted')
+            ]).mapped('amount')
+            line.remain = line.after_modification - line.contract_reserve - line.purchase_reserve -  line.initial_reserve - sum(non_contract_payment_amount) - abs(line.transferd_balance)
 
     @api.constrains('item_budget_id')
     def _check_item_budget_id(self):

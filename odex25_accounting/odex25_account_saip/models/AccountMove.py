@@ -44,9 +44,8 @@ class AccountInvoice(models.Model):
         # Check budget availability for each  line
         for line in self.invoice_line_ids:  # Assuming `payment_line_ids` relates to 'account.payment.line'
             if not line.name or not line.account_id or line.quantity <= 0 or line.price_unit <= 0:
-                pass
-                # raise ValidationError(_("Empty or incomplete lines are not allowed. Please fill all required fields in the line items."))
-            if  self.is_commite_expenses == 'no' and(not line.item_budget_id or line.remaining_item_budget < line.price_subtotal) :
+                raise ValidationError(_("Empty or incomplete lines are not allowed. Please fill all required fields in the line items."))
+            if not self.is_commite_expenses and(not line.item_budget_id or line.remaining_item_budget < line.price_subtotal) :
                 raise ValidationError(
                     _("Insufficient budget for the line with item budget %s") % line.item_budget_id.name)
         # Proceed with the normal budget management logic if no validation error is raised
