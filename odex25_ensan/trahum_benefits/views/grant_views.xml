@@ -28,44 +28,32 @@
                         <header>
 
                             <!-- Action Buttons -->
-                            <button name="action_submit_call_center" type="object" string="Approve"
+                            <button name="action_set_basic_manager" type="object" string="Approve"
                                     class="oe_highlight"
+                                    groups="odex_benefit.group_family_researcher"
                                     attrs="{'invisible': [('state', '!=', 'draft')]}"/>
 
-                            <button name="action_approve_call_center" type="object" string="Approve Call Center"
-                                    class="oe_highlight" groups="trahum_benefits.group_benefit_confirm"
+                            <button name="action_set_service_manager" type="object" string="Initial Accreditation"
+                                    class="oe_highlight" groups="odex_benefit.group_basic_care_manager"
                                     attrs="{'invisible': [('state', '!=', 'confirm')]}"/>
 
-                            <button name="action_approve_social" type="object" string="Validate"
-                                    class="oe_highlight" groups="trahum_benefits.group_benefit_validate"
+                            <button name="action_approve" type="object" string="Final Approval"
+                                    class="oe_highlight" groups="odex_benefit.group_service_manager"
                                     attrs="{'invisible': [('state', '!=', 'validate')]}"/>
 
-                            <button name="action_approve_branch" type="object" string="Approve Branch Manager"
-                                    class="oe_highlight" groups="trahum_benefits.group_benefit_review"
-                                    attrs="{'invisible': [('state', '!=', 'review')]}"/>
 
-                            <button name="action_close" type="object" string="Close"
-                                    class="oe_highlight"
-                                    confirm="Are you sure?" attrs="{'invisible': [('state', '!=', 'approved')]}"/>
-
-                            <button name="action_done" type="object" string="CEO Approve"
-                                    class="oe_highlight" groups="trahum_benefits.group_benefit_approve"
-                                    confirm="Are you sure?" attrs="{'invisible': [('state', '!=', 'approve')]}"/>
-
-                            <button name="action_revert_state" type="object" string="Return"
-                                    class="btn-secondary"
-                                    attrs="{'invisible': [('state', 'in', ['draft', 'cancelled', 'closed'])]}"/>
-
-                            <button name="action_cancel" type="object" string="Cancel"
+                            <button name="action_reject" type="object" string="Refuse"
                                     class="btn-danger"
-                                    attrs="{'invisible': [('state', 'in', ['cancelled', 'closed','draft'])]}"/>
+                                    groups="odex_benefit.group_service_manager,odex_benefit.group_basic_care_manager"
+                                    attrs="{'invisible': [('state','not in', ('confirm','validate'))]}"/>
 
                             <button name="reset_to_draft" type="object" string="Reset to Draft"
                                     class="btn-secondary"
-                                    confirm="Are you sure?" attrs="{'invisible': [('state', '!=', 'cancelled')]}"/>
+                                    confirm="Are you sure?"
+                                    attrs="{'invisible': [('state', 'not in', ('cancelled','approved'))]}"/>
 
                             <field name="state" widget="statusbar"
-                                   statusbar_visible="draft,confirm,validate,review,approve,approved,closed"/>
+                                   statusbar_visible="draft,confirm,validate,approved,cancelled"/>
 
                         </header>
                         <sheet>
@@ -89,7 +77,7 @@
                                 </button>
                             </div>
                             <group>
-                                <group>
+                                <group attrs="{'readonly': [('state','!=','draft')]}">
                                     <field name="previous_state" invisible="1"/>
                                     <field name="name" string="Folder number" readonly="1"/>
                                     <field name="name_member" invisible="1"/>
@@ -104,17 +92,17 @@
                                 </group>
                             </group>
                             <notebook>
-                                <page string="Breadwinner">
+                                <page string="Breadwinner" attrs="{'readonly': [('state','!=','draft')]}">
                                     <field name="benefit_breadwinner_ids" nolabel="1" required="1">
                                         <tree editable="bottom">
-                                            <field name="member_name" required="1" options="{'no_create': True}"/>
+                                            <field name="member_name" required="1" options="{'no_create': False}"/>
                                             <field name="relation_id" required="1"/>
                                             <field name="breadwinner" readonly="1"/>
                                         </tree>
                                     </field>
                                 </page>
 
-                                <page string="Members">
+                                <page string="Members" attrs="{'readonly': [('state','!=','draft')]}">
                                     <field name="benefit_member_ids" nolabel="1">
                                         <tree editable="bottom">
                                             <field name="member_id"/>
@@ -140,7 +128,7 @@
 
 
                                 </page>
-                                <page string="National Address">
+                                <page string="National Address" attrs="{'readonly': [('state','!=','draft')]}">
                                     <group>
                                         <group>
                                             <field name="building_number"/>
@@ -157,7 +145,7 @@
                                     </group>
                                 </page>
 
-                                <page string="expenses">
+                                <page string="expenses" attrs="{'readonly': [('state','!=','draft')]}">
                                     <group>
                                         <field force_save="1" nolabel="1" name="expenses_ids">
                                             <tree editable="bottom">
@@ -175,9 +163,9 @@
                                         </field>
                                     </group>
                                 </page>
-                                <page string="Income and salary">
+                                <page string="Income and salary" attrs="{'readonly': [('state','!=','draft')]}">
                                     <field name="salary_ids" force_save="1">
-                                        <tree editable="bottom" delete="0">
+                                        <tree editable="bottom" delete="1">
                                             <field name="benefit_id" invisible="1"/>
                                             <field name="member_id" invisible="1"/>
                                             <!--                                               domain="['|', ('id', 'in', parent.member_ids), ('id', '=', parent.breadwinner_member_id)]"/>-->
@@ -195,7 +183,7 @@
                                         <field name="income_required_attach"/>
                                     </group>
                                 </page>
-                                <page string="Banking information">
+                                <page string="Banking information" attrs="{'readonly': [('state','!=','draft')]}">
                                     <group>
                                         <group>
                                             <label for="acc_number"/>
@@ -219,7 +207,8 @@
                                         </group>
                                     </group>
                                 </page>
-                                <page string="Education History" invisible="1">
+                                <page string="Education History" invisible="1"
+                                      attrs="{'readonly': [('state','!=','draft')]}">
                                     <field name="education_ids">
                                         <tree editable="bottom">
                                             <field name="name"/>
@@ -257,7 +246,7 @@
                                         </field>
                                     </group>
                                 </page>
-                                <page string="Attachment">
+                                <page string="Attachment" attrs="{'readonly': [('state','!=','draft')]}">
                                     <field name="attachment_id">
                                         <tree editable="bottom">
                                             <field name="attachment_name"/>
@@ -267,29 +256,29 @@
                                     </field>
                                 </page>
                                 <page string="Need Assessment">
-                                    <group>
-                                        <group>
-                                            <field name="total_income" invisible="1"/>
-                                            <field name="expected_income" readonly="1"/>
+                                    <group col="4">
+                                        <group string="Summary" col="4">
+                                            <field name="benefit_member_count" readonly="1" class="oe_inline"/>
+                                            <field name="benefit_breadwinner_count" readonly="1" class="oe_inline"/>
+                                            <field name="members_under_18" readonly="1" class="oe_inline"/>
+                                            <field name="members_18_and_above" readonly="1" class="oe_inline"/>
                                         </group>
-                                        <group>
+                                        <group string="Income" col="2">
                                             <field name="total_salary" readonly="1"/>
-                                            <field name="member_count" invisible="1"/>
-                                            <field name="need_calculator" readonly="1"/>
-                                        </group>
-                                        <group>
-                                            <field name="benefit_member_count" readonly="1"/>
-                                            <field name="benefit_breadwinner_count" readonly="1"/>
-                                            <field name="members_under_18" readonly="1"/>
-                                            <field name="members_18_and_above" readonly="1"/>
-                                        </group>
-                                        <group>
                                             <field name="natural_income" readonly="1"/>
-                                            <field name="need_ratio" readonly="1"/>
+                                            <field name="total_income" readonly="1" attrs="{'invisible': True}"/>
+                                            <field name="expected_income" readonly="1" attrs="{'invisible': True}"/>
+                                        </group>
+                                        <group string="Need Calculation" col="2">
+                                            <field name="need_ratio" readonly="1" widget="progressbar"
+                                                   options="{'max_value': 100}"/>
                                             <field name="family_need_class_id" readonly="1"/>
+                                            <field name="member_count" readonly="1" attrs="{'invisible': True}"/>
+                                            <field name="need_calculator" readonly="1" attrs="{'invisible': True}"/>
                                         </group>
                                     </group>
                                 </page>
+
                                 <page string="Researcher's insights"
                                       attrs="{'invisible': [('state', '=', 'validate')]}">
                                     <group>
@@ -387,7 +376,7 @@
             <field name="res_model">grant.benefit</field>
             <field name="view_mode">kanban,tree,form</field>
             <field name="view_ids" eval="[(5, 0, 0),
-                                       (0, 0, {'view_mode': 'tree', 'view_id': ref('view_grant_benefit_tree')}), 
+                                       (0, 0, {'view_mode': 'tree', 'view_id': ref('view_grant_benefit_tree')}),
                                        (0, 0, {'view_mode': 'form', 'view_id': ref('view_grant_benefit_form')}),
                                        (0, 0, {'view_mode': 'kanban', 'view_id': ref('view_family_kanban_custom')})]"/>
             <field name="search_view_id" ref="view_grant_benefit_search"/>
