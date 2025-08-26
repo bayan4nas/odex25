@@ -281,6 +281,46 @@ class ServiceRequest(models.Model):
                                        related='service_cats.classification_id')
     account_expense = fields.Many2one('account.account',related='service_cats.account_id' )
 
+    family_need_class_id = fields.Many2one( 'family.need.category',related="family_id.family_need_class_id", string="Need Calculator", store=True,
+                                       readonly=True)
+    member_family_need_class_id = fields.Many2one( 'family.need.category',related="member_id.family_file_link_family_need_class_id", string="Need Calculator", store=True,
+                                       readonly=True)
+    requested_service_amount_before_tolerance = fields.Float(
+        string='القيمة قبل خصم التحمل',
+        readonly=True,
+    )
+
+    available_members = fields.Many2many(
+        'family.member',
+        compute='_compute_available_members',
+        store=False
+    )
+
+    member_id = fields.Many2one(
+        'family.member',
+        string='Member',
+        domain="[('id', 'in', available_members)]"
+    )
+
+    @api.depends('family_id', 'family_id.benefit_member_ids')
+    def _compute_available_members(self):
+        for record in self:
+            if record.family_id and record.family_id.benefit_member_ids:
+                member_ids = record.family_id.benefit_member_ids.mapped('member_id.id')
+                record.available_members = [(6, 0, member_ids)]
+            else:
+                record.available_members = [(5, 0, 0)]
+
+    @api.onchange('family_id')
+    def _onchange_family_id(self):
+        if self.family_id:
+            if self.member_id:
+                family_member_ids = self.family_id.benefit_member_ids.mapped('member_id.id')
+                if self.member_id.id not in family_member_ids:
+                    self.member_id = False
+        else:
+            self.member_id = False
+
     @api.depends('benefit_type', 'family_id', 'member_id')
     def get_branch_custom_id(self):
         for rec in self:
@@ -380,8 +420,8 @@ class ServiceRequest(models.Model):
 
             # 5.  (family_members_count)
             elif rule.metric == 'family_members_count':
-                if self.family_id:
-                    value_to_check = len(self.family_id.benefit_member_ids)
+                if self.family_id and self.benefit_type == 'family':
+                    value_to_check = self.family_id.benefit_member_count
                 else:
                     return
             # 6.  (family_value)
@@ -404,6 +444,20 @@ class ServiceRequest(models.Model):
 
                 else:
                     return
+            elif rule.metric == 'tolerance_ratio' and rule.numeric_value:
+                if not self.requested_service_amount_before_tolerance:
+                    original_amount = self.requested_service_amount
+                    tolerance_percentage = rule.numeric_value
+                    adjusted_amount = self.requested_service_amount * tolerance_percentage
+
+                    self.with_context(skip_rules_check=True).write({
+                        'requested_service_amount_before_tolerance': original_amount,
+                        'requested_service_amount': adjusted_amount
+                    })
+
+                    message =  f" '{rule.message}'"
+                    self.message_post(body=message)
+
             # The `eval` function is used here for dynamic operator evaluation.
             # It's safe because the inputs (value, operator, threshold) are controlled within Odoo.
             condition_met = eval(f"{value_to_check} {rule.operator} {rule.threshold_value}")
@@ -448,6 +502,14 @@ class ServiceRequest(models.Model):
         return rec
 
     def write(self, vals):
+        if self.env.context.get('skip_rules_check'):
+            return super().write(vals)
+
+        if 'requested_service_amount' in vals:
+            vals['requested_service_amount_before_tolerance'] = 0
+
         res = super().write(vals)
+
         self.check_rules()
+
         return res
