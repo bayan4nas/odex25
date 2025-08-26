@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <!-- Category -->
+<!--        todo start -->
+        <record id="group_return_contract" model="res.groups">
+            <field name="name">Return Contract</field>
+            <field name="category_id" ref="contract.contract_managment_category"/>
+        </record>
+<!--        todo end -->
+        <record model="ir.module.category" id="contract_managment_coc_category">
+            <field name="name">COC Contract Managment</field>
+            <field name="description">User access level for this module</field>
+            <field name="sequence">50</field>
+        </record>
+        <!-- Purchase COC groups -->
+        <record id="group_coc_user" model="res.groups">
+            <field name="name">COC Contract User</field>
+            <field name="category_id" ref="odex25_contract_saip.contract_managment_coc_category"/>
+        </record>
+
+        <record id="group_coc_manager" model="res.groups">
+            <field name="name">Contract COC Manager</field>
+            <field name="category_id" ref="odex25_contract_saip.contract_managment_coc_category"/>
+        </record>
+
+
+
+<!--        <record id="odex25_purchase_saip.purchase_request_visibility" model="ir.rule">-->
+<!--            <field name="groups" eval="[(4, ref ('contract.group_contract_manager'))]"/>-->
+<!--        </record>-->
+
+         <record id="contract_installment_coc_user_rule" model="ir.rule">
+        <field name="name">Contract Installment COC User: views its forms record</field>
+        <field name="model_id" ref="model_line_contract_installment_coc"/>
+        <field name="domain_force">[('contract_id.user_id','=', user.id)]</field>
+        <field name="groups" eval="[(4, ref('odex25_contract_saip.group_coc_user'))]"/>
+    </record>
+
+         <record id="line_contract_installment_coc_rule" model="ir.rule">
+        <field name="name">Contract Installment COC Manager: views all forms record</field>
+        <field name="model_id" ref="model_line_contract_installment_coc"/>
+        <field name="domain_force">[(1,'=', 1)]</field>
+        <field name="groups" eval="[(4, ref('odex25_contract_saip.group_coc_manager'))]"
+        />
+    </record>
+
+
+    </data>
+</odoo>

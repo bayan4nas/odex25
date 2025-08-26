@@ -41,6 +41,7 @@
             <field name="arch" type="xml">
                 <form string="Members">
                     <header>
+                        <field name="grant_benefit_member_ids" invisible="1"/>
                         <button name="action_confirm" string="Confirm" type="object" class="oe_highlight"
                                 attrs="{'invisible': [('state', 'not in', ['draft'])]}"/>
 
@@ -52,7 +53,7 @@
                         <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,cancelled"/>
                     </header>
                     <sheet>
-                           <div class="oe_button_box" name="button_box">
+                        <div class="oe_button_box" name="button_box">
                             <button type="object"
                                     name="action_open_salary_income"
                                     class="btn btn-primary" icon="fa-money">
@@ -73,10 +74,13 @@
                         <group>
                             <group>
                                 <field name="member_id_number"/>
+
                                 <field name="nationality_id"/>
                             </group>
                             <group>
                                 <field name="member_phone"/>
+
+
                             </group>
                         </group>
                         <group>
@@ -103,6 +107,7 @@
                                                class="update_full_name"/>
                                         <field name="identity_proof_id"/>
                                         <field name="birth_date"/>
+                                        <field name="age"/>
                                         <field name="gender"/>
                                         <field name="qualification_id"/>
                                     </group>
@@ -141,9 +146,10 @@
                                     <field name="sub_number"/>
                                     <field name="additional_number"/>
                                     <field name="street_name"/>
-                                    <field string="District Name" name="district"/>
+                                    <field string="District Name" name="district_id"/>
                                     <field name="city"/>
                                     <field name="postal_code"/>
+                                    <field name="national_address_code"/>
                                 </group>
                             </page>
                             <page string="Comprehensive Rehabilitation">
@@ -194,12 +200,26 @@
                             <page string="Social Insurance and Security">
                                 <group>
                                     <group string="Social Insurance">
-                                        <field name="social_insurance_income"/>
-                                        <field name="social_insurance_status"/>
+                                         <field name="social_insurance_state"/>
+                                        <field name="social_insurance_income"
+                                               attrs="{
+                                                   'invisible': [('social_insurance_state', '=', False)],
+                                                   'required': [('social_insurance_state', '=', True)]
+                                               }"/>
+
+                                        <field name="social_insurance_status"
+                                               attrs="{
+                                                   'invisible': [('social_insurance_state', '=', False)],
+                                                   'required': [('social_insurance_state', '=', True)]
+                                               }"/>
+
                                     </group>
                                     <group string="Social Security">
-                                        <field name="social_security_income"/>
-                                        <field name="social_security_status"/>
+                                        <field name="social_security_state"/>
+                                        <field name="social_security_income"
+                                               attrs="{'invisible': [('social_security_state', '=', False)],  'required': [('social_security_state', '=', True)]}"/>
+                                        <field name="social_security_status"
+                                               attrs="{'invisible': [('social_security_state', '=', False)], 'required': [('social_security_state', '=', True)]}"/>
                                     </group>
                                 </group>
                             </page>
@@ -260,7 +280,7 @@
                                         <field name="income_type"/>
                                         <field name="side"/>
                                         <field name="salary_amount"/>
-                                        <field name="salary_attach" widget="many2many_attachment_preview"/>
+                                        <field name="salary_attach" widget="many2many_attachment_preview" required="1"/>
                                         <field name="revenue_periodicity"/>
                                         <field name="is_required" invisible="1"/>
                                         <field name="is_default" invisible="1"/>
@@ -271,7 +291,8 @@
                                             <field name="income_type"/>
                                             <field name="side"/>
                                             <field name="salary_amount"/>
-                                            <field name="salary_attach" widget="many2many_attachment_preview"/>
+                                            <field name="salary_attach" required="1"
+                                                   widget="many2many_attachment_preview"/>
                                             <field name="revenue_periodicity"/>
                                             <field name="is_required"/>
                                             <field name="is_default"/>
@@ -279,6 +300,40 @@
                                     </form>
                                 </field>
                             </page>
+                            <page string="Professional Experiences">
+                                <group>
+                                    <field name="job_title"/>
+                                    <field name="dest_name"/>
+                                    <field name="start_date"/>
+                                    <field name="in_work"/>
+                                    <field name="end_date" attrs="{'invisible': [('in_work', '=', True)]}"/>
+                                    <field name="experience_certificate" required="1" widget="many2many_attachment_preview"/>
+                                </group>
+                            </page>
+                            <page string="Detainee File" attrs="{'invisible': [('detainee_file_link', '=', False)]}">
+                                <group>
+                                    <field name="detainee_file_link"/>
+                                    <field name="detainee_file_link_name" invisible="1"/>
+                                    <field name="detainee_file_link_file_state"/>
+                                    <field name="detainee_file_link_beneficiary_category" />
+                                    <field name="detainee_file_link_prisoner_state"
+                                           attrs="{'invisible': [('detainee_file_link_beneficiary_category', '!=', 'gust')]}"/>
+                                    <field name="detainee_file_link_entitlement_status"/>
+                                </group>
+
+                            </page>
+                            <page string="Grant Benefit" attrs="{'invisible': [('family_file_link', '=', False)]}">
+                                <group>
+                                    <field name="family_file_link"/>
+                                    <field name="family_file_link_name" invisible="1"/>
+                                    <field name="family_file_link_folder_state"/>
+                                    <field name="family_file_link_beneficiary_category" invisible="1"/>
+                                    <field name="family_file_link_need_calculator"/>
+                                    <field name="family_file_link_beneficiary_category_display"/>
+                                </group>
+
+                            </page>
+
                         </notebook>
                     </sheet>
                     <div class="oe_chatter">
@@ -314,7 +369,7 @@
                     <sheet>
                         <group>
 
-                                <field name="stop_reason"/>
+                            <field name="stop_reason"/>
                         </group>
                     </sheet>
                     <div class="oe_chatter">
@@ -391,7 +446,8 @@
                             <group>
                                 <field name="branch_id"/>
                                 <field name="record_end_date"/>
-                                <field name="prisoner_state"/>
+                                <field name="file_state" />
+                                <field name="prisoner_state"  attrs="{'invisible': [('beneficiary_category', '!=', 'gust')]}"/>
 
                             </group>
                             <group>
@@ -405,12 +461,15 @@
                                 <group>
                                     <group>
                                         <field name="arrest_date" string="تاريخ الاعتقال"/>
-                                        <field invisible="0" name="prison_id"/>
+                                        <field invisible="0" name="prison_id" />
 
                                     </group>
                                     <group>
-                                        <field name="expected_release_date"/>
+                                        <field name="expected_release_date"  attrs="{'required': [('prisoner_state', '=', 'convicted')]}"/>
                                         <field name="prison_country_id"/>
+                                    </group>
+                                    <group>
+                                        <field name="period_text"/>
                                     </group>
                                 </group>
 
@@ -419,11 +478,11 @@
                                 <group>
                                     <field nolabel="1" name="issues_ids">
                                         <tree editable="bottom">
-                                            <field width="12" name="case_type"/>
-                                            <field width="12" name="case_name"/>
-                                            <field width="12" name="release_date"/>
-                                            <field width="12" name="arrest_date"/>
-                                            <field width="12" string="Prison Name" name="prison_id"/>
+                                            <field width="12" name="case_type" attrs="{'required': [('parent.prisoner_state', '=', 'convicted')]}"/>
+                                            <field width="12" name="case_name" attrs="{'required': [('parent.prisoner_state', '=', 'convicted')]}"/>
+                                            <field width="12" name="release_date"  attrs="{'required': [('parent.prisoner_state', '=', 'convicted')]}"/>
+                                            <field width="12" name="arrest_date" attrs="{'required': [('parent.prisoner_state', '=', 'convicted')]}"/>
+                                            <field width="12" string="Prison Name" name="prison_id" attrs="{'required': [('parent.prisoner_state', '=', 'convicted')]}"/>
                                             <field width="12" invisible="1" string="Prison Name"
                                                    name="prison_prison_id"/>
                                         </tree>
@@ -549,41 +608,7 @@
             <field name="padding">4</field>
         </record>
         <!--        end -->
-        <!--        add setting -->
-        <record id="res_config_settings_view_form" model="ir.ui.view">
-            <field name="name">res.config.settings.view.form.inherit.trahum_benefits</field>
-            <field name="model">res.config.settings</field>
-            <field name="priority" eval="15"/>
-            <field name="inherit_id" ref="base.res_config_settings_view_form"/>
-            <field name="arch" type="xml">
-                <xpath expr="//div[hasclass('settings')]" position="inside">
-                    <div class="app_settings_block" data-string="Benfits Management" string="Benfits Management"
-                         data-key="trahum_benefits">
-                        <h2>Benfits Management</h2>
-                        <div class="row mt16 o_settings_container">
-                            <div class="col-12 col-lg-6 o_setting_box">
-                                <div class="o_setting_left_pane"/>
-                                <div class="o_setting_right_pane">
-                                    <span class="o_form_label">Base Line</span>
-                                    <div class="text-muted content-group mt16">
-                                        <field name="base_line_value"/>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </xpath>
-            </field>
-        </record>
-        <record id="res_config_settings_action" model="ir.actions.act_window">
-            <field name="name">Configuration</field>
-            <field name="type">ir.actions.act_window</field>
-            <field name="res_model">res.config.settings</field>
-            <field name="view_mode">form</field>
-            <field name="target">inline</field>
-            <field name="context">{'module' : 'trahum_benefits'}</field>
-        </record>
-        <!--        end -->
+
 
 
     </data>

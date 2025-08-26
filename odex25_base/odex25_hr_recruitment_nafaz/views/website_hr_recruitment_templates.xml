@@ -1,0 +1,654 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- NAVAZ DETAILS -->
+    <template id="odex25_hr_recruitment_nafaz.nafaz_detail" inherit_id="website_hr_recruitment.detail">
+        <xpath expr="//div[@id='wrap']" position="replace">
+            <style>
+                .infos_location {
+                    display: flex; /* Align elements side by side */
+                    justify-content: flex-start; /* Align items to the left (or right for RTL) */
+                    gap: 30px; /* Add spacing between sections */
+                    margin-top: 20px; /* Add spacing from the title */
+                    }
+
+                .location-section, .closing-date-section {
+                    display: flex;
+                    flex-direction: column; /* Stack content vertically within each section */
+                    align-items: flex-start; /* Align content to the left (adjust for RTL if needed) */
+                    }
+
+                .location-section p, .closing-date-section p {
+                    font-weight: bold;
+                    font-size: 16px; /* Adjust font size for labels */
+                    color: #003366; /* Theme color */
+                    display: flex;
+                    align-items: center;
+                    margin-bottom: 5px; /* Add space below labels */
+                    }
+
+                .location-section img, .closing-date-section img {
+                    width: 20px; /* Adjust icon size */
+                    margin-left: 8px; /* Add space between the icon and text */
+                    vertical-align: middle; /* Align icons with text */
+                    }
+
+                .location-section h4, .closing-date-section h4 {
+                    font-size: 14px;
+                    margin: 0;
+                    color: #000; /* Text color for content */
+                    }
+
+            </style>
+            <div id="wrap" class="js_hr_recruitment">
+                <!-- Breadcrumb -->
+                <section class="breadcrumb-section">
+                    <div class="container">
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item active-breadcrumb">
+                                    <a href="https://www.saip.gov.sa/">Home</a>
+                                </li>
+                                <li class="breadcrumb-item disabled-breadcrumb" aria-current="page">
+                                    <span>About SAIP</span>
+                                </li>
+                                <li class="breadcrumb-item active-breadcrumb">
+                                    <a href="https://www.saip.gov.sa/recruitment/">Recruitment</a>
+                                </li>
+                                <li class="breadcrumb-item active-breadcrumb">
+                                    <a href="/jobs">Jobs offered</a>
+                                </li>
+                                <li class="breadcrumb-item disabled-breadcrumb" aria-current="page">
+                                    <span t-field="job.name"/>
+                                </li>
+                            </ol>
+                        </nav>
+                    </div>
+                </section>
+                <!-- Job name -->
+                <section class="jhead-section">
+                    <div class="container">
+                        <div class="col-md-12 section-body">
+                            <div class="apply-button float-right">
+                                <a t-attf-href="#{auth_url}" class="btn btn-primary btn-lg float-right" style="outline: none; box-shadow: none;">Apply Now</a>
+                            </div>
+                            <h1 t-field="job.name" class="head-title"/>
+
+                            <!-- Updated Structure -->
+                            <div class="col-md-12 infos_location d-flex align-items-start">
+                                <!-- Location Section -->
+                                <div class="location-section mr-5">
+                                    <p>
+                                        <img src="/saip_website_theme/static/src/img/location.png" title="Location" aria-label="Location"/>
+                                        <span>Location</span>
+                                    </p>
+                                    <h4>
+                                        <span>الرياض , المملكة العربية السعودية</span>
+
+<!--                                        <span t-field="job.address_id"-->
+<!--                                              t-options='{-->
+<!--                                        "widget": "contact",-->
+<!--                                        "fields": ["address"],-->
+<!--                                        "no_tag_br": True,-->
+<!--                                        "no_marker": True-->
+<!--                                        }'/>-->
+                                    </h4>
+                                </div>
+
+<!--                                &lt;!&ndash; Closing Date Section &ndash;&gt;-->
+<!--                                <div class="closing-date-section">-->
+<!--                                    <p>-->
+<!--                                        <img src="/saip_website_theme/static/src/img/clock.png" title="Application Closing Date" aria-label="Application Closing Date"/>-->
+<!--                                        <span>Application Closing Date</span>-->
+<!--                                    </p>-->
+<!--                                    <h4>-->
+<!--                                        <span t-field="job.close_date"/>-->
+<!--                                    </h4>-->
+<!--                                </div>-->
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="o_job_body">
+                    <div class="container">
+                        <div class="col-md-12 o_job_description">
+                            <h3><span>Job Description</span></h3>
+                            <div class="o_description" t-field="job.description"/>
+                        </div>
+
+                        <div class="col-md-12 o_job_tabs">
+                            <ul class="nav nav-pills" id="jobTab" role="tablist">
+                                <li class="nav-item">
+                                  <a class="nav-link active" id="respons-tab" data-toggle="tab" href="#respons" role="tab" aria-controls="respons" aria-selected="true">Responsbilities</a>
+                                </li>
+                                <li class="nav-item">
+                                  <a class="nav-link" id="qual-tab" data-toggle="tab" href="#qual" role="tab" aria-controls="qual" aria-selected="false">Qualifications &amp; Certificates</a>
+                                </li>
+                                <li class="nav-item">
+                                  <a class="nav-link" id="experience-tab" data-toggle="tab" href="#experience" role="tab" aria-controls="experince" aria-selected="false">Experinces</a>
+                                </li>
+                                <li class="nav-item">
+                                  <a class="nav-link" id="skills-tab" data-toggle="tab" href="#skills" role="tab" aria-controls="skills" aria-selected="false">Skills</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content" id="jobTabContent">
+                                <div class="tab-pane fade show active" id="respons" role="tabpanel" aria-labelledby="respons-tab">
+                                    <div class="o_tab_content" t-field="job.responspility"/>
+                                </div>
+                                <div class="tab-pane fade" id="qual" role="tabpanel" aria-labelledby="qual-tab">
+                                    <h3 class="o_sub_title">Qualifications</h3>
+                                    <div class="col-md-6 o_tab_table">
+                                        <table class="table">
+                                            <tbody>
+                                                <t t-if="job.qualification_ids" t-foreach="job.qualification_ids" t-as="item">
+                                                    <tr>
+                                                        <td t-esc="item.qualification_id.name"></td>
+                                                        <td t-esc="item.specialization_id.name"></td>
+                                                    </tr>
+                                                </t>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <h3 class="o_sub_title">Certifications</h3>
+                                    <div class="col-md-6 o_tab_table">
+                                        <table class="table">
+                                            <tbody>
+                                                <t t-if="job.certificate_ids" t-foreach="job.certificate_ids" t-as="item">
+                                                    <tr>
+                                                        <td t-esc="item.name"></td>
+                                                        <td t-esc="item.code"></td>
+                                                    </tr>
+                                                </t>
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="experience" role="tabpanel" aria-labelledby="experience-tab">
+                                    <div class="o_tab_content" t-field="job.experience"/>
+                                </div>
+                                <div class="tab-pane fade" id="skills" role="tabpanel" aria-labelledby="skills-tab">
+                                    <div class="o_tab_content" t-field="job.skill"/>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+
+                <section class="o_job_features_section">
+                    <div class="container">
+                        <div class="col-md-12 o_job_features">
+                            <h3><span>Job Features</span></h3>
+                            <div class="o_features" t-field="job.job_advantages"/>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- <div class="oe_structure">
+                    <section class="o_job_bottom_bar">
+                        <div class="col-md-12 bar_body">
+                            <a t-attf-href="#{auth_url}" class="btn btn-primary btn-lg">Apply Now</a>
+                        </div>
+                    </section>
+                </div> -->
+            </div>
+        </xpath>
+        <!-- </t> -->
+    </template>
+    
+    <!-- NAVAZ APPLY -->
+    <template id="odex25_hr_recruitment_nafaz.nafaz_apply" inherit_id="website_hr_recruitment.apply">
+        <xpath expr="//div[@id='wrap']" position="replace">
+            <div id="wrap" class="container jobs-apply">
+                <!-- Breadcrumb -->
+                <section class="breadcrumb-section">
+                    <div class="container">
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item active-breadcrumb">
+                                    <a href="https://www.saip.gov.sa/en/recruitment/">Home</a>
+                                </li>
+                                <li class="breadcrumb-item disabled-breadcrumb" aria-current="page">
+                                    <span>About SAIP</span>
+                                </li>
+                                <li class="breadcrumb-item active-breadcrumb">
+                                    <a href="https://www.saip.gov.sa/en/recruitment/">Recruitment</a>
+                                </li>
+                                <li class="breadcrumb-item active-breadcrumb">
+                                    <a href="/jobs">Jobs offered</a>
+                                </li>
+                                <li class="breadcrumb-item active-breadcrumb">
+                                    <a t-attf-href="/jobs/detail/{{job.id}}">
+                                        <span t-field="job.name"/>
+                                    </a>
+                                </li>
+                                <li class="breadcrumb-item disabled-breadcrumb" aria-current="page">
+                                    <span>Application Form</span>
+                                </li>
+                            </ol>
+                        </nav>
+                    </div>
+                </section>
+                <div class="col-md-12 job_apply_head">
+                    <h1 class="job-title">
+                        Job Application Form
+                    </h1>
+                    <h2 t-if="job" class="job-subtitle">
+                        <span t-field="job.name"/>
+                    </h2>
+                </div>
+                <span class="hidden" data-for="hr_recruitment_form" t-att-data-values="{'department_id': job and job.department_id.id or '',
+                'job_id': job and job.id or '',
+                'user_number_id':userinfo.get('userid') or '',
+                'email_from':userinfo.get('email') or '',
+                'partner_phone':userinfo.get('mobile') or '',
+                'partner_name':userinfo.get('arabicName') or '',
+                'nationality':userinfo.get('nationality') or '',
+                'gender':userinfo.get('gender') or '',
+                'idExpiryDateHijri':userinfo.get('idExpiryDateHijri') or '',
+                'cardIssueDateGregorian':userinfo.get('cardIssueDateGregorian') or '',
+                'dob':userinfo.get('dob') or '',
+                'postOfficeBox':userinfo.get('postOfficeBox') or '',
+                'localityName':userinfo.get('localityName') or '',
+                'buildingNumber':userinfo.get('buildingNumber') or '',
+                'street':userinfo.get('street') or '',
+                'dobHijri':userinfo.get('dobHijri') or '',
+                'englishName':userinfo.get('englishName') or ''}"/>
+                <div id="jobs_section">
+                    <section id="forms" class="s_website_form" data-vcss="001" data-snippet="s_website_form">
+                        <div class="container">
+                            <form id="hr_recruitment_form" action="/website_form/" method="post"
+                                  enctype="multipart/form-data" class="o_mark_required" data-mark="*"
+                                  data-model_name="hr.applicant" data-success-mode="redirect"
+                                  data-success-page="/jobs-thank-you" hide-change-model="true">
+                                <div class="s_website_form_rows row s_col_no_bgcolor">
+                                    <div class="form-group col-12 s_website_form_field s_website_form_required s_website_form_model_required"
+                                         data-type="char" data-name="Field">
+                                        <div class="row s_col_no_resize s_col_no_bgcolor">
+                                            <label class="col-form-label col-sm-auto s_website_form_label"
+                                                   style="width: 250px;pointer-events: none" for="recruitment1">
+                                                <span class="s_website_form_label_content">Number ID</span>
+                                                <span class="s_website_form_mark">*</span>
+                                            </label>
+                                            <div class="col-sm">
+                                                <input id="recruitment1" type="text" style="outline: none; box-shadow: none; border: none;"
+                                                       class="form-control s_website_form_input" name="user_number_id"
+                                                       required="" readonly="readonly"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-12 s_website_form_field s_website_form_required s_website_form_model_required"
+                                         data-type="char" data-name="Field">
+                                        <div class="row s_col_no_resize s_col_no_bgcolor">
+                                            <label class="col-form-label col-sm-auto s_website_form_label"
+                                                   style="width: 250px;pointer-events: none" for="recruitment1">
+                                                <span class="s_website_form_label_content">Your Name</span>
+                                                <span class="s_website_form_mark">*</span>
+                                            </label>
+                                            <div class="col-sm">
+                                                <input id="recruitment1" type="text" style="outline: none; box-shadow: none; border: none;"
+                                                       class="form-control s_website_form_input" name="partner_name"
+                                                       required="" readonly="readonly"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-12 s_website_form_field s_website_form_required s_website_form_model_required"
+                                         data-type="char" data-name="Field">
+                                        <div class="row s_col_no_resize s_col_no_bgcolor">
+                                            <label class="col-form-label col-sm-auto s_website_form_label"
+                                                   style="width: 250px;pointer-events: none" for="recruitment1">
+                                                <span class="s_website_form_label_content">Your English Name</span>
+                                                <span class="s_website_form_mark">*</span>
+                                            </label>
+                                            <div class="col-sm">
+                                                <input id="recruitment1" type="text" style="outline: none; box-shadow: none; border: none;"
+                                                       class="form-control s_website_form_input" name="englishName"
+                                                       required="" readonly="readonly"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-12 s_website_form_field s_website_form_required s_website_form_model_required"
+                                         data-type="char" data-name="Field">
+                                        <div class="row s_col_no_resize s_col_no_bgcolor">
+                                            <label class="col-form-label col-sm-auto s_website_form_label"
+                                                   style="width: 250px;pointer-events: none" for="recruitment1">
+                                                <span class="s_website_form_label_content">Your Nationality</span>
+                                                <span class="s_website_form_mark">*</span>
+                                            </label>
+                                            <div class="col-sm">
+                                                <input id="recruitment1" type="text" style="outline: none; box-shadow: none; border: none;"
+                                                       class="form-control s_website_form_input" name="nationality"
+                                                       required="" readonly="readonly"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-12 s_website_form_field s_website_form_required s_website_form_model_required"
+                                         data-type="char" data-name="Field">
+                                        <div class="row s_col_no_resize s_col_no_bgcolor">
+                                            <label class="col-form-label col-sm-auto s_website_form_label"
+                                                   style="width: 250px;pointer-events: none" for="recruitment1">
+                                                <span class="s_website_form_label_content">Gender</span>
+                                                <span class="s_website_form_mark">*</span>
+                                            </label>
+                                            <div class="col-sm">
+                                                <input id="recruitment1" type="text" style="outline: none; box-shadow: none; border: none;"
+                                                       class="form-control s_website_form_input" name="gender"
+                                                       required="" readonly="readonly"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-12 s_website_form_field s_website_form_required s_website_form_model_required"
+                                         data-type="char" data-name="Field">
+                                        <div class="row s_col_no_resize s_col_no_bgcolor">
+                                            <label class="col-form-label col-sm-auto s_website_form_label"
+                                                   style="width: 250px;pointer-events: none" for="recruitment1">
+                                                <span class="s_website_form_label_content">ID Expiry Date Hijri</span>
+                                                <span class="s_website_form_mark">*</span>
+                                            </label>
+                                            <div class="col-sm">
+                                                <input id="recruitment1" type="text" style="outline: none; box-shadow: none; border: none;"
+                                                       class="form-control s_website_form_input"
+                                                       name="idExpiryDateHijri" required="" readonly="readonly"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-12 s_website_form_field s_website_form_required s_website_form_model_required"
+                                         data-type="char" data-name="Field">
+                                        <div class="row s_col_no_resize s_col_no_bgcolor">
+                                            <label class="col-form-label col-sm-auto s_website_form_label"
+                                                   style="width: 250px;pointer-events: none" for="recruitment1">
+                                                <span class="s_website_form_label_content">Card Issue Date Gregorian
+                                                </span>
+                                                <span class="s_website_form_mark">*</span>
+                                            </label>
+                                            <div class="col-sm">
+                                                <input id="recruitment1" type="text" style="outline: none; box-shadow: none; border: none;"
+                                                       t-att-value="request.params.get('cardIssueDateGregorian', '')"
+                                                       class="form-control s_website_form_input"
+                                                       name="cardIssueDateGregorian" required="" readonly="readonly"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-12 s_website_form_field s_website_form_required s_website_form_model_required"
+                                         data-type="char" data-name="Field">
+                                        <div class="row s_col_no_resize s_col_no_bgcolor">
+                                            <label class="col-form-label col-sm-auto s_website_form_label"
+                                                   style="width: 250px;pointer-events: none" for="recruitment1">
+                                                <span class="s_website_form_label_content">DOB</span>
+                                                <span class="s_website_form_mark">*</span>
+                                            </label>
+                                            <div class="col-sm">
+                                                <input id="recruitment1" t-att-value="request.params.get('dob', '')"
+                                                       style="outline: none; box-shadow: none; border: none;"
+                                                       type="text" class="form-control s_website_form_input" name="dob"
+                                                       required="" readonly="readonly"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-12 s_website_form_field s_website_form_required s_website_form_model_required"
+                                         data-type="char" data-name="Field">
+                                        <div class="row s_col_no_resize s_col_no_bgcolor">
+                                            <label class="col-form-label col-sm-auto s_website_form_label"
+                                                   style="width: 250px;pointer-events: none" for="recruitment1">
+                                                <span class="s_website_form_label_content">DOB Hijri</span>
+                                                <span class="s_website_form_mark">*</span>
+                                            </label>
+                                            <div class="col-sm">
+                                                <input id="recruitment1" type="text" style="outline: none; box-shadow: none; border: none;"
+                                                       class="form-control s_website_form_input" name="dobHijri"
+                                                       required="" readonly="readonly"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-12 s_website_form_field s_website_form_required s_website_form_model_required"
+                                         data-type="char" data-name="Field">
+                                        <div class="row s_col_no_resize s_col_no_bgcolor">
+                                            <label class="col-form-label col-sm-auto s_website_form_label"
+                                                   style="width: 250px;pointer-events: none" for="recruitment1">
+                                                <span class="s_website_form_label_content">Post Office Box</span>
+                                                <span class="s_website_form_mark">*</span>
+                                            </label>
+                                            <div class="col-sm">
+                                                <input id="recruitment1" type="text" style="outline: none; box-shadow: none; border: none;"
+                                                       class="form-control s_website_form_input" name="postOfficeBox"
+                                                       required="" readonly="readonly"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-12 s_website_form_field s_website_form_required s_website_form_model_required"
+                                         data-type="char" data-name="Field">
+                                        <div class="row s_col_no_resize s_col_no_bgcolor">
+                                            <label class="col-form-label col-sm-auto s_website_form_label"
+                                                   style="width: 250px;pointer-events: none" for="recruitment1">
+                                                <span class="s_website_form_label_content">Locality Name</span>
+                                                <span class="s_website_form_mark">*</span>
+                                            </label>
+                                            <div class="col-sm">
+                                                <input id="recruitment1" type="text" style="outline: none; box-shadow: none; border: none;"
+                                                       class="form-control s_website_form_input" name="localityName"
+                                                       required="" readonly="readonly"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-12 s_website_form_field s_website_form_required s_website_form_model_required"
+                                         data-type="char" data-name="Field">
+                                        <div class="row s_col_no_resize s_col_no_bgcolor">
+                                            <label class="col-form-label col-sm-auto s_website_form_label"
+                                                   style="width: 250px; pointer-events: none" for="recruitment1">
+                                                <span class="s_website_form_label_content">Building Number</span>
+                                                <span class="s_website_form_mark">*</span>
+                                            </label>
+                                            <div class="col-sm">
+                                                <input id="recruitment1" type="text" style="outline: none; box-shadow: none; border: none;"
+                                                       class="form-control s_website_form_input" name="buildingNumber"
+                                                       required="" readonly="readonly"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-12 s_website_form_field s_website_form_required s_website_form_model_required"
+                                         data-type="char" data-name="Field">
+                                        <div class="row s_col_no_resize s_col_no_bgcolor">
+                                            <label class="col-form-label col-sm-auto s_website_form_label"
+                                                   style="width: 250px;pointer-events: none" for="recruitment1">
+                                                <span class="s_website_form_label_content">Street</span>
+                                                <span class="s_website_form_mark">*</span>
+                                            </label>
+                                            <div class="col-sm">
+                                                <input id="recruitment1" type="text" style="outline: none; box-shadow: none; border: none;"
+                                                       class="form-control s_website_form_input" name="street"
+                                                       required="" readonly="readonly"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-12 s_website_form_field s_website_form_required"
+                                         data-type="email" data-name="Field">
+                                        <div class="row s_col_no_resize s_col_no_bgcolor">
+                                            <label class="col-form-label col-sm-auto s_website_form_label"
+                                                   style="width: 250px; pointer-events: none" for="recruitment2">
+                                                <span class="s_website_form_label_content">Your Email</span>
+                                                <span class="s_website_form_mark">*</span>
+                                            </label>
+                                            <div class="col-sm">
+                                                <input id="recruitment2" type="email" style="outline: none; box-shadow: none; border: none;"
+                                                       class="form-control s_website_form_input" name="email_from"
+                                                       required="" readonly="readonly"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-12 s_website_form_field s_website_form_required"
+                                         data-type="char" data-name="Field">
+                                        <div class="row s_col_no_resize s_col_no_bgcolor">
+                                            <label class="col-form-label col-sm-auto s_website_form_label"
+                                                   style="width: 250px; pointer-events: none" for="recruitment3">
+                                                <span class="s_website_form_label_content">Your Phone Number</span>
+                                                <span class="s_website_form_mark">*</span>
+                                            </label>
+                                            <div class="col-sm">
+                                                <input id="recruitment3" type="tel" style="outline: none; box-shadow: none;border:1px solid black; border-collapse:collapse;border-collapse:collapse;"
+                                                       class="form-control s_website_form_input" name="partner_phone"
+                                                       required=""/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-12 s_website_form_field" data-type="text"
+                                         data-name="Field">
+                                        <div class="row s_col_no_resize s_col_no_bgcolor">
+                                            <label class="col-form-label col-sm-auto s_website_form_label"
+                                                   style="width: 250px ;pointer-events: none" for="recruitment4">
+                                                <span class="s_website_form_label_content">Short Introduction</span>
+                                            </label>
+                                            <div class="col-sm">
+                                                <textarea id="recruitment4" class="form-control s_website_form_input" style="outline: none; box-shadow: none;border:1px solid black; border-collapse:collapse;border-collapse:collapse;"
+                                                          name="description"> </textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-12 s_website_form_field s_website_form_custom s_website_form_required"
+                                         data-type="binary" data-name="Field">
+                                        <div class="row s_col_no_resize s_col_no_bgcolor">
+                                            <label class="col-form-label col-sm-auto s_website_form_label" style="width: 250px;pointer-events: none">
+                                                <span class="s_website_form_label_content">Resume</span>
+                                                <span class="s_website_form_mark">*</span>
+                                            </label>
+                                            <div class="col-sm">
+                                                <input id="recruitment5" required="" type="file" style="outline: none; box-shadow: none;border:1px solid black; border-collapse:collapse;border-collapse:collapse;"
+                                                        class="form-control s_website_form_input s_website_form_required s_website_form_model_required d-none"
+                                                        name="Resume"/>
+
+                                                <!-- Custom button to trigger file input -->
+                                                <button type="button" id="uploadBtn" class="btn btn-primary">Upload File</button>
+
+                                                <!-- File details and remove button -->
+                                                <div id="file-details" class="align-items-center file-details">
+                                                    <span id="file-name" class="mr-3 text-truncate"></span>
+                                                    <button type="button" id="removeBtn" class="btn btn-danger btn-sm"><i class="mdi mdi-close"/></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-12 s_website_form_field s_website_form_dnone">
+                                        <div class="row s_col_no_resize s_col_no_bgcolor">
+                                            <label class="col-form-label col-sm-auto s_website_form_label"
+                                                   style="width: 250px" for="recruitment6">
+                                                <span class="s_website_form_label_content">Job</span>
+                                            </label>
+                                            <div class="col-sm">
+                                                <input id="recruitment6" type="hidden"
+                                                       class="form-control s_website_form_input" name="job_id"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-12 s_website_form_field s_website_form_dnone">
+                                        <div class="row s_col_no_resize s_col_no_bgcolor">
+                                            <label class="col-form-label col-sm-auto s_website_form_label"
+                                                   style="width: 250px" for="recruitment7">
+                                                <span class="s_website_form_label_content">Department</span>
+                                            </label>
+                                            <div class="col-sm">
+                                                <input id="recruitment7" type="hidden"
+                                                       class="form-control s_website_form_input" name="department_id"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-12 s_website_form_submit" data-name="Submit Button">
+                                        <div style="width: 250px;" class="s_website_form_label"/>
+                                        <a href="#" role="button" class="btn btn-primary btn-lg s_website_form_send"
+                                         style="outline: none; box-shadow: none;"
+                                         onfocus="this.style.outline='none'; this.style.boxShadow='none';"
+                                         onmousedown="this.style.outline='none'; this.style.boxShadow='none';"
+                                         onblur="this.style.outline=''; this.style.boxShadow='';">
+                                            Submit
+                                        </a>
+                                        <span id="s_website_form_result"></span>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </section>
+                </div>
+                <div class="oe_structure mt-2"/>
+            </div>
+        </xpath>
+    </template>
+    
+    <!-- HIDE SIGNIN -->
+    <template id="hide_sign_in_on_job_detail" inherit_id="portal.placeholder_user_sign_in">
+        <xpath expr="//li[a[contains(@t-attf-href, '/web/login')]]" position="attributes">
+            <attribute name="t-if">not request.httprequest.path.startswith('/jobs')</attribute>
+        </xpath>
+    </template>
+
+    <!-- THANKYOU PAGE -->
+    <record id="thankyou" model="website.page">
+        <field name="url">/jobs-thank-you</field>
+        <field name="is_published">True</field>
+        <field name="website_indexed" eval="False"/>
+        <field name="name">Thank you (Recruitment)</field>
+        <field name="type">qweb</field>
+        <field name="key">website_hr_recruitment.thankyou</field>
+        <field name="arch" type="xml">
+            <t name="Thank you (Recruitment)" t-name="website_hr_recruitment.thankyou">
+                <t t-call="website.layout">
+                    <div id="wrap">
+                        <div class="oe_structure">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <h1 class="text-center">Congratulations!</h1>
+                                        <p class="text-center">
+                                            Your application has been posted successfully.
+                                        </p>
+                                    </div>
+                                    <t t-if="request.session.get('form_builder_model_model', '') == 'hr.applicant'">
+                                        <t t-set="job" t-value="request.website._website_form_last_record().sudo().job_id"/>
+                                        <t t-set="responsible" t-value="job and job.user_id.website_published and job.user_id "/>
+                                    </t>
+                                    <t t-if="responsible">
+                                        <div class="col-lg-12">
+                                            <h3 class="mb32 text-center">Your application has been sent to:</h3>
+                                        </div>
+                                        <div class="col-lg-1 offset-lg-4">
+                                            <p t-field="responsible.image_128" t-options="{'widget': 'image', 'qweb_img_responsive': False, 'class': 'rounded-circle d-block mx-auto o_image_64_cover'}"/>
+                                        </div>
+                                        <div class="col-lg-5 o_responsible_data">
+                                            <h4 class="mt0" t-field="responsible.name"/>
+                                            <p t-field="responsible.function"/>
+                                            <t t-if='responsible.email_from'>
+                                                <i class="fa fa-envelope" role="img" aria-label="Email" title="Email"></i> <a t-attf-href="mailto:#{responsible.email_from}" t-esc="responsible.email_from"/>
+                                            </t>
+                                            <t t-if='responsible.partner_phone'>
+                                                <br/><i class="fa fa-phone" role="img" aria-label="Phone" title="Phone"></i> <span t-field="responsible.partner_phone"/>
+                                            </t>
+                                        </div>
+                                        <div class="col-lg-12 mt32 text-center">
+                                            <span>
+                                                We usually reply between one and three days.<br/>
+                                                Feel free to contact him/her if you have further questions.
+                                            </span>
+                                        </div>
+                                    </t>
+                                </div>
+                                <div class="row" id="o_recruitment_thank_cta">
+                                    <div class="col-lg-12 text-center mt32 mb32">
+    <!--                                    In the meantime,-->
+    <!--                                    <h3 class="mt8 mb32">Look around on our website:</h3>-->
+                                        <a role="button" href="https://www.saip.gov.sa/" class="btn btn-primary btn-lg">Continue To Our Website</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </field>
+    </record>
+
+    <template id="job_apply_assets" inherit_id="website.assets_frontend">
+        <xpath expr="." position="inside">
+            <script src="/odex25_hr_recruitment_nafaz/static/src/js/custom_file_upload.js" type="text/javascript"></script>   
+        </xpath>
+    </template>
+
+</odoo>

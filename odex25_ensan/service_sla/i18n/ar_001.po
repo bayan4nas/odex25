@@ -1,0 +1,161 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* service_sla
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-08-18 15:46+0000\n"
+"PO-Revision-Date: 2025-08-18 15:46+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: service_sla
+#: model:mail.template,body_html:service_sla.mail_template_sla_escalation
+msgid ""
+"\n"
+"            <p>Dear ${ctx.get('employee_name') or 'Manager'},</p>\n"
+"            <p>The service request <b>${object.name}</b> has <b>exceeded</b> the SLA deadline.</p>\n"
+"            <p>The request is escalated to you for further action.</p>\n"
+"        "
+msgstr ""
+"\n"
+"            <p>عزيزي ${ctx.get('employee_name') or 'المدير'},</p>\n"
+"            <p>طلب الخدمة <b>${object.name}</b> قد <b>تجاوز</b> الموعد النهائي للـ SLA.</p>\n"
+"            <p>تم تصعيد الطلب إليك لاتخاذ الإجراءات اللازمة.</p>\n"
+"        "
+
+#. module: service_sla
+#: model:mail.template,body_html:service_sla.mail_template_sla_cancel
+msgid ""
+"\n"
+"            <p>Dear ${ctx.get('employee_name') or 'Manager'},</p>\n"
+"            <p>The service request <b>${object.name}</b> has been <b>cancelled</b> due to exceeding the SLA deadline.</p>\n"
+"            <p>Reason: SLA Timeout.</p>\n"
+"        "
+msgstr ""
+"\n"
+"            <p>عزيزي ${ctx.get('employee_name') or 'المدير'},</p>\n"
+"            <p>طلب الخدمة <b>${object.name}</b> قد تم <b>إلغاؤه</b> بسبب تجاوز الموعد النهائي للـ SLA.</p>\n"
+"            <p>السبب: انتهاء مهلة SLA.</p>\n"
+"        "
+
+
+
+
+
+#. module: service_sla
+#: model:ir.model.fields,field_description:service_sla.field_benefits_service__auto_cancelled
+msgid "Auto Cancel on SLA Expiry"
+msgstr "الإلغاء التلقائي عند انتهاء مهلة SLA"
+
+#. module: service_sla
+#: code:addons/odoo/preprod_master/odex25_ensan/service_sla/models/service_request.py:0
+#: code:addons/service_sla/models/service_request.py:0
+#, python-format
+msgid "Cancellation notification sent to %(name)s (%(email)s)"
+msgstr "تم إرسال إشعار الإلغاء إلى %(name)s (%(email)s)"
+
+#. module: service_sla
+#: model:ir.actions.server,name:service_sla.ir_cron_service_sla_ir_actions_server
+#: model:ir.cron,cron_name:service_sla.ir_cron_service_sla
+#: model:ir.cron,name:service_sla.ir_cron_service_sla
+msgid "Check SLA Deadlines"
+msgstr "التحقق من مهل SLA"
+
+#. module: service_sla
+#: model:ir.model.fields.selection,name:service_sla.selection__benefits_service__sla_unit__days
+msgid "Days"
+msgstr "أيام"
+
+#. module: service_sla
+#: code:addons/odoo/preprod_master/odex25_ensan/service_sla/models/service_request.py:0
+#: code:addons/service_sla/models/service_request.py:0
+#: model:ir.model.fields,field_description:service_sla.field_service_request__deadline
+#, python-format
+msgid "Deadline"
+msgstr "الموعد النهائي"
+
+#. module: service_sla
+#: code:addons/odoo/preprod_master/odex25_ensan/service_sla/models/service_request.py:0
+#: code:addons/service_sla/models/service_request.py:0
+#: model:ir.model.fields,field_description:service_sla.field_service_request__escalated
+#, python-format
+msgid "Escalated"
+msgstr "تم التصعيد"
+
+#. module: service_sla
+#: code:addons/odoo/preprod_master/odex25_ensan/service_sla/models/service_request.py:0
+#: code:addons/service_sla/models/service_request.py:0
+#, python-format
+msgid "Escalation notification sent to %(name)s (%(email)s)"
+msgstr "تم إرسال إشعار التصعيد إلى %(name)s (%(email)s)"
+
+#. module: service_sla
+#: model:ir.model.fields.selection,name:service_sla.selection__benefits_service__sla_unit__hours
+msgid "Hours"
+msgstr "ساعات"
+
+#. module: service_sla
+#: model_terms:ir.ui.view,arch_db:service_sla.view_service_request_form_sla
+msgid "SLA Details"
+msgstr "تفاصيل SLA"
+
+#. module: service_sla
+#: model:ir.model.fields,field_description:service_sla.field_benefits_service__sla_duration
+msgid "SLA Duration"
+msgstr "مدة SLA"
+
+#. module: service_sla
+#: model_terms:ir.ui.view,arch_db:service_sla.view_service_form_sla
+msgid "SLA Settings"
+msgstr "إعدادات SLA"
+
+#. module: service_sla
+#: code:addons/odoo/preprod_master/odex25_ensan/service_sla/models/service_request.py:0
+#: code:addons/service_sla/models/service_request.py:0
+#: model:ir.model.fields,field_description:service_sla.field_service_request__service_id
+#, python-format
+msgid "Service"
+msgstr "الخدمة"
+
+#. module: service_sla
+#: model:mail.template,subject:service_sla.mail_template_sla_cancel
+msgid "Service Request Cancelled (SLA Breach)"
+msgstr "تم إلغاء طلب الخدمة (تجاوز مدة SLA)"
+
+#. module: service_sla
+#: model:mail.template,subject:service_sla.mail_template_sla_escalation
+msgid "Service Request Escalated (SLA Breach)"
+msgstr "تم تصعيد طلب الخدمة (تجاوز مدة SLA)"
+
+#. module: service_sla
+#: model:ir.model,name:service_sla.model_benefits_service
+msgid "Service Settings"
+msgstr "إعدادات الخدمة"
+
+#. module: service_sla
+#: model:ir.model.fields,field_description:service_sla.field_benefits_service__sla_unit
+msgid "Sla Unit"
+msgstr "وحدة الـ SLA"
+
+#. module: service_sla
+#: code:addons/odoo/preprod_master/odex25_ensan/service_sla/models/service_request.py:0
+#: code:addons/service_sla/models/service_request.py:0
+#, python-format
+msgid "The request SLA has been breached and is escalated to the Service Manager."
+msgstr "تم تجاوز مدة الـ SLA للطلب وتم تصعيده إلى مدير الخدمة."
+
+#. module: service_sla
+#: code:addons/odoo/preprod_master/odex25_ensan/service_sla/models/service_request.py:0
+#: code:addons/service_sla/models/service_request.py:0
+#, python-format
+msgid "The request was refused due to SLA timeout."
+msgstr "تم رفض الطلب بسبب تجاوز مدة الـ SLA."
+
+

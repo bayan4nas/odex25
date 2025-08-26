@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Adding budget item fields to the Salary Rules -->
+
+
+    <record id="view_account_journal_form_manual" model="ir.ui.view">
+        <field name="name">account.journal.manual.form</field>
+        <field name="model">account.journal</field>
+        <field name="inherit_id" ref="account.view_account_journal_form"/>
+        <field name="arch" type="xml">
+            <field name="code" position="before">
+                <field name="hr_journal"/>
+                <field name="commitee_expense"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="hr_salary_rule_budget_item_form_inherit" model="ir.ui.view">
+        <field name="name">hr.salary.rule.budget.item.form.inherit</field>
+        <field name="model">hr.salary.rule</field>
+        <field name="inherit_id" ref="exp_payroll_custom.hr_salary_rule_view_form_inherit"/>
+        <field name="arch" type="xml">
+            <field name="special" position="after">
+                <field name="compensation_rule"/>
+            </field>
+            <field name="rule_credit_account_id" position="after">
+                <field name="item_budget_id" options="{'no_create': True, 'no_open': True}" attrs="{'invisible' : [('transfer_by_emp_type', '=', True)],'required' : [('transfer_by_emp_type', '=', False)]}"/>
+                <field name="analytic_account_id" groups="analytic.group_analytic_accounting"/>
+                <field name="account_tax_id"/>
+            </field>
+             <field name="emp_type_id" position="after">
+                 <field name="item_budget_id" options="{'no_create': True, 'no_open': True}" />
+             </field>
+
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="hr_payslip_budget_item_inherited_form_view">
+        <field name="name">hr.payslip.run.budget_item.inherit.form</field>
+        <field name="model">hr.payslip.run</field>
+        <field name="inherit_id" ref="exp_payroll_custom.hr_payslip_run_inherited_form_view"/>
+        <field name="arch" type="xml">
+            <button name="transfer" position="attributes">
+                <attribute name="groups">odex25_account_saip.group_post_account_department</attribute>
+            </button>
+            <xpath expr="//field[@name='journal_id']" position="attributes">
+                <attribute name="domain">[('type','=','purchase'),('hr_journal', '=', True)]</attribute>
+            </xpath>
+            <page name="payslip_ids" position="replace">
+                <page name="payslip_ids" string="Payslips">
+                    <field name="slip_ids">
+                        <tree>
+                            <field name="number"/>
+                            <field name="employee_id" groups="odex25_hr_budget_saip.group_view_employee_slips,hr.group_hr_user"/>
+                            <field name="name"  groups="odex25_hr_budget_saip.group_view_employee_slips,hr.group_hr_user"/>
+                            <field name="date_from" invisible="1"/>
+                            <field name="date_to" invisible="1"/>
+                            <field name="basic_allowances"/>
+                            <field name="house_allowances"/>
+                            <field name="trans_allowances"/>
+                            <field name="other_allowances"/>
+                            <field name="employee_insurnce"/>
+                            <field name="total_allowances"/>
+                            <field name="total_deductions"/>
+                            <field name="total_loans" invisible="1"/>
+                            <field name="total_sum"/>
+                            <field name="state"/>
+                        </tree>
+                    </field>
+                </page>
+            </page>
+
+        </field>
+    </record>
+</odoo>

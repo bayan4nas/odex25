@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	
+	<template id="assets_frontend_css" inherit_id="web.assets_frontend">
+        <xpath expr="." position="inside">
+			<!--style-->
+			<link rel="stylesheet" type="text/scss" href="/saip_website_theme/static/src/css/mdi/materialdesignicons.css"/>
+			<link rel="stylesheet" type="text/scss" href="/saip_website_theme/static/src/scss/controller.scss"/>
+			<link rel="stylesheet" type="text/scss" href="/saip_website_theme/static/src/scss/login.scss"/>
+			<link rel="stylesheet" type="text/scss" href="/saip_website_theme/static/src/scss/footer.scss"/>
+			<link rel="stylesheet" type="text/scss" href="/saip_website_theme/static/src/scss/header.scss"/>
+			<link rel="stylesheet" type="text/scss" href="/saip_website_theme/static/src/scss/jobs.scss"/>
+			<!--script-->
+			<script src="/saip_website_theme/static/src/js/script.js"></script>
+		</xpath>
+	</template>
+
+	<template id="custom_header" inherit_id="website.layout">
+		<xpath expr="//header" position="replace">
+			<header class="header-container">
+				<nav data-name="Navbar" class="navbar navbar-expand-lg">
+					<div id="top_menu_container" class="col-md-12">
+						<a class="navbar-brand" href="/">
+							<img src="/saip_website_theme/static/src/img/saip-logo-en.svg" alt=""/>
+						</a>
+						<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false" aria-label="Toggle navigation">
+							<span class="navbar-toggler-icon"></span>
+						</button>
+	
+						<div class="collapse navbar-collapse" id="top_menu_collapse">
+							<ul class="navbar-nav mr-auto">
+								<!-- <li class="nav-item dropdown">
+									<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">About SAIP</a>
+									<ul class="dropdown-menu">
+									<li><a class="dropdown-item" href="#">Action</a></li>
+									<li><a class="dropdown-item" href="#">Another action</a></li>
+									</ul>
+								</li>
+								<li class="nav-item dropdown">
+									<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">SAIP Services</a>
+									<ul class="dropdown-menu">
+									<li><a class="dropdown-item" href="#">Action</a></li>
+									<li><a class="dropdown-item" href="#">Another action</a></li>
+									</ul>
+								</li>
+								<li class="nav-item dropdown">
+									<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Sources and Information</a>
+									<ul class="dropdown-menu">
+									<li><a class="dropdown-item" href="#">Action</a></li>
+									<li><a class="dropdown-item" href="#">Another action</a></li>
+									</ul>
+								</li>
+								<li class="nav-item dropdown">
+									<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Media Center</a>
+									<ul class="dropdown-menu">
+									<li><a class="dropdown-item" href="#">Action</a></li>
+									<li><a class="dropdown-item" href="#">Another action</a></li>
+									</ul>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link" href="#">Digital Guide</a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link" href="https://www.saip.gov.sa/en/contact-us/">Contact Us</a>
+								</li> -->
+							</ul>
+
+							<ul class="navbar-nav">
+								<!-- Sign In -->
+								<t t-call="portal.placeholder_user_sign_in">
+									<t t-set="_item_class" t-value="'nav-item ml-lg-auto'"/>
+									<t t-set="_link_class" t-value="'nav-link font-weight-bold'"/>
+								</t>
+								<!-- User Dropdown -->
+								<t t-call="portal.user_dropdown">
+									<t t-set="_user_name" t-value="true"/>
+									<t t-set="_item_class" t-value="'nav-item dropdown ml-lg-auto'"/>
+									<t t-set="_link_class" t-value="'nav-link font-weight-bold'"/>
+								</t>
+							</ul>
+						</div>
+						
+						<!-- Language Selector -->
+						<t t-call="website.placeholder_header_language_selector">
+							<t t-set="_div_classes" t-value="'ml-2'"/>
+						</t>
+						<!-- Button -->
+						<div class="oe_structure oe_structure_solo" id="oe_structure_header_default_1"/>
+					</div>
+				</nav>
+			</header>
+		</xpath>
+	</template>
+</odoo>

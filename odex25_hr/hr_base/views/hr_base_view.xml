@@ -463,6 +463,32 @@
         </field>
     </record>
 
+    <!-- end hr.employee -->
+
+    <!-- hr_employee_public_view_kanban_inherit -->
+
+    <record id="hr_employee_public_view_kanban_inherit" model="ir.ui.view">
+        <field name="name">hr employee public kanban </field>
+        <field name="model">hr.employee.public</field>
+        <field name="inherit_id" ref="hr.hr_employee_public_view_kanban"/>
+        <field name="arch" type="xml">
+            <xpath expr="//templates" position="before">
+                <field name="current_leave_id"/>
+                <field name="current_leave_state"/>
+                <field name="leave_date_from"/>
+                <field name="leave_date_to"/>
+            </xpath>
+            <xpath expr="//li[@id='last_login']" position="inside">
+                <span t-if="record.current_leave_id.raw_value" style="font-size: 100%%"
+                        t-att-class="record.current_leave_state.raw_value=='validate'?'oe_kanban_button oe_kanban_color_3':'oe_kanban_button oe_kanban_color_2'"
+                        t-att-title="moment(record.leave_date_from.raw_value).format('ddd Do MMM') + ' - ' + moment(record.leave_date_to.raw_value).format('ddd Do MMM')">
+                    <field name="current_leave_id"/>
+                </span>
+            </xpath>     
+        </field>
+    </record>
+    <!-- end hr.employee.public -->
+
     <record id="view_users_simple_form_inherit_hr" model="ir.ui.view">
         <field name="name">view.users.simple.form.inherit.hr</field>
         <field name="model">res.users</field>

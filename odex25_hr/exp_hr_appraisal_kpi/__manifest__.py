@@ -3,34 +3,35 @@
 
 {
     'name': 'Appraisal KPI',
-    'version': '11.0.1.0.0',
+    'version': '14.0',
     'category': 'HR-Odex',
     'summary': 'Manage Appraisal KPI',
     'description': """
         Helps you to manage Appraisal of your company's staff.
         """,
     'author': 'Expert Co. Ltd.',
-    'company': 'Exp-co-ltd',
-    'maintainer': 'Cybrosys Techno Solutions',
     'website': 'http://exp-sa.com',
     'depends': [
 
-       'exp_hr_appraisal', 'base','kpi_scorecard', 'hr','kpi_scorecard', 'account', 'exp_hr_payroll', 'mail', 'hr_base', 'hr_contract', 'hr_contract_custom'
+       'exp_hr_appraisal', 'kpi_scorecard',
 
     ],
     'data': [
-        'security/group.xml',
+        'security/appraisal_security.xml',
         'security/ir.model.access.csv',
-        'views/kpi_category.xml',
-        'views/kpi_item.xml',
-        'views/kpi_period.xml',
-        'views/kpi_skills.xml',
-        'views/skill_appraisal.xml',
-        'views/years_employee_goals.xml',
-        'views/employee_performance_evaluation.xml',
-        'views/appraisal_percentage.xml',
-        'views/employee_apprisal.xml',
-    
+        'views/appraisal_menuitem.xml',
+        'views/kpi_item_view.xml',
+        'views/kpi_period_view.xml',
+        'views/kpi_skills_view.xml',
+        #'views/employee_skills_view.xml',
+        'views/employee_goals_view.xml',
+        'views/distribution_of_weights_view.xml',
+        'views/hr_employee_appraisal_view.xml',
+        #'views/last_appraisal_employees_view.xml',
+        'data/mail_template.xml',
+        'report/performance_evaluation_report_view.xml',
+        'wizard/performance_evaluation_wizard_view.xml',
+
 
 
     ],

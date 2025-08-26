@@ -6,6 +6,7 @@ from odoo.exceptions import ValidationError
 from odoo.exceptions import UserError
 from lxml import etree
 import json
+from dateutil.relativedelta import relativedelta
 
 
 class FamilyMemberMaritalStatus(models.Model):
@@ -16,11 +17,15 @@ class FamilyMemberMaritalStatus(models.Model):
 
 
 class FamilyMemberRelation(models.Model):
-    _name = 'family.member.relation'
+    _inherit = 'family.member.relation'
     _description = 'Family Member Relation'
 
     name = fields.Char(string='Relation', required=True)
     gender = fields.Selection(selection=[('male', _('Male')), ('female', _('Female'))], string="Gender")
+    exclude_need = fields.Boolean(
+        string="Exclude from Need Calculation",
+        default=False
+    )
 
 class FamilyMemberQualification(models.Model):
     _name = 'family.member.qualification'
@@ -90,7 +95,7 @@ class FamilyProfileLearn(models.Model):
     graduate_date = fields.Date(string='Graduation Date')
     name = fields.Char(string="Name", required=True, default="Rehabilitation Record")
     identity_number = fields.Integer(string="Identity Number")
-    graduation_year = fields.Char(string="Graduation Year")
+    graduation_year = fields.Integer(string="Graduation Year")
     attachments = fields.Binary(string="Attachments")
 
     @api.constrains('identity_number')
@@ -144,6 +149,14 @@ class IssuesInformation(models.Model):
     prison_id = fields.Many2one('res.prison', readonly=0, related='detainee_id.prison_id')
     arrest_date = fields.Date('Arrest Date', related='detainee_id.arrest_date', readonly=0)
 
+    @api.constrains('release_date', 'detainee_id')
+    def _check_release_date_required(self):
+        for rec in self:
+            if rec.detainee_id and rec.detainee_id.prisoner_state == 'convicted':
+                if not rec.release_date:
+                    raise ValidationError(_("Release Date is required when the prisoner state is 'Convicted'."))
+
+
     @api.onchange('case_type')
     def _onchange_case_type(self):
         if self.case_type:
@@ -159,6 +172,17 @@ class IssuesInformation(models.Model):
                 }
             }
 
+    @api.model
+    def create(self, vals):
+        record = super(IssuesInformation, self).create(vals)
+        record._check_release_date_required()
+        return record
+
+    def write(self, vals):
+        res = super(IssuesInformation, self).write(vals)
+        self._check_release_date_required()
+        return res
+
 
 class FamilyMember(models.Model):
     _inherit = 'family.member'
@@ -170,6 +194,7 @@ class FamilyMember(models.Model):
         store=True,  # Store it in the database so it appears on page load
         readonly=True
     )
+    folder_state = fields.Selection([('Active', 'active'), ('not_active', 'Not Active')], string='Folder State')
     first_name = fields.Char("First Name")
     father_name = fields.Char("Father Name")
     grand_name = fields.Char("Grand Name")
@@ -208,14 +233,20 @@ class FamilyMember(models.Model):
     nationality_id = fields.Many2one('res.country', string='Nationality')
     qualification_id = fields.Many2one('family.member.qualification', string='Qualification')
     education_ids = fields.One2many('family.profile.learn', 'member_id', string='Education History')
-    sub_number = fields.Char(string='Sub Number')
-    additional_number = fields.Char(string='Additional Number')
+    sub_number = fields.Integer(string='Sub Number')
+    additional_number = fields.Integer(string='Additional Number')
     additional_mobile_number = fields.Char(string='Additional Mobile Number')
     street_name = fields.Char(string='Street Name')
-    district = fields.Char(string='District')
+    district_id = fields.Many2one(
+        'res.district',
+        string=' District',
+        domain="[('city_id', '=', city)]")
+
     city = fields.Many2one("res.country.city", string='City')
     postal_code = fields.Char(string='Postal Code')
-    building_number = fields.Char(string='Building Number')
+    national_address_code = fields.Char(string='National address code')
+    building_number = fields.Integer(string='Building Number')
+    sbuilding_number = fields.Integer(string='Building Number')
     rehabilitation_ids = fields.One2many('comprehensive.rehabilitation', 'member_id',
                                          string='Comprehensive Rehabilitation')
     blood_type = fields.Selection([
@@ -227,11 +258,13 @@ class FamilyMember(models.Model):
     member_diseases_ids = fields.One2many('member.disease', 'member_id', string='Member Diseases')
     issues_ids = fields.One2many('issues.information', 'member_id', string='issues information')
     social_insurance_income = fields.Float(string='Social Insurance Income')
+    social_insurance_state = fields.Boolean(string='Social Security State')
     social_insurance_status = fields.Selection([
         ('active', 'Active'),
         ('inactive', 'Inactive'),
         ('active_inactive', 'Active Inactive')
     ], string='Social Insurance Status')
+    social_security_state = fields.Boolean(string='Social Security State')
     social_security_income = fields.Float(string='Social Security Income')
     social_security_status = fields.Selection([
         ('active', 'Active'),
@@ -269,10 +302,126 @@ class FamilyMember(models.Model):
     ], string="Status", default='draft', tracking=True)
 
     cancel_reason: fields.Text = fields.Text(string="Rejection Reason", tracking=True, copy=False)
+    # Professional Experiences Fields
+    dest_name = fields.Char(string='Destination Name')
+    start_date = fields.Date(string='Start Date')
+    end_date = fields.Date(string='End Date')
+    in_work = fields.Boolean(string='In Work')
+    experience_certificate = fields.Many2many('ir.attachment', string="Experience Certificate", tracking=True)
+    job_title = fields.Many2one('job.title', string='Job Title')
 
-    def action_confirm(self) -> None:
-        """Change status to 'Confirmed'."""
-        self.write({'state': 'confirmed'})
+
+    grant_benefit_member_ids = fields.One2many(
+        'grant.benefit.member',
+        'member_id',
+        string='Grant Benefit Members'
+    )
+    detainee_file_link = fields.Many2one(
+        'detainee.file',
+        string="File Number",
+        compute='_compute_file_links',
+        readonly=True
+    )
+    detainee_file_link_name = fields.Char(  related='detainee_file_link.name',string='File number' ,  readonly=True)
+    detainee_file_link_file_state = fields.Selection(  related='detainee_file_link.file_state',string='File State' , readonly=True)
+    detainee_file_link_beneficiary_category =fields.Selection(  related='detainee_file_link.beneficiary_category',string='beneficiary category ' ,  readonly=True)
+    detainee_file_link_prisoner_state =fields.Selection(  related='detainee_file_link.prisoner_state',string='Inmate Status', readonly=True)
+    detainee_file_link_entitlement_status =fields.Selection(  related='detainee_file_link.entitlement_status',string='Needs Assessment', readonly=True)
+
+    family_file_link = fields.Many2one(
+        'grant.benefit',
+        string="File Number",
+        compute='_compute_file_links',
+        readonly=True
+    )
+    family_file_link_name = fields.Char(  related='family_file_link.name',string='File number' , readonly=True)
+    family_file_link_folder_state = fields.Selection(  related='family_file_link.folder_state',string='File State', readonly=True)
+    family_file_link_beneficiary_category =fields.Selection(  related='family_file_link.beneficiary_category',string='beneficiary category ', readonly=True)
+    family_file_link_need_calculator =fields.Selection(  related='family_file_link.need_calculator',string='Needs Assessment', readonly=True)
+    family_file_link_beneficiary_category_display = fields.Char(
+        string='beneficiary category ',
+        compute='_compute_family_beneficiary_category_display',
+        readonly=True
+    )
+    
+    @api.model
+    def name_search(self, name='', args=None, operator='ilike', limit=100):
+        args = args or []
+        domain = []
+        if name:
+            domain = ['|', ('name', operator, name), ('member_id_number', operator, name)]
+        records = self.search(domain + args, limit=limit)
+        return records.name_get()
+    # end
+    @api.depends('family_file_link.beneficiary_category')
+    def _compute_family_beneficiary_category_display(self):
+        for rec in self:
+            if rec.family_file_link and rec.family_file_link.beneficiary_category:
+                field = self.env['grant.benefit']._fields['beneficiary_category']
+
+                if callable(field.selection):
+                    selection_list = field.selection(self.env['grant.benefit'])
+                else:
+                    selection_list = field.selection
+
+                selection_dict = dict(selection_list)
+
+                rec.family_file_link_beneficiary_category_display = \
+                    _(' family ') + selection_dict.get(rec.family_file_link.beneficiary_category, ' ')
+            else:
+                rec.family_file_link_beneficiary_category_display = False
+
+
+    def _compute_file_links(self):
+        for member in self:
+            detainee_file = self.env['detainee.file'].search([('detainee_id', '=', member.id)], limit=1)
+            member.detainee_file_link = detainee_file.id if detainee_file else False
+
+            grant_benefit_member = member.grant_benefit_member_ids.filtered(lambda x: x.grant_benefit_id)
+            member.family_file_link = grant_benefit_member[0].grant_benefit_id.id if grant_benefit_member else False
+
+    @api.constrains(
+        'social_insurance_state',
+        'social_insurance_income',
+        'social_insurance_status',
+        'social_security_income'
+    )
+    def _check_social_insurance_fields(self):
+        for rec in self:
+            if rec.social_insurance_state:
+                if not rec.social_security_income or rec.social_security_income == 0.0:
+                    raise ValidationError(_("Social Security Income must be greater than 0."))
+                if not rec.social_insurance_income or rec.social_insurance_income == 0.0:
+                    raise ValidationError(_("Social Insurance Income must be greater than 0."))
+    def action_confirm(self):
+        for record in self:
+            all_fields = [
+                'member_id_number', 'member_phone', 'identity_proof_id',
+                'birth_date', 'gender', 'qualification_id', 'additional_mobile_number',
+                'work_type_id', 'birth_place', 'marital_status_id', 'education_ids',
+                'building_number', 'sub_number', 'additional_number', 'street_name', 'district_id',
+                'city', 'postal_code', 'national_address_code', 'rehabilitation_ids', 'blood_type',
+                'salary_ids', 'job_title', 'dest_name', 'start_date', 'experience_certificate'
+            ]
+
+            missing_fields = []
+            for field_name in all_fields:
+                field = record._fields.get(field_name)
+                if not field:
+                    continue  # Skip if field not found (typo safety)
+
+                value = getattr(record, field_name)
+                if not value:
+                    missing_fields.append(field.string)
+
+            if missing_fields:
+                raise ValidationError(
+                    _("Please fill in the following required fields before confirming:\n- ") + "\n- ".join(
+                        missing_fields)
+                )
+
+            # Confirm logic
+            record.state = 'confirmed'
 
     def action_cancel(self):
         """Open a wizard to enter the rejection reason."""
@@ -284,6 +433,17 @@ class FamilyMember(models.Model):
             'target': 'new',
             'context': {'default_record_id': self.id}
         }
+
+    @api.onchange('additional_mobile_number')
+    def check_additional_number(self):
+        for rec in self:
+            if rec.additional_mobile_number:
+                if not str(rec.additional_mobile_number).startswith("05"):
+                    raise ValidationError(_("The Additional mobile number should starts with 05."))
+
+                    # Check if the additional_mobile_number contains exactly 10 digits
+                if len(rec.additional_mobile_number) != 10:
+                    raise ValidationError(_("The Additional mobile number must contain exactly 10 digits."))
 
     def unlink(self) -> bool:
         """Prevent deletion unless the record is in 'Draft' state."""
@@ -301,23 +461,23 @@ class FamilyMember(models.Model):
     def reset_to_draft(self):
         self.write({'state': 'draft'})
 
-    @api.model
-    def fields_view_get(self, view_id=None, view_type=False, toolbar=False, submenu=False):
-        res = super(FamilyMember, self).fields_view_get(view_id=view_id, view_type=view_type, toolbar=toolbar,
-                                                        submenu=submenu)
-        doc = etree.XML(res['arch'])
-        if view_type == 'form':
-            for node in doc.xpath("//field"):
-                modifiers = json.loads(node.get("modifiers"))
-                if 'readonly' not in modifiers:
-                    modifiers['readonly'] = [('state', 'not in', ['draft'])]
-                else:
-                    if type(modifiers['readonly']) != bool:
-                        modifiers['readonly'].insert(0, '|')
-                        modifiers['readonly'].append(('state', 'not in', ['draft']))
-                node.set("modifiers", json.dumps(modifiers))
-                res['arch'] = etree.tostring(doc)
-        return res
+    # @api.model
+    # def fields_view_get(self, view_id=None, view_type=False, toolbar=False, submenu=False):
+    #     res = super(FamilyMember, self).fields_view_get(view_id=view_id, view_type=view_type, toolbar=toolbar,
+    #                                                     submenu=submenu)
+    #     doc = etree.XML(res['arch'])
+    #     if view_type == 'form':
+    #         for node in doc.xpath("//field"):
+    #             modifiers = json.loads(node.get("modifiers"))
+    #             if 'readonly' not in modifiers:
+    #                 modifiers['readonly'] = [('state', 'not in', ['draft'])]
+    #             else:
+    #                 if type(modifiers['readonly']) != bool:
+    #                     modifiers['readonly'].insert(0, '|')
+    #                     modifiers['readonly'].append(('state', 'not in', ['draft']))
+    #             node.set("modifiers", json.dumps(modifiers))
+    #             res['arch'] = etree.tostring(doc)
+    #     return res
 
     def action_open_salary_income(self):
         self.ensure_one()
@@ -332,6 +492,7 @@ class FamilyMember(models.Model):
             'domain': [('member_id', '=', self.id)],
             'target': 'current',
         }
+
     def action_open_expenses(self):
         self.ensure_one()
         return {
@@ -363,19 +524,27 @@ class FamilyMember(models.Model):
         self._compute_full_name()
 
 
+class JobTitle(models.Model):
+    _name = 'job.title'
+    _description = 'Job Title'
+
+    name = fields.Char(string="Job Title")
+
+
 class MemberHouse(models.Model):
     _name = 'family.member.house'
     _description = 'Member House'
 
-    benefit_id = fields.Many2one('grant.benefit',string="Benefit")
+    benefit_id = fields.Many2one('grant.benefit', string="Benefit")
 
 
 class DetaineeFile(models.Model):
-    _name = 'detainee.file'
+    _inherit = 'detainee.file'
     _description = 'Detainee File'
-    _inherit = ['mail.thread', 'mail.activity.mixin']
+    # _inherit = ['mail.thread', 'mail.activity.mixin']
 
     name = fields.Char(string="code", readonly=True, copy=False, default=lambda self: _('New'))
+
     detainee_id = fields.Many2one('family.member', string="Detainee", required=True)
     detainee_status = fields.Selection([
         ('convicted', 'Convicted'),
@@ -395,18 +564,79 @@ class DetaineeFile(models.Model):
         ('rejected', 'Rejected'),
     ], string="Status", default='draft', tracking=True)
 
-    branch_id = fields.Many2one('branch.details', string="Branch")
+    branch_id = fields.Many2one('branch.details', string="Branch", required=1)
 
     prison_country_id = fields.Many2one('res.prison.country', string="Prison Country")
 
-    prison_id = fields.Many2one('res.prison', string="Prison")
+    prison_id = fields.Many2one('res.prison', string="Prison", domain=[('country_id', '=', prison_country_id)])
 
     cancel_reason: fields.Text = fields.Text(string="Rejection Reason", tracking=True, copy=False)
+    file_state = fields.Selection([('active', 'Active'), ('inactive', 'Inactive ')], string='File Status')
 
-    prisoner_state = fields.Selection([('convicted', 'Convicted'), ('not_convicted', 'Not Convicted')], string='State')
-    beneficiary_category = fields.Selection([('gust', 'Gust'), ('released', 'Released')], string='Beneficiary Category')
+    prisoner_state = fields.Selection([('convicted', 'Convicted'), ('not_convicted', 'Not Convicted')],
+                                      string='Inmate Status')
+    beneficiary_category = fields.Selection([('gust', 'Gust'), ('released', 'Released')], string='  Beneficiary Category')
     entitlement_status = fields.Selection([('deserved', 'Deserved'), ('undeserved', 'Undeserved')],
                                           string='Entitlement Status')
+
+    period_text = fields.Char(string="Detention Period", compute="_compute_period", store=True)
+
+    @api.constrains('issues_ids')
+    def check_prisoner_state(self):
+        for rec in self:
+            if rec.prisoner_state == 'convicted' and not rec.issues_ids:
+                raise UserError(_("You Have to Add Issue"))
+
+    @api.onchange('prison_id')
+    def _onchange_prison_id(self):
+        if self.prison_id:
+            self.prison_country_id = self.prison_id.country_id
+
+    @api.onchange('prison_country_id')
+    def _onchange_prison_country_id(self):
+        if self.prison_country_id:
+            domain = [('country_id', '=', self.prison_country_id.id)]
+            if self.prison_id and self.prison_id.country_id != self.prison_country_id:
+                self.prison_id = False
+            return {'domain': {'prison_id': domain}}
+        else:
+            return {'domain': {'prison_id': []}}
+
+    @api.depends('arrest_date', 'expected_release_date')
+    def _compute_period(self):
+        for record in self:
+            if record.arrest_date and record.expected_release_date:
+                delta = relativedelta(record.expected_release_date, record.arrest_date)
+                years = delta.years
+                months = delta.months
+                days = delta.days
+
+                def arabic_plural(value, singular, dual, plural):
+                    if value == 1:
+                        return f"1 {singular}"
+                    elif value == 2:
+                        return dual
+                    elif 3 <= value <= 10:
+                        return f"{value} {plural}"
+                    else:
+                        return f"{value} {singular}"
+
+                year_txt = arabic_plural(years, "سنة", "سنتان", "سنوات")
+                month_txt = arabic_plural(months, "شهر", "شهران", "أشهر")
+                day_txt = arabic_plural(days, "يومًا", "يومان", "أيام")
+
+                parts = []
+                if years:
+                    parts.append(year_txt)
+                if months:
+                    parts.append(month_txt)
+                if days:
+                    parts.append(day_txt)
+
+                rtl_marker = '\u200F'
+                record.period_text = rtl_marker + " و ".join(parts)
+            else:
+                record.period_text = "\u200Fالمدة غير متوفرة"
 
     def action_open_family_files(self):
         self.ensure_one()
@@ -423,6 +653,22 @@ class DetaineeFile(models.Model):
             'domain': [('detainee_file_id', '=', self.id)],
             'target': 'current',
             'context': {'default_detainee_file_id': self.id}
+        }
+
+    @api.onchange('detainee_id')
+    def _onchange_detainee_id(self):
+        domain = []
+        if self.id:  # Record is already saved in DB
+            linked_member_ids = self.search([('id', '!=', self.id)]).mapped('detainee_id').ids
+        else:  # New unsaved record
+            linked_member_ids = self.search([]).mapped('detainee_id').ids
+
+        return {
+            'domain': {
+                'detainee_id': [
+                    ('id', 'not in', linked_member_ids)
+                ]
+            }
         }
 
     # Restrict deletion & modification based on status
@@ -476,7 +722,28 @@ class DetaineeFile(models.Model):
 
     @api.model
     def create(self, vals):
-        if vals.get('name', _('New')) == _('New'):
-            vals['name'] = self.env['ir.sequence'].next_by_code('detainee.sequence') or _('New')
-        res = super(DetaineeFile, self).create(vals)
-        return res
+        record = super(DetaineeFile, self).create(vals)
+
+        branch_code = record.branch_id.code if record.branch_id else ''
+
+        if branch_code:
+            existing = self.search([
+                ('branch_id', '=', record.branch_id.id),
+                ('name', 'ilike', f"{branch_code}/%")
+            ], order='id desc', limit=1)
+
+            if existing and existing.name and existing.name.startswith(branch_code):
+                try:
+                    last_part = existing.name.split('/')[-1]
+                    last_number = int(last_part)
+                    new_number = last_number + 1
+                except (IndexError, ValueError):
+                    new_number = 1
+            else:
+                new_number = 1
+
+            record.name = f"{branch_code}{str(new_number).zfill(4)}"
+        else:
+            record.name = _('New')
+
+        return record

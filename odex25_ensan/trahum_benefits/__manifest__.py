@@ -31,13 +31,23 @@
         'views/menuitems.xml',
         'views/res_prison.xml',
         'views/identity_proof.xml',
-        'views/branch_details.xml',
         'wizards/cancel_request.xml',
         'views/service_classification_views.xml',
         'views/service_setting_views.xml',
         'views/output_setting_views.xml',
         'views/service_request_views.xml', 
         'views/case_info.xml',
+        'views/res_district.xml',
+        'views/disability_type.xml',
+        'views/job_title.xml',
+        'views/attach_type.xml',
+        'views/beneficiary_paths.xml',
+        'views/family_need_category_view.xml',
+        'views/family_member_relation_views.xml',
+        'views/sr_rule_view.xml',
+
+        'views/res_config_settings_view.xml',
+        'views/family_need_category_view.xml'
     ],
     # only loaded in demonstration mode
     'demo': [

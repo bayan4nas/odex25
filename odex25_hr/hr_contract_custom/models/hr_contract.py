@@ -441,7 +441,8 @@ class Contract(models.Model):
     def contract_mail_reminder(self):
         now = dt.now() + timedelta(days=1)
         date_now = now.date()
-        match = self.search([('state', '!=', 'end_contract')])
+        match = self.search([('state', '!=', 'end_contract'),
+                             ('contract_duration', 'not in',( '3_months','6_months'))])
         # trial_days_send_email=5
         cont_end_reminder = self.env.user.company_id.contract_end_reminder
         cont_trial_reminder = self.env.user.company_id.contract_trial_reminder

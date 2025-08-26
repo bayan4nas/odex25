@@ -1,23 +1,95 @@
 <odoo>
+    <data noupdate="0">
 
-    <record id="group_show_list" model="res.groups">
+        <record id="group_show_list" model="res.groups">
         <field name="name">Hide/show list</field>
         <field name="category_id" ref="odex_benefit.module_category_benefit"/>
-        <field name="implied_ids" eval="[
-        (4, ref('hr.group_hr_user'))
-
-        ]"/>
+        <field name="implied_ids" eval="[(4, ref('hr.group_hr_user'))]"/>
         <field name="comment">Hide and show lists and manage beneficiaries and family members.
         </field>
     </record>
 
-<!--   <record id="benefit_main_menu" model="ir.ui.menu">-->
-<!--            <field name="name">Benefit Managements</field>-->
-<!--            <field name="groups_id" eval="[(4, ref('group_show_list'))]"/>-->
+        <record id="group_benefit_confirm" model="res.groups">
+            <field name="name">Beneficiaries Family Confirm</field>
+            <field name="category_id" ref="odex_benefit.module_category_benefit"/>
+            <field name="comment">the user will be able to confirm Beneficiaries Family requests.</field>
+        </record>
+
+        <record id="group_benefit_validate" model="res.groups">
+            <field name="name">Beneficiaries Family Validate</field>
+            <field name="category_id" ref="odex_benefit.module_category_benefit"/>
+            <field name="comment">the user will be able to validate Beneficiaries Family requests.</field>
+        </record>
+
+        <record id="group_benefit_review" model="res.groups">
+            <field name="name">Beneficiaries Family Review</field>
+            <field name="category_id" ref="odex_benefit.module_category_benefit"/>
+            <field name="comment">the user will be able to review Beneficiaries Family requests.</field>
+        </record>
+
+        <record id="group_benefit_approve" model="res.groups">
+            <field name="name">Beneficiaries Family Approve</field>
+            <field name="category_id" ref="odex_benefit.module_category_benefit"/>
+            <field name="comment">the user will be able to approve Beneficiaries Family requests.</field>
+        </record>
+
+
+        <!--        <record id="group_benefit_user" model="res.groups">-->
+        <!--            <field name="name">Beneficiaries User</field>-->
+        <!--            <field name="category_id" ref="odex_benefit.module_category_benefit"/>-->
+        <!--            <field name="users" eval="[(4, ref('base.user_root'))]"/>-->
+        <!--&lt;!&ndash;            <field name="implied_ids" eval="[(4, ref('base.group_erp_manager'))]"/>&ndash;&gt;-->
+        <!--        </record>-->
+
+<!--        <record id="group_benefit_edit" model="res.groups">-->
+<!--            <field name="name">Beneficiaries Edit User</field>-->
+<!--            <field name="category_id" ref="odex_benefit.module_category_benefit"/>-->
+<!--            <field name="users" eval="[(4, ref('base.user_root'))]"/>-->
+<!--            <field name="implied_ids" eval="[(4, ref('odex_benefit.group_benefit_info'))]"/>-->
+<!--        </record>-->
+        <!--         <record id="group_benefit_officer" model="res.groups">-->
+        <!--            <field name="name">Beneficiaries Officer</field>-->
+        <!--            <field name="category_id" ref="odex_benefit.module_category_benefit"/>-->
+        <!--            <field name="users" eval="[(4, ref('base.user_root'))]"/>-->
+        <!--            <field name="implied_ids" eval="[(4, ref('group_benefit_user')),(4, ref('group_benefit_edit'))]"/>-->
+        <!--        </record>-->
+<!--        <record id="group_benefit_manager" model="res.groups">-->
+<!--            <field name="name">Beneficiaries Manager</field>-->
+<!--            <field name="category_id" ref="odex_benefit.module_category_benefit"/>-->
+<!--            <field name="users" eval="[(4, ref('base.user_root'))]"/>-->
+<!--            <field name="implied_ids" eval="[(4, ref('odex_benefit.group_benefit_info'))]"/>-->
+<!--            <field name="comment">the user will be able to approve Beneficiaries requests.</field>-->
 <!--        </record>-->
 
-<!--       <record id="family_member_main_menu" model="ir.ui.menu">-->
-<!--            <field name="name">Family Members</field>-->
-<!--            <field name="groups_id" eval="[(4, ref('group_show_list'))]"/>-->
+
+<!--        <record id="group_benefit_woman_commitee" model="res.groups">-->
+<!--            <field name="name">Head of the Women's Committee</field>-->
+<!--            <field name="category_id" ref="odex_benefit.module_category_benefit"/>-->
+<!--            <field name="users" eval="[(4, ref('base.user_root'))]"/>-->
+<!--            <field name="implied_ids" eval="[(4, ref('odex_benefit.group_benefit_info'))]"/>-->
 <!--        </record>-->
+
+<!--        <record id="group_benefit_branch_manager" model="res.groups">-->
+<!--            <field name="name">Branch Manager</field>-->
+<!--            <field name="category_id" ref="odex_benefit.module_category_benefit"/>-->
+<!--            <field name="users" eval="[(4, ref('base.user_root'))]"/>-->
+<!--            <field name="implied_ids" eval="[(4, ref('odex_benefit.group_benefit_info'))]"/>-->
+<!--        </record>-->
+
+
+        <record id="group_benefit_accountant_accept" model="res.groups">
+            <field name="name">Service Request Accountant Accept</field>
+            <field name="category_id" ref="odex_benefit.module_category_benefit"/>
+            <!--            <field name="implied_ids" eval="[(4, ref('odex_benefit.group_benefit_info'))]"/>-->
+        </record>
+        <record id="group_benefit_payment_accountant_accept" model="res.groups">
+            <field name="name">Payment Orders Accountant Accept</field>
+            <field name="category_id" ref="odex_benefit.module_category_benefit"/>
+            <!--            <field name="implied_ids" eval="[(4, ref('odex_benefit.group_benefit_info'))]"/>-->
+        </record>
+        <record id="group_accept_income_and_expenses" model="res.groups">
+            <field name="name">Accept income and expenses</field>
+            <field name="category_id" ref="odex_benefit.module_category_benefit"/>
+        </record>
+    </data>
 </odoo>

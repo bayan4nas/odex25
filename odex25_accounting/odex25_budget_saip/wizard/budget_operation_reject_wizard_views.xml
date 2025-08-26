@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_budget_reject_wizard_form" model="ir.ui.view">
+            <field name="name">operation.reject.wizard.form</field>
+            <field name="model">operation.reject.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Reject Budget Operation">
+                    <group>
+                        <field name="reason"/>
+                        <field name="action" invisible="1"/>
+                        <field name="confirmation" invisible="1"/>
+                    </group>
+                    <footer>
+                        <button string="Return" attrs="{'invisible':['|',('action','=','refused'),('confirmation','=',True)]}" type="object" name="action_reject" class="btn-primary"/>
+                        <button string="Reject" attrs="{'invisible':['|',('action','=','draft'),('confirmation','=',True)]}"  type="object" name="action_reject" class="btn-primary"/>
+                        <button string="Reject" attrs="{'invisible':[('confirmation','=',False)]}"  type="object" name="action_confirmation_reject" class="btn-primary"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_budget_reject_wizard" model="ir.actions.act_window">
+            <field name="name">Reject Budget Operation</field>
+            <field name="res_model">operation.reject.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+    </data>
+</odoo>

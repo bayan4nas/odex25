@@ -73,6 +73,15 @@ msgid "<b>Salary Info</b>"
 msgstr "<b>بيانات الراتب</b>"
 
 #. module: employee_requests
+#: code:addons/employee_requests/models/other_request.py:0
+#, python-format
+msgid "You must add an attachment for all certifications."
+msgstr "يجب إضافة المرفق"
+
+
+
+
+#. module: employee_requests
 #: model_terms:ir.ui.view,arch_db:employee_requests.employee_appointment_template
 msgid "<b>Work</b>"
 msgstr "<b>بيانات العمل</b>"
@@ -3983,3 +3992,41 @@ msgstr "يجب إدخال إسم دفتر اليومية لإعدادات الع
 msgid "Employee %s, has no Overtime Account Setting Base On Employee Type."
 msgstr "الموظف %s, ليس لديه إعدادات حساب بند صرف للأجر الإضافي حسب نوع الموظف."
 
+#. module: employee_requests
+#: model:ir.model.fields,field_description:employee_requests.field_employee_department_jobs__employee_type
+#: model_terms:ir.ui.view,arch_db:employee_requests.employee_department_jobs_form_view
+#, python-format
+msgid "Employee Type"
+msgstr "نوع الموظف الحالي"
+
+#. module: employee_requests
+#: model:ir.model.fields,field_description:employee_requests.field_employee_department_jobs__new_employee_type
+#: model_terms:ir.ui.view,arch_db:employee_requests.employee_department_jobs_form_view
+#, python-format
+msgid "New Employee Type"
+msgstr "نوع الموظف الجديد"
+
+#. module: employee_requests
+#: code:addons/employee_requests/models/employee_department_jobs.py:0
+#, python-format
+msgid "You Can Not Choose The Same Employee Type"
+msgstr "لايمكن إختيار نفس نوع الموظف الحالي"
+
+#. module: employee_requests
+#: model:ir.model.fields.selection,name:employee_requests.selection__employee_other_request__state__hcm
+#: model:res.groups,name:employee_requests.group_hcm
+#, python-format
+msgid "Human Capital manager"
+msgstr "مدير الرأس المال البشري"
+
+
+
+#. module: employee_requests
+#: model_terms:ir.ui.view,arch_db:employee_requests.employee_other_request_form_view
+msgid "HCM Approval"
+msgstr "موافقة مدير الرأس المال البشري"
+
+#. module: employee_requests
+#: model_terms:ir.ui.view,arch_db:employee_requests.employee_other_request_form_view
+msgid "HCM Refuse"
+msgstr "رفض"

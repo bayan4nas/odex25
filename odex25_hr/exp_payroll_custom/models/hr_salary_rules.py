@@ -61,6 +61,7 @@ class HrSalaryRules(models.Model):
     def get_debit_account_id(self, emp_type):
         if not self.transfer_by_emp_type :  return self.rule_debit_account_id
         account_mapping = self.account_ids.filtered(lambda a: a.emp_type_id.id == emp_type.id)
+        print("#################################3",account_mapping)
         return account_mapping[0].debit_account_id if account_mapping else False
 
     def get_credit_account_id(self, emp_type):

@@ -28,7 +28,7 @@ class GrantBenefitProfile(models.Model):
         result = []
         for rec in self:
             if rec.name and rec.code:
-                name = rec.name + " " + rec.code
+                name = rec.name
                 result.append((rec.id, name))
         return result
 
@@ -68,6 +68,7 @@ class GrantBenefitProfile(models.Model):
     ], string='Mother Status', compute="check_mother_status", store=True, default=False)
     phone2 = fields.Char(string="Phone2")
     relative_phone = fields.Char(string="Relative Phone")
+    branch_details_id = fields.Many2one(comodel_name='branch.details', string='Branch Name', tracking=True, required=1)
     relative_relation = fields.Char(string="Relative Relation")
     sms_phone = fields.Char(string="Contact Phone")
     name_in_bank = fields.Char()
@@ -98,6 +99,8 @@ class GrantBenefitProfile(models.Model):
     step = fields.Integer('Step')
     has_needs = fields.Boolean(compute='_onchange_is_has_needs',
                                store=True)  # This boolean filed for check if benefit has need in
+
+    researcher_insights = fields.Text(string='Researcher Insights')
     # Job
     job_position = fields.Char()
     job_department = fields.Char()
@@ -150,7 +153,6 @@ class GrantBenefitProfile(models.Model):
     # Father's case and his data # Birth Date # Address # dead data
     # Father's case and his data
     # family_name = fields.Char(string="Family Name", tracking=True)
-    # name = fields.Char(string="Name", compute='get_partner_name', store=True,readonly = False)
     # father_name = fields.Char(string="Father First Name", tracking=True)
     # father_second_name = fields.Char(string="Father Second Name", tracking=True)
     # father_third_name = fields.Char(string="Father Third Name", tracking=True)
@@ -374,10 +376,10 @@ class GrantBenefitProfile(models.Model):
     request_activity_id = fields.Many2one('mail.activity')
     STATE_SELECTION = [
         ('draft', 'Draft'),
-        ('call_center', 'Approved'),
-        ('social_researcher', 'Approved'),
-        ('branch_manager', 'Approved'),
-        ('ceo', 'Approved'),
+        ('confirm', 'Confirm'),
+        ('validate', 'Validate'),
+        ('review', 'Approved'),
+        ('approve', 'Approve'),
         ('cancelled', 'Cancelled'),
         ('closed', 'Closed'),
     ]
@@ -525,6 +527,56 @@ class GrantBenefitProfile(models.Model):
     replacement_last_educational_certificate = fields.Many2many('ir.attachment','rel_replacement_last_educational__certificate_attachment','benefit_id','attachment_id',string='Last Educational Certificate')
     replacement_weak_study = fields.Many2many('study.material',relation='grant_benefit_replacement_weak_study_rel',string='Weak Study')
 
+    member_id = fields.Many2one('family.member', string='Member', ondelete='cascade', )
+    benefit_member_ids = fields.One2many('grant.benefit.member', 'grant_benefit_id', string="Benefit Member")
+
+    exchange_period = fields.Selection(
+        [
+            ('monthly', 'Monthly'),
+            ('every_three_months', 'Every Three Months'),
+            ('every_six_months', 'Every Six Months'),
+            ('every_nine_months', 'Every Nine Months'),
+            ('annually', 'Annually'),
+            ('two_years', 'Two Years'),
+        ],
+        string="Exchange Period",
+        attrs="{'readonly': [('housing_status', 'not in', ['usufruct', 'rent'])]}"
+    )
+
+    housing_status = fields.Selection(
+        [
+            ('owned', 'Owned'),
+            ('shared', 'Shared'),
+            ('usufruct', 'Usufruct'),
+            ('rent', 'Rent'),
+        ],
+        string="Housing Status"
+    )
+
+    housing_value = fields.Integer(
+        string="Housing Value",
+        attrs="{'readonly': [('housing_status', 'not in', ['usufruct', 'rent'])]}"
+    )
+
+    accommodation_attachments = fields.Binary(string="Accommodation Attachments", attachment=True)
+    need_calculator = fields.Selection([('high', 'High Need'), ('medium', 'Medium Need'), ('low', 'Low Need'), ],
+                                       readonly=1, string="Need Calculator", )
+    detainee_file_id = fields.Many2one('detainee.file', string="Detainee File", tracking=True, related='')
+    beneficiary_category = fields.Selection(related='detainee_file_id.beneficiary_category',
+                                            string='Beneficiary Category')
+    benefit_breadwinner_ids = fields.One2many('grant.benefit.breadwinner', 'grant_benefit_ids',
+                                              string="Benefit breadwinner")
+
+
+
+    member_count = fields.Integer(string="Members Count", compute="_compute_member_count", readonly=1)
+
+    @api.depends('benefit_member_ids')
+    def _compute_member_count(self):
+        self.member_count = 0
+        for rec in self:
+            filtered = rec.benefit_breadwinner_ids.filtered(lambda bw: bw.relation_id.name != 'زوجة مطلقة')
+            rec.member_count = len(rec.benefit_member_ids) + len(filtered)
     @api.depends('attachment_ids')
     def get_required_attach(self):
         for rec in self.attachment_ids:
@@ -537,6 +589,33 @@ class GrantBenefitProfile(models.Model):
                 self.required_attach = 'true'
             else:
                 self.required_attach = 'true'
+
+    def action_open_salary_income(self):
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_window',
+            'res_model': 'salary.line',
+            'view_mode': 'tree,form',
+            'views': [
+                (self.env.ref('odex_benefit.view_salary_line_tree').id, 'tree'),
+                (self.env.ref('odex_benefit.view_salary_line_form').id, 'form'),
+            ],
+            'domain': [('benefit_id', '=', self.id)],
+            'target': 'current',
+        }
+    def action_open_expenses(self):
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_window',
+            'res_model': 'expenses.line',
+            'view_mode': 'tree,form',
+            'views': [
+                (self.env.ref('odex_benefit.view_expense_line_tree').id, 'tree'),
+                (self.env.ref('odex_benefit.view_expense_line_form').id, 'form'),
+            ],
+            'domain': [('benefit_id', '=', self.id)],
+            'target': 'current',
+        }
 
     @api.depends('salary_ids')
     def get_income_required_attach(self):

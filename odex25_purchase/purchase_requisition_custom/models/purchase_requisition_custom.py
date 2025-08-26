@@ -315,6 +315,7 @@ class PurchaseRequisitionCustom(models.Model):
                 "default_purpose": self.purpose,
                 "default_send_to_budget": True,
                 "default_res_id": self.id,
+                "default_type": 'contract',
                 "default_res_model": 'purchase.requisition',
                 "default_request_id": self.request_id.id if self.request_id else False},
         }
@@ -331,32 +332,45 @@ class PurchaseRequisitionCustom(models.Model):
             raise ValidationError(_("Please add Committe Members"))
 
     def action_approve(self):
-        purchase_orders = self.env['purchase.order'].search(
-            [('requisition_id', '=', self.id), ('state', '=', 'to approve')])
+        purchase_orders = self.env['purchase.order'].search([('requisition_id', '=', self.id)])
         po_order_approval = self.env.company.po_double_validation == 'two_step'
+        valid_amount = self.env.user.company_id.currency_id.compute(
+            self.env.user.company_id.po_double_validation_amount, self.env.user.company_id.currency_id)
         for po_id in purchase_orders:
-            # Deal with double validation process for first approve
-            valid_amount = self.env.user.company_id.currency_id.compute(po_id.company_id.po_double_validation_amount,
-                                                                        po_id.currency_id)
-            if po_order_approval:
-
-                if po_id.amount_total > valid_amount:
-                    po_id.write({'state': 'to approve'})
-                    self.write({'state': 'second_approve'})
-                else:
-                    # if po_id.email_to_vendor:
-                    #     po_id.write({'state': 'sent'})
-                    # else:
-                    po_id.write({'state': 'draft'})
-                    po_id.write({'send_to_budget': False})
-                    self.write({'state': 'approve'})
+            if po_order_approval and po_id.amount_total > valid_amount:
+                po_id.state = 'to approve'
+                self.state = 'second_approve'
             else:
-                # if po_id.email_to_vendor:
-                #     po_id.write({'state': 'sent'})
-                # else:
-                po_id.write({'state': 'draft'})
-                po_id.write({'send_to_budget': False})
-                self.write({'state': 'approve'})
+                po_id.state = 'sent' if po_id.email_to_vendor else 'draft'
+                po_id.send_to_budget = False
+                self.state = 'approve'
+
+    # def action_approve(self):
+    #
+    #     purchase_orders = self.env['purchase.order'].search([('requisition_id', '=', self.id), ('state', '=', 'to approve')])
+    #     po_order_approval = self.env.company.po_double_validation == 'two_step'
+    #     for po_id in purchase_orders:
+    #         # Deal with double validation process for first approve
+    #         valid_amount = self.env.user.company_id.currency_id.compute(po_id.company_id.po_double_validation_amount,po_id.currency_id)
+    #         if po_order_approval:
+    #             if po_id.amount_total > valid_amount:
+    #                 po_id.write({'state': 'to approve'})
+    #                 self.write({'state': 'second_approve'})
+    #             else:
+    #                 # if po_id.email_to_vendor:
+    #                 #     po_id.write({'state': 'sent'})
+    #                 # else:
+    #                 po_id.write({'state': 'draft'})
+    #                 po_id.write({'send_to_budget': False})
+    #                 self.write({'state': 'approve'})
+    #         else:
+    #             # if po_id.email_to_vendor:
+    #             #     po_id.write({'state': 'sent'})
+    #             # else:
+    #             print("****************************************************action_approve")
+    #             po_id.write({'state': 'draft'})
+    #             # po_id.write({'send_to_budget': False})
+    #     self.write({'state': 'approve'})
 
     def second_approval(self):
         purchase_orders = self.env['purchase.order'].search([('requisition_id', '=', self.id)])

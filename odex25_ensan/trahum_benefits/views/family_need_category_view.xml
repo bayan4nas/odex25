@@ -1,0 +1,51 @@
+<odoo>
+    <!-- Tree view -->
+    <record id="view_family_need_category_tree" model="ir.ui.view">
+        <field name="name">family.need.category.tree</field>
+        <field name="model">family.need.category</field>
+        <field name="arch" type="xml">
+            <tree string="Family Needs Category">
+                <field name="name"/>
+                <field name="min_need" widget="percentage"/>
+                <field name="max_need" widget="percentage"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form view -->
+    <record id="view_family_need_category_form" model="ir.ui.view">
+        <field name="name">family.need.category.form</field>
+        <field name="model">family.need.category</field>
+        <field name="arch" type="xml">
+            <form string="Family Needs Category">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="min_need" widget="percentage"/>
+                        <field name="max_need" widget="percentage"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_family_need_category" model="ir.actions.act_window">
+        <field name="name">Family Needs Category</field>
+        <field name="res_model">family.need.category</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Add new categories for family needs.
+            </p>
+        </field>
+    </record>
+        <menuitem
+                id="menu_family_need_category_root"
+                 name="Family Settings"
+                parent="odex_benefit.benefit_tools"
+                 sequence="-5"
+        />
+            <menuitem id="menu_family_need_category"  name="Family Needs Category"
+                parent="trahum_benefits.menu_family_need_category_root" action="action_family_need_category" sequence="20"/>
+</odoo>

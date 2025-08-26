@@ -1,0 +1,91 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+        <record id="employee_apprisal_extend_inherit" model="ir.ui.view">
+            <field name="name">employee.apprisal.form.extend</field>
+            <field name="model">hr.employee.appraisal</field>
+            <field name="inherit_id" ref="exp_hr_appraisal_kpi.employee_apprisal_extend"/>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <header position="attributes">
+                    <attribute name="attrs">{'invisible':[('is_last_stage','=',True)]}</attribute>
+                </header>
+                <xpath expr="//header" position="after">
+                    <header attrs="{'invisible':[('is_last_stage','=',False)]}">
+
+<!--                        <button name="sent_appraisal_to_employee" string="Send To Employee" class="oe_highlight"-->
+<!--                                states="draft" groups="hr_base.group_division_manager" type="object"/>-->
+
+<!--                        <button name="send_emp_appraisal_to_dmanager" string="Complete" class="oe_highlight"-->
+<!--                                type="object" states="wait_employee"/>-->
+<!--                        <button name="draft" string="Re Send To Direct Manager" class="oe_highlight" type="object"-->
+<!--                                states="wait_employee" confirm="Are you sure to Reset To Draft This Record?"/>-->
+
+
+<!--                        <button name="send_to_executive_director" string="Approve" class="oe_highlight" type="object"-->
+<!--                                states="wait_dmanager" groups="hr_base.group_division_manager"/>-->
+<!--                        <button name="re_send_to_employee" string="Re Send To Employee" class="oe_highlight"-->
+<!--                                type="object" states="wait_dmanager" groups="hr_base.group_division_manager"-->
+<!--                                confirm="Are you sure to Reset To Employee This Record?"/>-->
+<!--                        <button name="draft" string="Re-Draft" class="oe_highlight" type="object" states="wait_dmanager"-->
+<!--                                confirm="Are you sure to Reset To Draft This Record?"-->
+<!--                                groups="hr_base.group_division_manager"/>-->
+
+<!--                        <button name="send_to_performance_officer" string="Approve" class="oe_highlight" type="object"-->
+<!--                                states="wait_executive_director" groups="exp_hr_appraisal.group_kpi_executive_director"/>-->
+<!--                        <button name="re_send_to_dmanager" string="Re Send To Direct Manager" class="oe_highlight"-->
+<!--                                type="object" states="wait_executive_director" groups="exp_hr_appraisal.group_kpi_executive_director"-->
+<!--                                confirm="Are you sure to Reset To Direct Manager This Record?"/>-->
+
+
+                        <button name="sent_appraisal_to_employee" string="Send To Employee" class="oe_highlight"
+                                attrs="{'invisible': ['|',('is_direct_manager', '=', False),('state','!=','draft')]}"
+                                type="object"/>
+
+                        <button name="send_emp_appraisal_to_dmanager" string="Complete" class="oe_highlight"
+                                type="object" attrs="{'invisible': ['|',('is_appraisal_employee', '=', False),('state','!=','wait_employee')]}"/>
+                        <button name="draft" string="Re Send To Direct Manager" class="oe_highlight" type="object"
+                                attrs="{'invisible': ['|',('is_appraisal_employee', '=', False),('state','!=','wait_employee')]}"
+                                confirm="Are you sure to Reset To Direct Manager This Record?"/>
+
+                        <button name="send_to_executive_director" string="Approve" class="oe_highlight" type="object"
+                               attrs="{'invisible': ['|',('is_direct_manager', '=', False),('state','!=','wait_dmanager')]}"/>
+                        <button name="re_send_to_employee" string="Re Send To Employee" class="oe_highlight"
+                                type="object" attrs="{'invisible': ['|',('is_direct_manager', '=', False),('state','!=','wait_dmanager')]}"
+                                confirm="Are you sure to Reset To Employee This Record?"/>
+                        <button name="draft" string="Re-Draft" class="oe_highlight" type="object"
+                                attrs="{'invisible': ['|',('is_direct_manager', '=', False),('state','!=','wait_dmanager')]}"
+                                confirm="Are you sure to Reset To Draft This Record?"
+                                groups="hr_base.group_division_manager"/>
+
+                        <button name="send_to_performance_officer" string="Approve" class="oe_highlight" type="object"
+                                attrs="{'invisible': ['|',('is_executive_director', '=', False),('state','!=','wait_executive_director')]}"
+                                groups="hr_base.group_division_manager"/>
+                        <button name="re_send_to_dmanager" string="Re Send To Direct Manager" class="oe_highlight"
+                                type="object"
+                                attrs="{'invisible': ['|',('is_executive_director', '=', False),('state','!=','wait_executive_director')]}"
+                                confirm="Are you sure to Reset To Direct Manager This Record?"/>
+
+                        <button name="approve" string="Approve" class="oe_highlight" type="object"
+                                states="wait_performance_officer" groups="exp_hr_appraisal.group_appraisal_employee"/>
+                        <button name="re_send_executive_director" string="Re Send To Executive Director"
+                                groups="exp_hr_appraisal.group_appraisal_employee"
+                                class="oe_highlight" type="object" states="wait_performance_officer"
+                                confirm="Are you sure to Reset To Executive Director This Record?"/>
+                        <button name="refused" string="Refuse" class="oe_highlight" type="object"
+                                states="wait_performance_officer" groups="exp_hr_appraisal.group_appraisal_employee"/>
+
+                        <button name="draft" string="Re-Draft" class="oe_highlight" type="object"
+                                states="refused,closed"
+                                confirm="Are you sure to Reset To Draft This Record?"
+                                groups="exp_hr_appraisal.group_appraisal_employee"/>
+                        <field name="state" widget="statusbar"
+                               statusbar_visible="draft,wait_employee,wait_dmanager,wait_executive_director,wait_performance_officer,closed,refused"/>
+                    </header>
+                </xpath>
+
+            </field>
+        </record>
+
+    </data>
+</odoo>

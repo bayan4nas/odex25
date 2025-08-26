@@ -15,6 +15,7 @@
         'data/purchase_request_seq.xml',
         'data/cron_data.xml',
         'data/server_actions.xml',
+        'views/purchase_order.xml',
         'views/purchase_requisition_custom.xml',
         'views/purchase_request.xml',
         'views/res_setting.xml',

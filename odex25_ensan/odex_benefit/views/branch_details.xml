@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Tree View -->
+        <record id="view_branch_details_tree" model="ir.ui.view">
+            <field name="name">branch.details.tree</field>
+            <field name="model">branch.details</field>
+            <field name="arch" type="xml">
+                <tree string="Branch Details">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Form View -->
+        <record id="view_branch_details_form" model="ir.ui.view">
+            <field name="name">branch.details.form</field>
+            <field name="model">branch.details</field>
+            <field name="arch" type="xml">
+                <form string="Branch Details">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="code"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Action to open the tree and form views -->
+        <record id="action_branch_details" model="ir.actions.act_window">
+            <field name="name">Branch Details</field>
+            <field name="res_model">branch.details</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- Menu Item to access the Branch Details -->
+        <menuitem id="menu_branch_details_root" name="Branches" parent="odex_benefit.benefit_tools"/>
+        <menuitem id="menu_branch_details" name="Branch Details" parent="menu_branch_details_root"
+                  action="action_branch_details"/>
+
+    </data>
+</odoo>

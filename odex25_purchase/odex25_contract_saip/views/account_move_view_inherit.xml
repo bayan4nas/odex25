@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+
+
+        <!-- account.move inherit form view -->
+        <record id="invoice_form_view" model="ir.ui.view">
+            <field name="name">account.move.inherit.view.form</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[hasclass('oe_button_box')]" position="inside">
+                    <button type="object" name="action_view_coc" class="oe_stat_button" icon="fa-check" attrs="{'invisible':[('coc_count','=', 0)]}">
+                        <field name="coc_count" widget="statinfo" string="CoCs" help="Certificates of Completion"/>
+                    </button>
+                </xpath>
+            </field>
+        </record>
+    </data>
+
+</odoo>

@@ -5,37 +5,118 @@ from lxml import etree
 import json
 from odoo.exceptions import UserError
 from datetime import date
+from dateutil.relativedelta import relativedelta
 
-
-class ResConfigSettings(models.TransientModel):
-    _inherit = 'res.config.settings'
-
-    base_line_value = fields.Float(string="Base Line", config_parameter='trahum_benefits.base_line_value')
 
 
 class GrantBenefit(models.Model):
     _inherit = 'grant.benefit'
 
     STATE_SELECTION = [
-        ('draft', 'Draft'),
-        ('confirm', 'Confirm'),
-        ('validate', 'Validate'),
+        ('draft', 'الباحث الاجتماعي'),
+        ('confirm', 'Primary Care Director Accreditation'),
+        ('validate', 'Beneficiary Services Center Director Approval'),
         ('review', 'Review'),
         ('approve', 'Approve'),
         ('approved', 'Approved'),
         ('closed', 'Done'),
-        ('cancelled', 'Cancelled'),
+        ('cancelled', 'Rejected'),
 
     ]
+    rent_start_date = fields.Date('Start Date')
+    rent_end_date = fields.Date('End Date')
+    period_text = fields.Char(string="Rent Period", compute="compute_rent_period", store=True)
+
     previous_state = fields.Selection(STATE_SELECTION, string="Previous State")
     need_calculator = fields.Selection([('high', 'High Need'), ('medium', 'Medium Need'), ('low', 'Low Need'), ],
                                        readonly=1, string="Need Calculator", )
+    beneficiary_category = fields.Selection(related='detainee_file_id.beneficiary_category',
+                                            string='Beneficiary Category')
+    # name = fields.Char(string="Folder State", readonly=True)
 
     total_income = fields.Float(string="Total Income", store=True, readonly=True)
     expected_income = fields.Float(string="Expected  Income", readonly=True)
     name_member = fields.Char(string="Expected  Income", compute='_compute_member_name', readonly=True)
-    researcher_insights = fields.Char('Researcher Insights')
+    researcher_insights = fields.Text('Researcher Insights')
+    researcher_id = fields.Many2one("committees.line", string='Researcher Name')
+    folder_state = fields.Selection([('Active', 'active'), ('not_active', 'Not Active')], string='Folder State')
 
+    # related = 'benefit_breadwinner_ids[0].member_name.building_number'
+    building_number = fields.Integer(string='Building Number', compute='_compute_breadwinner_address')
+    sub_number = fields.Integer(string='Sub Number', compute='_compute_breadwinner_address')
+    additional_number = fields.Integer(string='Additional Number', compute='_compute_breadwinner_address')
+    street_name = fields.Char(string='Street Name', compute='_compute_breadwinner_address')
+    city = fields.Many2one("res.country.city", string='City', compute='_compute_breadwinner_address')
+
+    district_name = fields.Many2one(
+        'res.district',
+        string='District', compute='_compute_breadwinner_address')
+
+    postal_code = fields.Char(string='Postal Code', compute='_compute_breadwinner_address')
+    national_address_code = fields.Char(string='National address code', compute='_compute_breadwinner_address')
+
+    @api.depends(
+        'benefit_breadwinner_ids.member_name.building_number',
+        'benefit_breadwinner_ids.member_name.sub_number',
+        'benefit_breadwinner_ids.member_name.additional_number',
+        'benefit_breadwinner_ids.member_name.street_name',
+        'benefit_breadwinner_ids.member_name.district_id',
+        'benefit_breadwinner_ids.member_name.city',
+        'benefit_breadwinner_ids.member_name.postal_code',
+        'benefit_breadwinner_ids.member_name.national_address_code',
+    )
+    def _compute_breadwinner_address(self):
+        for rec in self:
+            if rec.benefit_breadwinner_ids:
+                member = rec.benefit_breadwinner_ids[0].member_name
+                rec.building_number = member.building_number
+                rec.sub_number = member.sub_number
+                rec.additional_number = member.additional_number
+                rec.street_name = member.street_name
+                rec.district_name = member.district_id
+                rec.city = member.city
+                rec.postal_code = member.postal_code
+                rec.national_address_code = member.national_address_code
+            else:
+                rec.building_number = rec.sub_number = rec.additional_number = False
+                rec.street_name = rec.district_name = rec.city = False
+                rec.postal_code = rec.national_address_code = False
+
+    @api.depends('rent_start_date','rent_end_date')
+    def compute_rent_period(self):
+            for record in self:
+                if record.rent_start_date and record.rent_end_date:
+                    delta = relativedelta(record.rent_end_date, record.rent_start_date)
+                    years = delta.years
+                    months = delta.months
+                    days = delta.days
+
+                    def arabic_plural(value, singular, dual, plural):
+                        if value == 1:
+                            return f"1 {singular}"
+                        elif value == 2:
+                            return dual
+                        elif 3 <= value <= 10:
+                            return f"{value} {plural}"
+                        else:
+                            return f"{value} {singular}"
+
+                    year_txt = arabic_plural(years, "سنة", "سنتان", "سنوات")
+                    month_txt = arabic_plural(months, "شهر", "شهران", "أشهر")
+                    day_txt = arabic_plural(days, "يومًا", "يومان", "أيام")
+
+                    parts = []
+                    if years:
+                        parts.append(year_txt)
+                    if months:
+                        parts.append(month_txt)
+                    if days:
+                        parts.append(day_txt)
+
+                    rtl_marker = '\u200F'
+                    record.period_text = rtl_marker + " و ".join(parts) if parts else rtl_marker + "0 يوم"
+                else:
+                    record.period_text = "\u200Fالمدة غير متوفرة"
     @api.depends('benefit_member_ids')
     def _compute_member_name(self):
         self.name_member = ''
@@ -119,7 +200,7 @@ class GrantBenefit(models.Model):
                 modifiers = json.loads(node.get("modifiers", '{}'))
 
                 if field_name == 'researcher_insights':  # Make this field editable in 'confirm'
-                    modifiers['readonly'] = [('state', 'not in', ['validate'])]
+                    modifiers['readonly'] = [('state', 'not in', ['review'])]
                 else:
                     # Make all other fields readonly unless in 'draft'
                     if 'readonly' not in modifiers:
@@ -170,19 +251,160 @@ class GrantBenefit(models.Model):
             'target': 'current',
         }
 
+    def action_open_family_member(self):
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_window',
+            'res_model': 'family.member',
+            'view_mode': 'tree,form',
+            'domain': [('id', 'in', self.benefit_member_ids.mapped('member_id').ids)],
+            'target': 'current',
+        }
+
     # add new customuzation
     state = fields.Selection(STATE_SELECTION, default='draft', tracking=True)
-    detainee_file_id = fields.Many2one('detainee.file', string="Detainee File", tracking=True, related='')
+    detainee_file_id = fields.Many2one('detainee.file', string="Detainee File", tracking=True, required=1)
 
     benefit_member_ids = fields.One2many('grant.benefit.member', 'grant_benefit_id', string="Benefit Member")
+    benefit_breadwinner_ids = fields.One2many('grant.benefit.breadwinner', 'grant_benefit_ids',
+                                              string="Benefit breadwinner", required=1)
 
     member_count = fields.Integer(string="Members Count", compute="_compute_member_count", readonly=1)
+
+    benefit_member_count = fields.Integer(
+        string=" Count member",
+        compute="_compute_benefit_counts",
+        store=True,
+        readonly=True
+    )
+
+    benefit_breadwinner_count = fields.Integer(
+        string="Benefit Breadwinner Count",
+        compute="_compute_benefit_counts",
+        store=True,
+        readonly=True
+    )
+
+    natural_income = fields.Float(
+        string="Natural Income",
+        compute="_compute_natural_income",
+        store=True,
+        readonly=True
+    )
+
+    need_ratio = fields.Float(
+        string="Need Value Ratio",
+        compute="_compute_need_ratio",
+        store=True,
+        readonly=True
+    )
+    family_need_class_id = fields.Many2one(
+        'family.need.category',
+        string="Family Need Category",
+        compute="_compute_family_need_class",
+        store=True
+    )
+
+    @api.depends('need_ratio')
+    def _compute_family_need_class(self):
+        for rec in self:
+            rec.family_need_class_id = False
+
+
+
+            ratio = round(rec.need_ratio / 100, 2)
+            category = self.env['family.need.category'].sudo().search([
+                    ('min_need', '<=', ratio),
+                    ('max_need', '>=', ratio)
+                ], order='min_need asc', limit=1)
+
+            if category:
+                    rec.family_need_class_id = category.id
+
+    @api.depends('total_salary', 'natural_income')
+    def _compute_need_ratio(self):
+        for rec in self:
+            if rec.natural_income:
+                rec.need_ratio = (rec.total_salary / rec.natural_income) * 100
+            else:
+                rec.need_ratio = 0.0
+
+    @api.depends('benefit_breadwinner_ids',
+                 'members_under_18',
+                 'members_18_and_above')
+    def _compute_natural_income(self):
+        ratio_parent = float(
+            self.env['ir.config_parameter'].sudo().get_param('trahum_benefits.ratio_parent', 0)
+        )
+        ratio_under_18 = float(
+            self.env['ir.config_parameter'].sudo().get_param('trahum_benefits.ratio_under_18', 0)
+        )
+        ratio_above_18 = float(
+            self.env['ir.config_parameter'].sudo().get_param('trahum_benefits.ratio_above_18', 0)
+        )
+        base_line = float(
+            self.env['ir.config_parameter'].sudo().get_param('trahum_benefits.base_line_value', 0)
+        )
+        for rec in self:
+
+            filtered = rec.benefit_breadwinner_ids.filtered(
+                lambda bw: bw.relation_id and not bw.relation_id.exclude_need
+            )
+            breadwinner_count = len(filtered)
+            under_18_count = rec.members_under_18
+            above_18_count = rec.members_18_and_above
+
+            rec.natural_income = (
+                    (breadwinner_count * ratio_parent * base_line) +
+                    (under_18_count * ratio_under_18 * base_line) +
+                    (above_18_count * ratio_above_18 * base_line)
+            )
+
+    @api.depends('benefit_member_ids', 'benefit_breadwinner_ids', 'benefit_breadwinner_ids.relation_id',
+                 'benefit_breadwinner_ids.relation_id.exclude_need', )
+    def _compute_benefit_counts(self):
+        for rec in self:
+            rec.benefit_member_count = len(rec.benefit_member_ids) + len(rec.benefit_breadwinner_ids)
+            filtered = rec.benefit_breadwinner_ids.filtered(
+                lambda bw: bw.relation_id and not bw.relation_id.exclude_need
+            )
+            rec.benefit_breadwinner_count = len(filtered)
+            rec.benefit_member_count = len(rec.benefit_member_ids) + len(filtered)
+            rec.benefit_breadwinner_count = len(filtered)
 
     @api.depends('benefit_member_ids')
     def _compute_member_count(self):
         self.member_count = 0
         for rec in self:
-            rec.member_count = len(rec.benefit_member_ids)
+            filtered = rec.benefit_breadwinner_ids.filtered(lambda bw: bw.relation_id.name != 'زوجة مطلقة')
+            rec.member_count = len(rec.benefit_member_ids) + len(filtered)
+
+    members_under_18 = fields.Integer(
+        string="Members Under 18",
+        compute="_compute_age_counts",
+        store=True,
+        readonly=True
+    )
+
+    members_18_and_above = fields.Integer(
+        string="Members 18 and Above",
+        compute="_compute_age_counts",
+        store=True,
+        readonly=True
+    )
+
+    @api.depends('benefit_member_ids.member_id.age')
+    def _compute_age_counts(self):
+        for rec in self:
+            under_18 = rec.benefit_member_ids.filtered(lambda m: m.member_id.age < 18)
+            above_18 = rec.benefit_member_ids.filtered(lambda m: m.member_id.age >= 18)
+            rec.members_under_18 = len(under_18)
+            rec.members_18_and_above = len(above_18)
+
+    @api.onchange('benefit_breadwinner_ids')
+    def _onchange_benefit_breadwinner_ids(self):
+        if len(self.benefit_breadwinner_ids) > 1:
+            raise UserError(_('You can only add one breadwinner line.'))
 
     def action_revert_state(self):
         return {
@@ -197,7 +419,7 @@ class GrantBenefit(models.Model):
     def reset_to_draft(self):
         self.state = 'draft'
 
-    def action_cancel(self):
+    def action_reject(self):
         return {
             'name': _('Cancel Benefit'),
             'type': 'ir.actions.act_window',
@@ -212,18 +434,22 @@ class GrantBenefit(models.Model):
         if self.detainee_file_id:
             self.inmate_member_id = self.detainee_file_id.detainee_id
 
-    def action_submit_call_center(self):
+
+
+    def action_set_basic_manager(self):
+        self.ensure_one()
+        if not self.researcher_id or not self.folder_state:
+            raise UserError(_("Please fill in both Researcher Name and Folder State before submitting."))
         self._compute_need_calculator()
         self.state = 'confirm'
 
-    def action_approve_call_center(self):
+
+    def action_set_service_manager(self):
         self.state = 'validate'
 
-    def action_approve_social(self):
-        self.state = 'review'
 
-    def action_approve_branch(self):
-        self.state = 'approve'
+    def action_approve(self):
+        self.state = 'approved'
 
     def action_close(self):
         self.state = 'closed'
@@ -236,13 +462,40 @@ class GrantBenefit(models.Model):
 
     @api.model
     def create(self, vals):
-        if 'name' not in vals or not vals['name']:
-            vals['name'] = 'Unnamed Contact'
+        vals['name'] = _('New')
         record = super(GrantBenefit, self).create(vals)
-        if record.detainee_file_id:
-            prefix = record.detainee_file_id.name
-            existing = self.search_count([('detainee_file_id', '=', record.detainee_file_id.id)])
-            record.name = f"{prefix}/{existing}"
+        branch = record.branch_details_id
+        detainee_name_seq = record.detainee_file_id.name or ''
+
+        if not branch or not branch.code:
+            return record
+
+        branch_code = branch.code
+
+        previous_records = self.search([
+            ('branch_details_id', '=', branch.id),
+            ('name', 'like', f'{branch_code}%/%'),
+            ('id', '!=', record.id)
+        ])
+
+        max_seq = 0
+        for rec in previous_records:
+            name = rec.name or ''
+            if name.startswith(branch_code) and '/' in name:
+                try:
+                    seq_part = name[len(branch_code):].split('/')[0]
+                    if not seq_part.isdigit():
+                        continue
+                    seq_num = int(seq_part)
+                    max_seq = max(max_seq, seq_num)
+                except Exception:
+                    continue
+
+        new_seq = max_seq + 1
+        formatted_seq = str(new_seq).zfill(4)
+
+        record.name = f"{branch_code}{formatted_seq}/{detainee_name_seq}"
+
         return record
 
     @api.constrains('benefit_member_ids')
@@ -283,7 +536,7 @@ class GrantBenefit(models.Model):
                                          string='Comprehensive Rehabilitation')
     salary_ids = fields.One2many('salary.line', 'benefit_id', string='')
     health_data_ids = fields.One2many('family.member', 'benefit_id', string='Health Data')
-    branch_details_id = fields.Many2one(comodel_name='branch.details', string='Branch Name', tracking=True)
+
     breadwinner_name = fields.Many2one('family.member', 'Breadwinner')
     relation_id = fields.Many2one('family.member.relation', string='Relation')
 
@@ -342,12 +595,29 @@ class GrantBenefit(models.Model):
     delegate_family_rel = fields.Char('Delegat Family Relation')
     house_ids = fields.One2many('family.member.house', 'benefit_id', string="House Profile")
 
+    total_salary = fields.Float(
+        string="Total Salary",
+        compute="_compute_total_salary",
+        store=True
+    )
+
+    @api.depends('salary_ids.salary_amount')
+    def _compute_total_salary(self):
+        for benefit in self:
+            benefit.total_salary = sum(benefit.salary_ids.mapped('salary_amount'))
+
     @api.constrains('delegate_mobile')
     def _check_delegate_mobile(self):
         for record in self:
             if record.delegate_mobile:
                 if len(record.delegate_mobile) != 10 or not record.delegate_mobile.isdigit():
                     raise ValidationError("The authorized mobile number must contain exactly 10 digits.")
+
+    @api.constrains('benefit_breadwinner_ids')
+    def check_benefit_breadwinner_ids(self):
+        for rec in self:
+            if not rec.benefit_breadwinner_ids:
+                raise ValidationError(_("You must add at least one Breadwinner"))
 
 
 class BankStopReason(models.Model):
@@ -362,11 +632,17 @@ class attachment(models.Model):
 
     benefit_id = fields.Many2one('grant.benefit')
     note = fields.Char()
-    attachment_name = fields.Char(string='Attachment name')
+    attachment_name = fields.Many2one('attachment.type', string='Attachment name')
     classification = fields.Selection(
         [('active', 'Active'), ('inactive', 'Inactive')],
         string="Classification")
     attachment_attachment = fields.Binary(string='Attachment')
+
+
+class AttachmentType(models.Model):
+    _name = 'attachment.type'
+
+    name = fields.Char('Name')
 
 
 class ExpensesInheritLine(models.Model):
@@ -410,7 +686,45 @@ class GrantBenefitMember(models.Model):
     _description = 'Grant Benefit Member'
 
     grant_benefit_id = fields.Many2one('grant.benefit', string="Grant Benefit", ondelete="cascade")
-    member_id = fields.Many2one('family.member', string="Member", domain=[('state', '=', 'confirmed')])
+    member_id = fields.Many2one('family.member', string="Member")
     # relationship = fields.Many2one(related='member_id.relation_id', string="Relationship", readonly=True)
-    relation_id = fields.Many2one('family.member.relation', string='Relation')
     is_breadwinner = fields.Boolean(string=" Is Breadwinner?")
+    relation_id = fields.Many2one('family.member.relation', string='Relation with res')
+    rel_with_resd = fields.Char(string='Relation', default=lambda self: _('Follower'))
+
+    @api.onchange('member_id')
+    def _onchange_member_name(self):
+        linked_member_ids = self.env['detainee.file'].search([]).mapped('detainee_id').ids
+
+        return {
+            'domain': {
+                'member_id': [
+                    ('state', '=', 'confirmed'),
+                    ('id', 'not in', linked_member_ids)
+                ]
+            }
+        }
+
+
+class GrantBenefitBreadwinner(models.Model):
+    _inherit = 'grant.benefit.breadwinner'
+    _description = 'Grant Benefit Breadwinner'
+
+    grant_benefit_ids = fields.Many2one('grant.benefit', string="Grant Benefit", ondelete="cascade", required=1)
+
+    relation_id = fields.Many2one('family.member.relation', string='Relation with res')
+    breadwinner = fields.Char(string=' Breadwinner', default=lambda self: _('Breadwinner  '))
+    member_name = fields.Many2one('family.member', string="Member name")
+
+    @api.onchange('member_name')
+    def _onchange_member_name(self):
+        linked_member_ids = self.env['detainee.file'].search([]).mapped('detainee_id').ids
+
+        return {
+            'domain': {
+                'member_name': [
+                    ('state', '=', 'confirmed'),
+                    ('id', 'not in', linked_member_ids)
+                ]
+            }
+        }

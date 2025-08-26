@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-02-16 12:02+0000\n"
-"PO-Revision-Date: 2025-02-16 12:02+0000\n"
+"POT-Creation-Date: 2025-08-10 08:04+0000\n"
+"PO-Revision-Date: 2025-08-10 08:04+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -694,6 +694,11 @@ msgid " Attachment Expiration "
 msgstr ""
 
 #. module: odex_benefit
+#: model:ir.model.fields,field_description:odex_benefit.field_grant_benefit_member__is_breadwinner
+msgid " Is Breadwinner?"
+msgstr "هل هو عائل؟"
+
+#. module: odex_benefit
 #: code:addons/odex_benefit/models/Services/benefit_zkat_alfter.py:0
 #, python-format
 msgid " No benefits for pay"
@@ -1036,6 +1041,11 @@ msgid "Accepted"
 msgstr "مقبول"
 
 #. module: odex_benefit
+#: model:ir.model.fields,field_description:odex_benefit.field_grant_benefit__accommodation_attachments
+msgid "Accommodation Attachments "
+msgstr "ارفاق السكن"
+
+#. module: odex_benefit
 #: model:ir.model.fields,field_description:odex_benefit.field_benefit_zkat__account_id
 #: model:ir.model.fields,field_description:odex_benefit.field_receive_benefit_zkat__account_id
 #: model:ir.model.fields,field_description:odex_benefit.field_receive_food_basket__account_id
@@ -1151,6 +1161,8 @@ msgstr "إنجازات"
 #: model:ir.model.fields,field_description:odex_benefit.field_benefits_representative__message_needaction
 #: model:ir.model.fields,field_description:odex_benefit.field_changes_requests__message_needaction
 #: model:ir.model.fields,field_description:odex_benefit.field_confirm_benefit_expense__message_needaction
+#: model:ir.model.fields,field_description:odex_benefit.field_detainee_file__message_needaction
+#: model:ir.model.fields,field_description:odex_benefit.field_expenses_line__message_needaction
 #: model:ir.model.fields,field_description:odex_benefit.field_external_benefits__message_needaction
 #: model:ir.model.fields,field_description:odex_benefit.field_family_complaints__message_needaction
 #: model:ir.model.fields,field_description:odex_benefit.field_family_member__message_needaction
@@ -1163,6 +1175,7 @@ msgstr "إنجازات"
 #: model:ir.model.fields,field_description:odex_benefit.field_receive_benefit_zkat__message_needaction
 #: model:ir.model.fields,field_description:odex_benefit.field_receive_food_basket__message_needaction
 #: model:ir.model.fields,field_description:odex_benefit.field_receive_food_surplus__message_needaction
+#: model:ir.model.fields,field_description:odex_benefit.field_salary_line__message_needaction
 #: model:ir.model.fields,field_description:odex_benefit.field_service_request__message_needaction
 #: model:ir.model.fields,field_description:odex_benefit.field_visit_location__message_needaction
 msgid "Action Needed"
@@ -1205,6 +1218,8 @@ msgstr "عدد لانج النشط"
 #: model:ir.model.fields,field_description:odex_benefit.field_benefits_representative__activity_ids
 #: model:ir.model.fields,field_description:odex_benefit.field_changes_requests__activity_ids
 #: model:ir.model.fields,field_description:odex_benefit.field_confirm_benefit_expense__activity_ids
+#: model:ir.model.fields,field_description:odex_benefit.field_detainee_file__activity_ids
+#: model:ir.model.fields,field_description:odex_benefit.field_expenses_line__activity_ids
 #: model:ir.model.fields,field_description:odex_benefit.field_external_benefits__activity_ids
 #: model:ir.model.fields,field_description:odex_benefit.field_family_complaints__activity_ids
 #: model:ir.model.fields,field_description:odex_benefit.field_family_member__activity_ids
@@ -1217,6 +1232,7 @@ msgstr "عدد لانج النشط"
 #: model:ir.model.fields,field_description:odex_benefit.field_receive_benefit_zkat__activity_ids
 #: model:ir.model.fields,field_description:odex_benefit.field_receive_food_basket__activity_ids
 #: model:ir.model.fields,field_description:odex_benefit.field_receive_food_surplus__activity_ids
+#: model:ir.model.fields,field_description:odex_benefit.field_salary_line__activity_ids
 #: model:ir.model.fields,field_description:odex_benefit.field_service_request__activity_ids
 #: model:ir.model.fields,field_description:odex_benefit.field_visit_location__activity_ids
 msgid "Activities"
@@ -1238,6 +1254,8 @@ msgstr "الأنشطة"
 #: model:ir.model.fields,field_description:odex_benefit.field_benefits_representative__activity_exception_decoration
 #: model:ir.model.fields,field_description:odex_benefit.field_changes_requests__activity_exception_decoration
 #: model:ir.model.fields,field_description:odex_benefit.field_confirm_benefit_expense__activity_exception_decoration
+#: model:ir.model.fields,field_description:odex_benefit.field_detainee_file__activity_exception_decoration
+#: model:ir.model.fields,field_description:odex_benefit.field_expenses_line__activity_exception_decoration
 #: model:ir.model.fields,field_description:odex_benefit.field_external_benefits__activity_exception_decoration
 #: model:ir.model.fields,field_description:odex_benefit.field_family_complaints__activity_exception_decoration
 #: model:ir.model.fields,field_description:odex_benefit.field_family_member__activity_exception_decoration
@@ -1250,6 +1268,7 @@ msgstr "الأنشطة"
 #: model:ir.model.fields,field_description:odex_benefit.field_receive_benefit_zkat__activity_exception_decoration
 #: model:ir.model.fields,field_description:odex_benefit.field_receive_food_basket__activity_exception_decoration
 #: model:ir.model.fields,field_description:odex_benefit.field_receive_food_surplus__activity_exception_decoration
+#: model:ir.model.fields,field_description:odex_benefit.field_salary_line__activity_exception_decoration
 #: model:ir.model.fields,field_description:odex_benefit.field_service_request__activity_exception_decoration
 #: model:ir.model.fields,field_description:odex_benefit.field_visit_location__activity_exception_decoration
 msgid "Activity Exception Decoration"
@@ -1271,6 +1290,8 @@ msgstr "زخرفة استثناء النشاط"
 #: model:ir.model.fields,field_description:odex_benefit.field_benefits_representative__activity_state
 #: model:ir.model.fields,field_description:odex_benefit.field_changes_requests__activity_state
 #: model:ir.model.fields,field_description:odex_benefit.field_confirm_benefit_expense__activity_state
+#: model:ir.model.fields,field_description:odex_benefit.field_detainee_file__activity_state
+#: model:ir.model.fields,field_description:odex_benefit.field_expenses_line__activity_state
 #: model:ir.model.fields,field_description:odex_benefit.field_external_benefits__activity_state
 #: model:ir.model.fields,field_description:odex_benefit.field_family_complaints__activity_state
 #: model:ir.model.fields,field_description:odex_benefit.field_family_member__activity_state
@@ -1283,6 +1304,7 @@ msgstr "زخرفة استثناء النشاط"
 #: model:ir.model.fields,field_description:odex_benefit.field_receive_benefit_zkat__activity_state
 #: model:ir.model.fields,field_description:odex_benefit.field_receive_food_basket__activity_state
 #: model:ir.model.fields,field_description:odex_benefit.field_receive_food_surplus__activity_state
+#: model:ir.model.fields,field_description:odex_benefit.field_salary_line__activity_state
 #: model:ir.model.fields,field_description:odex_benefit.field_service_request__activity_state
 #: model:ir.model.fields,field_description:odex_benefit.field_visit_location__activity_state
 msgid "Activity State"
@@ -1309,6 +1331,8 @@ msgstr "نوع النشاط"
 #: model:ir.model.fields,field_description:odex_benefit.field_benefits_representative__activity_type_icon
 #: model:ir.model.fields,field_description:odex_benefit.field_changes_requests__activity_type_icon
 #: model:ir.model.fields,field_description:odex_benefit.field_confirm_benefit_expense__activity_type_icon
+#: model:ir.model.fields,field_description:odex_benefit.field_detainee_file__activity_type_icon
+#: model:ir.model.fields,field_description:odex_benefit.field_expenses_line__activity_type_icon
 #: model:ir.model.fields,field_description:odex_benefit.field_external_benefits__activity_type_icon
 #: model:ir.model.fields,field_description:odex_benefit.field_family_complaints__activity_type_icon
 #: model:ir.model.fields,field_description:odex_benefit.field_family_member__activity_type_icon
@@ -1321,6 +1345,7 @@ msgstr "نوع النشاط"
 #: model:ir.model.fields,field_description:odex_benefit.field_receive_benefit_zkat__activity_type_icon
 #: model:ir.model.fields,field_description:odex_benefit.field_receive_food_basket__activity_type_icon
 #: model:ir.model.fields,field_description:odex_benefit.field_receive_food_surplus__activity_type_icon
+#: model:ir.model.fields,field_description:odex_benefit.field_salary_line__activity_type_icon
 #: model:ir.model.fields,field_description:odex_benefit.field_service_request__activity_type_icon
 #: model:ir.model.fields,field_description:odex_benefit.field_visit_location__activity_type_icon
 msgid "Activity Type Icon"
@@ -1532,6 +1557,11 @@ msgid "Amra Date"
 msgstr "تاريخ العمرة"
 
 #. module: odex_benefit
+#: model:ir.model.fields.selection,name:odex_benefit.selection__grant_benefit__exchange_period__annually
+msgid "Annually"
+msgstr "سنوي"
+
+#. module: odex_benefit
 #: model:ir.model.fields,field_description:odex_benefit.field_appliances_furniture_need__ap_id
 #: model:ir.model.fields,field_description:odex_benefit.field_housing_need__ap_id
 msgid "Ap"
@@ -1573,6 +1603,7 @@ msgid "Approval of department head"
 msgstr "موافقة رئيس العمليات"
 
 #. module: odex_benefit
+#: model:ir.model.fields.selection,name:odex_benefit.selection__grant_benefit__state__approve
 #: model_terms:ir.ui.view,arch_db:odex_benefit.benefit_food_basket_form
 #: model_terms:ir.ui.view,arch_db:odex_benefit.benefit_food_surplus_form
 #: model_terms:ir.ui.view,arch_db:odex_benefit.changes_requests_form
@@ -1670,7 +1701,7 @@ msgstr "هل أنت متأكد انك تريد الموافقة المبدئية
 #. module: odex_benefit
 #: model_terms:ir.ui.view,arch_db:odex_benefit.service_request_form
 msgid "Are you sure you want to first refuse  ?"
-msgstr ""
+msgstr "هل أنت متأكد أنك تريد الرفض ؟"
 
 #. module: odex_benefit
 #: model_terms:ir.ui.view,arch_db:odex_benefit.family_member_form
@@ -1767,7 +1798,7 @@ msgstr "المنظمات"
 #. module: odex_benefit
 #: model:ir.model.fields,field_description:odex_benefit.field_associations_line__associations_description
 msgid "Associations Description"
-msgstr ""
+msgstr "وصف الجمعيات"
 
 #. module: odex_benefit
 #: code:addons/odex_benefit/models/family_expense.py:0
@@ -1830,6 +1861,8 @@ msgstr "مرفق"
 #: model:ir.model.fields,field_description:odex_benefit.field_benefits_representative__message_attachment_count
 #: model:ir.model.fields,field_description:odex_benefit.field_changes_requests__message_attachment_count
 #: model:ir.model.fields,field_description:odex_benefit.field_confirm_benefit_expense__message_attachment_count
+#: model:ir.model.fields,field_description:odex_benefit.field_detainee_file__message_attachment_count
+#: model:ir.model.fields,field_description:odex_benefit.field_expenses_line__message_attachment_count
 #: model:ir.model.fields,field_description:odex_benefit.field_external_benefits__message_attachment_count
 #: model:ir.model.fields,field_description:odex_benefit.field_family_complaints__message_attachment_count
 #: model:ir.model.fields,field_description:odex_benefit.field_family_member__message_attachment_count
@@ -1842,6 +1875,7 @@ msgstr "مرفق"
 #: model:ir.model.fields,field_description:odex_benefit.field_receive_benefit_zkat__message_attachment_count
 #: model:ir.model.fields,field_description:odex_benefit.field_receive_food_basket__message_attachment_count
 #: model:ir.model.fields,field_description:odex_benefit.field_receive_food_surplus__message_attachment_count
+#: model:ir.model.fields,field_description:odex_benefit.field_salary_line__message_attachment_count
 #: model:ir.model.fields,field_description:odex_benefit.field_service_request__message_attachment_count
 #: model:ir.model.fields,field_description:odex_benefit.field_visit_location__message_attachment_count
 msgid "Attachment Count"
@@ -1851,7 +1885,7 @@ msgstr "عدد المرفقات"
 #: model:ir.model.fields,field_description:odex_benefit.field_service_request__attachment_lines
 #: model:ir.model.fields,field_description:odex_benefit.field_services_settings__attachment_lines
 msgid "Attachment Lines"
-msgstr ""
+msgstr "المرفقات"
 
 #. module: odex_benefit
 #: model_terms:ir.ui.view,arch_db:odex_benefit.family_member_form
@@ -1897,6 +1931,7 @@ msgstr "اسم المرفق"
 #: model:ir.model.fields,field_description:odex_benefit.field_complaints_category__attachment_ids
 #: model:ir.model.fields,field_description:odex_benefit.field_confirm_benefit_expense__attachment_ids
 #: model:ir.model.fields,field_description:odex_benefit.field_craft_skills__attachment_ids
+#: model:ir.model.fields,field_description:odex_benefit.field_detainee_file__attachment_ids
 #: model:ir.model.fields,field_description:odex_benefit.field_disabilities_settings__attachment_ids
 #: model:ir.model.fields,field_description:odex_benefit.field_diseases_settings__attachment_ids
 #: model:ir.model.fields,field_description:odex_benefit.field_divorcee_family__attachment_ids
@@ -1917,6 +1952,7 @@ msgstr "اسم المرفق"
 #: model:ir.model.fields,field_description:odex_benefit.field_external_request__attachment_ids
 #: model:ir.model.fields,field_description:odex_benefit.field_family_complaints__attachment_ids
 #: model:ir.model.fields,field_description:odex_benefit.field_family_debits__attachment_ids
+#: model:ir.model.fields,field_description:odex_benefit.field_family_member_relation__attachment_ids
 #: model:ir.model.fields,field_description:odex_benefit.field_family_validation_setting__attachment_ids
 #: model:ir.model.fields,field_description:odex_benefit.field_food_basket_benefits_line__attachment_ids
 #: model:ir.model.fields,field_description:odex_benefit.field_food_basket_line__attachment_ids
@@ -1924,6 +1960,11 @@ msgstr "اسم المرفق"
 #: model:ir.model.fields,field_description:odex_benefit.field_food_surplus_type__attachment_ids
 #: model:ir.model.fields,field_description:odex_benefit.field_generate_reports_log__attachment_ids
 #: model:ir.model.fields,field_description:odex_benefit.field_grant_benefit__attachment_grant_benefit_ids
+#: model:ir.model.fields,field_description:odex_benefit.field_grant_benefit_breadwinner__attachment_ids
+#: model:ir.model.fields,field_description:odex_benefit.field_grant_benefit_member__attachment_ids
+#: model:ir.model.fields,field_description:odex_benefit.field_health_chronic_diseases__attachment_ids
+#: model:ir.model.fields,field_description:odex_benefit.field_health_genetic_diseases__attachment_ids
+#: model:ir.model.fields,field_description:odex_benefit.field_health_mental_illnesses__attachment_ids
 #: model:ir.model.fields,field_description:odex_benefit.field_hobbies_settings__attachment_ids
 #: model:ir.model.fields,field_description:odex_benefit.field_home_furnishing_items__attachment_ids
 #: model:ir.model.fields,field_description:odex_benefit.field_home_furnishing_lines__attachment_ids
@@ -1968,6 +2009,9 @@ msgstr "اسم المرفق"
 #: model:ir.model.fields,field_description:odex_benefit.field_rooms_items__attachment_ids
 #: model:ir.model.fields,field_description:odex_benefit.field_salary_line__attachment_ids
 #: model:ir.model.fields,field_description:odex_benefit.field_service_attachments_settings__attachment_ids
+#: model:ir.model.fields,field_description:odex_benefit.field_service_delivery_method__attachment_ids
+#: model:ir.model.fields,field_description:odex_benefit.field_service_need_status__attachment_ids
+#: model:ir.model.fields,field_description:odex_benefit.field_service_provider__attachment_ids
 #: model:ir.model.fields,field_description:odex_benefit.field_service_request__attachment_ids
 #: model:ir.model.fields,field_description:odex_benefit.field_services_settings__attachment_ids
 #: model:ir.model.fields,field_description:odex_benefit.field_specialization_specialization__attachment_ids
@@ -2015,7 +2059,7 @@ msgstr "تلقائي"
 #. module: odex_benefit
 #: model:ir.model.fields,field_description:odex_benefit.field_grant_benefit__auto_accept_for_member
 msgid "Auto Accept For members"
-msgstr ""
+msgstr "قبول تلقائي للأعضاء"
 
 #. module: odex_benefit
 #: model_terms:ir.ui.view,arch_db:odex_benefit.grant_benefit_search
@@ -2176,6 +2220,12 @@ msgid "Beneficiaries family"
 msgstr "عائلات المستفيدين"
 
 #. module: odex_benefit
+#: model:ir.model.fields,field_description:odex_benefit.field_detainee_file__beneficiary_category
+#: model:ir.model.fields,field_description:odex_benefit.field_grant_benefit__beneficiary_category
+msgid "Beneficiary Category"
+msgstr "حالة المستفيد اﻷساسي"
+
+#. module: odex_benefit
 #: code:addons/odex_benefit/wizards/entity_refused_wizard.py:0
 #: code:addons/odex_benefit/wizards/entity_refused_wizard.py:0
 #: model:ir.model.fields,field_description:odex_benefit.field_appliances_furniture__benefit_id
@@ -2294,7 +2344,7 @@ msgstr "المصاريف"
 #. module: odex_benefit
 #: model:ir.model.fields,field_description:odex_benefit.field_generate_reports__benefit_f_needs_percent
 msgid "Benefit F Needs Percent"
-msgstr ""
+msgstr "نسبة احتياج فئة الاستحقاق"
 
 #. module: odex_benefit
 #: model:ir.model.fields,field_description:odex_benefit.field_account_bank_statement_line__benefit_family_ids
@@ -2357,6 +2407,7 @@ msgid "Benefit Managements"
 msgstr "ادارة المستفيدين"
 
 #. module: odex_benefit
+#: model:ir.model.fields,field_description:odex_benefit.field_grant_benefit__benefit_member_ids
 #: model_terms:ir.ui.view,arch_db:odex_benefit.family_member_form
 #: model_terms:ir.ui.view,arch_db:odex_benefit.grant_benefit_form
 msgid "Benefit Member"
@@ -2492,6 +2543,17 @@ msgid "Benefit Zkat"
 msgstr "خدمات ذكاة الفطر"
 
 #. module: odex_benefit
+#: model:ir.model.fields,field_description:odex_benefit.field_grant_benefit__benefit_breadwinner_ids
+#: model:ir.model.fields,field_description:odex_benefit.field_service_request__benefit_breadwinner_ids
+msgid "Benefit breadwinner"
+msgstr ""
+
+#. module: odex_benefit
+#: model_terms:ir.ui.view,arch_db:odex_benefit.service_request_form
+msgid "Benefit breadwinner Details"
+msgstr "معلومات العائل"
+
+#. module: odex_benefit
 #: model_terms:ir.ui.view,arch_db:odex_benefit.benefit_need_form
 msgid "Benefit need"
 msgstr "احتياج المستفيد"
@@ -2556,68 +2618,68 @@ msgstr ""
 #. module: odex_benefit
 #: model:ir.model,name:odex_benefit.model_benefit_expenses
 msgid "Benefits - expenses"
-msgstr ""
+msgstr "المصروفات"
 
 #. module: odex_benefit
 #: model:ir.model,name:odex_benefit.model_benefit_family
 msgid "Benefits - family"
-msgstr ""
+msgstr "الاسرة"
 
 #. module: odex_benefit
 #: model:ir.model,name:odex_benefit.model_benefit_housing
 msgid "Benefits - housing"
-msgstr ""
+msgstr "المنزل"
 
 #. module: odex_benefit
 #: model:ir.model,name:odex_benefit.model_benefit_housing_rooms_items
 msgid "Benefits - housing items"
-msgstr ""
+msgstr "عناصر المنزل"
 
 #. module: odex_benefit
 #: model:ir.model,name:odex_benefit.model_housing_rooms_members
 msgid "Benefits - housing members"
-msgstr ""
+msgstr "الاعضاء"
 
 #. module: odex_benefit
 #: model:ir.model,name:odex_benefit.model_benefit_housing_rooms
 msgid "Benefits - housing rooms"
-msgstr ""
+msgstr "الغرف"
 
 #. module: odex_benefit
 #: model:ir.model,name:odex_benefit.model_training_inclinations
 msgid "Benefits - inclination"
-msgstr ""
+msgstr "المنافع - الميول التدريبية"
 
 #. module: odex_benefit
 #: model:ir.model,name:odex_benefit.model_item_status
 msgid "Benefits - item status"
-msgstr ""
+msgstr "المنافع - حالة العنصر"
 
 #. module: odex_benefit
 #: model:ir.model,name:odex_benefit.model_rooms_categories
 msgid "Benefits - rooms categories"
-msgstr ""
+msgstr "المنافع - تصنيفات الغرف"
 
 #. module: odex_benefit
 #: model:ir.model,name:odex_benefit.model_rooms_items
 msgid "Benefits - rooms items"
-msgstr ""
+msgstr "المنافع - عناصر الغرف"
 
 #. module: odex_benefit
 #: model:ir.model,name:odex_benefit.model_housing_rooms_type
 msgid "Benefits - rooms type"
-msgstr ""
+msgstr "المنافع - نوع الغرف"
 
 #. module: odex_benefit
 #: model:ir.model,name:odex_benefit.model_craft_skills
 #: model:ir.model,name:odex_benefit.model_sport_line
 msgid "Benefits - sport"
-msgstr ""
+msgstr "المنافع - الرياضة"
 
 #. module: odex_benefit
 #: model:ir.model,name:odex_benefit.model_sport_type
 msgid "Benefits - sport Type"
-msgstr ""
+msgstr "المنافع - نوع الرياضة"
 
 #. module: odex_benefit
 #: model:ir.actions.act_window,name:odex_benefit.grant_benefit_dashboard_action
@@ -2650,17 +2712,17 @@ msgstr "المندوبين"
 #. module: odex_benefit
 #: model_terms:ir.ui.view,arch_db:odex_benefit.benefit_zkat_form
 msgid "Benefits Total"
-msgstr ""
+msgstr "ادوات المستفيد"
 
 #. module: odex_benefit
 #: model_terms:ir.ui.view,arch_db:odex_benefit.generate_reports_view_form
 msgid "Benefits Total of Family"
-msgstr ""
+msgstr "إجمالي المنافع للأسرة"
 
 #. module: odex_benefit
 #: model:ir.model.fields,field_description:odex_benefit.field_benefits_needs__benefit_type
 msgid "Benefits Type"
-msgstr ""
+msgstr "النوع"
 
 #. module: odex_benefit
 #: model_terms:ir.ui.view,arch_db:odex_benefit.view_benefits_needs_form
@@ -2670,7 +2732,7 @@ msgstr "المستفيدين والاحتياجات"
 #. module: odex_benefit
 #: model:ir.model.fields,field_description:odex_benefit.field_benefits_needs__benefit_count
 msgid "Benefits count for needs"
-msgstr ""
+msgstr "عدد المنافع للاحتياجات"
 
 #. module: odex_benefit
 #: model:ir.actions.act_window,name:odex_benefit.grant_benefit_list_complete_action
@@ -2698,9 +2760,7 @@ msgstr "تاريخ الميلاد"
 #: model:ir.model.fields.selection,name:odex_benefit.selection__benefit_sms_configuration__state__black_list
 #: model:ir.model.fields.selection,name:odex_benefit.selection__entity_black_list_wizard__state__black_list
 #: model:ir.model.fields.selection,name:odex_benefit.selection__entity_refused_reason_wizard__state__black_list
-#: model:ir.model.fields.selection,name:odex_benefit.selection__family_member__state__black_list
 #: model:ir.model.fields.selection,name:odex_benefit.selection__family_member__state_a__black_list
-#: model:ir.model.fields.selection,name:odex_benefit.selection__grant_benefit__state__black_list
 #: model_terms:ir.ui.view,arch_db:odex_benefit.grant_benefit_form
 msgid "Black List"
 msgstr "القائمة المحظورة"
@@ -2727,7 +2787,7 @@ msgstr "القائمة السوداء"
 #. module: odex_benefit
 #: model_terms:ir.ui.view,arch_db:odex_benefit.view_entity_black_list_wizard_form
 msgid "Black list wizard"
-msgstr ""
+msgstr "القائمة السوداء"
 
 #. module: odex_benefit
 #: model:ir.model.fields,field_description:odex_benefit.field_benefits_representative__is_blacklisted
@@ -2760,9 +2820,7 @@ msgstr ""
 #: code:addons/odex_benefit/models/benefit_config.py:0
 #: code:addons/odex_benefit/models/benefit_need.py:0
 #: model:ir.model.fields.selection,name:odex_benefit.selection__associations_line__support_type__both
-#: model:ir.model.fields.selection,name:odex_benefit.selection__benefit_category__gender__both
 #: model:ir.model.fields.selection,name:odex_benefit.selection__benefit_club__benefit_type__both
-#: model:ir.model.fields.selection,name:odex_benefit.selection__benefits_needs__benefit_type__both
 #: model:ir.model.fields.selection,name:odex_benefit.selection__changes_requests__team_type__both
 #: model:ir.model.fields.selection,name:odex_benefit.selection__food_basket_line__donation_type__both
 #: model:ir.model.fields.selection,name:odex_benefit.selection__payment_collection_line__donation_type__both
@@ -2795,6 +2853,11 @@ msgid "Branch"
 msgstr "الفرع"
 
 #. module: odex_benefit
+#: model:ir.model.fields,field_description:odex_benefit.field_branch_settings__branch_code
+msgid "Branch Code"
+msgstr ""
+
+#. module: odex_benefit
 #: model:res.groups,name:odex_benefit.group_benefit_branch_manager
 msgid "Branch Manager"
 msgstr "مدير الفرع"
@@ -2815,6 +2878,13 @@ msgstr "نوع الفرع"
 #: model:ir.model.fields.selection,name:odex_benefit.selection__branch_settings__branch_type__branches
 msgid "Branches"
 msgstr "فروع الرياض"
+
+#. module: odex_benefit
+#: code:addons/odex_benefit/models/grant_benefit_breadwinner.py:0
+#: model:ir.model.fields,field_description:odex_benefit.field_grant_benefit_breadwinner__breadwinner
+#, python-format
+msgid "Breadwinner"
+msgstr "العلاقة بالنزيل"
 
 #. module: odex_benefit
 #: model:ir.model.fields.selection,name:odex_benefit.selection__services_settings__service_type__buy_car
@@ -2878,8 +2948,9 @@ msgstr "إلغاء"
 
 #. module: odex_benefit
 #: model:ir.model.fields.selection,name:odex_benefit.selection__confirm_benefit_expense__state__cancel
+#: model:ir.model.fields.selection,name:odex_benefit.selection__grant_benefit__state__cancelled
 msgid "Cancelled"
-msgstr ""
+msgstr "مرفوض"
 
 #. module: odex_benefit
 #: model:ir.model.fields,field_description:odex_benefit.field_grant_benefit__car_ids
@@ -3031,9 +3102,6 @@ msgstr "المحافظات"
 #: code:addons/odex_benefit/models/benefit.py:0
 #: code:addons/odex_benefit/models/benefit.py:0
 #: code:addons/odex_benefit/models/benefit.py:0
-#: model:ir.model.fields.selection,name:odex_benefit.selection__grant_benefit__father_id_number_type__citizen
-#: model:ir.model.fields.selection,name:odex_benefit.selection__grant_benefit__mother_id_number_type__citizen
-#: model:ir.model.fields.selection,name:odex_benefit.selection__grant_benefit__replacement_mother_id_number_type__citizen
 #, python-format
 msgid "Citizen"
 msgstr "مواطن"
@@ -3303,9 +3371,7 @@ msgstr "إعدادات خدمة إكمال بناء منزل"
 
 #. module: odex_benefit
 #: model:ir.model.fields.selection,name:odex_benefit.selection__benefit_sms_configuration__state__complete_info
-#: model:ir.model.fields.selection,name:odex_benefit.selection__family_member__state__complete_info
 #: model:ir.model.fields.selection,name:odex_benefit.selection__family_member__state_a__complete_info
-#: model:ir.model.fields.selection,name:odex_benefit.selection__grant_benefit__state__complete_info
 #: model_terms:ir.ui.view,arch_db:odex_benefit.grant_benefit_form
 msgid "Complete Information"
 msgstr "إكمال البيانات"
@@ -3327,11 +3393,12 @@ msgid "Configuration"
 msgstr "إعدادات ملف الأسرة"
 
 #. module: odex_benefit
+#: model:ir.model.fields.selection,name:odex_benefit.selection__grant_benefit__state__confirm
 #: model_terms:ir.ui.view,arch_db:odex_benefit.view_confirm_benefit_expense_form
 #: model_terms:ir.ui.view,arch_db:odex_benefit.view_confirm_benefit_expense_search
 #: model_terms:ir.ui.view,arch_db:odex_benefit.view_exchange_order_wizard_form
 msgid "Confirm"
-msgstr "تاكيد"
+msgstr "بانتظار تأكيد الاعداد"
 
 #. module: odex_benefit
 #: model:ir.model,name:odex_benefit.model_confirm_benefit_expense
@@ -3346,6 +3413,7 @@ msgstr "مصاريف التغذية الشهرية للأسر"
 
 #. module: odex_benefit
 #: model:ir.model.fields.selection,name:odex_benefit.selection__confirm_benefit_expense__state__confirm
+#: model:ir.model.fields.selection,name:odex_benefit.selection__family_member__state__confirmed
 msgid "Confirmed"
 msgstr "مؤكد"
 
@@ -3371,6 +3439,8 @@ msgstr "بيانات التواصل"
 
 #. module: odex_benefit
 #: model:ir.model.fields,field_description:odex_benefit.field_grant_benefit__sms_phone
+#: model:ir.model.fields,field_description:odex_benefit.field_service_request__family_id_phone
+#: model:ir.model.fields,field_description:odex_benefit.field_service_request__member_id_phone
 msgid "Contact Phone"
 msgstr "رقم الجوال للتواصل"
 
@@ -3440,6 +3510,21 @@ msgstr ""
 #. module: odex_benefit
 #: model_terms:ir.ui.view,arch_db:odex_benefit.generate_reports_view_form
 msgid "Create A Club"
+msgstr ""
+
+#. module: odex_benefit
+#: model_terms:ir.actions.act_window,help:odex_benefit.health_chronic_diseases_action
+msgid "Create Health Chronic Diseases"
+msgstr ""
+
+#. module: odex_benefit
+#: model_terms:ir.actions.act_window,help:odex_benefit.health_genetic_diseases_action
+msgid "Create Health Genetic Diseases"
+msgstr ""
+
+#. module: odex_benefit
+#: model_terms:ir.actions.act_window,help:odex_benefit.health_mental_illnesses_action
+msgid "Create Health Mental Illnesses"
 msgstr ""
 
 #. module: odex_benefit
@@ -3548,7 +3633,7 @@ msgstr ""
 #. module: odex_benefit
 #: model_terms:ir.actions.act_window,help:odex_benefit.hospital_action
 msgid "Create the Hospital file"
-msgstr ""
+msgstr "انشاء ملف صحي"
 
 #. module: odex_benefit
 #: model_terms:ir.actions.act_window,help:odex_benefit.family_validation_action
@@ -3615,7 +3700,7 @@ msgstr ""
 #. module: odex_benefit
 #: model_terms:ir.actions.act_window,help:odex_benefit.member_location_action
 msgid "Create the Member Location"
-msgstr ""
+msgstr "انشاء موقع"
 
 #. module: odex_benefit
 #: model_terms:ir.actions.act_window,help:odex_benefit.needs_categories_action
@@ -3641,7 +3726,7 @@ msgstr "أنشاء ص قرابة"
 #: model_terms:ir.actions.act_window,help:odex_benefit.service_request_accounting_action
 #: model_terms:ir.actions.act_window,help:odex_benefit.service_request_action
 msgid "Create the Service Request"
-msgstr ""
+msgstr "انشاء طلب خدمة"
 
 #. module: odex_benefit
 #: model_terms:ir.actions.act_window,help:odex_benefit.services_settings_action
@@ -3687,12 +3772,12 @@ msgstr ""
 #. module: odex_benefit
 #: model_terms:ir.actions.act_window,help:odex_benefit.family_action
 msgid "Create the family"
-msgstr ""
+msgstr "انشاء اسرة"
 
 #. module: odex_benefit
 #: model_terms:ir.actions.act_window,help:odex_benefit.res_bank_list_action
 msgid "Create the first Bank"
-msgstr ""
+msgstr "انشاء بنك"
 
 #. module: odex_benefit
 #: model_terms:ir.actions.act_window,help:odex_benefit.res_city_list_action
@@ -3757,6 +3842,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:odex_benefit.field_complaints_category__create_uid
 #: model:ir.model.fields,field_description:odex_benefit.field_confirm_benefit_expense__create_uid
 #: model:ir.model.fields,field_description:odex_benefit.field_craft_skills__create_uid
+#: model:ir.model.fields,field_description:odex_benefit.field_detainee_file__create_uid
 #: model:ir.model.fields,field_description:odex_benefit.field_disabilities_settings__create_uid
 #: model:ir.model.fields,field_description:odex_benefit.field_diseases_settings__create_uid
 #: model:ir.model.fields,field_description:odex_benefit.field_divorcee_family__create_uid
@@ -3782,6 +3868,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:odex_benefit.field_family_complaints__create_uid
 #: model:ir.model.fields,field_description:odex_benefit.field_family_debits__create_uid
 #: model:ir.model.fields,field_description:odex_benefit.field_family_member__create_uid
+#: model:ir.model.fields,field_description:odex_benefit.field_family_member_relation__create_uid
 #: model:ir.model.fields,field_description:odex_benefit.field_family_validation_setting__create_uid
 #: model:ir.model.fields,field_description:odex_benefit.field_food_basket_benefits_line__create_uid
 #: model:ir.model.fields,field_description:odex_benefit.field_food_basket_line__create_uid
@@ -3790,6 +3877,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:odex_benefit.field_generate_reports__create_uid
 #: model:ir.model.fields,field_description:odex_benefit.field_generate_reports_log__create_uid
 #: model:ir.model.fields,field_description:odex_benefit.field_grant_benefit__create_uid
+#: model:ir.model.fields,field_description:odex_benefit.field_grant_benefit_breadwinner__create_uid
+#: model:ir.model.fields,field_description:odex_benefit.field_grant_benefit_member__create_uid
+#: model:ir.model.fields,field_description:odex_benefit.field_health_chronic_diseases__create_uid
+#: model:ir.model.fields,field_description:odex_benefit.field_health_genetic_diseases__create_uid
+#: model:ir.model.fields,field_description:odex_benefit.field_health_mental_illnesses__create_uid
 #: model:ir.model.fields,field_description:odex_benefit.field_hobbies_settings__create_uid
 #: model:ir.model.fields,field_description:odex_benefit.field_home_furnishing_items__create_uid
 #: model:ir.model.fields,field_description:odex_benefit.field_home_furnishing_lines__create_uid
@@ -3836,6 +3928,9 @@ msgstr ""
 #: model:ir.model.fields,field_description:odex_benefit.field_rooms_items__create_uid
 #: model:ir.model.fields,field_description:odex_benefit.field_salary_line__create_uid
 #: model:ir.model.fields,field_description:odex_benefit.field_service_attachments_settings__create_uid
+#: model:ir.model.fields,field_description:odex_benefit.field_service_delivery_method__create_uid
+#: model:ir.model.fields,field_description:odex_benefit.field_service_need_status__create_uid
+#: model:ir.model.fields,field_description:odex_benefit.field_service_provider__create_uid
 #: model:ir.model.fields,field_description:odex_benefit.field_service_request__create_uid
 #: model:ir.model.fields,field_description:odex_benefit.field_services_settings__create_uid
 #: model:ir.model.fields,field_description:odex_benefit.field_specialization_specialization__create_uid
@@ -3893,6 +3988,7 @@ msgstr "انشئ بواسطة"
 #: model:ir.model.fields,field_description:odex_benefit.field_complaints_category__create_date
 #: model:ir.model.fields,field_description:odex_benefit.field_confirm_benefit_expense__create_date
 #: model:ir.model.fields,field_description:odex_benefit.field_craft_skills__create_date
+#: model:ir.model.fields,field_description:odex_benefit.field_detainee_file__create_date
 #: model:ir.model.fields,field_description:odex_benefit.field_disabilities_settings__create_date
 #: model:ir.model.fields,field_description:odex_benefit.field_diseases_settings__create_date
 #: model:ir.model.fields,field_description:odex_benefit.field_divorcee_family__create_date
@@ -3918,6 +4014,7 @@ msgstr "انشئ بواسطة"
 #: model:ir.model.fields,field_description:odex_benefit.field_family_complaints__create_date
 #: model:ir.model.fields,field_description:odex_benefit.field_family_debits__create_date
 #: model:ir.model.fields,field_description:odex_benefit.field_family_member__create_date
+#: model:ir.model.fields,field_description:odex_benefit.field_family_member_relation__create_date
 #: model:ir.model.fields,field_description:odex_benefit.field_family_validation_setting__create_date
 #: model:ir.model.fields,field_description:odex_benefit.field_food_basket_benefits_line__create_date
 #: model:ir.model.fields,field_description:odex_benefit.field_food_basket_line__create_date
@@ -3926,6 +4023,11 @@ msgstr "انشئ بواسطة"
 #: model:ir.model.fields,field_description:odex_benefit.field_generate_reports__create_date
 #: model:ir.model.fields,field_description:odex_benefit.field_generate_reports_log__create_date
 #: model:ir.model.fields,field_description:odex_benefit.field_grant_benefit__create_date
+#: model:ir.model.fields,field_description:odex_benefit.field_grant_benefit_breadwinner__create_date
+#: model:ir.model.fields,field_description:odex_benefit.field_grant_benefit_member__create_date
+#: model:ir.model.fields,field_description:odex_benefit.field_health_chronic_diseases__create_date
+#: model:ir.model.fields,field_description:odex_benefit.field_health_genetic_diseases__create_date
+#: model:ir.model.fields,field_description:odex_benefit.field_health_mental_illnesses__create_date
 #: model:ir.model.fields,field_description:odex_benefit.field_hobbies_settings__create_date
 #: model:ir.model.fields,field_description:odex_benefit.field_home_furnishing_items__create_date
 #: model:ir.model.fields,field_description:odex_benefit.field_home_furnishing_lines__create_date
@@ -3972,6 +4074,9 @@ msgstr "انشئ بواسطة"
 #: model:ir.model.fields,field_description:odex_benefit.field_rooms_items__create_date
 #: model:ir.model.fields,field_description:odex_benefit.field_salary_line__create_date
 #: model:ir.model.fields,field_description:odex_benefit.field_service_attachments_settings__create_date
+#: model:ir.model.fields,field_description:odex_benefit.field_service_delivery_method__create_date
+#: model:ir.model.fields,field_description:odex_benefit.field_service_need_status__create_date
+#: model:ir.model.fields,field_description:odex_benefit.field_service_provider__create_date
 #: model:ir.model.fields,field_description:odex_benefit.field_service_request__create_date
 #: model:ir.model.fields,field_description:odex_benefit.field_services_settings__create_date
 #: model:ir.model.fields,field_description:odex_benefit.field_specialization_specialization__create_date
@@ -4146,8 +4251,6 @@ msgstr "التاريخ والوقت"
 #. module: odex_benefit
 #: code:addons/odex_benefit/models/benefit_config.py:0
 #: code:addons/odex_benefit/models/family_members.py:0
-#: model:ir.model.fields.selection,name:odex_benefit.selection__family_member__relation__daughter
-#: model:ir.model.fields.selection,name:odex_benefit.selection__relation_settings__relation_type__daughter
 #, python-format
 msgid "Daughter"
 msgstr "الابنة"
@@ -4162,8 +4265,6 @@ msgstr "الايام قبل الاستلام"
 #. module: odex_benefit
 #: code:addons/odex_benefit/models/benefit.py:0
 #: code:addons/odex_benefit/models/family_members.py:0
-#: model:ir.model.fields.selection,name:odex_benefit.selection__family_member__mother_marital__dead
-#: model:ir.model.fields.selection,name:odex_benefit.selection__grant_benefit__mother_marital__dead
 #, python-format
 msgid "Dead"
 msgstr "متوفية"
@@ -4290,6 +4391,12 @@ msgid "Description"
 msgstr "الوصف"
 
 #. module: odex_benefit
+#: model:ir.model,name:odex_benefit.model_detainee_file
+#: model:ir.model.fields,field_description:odex_benefit.field_grant_benefit__detainee_file_id
+msgid "Detainee File"
+msgstr "ملف نزيل"
+
+#. module: odex_benefit
 #: model:ir.model.fields,field_description:odex_benefit.field_service_request__device_id
 msgid "Device"
 msgstr "الجهاز الكهربائي المطلوب"
@@ -4310,7 +4417,6 @@ msgstr "الإعاقات"
 
 #. module: odex_benefit
 #: code:addons/odex_benefit/models/benefit_config.py:0
-#: model:ir.model.fields.selection,name:odex_benefit.selection__attachments_settings__attach_type__disabilities_attach
 #, python-format
 msgid "Disabilities Attach"
 msgstr "مرفقات الاعاقات"
@@ -4353,7 +4459,7 @@ msgstr "خصم الايجار للسكن المشترك"
 #. module: odex_benefit
 #: model:ir.model.fields,field_description:odex_benefit.field_member_diseases__diseases_id
 msgid "Disease"
-msgstr ""
+msgstr "المرض"
 
 #. module: odex_benefit
 #: model:ir.model.fields,field_description:odex_benefit.field_attachments_settings__diseases_id
@@ -4367,7 +4473,6 @@ msgstr "الأمراض"
 #. module: odex_benefit
 #: code:addons/odex_benefit/models/benefit_config.py:0
 #: model:ir.model.fields,field_description:odex_benefit.field_member_diseases__disease_attach
-#: model:ir.model.fields.selection,name:odex_benefit.selection__attachments_settings__attach_type__diseases_attach
 #, python-format
 msgid "Diseases Attach"
 msgstr "مرفقات الامراض"
@@ -4426,6 +4531,7 @@ msgstr "نوع المرض"
 #: model:ir.model.fields,field_description:odex_benefit.field_complaints_category__display_name
 #: model:ir.model.fields,field_description:odex_benefit.field_confirm_benefit_expense__display_name
 #: model:ir.model.fields,field_description:odex_benefit.field_craft_skills__display_name
+#: model:ir.model.fields,field_description:odex_benefit.field_detainee_file__display_name
 #: model:ir.model.fields,field_description:odex_benefit.field_disabilities_settings__display_name
 #: model:ir.model.fields,field_description:odex_benefit.field_diseases_settings__display_name
 #: model:ir.model.fields,field_description:odex_benefit.field_divorcee_family__display_name
@@ -4451,6 +4557,7 @@ msgstr "نوع المرض"
 #: model:ir.model.fields,field_description:odex_benefit.field_family_complaints__display_name
 #: model:ir.model.fields,field_description:odex_benefit.field_family_debits__display_name
 #: model:ir.model.fields,field_description:odex_benefit.field_family_member__display_name
+#: model:ir.model.fields,field_description:odex_benefit.field_family_member_relation__display_name
 #: model:ir.model.fields,field_description:odex_benefit.field_family_validation_setting__display_name
 #: model:ir.model.fields,field_description:odex_benefit.field_food_basket_benefits_line__display_name
 #: model:ir.model.fields,field_description:odex_benefit.field_food_basket_line__display_name
@@ -4459,6 +4566,11 @@ msgstr "نوع المرض"
 #: model:ir.model.fields,field_description:odex_benefit.field_generate_reports__display_name
 #: model:ir.model.fields,field_description:odex_benefit.field_generate_reports_log__display_name
 #: model:ir.model.fields,field_description:odex_benefit.field_grant_benefit__display_name
+#: model:ir.model.fields,field_description:odex_benefit.field_grant_benefit_breadwinner__display_name
+#: model:ir.model.fields,field_description:odex_benefit.field_grant_benefit_member__display_name
+#: model:ir.model.fields,field_description:odex_benefit.field_health_chronic_diseases__display_name
+#: model:ir.model.fields,field_description:odex_benefit.field_health_genetic_diseases__display_name
+#: model:ir.model.fields,field_description:odex_benefit.field_health_mental_illnesses__display_name
 #: model:ir.model.fields,field_description:odex_benefit.field_hobbies_settings__display_name
 #: model:ir.model.fields,field_description:odex_benefit.field_home_furnishing_items__display_name
 #: model:ir.model.fields,field_description:odex_benefit.field_home_furnishing_lines__display_name
@@ -4506,6 +4618,9 @@ msgstr "نوع المرض"
 #: model:ir.model.fields,field_description:odex_benefit.field_rooms_items__display_name
 #: model:ir.model.fields,field_description:odex_benefit.field_salary_line__display_name
 #: model:ir.model.fields,field_description:odex_benefit.field_service_attachments_settings__display_name
+#: model:ir.model.fields,field_description:odex_benefit.field_service_delivery_method__display_name
+#: model:ir.model.fields,field_description:odex_benefit.field_service_need_status__display_name
+#: model:ir.model.fields,field_description:odex_benefit.field_service_provider__display_name
 #: model:ir.model.fields,field_description:odex_benefit.field_service_request__display_name
 #: model:ir.model.fields,field_description:odex_benefit.field_services_settings__display_name
 #: model:ir.model.fields,field_description:odex_benefit.field_specialization_specialization__display_name
@@ -4543,9 +4658,6 @@ msgstr "الأحياء"
 #: code:addons/odex_benefit/models/benefit.py:0
 #: code:addons/odex_benefit/models/benefit.py:0
 #: code:addons/odex_benefit/models/family_members.py:0
-#: model:ir.model.fields.selection,name:odex_benefit.selection__family_member__mother_marital__divorced
-#: model:ir.model.fields.selection,name:odex_benefit.selection__grant_benefit__father_marital__divorced
-#: model:ir.model.fields.selection,name:odex_benefit.selection__grant_benefit__mother_marital__divorced
 #, python-format
 msgid "Divorced"
 msgstr "مطلقة"
@@ -4553,8 +4665,6 @@ msgstr "مطلقة"
 #. module: odex_benefit
 #: code:addons/odex_benefit/models/benefit.py:0
 #: code:addons/odex_benefit/models/family_members.py:0
-#: model:ir.model.fields.selection,name:odex_benefit.selection__family_member__mother_marital__divorced_from_another_man
-#: model:ir.model.fields.selection,name:odex_benefit.selection__grant_benefit__mother_marital__divorced_from_another_man
 #, python-format
 msgid "Divorced From Another Man"
 msgstr "مطلقة من رجل اخر"
@@ -4612,6 +4722,7 @@ msgstr ""
 #: model:ir.model.fields.selection,name:odex_benefit.selection__benefit_loans__state__done
 #: model:ir.model.fields.selection,name:odex_benefit.selection__benefit_zkat__state__done
 #: model:ir.model.fields.selection,name:odex_benefit.selection__benefits_needs__state__done
+#: model:ir.model.fields.selection,name:odex_benefit.selection__grant_benefit__state__closed
 #: model:ir.model.fields.selection,name:odex_benefit.selection__receive_appliances_furniture__state__done
 #: model:ir.model.fields.selection,name:odex_benefit.selection__receive_benefit_loans__state__done
 #: model:ir.model.fields.selection,name:odex_benefit.selection__receive_benefit_zkat__state__done
@@ -4687,9 +4798,7 @@ msgstr "مسودة"
 
 #. module: odex_benefit
 #: model:ir.model.fields.selection,name:odex_benefit.selection__benefit_sms_configuration__state__edit_info
-#: model:ir.model.fields.selection,name:odex_benefit.selection__family_member__state__edit_info
 #: model:ir.model.fields.selection,name:odex_benefit.selection__family_member__state_a__edit_info
-#: model:ir.model.fields.selection,name:odex_benefit.selection__grant_benefit__state__edit_info
 msgid "Edit Information"
 msgstr "تحرير البيانات"
 
@@ -5021,6 +5130,21 @@ msgid "Evaluation"
 msgstr "التقييم"
 
 #. module: odex_benefit
+#: model:ir.model.fields.selection,name:odex_benefit.selection__grant_benefit__exchange_period__every_nine_months
+msgid "Every Nine Months"
+msgstr "كل تسعه اشهر"
+
+#. module: odex_benefit
+#: model:ir.model.fields.selection,name:odex_benefit.selection__grant_benefit__exchange_period__every_six_months
+msgid "Every Six Months"
+msgstr "كل ستة اشهر"
+
+#. module: odex_benefit
+#: model:ir.model.fields.selection,name:odex_benefit.selection__grant_benefit__exchange_period__every_three_months
+msgid "Every Three Months"
+msgstr "كل ثلاث اشهر"
+
+#. module: odex_benefit
 #: model:ir.model.fields.selection,name:odex_benefit.selection__benefit_housing__housing_cat__excellent
 #: model:ir.model.fields.selection,name:odex_benefit.selection__grant_benefit__housing_cat__excellent
 msgid "Excellent"
@@ -5061,9 +5185,7 @@ msgid "Exception Final Approve"
 msgstr "اعتماد المدير العام للاستثناء"
 
 #. module: odex_benefit
-#: model:ir.model.fields.selection,name:odex_benefit.selection__family_member__state__exception_first_approve
 #: model:ir.model.fields.selection,name:odex_benefit.selection__family_member__state_a__exception_first_approve
-#: model:ir.model.fields.selection,name:odex_benefit.selection__grant_benefit__state__exception_first_approve
 #: model_terms:ir.ui.view,arch_db:odex_benefit.family_member_form
 #: model_terms:ir.ui.view,arch_db:odex_benefit.grant_benefit_form
 msgid "Exception First Approve"
@@ -5090,9 +5212,7 @@ msgid "Exception Refuse"
 msgstr "رفض الاستثناء"
 
 #. module: odex_benefit
-#: model:ir.model.fields.selection,name:odex_benefit.selection__family_member__state__exception_second_approve
 #: model:ir.model.fields.selection,name:odex_benefit.selection__family_member__state_a__exception_second_approve
-#: model:ir.model.fields.selection,name:odex_benefit.selection__grant_benefit__state__exception_second_approve
 #: model_terms:ir.ui.view,arch_db:odex_benefit.family_member_form
 #: model_terms:ir.ui.view,arch_db:odex_benefit.grant_benefit_form
 msgid "Exception Second Approve"
@@ -5157,6 +5277,11 @@ msgid "Exchange Order"
 msgstr "انشاء امر صرف"
 
 #. module: odex_benefit
+#: model:ir.model.fields,field_description:odex_benefit.field_grant_benefit__exchange_period
+msgid "Exchange Period"
+msgstr "دورية الصرف"
+
+#. module: odex_benefit
 #: model:ir.actions.server,name:odex_benefit.server_action_exchange_orders
 msgid "Exchange orders"
 msgstr "انشاء امر صرف"
@@ -5173,11 +5298,16 @@ msgid "Expense Type"
 msgstr "نوع الاجراء"
 
 #. module: odex_benefit
+#: model:ir.actions.act_window,name:odex_benefit.action_expense_line
 #: model:ir.model.fields,field_description:odex_benefit.field_benefit_category__expenses_ids
 #: model:ir.model.fields,field_description:odex_benefit.field_benefit_need__expenses_ids
+#: model:ir.model.fields,field_description:odex_benefit.field_family_member__expenses_ids
 #: model:ir.model.fields,field_description:odex_benefit.field_grant_benefit__expenses_ids
 #: model:ir.model.fields,field_description:odex_benefit.field_grant_benefit__expenses_total
+#: model:ir.ui.menu,name:odex_benefit.menu_expense_line
 #: model_terms:ir.ui.view,arch_db:odex_benefit.expenses_line_form
+#: model_terms:ir.ui.view,arch_db:odex_benefit.view_expense_line_form
+#: model_terms:ir.ui.view,arch_db:odex_benefit.view_expense_line_tree
 msgid "Expenses"
 msgstr "الالتزامات"
 
@@ -5207,11 +5337,6 @@ msgstr "أنواع الالتزامات"
 #: model:ir.model.fields,field_description:odex_benefit.field_expenses_line__expenses_type_custom
 msgid "Expenses Type Custom"
 msgstr "أنواع الالتزامات"
-
-#. module: odex_benefit
-#: model:ir.model.fields,field_description:odex_benefit.field_expenses_line__member_id
-msgid "Member Id"
-msgstr "الفرد"
 
 #. module: odex_benefit
 #: model:ir.model.fields.selection,name:odex_benefit.selection__main_service__services__experimental_services
@@ -5310,7 +5435,6 @@ msgstr ""
 
 #. module: odex_benefit
 #: code:addons/odex_benefit/models/benefit_config.py:0
-#: model:ir.model.fields.selection,name:odex_benefit.selection__attachments_settings__attach_type__family_attach
 #, python-format
 msgid "Family Attach"
 msgstr "مرفقات الاسرة"
@@ -5391,7 +5515,12 @@ msgstr "ديون الأسرة"
 #: model_terms:ir.ui.view,arch_db:odex_benefit.family_member_form
 #: model_terms:ir.ui.view,arch_db:odex_benefit.grant_benefit_form
 msgid "Family Member"
-msgstr ""
+msgstr "افراد العائلة"
+
+#. module: odex_benefit
+#: model:ir.model,name:odex_benefit.model_family_member_relation
+msgid "Family Member Relation"
+msgstr "علاقة أفراد الأسرة"
 
 #. module: odex_benefit
 #: model:ir.actions.act_window,name:odex_benefit.family_member_action
@@ -5401,7 +5530,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:odex_benefit.family_member_tree
 #: model_terms:ir.ui.view,arch_db:odex_benefit.grant_benefit_form
 msgid "Family Members"
-msgstr "افراد الأسر"
+msgstr "أعضاء الأسر"
 
 #. module: odex_benefit
 #: model:ir.model.fields,field_description:odex_benefit.field_grant_benefit__family_monthly_clotting
@@ -5438,7 +5567,7 @@ msgstr "احتياج الاسرة"
 #. module: odex_benefit
 #: model:ir.model.fields,field_description:odex_benefit.field_family_member__benefit_id
 msgid "Family Profile"
-msgstr "الملف الشخصي للعائلة"
+msgstr "ملف الأسرة"
 
 #. module: odex_benefit
 #: model:ir.model.fields.selection,name:odex_benefit.selection__service_request__state__family_received_device
@@ -5561,7 +5690,7 @@ msgstr "انواع المصاريف"
 
 #. module: odex_benefit
 #: code:addons/odex_benefit/models/benefit_config.py:0
-#: model:ir.model.fields.selection,name:odex_benefit.selection__benefit_category__gender__female
+#: code:addons/odex_benefit/models/family_member_relation.py:0
 #: model:ir.model.fields.selection,name:odex_benefit.selection__changes_requests__team_type__female
 #: model:ir.model.fields.selection,name:odex_benefit.selection__family_member__gender__female
 #, python-format
@@ -5646,11 +5775,14 @@ msgid "First Approve"
 msgstr "اعتماد رئيس العمليات الإيقاف"
 
 #. module: odex_benefit
-#: model:ir.model.fields.selection,name:odex_benefit.selection__family_member__state__first_approve
 #: model:ir.model.fields.selection,name:odex_benefit.selection__family_member__state_a__first_approve
-#: model:ir.model.fields.selection,name:odex_benefit.selection__grant_benefit__state__first_approve
 msgid "First Approved"
 msgstr "الاعتماد المبدئي"
+
+#. module: odex_benefit
+#: model:ir.model.fields,field_description:odex_benefit.field_service_request__first_breadwinner_id
+msgid "First Breadwinner"
+msgstr ""
 
 #. module: odex_benefit
 #: model:ir.model.fields,field_description:odex_benefit.field_benefits_representative__first_name
@@ -5668,9 +5800,7 @@ msgstr "مرفق التسعيرة الأولى"
 #: model:ir.model.fields.selection,name:odex_benefit.selection__benefit_sms_configuration__state__first_refusal
 #: model:ir.model.fields.selection,name:odex_benefit.selection__entity_black_list_wizard__state__first_refusal
 #: model:ir.model.fields.selection,name:odex_benefit.selection__entity_refused_reason_wizard__state__first_refusal
-#: model:ir.model.fields.selection,name:odex_benefit.selection__family_member__state__first_refusal
 #: model:ir.model.fields.selection,name:odex_benefit.selection__family_member__state_a__first_refusal
-#: model:ir.model.fields.selection,name:odex_benefit.selection__grant_benefit__state__first_refusal
 msgid "First Refusal"
 msgstr "الرفض المبدئي"
 
@@ -5724,6 +5854,12 @@ msgid "Follow-up Status"
 msgstr ""
 
 #. module: odex_benefit
+#: code:addons/odex_benefit/models/grant_benefit_member.py:0
+#, python-format
+msgid "Follower"
+msgstr ""
+
+#. module: odex_benefit
 #: model:ir.model.fields,field_description:odex_benefit.field_appliances_furniture__message_follower_ids
 #: model:ir.model.fields,field_description:odex_benefit.field_appliances_furniture_need__message_follower_ids
 #: model:ir.model.fields,field_description:odex_benefit.field_benefit_club__message_follower_ids
@@ -5739,6 +5875,8 @@ msgstr ""
 #: model:ir.model.fields,field_description:odex_benefit.field_benefits_representative__message_follower_ids
 #: model:ir.model.fields,field_description:odex_benefit.field_changes_requests__message_follower_ids
 #: model:ir.model.fields,field_description:odex_benefit.field_confirm_benefit_expense__message_follower_ids
+#: model:ir.model.fields,field_description:odex_benefit.field_detainee_file__message_follower_ids
+#: model:ir.model.fields,field_description:odex_benefit.field_expenses_line__message_follower_ids
 #: model:ir.model.fields,field_description:odex_benefit.field_external_benefits__message_follower_ids
 #: model:ir.model.fields,field_description:odex_benefit.field_family_complaints__message_follower_ids
 #: model:ir.model.fields,field_description:odex_benefit.field_family_member__message_follower_ids
@@ -5751,6 +5889,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:odex_benefit.field_receive_benefit_zkat__message_follower_ids
 #: model:ir.model.fields,field_description:odex_benefit.field_receive_food_basket__message_follower_ids
 #: model:ir.model.fields,field_description:odex_benefit.field_receive_food_surplus__message_follower_ids
+#: model:ir.model.fields,field_description:odex_benefit.field_salary_line__message_follower_ids
 #: model:ir.model.fields,field_description:odex_benefit.field_service_request__message_follower_ids
 #: model:ir.model.fields,field_description:odex_benefit.field_visit_location__message_follower_ids
 msgid "Followers"
@@ -5772,6 +5911,8 @@ msgstr "المتابعون"
 #: model:ir.model.fields,field_description:odex_benefit.field_benefits_representative__message_channel_ids
 #: model:ir.model.fields,field_description:odex_benefit.field_changes_requests__message_channel_ids
 #: model:ir.model.fields,field_description:odex_benefit.field_confirm_benefit_expense__message_channel_ids
+#: model:ir.model.fields,field_description:odex_benefit.field_detainee_file__message_channel_ids
+#: model:ir.model.fields,field_description:odex_benefit.field_expenses_line__message_channel_ids
 #: model:ir.model.fields,field_description:odex_benefit.field_external_benefits__message_channel_ids
 #: model:ir.model.fields,field_description:odex_benefit.field_family_complaints__message_channel_ids
 #: model:ir.model.fields,field_description:odex_benefit.field_family_member__message_channel_ids
@@ -5784,6 +5925,7 @@ msgstr "المتابعون"
 #: model:ir.model.fields,field_description:odex_benefit.field_receive_benefit_zkat__message_channel_ids
 #: model:ir.model.fields,field_description:odex_benefit.field_receive_food_basket__message_channel_ids
 #: model:ir.model.fields,field_description:odex_benefit.field_receive_food_surplus__message_channel_ids
+#: model:ir.model.fields,field_description:odex_benefit.field_salary_line__message_channel_ids
 #: model:ir.model.fields,field_description:odex_benefit.field_service_request__message_channel_ids
 #: model:ir.model.fields,field_description:odex_benefit.field_visit_location__message_channel_ids
 msgid "Followers (Channels)"
@@ -5805,6 +5947,8 @@ msgstr "المتابعون (القنوات)"
 #: model:ir.model.fields,field_description:odex_benefit.field_benefits_representative__message_partner_ids
 #: model:ir.model.fields,field_description:odex_benefit.field_changes_requests__message_partner_ids
 #: model:ir.model.fields,field_description:odex_benefit.field_confirm_benefit_expense__message_partner_ids
+#: model:ir.model.fields,field_description:odex_benefit.field_detainee_file__message_partner_ids
+#: model:ir.model.fields,field_description:odex_benefit.field_expenses_line__message_partner_ids
 #: model:ir.model.fields,field_description:odex_benefit.field_external_benefits__message_partner_ids
 #: model:ir.model.fields,field_description:odex_benefit.field_family_complaints__message_partner_ids
 #: model:ir.model.fields,field_description:odex_benefit.field_family_member__message_partner_ids
@@ -5817,6 +5961,7 @@ msgstr "المتابعون (القنوات)"
 #: model:ir.model.fields,field_description:odex_benefit.field_receive_benefit_zkat__message_partner_ids
 #: model:ir.model.fields,field_description:odex_benefit.field_receive_food_basket__message_partner_ids
 #: model:ir.model.fields,field_description:odex_benefit.field_receive_food_surplus__message_partner_ids
+#: model:ir.model.fields,field_description:odex_benefit.field_salary_line__message_partner_ids
 #: model:ir.model.fields,field_description:odex_benefit.field_service_request__message_partner_ids
 #: model:ir.model.fields,field_description:odex_benefit.field_visit_location__message_partner_ids
 msgid "Followers (Partners)"
@@ -5838,6 +5983,8 @@ msgstr "المتابعون (الشركاء)"
 #: model:ir.model.fields,help:odex_benefit.field_benefits_representative__activity_type_icon
 #: model:ir.model.fields,help:odex_benefit.field_changes_requests__activity_type_icon
 #: model:ir.model.fields,help:odex_benefit.field_confirm_benefit_expense__activity_type_icon
+#: model:ir.model.fields,help:odex_benefit.field_detainee_file__activity_type_icon
+#: model:ir.model.fields,help:odex_benefit.field_expenses_line__activity_type_icon
 #: model:ir.model.fields,help:odex_benefit.field_external_benefits__activity_type_icon
 #: model:ir.model.fields,help:odex_benefit.field_family_complaints__activity_type_icon
 #: model:ir.model.fields,help:odex_benefit.field_family_member__activity_type_icon
@@ -5850,6 +5997,7 @@ msgstr "المتابعون (الشركاء)"
 #: model:ir.model.fields,help:odex_benefit.field_receive_benefit_zkat__activity_type_icon
 #: model:ir.model.fields,help:odex_benefit.field_receive_food_basket__activity_type_icon
 #: model:ir.model.fields,help:odex_benefit.field_receive_food_surplus__activity_type_icon
+#: model:ir.model.fields,help:odex_benefit.field_salary_line__activity_type_icon
 #: model:ir.model.fields,help:odex_benefit.field_service_request__activity_type_icon
 #: model:ir.model.fields,help:odex_benefit.field_visit_location__activity_type_icon
 msgid "Font awesome icon e.g. fa-tasks"
@@ -5930,6 +6078,7 @@ msgstr "اسم الأثاث"
 #: model:ir.model.fields,field_description:odex_benefit.field_benefits_representative__gender
 #: model:ir.model.fields,field_description:odex_benefit.field_external_benefits__gender
 #: model:ir.model.fields,field_description:odex_benefit.field_family_member__gender
+#: model:ir.model.fields,field_description:odex_benefit.field_family_member_relation__gender
 #: model:ir.model.fields,field_description:odex_benefit.field_grant_benefit__gender
 #: model:ir.model.fields,field_description:odex_benefit.field_housing_rooms_members__gender
 #: model:ir.model.fields,field_description:odex_benefit.field_rooms_categories__gender
@@ -5963,6 +6112,13 @@ msgstr "توليد تقارير المستفيدين"
 #: model:ir.actions.act_window,name:odex_benefit.benefit_reports_log_action
 msgid "Generate Reports Log"
 msgstr "سجل التقارير"
+
+#. module: odex_benefit
+#: model:ir.actions.act_window,name:odex_benefit.health_genetic_diseases_action
+#: model_terms:ir.ui.view,arch_db:odex_benefit.genetic_diseases_setting_form
+#: model_terms:ir.ui.view,arch_db:odex_benefit.health_genetic_diseases_tree
+msgid "Genetic Diseases Setting"
+msgstr "الأمراض الوراثية"
 
 #. module: odex_benefit
 #: model:ir.model.fields,field_description:odex_benefit.field_benefits_representative__partner_latitude
@@ -6051,11 +6207,32 @@ msgid "Graduation Date"
 msgstr "تاريخ التخرج"
 
 #. module: odex_benefit
+#: model:ir.model.fields,field_description:odex_benefit.field_grant_benefit_breadwinner__grant_benefit_ids
+#: model:ir.model.fields,field_description:odex_benefit.field_grant_benefit_member__grant_benefit_id
+msgid "Grant Benefit"
+msgstr ""
+
+#. module: odex_benefit
+#: model:ir.model,name:odex_benefit.model_grant_benefit_breadwinner
+msgid "Grant Benefit Breadwinner"
+msgstr ""
+
+#. module: odex_benefit
+#: model:ir.model,name:odex_benefit.model_grant_benefit_member
+msgid "Grant Benefit Member"
+msgstr ""
+
+#. module: odex_benefit
 #: model_terms:ir.ui.view,arch_db:odex_benefit.grant_benefit_search
 #: model_terms:ir.ui.view,arch_db:odex_benefit.service_request_search
 #: model_terms:ir.ui.view,arch_db:odex_benefit.view_confirm_benefit_expense_search
 msgid "Group By"
-msgstr ""
+msgstr "تجميع"
+
+#. module: odex_benefit
+#: model:ir.model.fields.selection,name:odex_benefit.selection__detainee_file__beneficiary_category__gust
+msgid "Gust"
+msgstr "نزيل"
 
 #. module: odex_benefit
 #: model:ir.model.fields.selection,name:odex_benefit.selection__grant_benefit__payment_type__2
@@ -6067,8 +6244,6 @@ msgstr "نصف سنوي"
 #. module: odex_benefit
 #: code:addons/odex_benefit/models/benefit.py:0
 #: code:addons/odex_benefit/models/family_members.py:0
-#: model:ir.model.fields.selection,name:odex_benefit.selection__family_member__mother_marital__hanging
-#: model:ir.model.fields.selection,name:odex_benefit.selection__grant_benefit__mother_marital__hanging
 #, python-format
 msgid "Hanging"
 msgstr "معلقة"
@@ -6139,6 +6314,23 @@ msgid "Health Care Settings"
 msgstr "اعدادت الرعاية الصحية"
 
 #. module: odex_benefit
+#: model:ir.actions.act_window,name:odex_benefit.health_chronic_diseases_action
+#: model:ir.ui.menu,name:odex_benefit.health_chronic_diseases_menu
+msgid "Health Chronic Diseases"
+msgstr "الأمراض المزمنة"
+
+#. module: odex_benefit
+#: model:ir.ui.menu,name:odex_benefit.health_genetic_diseases_menu
+msgid "Health Genetic Diseases"
+msgstr "الأمراض الوراثية"
+
+#. module: odex_benefit
+#: model:ir.actions.act_window,name:odex_benefit.health_mental_illnesses_action
+#: model:ir.ui.menu,name:odex_benefit.health_mental_illnesses_menu
+msgid "Health Mental Illnesses"
+msgstr "الأمراض النفسية"
+
+#. module: odex_benefit
 #: model:ir.model.fields,field_description:odex_benefit.field_benefits_representative__health_status
 #: model:ir.model.fields,field_description:odex_benefit.field_external_benefits__health_status
 #: model:ir.model.fields,field_description:odex_benefit.field_grant_benefit__health_status
@@ -6161,6 +6353,11 @@ msgid "High"
 msgstr ""
 
 #. module: odex_benefit
+#: model:ir.model.fields.selection,name:odex_benefit.selection__grant_benefit__need_calculator__high
+msgid "High Need"
+msgstr "الاكثر احتياجا"
+
+#. module: odex_benefit
 #: model:ir.model.fields,field_description:odex_benefit.field_attachments_settings__hobby_id
 #: model:ir.model.fields,field_description:odex_benefit.field_family_member__hobbies_ids
 #: model_terms:ir.ui.view,arch_db:odex_benefit.family_member_form
@@ -6170,7 +6367,6 @@ msgstr "الهوايات"
 
 #. module: odex_benefit
 #: code:addons/odex_benefit/models/benefit_config.py:0
-#: model:ir.model.fields.selection,name:odex_benefit.selection__attachments_settings__attach_type__hobbies_attach
 #, python-format
 msgid "Hobbies Attach"
 msgstr "مرفقات الهوايات"
@@ -6297,7 +6493,7 @@ msgstr "احتياج المنزل"
 #. module: odex_benefit
 #: model:ir.model.fields,field_description:odex_benefit.field_generate_reports__house_service_category
 msgid "House Service Category"
-msgstr ""
+msgstr "فئة الخدمة المنزلية"
 
 #. module: odex_benefit
 #: model:ir.model.fields.selection,name:odex_benefit.selection__family_member__member_location__house_of_social_observations
@@ -6352,10 +6548,20 @@ msgid "Housing Rooms Type"
 msgstr "انواع محتويات الغرف"
 
 #. module: odex_benefit
+#: model:ir.model.fields,field_description:odex_benefit.field_grant_benefit__housing_status
+msgid "Housing Status"
+msgstr "حالة السكن"
+
+#. module: odex_benefit
 #: model:ir.model.fields,field_description:odex_benefit.field_benefit_housing__housing_type
 #: model:ir.model.fields,field_description:odex_benefit.field_grant_benefit__housing_type
 msgid "Housing Type"
 msgstr "نوع السكن"
+
+#. module: odex_benefit
+#: model:ir.model.fields,field_description:odex_benefit.field_grant_benefit__housing_value
+msgid "Housing Value"
+msgstr "قيمة السكن"
 
 #. module: odex_benefit
 #: model_terms:ir.ui.view,arch_db:odex_benefit.grant_benefit_form
@@ -6423,6 +6629,7 @@ msgstr "رقم الآي بان"
 #: model:ir.model.fields,field_description:odex_benefit.field_complaints_category__id
 #: model:ir.model.fields,field_description:odex_benefit.field_confirm_benefit_expense__id
 #: model:ir.model.fields,field_description:odex_benefit.field_craft_skills__id
+#: model:ir.model.fields,field_description:odex_benefit.field_detainee_file__id
 #: model:ir.model.fields,field_description:odex_benefit.field_disabilities_settings__id
 #: model:ir.model.fields,field_description:odex_benefit.field_diseases_settings__id
 #: model:ir.model.fields,field_description:odex_benefit.field_divorcee_family__id
@@ -6448,6 +6655,7 @@ msgstr "رقم الآي بان"
 #: model:ir.model.fields,field_description:odex_benefit.field_family_complaints__id
 #: model:ir.model.fields,field_description:odex_benefit.field_family_debits__id
 #: model:ir.model.fields,field_description:odex_benefit.field_family_member__id
+#: model:ir.model.fields,field_description:odex_benefit.field_family_member_relation__id
 #: model:ir.model.fields,field_description:odex_benefit.field_family_validation_setting__id
 #: model:ir.model.fields,field_description:odex_benefit.field_food_basket_benefits_line__id
 #: model:ir.model.fields,field_description:odex_benefit.field_food_basket_line__id
@@ -6456,6 +6664,11 @@ msgstr "رقم الآي بان"
 #: model:ir.model.fields,field_description:odex_benefit.field_generate_reports__id
 #: model:ir.model.fields,field_description:odex_benefit.field_generate_reports_log__id
 #: model:ir.model.fields,field_description:odex_benefit.field_grant_benefit__id
+#: model:ir.model.fields,field_description:odex_benefit.field_grant_benefit_breadwinner__id
+#: model:ir.model.fields,field_description:odex_benefit.field_grant_benefit_member__id
+#: model:ir.model.fields,field_description:odex_benefit.field_health_chronic_diseases__id
+#: model:ir.model.fields,field_description:odex_benefit.field_health_genetic_diseases__id
+#: model:ir.model.fields,field_description:odex_benefit.field_health_mental_illnesses__id
 #: model:ir.model.fields,field_description:odex_benefit.field_hobbies_settings__id
 #: model:ir.model.fields,field_description:odex_benefit.field_home_furnishing_items__id
 #: model:ir.model.fields,field_description:odex_benefit.field_home_furnishing_lines__id
@@ -6503,6 +6716,9 @@ msgstr "رقم الآي بان"
 #: model:ir.model.fields,field_description:odex_benefit.field_rooms_items__id
 #: model:ir.model.fields,field_description:odex_benefit.field_salary_line__id
 #: model:ir.model.fields,field_description:odex_benefit.field_service_attachments_settings__id
+#: model:ir.model.fields,field_description:odex_benefit.field_service_delivery_method__id
+#: model:ir.model.fields,field_description:odex_benefit.field_service_need_status__id
+#: model:ir.model.fields,field_description:odex_benefit.field_service_provider__id
 #: model:ir.model.fields,field_description:odex_benefit.field_service_request__id
 #: model:ir.model.fields,field_description:odex_benefit.field_services_settings__id
 #: model:ir.model.fields,field_description:odex_benefit.field_specialization_specialization__id
@@ -6570,6 +6786,8 @@ msgstr ""
 #: model:ir.model.fields,field_description:odex_benefit.field_benefits_representative__activity_exception_icon
 #: model:ir.model.fields,field_description:odex_benefit.field_changes_requests__activity_exception_icon
 #: model:ir.model.fields,field_description:odex_benefit.field_confirm_benefit_expense__activity_exception_icon
+#: model:ir.model.fields,field_description:odex_benefit.field_detainee_file__activity_exception_icon
+#: model:ir.model.fields,field_description:odex_benefit.field_expenses_line__activity_exception_icon
 #: model:ir.model.fields,field_description:odex_benefit.field_external_benefits__activity_exception_icon
 #: model:ir.model.fields,field_description:odex_benefit.field_family_complaints__activity_exception_icon
 #: model:ir.model.fields,field_description:odex_benefit.field_family_member__activity_exception_icon
@@ -6582,6 +6800,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:odex_benefit.field_receive_benefit_zkat__activity_exception_icon
 #: model:ir.model.fields,field_description:odex_benefit.field_receive_food_basket__activity_exception_icon
 #: model:ir.model.fields,field_description:odex_benefit.field_receive_food_surplus__activity_exception_icon
+#: model:ir.model.fields,field_description:odex_benefit.field_salary_line__activity_exception_icon
 #: model:ir.model.fields,field_description:odex_benefit.field_service_request__activity_exception_icon
 #: model:ir.model.fields,field_description:odex_benefit.field_visit_location__activity_exception_icon
 msgid "Icon"
@@ -6603,6 +6822,8 @@ msgstr "الأيقونة"
 #: model:ir.model.fields,help:odex_benefit.field_benefits_representative__activity_exception_icon
 #: model:ir.model.fields,help:odex_benefit.field_changes_requests__activity_exception_icon
 #: model:ir.model.fields,help:odex_benefit.field_confirm_benefit_expense__activity_exception_icon
+#: model:ir.model.fields,help:odex_benefit.field_detainee_file__activity_exception_icon
+#: model:ir.model.fields,help:odex_benefit.field_expenses_line__activity_exception_icon
 #: model:ir.model.fields,help:odex_benefit.field_external_benefits__activity_exception_icon
 #: model:ir.model.fields,help:odex_benefit.field_family_complaints__activity_exception_icon
 #: model:ir.model.fields,help:odex_benefit.field_family_member__activity_exception_icon
@@ -6615,6 +6836,7 @@ msgstr "الأيقونة"
 #: model:ir.model.fields,help:odex_benefit.field_receive_benefit_zkat__activity_exception_icon
 #: model:ir.model.fields,help:odex_benefit.field_receive_food_basket__activity_exception_icon
 #: model:ir.model.fields,help:odex_benefit.field_receive_food_surplus__activity_exception_icon
+#: model:ir.model.fields,help:odex_benefit.field_salary_line__activity_exception_icon
 #: model:ir.model.fields,help:odex_benefit.field_service_request__activity_exception_icon
 #: model:ir.model.fields,help:odex_benefit.field_visit_location__activity_exception_icon
 msgid "Icon to indicate an exception activity."
@@ -6630,6 +6852,8 @@ msgstr "تاريخ انتهاء الهوية"
 #. module: odex_benefit
 #: model:ir.model.fields,field_description:odex_benefit.field_grant_benefit__father_id_number
 #: model:ir.model.fields,field_description:odex_benefit.field_grant_benefit__mother_id_number
+#: model:ir.model.fields,field_description:odex_benefit.field_service_request__family_id_member_id_number
+#: model:ir.model.fields,field_description:odex_benefit.field_service_request__member_id_number
 msgid "Id Number"
 msgstr "رقم الهوية"
 
@@ -6648,7 +6872,7 @@ msgstr "مرفق الهوية"
 #: code:addons/odex_benefit/controllers/benefit.py:0
 #, python-format
 msgid "Id Number Duplicated "
-msgstr ""
+msgstr "رقم الهوية مكرر"
 
 #. module: odex_benefit
 #: model:ir.model.fields,field_description:odex_benefit.field_benefits_representative__identification_expiry_date
@@ -6716,6 +6940,10 @@ msgstr "رقم الهوية"
 #: model:ir.model.fields,help:odex_benefit.field_changes_requests__message_unread
 #: model:ir.model.fields,help:odex_benefit.field_confirm_benefit_expense__message_needaction
 #: model:ir.model.fields,help:odex_benefit.field_confirm_benefit_expense__message_unread
+#: model:ir.model.fields,help:odex_benefit.field_detainee_file__message_needaction
+#: model:ir.model.fields,help:odex_benefit.field_detainee_file__message_unread
+#: model:ir.model.fields,help:odex_benefit.field_expenses_line__message_needaction
+#: model:ir.model.fields,help:odex_benefit.field_expenses_line__message_unread
 #: model:ir.model.fields,help:odex_benefit.field_external_benefits__message_needaction
 #: model:ir.model.fields,help:odex_benefit.field_external_benefits__message_unread
 #: model:ir.model.fields,help:odex_benefit.field_family_complaints__message_needaction
@@ -6740,6 +6968,8 @@ msgstr "رقم الهوية"
 #: model:ir.model.fields,help:odex_benefit.field_receive_food_basket__message_unread
 #: model:ir.model.fields,help:odex_benefit.field_receive_food_surplus__message_needaction
 #: model:ir.model.fields,help:odex_benefit.field_receive_food_surplus__message_unread
+#: model:ir.model.fields,help:odex_benefit.field_salary_line__message_needaction
+#: model:ir.model.fields,help:odex_benefit.field_salary_line__message_unread
 #: model:ir.model.fields,help:odex_benefit.field_service_request__message_needaction
 #: model:ir.model.fields,help:odex_benefit.field_service_request__message_unread
 #: model:ir.model.fields,help:odex_benefit.field_visit_location__message_needaction
@@ -6778,6 +7008,10 @@ msgstr "إذا كان محددًا، فهناك رسائل جديدة تحتاج
 #: model:ir.model.fields,help:odex_benefit.field_changes_requests__message_has_sms_error
 #: model:ir.model.fields,help:odex_benefit.field_confirm_benefit_expense__message_has_error
 #: model:ir.model.fields,help:odex_benefit.field_confirm_benefit_expense__message_has_sms_error
+#: model:ir.model.fields,help:odex_benefit.field_detainee_file__message_has_error
+#: model:ir.model.fields,help:odex_benefit.field_detainee_file__message_has_sms_error
+#: model:ir.model.fields,help:odex_benefit.field_expenses_line__message_has_error
+#: model:ir.model.fields,help:odex_benefit.field_expenses_line__message_has_sms_error
 #: model:ir.model.fields,help:odex_benefit.field_external_benefits__message_has_error
 #: model:ir.model.fields,help:odex_benefit.field_external_benefits__message_has_sms_error
 #: model:ir.model.fields,help:odex_benefit.field_family_complaints__message_has_error
@@ -6802,6 +7036,8 @@ msgstr "إذا كان محددًا، فهناك رسائل جديدة تحتاج
 #: model:ir.model.fields,help:odex_benefit.field_receive_food_basket__message_has_sms_error
 #: model:ir.model.fields,help:odex_benefit.field_receive_food_surplus__message_has_error
 #: model:ir.model.fields,help:odex_benefit.field_receive_food_surplus__message_has_sms_error
+#: model:ir.model.fields,help:odex_benefit.field_salary_line__message_has_error
+#: model:ir.model.fields,help:odex_benefit.field_salary_line__message_has_sms_error
 #: model:ir.model.fields,help:odex_benefit.field_service_request__message_has_error
 #: model:ir.model.fields,help:odex_benefit.field_service_request__message_has_sms_error
 #: model:ir.model.fields,help:odex_benefit.field_visit_location__message_has_error
@@ -6948,11 +7184,10 @@ msgstr "الدخل"
 #. module: odex_benefit
 #: model:ir.model.fields,field_description:odex_benefit.field_salary_line__salary_amount
 msgid "Income Amount"
-msgstr "قيمة الدخل"
+msgstr "قيمة اﻹيراد"
 
 #. module: odex_benefit
 #: code:addons/odex_benefit/models/benefit_config.py:0
-#: model:ir.model.fields.selection,name:odex_benefit.selection__attachments_settings__attach_type__income_attach
 #, python-format
 msgid "Income Attach"
 msgstr "مرفقات الدخل"
@@ -6968,16 +7203,15 @@ msgstr "ملفات الدخل المطلوبة"
 #: model:ir.model.fields,field_description:odex_benefit.field_salary_line__income_type
 #: model:ir.ui.menu,name:odex_benefit.income_type_menu
 msgid "Income Type"
-msgstr "نوع الدخل"
-
+msgstr "نوع اﻹيراد"
 
 #. module: odex_benefit
-#: model:ir.actions.act_window,name:odex_benefit.member_id_action
-#: model:ir.model,name:odex_benefit.model_member_id
-#: model:ir.model.fields,field_description:odex_benefit.field_salary_line__member_id
-#: model:ir.ui.menu,name:odex_benefit.member_id_menu
-msgid "Member Id"
-msgstr "الفرد"
+#: model:ir.actions.act_window,name:odex_benefit.action_salary_line
+#: model:ir.ui.menu,name:odex_benefit.menu_salary_line
+#: model_terms:ir.ui.view,arch_db:odex_benefit.view_salary_line_form
+#: model_terms:ir.ui.view,arch_db:odex_benefit.view_salary_line_tree
+msgid "Income and Salary"
+msgstr ""
 
 #. module: odex_benefit
 #: model_terms:ir.ui.view,arch_db:odex_benefit.grant_benefit_form
@@ -7206,6 +7440,8 @@ msgstr "مستثنى؟"
 #: model:ir.model.fields,field_description:odex_benefit.field_benefits_representative__message_is_follower
 #: model:ir.model.fields,field_description:odex_benefit.field_changes_requests__message_is_follower
 #: model:ir.model.fields,field_description:odex_benefit.field_confirm_benefit_expense__message_is_follower
+#: model:ir.model.fields,field_description:odex_benefit.field_detainee_file__message_is_follower
+#: model:ir.model.fields,field_description:odex_benefit.field_expenses_line__message_is_follower
 #: model:ir.model.fields,field_description:odex_benefit.field_external_benefits__message_is_follower
 #: model:ir.model.fields,field_description:odex_benefit.field_family_complaints__message_is_follower
 #: model:ir.model.fields,field_description:odex_benefit.field_family_member__message_is_follower
@@ -7218,6 +7454,7 @@ msgstr "مستثنى؟"
 #: model:ir.model.fields,field_description:odex_benefit.field_receive_benefit_zkat__message_is_follower
 #: model:ir.model.fields,field_description:odex_benefit.field_receive_food_basket__message_is_follower
 #: model:ir.model.fields,field_description:odex_benefit.field_receive_food_surplus__message_is_follower
+#: model:ir.model.fields,field_description:odex_benefit.field_salary_line__message_is_follower
 #: model:ir.model.fields,field_description:odex_benefit.field_service_request__message_is_follower
 #: model:ir.model.fields,field_description:odex_benefit.field_visit_location__message_is_follower
 msgid "Is Follower"
@@ -7546,6 +7783,7 @@ msgstr "الجهة التعليمية السابقة"
 #: model:ir.model.fields,field_description:odex_benefit.field_complaints_category____last_update
 #: model:ir.model.fields,field_description:odex_benefit.field_confirm_benefit_expense____last_update
 #: model:ir.model.fields,field_description:odex_benefit.field_craft_skills____last_update
+#: model:ir.model.fields,field_description:odex_benefit.field_detainee_file____last_update
 #: model:ir.model.fields,field_description:odex_benefit.field_disabilities_settings____last_update
 #: model:ir.model.fields,field_description:odex_benefit.field_diseases_settings____last_update
 #: model:ir.model.fields,field_description:odex_benefit.field_divorcee_family____last_update
@@ -7571,6 +7809,7 @@ msgstr "الجهة التعليمية السابقة"
 #: model:ir.model.fields,field_description:odex_benefit.field_family_complaints____last_update
 #: model:ir.model.fields,field_description:odex_benefit.field_family_debits____last_update
 #: model:ir.model.fields,field_description:odex_benefit.field_family_member____last_update
+#: model:ir.model.fields,field_description:odex_benefit.field_family_member_relation____last_update
 #: model:ir.model.fields,field_description:odex_benefit.field_family_validation_setting____last_update
 #: model:ir.model.fields,field_description:odex_benefit.field_food_basket_benefits_line____last_update
 #: model:ir.model.fields,field_description:odex_benefit.field_food_basket_line____last_update
@@ -7579,6 +7818,11 @@ msgstr "الجهة التعليمية السابقة"
 #: model:ir.model.fields,field_description:odex_benefit.field_generate_reports____last_update
 #: model:ir.model.fields,field_description:odex_benefit.field_generate_reports_log____last_update
 #: model:ir.model.fields,field_description:odex_benefit.field_grant_benefit____last_update
+#: model:ir.model.fields,field_description:odex_benefit.field_grant_benefit_breadwinner____last_update
+#: model:ir.model.fields,field_description:odex_benefit.field_grant_benefit_member____last_update
+#: model:ir.model.fields,field_description:odex_benefit.field_health_chronic_diseases____last_update
+#: model:ir.model.fields,field_description:odex_benefit.field_health_genetic_diseases____last_update
+#: model:ir.model.fields,field_description:odex_benefit.field_health_mental_illnesses____last_update
 #: model:ir.model.fields,field_description:odex_benefit.field_hobbies_settings____last_update
 #: model:ir.model.fields,field_description:odex_benefit.field_home_furnishing_items____last_update
 #: model:ir.model.fields,field_description:odex_benefit.field_home_furnishing_lines____last_update
@@ -7626,6 +7870,9 @@ msgstr "الجهة التعليمية السابقة"
 #: model:ir.model.fields,field_description:odex_benefit.field_rooms_items____last_update
 #: model:ir.model.fields,field_description:odex_benefit.field_salary_line____last_update
 #: model:ir.model.fields,field_description:odex_benefit.field_service_attachments_settings____last_update
+#: model:ir.model.fields,field_description:odex_benefit.field_service_delivery_method____last_update
+#: model:ir.model.fields,field_description:odex_benefit.field_service_need_status____last_update
+#: model:ir.model.fields,field_description:odex_benefit.field_service_provider____last_update
 #: model:ir.model.fields,field_description:odex_benefit.field_service_request____last_update
 #: model:ir.model.fields,field_description:odex_benefit.field_services_settings____last_update
 #: model:ir.model.fields,field_description:odex_benefit.field_specialization_specialization____last_update
@@ -7707,6 +7954,7 @@ msgstr "التخصص السابق"
 #: model:ir.model.fields,field_description:odex_benefit.field_complaints_category__write_uid
 #: model:ir.model.fields,field_description:odex_benefit.field_confirm_benefit_expense__write_uid
 #: model:ir.model.fields,field_description:odex_benefit.field_craft_skills__write_uid
+#: model:ir.model.fields,field_description:odex_benefit.field_detainee_file__write_uid
 #: model:ir.model.fields,field_description:odex_benefit.field_disabilities_settings__write_uid
 #: model:ir.model.fields,field_description:odex_benefit.field_diseases_settings__write_uid
 #: model:ir.model.fields,field_description:odex_benefit.field_divorcee_family__write_uid
@@ -7732,6 +7980,7 @@ msgstr "التخصص السابق"
 #: model:ir.model.fields,field_description:odex_benefit.field_family_complaints__write_uid
 #: model:ir.model.fields,field_description:odex_benefit.field_family_debits__write_uid
 #: model:ir.model.fields,field_description:odex_benefit.field_family_member__write_uid
+#: model:ir.model.fields,field_description:odex_benefit.field_family_member_relation__write_uid
 #: model:ir.model.fields,field_description:odex_benefit.field_family_validation_setting__write_uid
 #: model:ir.model.fields,field_description:odex_benefit.field_food_basket_benefits_line__write_uid
 #: model:ir.model.fields,field_description:odex_benefit.field_food_basket_line__write_uid
@@ -7740,6 +7989,11 @@ msgstr "التخصص السابق"
 #: model:ir.model.fields,field_description:odex_benefit.field_generate_reports__write_uid
 #: model:ir.model.fields,field_description:odex_benefit.field_generate_reports_log__write_uid
 #: model:ir.model.fields,field_description:odex_benefit.field_grant_benefit__write_uid
+#: model:ir.model.fields,field_description:odex_benefit.field_grant_benefit_breadwinner__write_uid
+#: model:ir.model.fields,field_description:odex_benefit.field_grant_benefit_member__write_uid
+#: model:ir.model.fields,field_description:odex_benefit.field_health_chronic_diseases__write_uid
+#: model:ir.model.fields,field_description:odex_benefit.field_health_genetic_diseases__write_uid
+#: model:ir.model.fields,field_description:odex_benefit.field_health_mental_illnesses__write_uid
 #: model:ir.model.fields,field_description:odex_benefit.field_hobbies_settings__write_uid
 #: model:ir.model.fields,field_description:odex_benefit.field_home_furnishing_items__write_uid
 #: model:ir.model.fields,field_description:odex_benefit.field_home_furnishing_lines__write_uid
@@ -7786,6 +8040,9 @@ msgstr "التخصص السابق"
 #: model:ir.model.fields,field_description:odex_benefit.field_rooms_items__write_uid
 #: model:ir.model.fields,field_description:odex_benefit.field_salary_line__write_uid
 #: model:ir.model.fields,field_description:odex_benefit.field_service_attachments_settings__write_uid
+#: model:ir.model.fields,field_description:odex_benefit.field_service_delivery_method__write_uid
+#: model:ir.model.fields,field_description:odex_benefit.field_service_need_status__write_uid
+#: model:ir.model.fields,field_description:odex_benefit.field_service_provider__write_uid
 #: model:ir.model.fields,field_description:odex_benefit.field_service_request__write_uid
 #: model:ir.model.fields,field_description:odex_benefit.field_services_settings__write_uid
 #: model:ir.model.fields,field_description:odex_benefit.field_specialization_specialization__write_uid
@@ -7843,6 +8100,7 @@ msgstr "آخر تحديث بواسطة"
 #: model:ir.model.fields,field_description:odex_benefit.field_complaints_category__write_date
 #: model:ir.model.fields,field_description:odex_benefit.field_confirm_benefit_expense__write_date
 #: model:ir.model.fields,field_description:odex_benefit.field_craft_skills__write_date
+#: model:ir.model.fields,field_description:odex_benefit.field_detainee_file__write_date
 #: model:ir.model.fields,field_description:odex_benefit.field_disabilities_settings__write_date
 #: model:ir.model.fields,field_description:odex_benefit.field_diseases_settings__write_date
 #: model:ir.model.fields,field_description:odex_benefit.field_divorcee_family__write_date
@@ -7868,6 +8126,7 @@ msgstr "آخر تحديث بواسطة"
 #: model:ir.model.fields,field_description:odex_benefit.field_family_complaints__write_date
 #: model:ir.model.fields,field_description:odex_benefit.field_family_debits__write_date
 #: model:ir.model.fields,field_description:odex_benefit.field_family_member__write_date
+#: model:ir.model.fields,field_description:odex_benefit.field_family_member_relation__write_date
 #: model:ir.model.fields,field_description:odex_benefit.field_family_validation_setting__write_date
 #: model:ir.model.fields,field_description:odex_benefit.field_food_basket_benefits_line__write_date
 #: model:ir.model.fields,field_description:odex_benefit.field_food_basket_line__write_date
@@ -7876,6 +8135,11 @@ msgstr "آخر تحديث بواسطة"
 #: model:ir.model.fields,field_description:odex_benefit.field_generate_reports__write_date
 #: model:ir.model.fields,field_description:odex_benefit.field_generate_reports_log__write_date
 #: model:ir.model.fields,field_description:odex_benefit.field_grant_benefit__write_date
+#: model:ir.model.fields,field_description:odex_benefit.field_grant_benefit_breadwinner__write_date
+#: model:ir.model.fields,field_description:odex_benefit.field_grant_benefit_member__write_date
+#: model:ir.model.fields,field_description:odex_benefit.field_health_chronic_diseases__write_date
+#: model:ir.model.fields,field_description:odex_benefit.field_health_genetic_diseases__write_date
+#: model:ir.model.fields,field_description:odex_benefit.field_health_mental_illnesses__write_date
 #: model:ir.model.fields,field_description:odex_benefit.field_hobbies_settings__write_date
 #: model:ir.model.fields,field_description:odex_benefit.field_home_furnishing_items__write_date
 #: model:ir.model.fields,field_description:odex_benefit.field_home_furnishing_lines__write_date
@@ -7922,6 +8186,9 @@ msgstr "آخر تحديث بواسطة"
 #: model:ir.model.fields,field_description:odex_benefit.field_rooms_items__write_date
 #: model:ir.model.fields,field_description:odex_benefit.field_salary_line__write_date
 #: model:ir.model.fields,field_description:odex_benefit.field_service_attachments_settings__write_date
+#: model:ir.model.fields,field_description:odex_benefit.field_service_delivery_method__write_date
+#: model:ir.model.fields,field_description:odex_benefit.field_service_need_status__write_date
+#: model:ir.model.fields,field_description:odex_benefit.field_service_provider__write_date
 #: model:ir.model.fields,field_description:odex_benefit.field_service_request__write_date
 #: model:ir.model.fields,field_description:odex_benefit.field_services_settings__write_date
 #: model:ir.model.fields,field_description:odex_benefit.field_specialization_specialization__write_date
@@ -8068,32 +8335,6 @@ msgstr "الجهة المانحة للقرض"
 msgid "Loan Reason"
 msgstr "سبب القرض"
 
-
-#. module: odex_benefit
-#: model:ir.actions.act_window,name:odex_benefit.health_genetic_diseases_action
-#: model:ir.model,name:odex_benefit.model_health_genetic_diseases
-#: model:ir.model.fields,field_description:odex_benefit.field_health_genetic_diseases
-#: model:ir.ui.menu,name:odex_benefit.health_genetic_diseases_menu
-msgid "Health Genetic Diseases"
-msgstr "الأمراض الوراثية"
-
-
-#. module: odex_benefit
-#: model:ir.actions.act_window,name:odex_benefit.health_mental_illnesses_action
-#: model:ir.model,name:odex_benefit.model_health_mental_illnesses
-#: model:ir.model.fields,field_description:odex_benefit.field_health_mental_illnesses
-#: model:ir.ui.menu,name:odex_benefit.health_mental_illnesses_menu
-msgid "Health Mental Illnesses"
-msgstr "الأمراض النفسية"
-
-#. module: odex_benefit
-#: model:ir.actions.act_window,name:odex_benefit.health_chronic_diseases_action
-#: model:ir.model,name:odex_benefit.model_health_chronic_diseases
-#: model:ir.model.fields,field_description:odex_benefit.field_health_chronic_diseases
-#: model:ir.ui.menu,name:odex_benefit.health_chronic_diseases_menu
-msgid "Health Chronic Diseases"
-msgstr "الأمراض المزمنة"
-
 #. module: odex_benefit
 #: model:ir.model.fields,field_description:odex_benefit.field_family_debits__loan_remaining
 msgid "Loan Remaining"
@@ -8164,6 +8405,11 @@ msgid "Low"
 msgstr ""
 
 #. module: odex_benefit
+#: model:ir.model.fields.selection,name:odex_benefit.selection__grant_benefit__need_calculator__low
+msgid "Low Need"
+msgstr "الاقل احتياجا"
+
+#. module: odex_benefit
 #: model:ir.model.fields,field_description:odex_benefit.field_appliances_furniture__message_main_attachment_id
 #: model:ir.model.fields,field_description:odex_benefit.field_appliances_furniture_need__message_main_attachment_id
 #: model:ir.model.fields,field_description:odex_benefit.field_benefit_club__message_main_attachment_id
@@ -8179,6 +8425,8 @@ msgstr ""
 #: model:ir.model.fields,field_description:odex_benefit.field_benefits_representative__message_main_attachment_id
 #: model:ir.model.fields,field_description:odex_benefit.field_changes_requests__message_main_attachment_id
 #: model:ir.model.fields,field_description:odex_benefit.field_confirm_benefit_expense__message_main_attachment_id
+#: model:ir.model.fields,field_description:odex_benefit.field_detainee_file__message_main_attachment_id
+#: model:ir.model.fields,field_description:odex_benefit.field_expenses_line__message_main_attachment_id
 #: model:ir.model.fields,field_description:odex_benefit.field_external_benefits__message_main_attachment_id
 #: model:ir.model.fields,field_description:odex_benefit.field_family_complaints__message_main_attachment_id
 #: model:ir.model.fields,field_description:odex_benefit.field_family_member__message_main_attachment_id
@@ -8191,6 +8439,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:odex_benefit.field_receive_benefit_zkat__message_main_attachment_id
 #: model:ir.model.fields,field_description:odex_benefit.field_receive_food_basket__message_main_attachment_id
 #: model:ir.model.fields,field_description:odex_benefit.field_receive_food_surplus__message_main_attachment_id
+#: model:ir.model.fields,field_description:odex_benefit.field_salary_line__message_main_attachment_id
 #: model:ir.model.fields,field_description:odex_benefit.field_service_request__message_main_attachment_id
 #: model:ir.model.fields,field_description:odex_benefit.field_visit_location__message_main_attachment_id
 msgid "Main Attachment"
@@ -8205,7 +8454,7 @@ msgstr "نوع الخدمة الرئيسية"
 #. module: odex_benefit
 #: model:ir.model.fields,field_description:odex_benefit.field_service_request__main_service_category
 msgid "Main Service Category"
-msgstr "الخدمة الرئيسية"
+msgstr "مسار الخدمة"
 
 #. module: odex_benefit
 #: model:ir.model.fields,field_description:odex_benefit.field_home_maintenance_items__maintenance_items_id
@@ -8225,7 +8474,7 @@ msgstr "خدمة صيانة منزل"
 
 #. module: odex_benefit
 #: code:addons/odex_benefit/models/benefit_config.py:0
-#: model:ir.model.fields.selection,name:odex_benefit.selection__benefit_category__gender__male
+#: code:addons/odex_benefit/models/family_member_relation.py:0
 #: model:ir.model.fields.selection,name:odex_benefit.selection__changes_requests__team_type__male
 #: model:ir.model.fields.selection,name:odex_benefit.selection__family_member__gender__male
 #, python-format
@@ -8272,12 +8521,6 @@ msgstr ""
 #: code:addons/odex_benefit/models/benefit.py:0
 #: code:addons/odex_benefit/models/family_members.py:0
 #: model:ir.actions.act_window,name:odex_benefit.marital_status_action
-#: model:ir.model.fields,field_description:odex_benefit.field_benefits_representative__marital_status
-#: model:ir.model.fields,field_description:odex_benefit.field_external_benefits__marital_status
-#: model:ir.model.fields,field_description:odex_benefit.field_family_member__mother_marital
-#: model:ir.model.fields,field_description:odex_benefit.field_grant_benefit__father_marital
-#: model:ir.model.fields,field_description:odex_benefit.field_grant_benefit__marital_status
-#: model:ir.model.fields,field_description:odex_benefit.field_grant_benefit__mother_marital
 #: model:ir.ui.menu,name:odex_benefit.marital_status_menu
 #, python-format
 msgid "Marital Status"
@@ -8302,9 +8545,6 @@ msgstr "اعدادت إعانة الزواج"
 #: code:addons/odex_benefit/models/benefit.py:0
 #: code:addons/odex_benefit/models/benefit.py:0
 #: code:addons/odex_benefit/models/family_members.py:0
-#: model:ir.model.fields.selection,name:odex_benefit.selection__family_member__mother_marital__married
-#: model:ir.model.fields.selection,name:odex_benefit.selection__grant_benefit__father_marital__married
-#: model:ir.model.fields.selection,name:odex_benefit.selection__grant_benefit__mother_marital__married
 #, python-format
 msgid "Married"
 msgstr "متزوجة"
@@ -8482,17 +8722,25 @@ msgid "Medicine Type"
 msgstr ""
 
 #. module: odex_benefit
+#: model:ir.model.fields.selection,name:odex_benefit.selection__grant_benefit__need_calculator__medium
+msgid "Medium Need"
+msgstr "متوسط الاحتياج"
+
+#. module: odex_benefit
 #: code:addons/odex_benefit/models/benefit_config.py:0
 #: model:ir.model.fields,field_description:odex_benefit.field_exception_wizard__member_id
+#: model:ir.model.fields,field_description:odex_benefit.field_expenses_line__member_id
+#: model:ir.model.fields,field_description:odex_benefit.field_grant_benefit__member_id
 #: model:ir.model.fields,field_description:odex_benefit.field_grant_benefit__member_ids
+#: model:ir.model.fields,field_description:odex_benefit.field_grant_benefit_member__member_id
 #: model:ir.model.fields,field_description:odex_benefit.field_ir_attachment__member_id
 #: model:ir.model.fields,field_description:odex_benefit.field_member_disabilities__member_id
 #: model:ir.model.fields,field_description:odex_benefit.field_member_diseases__member_id
 #: model:ir.model.fields,field_description:odex_benefit.field_member_hobbies__member_id
 #: model:ir.model.fields,field_description:odex_benefit.field_researcher_member_wizard__member_id
+#: model:ir.model.fields,field_description:odex_benefit.field_salary_line__member_id
 #: model:ir.model.fields,field_description:odex_benefit.field_service_request__member_id
 #: model:ir.model.fields,field_description:odex_benefit.field_suspend_reason_wizard__member_id
-#: model:ir.model.fields.selection,name:odex_benefit.selection__location_settings__location_type__member
 #: model:ir.model.fields.selection,name:odex_benefit.selection__service_request__benefit_type__member
 #, python-format
 msgid "Member"
@@ -8516,10 +8764,14 @@ msgstr ""
 
 #. module: odex_benefit
 #: code:addons/odex_benefit/models/benefit_config.py:0
-#: model:ir.model.fields.selection,name:odex_benefit.selection__attachments_settings__attach_type__member_attach
 #, python-format
 msgid "Member Attach"
-msgstr "مرفقات افراد الأسرة"
+msgstr "مرفقات أعضاء الأسرة"
+
+#. module: odex_benefit
+#: model_terms:ir.ui.view,arch_db:odex_benefit.service_request_form
+msgid "Member Details"
+msgstr "معلومات الفرد"
 
 #. module: odex_benefit
 #: model:ir.model.fields,field_description:odex_benefit.field_family_member__member_family_name
@@ -8598,6 +8850,11 @@ msgid "Member Second Name"
 msgstr "الاسم الثاني"
 
 #. module: odex_benefit
+#: model:ir.model.fields,field_description:odex_benefit.field_service_request__beneficiary_category
+msgid "Member Status"
+msgstr "حالة المستفيد"
+
+#. module: odex_benefit
 #: model:ir.model.fields,field_description:odex_benefit.field_family_member__member_third_name
 msgid "Member Third Name"
 msgstr "الاسم الثالث"
@@ -8608,10 +8865,15 @@ msgid "Member Umra"
 msgstr "هل قام بأداء العمرة؟"
 
 #. module: odex_benefit
+#: model:ir.model.fields,field_description:odex_benefit.field_grant_benefit_breadwinner__member_name
+msgid "Member name"
+msgstr "الفرد"
+
+#. module: odex_benefit
 #: model:ir.model.fields,field_description:odex_benefit.field_benefit_housing_rooms__members_ids
 #: model_terms:ir.ui.view,arch_db:odex_benefit.grant_benefit_form
 msgid "Members"
-msgstr "افراد/مستفيدين الأسرة"
+msgstr "أعضاء/مستفيدين الأسرة"
 
 #. module: odex_benefit
 #: model:ir.model.fields,field_description:odex_benefit.field_grant_benefit__benefit_member_count
@@ -8645,6 +8907,8 @@ msgstr "الرسالة"
 #: model:ir.model.fields,field_description:odex_benefit.field_benefits_representative__message_has_error
 #: model:ir.model.fields,field_description:odex_benefit.field_changes_requests__message_has_error
 #: model:ir.model.fields,field_description:odex_benefit.field_confirm_benefit_expense__message_has_error
+#: model:ir.model.fields,field_description:odex_benefit.field_detainee_file__message_has_error
+#: model:ir.model.fields,field_description:odex_benefit.field_expenses_line__message_has_error
 #: model:ir.model.fields,field_description:odex_benefit.field_external_benefits__message_has_error
 #: model:ir.model.fields,field_description:odex_benefit.field_family_complaints__message_has_error
 #: model:ir.model.fields,field_description:odex_benefit.field_family_member__message_has_error
@@ -8657,6 +8921,7 @@ msgstr "الرسالة"
 #: model:ir.model.fields,field_description:odex_benefit.field_receive_benefit_zkat__message_has_error
 #: model:ir.model.fields,field_description:odex_benefit.field_receive_food_basket__message_has_error
 #: model:ir.model.fields,field_description:odex_benefit.field_receive_food_surplus__message_has_error
+#: model:ir.model.fields,field_description:odex_benefit.field_salary_line__message_has_error
 #: model:ir.model.fields,field_description:odex_benefit.field_service_request__message_has_error
 #: model:ir.model.fields,field_description:odex_benefit.field_visit_location__message_has_error
 msgid "Message Delivery error"
@@ -8706,6 +8971,8 @@ msgstr "رسالة لاختيار الأسهم"
 #: model:ir.model.fields,field_description:odex_benefit.field_benefits_representative__message_ids
 #: model:ir.model.fields,field_description:odex_benefit.field_changes_requests__message_ids
 #: model:ir.model.fields,field_description:odex_benefit.field_confirm_benefit_expense__message_ids
+#: model:ir.model.fields,field_description:odex_benefit.field_detainee_file__message_ids
+#: model:ir.model.fields,field_description:odex_benefit.field_expenses_line__message_ids
 #: model:ir.model.fields,field_description:odex_benefit.field_external_benefits__message_ids
 #: model:ir.model.fields,field_description:odex_benefit.field_family_complaints__message_ids
 #: model:ir.model.fields,field_description:odex_benefit.field_family_member__message_ids
@@ -8718,6 +8985,7 @@ msgstr "رسالة لاختيار الأسهم"
 #: model:ir.model.fields,field_description:odex_benefit.field_receive_benefit_zkat__message_ids
 #: model:ir.model.fields,field_description:odex_benefit.field_receive_food_basket__message_ids
 #: model:ir.model.fields,field_description:odex_benefit.field_receive_food_surplus__message_ids
+#: model:ir.model.fields,field_description:odex_benefit.field_salary_line__message_ids
 #: model:ir.model.fields,field_description:odex_benefit.field_service_request__message_ids
 #: model:ir.model.fields,field_description:odex_benefit.field_visit_location__message_ids
 msgid "Messages"
@@ -8762,6 +9030,7 @@ msgstr "رقم الجوال"
 
 #. module: odex_benefit
 #: model:ir.model.fields.selection,name:odex_benefit.selection__benefit_club__programs_type__monthly
+#: model:ir.model.fields.selection,name:odex_benefit.selection__grant_benefit__exchange_period__monthly
 #: model:ir.model.fields.selection,name:odex_benefit.selection__sport_line__Subtype__monthly
 msgid "Monthly"
 msgstr "شهري"
@@ -8780,8 +9049,6 @@ msgstr "صباحًا"
 #: code:addons/odex_benefit/models/benefit.py:0
 #: code:addons/odex_benefit/models/benefit_config.py:0
 #: model:ir.model.fields,field_description:odex_benefit.field_grant_benefit__mother_id
-#: model:ir.model.fields.selection,name:odex_benefit.selection__grant_benefit__mother_relation__mother
-#: model:ir.model.fields.selection,name:odex_benefit.selection__relation_settings__relation_type__mother
 #: model_terms:ir.ui.view,arch_db:odex_benefit.grant_benefit_form
 #, python-format
 msgid "Mother"
@@ -8835,7 +9102,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:odex_benefit.field_family_member__mother_location_conf
 #: model:ir.model.fields,field_description:odex_benefit.field_grant_benefit__mother_location
 #: model:ir.model.fields,field_description:odex_benefit.field_grant_benefit__mother_location_conf
-#: model:ir.model.fields.selection,name:odex_benefit.selection__location_settings__location_type__mother_location
 #, python-format
 msgid "Mother Location"
 msgstr "سكن الأم"
@@ -8926,6 +9192,8 @@ msgstr "القيود"
 #: model:ir.model.fields,field_description:odex_benefit.field_benefits_representative__my_activity_date_deadline
 #: model:ir.model.fields,field_description:odex_benefit.field_changes_requests__my_activity_date_deadline
 #: model:ir.model.fields,field_description:odex_benefit.field_confirm_benefit_expense__my_activity_date_deadline
+#: model:ir.model.fields,field_description:odex_benefit.field_detainee_file__my_activity_date_deadline
+#: model:ir.model.fields,field_description:odex_benefit.field_expenses_line__my_activity_date_deadline
 #: model:ir.model.fields,field_description:odex_benefit.field_external_benefits__my_activity_date_deadline
 #: model:ir.model.fields,field_description:odex_benefit.field_family_complaints__my_activity_date_deadline
 #: model:ir.model.fields,field_description:odex_benefit.field_family_member__my_activity_date_deadline
@@ -8938,6 +9206,7 @@ msgstr "القيود"
 #: model:ir.model.fields,field_description:odex_benefit.field_receive_benefit_zkat__my_activity_date_deadline
 #: model:ir.model.fields,field_description:odex_benefit.field_receive_food_basket__my_activity_date_deadline
 #: model:ir.model.fields,field_description:odex_benefit.field_receive_food_surplus__my_activity_date_deadline
+#: model:ir.model.fields,field_description:odex_benefit.field_salary_line__my_activity_date_deadline
 #: model:ir.model.fields,field_description:odex_benefit.field_service_request__my_activity_date_deadline
 #: model:ir.model.fields,field_description:odex_benefit.field_visit_location__my_activity_date_deadline
 msgid "My Activity Deadline"
@@ -8989,7 +9258,9 @@ msgstr "نهاية الوقت المعين للنشاط"
 #: model:ir.model.fields,field_description:odex_benefit.field_food_surplus_type__name
 #: model:ir.model.fields,field_description:odex_benefit.field_generate_reports__name
 #: model:ir.model.fields,field_description:odex_benefit.field_generate_reports_log__name
-#: model:ir.model.fields,field_description:odex_benefit.field_grant_benefit__name
+#: model:ir.model.fields,field_description:odex_benefit.field_health_chronic_diseases__name
+#: model:ir.model.fields,field_description:odex_benefit.field_health_genetic_diseases__name
+#: model:ir.model.fields,field_description:odex_benefit.field_health_mental_illnesses__name
 #: model:ir.model.fields,field_description:odex_benefit.field_hobbies_settings__name
 #: model:ir.model.fields,field_description:odex_benefit.field_hospital_hospital__name
 #: model:ir.model.fields,field_description:odex_benefit.field_housing_rooms_type__name
@@ -9014,6 +9285,12 @@ msgstr "نهاية الوقت المعين للنشاط"
 #: model:ir.model.fields,field_description:odex_benefit.field_res_districts__name
 #: model:ir.model.fields,field_description:odex_benefit.field_rooms_categories__name
 #: model:ir.model.fields,field_description:odex_benefit.field_rooms_items__name
+#: model:ir.model.fields,field_description:odex_benefit.field_service_delivery_method__name
+#: model:ir.model.fields,field_description:odex_benefit.field_service_need_status__name
+#: model:ir.model.fields,field_description:odex_benefit.field_service_provider__name
+#: model:ir.model.fields,field_description:odex_benefit.field_service_request__family_id_member_name
+#: model:ir.model.fields,field_description:odex_benefit.field_service_request__member_name
+#: model:ir.model.fields,field_description:odex_benefit.field_service_request__need_status
 #: model:ir.model.fields,field_description:odex_benefit.field_specialization_specialization__name
 #: model:ir.model.fields,field_description:odex_benefit.field_sport_type__name
 #: model:ir.model.fields,field_description:odex_benefit.field_study_material__name
@@ -9025,11 +9302,22 @@ msgstr "نهاية الوقت المعين للنشاط"
 #: model_terms:ir.ui.view,arch_db:odex_benefit.benefits_representative_view_form
 #: model_terms:ir.ui.view,arch_db:odex_benefit.external_benefit_view_form
 #: model_terms:ir.ui.view,arch_db:odex_benefit.family_member_form
-#: model_terms:ir.ui.view,arch_db:odex_benefit.grant_benefit_form
 #: model_terms:ir.ui.view,arch_db:odex_benefit.view_benefit_category_form
 #: model_terms:ir.ui.view,arch_db:odex_benefit.view_benefit_housing_form
 msgid "Name"
 msgstr "الاسم"
+
+#. module: odex_benefit
+#: model:ir.model.fields,field_description:odex_benefit.field_service_attachments_settings__name
+msgid "Name Attachment"
+msgstr ""
+
+
+#. module: odex_benefit
+#: model:ir.model.fields,field_description:odex_benefit.field_grant_benefit__name
+#: model_terms:ir.ui.view,arch_db:odex_benefit.grant_benefit_form
+msgid "Name"
+msgstr "حالة الملف"
 
 #. module: odex_benefit
 #: model:ir.model.fields,field_description:odex_benefit.field_grant_benefit__name_in_bank
@@ -9084,6 +9372,12 @@ msgid "Need Attach"
 msgstr "مرفق نموذج الطلب"
 
 #. module: odex_benefit
+#: model:ir.model.fields,field_description:odex_benefit.field_grant_benefit__need_calculator
+#: model:ir.model.fields,field_description:odex_benefit.field_service_request__need_calculator
+msgid "Need Calculator"
+msgstr "فئة الاحتياج"
+
+#. module: odex_benefit
 #: model:ir.model.fields,field_description:odex_benefit.field_benefits_needs__need_category
 msgid "Need Category"
 msgstr "فئة الخدمة"
@@ -9094,13 +9388,19 @@ msgid "Need Help"
 msgstr ""
 
 #. module: odex_benefit
+#: model:ir.model.fields,field_description:odex_benefit.field_service_provider__need_partner
+#: model:ir.model.fields,field_description:odex_benefit.field_service_request__provider_need_partner
+msgid "Need Partner"
+msgstr "يحتاج الى شريك"
+
+#. module: odex_benefit
 #: model_terms:ir.ui.view,arch_db:odex_benefit.service_request_search
 msgid "Need Payment Order"
 msgstr "يحتاج إلى أمر صرف"
 
 #. module: odex_benefit
 #: model:ir.model.fields,field_description:odex_benefit.field_benefits_needs__need_status
-#: model:ir.model.fields,field_description:odex_benefit.field_service_request__need_status
+#: model:ir.model.fields,field_description:odex_benefit.field_service_request__need_status_id
 msgid "Need Status"
 msgstr "حالة الاحتياج"
 
@@ -9155,8 +9455,7 @@ msgstr ""
 #: code:addons/odex_benefit/models/Services/benefit_zkat_alfter.py:0
 #: code:addons/odex_benefit/models/Services/benefit_zkat_alfter.py:0
 #: code:addons/odex_benefit/models/benefit.py:0
-#: code:addons/odex_benefit/models/benefit.py:0
-#: code:addons/odex_benefit/models/benefit.py:0
+#: code:addons/odex_benefit/models/detainee_file.py:0
 #: code:addons/odex_benefit/models/family_expense.py:0
 #: code:addons/odex_benefit/models/family_expense.py:0
 #: code:addons/odex_benefit/models/family_expense.py:0
@@ -9223,6 +9522,8 @@ msgstr "تاريخ الإجراء التالي"
 #: model:ir.model.fields,field_description:odex_benefit.field_benefits_representative__activity_date_deadline
 #: model:ir.model.fields,field_description:odex_benefit.field_changes_requests__activity_date_deadline
 #: model:ir.model.fields,field_description:odex_benefit.field_confirm_benefit_expense__activity_date_deadline
+#: model:ir.model.fields,field_description:odex_benefit.field_detainee_file__activity_date_deadline
+#: model:ir.model.fields,field_description:odex_benefit.field_expenses_line__activity_date_deadline
 #: model:ir.model.fields,field_description:odex_benefit.field_external_benefits__activity_date_deadline
 #: model:ir.model.fields,field_description:odex_benefit.field_family_complaints__activity_date_deadline
 #: model:ir.model.fields,field_description:odex_benefit.field_family_member__activity_date_deadline
@@ -9235,6 +9536,7 @@ msgstr "تاريخ الإجراء التالي"
 #: model:ir.model.fields,field_description:odex_benefit.field_receive_benefit_zkat__activity_date_deadline
 #: model:ir.model.fields,field_description:odex_benefit.field_receive_food_basket__activity_date_deadline
 #: model:ir.model.fields,field_description:odex_benefit.field_receive_food_surplus__activity_date_deadline
+#: model:ir.model.fields,field_description:odex_benefit.field_salary_line__activity_date_deadline
 #: model:ir.model.fields,field_description:odex_benefit.field_service_request__activity_date_deadline
 #: model:ir.model.fields,field_description:odex_benefit.field_visit_location__activity_date_deadline
 msgid "Next Activity Deadline"
@@ -9256,6 +9558,8 @@ msgstr "الموعد النهائي للنشاط التالي"
 #: model:ir.model.fields,field_description:odex_benefit.field_benefits_representative__activity_summary
 #: model:ir.model.fields,field_description:odex_benefit.field_changes_requests__activity_summary
 #: model:ir.model.fields,field_description:odex_benefit.field_confirm_benefit_expense__activity_summary
+#: model:ir.model.fields,field_description:odex_benefit.field_detainee_file__activity_summary
+#: model:ir.model.fields,field_description:odex_benefit.field_expenses_line__activity_summary
 #: model:ir.model.fields,field_description:odex_benefit.field_external_benefits__activity_summary
 #: model:ir.model.fields,field_description:odex_benefit.field_family_complaints__activity_summary
 #: model:ir.model.fields,field_description:odex_benefit.field_family_member__activity_summary
@@ -9268,6 +9572,7 @@ msgstr "الموعد النهائي للنشاط التالي"
 #: model:ir.model.fields,field_description:odex_benefit.field_receive_benefit_zkat__activity_summary
 #: model:ir.model.fields,field_description:odex_benefit.field_receive_food_basket__activity_summary
 #: model:ir.model.fields,field_description:odex_benefit.field_receive_food_surplus__activity_summary
+#: model:ir.model.fields,field_description:odex_benefit.field_salary_line__activity_summary
 #: model:ir.model.fields,field_description:odex_benefit.field_service_request__activity_summary
 #: model:ir.model.fields,field_description:odex_benefit.field_visit_location__activity_summary
 msgid "Next Activity Summary"
@@ -9289,6 +9594,8 @@ msgstr "ملخص النشاط التالي"
 #: model:ir.model.fields,field_description:odex_benefit.field_benefits_representative__activity_type_id
 #: model:ir.model.fields,field_description:odex_benefit.field_changes_requests__activity_type_id
 #: model:ir.model.fields,field_description:odex_benefit.field_confirm_benefit_expense__activity_type_id
+#: model:ir.model.fields,field_description:odex_benefit.field_detainee_file__activity_type_id
+#: model:ir.model.fields,field_description:odex_benefit.field_expenses_line__activity_type_id
 #: model:ir.model.fields,field_description:odex_benefit.field_external_benefits__activity_type_id
 #: model:ir.model.fields,field_description:odex_benefit.field_family_complaints__activity_type_id
 #: model:ir.model.fields,field_description:odex_benefit.field_family_member__activity_type_id
@@ -9301,6 +9608,7 @@ msgstr "ملخص النشاط التالي"
 #: model:ir.model.fields,field_description:odex_benefit.field_receive_benefit_zkat__activity_type_id
 #: model:ir.model.fields,field_description:odex_benefit.field_receive_food_basket__activity_type_id
 #: model:ir.model.fields,field_description:odex_benefit.field_receive_food_surplus__activity_type_id
+#: model:ir.model.fields,field_description:odex_benefit.field_salary_line__activity_type_id
 #: model:ir.model.fields,field_description:odex_benefit.field_service_request__activity_type_id
 #: model:ir.model.fields,field_description:odex_benefit.field_visit_location__activity_type_id
 msgid "Next Activity Type"
@@ -9391,9 +9699,7 @@ msgid "Not Found benefit "
 msgstr ""
 
 #. module: odex_benefit
-#: model:ir.model.fields.selection,name:odex_benefit.selection__family_member__state__not_leaving
 #: model:ir.model.fields.selection,name:odex_benefit.selection__family_member__state_a__not_leaving
-#: model:ir.model.fields.selection,name:odex_benefit.selection__grant_benefit__state__not_leaving
 msgid "Not Leaving"
 msgstr "المتوفيين"
 
@@ -9401,16 +9707,12 @@ msgstr "المتوفيين"
 #: code:addons/odex_benefit/models/benefit.py:0
 #: code:addons/odex_benefit/models/benefit.py:0
 #: code:addons/odex_benefit/models/family_members.py:0
-#: model:ir.model.fields.selection,name:odex_benefit.selection__family_member__mother_location__not_live_with_children
-#: model:ir.model.fields.selection,name:odex_benefit.selection__grant_benefit__mother_location__not_live_with_children
-#: model:ir.model.fields.selection,name:odex_benefit.selection__grant_benefit__replacement_mother_location__not_live_with_children
 #, python-format
 msgid "Not live with children"
 msgstr "لا تسكن مع الأطفال"
 
 #. module: odex_benefit
 #: model:ir.model.fields.selection,name:odex_benefit.selection__benefits_needs__need_status__not_urgent
-#: model:ir.model.fields.selection,name:odex_benefit.selection__service_request__need_status__not_urgent
 msgid "Not urgent"
 msgstr "غير طارئة"
 
@@ -9461,6 +9763,8 @@ msgstr "عدد الأجزاء"
 #: model:ir.model.fields,field_description:odex_benefit.field_benefits_representative__message_needaction_counter
 #: model:ir.model.fields,field_description:odex_benefit.field_changes_requests__message_needaction_counter
 #: model:ir.model.fields,field_description:odex_benefit.field_confirm_benefit_expense__message_needaction_counter
+#: model:ir.model.fields,field_description:odex_benefit.field_detainee_file__message_needaction_counter
+#: model:ir.model.fields,field_description:odex_benefit.field_expenses_line__message_needaction_counter
 #: model:ir.model.fields,field_description:odex_benefit.field_external_benefits__message_needaction_counter
 #: model:ir.model.fields,field_description:odex_benefit.field_family_complaints__message_needaction_counter
 #: model:ir.model.fields,field_description:odex_benefit.field_family_member__message_needaction_counter
@@ -9473,6 +9777,7 @@ msgstr "عدد الأجزاء"
 #: model:ir.model.fields,field_description:odex_benefit.field_receive_benefit_zkat__message_needaction_counter
 #: model:ir.model.fields,field_description:odex_benefit.field_receive_food_basket__message_needaction_counter
 #: model:ir.model.fields,field_description:odex_benefit.field_receive_food_surplus__message_needaction_counter
+#: model:ir.model.fields,field_description:odex_benefit.field_salary_line__message_needaction_counter
 #: model:ir.model.fields,field_description:odex_benefit.field_service_request__message_needaction_counter
 #: model:ir.model.fields,field_description:odex_benefit.field_visit_location__message_needaction_counter
 msgid "Number of Actions"
@@ -9501,6 +9806,8 @@ msgstr "عدد الأيام لإرسال بريد إلكتروني للتذكي�
 #: model:ir.model.fields,field_description:odex_benefit.field_benefits_representative__message_has_error_counter
 #: model:ir.model.fields,field_description:odex_benefit.field_changes_requests__message_has_error_counter
 #: model:ir.model.fields,field_description:odex_benefit.field_confirm_benefit_expense__message_has_error_counter
+#: model:ir.model.fields,field_description:odex_benefit.field_detainee_file__message_has_error_counter
+#: model:ir.model.fields,field_description:odex_benefit.field_expenses_line__message_has_error_counter
 #: model:ir.model.fields,field_description:odex_benefit.field_external_benefits__message_has_error_counter
 #: model:ir.model.fields,field_description:odex_benefit.field_family_complaints__message_has_error_counter
 #: model:ir.model.fields,field_description:odex_benefit.field_family_member__message_has_error_counter
@@ -9513,6 +9820,7 @@ msgstr "عدد الأيام لإرسال بريد إلكتروني للتذكي�
 #: model:ir.model.fields,field_description:odex_benefit.field_receive_benefit_zkat__message_has_error_counter
 #: model:ir.model.fields,field_description:odex_benefit.field_receive_food_basket__message_has_error_counter
 #: model:ir.model.fields,field_description:odex_benefit.field_receive_food_surplus__message_has_error_counter
+#: model:ir.model.fields,field_description:odex_benefit.field_salary_line__message_has_error_counter
 #: model:ir.model.fields,field_description:odex_benefit.field_service_request__message_has_error_counter
 #: model:ir.model.fields,field_description:odex_benefit.field_visit_location__message_has_error_counter
 msgid "Number of errors"
@@ -9548,6 +9856,8 @@ msgstr "عدد الأقساط"
 #: model:ir.model.fields,help:odex_benefit.field_benefits_representative__message_needaction_counter
 #: model:ir.model.fields,help:odex_benefit.field_changes_requests__message_needaction_counter
 #: model:ir.model.fields,help:odex_benefit.field_confirm_benefit_expense__message_needaction_counter
+#: model:ir.model.fields,help:odex_benefit.field_detainee_file__message_needaction_counter
+#: model:ir.model.fields,help:odex_benefit.field_expenses_line__message_needaction_counter
 #: model:ir.model.fields,help:odex_benefit.field_external_benefits__message_needaction_counter
 #: model:ir.model.fields,help:odex_benefit.field_family_complaints__message_needaction_counter
 #: model:ir.model.fields,help:odex_benefit.field_family_member__message_needaction_counter
@@ -9560,6 +9870,7 @@ msgstr "عدد الأقساط"
 #: model:ir.model.fields,help:odex_benefit.field_receive_benefit_zkat__message_needaction_counter
 #: model:ir.model.fields,help:odex_benefit.field_receive_food_basket__message_needaction_counter
 #: model:ir.model.fields,help:odex_benefit.field_receive_food_surplus__message_needaction_counter
+#: model:ir.model.fields,help:odex_benefit.field_salary_line__message_needaction_counter
 #: model:ir.model.fields,help:odex_benefit.field_service_request__message_needaction_counter
 #: model:ir.model.fields,help:odex_benefit.field_visit_location__message_needaction_counter
 msgid "Number of messages which requires an action"
@@ -9581,6 +9892,8 @@ msgstr "عدد الرسائل التي تتطلب إجراء"
 #: model:ir.model.fields,help:odex_benefit.field_benefits_representative__message_has_error_counter
 #: model:ir.model.fields,help:odex_benefit.field_changes_requests__message_has_error_counter
 #: model:ir.model.fields,help:odex_benefit.field_confirm_benefit_expense__message_has_error_counter
+#: model:ir.model.fields,help:odex_benefit.field_detainee_file__message_has_error_counter
+#: model:ir.model.fields,help:odex_benefit.field_expenses_line__message_has_error_counter
 #: model:ir.model.fields,help:odex_benefit.field_external_benefits__message_has_error_counter
 #: model:ir.model.fields,help:odex_benefit.field_family_complaints__message_has_error_counter
 #: model:ir.model.fields,help:odex_benefit.field_family_member__message_has_error_counter
@@ -9593,6 +9906,7 @@ msgstr "عدد الرسائل التي تتطلب إجراء"
 #: model:ir.model.fields,help:odex_benefit.field_receive_benefit_zkat__message_has_error_counter
 #: model:ir.model.fields,help:odex_benefit.field_receive_food_basket__message_has_error_counter
 #: model:ir.model.fields,help:odex_benefit.field_receive_food_surplus__message_has_error_counter
+#: model:ir.model.fields,help:odex_benefit.field_salary_line__message_has_error_counter
 #: model:ir.model.fields,help:odex_benefit.field_service_request__message_has_error_counter
 #: model:ir.model.fields,help:odex_benefit.field_visit_location__message_has_error_counter
 msgid "Number of messages with delivery error"
@@ -9614,6 +9928,8 @@ msgstr "عدد الرسائل الحادث بها خطأ في التسليم"
 #: model:ir.model.fields,help:odex_benefit.field_benefits_representative__message_unread_counter
 #: model:ir.model.fields,help:odex_benefit.field_changes_requests__message_unread_counter
 #: model:ir.model.fields,help:odex_benefit.field_confirm_benefit_expense__message_unread_counter
+#: model:ir.model.fields,help:odex_benefit.field_detainee_file__message_unread_counter
+#: model:ir.model.fields,help:odex_benefit.field_expenses_line__message_unread_counter
 #: model:ir.model.fields,help:odex_benefit.field_external_benefits__message_unread_counter
 #: model:ir.model.fields,help:odex_benefit.field_family_complaints__message_unread_counter
 #: model:ir.model.fields,help:odex_benefit.field_family_member__message_unread_counter
@@ -9626,6 +9942,7 @@ msgstr "عدد الرسائل الحادث بها خطأ في التسليم"
 #: model:ir.model.fields,help:odex_benefit.field_receive_benefit_zkat__message_unread_counter
 #: model:ir.model.fields,help:odex_benefit.field_receive_food_basket__message_unread_counter
 #: model:ir.model.fields,help:odex_benefit.field_receive_food_surplus__message_unread_counter
+#: model:ir.model.fields,help:odex_benefit.field_salary_line__message_unread_counter
 #: model:ir.model.fields,help:odex_benefit.field_service_request__message_unread_counter
 #: model:ir.model.fields,help:odex_benefit.field_visit_location__message_unread_counter
 msgid "Number of unread messages"
@@ -9745,7 +10062,6 @@ msgstr ""
 
 #. module: odex_benefit
 #: code:addons/odex_benefit/models/benefit_config.py:0
-#: model:ir.model.fields.selection,name:odex_benefit.selection__relation_settings__relation_type__other_relation
 #, python-format
 msgid "Other Relation"
 msgstr "صلة قرابة آخرى"
@@ -9764,6 +10080,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:odex_benefit.field_grant_benefit__p_weight
 msgid "Overweight"
 msgstr "زيادة الوزن"
+
+#. module: odex_benefit
+#: model:ir.model.fields.selection,name:odex_benefit.selection__grant_benefit__housing_status__owned
+msgid "Owned"
+msgstr "ملك"
 
 #. module: odex_benefit
 #: model:ir.model.fields.selection,name:odex_benefit.selection__benefit_housing__property_type__ownership_shared
@@ -9812,6 +10133,7 @@ msgstr ""
 #. module: odex_benefit
 #: model:ir.model.fields,field_description:odex_benefit.field_family_member__partner_id
 #: model:ir.model.fields,field_description:odex_benefit.field_needs_payment_line__partner_id
+#: model:ir.model.fields,field_description:odex_benefit.field_service_request__partner_id
 #: model_terms:ir.ui.view,arch_db:odex_benefit.grant_benefit_form
 msgid "Partner"
 msgstr "الشريك"
@@ -9895,11 +10217,6 @@ msgid "Payment Orders"
 msgstr "أوامر صرف طلبات الخدمات"
 
 #. module: odex_benefit
-#: model:res.groups,name:odex_benefit.group_benefit_payment_accountant_accept
-msgid "Payment Orders Accountant Accept"
-msgstr ""
-
-#. module: odex_benefit
 #: model:ir.model.fields,field_description:odex_benefit.field_benefits_representative__payment_token_ids
 #: model:ir.model.fields,field_description:odex_benefit.field_external_benefits__payment_token_ids
 #: model:ir.model.fields,field_description:odex_benefit.field_grant_benefit__payment_token_ids
@@ -9927,7 +10244,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:odex_benefit.field_benefits_needs__payments_ids
 #: model_terms:ir.ui.view,arch_db:odex_benefit.view_benefits_needs_form
 msgid "Payments"
-msgstr "المدفوعات"
+msgstr "سند قبضة"
 
 #. module: odex_benefit
 #: model:ir.model.fields,field_description:odex_benefit.field_appliances_furniture_need__percentage
@@ -10091,8 +10408,6 @@ msgstr "الأولوية"
 #. module: odex_benefit
 #: code:addons/odex_benefit/models/benefit.py:0
 #: code:addons/odex_benefit/models/family_members.py:0
-#: model:ir.model.fields.selection,name:odex_benefit.selection__family_member__mother_marital__prisoner
-#: model:ir.model.fields.selection,name:odex_benefit.selection__grant_benefit__mother_marital__prisoner
 #, python-format
 msgid "Prisoner"
 msgstr "سجينة"
@@ -10343,6 +10658,8 @@ msgstr "السبب"
 #: model:ir.model.fields,field_description:odex_benefit.field_benefits_representative__reason
 #: model:ir.model.fields,field_description:odex_benefit.field_changes_requests__reason
 #: model:ir.model.fields,field_description:odex_benefit.field_confirm_benefit_expense__reason
+#: model:ir.model.fields,field_description:odex_benefit.field_detainee_file__reason
+#: model:ir.model.fields,field_description:odex_benefit.field_expenses_line__reason
 #: model:ir.model.fields,field_description:odex_benefit.field_external_benefits__reason
 #: model:ir.model.fields,field_description:odex_benefit.field_family_complaints__reason
 #: model:ir.model.fields,field_description:odex_benefit.field_needs_categories__reason
@@ -10353,6 +10670,7 @@ msgstr "السبب"
 #: model:ir.model.fields,field_description:odex_benefit.field_receive_benefit_zkat__reason
 #: model:ir.model.fields,field_description:odex_benefit.field_receive_food_basket__reason
 #: model:ir.model.fields,field_description:odex_benefit.field_receive_food_surplus__reason
+#: model:ir.model.fields,field_description:odex_benefit.field_salary_line__reason
 #: model:ir.model.fields,field_description:odex_benefit.field_service_request__reason
 #: model:ir.model.fields,field_description:odex_benefit.field_visit_location__reason
 msgid "Reason/Justification"
@@ -10573,9 +10891,7 @@ msgstr "سبب الرفض"
 #: model:ir.model.fields.selection,name:odex_benefit.selection__expenses_line__state__refused
 #: model:ir.model.fields.selection,name:odex_benefit.selection__external_request__state__refused
 #: model:ir.model.fields.selection,name:odex_benefit.selection__family_debits__state__refused
-#: model:ir.model.fields.selection,name:odex_benefit.selection__family_member__state__refused
 #: model:ir.model.fields.selection,name:odex_benefit.selection__family_member__state_a__refused
-#: model:ir.model.fields.selection,name:odex_benefit.selection__grant_benefit__state__refused
 #: model:ir.model.fields.selection,name:odex_benefit.selection__payment_orders__state__refused
 #: model:ir.model.fields.selection,name:odex_benefit.selection__receive_appliances_furniture__state__refused
 #: model:ir.model.fields.selection,name:odex_benefit.selection__receive_benefit_loans__state__refused
@@ -10615,6 +10931,7 @@ msgstr "مركز التأهيل الشامل للمعاقين"
 
 #. module: odex_benefit
 #: model:ir.model.fields.selection,name:odex_benefit.selection__benefit_category__state__rejected
+#: model:ir.model.fields.selection,name:odex_benefit.selection__family_member__state__cancelled
 #: model_terms:ir.ui.view,arch_db:odex_benefit.view_benefit_category_form
 msgid "Rejected"
 msgstr "مرفوض"
@@ -10629,10 +10946,18 @@ msgstr "مؤسسة متعلقة"
 #. module: odex_benefit
 #: model:ir.model.fields,field_description:odex_benefit.field_family_member__relation
 #: model:ir.model.fields,field_description:odex_benefit.field_family_member__relationn
+#: model:ir.model.fields,field_description:odex_benefit.field_family_member_relation__name
+#: model:ir.model.fields,field_description:odex_benefit.field_service_request__family_id_relationn
+#: model:ir.model.fields,field_description:odex_benefit.field_service_request__member_id_relationn
 #: model_terms:ir.ui.view,arch_db:odex_benefit.family_member_form
 #: model_terms:ir.ui.view,arch_db:odex_benefit.grant_benefit_form
 msgid "Relation"
 msgstr "صلة القرابة"
+
+#. module: odex_benefit
+#: model:ir.model.fields,field_description:odex_benefit.field_grant_benefit_member__rel_with_resd
+msgid "Relation"
+msgstr "العلاقة بالنزيل"
 
 #. module: odex_benefit
 #: model:ir.actions.act_window,name:odex_benefit.relation_action
@@ -10647,6 +10972,12 @@ msgid "Relation Type"
 msgstr "نوع الصلة"
 
 #. module: odex_benefit
+#: model:ir.model.fields,field_description:odex_benefit.field_grant_benefit_breadwinner__relation_id
+#: model:ir.model.fields,field_description:odex_benefit.field_grant_benefit_member__relation_id
+msgid "Relation with res"
+msgstr "صلة القرابة"
+
+#. module: odex_benefit
 #: model:ir.model.fields,field_description:odex_benefit.field_grant_benefit__relative_phone
 msgid "Relative Phone"
 msgstr "رقم جوال قريب الأسرة"
@@ -10657,14 +10988,20 @@ msgid "Relative Relation"
 msgstr "صلة القرابة"
 
 #. module: odex_benefit
+#: model:ir.model.fields.selection,name:odex_benefit.selection__detainee_file__beneficiary_category__released
+msgid "Released"
+msgstr "مفرج عنه"
+
+#. module: odex_benefit
 #: model:ir.model.fields,field_description:odex_benefit.field_benefits_needs__remaining_amount
 msgid "Remaining Amount"
 msgstr "المبلغ المتبقي"
 
 #. module: odex_benefit
+#: model:ir.model.fields.selection,name:odex_benefit.selection__grant_benefit__housing_status__rent
 #: model:ir.model.fields.selection,name:odex_benefit.selection__services_settings__service_type__rent
 msgid "Rent"
-msgstr "إيجار المنزل"
+msgstr "إيجار"
 
 #. module: odex_benefit
 #: model:ir.model.fields,field_description:odex_benefit.field_benefit_housing__rent_amount
@@ -10766,8 +11103,6 @@ msgstr "تاريخ بداية العقد"
 #. module: odex_benefit
 #: code:addons/odex_benefit/models/benefit.py:0
 #: code:addons/odex_benefit/models/benefit_config.py:0
-#: model:ir.model.fields.selection,name:odex_benefit.selection__grant_benefit__mother_relation__replacement_mother
-#: model:ir.model.fields.selection,name:odex_benefit.selection__relation_settings__relation_type__replacement_mother
 #: model_terms:ir.ui.view,arch_db:odex_benefit.grant_benefit_form
 #, python-format
 msgid "Replacement Mother"
@@ -10962,7 +11297,6 @@ msgstr " توجيه الملف للاخصائي"
 #. module: odex_benefit
 #: model:ir.model.fields,field_description:odex_benefit.field_changes_requests__researcher_ids
 #: model:ir.model.fields,field_description:odex_benefit.field_family_complaints__researcher_id
-#: model:ir.model.fields,field_description:odex_benefit.field_grant_benefit__researcher_id
 #: model:ir.model.fields,field_description:odex_benefit.field_visit_location__researcher_ids
 #: model:ir.model.fields.selection,name:odex_benefit.selection__service_request__state__researcher
 msgid "Researcher"
@@ -10974,14 +11308,22 @@ msgid "Researcher Accept"
 msgstr "اعتماد الاخصائي الاجتماعي"
 
 #. module: odex_benefit
+#: model:ir.model.fields,field_description:odex_benefit.field_grant_benefit__researcher_insights
+msgid "Researcher Insights"
+msgstr "رأي الباحث"
+
+#. module: odex_benefit
+#: model:ir.model.fields,field_description:odex_benefit.field_grant_benefit__researcher_id
+msgid "Researcher Name"
+msgstr ""
+
+#. module: odex_benefit
 #: model:ir.model.fields,field_description:odex_benefit.field_changes_requests__gender_researcher_id
 #: model:ir.model.fields,field_description:odex_benefit.field_changes_requests__researcher_id
 #: model:ir.model.fields,field_description:odex_benefit.field_researcher_family_wizard__researcher_team
 #: model:ir.model.fields,field_description:odex_benefit.field_researcher_member_wizard__researcher_team
 #: model:ir.model.fields,field_description:odex_benefit.field_visit_location__researcher_team
-#: model:ir.model.fields.selection,name:odex_benefit.selection__family_member__state__researcher_team
 #: model:ir.model.fields.selection,name:odex_benefit.selection__family_member__state_a__researcher_team
-#: model:ir.model.fields.selection,name:odex_benefit.selection__grant_benefit__state__researcher_team
 msgid "Researcher Team"
 msgstr "الاخصائي الاجتماعي"
 
@@ -10994,9 +11336,6 @@ msgstr ""
 #: code:addons/odex_benefit/models/benefit.py:0
 #: code:addons/odex_benefit/models/benefit.py:0
 #: code:addons/odex_benefit/models/benefit.py:0
-#: model:ir.model.fields.selection,name:odex_benefit.selection__grant_benefit__father_id_number_type__resident
-#: model:ir.model.fields.selection,name:odex_benefit.selection__grant_benefit__mother_id_number_type__resident
-#: model:ir.model.fields.selection,name:odex_benefit.selection__grant_benefit__replacement_mother_id_number_type__resident
 #, python-format
 msgid "Resident"
 msgstr "مقيم"
@@ -11034,6 +11373,8 @@ msgstr ""
 #: model:ir.model.fields,field_description:odex_benefit.field_benefits_representative__activity_user_id
 #: model:ir.model.fields,field_description:odex_benefit.field_changes_requests__activity_user_id
 #: model:ir.model.fields,field_description:odex_benefit.field_confirm_benefit_expense__activity_user_id
+#: model:ir.model.fields,field_description:odex_benefit.field_detainee_file__activity_user_id
+#: model:ir.model.fields,field_description:odex_benefit.field_expenses_line__activity_user_id
 #: model:ir.model.fields,field_description:odex_benefit.field_external_benefits__activity_user_id
 #: model:ir.model.fields,field_description:odex_benefit.field_family_complaints__activity_user_id
 #: model:ir.model.fields,field_description:odex_benefit.field_family_member__activity_user_id
@@ -11046,6 +11387,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:odex_benefit.field_receive_benefit_zkat__activity_user_id
 #: model:ir.model.fields,field_description:odex_benefit.field_receive_food_basket__activity_user_id
 #: model:ir.model.fields,field_description:odex_benefit.field_receive_food_surplus__activity_user_id
+#: model:ir.model.fields,field_description:odex_benefit.field_salary_line__activity_user_id
 #: model:ir.model.fields,field_description:odex_benefit.field_service_request__activity_user_id
 #: model:ir.model.fields,field_description:odex_benefit.field_visit_location__activity_user_id
 msgid "Responsible User"
@@ -11062,6 +11404,11 @@ msgstr "الحد الأعلى للاستحقاق"
 #: model:ir.model.fields,help:odex_benefit.field_grant_benefit__website_id
 msgid "Restrict publishing to this website."
 msgstr "قصر إمكانية النشر على هذا الموقع."
+
+#. module: odex_benefit
+#: model:ir.model.fields.selection,name:odex_benefit.selection__grant_benefit__state__review
+msgid "Review"
+msgstr "بانتظار التدقيق"
 
 #. module: odex_benefit
 #: model:ir.model.fields.selection,name:odex_benefit.selection__family_complaints__state__review_complaint
@@ -11161,6 +11508,8 @@ msgstr "الرسائل النصية القصيرة "
 #: model:ir.model.fields,field_description:odex_benefit.field_benefits_representative__message_has_sms_error
 #: model:ir.model.fields,field_description:odex_benefit.field_changes_requests__message_has_sms_error
 #: model:ir.model.fields,field_description:odex_benefit.field_confirm_benefit_expense__message_has_sms_error
+#: model:ir.model.fields,field_description:odex_benefit.field_detainee_file__message_has_sms_error
+#: model:ir.model.fields,field_description:odex_benefit.field_expenses_line__message_has_sms_error
 #: model:ir.model.fields,field_description:odex_benefit.field_external_benefits__message_has_sms_error
 #: model:ir.model.fields,field_description:odex_benefit.field_family_complaints__message_has_sms_error
 #: model:ir.model.fields,field_description:odex_benefit.field_family_member__message_has_sms_error
@@ -11173,6 +11522,7 @@ msgstr "الرسائل النصية القصيرة "
 #: model:ir.model.fields,field_description:odex_benefit.field_receive_benefit_zkat__message_has_sms_error
 #: model:ir.model.fields,field_description:odex_benefit.field_receive_food_basket__message_has_sms_error
 #: model:ir.model.fields,field_description:odex_benefit.field_receive_food_surplus__message_has_sms_error
+#: model:ir.model.fields,field_description:odex_benefit.field_salary_line__message_has_sms_error
 #: model:ir.model.fields,field_description:odex_benefit.field_service_request__message_has_sms_error
 #: model:ir.model.fields,field_description:odex_benefit.field_visit_location__message_has_sms_error
 msgid "SMS Delivery error"
@@ -11185,6 +11535,11 @@ msgstr "خطأ في تسليم الرسائل القصيرة"
 #: model_terms:ir.ui.view,arch_db:odex_benefit.grant_benefit_sms_form
 msgid "SMS Template"
 msgstr "قوالب الرسائل النصية"
+
+#. module: odex_benefit
+#: model:ir.model.fields,field_description:odex_benefit.field_family_member__salary_ids
+msgid "Salaries"
+msgstr ""
 
 #. module: odex_benefit
 #: model:ir.model.fields,field_description:odex_benefit.field_grant_benefit__salary_ids
@@ -11277,9 +11632,7 @@ msgid "Second Approve"
 msgstr "اعتماد مدير الفرع الإيقاف"
 
 #. module: odex_benefit
-#: model:ir.model.fields.selection,name:odex_benefit.selection__family_member__state__second_approve
 #: model:ir.model.fields.selection,name:odex_benefit.selection__family_member__state_a__second_approve
-#: model:ir.model.fields.selection,name:odex_benefit.selection__grant_benefit__state__second_approve
 msgid "Second Approved"
 msgstr "الاعتماد النهائي"
 
@@ -11367,11 +11720,6 @@ msgid "Service Amount"
 msgstr "قيمة الخدمة"
 
 #. module: odex_benefit
-#: model:ir.model.fields,field_description:odex_benefit.field_service_request__service_attach
-msgid "Service Attachment"
-msgstr ""
-
-#. module: odex_benefit
 #: model:ir.model,name:odex_benefit.model_service_attachments_settings
 msgid "Service Attachments Settings"
 msgstr ""
@@ -11383,13 +11731,23 @@ msgstr "بند الخدمة"
 
 #. module: odex_benefit
 #: model:ir.model.fields,field_description:odex_benefit.field_service_request__service_cat
+#: model:ir.model.fields,field_description:odex_benefit.field_service_request__service_cats
 msgid "Service Cat."
 msgstr "بند الخدمة"
+
 
 #. module: odex_benefit
 #: model:ir.model.fields,field_description:odex_benefit.field_generate_reports__service_category
 msgid "Service Category"
 msgstr "فئة الخدمة"
+
+#. module: odex_benefit
+#: model:ir.actions.act_window,name:odex_benefit.action_service_delivery_method_list
+#: model:ir.model.fields,field_description:odex_benefit.field_service_request__delivery_method_id
+#: model:ir.ui.menu,name:odex_benefit.service_delivery_method_menu
+#: model_terms:ir.ui.view,arch_db:odex_benefit.view_service_delivery_method_form
+msgid "Service Delivery Method"
+msgstr "طريقة تسليم الخدمة"
 
 #. module: odex_benefit
 #: model_terms:ir.ui.view,arch_db:odex_benefit.payment_orders_form
@@ -11400,6 +11758,14 @@ msgstr "وصف الخدمة"
 #: model:ir.model.fields,field_description:odex_benefit.field_services_settings__service_name
 msgid "Service Name"
 msgstr "اسم الخدمة"
+
+#. module: odex_benefit
+#: model:ir.actions.act_window,name:odex_benefit.action_service_need_status_list
+#: model:ir.ui.menu,name:odex_benefit.service_need_status_list_menu
+#: model_terms:ir.ui.view,arch_db:odex_benefit.view_service_need_status_form
+#: model_terms:ir.ui.view,arch_db:odex_benefit.view_service_provider_form
+msgid "Service Need Status"
+msgstr ""
 
 #. module: odex_benefit
 #: model_terms:ir.ui.view,arch_db:odex_benefit.payment_orders_form
@@ -11418,6 +11784,14 @@ msgid "Service Producer"
 msgstr "مورد الخدمة"
 
 #. module: odex_benefit
+#: model:ir.actions.act_window,name:odex_benefit.action_service_provider_list
+#: model:ir.model,name:odex_benefit.model_service_provider
+#: model:ir.model.fields,field_description:odex_benefit.field_service_request__provider_id
+#: model:ir.ui.menu,name:odex_benefit.service_provider_list_menu
+msgid "Service Provider"
+msgstr "مقدم الخدمة"
+
+#. module: odex_benefit
 #: model:ir.model.fields,field_description:odex_benefit.field_service_request__service_reason
 msgid "Service Reason"
 msgstr ""
@@ -11429,11 +11803,6 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:odex_benefit.service_request_form
 msgid "Service Request"
 msgstr ""
-
-#. module: odex_benefit
-#: model:res.groups,name:odex_benefit.group_benefit_accountant_accept
-msgid "Service Request Accountant Accept"
-msgstr "اعتماد المحاسب"
 
 #. module: odex_benefit
 #: model:ir.model.fields,field_description:odex_benefit.field_payment_orders__service_requests_ids
@@ -11504,6 +11873,11 @@ msgid "Share Partner"
 msgstr "مشاركة الشريك"
 
 #. module: odex_benefit
+#: model:ir.model.fields.selection,name:odex_benefit.selection__grant_benefit__housing_status__shared
+msgid "Shared"
+msgstr "مشترك"
+
+#. module: odex_benefit
 #: model:ir.model.fields,field_description:odex_benefit.field_benefits_representative__signup_expiration
 #: model:ir.model.fields,field_description:odex_benefit.field_external_benefits__signup_expiration
 #: model:ir.model.fields,field_description:odex_benefit.field_grant_benefit__signup_expiration
@@ -11540,7 +11914,6 @@ msgstr "رابط التسجيل"
 
 #. module: odex_benefit
 #: code:addons/odex_benefit/models/benefit.py:0
-#: model:ir.model.fields.selection,name:odex_benefit.selection__grant_benefit__father_marital__single
 #, python-format
 msgid "Single"
 msgstr ""
@@ -11563,8 +11936,6 @@ msgstr ""
 #. module: odex_benefit
 #: code:addons/odex_benefit/models/benefit_config.py:0
 #: code:addons/odex_benefit/models/family_members.py:0
-#: model:ir.model.fields.selection,name:odex_benefit.selection__family_member__relation__son
-#: model:ir.model.fields.selection,name:odex_benefit.selection__relation_settings__relation_type__son
 #, python-format
 msgid "Son"
 msgstr "الابن"
@@ -11686,6 +12057,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:odex_benefit.field_entity_black_list_wizard__state
 #: model:ir.model.fields,field_description:odex_benefit.field_external_benefits__state_id
 #: model:ir.model.fields,field_description:odex_benefit.field_family_complaints__state
+#: model:ir.model.fields,field_description:odex_benefit.field_grant_benefit__state
 #: model:ir.model.fields,field_description:odex_benefit.field_grant_benefit__state_id
 #: model:ir.model.fields,field_description:odex_benefit.field_res_country_city__state_id
 #: model:ir.model.fields,field_description:odex_benefit.field_visit_location__state
@@ -11705,6 +12077,7 @@ msgstr "المناطق"
 #: model:ir.model.fields,field_description:odex_benefit.field_confirm_benefit_expense__state
 #: model:ir.model.fields,field_description:odex_benefit.field_expenses_line__state
 #: model:ir.model.fields,field_description:odex_benefit.field_family_debits__state
+#: model:ir.model.fields,field_description:odex_benefit.field_family_member__state
 #: model:ir.model.fields,field_description:odex_benefit.field_needs_payment_line__state
 #: model:ir.model.fields,field_description:odex_benefit.field_payment_orders__state
 #: model:ir.model.fields,field_description:odex_benefit.field_salary_line__state
@@ -11727,6 +12100,8 @@ msgstr "الحالة"
 #: model:ir.model.fields,help:odex_benefit.field_benefits_representative__activity_state
 #: model:ir.model.fields,help:odex_benefit.field_changes_requests__activity_state
 #: model:ir.model.fields,help:odex_benefit.field_confirm_benefit_expense__activity_state
+#: model:ir.model.fields,help:odex_benefit.field_detainee_file__activity_state
+#: model:ir.model.fields,help:odex_benefit.field_expenses_line__activity_state
 #: model:ir.model.fields,help:odex_benefit.field_external_benefits__activity_state
 #: model:ir.model.fields,help:odex_benefit.field_family_complaints__activity_state
 #: model:ir.model.fields,help:odex_benefit.field_family_member__activity_state
@@ -11739,6 +12114,7 @@ msgstr "الحالة"
 #: model:ir.model.fields,help:odex_benefit.field_receive_benefit_zkat__activity_state
 #: model:ir.model.fields,help:odex_benefit.field_receive_food_basket__activity_state
 #: model:ir.model.fields,help:odex_benefit.field_receive_food_surplus__activity_state
+#: model:ir.model.fields,help:odex_benefit.field_salary_line__activity_state
 #: model:ir.model.fields,help:odex_benefit.field_service_request__activity_state
 #: model:ir.model.fields,help:odex_benefit.field_visit_location__activity_state
 msgid ""
@@ -11816,7 +12192,7 @@ msgstr "يدرس خارج السعودية"
 #: model:ir.model.fields,field_description:odex_benefit.field_service_request__sub_service_category
 #: model_terms:ir.ui.view,arch_db:odex_benefit.service_request_search
 msgid "Sub Service Category"
-msgstr "الخدمة الفرعية"
+msgstr "المسار الفرعي"
 
 #. module: odex_benefit
 #: model_terms:ir.ui.view,arch_db:odex_benefit.benefit_club_form
@@ -11974,9 +12350,7 @@ msgid "Suspended First Approve"
 msgstr "اعتماد الإيقاف المبدئي"
 
 #. module: odex_benefit
-#: model:ir.model.fields.selection,name:odex_benefit.selection__family_member__state__suspended_first_approve
 #: model:ir.model.fields.selection,name:odex_benefit.selection__family_member__state_a__suspended_first_approve
-#: model:ir.model.fields.selection,name:odex_benefit.selection__grant_benefit__state__suspended_first_approve
 msgid "Suspended First Approved"
 msgstr "اعتماد الإيقاف المبدئي"
 
@@ -11986,9 +12360,7 @@ msgid "Suspended Second Approve"
 msgstr "اعتماد الايقاف النهائي"
 
 #. module: odex_benefit
-#: model:ir.model.fields.selection,name:odex_benefit.selection__family_member__state__suspended_second_approve
 #: model:ir.model.fields.selection,name:odex_benefit.selection__family_member__state_a__suspended_second_approve
-#: model:ir.model.fields.selection,name:odex_benefit.selection__grant_benefit__state__suspended_second_approve
 msgid "Suspended Second Approved"
 msgstr "اعتماد الإيقاف النهائي"
 
@@ -12048,10 +12420,8 @@ msgstr ""
 #. module: odex_benefit
 #: model:ir.model.fields.selection,name:odex_benefit.selection__exception_wizard__exception_type__temporarily_exception
 #: model:ir.model.fields.selection,name:odex_benefit.selection__family_member__exception_type__temporarily_exception
-#: model:ir.model.fields.selection,name:odex_benefit.selection__family_member__state__temporarily_exception
 #: model:ir.model.fields.selection,name:odex_benefit.selection__family_member__state_a__temporarily_exception
 #: model:ir.model.fields.selection,name:odex_benefit.selection__grant_benefit__exception_type__temporarily_exception
-#: model:ir.model.fields.selection,name:odex_benefit.selection__grant_benefit__state__temporarily_exception
 #: model_terms:ir.ui.view,arch_db:odex_benefit.family_member_form
 msgid "Temporarily Exception"
 msgstr "استثناء مؤقت"
@@ -12067,9 +12437,7 @@ msgid "Temporarily Suspended"
 msgstr "إيقاف مؤقت"
 
 #. module: odex_benefit
-#: model:ir.model.fields.selection,name:odex_benefit.selection__family_member__state__temporarily_suspended
 #: model:ir.model.fields.selection,name:odex_benefit.selection__family_member__state_a__temporarily_suspended
-#: model:ir.model.fields.selection,name:odex_benefit.selection__grant_benefit__state__temporarily_suspended
 msgid "Temporarily suspended"
 msgstr "إيقاف مبدئي"
 
@@ -12151,6 +12519,12 @@ msgstr ""
 #: code:addons/odex_benefit/models/family_members.py:0
 #, python-format
 msgid "The ID number should contain only digits."
+msgstr ""
+
+#. module: odex_benefit
+#: code:addons/odex_benefit/models/family_members.py:0
+#, python-format
+msgid "The ID number should starts with one."
 msgstr ""
 
 #. module: odex_benefit
@@ -12379,6 +12753,13 @@ msgid ""
 "This pricelist will be used, instead of the default one, for sales to the "
 "current partner"
 msgstr "سوف تستخدم قائمة الأسعار هذه بدلاً من الافتراضية للبيع للشريك الحالي"
+
+#. module: odex_benefit
+#: model:ir.model.fields,field_description:odex_benefit.field_benefits_representative__ticket_count
+#: model:ir.model.fields,field_description:odex_benefit.field_external_benefits__ticket_count
+#: model:ir.model.fields,field_description:odex_benefit.field_grant_benefit__ticket_count
+msgid "Tickets"
+msgstr ""
 
 #. module: odex_benefit
 #: model:ir.model.fields,field_description:odex_benefit.field_benefits_representative__tz
@@ -12672,6 +13053,11 @@ msgid "True"
 msgstr ""
 
 #. module: odex_benefit
+#: model:ir.model.fields.selection,name:odex_benefit.selection__grant_benefit__exchange_period__two_years
+msgid "Two Years"
+msgstr "سنتين"
+
+#. module: odex_benefit
 #: model:ir.model.fields,field_description:odex_benefit.field_benefit_behaviors_type__type
 #: model:ir.model.fields,field_description:odex_benefit.field_committees_line__type
 #: model:ir.model.fields,field_description:odex_benefit.field_visit_location__benefit_type
@@ -12694,6 +13080,8 @@ msgstr "النوع"
 #: model:ir.model.fields,help:odex_benefit.field_benefits_representative__activity_exception_decoration
 #: model:ir.model.fields,help:odex_benefit.field_changes_requests__activity_exception_decoration
 #: model:ir.model.fields,help:odex_benefit.field_confirm_benefit_expense__activity_exception_decoration
+#: model:ir.model.fields,help:odex_benefit.field_detainee_file__activity_exception_decoration
+#: model:ir.model.fields,help:odex_benefit.field_expenses_line__activity_exception_decoration
 #: model:ir.model.fields,help:odex_benefit.field_external_benefits__activity_exception_decoration
 #: model:ir.model.fields,help:odex_benefit.field_family_complaints__activity_exception_decoration
 #: model:ir.model.fields,help:odex_benefit.field_family_member__activity_exception_decoration
@@ -12706,6 +13094,7 @@ msgstr "النوع"
 #: model:ir.model.fields,help:odex_benefit.field_receive_benefit_zkat__activity_exception_decoration
 #: model:ir.model.fields,help:odex_benefit.field_receive_food_basket__activity_exception_decoration
 #: model:ir.model.fields,help:odex_benefit.field_receive_food_surplus__activity_exception_decoration
+#: model:ir.model.fields,help:odex_benefit.field_salary_line__activity_exception_decoration
 #: model:ir.model.fields,help:odex_benefit.field_service_request__activity_exception_decoration
 #: model:ir.model.fields,help:odex_benefit.field_visit_location__activity_exception_decoration
 msgid "Type of the exception activity on record."
@@ -12772,6 +13161,8 @@ msgstr "غير مدفوعة"
 #: model:ir.model.fields,field_description:odex_benefit.field_benefits_representative__message_unread
 #: model:ir.model.fields,field_description:odex_benefit.field_changes_requests__message_unread
 #: model:ir.model.fields,field_description:odex_benefit.field_confirm_benefit_expense__message_unread
+#: model:ir.model.fields,field_description:odex_benefit.field_detainee_file__message_unread
+#: model:ir.model.fields,field_description:odex_benefit.field_expenses_line__message_unread
 #: model:ir.model.fields,field_description:odex_benefit.field_external_benefits__message_unread
 #: model:ir.model.fields,field_description:odex_benefit.field_family_complaints__message_unread
 #: model:ir.model.fields,field_description:odex_benefit.field_family_member__message_unread
@@ -12784,6 +13175,7 @@ msgstr "غير مدفوعة"
 #: model:ir.model.fields,field_description:odex_benefit.field_receive_benefit_zkat__message_unread
 #: model:ir.model.fields,field_description:odex_benefit.field_receive_food_basket__message_unread
 #: model:ir.model.fields,field_description:odex_benefit.field_receive_food_surplus__message_unread
+#: model:ir.model.fields,field_description:odex_benefit.field_salary_line__message_unread
 #: model:ir.model.fields,field_description:odex_benefit.field_service_request__message_unread
 #: model:ir.model.fields,field_description:odex_benefit.field_visit_location__message_unread
 msgid "Unread Messages"
@@ -12805,6 +13197,8 @@ msgstr "الرسائل الجديدة"
 #: model:ir.model.fields,field_description:odex_benefit.field_benefits_representative__message_unread_counter
 #: model:ir.model.fields,field_description:odex_benefit.field_changes_requests__message_unread_counter
 #: model:ir.model.fields,field_description:odex_benefit.field_confirm_benefit_expense__message_unread_counter
+#: model:ir.model.fields,field_description:odex_benefit.field_detainee_file__message_unread_counter
+#: model:ir.model.fields,field_description:odex_benefit.field_expenses_line__message_unread_counter
 #: model:ir.model.fields,field_description:odex_benefit.field_external_benefits__message_unread_counter
 #: model:ir.model.fields,field_description:odex_benefit.field_family_complaints__message_unread_counter
 #: model:ir.model.fields,field_description:odex_benefit.field_family_member__message_unread_counter
@@ -12817,6 +13211,7 @@ msgstr "الرسائل الجديدة"
 #: model:ir.model.fields,field_description:odex_benefit.field_receive_benefit_zkat__message_unread_counter
 #: model:ir.model.fields,field_description:odex_benefit.field_receive_food_basket__message_unread_counter
 #: model:ir.model.fields,field_description:odex_benefit.field_receive_food_surplus__message_unread_counter
+#: model:ir.model.fields,field_description:odex_benefit.field_salary_line__message_unread_counter
 #: model:ir.model.fields,field_description:odex_benefit.field_service_request__message_unread_counter
 #: model:ir.model.fields,field_description:odex_benefit.field_visit_location__message_unread_counter
 msgid "Unread Messages Counter"
@@ -12868,6 +13263,13 @@ msgid "User"
 msgstr "المستخدم"
 
 #. module: odex_benefit
+#: model:ir.model.fields,field_description:odex_benefit.field_benefits_representative__user_livechat_username
+#: model:ir.model.fields,field_description:odex_benefit.field_external_benefits__user_livechat_username
+#: model:ir.model.fields,field_description:odex_benefit.field_grant_benefit__user_livechat_username
+msgid "User Livechat Username"
+msgstr ""
+
+#. module: odex_benefit
 #: model:ir.model.fields,field_description:odex_benefit.field_benefits_representative__user_type
 #: model:ir.model.fields,field_description:odex_benefit.field_external_benefits__user_type
 #: model:ir.model.fields,field_description:odex_benefit.field_grant_benefit__user_type
@@ -12880,6 +13282,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:odex_benefit.field_grant_benefit__user_ids
 msgid "Users"
 msgstr "المستخدمون"
+
+#. module: odex_benefit
+#: model:ir.model.fields.selection,name:odex_benefit.selection__grant_benefit__housing_status__usufruct
+msgid "Usufruct"
+msgstr "حق انتفاع"
 
 #. module: odex_benefit
 #: model:ir.model.fields,help:odex_benefit.field_benefits_representative__currency_id
@@ -12895,6 +13302,11 @@ msgstr "حقل مساعد للتعبير عن عملة المبلغ"
 #: model:ir.model.fields.selection,name:odex_benefit.selection__member_hobbies__attach_status__valid
 msgid "Valid"
 msgstr "ساري المفعول"
+
+#. module: odex_benefit
+#: model:ir.model.fields.selection,name:odex_benefit.selection__grant_benefit__state__validate
+msgid "Validate"
+msgstr "بانتظار التحقق"
 
 #. module: odex_benefit
 #: code:addons/odex_benefit/models/benefit.py:0
@@ -12997,9 +13409,6 @@ msgstr "هدف الزيارة"
 #: code:addons/odex_benefit/models/benefit.py:0
 #: code:addons/odex_benefit/models/benefit.py:0
 #: code:addons/odex_benefit/models/benefit.py:0
-#: model:ir.model.fields.selection,name:odex_benefit.selection__grant_benefit__father_id_number_type__visitor
-#: model:ir.model.fields.selection,name:odex_benefit.selection__grant_benefit__mother_id_number_type__visitor
-#: model:ir.model.fields.selection,name:odex_benefit.selection__grant_benefit__replacement_mother_id_number_type__visitor
 #, python-format
 msgid "Visitor"
 msgstr "زائر"
@@ -13035,9 +13444,7 @@ msgstr "نوع الزيارة"
 #: model:ir.model.fields.selection,name:odex_benefit.selection__benefit_food_surplus__state__waiting_approve
 #: model:ir.model.fields.selection,name:odex_benefit.selection__benefit_need__state__waiting_approve
 #: model:ir.model.fields.selection,name:odex_benefit.selection__benefit_sms_configuration__state__waiting_approve
-#: model:ir.model.fields.selection,name:odex_benefit.selection__family_member__state__waiting_approve
 #: model:ir.model.fields.selection,name:odex_benefit.selection__family_member__state_a__waiting_approve
-#: model:ir.model.fields.selection,name:odex_benefit.selection__grant_benefit__state__waiting_approve
 #: model:ir.model.fields.selection,name:odex_benefit.selection__receive_food_surplus__state__waiting_approve
 msgid "Waiting Approved"
 msgstr "بانتظار الموافقة"
@@ -13105,6 +13512,8 @@ msgstr "رابط الموقع"
 #: model:ir.model.fields,field_description:odex_benefit.field_benefits_representative__website_message_ids
 #: model:ir.model.fields,field_description:odex_benefit.field_changes_requests__website_message_ids
 #: model:ir.model.fields,field_description:odex_benefit.field_confirm_benefit_expense__website_message_ids
+#: model:ir.model.fields,field_description:odex_benefit.field_detainee_file__website_message_ids
+#: model:ir.model.fields,field_description:odex_benefit.field_expenses_line__website_message_ids
 #: model:ir.model.fields,field_description:odex_benefit.field_external_benefits__website_message_ids
 #: model:ir.model.fields,field_description:odex_benefit.field_family_complaints__website_message_ids
 #: model:ir.model.fields,field_description:odex_benefit.field_family_member__website_message_ids
@@ -13117,6 +13526,7 @@ msgstr "رابط الموقع"
 #: model:ir.model.fields,field_description:odex_benefit.field_receive_benefit_zkat__website_message_ids
 #: model:ir.model.fields,field_description:odex_benefit.field_receive_food_basket__website_message_ids
 #: model:ir.model.fields,field_description:odex_benefit.field_receive_food_surplus__website_message_ids
+#: model:ir.model.fields,field_description:odex_benefit.field_salary_line__website_message_ids
 #: model:ir.model.fields,field_description:odex_benefit.field_service_request__website_message_ids
 #: model:ir.model.fields,field_description:odex_benefit.field_visit_location__website_message_ids
 msgid "Website Messages"
@@ -13159,6 +13569,8 @@ msgstr "رابط URL للموقع الإلكتروني "
 #: model:ir.model.fields,help:odex_benefit.field_benefits_representative__website_message_ids
 #: model:ir.model.fields,help:odex_benefit.field_changes_requests__website_message_ids
 #: model:ir.model.fields,help:odex_benefit.field_confirm_benefit_expense__website_message_ids
+#: model:ir.model.fields,help:odex_benefit.field_detainee_file__website_message_ids
+#: model:ir.model.fields,help:odex_benefit.field_expenses_line__website_message_ids
 #: model:ir.model.fields,help:odex_benefit.field_external_benefits__website_message_ids
 #: model:ir.model.fields,help:odex_benefit.field_family_complaints__website_message_ids
 #: model:ir.model.fields,help:odex_benefit.field_family_member__website_message_ids
@@ -13171,6 +13583,7 @@ msgstr "رابط URL للموقع الإلكتروني "
 #: model:ir.model.fields,help:odex_benefit.field_receive_benefit_zkat__website_message_ids
 #: model:ir.model.fields,help:odex_benefit.field_receive_food_basket__website_message_ids
 #: model:ir.model.fields,help:odex_benefit.field_receive_food_surplus__website_message_ids
+#: model:ir.model.fields,help:odex_benefit.field_salary_line__website_message_ids
 #: model:ir.model.fields,help:odex_benefit.field_service_request__website_message_ids
 #: model:ir.model.fields,help:odex_benefit.field_visit_location__website_message_ids
 msgid "Website communication history"
@@ -13241,9 +13654,6 @@ msgstr ""
 #: code:addons/odex_benefit/models/benefit.py:0
 #: code:addons/odex_benefit/models/benefit.py:0
 #: code:addons/odex_benefit/models/family_members.py:0
-#: model:ir.model.fields.selection,name:odex_benefit.selection__family_member__mother_marital__widower
-#: model:ir.model.fields.selection,name:odex_benefit.selection__grant_benefit__father_marital__widower
-#: model:ir.model.fields.selection,name:odex_benefit.selection__grant_benefit__mother_marital__widower
 #, python-format
 msgid "Widower"
 msgstr "ارملة"
@@ -13294,9 +13704,6 @@ msgstr "مساعدة كسوة الشتاء للفرد"
 #: code:addons/odex_benefit/models/benefit.py:0
 #: code:addons/odex_benefit/models/benefit.py:0
 #: code:addons/odex_benefit/models/family_members.py:0
-#: model:ir.model.fields.selection,name:odex_benefit.selection__family_member__mother_location__with_children
-#: model:ir.model.fields.selection,name:odex_benefit.selection__grant_benefit__mother_location__with_children
-#: model:ir.model.fields.selection,name:odex_benefit.selection__grant_benefit__replacement_mother_location__with_children
 #, python-format
 msgid "With Children"
 msgstr "مع الأطفال"
@@ -13310,9 +13717,6 @@ msgstr "مع الأسرة"
 #: code:addons/odex_benefit/models/benefit.py:0
 #: code:addons/odex_benefit/models/benefit.py:0
 #: code:addons/odex_benefit/models/family_members.py:0
-#: model:ir.model.fields.selection,name:odex_benefit.selection__family_member__mother_location__with_husband_and_children
-#: model:ir.model.fields.selection,name:odex_benefit.selection__grant_benefit__mother_location__with_husband_and_children
-#: model:ir.model.fields.selection,name:odex_benefit.selection__grant_benefit__replacement_mother_location__with_husband_and_children
 #, python-format
 msgid "With Husband And Children"
 msgstr "مع الزوج والأطفال"
@@ -13328,9 +13732,7 @@ msgid "Wizard to Assign Accounting that Exchange Orders"
 msgstr ""
 
 #. module: odex_benefit
-#: model:ir.model.fields.selection,name:odex_benefit.selection__family_member__state__woman_manager
 #: model:ir.model.fields.selection,name:odex_benefit.selection__family_member__state_a__woman_manager
-#: model:ir.model.fields.selection,name:odex_benefit.selection__grant_benefit__state__woman_manager
 msgid "Woman Manager"
 msgstr "مدير اللجنة النسائية"
 
@@ -13908,6 +14310,11 @@ msgid "club"
 msgstr "خدمات النادي"
 
 #. module: odex_benefit
+#: model:ir.model.fields,field_description:odex_benefit.field_detainee_file__name
+msgid "code"
+msgstr "رقم الملف"
+
+#. module: odex_benefit
 #: model:ir.model.fields.selection,name:odex_benefit.selection__committees_line__type__both
 msgid "combined"
 msgstr ""
@@ -14293,6 +14700,26 @@ msgid "graduation_status"
 msgstr ""
 
 #. module: odex_benefit
+#: model:res.groups,name:odex_benefit.group_hide_not_needed_menus
+msgid "group hide not needed menus"
+msgstr ""
+
+#. module: odex_benefit
+#: model:ir.model,name:odex_benefit.model_health_chronic_diseases
+msgid "health.chronic.diseases"
+msgstr ""
+
+#. module: odex_benefit
+#: model:ir.model,name:odex_benefit.model_health_genetic_diseases
+msgid "health.genetic.diseases"
+msgstr ""
+
+#. module: odex_benefit
+#: model:ir.model,name:odex_benefit.model_health_mental_illnesses
+msgid "health.mental.illnesses"
+msgstr ""
+
+#. module: odex_benefit
 #: model:ir.model,name:odex_benefit.model_hobbies_settings
 msgid "hobbies.settings"
 msgstr ""
@@ -14576,7 +15003,6 @@ msgstr "الأم"
 #: model:ir.model.fields,field_description:odex_benefit.field_loan_reason__name
 #: model:ir.model.fields,field_description:odex_benefit.field_location_settings__name
 #: model:ir.model.fields,field_description:odex_benefit.field_relation_settings__name
-#: model:ir.model.fields,field_description:odex_benefit.field_service_attachments_settings__name
 #, python-format
 msgid "name"
 msgstr "الاسم"
@@ -14648,7 +15074,6 @@ msgstr ""
 
 #. module: odex_benefit
 #: code:addons/odex_benefit/models/benefit_need.py:0
-#: model:ir.model.fields.selection,name:odex_benefit.selection__benefits_needs__benefit_type__orphans
 #, python-format
 msgid "orphans"
 msgstr "ايتام"
@@ -14895,6 +15320,16 @@ msgid "sent"
 msgstr "ارسال"
 
 #. module: odex_benefit
+#: model:ir.model,name:odex_benefit.model_service_need_status
+msgid "service need"
+msgstr ""
+
+#. module: odex_benefit
+#: model:ir.model,name:odex_benefit.model_service_delivery_method
+msgid "service.delivery.method"
+msgstr ""
+
+#. module: odex_benefit
 #: model:ir.model,name:odex_benefit.model_service_request
 msgid "service.request"
 msgstr ""
@@ -14946,8 +15381,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:odex_benefit.field_benefits_needs__state
 #: model:ir.model.fields,field_description:odex_benefit.field_entity_refused_reason_wizard__state
 #: model:ir.model.fields,field_description:odex_benefit.field_external_request__state
-#: model:ir.model.fields,field_description:odex_benefit.field_family_member__state
-#: model:ir.model.fields,field_description:odex_benefit.field_grant_benefit__state
 #: model:ir.model.fields,field_description:odex_benefit.field_receive_appliances_furniture__state
 #: model:ir.model.fields,field_description:odex_benefit.field_receive_benefit_loans__state
 #: model:ir.model.fields,field_description:odex_benefit.field_receive_benefit_zkat__state
@@ -15010,7 +15443,6 @@ msgid "survey.setting"
 msgstr ""
 
 #. module: odex_benefit
-#: model:ir.model.fields.selection,name:odex_benefit.selection__family_member__state__suspended
 #: model:ir.model.fields.selection,name:odex_benefit.selection__family_member__state_a__suspended
 msgid "suspended"
 msgstr ""
@@ -15025,6 +15457,13 @@ msgstr ""
 #: model:ir.model.fields.selection,name:odex_benefit.selection__grant_benefit__housing_type__tent
 msgid "tent"
 msgstr "مخيم"
+
+#. module: odex_benefit
+#: model:ir.model.constraint,message:odex_benefit.constraint_service_delivery_method_name_unique
+#: model:ir.model.constraint,message:odex_benefit.constraint_service_need_status_name_unique
+#: model:ir.model.constraint,message:odex_benefit.constraint_service_provider_name_unique
+msgid "the name its take it"
+msgstr ""
 
 #. module: odex_benefit
 #: model:res.groups,comment:odex_benefit.group_benefit_info
@@ -15117,7 +15556,6 @@ msgstr "منتظم"
 #. module: odex_benefit
 #: model:ir.model.fields.selection,name:odex_benefit.selection__benefits_needs__need_status__urgent
 #: model:ir.model.fields.selection,name:odex_benefit.selection__generate_reports__service_type__urgent
-#: model:ir.model.fields.selection,name:odex_benefit.selection__service_request__need_status__urgent
 msgid "urgent"
 msgstr "طارئة"
 
@@ -15170,7 +15608,6 @@ msgstr ""
 
 #. module: odex_benefit
 #: code:addons/odex_benefit/models/benefit_need.py:0
-#: model:ir.model.fields.selection,name:odex_benefit.selection__benefits_needs__benefit_type__widows
 #, python-format
 msgid "widows"
 msgstr "الأرامل"
@@ -15217,13 +15654,64 @@ msgid "zkat.line"
 msgstr ""
 
 #. module: odex_benefit
+#: model:ir.model.fields.selection,name:odex_benefit.selection__benefit_category__gender__female
+#: model:ir.model.fields.selection,name:odex_benefit.selection__family_member_relation__gender__female
+msgid "أنثى"
+msgstr ""
+
+#. module: odex_benefit
+#: model:ir.model.fields.selection,name:odex_benefit.selection__family_member__mother_marital__widower
+#: model:ir.model.fields.selection,name:odex_benefit.selection__grant_benefit__father_marital__widower
+#: model:ir.model.fields.selection,name:odex_benefit.selection__grant_benefit__mother_marital__widower
+msgid "ارملة"
+msgstr ""
+
+#. module: odex_benefit
+#: model:ir.model.fields.selection,name:odex_benefit.selection__grant_benefit__father_marital__single
+msgid "اعزب"
+msgstr ""
+
+#. module: odex_benefit
 #: model_terms:ir.ui.view,arch_db:odex_benefit.grant_benefit_kanban
 msgid "الأب:"
 msgstr ""
 
 #. module: odex_benefit
+#: model:ir.model.fields.selection,name:odex_benefit.selection__benefits_needs__benefit_type__widows
+msgid "الأرامل"
+msgstr ""
+
+#. module: odex_benefit
+#: model:ir.model.fields.selection,name:odex_benefit.selection__grant_benefit__mother_relation__replacement_mother
+#: model:ir.model.fields.selection,name:odex_benefit.selection__relation_settings__relation_type__replacement_mother
+msgid "الأم البديلة"
+msgstr ""
+
+#. module: odex_benefit
 #: model_terms:ir.ui.view,arch_db:odex_benefit.grant_benefit_kanban
 msgid "الأم:"
+msgstr ""
+
+#. module: odex_benefit
+#: model:ir.model.fields.selection,name:odex_benefit.selection__family_member__relation__son
+#: model:ir.model.fields.selection,name:odex_benefit.selection__relation_settings__relation_type__son
+msgid "الابن"
+msgstr ""
+
+#. module: odex_benefit
+#: model:ir.model.fields.selection,name:odex_benefit.selection__family_member__relation__daughter
+#: model:ir.model.fields.selection,name:odex_benefit.selection__relation_settings__relation_type__daughter
+msgid "الابنة"
+msgstr ""
+
+#. module: odex_benefit
+#: model:ir.model.fields,field_description:odex_benefit.field_benefits_representative__marital_status
+#: model:ir.model.fields,field_description:odex_benefit.field_external_benefits__marital_status
+#: model:ir.model.fields,field_description:odex_benefit.field_family_member__mother_marital
+#: model:ir.model.fields,field_description:odex_benefit.field_grant_benefit__father_marital
+#: model:ir.model.fields,field_description:odex_benefit.field_grant_benefit__marital_status
+#: model:ir.model.fields,field_description:odex_benefit.field_grant_benefit__mother_marital
+msgid "الحالة الاجتماعية"
 msgstr ""
 
 #. module: odex_benefit
@@ -15237,6 +15725,11 @@ msgid "الرجاء استخدام هذه المفاتيح لاستخدام في
 msgstr ""
 
 #. module: odex_benefit
+#: model:ir.model.fields.selection,name:odex_benefit.selection__location_settings__location_type__member
+msgid "الفرد"
+msgstr ""
+
+#. module: odex_benefit
 #: model_terms:ir.ui.view,arch_db:odex_benefit.grant_benefit_kanban
 msgid "الكود:"
 msgstr ""
@@ -15247,9 +15740,49 @@ msgid "المرشحات"
 msgstr ""
 
 #. module: odex_benefit
+#: model:ir.model.fields.selection,name:odex_benefit.selection__benefits_needs__benefit_type__orphans
+msgid "ايتام"
+msgstr ""
+
+#. module: odex_benefit
+#: model:ir.model.fields.selection,name:odex_benefit.selection__grant_benefit__mother_relation__mother
+#: model:ir.model.fields.selection,name:odex_benefit.selection__relation_settings__relation_type__mother
+msgid "بيانات الأم"
+msgstr ""
+
+#. module: odex_benefit
+#: model:ir.model.fields.selection,name:odex_benefit.selection__benefit_category__gender__male
+#: model:ir.model.fields.selection,name:odex_benefit.selection__family_member_relation__gender__male
+msgid "ذكر"
+msgstr ""
+
+#. module: odex_benefit
+#: model:ir.model.fields.selection,name:odex_benefit.selection__grant_benefit__father_id_number_type__visitor
+#: model:ir.model.fields.selection,name:odex_benefit.selection__grant_benefit__mother_id_number_type__visitor
+#: model:ir.model.fields.selection,name:odex_benefit.selection__grant_benefit__replacement_mother_id_number_type__visitor
+msgid "زائر"
+msgstr ""
+
+#. module: odex_benefit
+#: model:ir.model.fields.selection,name:odex_benefit.selection__family_member__mother_marital__prisoner
+#: model:ir.model.fields.selection,name:odex_benefit.selection__grant_benefit__mother_marital__prisoner
+msgid "سجينة"
+msgstr ""
+
+#. module: odex_benefit
+#: model:ir.model.fields.selection,name:odex_benefit.selection__location_settings__location_type__mother_location
+msgid "سكن الأم"
+msgstr ""
+
+#. module: odex_benefit
 #: model_terms:ir.ui.view,arch_db:odex_benefit.view_entity_final_refused_reason_wizard_form
 #: model_terms:ir.ui.view,arch_db:odex_benefit.view_entity_refused_reason_wizard_form
 msgid "شاشة سبب الرفض"
+msgstr ""
+
+#. module: odex_benefit
+#: model:ir.model.fields.selection,name:odex_benefit.selection__relation_settings__relation_type__other_relation
+msgid "صلة قرابة آخرى"
 msgstr ""
 
 #. module: odex_benefit
@@ -15269,3 +15802,121 @@ msgstr ""
 #, python-format
 msgid "عفواءً القالب المخصص يتوجب وجود رقم الهوية"
 msgstr ""
+
+#. module: odex_benefit
+#: model:ir.model.fields.selection,name:odex_benefit.selection__family_member__mother_location__not_live_with_children
+#: model:ir.model.fields.selection,name:odex_benefit.selection__grant_benefit__mother_location__not_live_with_children
+#: model:ir.model.fields.selection,name:odex_benefit.selection__grant_benefit__replacement_mother_location__not_live_with_children
+msgid "لا تسكن مع الأطفال"
+msgstr ""
+
+#. module: odex_benefit
+#: model:ir.model.fields.selection,name:odex_benefit.selection__family_member__mother_marital__married
+#: model:ir.model.fields.selection,name:odex_benefit.selection__grant_benefit__father_marital__married
+#: model:ir.model.fields.selection,name:odex_benefit.selection__grant_benefit__mother_marital__married
+msgid "متزوجة"
+msgstr ""
+
+#. module: odex_benefit
+#: model:ir.model.fields.selection,name:odex_benefit.selection__family_member__mother_marital__dead
+#: model:ir.model.fields.selection,name:odex_benefit.selection__grant_benefit__mother_marital__dead
+msgid "متوفية"
+msgstr ""
+
+#. module: odex_benefit
+#: model:ir.model.fields.selection,name:odex_benefit.selection__attachments_settings__attach_type__member_attach
+msgid "مرفقات أعضاء الأسرة"
+msgstr ""
+
+#. module: odex_benefit
+#: model:ir.model.fields.selection,name:odex_benefit.selection__attachments_settings__attach_type__family_attach
+msgid "مرفقات الاسرة"
+msgstr ""
+
+#. module: odex_benefit
+#: model:ir.model.fields.selection,name:odex_benefit.selection__attachments_settings__attach_type__disabilities_attach
+msgid "مرفقات الاعاقات"
+msgstr ""
+
+#. module: odex_benefit
+#: model:ir.model.fields.selection,name:odex_benefit.selection__attachments_settings__attach_type__diseases_attach
+msgid "مرفقات الامراض"
+msgstr ""
+
+#. module: odex_benefit
+#: model:ir.model.fields.selection,name:odex_benefit.selection__attachments_settings__attach_type__income_attach
+msgid "مرفقات الدخل"
+msgstr ""
+
+#. module: odex_benefit
+#: model:ir.model.fields.selection,name:odex_benefit.selection__attachments_settings__attach_type__hobbies_attach
+msgid "مرفقات الهوايات"
+msgstr ""
+
+#. module: odex_benefit
+#: model:ir.model.fields.selection,name:odex_benefit.selection__benefit_category__gender__both
+#: model:ir.model.fields.selection,name:odex_benefit.selection__benefits_needs__benefit_type__both
+msgid "مشترك"
+msgstr ""
+
+#. module: odex_benefit
+#: model:ir.model.fields.selection,name:odex_benefit.selection__family_member__mother_marital__divorced
+#: model:ir.model.fields.selection,name:odex_benefit.selection__grant_benefit__father_marital__divorced
+#: model:ir.model.fields.selection,name:odex_benefit.selection__grant_benefit__mother_marital__divorced
+msgid "مطلقة"
+msgstr ""
+
+#. module: odex_benefit
+#: model:ir.model.fields.selection,name:odex_benefit.selection__family_member__mother_marital__divorced_from_another_man
+#: model:ir.model.fields.selection,name:odex_benefit.selection__grant_benefit__mother_marital__divorced_from_another_man
+msgid "مطلقة من رجل اخر"
+msgstr ""
+
+#. module: odex_benefit
+#: model:ir.model.fields.selection,name:odex_benefit.selection__family_member__mother_location__with_children
+#: model:ir.model.fields.selection,name:odex_benefit.selection__grant_benefit__mother_location__with_children
+#: model:ir.model.fields.selection,name:odex_benefit.selection__grant_benefit__replacement_mother_location__with_children
+msgid "مع الأطفال"
+msgstr ""
+
+#. module: odex_benefit
+#: model:ir.model.fields.selection,name:odex_benefit.selection__family_member__mother_location__with_husband_and_children
+#: model:ir.model.fields.selection,name:odex_benefit.selection__grant_benefit__mother_location__with_husband_and_children
+#: model:ir.model.fields.selection,name:odex_benefit.selection__grant_benefit__replacement_mother_location__with_husband_and_children
+msgid "مع الزوج والأطفال"
+msgstr ""
+
+#. module: odex_benefit
+#: model:ir.model.fields.selection,name:odex_benefit.selection__family_member__mother_marital__hanging
+#: model:ir.model.fields.selection,name:odex_benefit.selection__grant_benefit__mother_marital__hanging
+msgid "معلقة"
+msgstr ""
+
+#. module: odex_benefit
+#: model:ir.model.fields.selection,name:odex_benefit.selection__grant_benefit__father_id_number_type__resident
+#: model:ir.model.fields.selection,name:odex_benefit.selection__grant_benefit__mother_id_number_type__resident
+#: model:ir.model.fields.selection,name:odex_benefit.selection__grant_benefit__replacement_mother_id_number_type__resident
+msgid "مقيم"
+msgstr ""
+
+#. module: odex_benefit
+#: model:ir.model.fields.selection,name:odex_benefit.selection__grant_benefit__father_id_number_type__citizen
+#: model:ir.model.fields.selection,name:odex_benefit.selection__grant_benefit__mother_id_number_type__citizen
+#: model:ir.model.fields.selection,name:odex_benefit.selection__grant_benefit__replacement_mother_id_number_type__citizen
+msgid "مواطن"
+msgstr ""
+
+#. modules: odex_benefit
+#: model:res.groups,name:odex_benefit.group_family_researcher
+msgid "Family Researcher"
+msgstr "الباحث الاجتماعي"
+
+#. module: odex_benefit
+#: model:res.groups,name:odex_benefit.group_basic_care_manager
+msgid "Basic Care Manager"
+msgstr "مدير الرعاية الأساسية"
+
+#. module: odex_benefit
+#: model:res.groups,name:odex_benefit.group_service_manager
+msgid "benefit service manager"
+msgstr "مدير مركز خدمات المستفيدين"

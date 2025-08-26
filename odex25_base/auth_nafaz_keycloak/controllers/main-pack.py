@@ -1,0 +1,96 @@
+import base64
+import hashlib
+import logging
+import secrets
+import werkzeug
+import json
+from odoo.http import request, route
+from werkzeug.urls import url_decode, url_encode
+from odoo.addons.web.controllers.main import Session
+from odoo.addons.auth_oauth.controllers.main import OAuthLogin
+from markupsafe import Markup
+from html import escape as html_escape
+
+_logger = logging.getLogger(__name__)
+
+
+class OpenIDLogin(OAuthLogin):
+    # def list_providers(self):
+    #     providers = super(OpenIDLogin, self).list_providers()
+    #     for provider in providers:
+    #         flow = provider.get("flow")
+    #         if flow in ("id_token", "id_token_code"):
+    #             params = url_decode(provider["auth_link"].split("?")[-1])
+    #             params["nonce"] = secrets.token_urlsafe()
+    #             if flow == "id_token":
+    #                 params["response_type"] = "id_token token"
+    #             elif flow == "id_token_code":
+    #                 params["response_type"] = "code"
+    #             code_verifier = provider["code_verifier"]
+    #             code_challenge = base64.urlsafe_b64encode(hashlib.sha256(code_verifier.encode("ascii")).digest()).rstrip(b"=")
+    #             params["code_challenge"] = code_challenge
+    #             params["code_challenge_method"] = "S256"
+    #             if provider.get("scope"):
+    #                 if "openid" not in provider["scope"].split():
+    #                     _logger.error("openid connect scope must contain 'openid'")
+    #                 params["scope"] = provider["scope"]
+    #             provider["auth_link"] = "{}?{}".format(provider["auth_endpoint"], url_encode(params))
+    #             print("======================================",provider)
+    #     return providers
+
+    def list_providers(self):
+        providers = super(OpenIDLogin, self).list_providers()
+        for provider in providers:
+            flow = provider.get("flow")
+            if flow in ("id_token", "id_token_code"):
+                params = url_decode(provider["auth_link"].split("?")[-1])
+
+                params["nonce"] = secrets.token_urlsafe()
+                if flow == "id_token":
+                    params["response_type"] = "id_token token"
+                elif flow == "id_token_code":
+                    params["response_type"] = "code"
+
+                code_verifier = provider["code_verifier"]
+                code_challenge = base64.urlsafe_b64encode(
+                    hashlib.sha256(code_verifier.encode("ascii")).digest()
+                ).rstrip(b"=").decode("utf-8")
+                params["code_challenge"] = code_challenge
+                params["code_challenge_method"] = "S256"
+
+                if provider.get("scope"):
+                    if "openid" not in provider["scope"].split():
+                        _logger.error("openid connect scope must contain 'openid'")
+                    params["scope"] = provider["scope"]
+
+                # Secure and base64-encoded state
+                state = {
+                    "d": request.session.db,
+                    "p": provider.get("id"),
+                    "r": request.httprequest.args.get('redirect', '/web'),
+                }
+                params["state"] = base64.urlsafe_b64encode(json.dumps(state).encode()).decode()
+
+                hidden_inputs = "".join([
+                    f'<input type="hidden" name="{html_escape(key)}" value="{html_escape(str(value))}"/>'
+                    for key, value in params.items()
+                ])
+                provider["auth_form"] = Markup(f"""
+                    <form id="oauth_login_form_{provider['id']}" action="{provider['auth_endpoint']}" method="post">
+                        {hidden_inputs}
+                        <noscript><button type="submit">Login with {provider['name']}</button></noscript>
+                    </form>
+                    <script>document.getElementById("oauth_login_form_{provider['id']}").submit();</script>
+                """)
+
+        return providers
+
+
+class SessionOUT(Session):
+    @route("/web/session/logout", type="http", auth="none")
+    def logout(self, redirect="/web"):
+        request.session.logout(keep_db=True)
+        oauth = request.env['auth.oauth.provider'].sudo().search([('enabled', '=', True),('autologin', '=', True)], limit=1)
+        provider_logout_url = oauth.data_endpoint
+        url = str(provider_logout_url) + "?redirect_uri=" + request.httprequest.url_root
+        return werkzeug.utils.redirect(url,303)

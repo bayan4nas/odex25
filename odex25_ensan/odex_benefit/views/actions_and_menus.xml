@@ -53,7 +53,7 @@
 <!--            <field name="view_type">form</field>-->
             <field name="view_mode">tree,form,graph</field>
             <field name="context">{'create': False}</field>
-            <field name="domain">[('state','=','second_approve')]</field>
+            <field name="domain">[('state','=','approved')]</field>
         </record>
         <record model="ir.actions.act_window" id="grant_benefit_reject_action">
             <field name="name">Benefit Reject List</field>
@@ -591,6 +591,9 @@
                 </p>
             </field>
         </record>
+
+
+
          <record model="ir.actions.act_window" id="service_request_accounting_action">
             <field name="name">Services Requests</field>
             <field name="res_model">service.request</field>
@@ -918,9 +921,9 @@
         <menuitem id="benefit_category_menu" name="category" parent="menu_benefits_config_organizing"
                   action="category_action"
                   sequence="2"/>
-        <menuitem id="relation_settings_menu" name="Relation Settings" parent="menu_benefits_config_organizing"
-                  action="relation_action"
-                  sequence="3"/>
+<!--        <menuitem id="relation_settings_menu" name="Relation Settings" parent="menu_benefits_config_organizing"-->
+<!--                  action="relation_action"-->
+<!--                  sequence="3"/>-->
         <menuitem id="location_settings_menu" name="Location Settings" parent="menu_benefits_config_organizing"
                   action="location_action"
                   sequence="4"/>
@@ -1018,9 +1021,15 @@
 
         <menuitem id="health_mental_illnesses_menu" name="Health Mental Illnesses"
                 parent="menu_benefits_config_benefits" action="health_mental_illnesses_action" sequence="12"/>
-
+action_service_provider_list
         <menuitem id="health_chronic_diseases_menu" name="Health Chronic Diseases"
                 parent="menu_benefits_config_benefits" action="health_chronic_diseases_action" sequence="13"/>
+        <menuitem id="service_delivery_method_menu" name="Service Delivery Method"
+                parent="menu_benefits_config_benefits" action="action_service_delivery_method_list" sequence="13"/>
+        <menuitem id="service_need_status_list_menu" name="Service Need Status"
+                parent="menu_benefits_config_benefits" action="action_service_need_status_list" sequence="13"/>
+        <menuitem id="service_provider_list_menu" name="Service Provider"
+                parent="menu_benefits_config_benefits" action="action_service_provider_list" sequence="13"/>
 <!--        <menuitem id="sport_type_menu" name="Sport Type"-->
 <!--                  parent="menu_benefits_config_benefits" action="sport_type_action" sequence="5"/>-->
 <!--        <menuitem id="needs_categories_menu" name="Needs Categories"-->
@@ -1051,14 +1060,17 @@
         <!--##########################################-->
         <!-- Benefit Services menu-->
         <!--##########################################-->
-        <menuitem id="services_settings_menu" name="Services Settings" sequence="1"
-                  parent="odex_benefit.benefit_services" />
-        <menuitem id="services_settings_menu" name="Services Settings" sequence="1"
-                  parent="odex_benefit.benefit_services" action="services_settings_action" groups="odex_benefit.group_benefit_manager"/>
-        <menuitem id="services_requests_menu" name="Services Requests" sequence="2"
+<!--        <menuitem id="services_settings_menu" name="Services Settings" sequence="1"-->
+<!--                  parent="odex_benefit.benefit_services" />-->
+<!--        <menuitem id="services_settings_menu" name="Services Settings" sequence="2"-->
+<!--                  parent="odex_benefit.benefit_services" action="services_settings_action" groups="odex_benefit.group_benefit_manager"/>-->
+        <menuitem id="services_requests_menu" name="Services Requests" sequence="1"
                   parent="odex_benefit.benefit_services" action="service_request_action"/>
+
         <menuitem id="menu_service_request_accounting_accept" name="Services Requests" parent="account.menu_finance_payables"
-              action="service_request_accounting_action" sequence="9"/>
+              action="service_request_accounting_action" sequence="1"/>
+
+
         <!--        <menuitem id="benefit_need_menu" name="Benefit Need" sequence="1"-->
         <!--                  parent="odex_benefit.benefit_services" action="benefit_need_action"/>-->
 <!--        <menuitem id="benefit_zkat_main_menu" name="Benefit Zkat" sequence="2"-->

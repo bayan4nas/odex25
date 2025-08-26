@@ -1,0 +1,385 @@
+<odoo>
+    <template id="report_budget_operation">
+        <t t-call="web.html_container">
+            <t t-call="odex25_budget_saip.budget_layout">
+                <style type="text/css">
+                    @charset "UTF-8";
+                    @font-face {
+                    font-family: "bukra";
+                    font-style: normal;
+                    font-weight: 400;
+                    src: url(/saip_custom_theme/static/src/fonts/29ltbukraregular.otf) format("opentype"),
+                    url(/saip_custom_theme/static/src/fonts/29ltbukralight.ttf) format("truetype");
+                    }
+                    @font-face {
+                    font-family: "bukra";
+                    font-style: normal;
+                    font-weight: 700;
+                    src: url(/saip_custom_theme/static/src/fonts/29ltbukrabold.otf) format("opentype"),
+                    url(/saip_custom_theme/static/src/fonts/alfont_com_خط-بكرا-عريض.ttf) format("truetype");
+                    }
+                    .report-container {
+                    font-family: 'bukra', serif;
+                    width: 100%;
+                    }
+                    .report-header {
+                    text-align: center;
+                    font-size: 18px;
+                    margin-bottom: 20px;
+                    }
+                    .report-date {
+                    text-align: center;
+                    font-size: 12px;
+                    margin-bottom: 10px;
+                    }
+                    .table {
+                    width: 100%;
+                    border-collapse: collapse;
+                    }
+                    .table th, .table td {
+                    padding: 8px;
+                    text-align: center;
+                    font-size: 12px;
+                    border: 1px solid black;
+                    white-space: nowrap; /* Prevent line breaking within table cells */
+                    }
+                    .table th {
+                    background-color: #006666;
+                    color: white;
+                    }
+                    .green-cell {
+                    background-color: #006666;
+                    color: white;
+                    }
+                    .checkbox {
+                    margin-top: 5px;
+                    margin-left: 10px;
+                    }
+                    .justification-row td {
+                    padding: 20px 8px; /* Increase top/bottom padding to increase row height */
+                    height: 80px; /* Increase top/bottom padding to increase row height */
+                    }
+                    .justification-text {
+                    text-align: right; /* Aligns text to the right */
+                    }
+                    .signature-section {
+                    display: flex;
+                    justify-content: space-between;
+                    margin-top: 20px;
+                    }
+                    .signature {
+                    text-align: center;
+                    width: 23%;
+                    }
+                    .signature img {
+                    max-height: 1cm;
+                    max-width: 4cm;
+                    }
+                </style>
+                <link rel="stylesheet"
+                      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>
+                <t t-foreach="docs" t-as="doc">
+                    <div class="page report-container">
+                        <div class="report-header">
+                            <h2>Budget Transfer Request Form</h2>
+                            <h5 style="font-size:11pt">Form Number (2)</h5>
+                        </div>
+                        <table class="table table-borderless" style="width:100%;border-collapse:collapse;border-collapse:separate;border-spacing:0px;;margin-bottom: -20px;">
+                            <tr style="border 0;">
+                                <td style="text-align:right;border:0;width:50%;font-size: 14px;">
+                                    <strong>Request Number:<span t-field="doc.name"/></strong>
+                                </td>
+                                <td style="text-align:left;border:0;width:50%;font-size: 14px;">
+                                    <strong>Request Date:<span t-esc="doc.date"/></strong>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <hr style="border: 1px solid black;"/>
+                        <table class="table">
+                            <tr>
+                                <td style="font-weight: bold; text-align: center; vertical-align: middle;"
+                                    class="green-cell">Type of Transfer
+                                </td>
+                                <td style="font-weight:bold;width:50%;border-top: 1px solid black;">
+                                    <i class="fa fa-check checkbox" t-if="doc.transfer_type == 'same_position'"/>
+                                    Transfer in Same Position
+                                    <table class="table">
+                                        <tr>
+                                            <td style="border: none;">
+                                                <div class="justification-text">
+                                                    <i class="fa fa-check checkbox"
+                                                       t-if="doc.transfer_type == 'same_position' and doc.total_percentage &gt; .50"/>
+                                                    <label>Higher than 50% of the item transferred to</label>
+
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="border: none;">
+                                                <div class="justification-text">
+                                                    <i class="fa fa-check checkbox"
+                                                       t-if="doc.transfer_type == 'same_position' and doc.total_percentage &lt;= .50"/>
+                                                    <label>Less than 50% of the item transported to</label>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td style="font-weight:bold;width:50%;border-top: 1px solid black;">
+                                    <i class="fa fa-check checkbox" t-if="doc.transfer_type == 'between_position'"/>
+                                    Transfer Between Position
+                                </td>
+                            </tr>
+                            <tr class="justification-row">
+                                <td style="font-weight: bold; text-align: center; vertical-align: middle;"
+                                    class="green-cell">Justifications for the transfer
+                                </td>
+                                <td style="font-weight:bold;" colspan="2">
+                                    <div class="justification-text">
+                                        To cover the deficit in the following items:
+                                    </div>
+                                    <br/>
+                                    <div class="justification-text">
+                                        <span t-field="doc.purpose"/>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                        <h3>Transfer data</h3>
+                        <table class="table">
+                            <t t-set="workflow_data" t-value="workflow.get(str(doc.id),False)"/>
+                            <thead>
+                                <tr>
+                                    <th>Item Name</th>
+                                    <th>Item Number</th>
+                                    <th>Original Budget</th>
+                                    <th>Budget After Modification</th>
+                                    <th>Available in Line</th>
+                                    <th>Debit Transfer</th>
+                                    <th>Credit Transfer</th>
+                                    <th>Percentage %</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-set="total_percentage" t-value="sum(line.percentage for line in doc.line_ids)"/>
+                                <t t-set="percentage_after_confirm"
+                                   t-value="sum(line.percentage_after_confirm for line in doc.line_ids)"/>
+                                <t t-foreach="doc.line_ids" t-as="line">
+                                    <tr>
+                                        <td style="font-weight:bold;">
+                                            <span t-field="line.item_budget_id.name"/>
+                                        </td>
+                                        <td style="font-weight:bold;">
+                                            <span t-field="line.item_budget_id.item_no"/>
+                                        </td>
+                                        <td style="font-weight:bold;">
+                                            <span t-field="line.planned_amount"/>
+                                        </td>
+                                        <td style="font-weight:bold;">
+                                            <t t-if="line.operation_id.state !='confirmed'">
+                                                <span t-field="line.after_modification"/>
+                                            </t>
+                                            <t t-else="">
+                                                <span t-field="line.before_modification"/>
+                                            </t>
+
+                                        </td>
+                                        <td style="font-weight:bold;">
+                                            <t t-if="line.operation_id.state !='confirmed'">
+                                                <span t-field="line.available_liquidity"/>
+                                            </t>
+                                            <t t-else="">
+                                                <span t-field="line.available_in_line"/>
+                                            </t>
+                                        </td>
+                                        <td style="font-weight:bold;">
+                                            <span t-field="line.transfer_debit"/>
+                                        </td>
+                                        <td style="font-weight:bold;">
+                                            <span t-field="line.transfer_credit"/>
+                                        </td>
+                                        <td style="font-weight:bold;">
+                                            <t t-if="line.operation_id.state !='confirmed'">
+                                                <span t-esc="'{}%'.format(round(line.percentage * 100, 2))"/>
+                                            </t>
+                                            <t t-else="">
+                                                <span t-esc="'{}%'.format(round(line.percentage_after_confirm * 100, 2))"/>
+                                            </t>
+                                        </td>
+                                    </tr>
+                                </t>
+
+
+                                <tr>
+                                    <td style="font-weight:bold;" colspan="5">
+                                        <strong>Total</strong>
+                                    </td>
+                                    <td style="font-weight:bold;">
+                                        <t t-esc="sum(line.transfer_debit for line in doc.line_ids)"
+                                           t-options="{'widget': 'monetary', 'display_currency': doc.currency_id}"/>
+                                    </td>
+                                    <td style="font-weight:bold;">
+                                        <t t-esc="sum(line.transfer_credit for line in doc.line_ids)"
+                                           t-options="{'widget': 'monetary', 'display_currency': doc.currency_id}"/>
+                                    </td>
+                                    <td style="font-weight:bold;">
+                                        <t t-if="doc.state !='confirmed'">
+                                            <span t-esc="'{}%'.format(round(total_percentage * 100, 2))"/>
+                                        </t>
+                                        <t t-else="">
+                                            <span t-esc="'{}%'.format(round(percentage_after_confirm * 100, 2))"/>
+                                        </t>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <table class="table">
+                            <t t-if="workflow_data">
+                                <tr>
+                                    <t t-set="work_wait_budget"
+                                       t-value="workflow.get(str(doc.id),False).get('budget_manager',False)"/>
+                                    <t t-if="work_wait_budget">
+                                        <td style="background-color: #006666;color: white;text-align: right;font-weight:bold;">
+                                            <strong>Budget Manager</strong>
+                                        </td>
+                                        <td style="text-align: right;">
+                                            <strong t-field="work_wait_budget.get('value',False).create_uid.name"/>
+                                        </td>
+                                        <td style="background-color: #006666;color: white;text-align: right;font-weight:bold;">
+                                            <strong>Signature</strong>
+                                        </td>
+                                        <td style="padding:0px;text-align:right;font-weight:bold;">
+                                            <div class="signature"
+                                                 style="display:flex;justify-content: center !important;padding:0px;">
+                                                <t t-if="work_wait_budget.get('value',False).create_uid.sign_signature">
+                                                    <img t-att-src="image_data_uri(work_wait_budget.get('value',False).create_uid.sign_signature)"
+                                                         style="max-height: 1cm; max-width: 4cm"/>
+                                                </t>
+                                                <t t-else="">
+                                                    <p>No signature fount for this user</p>
+                                                </t>
+                                            </div>
+                                        </td>
+                                        <td style="background-color: #006666;color: white;text-align: right;font-weight:bold;">
+                                            <strong>Date</strong>
+                                        </td>
+                                        <td style="text-align: right;font-weight:bold;">
+                                            <strong t-esc="work_wait_budget.get('value',False).create_date.strftime('%d/%m/%Y')"/>
+                                        </td>
+                                    </t>
+                                </tr>
+                                <tr>
+                                    <t t-set="work_finance_ceo"
+                                       t-value="workflow.get(str(doc.id),False).get('finance_ceo',False)"/>
+                                    <t t-if="work_finance_ceo">
+                                        <td style="background-color: #006666;color: white;text-align: right;font-weight:bold;">
+                                            <strong>Finance Manager</strong>
+                                        </td>
+                                        <td style="text-align: right;font-weight:bold;">
+                                            <strong t-field="work_finance_ceo.get('value',False).create_uid.name"/>
+                                        </td>
+                                        <td style="background-color: #006666;color: white;text-align: right;font-weight:bold;">
+                                            <strong>Signature</strong>
+                                        </td>
+                                        <td style="padding: 0px;text-align: right;font-weight:bold;">
+                                            <div class="signature"
+                                                 style="display:flex;justify-content: center !important;padding:0px;">
+                                                <t t-if="work_finance_ceo.get('value',False).create_uid.sign_signature">
+                                                    <img t-att-src="image_data_uri(work_finance_ceo.get('value',False).create_uid.sign_signature)"
+                                                         style="max-height: 1cm; max-width: 4cm"/>
+                                                </t>
+                                                <t t-else="">
+                                                    <p>No signature fount for this user</p>
+                                                </t>
+                                            </div>
+                                        </td>
+                                        <td style="background-color: #006666;color: white;text-align: right;font-weight:bold;">
+                                            <strong>Date</strong>
+                                        </td>
+                                        <td style="text-align: right;font-weight:bold;">
+                                            <strong t-esc="work_finance_ceo.get('value',False).create_date.strftime('%d/%m/%Y')"/>
+                                        </td>
+                                    </t>
+                                </tr>
+                                <tr>
+                                    <t t-set="work_vice_president"
+                                       t-value="workflow.get(str(doc.id),False).get('vice_president',False)"/>
+                                    <t t-if="work_vice_president">
+                                        <td style="background-color: #006666;color: white;text-align: right;font-weight:bold;">
+                                            <strong>Vice President of Corporate Resources</strong>
+                                        </td>
+                                        <td style="text-align: right;font-weight:bold;">
+                                            <strong t-field="work_vice_president.get('value',False).create_uid.name"/>
+                                        </td>
+                                        <td style="background-color: #006666;color: white;text-align: right;font-weight:bold;">
+                                            <strong>Signature</strong>
+                                        </td>
+                                        <td style="padding: 0px;text-align: right;font-weight:bold;">
+                                            <div class="signature"
+                                                 style="display:flex;justify-content: center !important;padding:0px;">
+                                                <t t-if="work_vice_president.get('value',False).create_uid.sign_signature">
+                                                    <img t-att-src="image_data_uri(work_vice_president.get('value',False).create_uid.sign_signature)"
+                                                         style="max-height: 1cm; max-width: 4cm"/>
+                                                </t>
+                                                <t t-else="">
+                                                    <p>No signature fount for this user</p>
+                                                </t>
+                                            </div>
+                                        </td>
+                                        <td style="background-color: #006666;color: white;text-align: right;font-weight:bold;">
+                                            <strong>Date</strong>
+                                        </td>
+                                        <td style="text-align: right;font-weight:bold;">
+                                            <strong t-esc="work_vice_president.get('value',False).create_date.strftime('%d/%m/%Y')"/>
+                                        </td>
+                                    </t>
+                                </tr>
+                                <tr>
+                                    <t t-set="work_president"
+                                       t-value="workflow.get(str(doc.id),False).get('president',False)"/>
+                                    <t t-if="work_president">
+                                        <td style="background-color: #006666;color: white;text-align: right;font-weight:bold;">
+                                            <strong>Chief Executive Officer</strong>
+                                        </td>
+                                        <td style="text-align: right;">
+                                            <strong t-field="work_president.get('value',False).create_uid.name"/>
+                                        </td>
+                                        <td style="background-color: #006666;color: white;text-align: right;font-weight:bold;">
+                                            <strong>Signature</strong>
+                                        </td>
+                                        <td style="padding: 0px;text-align: right;font-weight:bold;">
+                                            <div class="signature"
+                                                 style="display:flex;justify-content: center !important;padding:0px;">
+                                                <t t-if="work_president.get('value',False).create_uid.sign_signature">
+                                                    <img t-att-src="image_data_uri(work_president.get('value',False).create_uid.sign_signature)"
+                                                         style="max-height: 1cm; max-width: 4cm"/>
+                                                </t>
+                                                <t t-else="">
+                                                    <p>No signature fount for this user</p>
+                                                </t>
+                                            </div>
+                                        </td>
+                                        <td style="background-color: #006666;color: white;text-align: right;font-weight:bold;">
+                                            <strong>Date</strong>
+                                        </td>
+                                        <td style="text-align: right;font-weight:bold;">
+                                            <strong t-esc="work_president.get('value',False).create_date.strftime('%d/%m/%Y')"/>
+                                        </td>
+                                    </t>
+                                </tr>
+                            </t>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

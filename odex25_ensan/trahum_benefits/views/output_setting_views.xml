@@ -75,7 +75,7 @@
                                 <div><field name="output_type"/></div>
                                 <div t-if="record.amount.raw_value">💰 <field name="amount"/></div>
                                 <div t-if="record.active.raw_value" class="text-success">🟢 Active</div>
-                                <div t-if="not record.active.raw_value" class="text-danger">🔴 Inactive</div>
+                                <div t-if="!record.active.raw_value" class="text-danger">🔴 Inactive</div>
                             </div>
                         </div>
                     </t>

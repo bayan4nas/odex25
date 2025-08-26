@@ -1,13 +1,13 @@
 {
     'name': 'HR Base Reports',
-    'category': 'Odex25-HR/Odex25-HR',
+    'category': 'HR-Odex',
     'summary': 'HR Reports',
     'version': '14.1.0',
     'sequence': 4,
     'website': 'http://exp-sa.com',
     'license': 'GPL-3',
     'author': 'Expert Co. Ltd.',
-    'depends': ['base', 'hr', 'hr_base', 'hr_disciplinary_tracking', 'employee_requests', 'report_xlsx',
+    'depends': ['base', 'hr','exp_hr_appraisal', 'hr_base', 'hr_disciplinary_tracking', 'employee_requests', 'report_xlsx',
                 'exp_official_mission'],
     'data': [
         'security/ir.model.access.csv',
@@ -31,7 +31,6 @@
         'wizard/employee_cost_wizard.xml',
         'wizard/overtime_report_view.xml',
         'wizard/employee_fingerprint_report_view.xml',
-        'wizard/termination_allowan_report_view.xml',
         'report/employee_cost_template.xml',
         'report/overtime_report_template.xml',
         'report/employee_general_report_template.xml',
@@ -45,7 +44,8 @@
         'report/re_entery_report_template.xml',
         'report/promotion_report_template.xml',
         'report/absence_execuse_template.xml',
-        'report/termination_report_template.xml',
+        'report/employee_attendance_summary_report.xml',
+        'report/department_attendance_summary_report.xml'
 
     ],
     # 'qweb': ['static/src/xml/base_template.xml'],

@@ -36,12 +36,13 @@ class PurchaseRequest(models.Model):
                                             help='True when all asset products have custody lines and operations in done state'
                                             )
 
-    total_sum = fields.Float(string="Total Sum", compute="_compute_total_sum", store=True)
+    total_sum = fields.Float(string="Total Sum")
+    # total_sum = fields.Float(string="Total Sum", compute="_compute_total_sum", store=True)
 
-    @api.depends('line_ids.line_total')
-    def _compute_total_sum(self):
-        for record in self:
-            record.total_sum = sum(line.line_total for line in record.line_ids)
+    # @api.depends('line_ids.line_total')
+    # def _compute_total_sum(self):
+    #     for record in self:
+    #         record.total_sum = sum(line.line_total for line in record.line_ids)
 
 
     def action_sector_head_approval(self):
@@ -52,7 +53,7 @@ class PurchaseRequest(models.Model):
                 rec.write({"qty_purchased": rec.qty})
 
             init_active = self.env['ir.module.module'].search(
-                [('name', '=', 'initial_engagement_budget'), ('state', '=', 'installed')], limit=1)
+                [('name', '=', 'odex25_account_budget'), ('state', '=', 'installed')], limit=1)
             init_budget = True if init_active else False
             self.write({'state': 'wait_for_send' if init_budget else 'waiting'})
 
@@ -164,15 +165,15 @@ class PurchaseRequest(models.Model):
 
     def action_confirm(self):
         init_active = self.env['ir.module.module'].sudo().search(
-            [('name', '=', 'initial_engagement_budget'), ('state', '=', 'installed')], limit=1)
-        init_budget = self.initial_engagement_activate
+            [('name', '=', 'odex25_budget_saip'), ('state', '=', 'installed')], limit=1)
+        # init_budget = self.initial_engagement_activate
         if len(self.line_ids) == 0:
             raise ValidationError(_("Can't Confirm Request With No Item!"))
         if not self.department_id:
             raise ValidationError(_("Please Select department for employee"))
         employee_direct_manager = self.sudo().employee_id.parent_id
-        if employee_direct_manager and employee_direct_manager.user_id and self.env.user.id != employee_direct_manager.user_id.id:
-            raise ValidationError(_("only %s Direct Manager can approve the order" % self.sudo().employee_id.name))
+        # if employee_direct_manager and employee_direct_manager.user_id and self.env.user.id != employee_direct_manager.user_id.id:
+        #     raise ValidationError(_("only %s Direct Manager can approve the order" % self.sudo().employee_id.name))
         if self.total_sum > 10000:
             self.state = 'secretary_general'
         else:
@@ -610,5 +611,5 @@ class PurchaseRequestLine(models.Model):
     @api.constrains('expected_price')
     def expected_price_validation(self):
         for rec in self:
-            if rec.request_id.initial_engagement_activate == True and rec.expected_price <= 0:
+            if rec.expected_price <= 0:
                 raise ValidationError(_("Expected Price MUST be at Least ONE!"))
