@@ -36,13 +36,13 @@ class PurchaseRequest(models.Model):
                                             help='True when all asset products have custody lines and operations in done state'
                                             )
 
-    total_sum = fields.Float(string="Total Sum")
-    # total_sum = fields.Float(string="Total Sum", compute="_compute_total_sum", store=True)
+    # total_sum = fields.Float(string="Total Sum")
+    total_sum = fields.Float(string="Total Sum", compute="_compute_total_sum", store=True)
 
-    # @api.depends('line_ids.line_total')
-    # def _compute_total_sum(self):
-    #     for record in self:
-    #         record.total_sum = sum(line.line_total for line in record.line_ids)
+    @api.depends('line_ids.line_total')
+    def _compute_total_sum(self):
+        for record in self:
+            record.total_sum = sum(line.line_total for line in record.line_ids)
 
 
     def action_sector_head_approval(self):
