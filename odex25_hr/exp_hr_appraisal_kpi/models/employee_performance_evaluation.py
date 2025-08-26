@@ -6,9 +6,7 @@ import json
 
 class EmployeePerformanceEvaluation(models.Model):
     _name = 'employee.performance.evaluation'
-    _rec_name = 'employee_id'
-    _inherit = ['mail.thread']
-    _description = "Employee performance evaluation"
+  
     # recommendations = fields.Text(string='Recommendations', tracking=True, required=False)
     # total = fields.Float(string='Total Mark', readonly=True, store=True, tracking=True, )
     # mark_apprisal = fields.Float(string='Mark Apprisal', readonly=False, store=True, tracking=True,
