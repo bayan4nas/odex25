@@ -5,7 +5,8 @@ from lxml import etree
 import json
 from odoo.exceptions import UserError
 from datetime import date
-from odoo.tools import config
+from dateutil.relativedelta import relativedelta
+
 
 
 class GrantBenefit(models.Model):
@@ -22,6 +23,9 @@ class GrantBenefit(models.Model):
         ('cancelled', 'Cancelled'),
 
     ]
+    rent_start_date = fields.Date('Start Date')
+    rent_end_date = fields.Date('End Date')
+    period_text = fields.Char(string="Rent Period", compute="compute_rent_period", store=True)
 
     previous_state = fields.Selection(STATE_SELECTION, string="Previous State")
     need_calculator = fields.Selection([('high', 'High Need'), ('medium', 'Medium Need'), ('low', 'Low Need'), ],
@@ -38,18 +42,18 @@ class GrantBenefit(models.Model):
     folder_state = fields.Selection([('Active', 'active'), ('not_active', 'Not Active')], string='Folder State')
 
     # related = 'benefit_breadwinner_ids[0].member_name.building_number'
-    building_number = fields.Integer(string='Building Number',compute='_compute_breadwinner_address')
-    sub_number = fields.Integer(string='Sub Number',compute='_compute_breadwinner_address')
-    additional_number = fields.Integer(string='Additional Number',compute='_compute_breadwinner_address')
-    street_name = fields.Char(string='Street Name',compute='_compute_breadwinner_address')
-    city = fields.Many2one("res.country.city", string='City',compute='_compute_breadwinner_address')
+    building_number = fields.Integer(string='Building Number', compute='_compute_breadwinner_address')
+    sub_number = fields.Integer(string='Sub Number', compute='_compute_breadwinner_address')
+    additional_number = fields.Integer(string='Additional Number', compute='_compute_breadwinner_address')
+    street_name = fields.Char(string='Street Name', compute='_compute_breadwinner_address')
+    city = fields.Many2one("res.country.city", string='City', compute='_compute_breadwinner_address')
 
     district_name = fields.Many2one(
         'res.district',
         string='District', compute='_compute_breadwinner_address')
 
-    postal_code = fields.Char(string='Postal Code',compute='_compute_breadwinner_address')
-    national_address_code = fields.Char(string='National address code',compute='_compute_breadwinner_address')
+    postal_code = fields.Char(string='Postal Code', compute='_compute_breadwinner_address')
+    national_address_code = fields.Char(string='National address code', compute='_compute_breadwinner_address')
 
     @api.depends(
         'benefit_breadwinner_ids.member_name.building_number',
@@ -78,6 +82,41 @@ class GrantBenefit(models.Model):
                 rec.street_name = rec.district_name = rec.city = False
                 rec.postal_code = rec.national_address_code = False
 
+    @api.depends('rent_start_date','rent_end_date')
+    def compute_rent_period(self):
+            for record in self:
+                if record.rent_start_date and record.rent_end_date:
+                    delta = relativedelta(record.rent_end_date, record.rent_start_date)
+                    years = delta.years
+                    months = delta.months
+                    days = delta.days
+
+                    def arabic_plural(value, singular, dual, plural):
+                        if value == 1:
+                            return f"1 {singular}"
+                        elif value == 2:
+                            return dual
+                        elif 3 <= value <= 10:
+                            return f"{value} {plural}"
+                        else:
+                            return f"{value} {singular}"
+
+                    year_txt = arabic_plural(years, "سنة", "سنتان", "سنوات")
+                    month_txt = arabic_plural(months, "شهر", "شهران", "أشهر")
+                    day_txt = arabic_plural(days, "يومًا", "يومان", "أيام")
+
+                    parts = []
+                    if years:
+                        parts.append(year_txt)
+                    if months:
+                        parts.append(month_txt)
+                    if days:
+                        parts.append(day_txt)
+
+                    rtl_marker = '\u200F'
+                    record.period_text = rtl_marker + " و ".join(parts) if parts else rtl_marker + "0 يوم"
+                else:
+                    record.period_text = "\u200Fالمدة غير متوفرة"
     @api.depends('benefit_member_ids')
     def _compute_member_name(self):
         self.name_member = ''
