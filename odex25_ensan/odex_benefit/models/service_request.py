@@ -24,7 +24,7 @@ class ServiceRequest(models.Model):
     family_category = fields.Many2one('benefit.category', string='Family Category',
                                       related='family_id.benefit_category_id')
     benefit_member_count = fields.Integer(string="Benefit Member count", related='family_id.member_count')
-    branches_custom_id = fields.Many2one('branch.details', string="Branch", compute='get_branch_custom_id', store=True)
+    branches_custom = fields.Many2one('branch.details', string="Branch")
     member_id = fields.Many2one(
         'family.member',
         string='Member',
