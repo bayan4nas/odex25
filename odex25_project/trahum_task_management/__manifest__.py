@@ -7,7 +7,7 @@
 This module allows to generate a project/task original Project Module.
 """,
     'category': 'Hidden',
-    'depends': [ 'project'],
+    'depends': [ 'project_base'],
     'data': [
         'views/project_views.xml',
     ],
