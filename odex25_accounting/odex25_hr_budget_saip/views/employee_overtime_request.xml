@@ -6,18 +6,18 @@
         <field name="inherit_id" ref="employee_requests.employee_overtime_request_form_view"/>
         <field name="arch" type="xml">
 
-            <button name="submit" position="after">
-              <button name="account_manager" states="account_manager" string="Approves" class="oe_highlight" type="object" groups="odex25_account_saip.group_post_account_department"/>
-              <button string="Return" name="action_overtime_return" states="account_manager" type="object" groups="odex25_account_saip.group_post_account_department"/>
-              <button name="refused" string="Refuse" class="oe_highlight" type="object" states="account_manager" groups="odex25_account_saip.group_post_account_department"/>
-            </button>
+<!--            <button name="submit" position="after">-->
+<!--              <button name="account_manager" states="account_manager" string="Approves" class="oe_highlight" type="object" groups="odex25_account_saip.group_post_account_department"/>-->
+<!--              <button string="Return" name="action_overtime_return" states="account_manager" type="object" groups="odex25_account_saip.group_post_account_department"/>-->
+<!--              <button name="refused" string="Refuse" class="oe_highlight" type="object" states="account_manager" groups="odex25_account_saip.group_post_account_department"/>-->
+<!--            </button>-->
 <!--            <button name="hr_aaproval" position="attributes">-->
 <!--                <attribute name="states">account_manager</attribute>-->
 <!--            </button>-->
-<!--            <xpath expr="//field[@name='benefits_discounts']" position="attributes">-->
-<!--                 <attribute name="options">{'no_create': True, 'no_create_edit':True,'no_open': True}</attribute>-->
-<!--                <attribute name="attrs">{'invisible':[('state','in',['draft','director_administration','sector_concerned'])], 'readonly':[('state','!=','submit')], 'required': [('state','=','submit')]}</attribute>-->
-<!--            </xpath>-->
+            <xpath expr="//field[@name='benefits_discounts']" position="attributes">
+                 <attribute name="options">{'no_create': True, 'no_create_edit':True,'no_open': True}</attribute>
+                <attribute name="attrs">{'invisible':[('state','in',['draft','director_administration','sector_concerned'])], 'readonly':[('state','!=','submit')], 'required': [('state','=','submit')]}</attribute>
+            </xpath>
 
 
 <!--            <xpath expr="//field[@name='state']" position="attributes">-->
