@@ -1,0 +1,23 @@
+<odoo>
+    <record id="mail_template_sla_cancel" model="mail.template">
+        <field name="name">SLA Cancel Notification</field>
+        <field name="model_id" ref="model_service_request"/>
+        <field name="subject">Service Request Cancelled (SLA Breach)</field>
+        <field name="body_html"><![CDATA[
+            <p>Dear ${ctx.get('employee_name') or 'Manager'},</p>
+            <p>The service request <b>${object.name}</b> has been <b>cancelled</b> due to exceeding the SLA deadline.</p>
+            <p>Reason: SLA Timeout.</p>
+        ]]></field>
+    </record>
+
+    <record id="mail_template_sla_escalation" model="mail.template">
+        <field name="name">SLA Escalation Notification</field>
+        <field name="model_id" ref="model_service_request"/>
+        <field name="subject">Service Request Escalated (SLA Breach)</field>
+        <field name="body_html"><![CDATA[
+            <p>Dear ${ctx.get('employee_name') or 'Manager'},</p>
+            <p>The service request <b>${object.name}</b> has <b>exceeded</b> the SLA deadline.</p>
+            <p>The request is escalated to you for further action.</p>
+        ]]></field>
+    </record>
+</odoo>

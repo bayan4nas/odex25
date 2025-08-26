@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="inherit_contract_contract_supplier_form_view" model="ir.ui.view">
+        <field name="name">contract.contract.view.form.inherit</field>
+        <field name="model">contract.contract</field>
+        <field name="inherit_id" ref="contract.contract_contract_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="replace">
+                <header>
+                    <button name="action_contract_send" type="object" string="Send by Email" invisible="1"
+                            confirm="Are you sure you want to do this?" groups="base.group_user"/>
+
+                    <button name="confirmed_state" attrs="{'invisible': ['|',('state','!=','new'),('check','=',True)]}"
+                            groups="contract.group_confirm_contract"
+                            string="Send" class="oe_highlight" type="object"/>
+
+                    <button name="contract_management"
+                            attrs="{'invisible': ['|',('state','!=','contract_management'),('check','=',True)]}"
+                            groups="contract.group_contract_manager"
+                            string="Approve" class="oe_highlight" type="object"/>
+
+                    <button name="in_progress_state" states="EDPC"
+                            string="Approve"
+                            class="oe_highlight" type="object"/>
+                    <button name="in_budget_approve" states="budget_approve"
+                            string="Approve" class="oe_highlight"
+                            type="object"/>
+                    <button name="in_general_supervisor" states="general_supervisor"
+                            string="Approve"
+                            class="oe_highlight" type="object"/>
+
+                    <button name="suspended_state" groups="contract.group_suspend_contract" string="Suspend"
+                            class="oe_highlight" type="object"
+                            attrs="{'invisible':['|','|',('remaining_amount','=', 0),('check','=',True),('state','!=','in_progress')]}"
+                            confirm="Are you sure you want to suspend this installment?"/>
+                    <button name="closed_state" groups="contract.group_close_contract" string="Close"
+                            class="oe_highlight" type="object" states="suspended,in_progress"
+                            confirm="Are you sure you want to close this installment?"/>
+                    <button name="cancel_state" groups="contract.group_cancel_contract" string="Cancel"
+                            class="oe_highlight" type="object"
+                            attrs="{'invisible': ['|',('check','=',True),('remaining_amount','=', 0)]}"
+                            confirm="Are you sure you want to cancel this installment?"/>
+
+                    <button string="RETURN" name="action_open_return_state_wizard"
+                            groups="odex25_contract_saip.group_return_contract" type="object" states="budget_management"
+                            class="oe_highlight"/>
+                    <button name="set_to_draft" groups="contract.group_set_draft_contract" string="Set to draft"
+                            class="oe_highlight" type="object" states="cancel"
+                            confirm="Are you sure you want to close set this installment to draft?"/>
+                    <button name="action_resume" groups="contract.group_resume_contract" string="Resume"
+                            class="oe_highlight" type="object" states="suspended"
+                            confirm="Are you sure you want to resume this installment?"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="new,contract_management,budget_management,wait_budget,EDPC,budget_approve,general_supervisor,in_progress,suspended,closed,cancel"/>
+                </header>
+                <div class="alert alert-warning text-center" role="alert"
+                     attrs="{'invisible': [('note', '=', False)]}">
+                    <h5>Note :</h5>
+                    <p>
+                        <field name="note" readonly="1" class="oe_inline"/>
+                    </p>
+                    <hr/>
+                    <button name="solve_note" type="object" class="oe_link" string="Solve Note"
+                            confirm="Are you sure you want to do this?"/>
+                </div>
+            </xpath>
+            <xpath expr="//field[@name='tax_id']" position="after">
+                <field name="award_date"
+                       attrs="{'required':[('state','=','to_confirm')],'readonly':[('state','not in',['new','to_confirm'])]}"/>
+                <field name="contract_copy" widget="many2many_binary"
+                       attrs="{'required':[('state','=','to_confirm')],'readonly':[('state','not in',['new','to_confirm'])]}"/>
+                <field name="final_warranty" widget="many2many_binary"
+                       attrs="{'required':[('state','=','to_confirm')],'readonly':[('state','not in',['new','to_confirm'])]}"/>
+            </xpath>
+            <xpath expr="//field[@name='remaining_amount']" position="after">
+                <field name="additional_documents" widget="many2many_binary"
+                       attrs="{'required':[('state','=','to_confirm')],'readonly':[('state','not in',['new','to_confirm'])]}"/>
+            </xpath>
+
+
+            <field name="partner_id" position="after">
+                <field name="ref" string="Contractor NO"/>
+                <field name="old_state" invisible='1'/>
+                <field name="check" invisible='1'/>
+            </field>
+            <field name="department_id" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+            <field name="department_id" position="after">
+                <field name="department_name"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="contract_installment_tree_inherit" model="ir.ui.view">
+        <field name="name">contract.installment.tree</field>
+        <field name="model">line.contract.installment</field>
+        <field name="inherit_id" ref="contract.contract_installment_tree"/>
+        <field name="arch" type="xml">
+            <field name="name" position="before">
+                <field name="payment_no" width="10%"/>
+            </field>
+
+        </field>
+    </record>
+
+    <!--  Budget Action  -->
+    <record id="action_budget_confirmation_contract" model="ir.actions.act_window">
+        <field name="name">Contract Budget Confirmations</field>
+        <field name="res_model">budget.confirmation</field>
+        <field name="view_mode">tree,kanban,form</field>
+        <field name="domain">[('type','=','contract.contract')]</field>
+
+    </record>
+
+    <record id="action_contract_in_budget" model="ir.actions.act_window">
+        <field name="name">Contracts Under Approve</field>
+        <field name="res_model">contract.contract</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('contract_type', '=', 'purchase'),('state','in',['budget_management','wait_budget'])]
+        </field>
+    </record>
+
+    <!--  budget confirmation menu  -->
+    <menuitem action="action_contract_in_budget" id="menu_budget_contract"
+              groups="account_budget_custom.group_manager_budget" parent="account_budget_custom.main_budgets_menu"
+              sequence="5"/>
+
+    <menuitem action="action_budget_confirmation_contract" id="menu_budget_confirmation_contract"
+              groups="account_budget_custom.group_manager_budget" parent="account_budget_custom.main_budgets_menu"
+              sequence="6"/>
+
+
+</odoo>

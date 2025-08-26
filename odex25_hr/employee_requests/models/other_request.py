@@ -65,6 +65,7 @@ class EmployeeOtherRequest(models.Model):
     comment = fields.Text()
     state = fields.Selection(selection=[('draft', _('Draft')),
                                         ('submit', _('Waiting Direct Manager')),
+                                        ('hcm', _('Human Capital manager')),
                                         ('confirm', _('Wait HR Department')),
                                         ('approved', _('Approval')),
                                         ('refuse', _('Refused'))],
@@ -135,9 +136,9 @@ class EmployeeOtherRequest(models.Model):
                         _('You can not Request Other Request The Employee have Not First Hiring Date'))'''
 
     def get_user_id(self):
-        employee_id = self.env['hr.employee'].search([('user_id', '=', self.env.uid)], limit=1)
+        employee_id = self.env['hr.employee'].sudo().search([('user_id', '=', self.env.uid)], limit=1)
         if employee_id:
-            return employee_id.id
+            return employee_id.sudo().id
         else:
             return False
 
@@ -199,22 +200,30 @@ class EmployeeOtherRequest(models.Model):
                     if not rec.attachment:
                         raise exceptions.Warning(_('Please Insert Attachments Files Below!'))
 
-            item.state = "confirm"
+            item.state = "submit"
 
     def confirm(self):
         # self.state = 'confirm'
         for rec in self:
-            manager = rec.sudo().employee_id.parent_id
-            hr_manager = rec.sudo().employee_id.company_id.hr_manager_id
-            if manager:
-                if (manager.user_id.id == rec.env.uid or hr_manager.user_id.id == rec.env.uid):
-                    rec.write({'state': 'confirm'})
+            # manager = rec.sudo().employee_id.parent_id
+            # hr_manager = rec.sudo().employee_id.company_id.hr_manager_id
+            # if manager:
+            #     if (manager.user_id.id == rec.env.uid or hr_manager.user_id.id == rec.env.uid):
+            #         rec.write({'state': 'confirm'})
+            #     else:
+            #         raise exceptions.Warning(
+            #             _("Sorry, The Approval For The Direct Manager '%s' Only OR HR Manager!") % (
+            #                 rec.employee_id.parent_id.name))
+            # else:
+                if rec.request_type == 'qualification' or rec.request_type == 'certification' or 'years_of_experienc':
+                    rec.write({'state': 'hcm'})
                 else:
-                    raise exceptions.Warning(
-                        _("Sorry, The Approval For The Direct Manager '%s' Only OR HR Manager!") % (
-                            rec.employee_id.parent_id.name))
-            else:
-                rec.write({'state': 'confirm'})
+                    rec.write({'state': 'confirm'})
+
+
+    def approved_hcm(self):
+        for rec in self:
+            rec.write({'state': 'confirm'})
 
     def approved(self):
         for item in self:

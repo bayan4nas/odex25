@@ -69,8 +69,8 @@
                     <button name="bdgt_dep_mngr" states="draft" string="Approve" type="object" class="oe_highlight"
                             groups="account_budget_custom.group_budget_user"/>
 
-                    <button name="reject" states="draft" string="Reject" type="object" class="oe_highlight"
-                            groups="account_budget_custom.group_budget_user"/>
+<!--                    <button name="reject" states="draft" string="Reject" type="object" class="oe_highlight"-->
+<!--                            groups="account_budget_custom.group_budget_user"/>-->
 
                     <button name="confirm" states="bdgt_dep_mngr" string="Approve" type="object" class="oe_highlight"
                             groups="account_budget_custom.group_department_manager_budget"/>
@@ -150,10 +150,14 @@
         </field>
     </record>
 
-    <record id="action_budget_confirmation_form" model="ir.actions.act_window">
-        <field name="name">Budget Confirmations</field>
+   <record id="action_budget_confirmation_form" model="ir.actions.act_window">
+        <field name="name">Request Budget Confirmations</field>
         <field name="res_model">budget.confirmation</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+              (0, 0, {'view_mode': 'tree'}),(0, 0, {'view_mode': 'kanban'}),
+            (0, 0, {'view_mode': 'form', 'view_id': ref('account_budget_custom.view_budget_confirmation_form')})]"/>
         <field name="view_mode">tree,kanban,form</field>
+        <field name="domain">[('type','=','purchase.request')]</field>
     </record>
 
 </odoo>

@@ -1,6 +1,6 @@
 
 from . import account_payment
-from . import account_invoice
+# from . import account_invoice
 from . import purchase_request
 from . import budget_confirmation
 from . import purchase_requisition_custom

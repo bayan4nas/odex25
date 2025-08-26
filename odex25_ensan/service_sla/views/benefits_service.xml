@@ -1,0 +1,20 @@
+<odoo>
+    <record id="view_service_form_sla" model="ir.ui.view">
+        <field name="name">service.form.sla</field>
+        <field name="model">benefits.service</field>
+        <field name="inherit_id" ref="trahum_benefits.view_service_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//notebook" position="inside">
+                <page string="SLA Settings">
+                    <group>
+                        <field name="sla_duration"/>
+                        <field name="sla_unit"/>
+                        <field name="auto_cancelled"/>
+                    </group>
+                </page>
+            </xpath>
+
+        </field>
+    </record>
+</odoo>

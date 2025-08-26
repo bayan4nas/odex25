@@ -30,10 +30,8 @@ class PurchaseRequest(models.Model):
             rec.initial_engagement_activate = rec.company_id.activate_initial_engagement
 
     def action_confirm(self) -> Optional[bool]:
-        if self.env.user.company_id.activate_initial_engagement:
-            for rec in self:
-                rec.state = 'wait_for_send'
-            return
+        for rec in self:
+            rec.state = 'wait_for_send'
         return super(PurchaseRequest, self).action_confirm()
 
     def initial_engagement(self) -> None:

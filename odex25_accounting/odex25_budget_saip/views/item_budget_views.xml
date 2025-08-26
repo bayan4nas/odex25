@@ -1,0 +1,108 @@
+<odoo>
+    <data>
+        <record id="view_item_budget_form" model="ir.ui.view">
+            <field name="name">item.budget.form</field>
+            <field name="model">item.budget</field>
+            <field name="arch" type="xml">
+                <form string="Budget Item">
+                    <sheet string="Budget Item">
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only"/>
+                            <h1>
+                                <field name="name" class="oe_inline" placeholder="e.g. Budget Item XYZ" required="1"/>
+                            </h1>
+                        </div>
+                        <group name="main">
+                            <group name="main">
+                                <field name="item_no" required="1"/>
+                                <field name="item_type" required="1"/>
+                                <field name="period" required="1"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Budget Items" name="budget_items">
+                                <field name="crossovered_budget_line" widget="one2many" colspan="4" nolabel="1"
+                                       mode="tree">
+                                    <tree string="Budget Items" create="false" delete="false">
+                                        <field name="crossovered_budget_id"/>
+                                        <field name="general_budget_id"/>
+                                        <field name="date_from"/>
+                                        <field name="date_to"/>
+                                        <field name="planned_amount" sum="Planned Amount" widget="monetary"/>
+                                        <field name="initial_reserve" sum="Initial Amount" widget="monetary"/>
+                                        <field name="contract_reserve" sum="Contract Amount" widget="monetary"/>
+                                        <field name="remain" sum="Theoretical Amount" widget="monetary"/>
+                                        <field name="percentage" widget="percentage"/>
+                                        <field name="currency_id" invisible="1"/>
+                                    </tree>
+                                    <form string="Budget Items" create="false" delete="false">
+                                        <group>
+                                            <field name="crossovered_budget_id"/>
+                                            <field name="general_budget_id"/>
+                                            <field name="date_from"/>
+                                            <field name="date_to"/>
+                                            <field name="planned_amount" widget="monetary"/>
+                                            <field name="initial_reserve" widget="monetary"/>
+                                            <field name="contract_reserve" widget="monetary"/>
+                                            <field name="remain" widget="monetary"/>
+                                            <field name="currency_id" invisible="1"/>
+                                        </group>
+                                    </form>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_item_budget_list" model="ir.ui.view">
+            <field name="name">item.budget.list</field>
+            <field name="model">item.budget</field>
+            <field eval="8" name="priority"/>
+            <field name="arch" type="xml">
+                <tree string="Budget Items">
+                    <field name="item_no"/>
+                    <field name="name"/>
+                    <field name="item_type"/>
+                    <field name="period"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_item_budget_search" model="ir.ui.view">
+            <field name="name">item.budget.search</field>
+            <field name="model">item.budget</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name" filter_domain="['|', ('name', 'ilike', self), ('item_no', 'ilike', self)]" string="Budget Items"/>
+                </search>
+            </field>
+        </record>
+
+
+        <record id="action_item_budget_form" model="ir.actions.act_window">
+            <field name="name">Budget Items</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">item.budget</field>
+            <field name="search_view_id" ref="view_item_budget_search"/>
+            <!--            <field name="context">{'search_default_active':1}</field>-->
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Add a new budget item
+                </p>
+            </field>
+        </record>
+
+
+        <menuitem id="menu_item_budget" parent="account_budget_custom.main_budgets_menu" sequence="7"
+                  action="action_item_budget_form" name="Budget Items" groups="account_budget_custom.group_budget_user"/>
+
+
+    </data>
+</odoo>

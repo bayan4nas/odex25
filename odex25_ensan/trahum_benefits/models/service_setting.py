@@ -48,7 +48,7 @@ class ServiceSetting(models.Model):
 
     beneficiary_category = fields.Selection(
         [('detainee', 'Detainee'), ('detainee_family', 'Detainee Family'), ('released_family', 'Released Family')],
-        string='Beneficiary Category')
+        string='Beneficiary Category  ')
 
     description = fields.Html(
         string='Service Description',
@@ -89,6 +89,7 @@ class ServiceSetting(models.Model):
         string='Disbursement Periodicity Settings',
         help="Configure different disbursement periods for different need categories"
     )
+    rule_ids = fields.Many2many('sr.rule', string="قواعد التحقق")
 
     _sql_constraints = [
         ('code_unique', 'UNIQUE(code)', 'Service code must be unique!'),

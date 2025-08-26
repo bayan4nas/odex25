@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+<!--    <record id="inherit_employee_official_mission_hr_budget_form_view" model="ir.ui.view">-->
+<!--        <field name="name">hr.official.mission.view.form.inherit</field>-->
+<!--        <field name="model">hr.official.mission</field>-->
+<!--        <field name="inherit_id" ref="odex25_hr_saip.inherit_employee_official_mission_form_view"/>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <xpath expr="//field[@name='official_mission']" position="attributes">-->
+<!--                <attribute name="attrs">{'readonly':[('state','!=','HROM')],'invisible':[('state', 'in',-->
+<!--                    ['draft','direct_manager'])],'required':[('state', '=', 'HROM')]}-->
+<!--                </attribute>-->
+<!--            </xpath>-->
+<!--            <xpath expr="//field[@name='employee_ids']//tree" position="after">-->
+<!--                <form>-->
+<!--                    <group>-->
+<!--                        <group>-->
+<!--                            <field name="employee_id"/>-->
+<!--                            <field name="date_from"/>-->
+<!--                            <field name="date_to"/>-->
+<!--                            <field name="days"/>-->
+<!--                        </group>-->
+<!--                        <group>-->
+<!--                            <field name="day_price"/>-->
+<!--                            <field name="amount"/>-->
+<!--                            <field name="account_move_id"/>-->
+<!--                        </group>-->
+<!--                    </group>-->
+
+
+<!--                </form>-->
+<!--            </xpath>-->
+<!--        </field>-->
+<!--    </record>-->
+
+    <record model="ir.ui.view" id="employee_official_mission_type_hr_budget_form_view">
+        <field name="name">employee official mission type</field>
+        <field name="model">hr.official.mission.type</field>
+        <field name="inherit_id" ref="exp_official_mission.employee_official_mission_type_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='journal_id']" position="attributes">
+                <attribute name="domain">[('type','=','purchase'),('hr_journal', '=', True)]</attribute>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
