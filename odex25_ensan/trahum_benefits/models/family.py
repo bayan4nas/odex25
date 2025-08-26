@@ -8,20 +8,18 @@ from datetime import date
 from odoo.tools import config
 
 
-
-
 class GrantBenefit(models.Model):
     _inherit = 'grant.benefit'
 
     STATE_SELECTION = [
-        ('draft', 'Draft'),
-        ('confirm', 'Confirm'),
-        ('validate', 'Validate'),
+        ('draft', 'الباحث الاجتماعي'),
+        ('confirm', 'Primary Care Director Accreditation'),
+        ('validate', 'Beneficiary Services Center Director Approval'),
         ('review', 'Review'),
         ('approve', 'Approve'),
         ('approved', 'Approved'),
         ('closed', 'Done'),
-        ('cancelled', 'Cancelled'),
+        ('cancelled', 'Rejected'),
 
     ]
 
@@ -35,22 +33,50 @@ class GrantBenefit(models.Model):
     total_income = fields.Float(string="Total Income", store=True, readonly=True)
     expected_income = fields.Float(string="Expected  Income", readonly=True)
     name_member = fields.Char(string="Expected  Income", compute='_compute_member_name', readonly=True)
-    researcher_insights = fields.Char('Researcher Insights')
+    researcher_insights = fields.Text('Researcher Insights')
     researcher_id = fields.Many2one("committees.line", string='Researcher Name')
     folder_state = fields.Selection([('Active', 'active'), ('not_active', 'Not Active')], string='Folder State')
 
-    building_number = fields.Integer(string='Building Number')
-    sub_number = fields.Integer(string='Sub Number')
-    additional_number = fields.Integer(string='Additional Number')
-    street_name = fields.Char(string='Street Name')
-    city = fields.Many2one("res.country.city", string='City')
+    # related = 'benefit_breadwinner_ids[0].member_name.building_number'
+    building_number = fields.Integer(string='Building Number',compute='_compute_breadwinner_address')
+    sub_number = fields.Integer(string='Sub Number',compute='_compute_breadwinner_address')
+    additional_number = fields.Integer(string='Additional Number',compute='_compute_breadwinner_address')
+    street_name = fields.Char(string='Street Name',compute='_compute_breadwinner_address')
+    city = fields.Many2one("res.country.city", string='City',compute='_compute_breadwinner_address')
 
     district_name = fields.Many2one(
         'res.district',
-        string='District', )
+        string='District', compute='_compute_breadwinner_address')
 
-    postal_code = fields.Char(string='Postal Code')
-    national_address_code = fields.Char(string='National address code')
+    postal_code = fields.Char(string='Postal Code',compute='_compute_breadwinner_address')
+    national_address_code = fields.Char(string='National address code',compute='_compute_breadwinner_address')
+
+    @api.depends(
+        'benefit_breadwinner_ids.member_name.building_number',
+        'benefit_breadwinner_ids.member_name.sub_number',
+        'benefit_breadwinner_ids.member_name.additional_number',
+        'benefit_breadwinner_ids.member_name.street_name',
+        'benefit_breadwinner_ids.member_name.district_id',
+        'benefit_breadwinner_ids.member_name.city',
+        'benefit_breadwinner_ids.member_name.postal_code',
+        'benefit_breadwinner_ids.member_name.national_address_code',
+    )
+    def _compute_breadwinner_address(self):
+        for rec in self:
+            if rec.benefit_breadwinner_ids:
+                member = rec.benefit_breadwinner_ids[0].member_name
+                rec.building_number = member.building_number
+                rec.sub_number = member.sub_number
+                rec.additional_number = member.additional_number
+                rec.street_name = member.street_name
+                rec.district_name = member.district_id
+                rec.city = member.city
+                rec.postal_code = member.postal_code
+                rec.national_address_code = member.national_address_code
+            else:
+                rec.building_number = rec.sub_number = rec.additional_number = False
+                rec.street_name = rec.district_name = rec.city = False
+                rec.postal_code = rec.national_address_code = False
 
     @api.depends('benefit_member_ids')
     def _compute_member_name(self):
@@ -135,7 +161,7 @@ class GrantBenefit(models.Model):
                 modifiers = json.loads(node.get("modifiers", '{}'))
 
                 if field_name == 'researcher_insights':  # Make this field editable in 'confirm'
-                    modifiers['readonly'] = [('state', 'not in', ['validate'])]
+                    modifiers['readonly'] = [('state', 'not in', ['review'])]
                 else:
                     # Make all other fields readonly unless in 'draft'
                     if 'readonly' not in modifiers:
@@ -206,7 +232,6 @@ class GrantBenefit(models.Model):
 
     member_count = fields.Integer(string="Members Count", compute="_compute_member_count", readonly=1)
 
-
     benefit_member_count = fields.Integer(
         string=" Count member",
         compute="_compute_benefit_counts",
@@ -245,19 +270,23 @@ class GrantBenefit(models.Model):
     def _compute_family_need_class(self):
         for rec in self:
             rec.family_need_class_id = False
-            if rec.need_ratio:
-                category = self.env['family.need.category'].search([
-                    ('min_need', '<=', rec.need_ratio),
-                    ('max_need', '>=', rec.need_ratio)
+
+
+
+            ratio = round(rec.need_ratio / 100, 2)
+            category = self.env['family.need.category'].sudo().search([
+                    ('min_need', '<=', ratio),
+                    ('max_need', '>=', ratio)
                 ], order='min_need asc', limit=1)
-                if category:
+
+            if category:
                     rec.family_need_class_id = category.id
 
     @api.depends('total_salary', 'natural_income')
     def _compute_need_ratio(self):
         for rec in self:
             if rec.natural_income:
-                rec.need_ratio = rec.total_salary / rec.natural_income
+                rec.need_ratio = (rec.total_salary / rec.natural_income) * 100
             else:
                 rec.need_ratio = 0.0
 
@@ -278,7 +307,11 @@ class GrantBenefit(models.Model):
             self.env['ir.config_parameter'].sudo().get_param('trahum_benefits.base_line_value', 0)
         )
         for rec in self:
-            breadwinner_count = len(rec.benefit_breadwinner_ids)
+
+            filtered = rec.benefit_breadwinner_ids.filtered(
+                lambda bw: bw.relation_id and not bw.relation_id.exclude_need
+            )
+            breadwinner_count = len(filtered)
             under_18_count = rec.members_under_18
             above_18_count = rec.members_18_and_above
 
@@ -288,11 +321,17 @@ class GrantBenefit(models.Model):
                     (above_18_count * ratio_above_18 * base_line)
             )
 
-    @api.depends('benefit_member_ids', 'benefit_breadwinner_ids')
+    @api.depends('benefit_member_ids', 'benefit_breadwinner_ids', 'benefit_breadwinner_ids.relation_id',
+                 'benefit_breadwinner_ids.relation_id.exclude_need', )
     def _compute_benefit_counts(self):
         for rec in self:
-            rec.benefit_member_count = len(rec.benefit_member_ids)
-            rec.benefit_breadwinner_count = len(rec.benefit_breadwinner_ids)
+            rec.benefit_member_count = len(rec.benefit_member_ids) + len(rec.benefit_breadwinner_ids)
+            filtered = rec.benefit_breadwinner_ids.filtered(
+                lambda bw: bw.relation_id and not bw.relation_id.exclude_need
+            )
+            rec.benefit_breadwinner_count = len(filtered)
+            rec.benefit_member_count = len(rec.benefit_member_ids) + len(filtered)
+            rec.benefit_breadwinner_count = len(filtered)
 
     @api.depends('benefit_member_ids')
     def _compute_member_count(self):
@@ -322,6 +361,7 @@ class GrantBenefit(models.Model):
             above_18 = rec.benefit_member_ids.filtered(lambda m: m.member_id.age >= 18)
             rec.members_under_18 = len(under_18)
             rec.members_18_and_above = len(above_18)
+
     @api.onchange('benefit_breadwinner_ids')
     def _onchange_benefit_breadwinner_ids(self):
         if len(self.benefit_breadwinner_ids) > 1:
@@ -340,7 +380,7 @@ class GrantBenefit(models.Model):
     def reset_to_draft(self):
         self.state = 'draft'
 
-    def action_cancel(self):
+    def action_reject(self):
         return {
             'name': _('Cancel Benefit'),
             'type': 'ir.actions.act_window',
@@ -355,18 +395,22 @@ class GrantBenefit(models.Model):
         if self.detainee_file_id:
             self.inmate_member_id = self.detainee_file_id.detainee_id
 
-    def action_submit_call_center(self):
+
+
+    def action_set_basic_manager(self):
+        self.ensure_one()
+        if not self.researcher_id or not self.folder_state:
+            raise UserError(_("Please fill in both Researcher Name and Folder State before submitting."))
         self._compute_need_calculator()
         self.state = 'confirm'
 
-    def action_approve_call_center(self):
+
+    def action_set_service_manager(self):
         self.state = 'validate'
 
-    def action_approve_social(self):
-        self.state = 'review'
 
-    def action_approve_branch(self):
-        self.state = 'approve'
+    def action_approve(self):
+        self.state = 'approved'
 
     def action_close(self):
         self.state = 'closed'
@@ -453,7 +497,7 @@ class GrantBenefit(models.Model):
                                          string='Comprehensive Rehabilitation')
     salary_ids = fields.One2many('salary.line', 'benefit_id', string='')
     health_data_ids = fields.One2many('family.member', 'benefit_id', string='Health Data')
-    branch_details_id = fields.Many2one(comodel_name='branch.details', string='Branch Name', tracking=True, required=1)
+
     breadwinner_name = fields.Many2one('family.member', 'Breadwinner')
     relation_id = fields.Many2one('family.member.relation', string='Relation')
 
@@ -630,7 +674,7 @@ class GrantBenefitBreadwinner(models.Model):
     grant_benefit_ids = fields.Many2one('grant.benefit', string="Grant Benefit", ondelete="cascade", required=1)
 
     relation_id = fields.Many2one('family.member.relation', string='Relation with res')
-    breadwinner = fields.Char(string='Breadwinner', default=lambda self: _('Breadwinner'))
+    breadwinner = fields.Char(string=' Breadwinner', default=lambda self: _('Breadwinner  '))
     member_name = fields.Many2one('family.member', string="Member name")
 
     @api.onchange('member_name')

@@ -7,7 +7,7 @@
             <tree string="Services" default_order="code" decoration-muted="active == False">
                 <field name="code" widget="handle"/>
                 <field name="name"/>
-                <field name="path" widget="selection"/>
+                <field name="paths"/>
                 <field name="classification_id" widget="many2one_clickable"/>
                 <field name="provider_ids" widget="many2many_tags" options="{'no_open': True}"/>
                 <field name="enable_disbursement_periodicity" widget="boolean_toggle" invisible="1"/>
@@ -36,16 +36,20 @@
                     <group>
                         <group string="Basic Information">
                             <field name="code" string="Service Code" help="Unique identifier for the service"/>
-                            <field name="path" widget="radio" options="{'horizontal': true}"/>
+                            <field name="paths"/>
                             <field name="classification_id"/>
-                            <field name="provider_ids" widget="many2many_tags" 
-                                   domain="[('is_company', '=', True)]" 
+                            <field name="beneficiary_category"/>
+                            <field name="account_id"/>
+                            <field name="accountant_id"/>
+                            <field name="service_duration"/>
+                            <field name="provider_ids" widget="many2many_tags"
+                                   domain="[('is_company', '=', True)]"
                                    context="{'default_is_company': True}"
                                    options="{'no_create': True, 'no_open': True}"/>
                         </group>
                         <group string="Status">
                             <field name="enable_disbursement_periodicity" widget="boolean_toggle"/>
-                            <field name="active" invisible="1"/>
+                            <field name="active" widget="boolean_toggle"/>
                         </group>
                     </group>
 
@@ -54,7 +58,7 @@
                         <page string="Description">
                             <field name="description" placeholder="Enter detailed service description..."/>
                         </page>
-                        
+
                         <!-- Outputs -->
                         <page string="Outputs">
                             <field name="output_ids" string="Service Outputs" mode="kanban,tree,form">
@@ -75,26 +79,48 @@
                                 </tree>
                             </field>
                         </page>
-                        
+
+                        <!-- Attachments -->
+                        <page string="Attachments">
+                            <field name="attachment_ids" string="Service Attachments" mode="tree">
+                                <tree editable="bottom">
+                                    <field name="attachment_name"/>
+                                    <field name="attach" widget="binary" filename="attachment_file_name"
+                                          />
+
+                                    <field name="attach_type"/>
+
+                                </tree>
+                            </field>
+                        </page>
+
                         <!-- Disbursement Periodicity Settings -->
-                        <page string="Disbursement" attrs="{'invisible': [('enable_disbursement_periodicity', '=', False)]}">
+                        <page string="Disbursement"
+                              attrs="{'invisible': [('enable_disbursement_periodicity', '=', False)]}">
                             <div class="alert alert-info" role="alert">
-                                <i class="fa fa-info-circle"/> Configure different disbursement periods based on need categories
+                                <i class="fa fa-info-circle"/>
+                                Configure different disbursement periods based on need categories
                             </div>
                             <field name="disbursement_periodicity_ids" mode="tree,form">
                                 <tree editable="bottom" create="1" delete="1" string="Periodicity Settings">
-                                    <field name="category" widget="selection"/>
-                                    <field name="months"/>
+                                    <field name="categories"/>
+                                    <field name="periodicity"/>
+                                    <field name="value"/>
+
                                 </tree>
                                 <form>
                                     <sheet>
                                         <group>
-                                            <field name="category" widget="radio" options="{'horizontal': true}"/>
-                                            <field name="months"/>
+                                            <field name="categories"/>
+                                            <field name="periodicity"/>
+                                            <field name="value"/>
                                         </group>
                                     </sheet>
                                 </form>
                             </field>
+                        </page>
+                        <page string="Rules">
+                            <field name="rule_ids"/>
                         </page>
                     </notebook>
                 </sheet>
@@ -110,8 +136,9 @@
             <form string="Disbursement Periodicity">
                 <sheet>
                     <group>
-                        <field name="category" widget="radio" options="{'horizontal': true}"/>
-                        <field name="months"/>
+                        <field name="categories"/>
+                        <field name="periodicity"/>
+                        <field name="value"/>
                     </group>
                 </sheet>
             </form>
@@ -140,10 +167,10 @@
         <field name="name">service.kanban</field>
         <field name="model">benefits.service</field>
         <field name="arch" type="xml">
-            <kanban default_group_by="path">
+            <kanban default_group_by="paths">
                 <field name="name"/>
                 <field name="code"/>
-                <field name="path"/>
+                <field name="paths"/>
                 <field name="classification_id"/>
                 <field name="provider_ids"/>
                 <field name="active" invisible="1"/>
@@ -151,23 +178,27 @@
                     <t t-name="kanban-box">
                         <div class="oe_kanban_global_click">
                             <div class="o_kanban_record_title">
-                                <span t-esc="record.code.value"/> - <span t-esc="record.name.value"/>
+                                <span t-esc="record.code.value"/>
+                                -
+                                <span t-esc="record.name.value"/>
                             </div>
                             <div>
                                 <span class="badge" t-attf-class="badge badge-{{{
                                     'primary_care': 'primary',
                                     'family_care': 'success',
                                     'capacity_development': 'info'
-                                }[record.path.raw_value] or 'default'}}">
-                                    <t t-esc="record.path.value"/>
+                                }[record.s.raw_value] or 'default'}}">
+                                    <t t-esc="record.paths.value"/>
                                 </span>
                             </div>
                             <div t-if="record.classification_id.value">
-                                <i class="fa fa-tag"/> <t t-esc="record.classification_id.value"/>
+                                <i class="fa fa-tag"/>
+                                <t t-esc="record.classification_id.value"/>
                             </div>
                             <div t-if="record.provider_ids.raw_value">
-                                <i class="fa fa-building"/> 
-                                <t t-esc="record.provider_ids.raw_value.length"/> Providers
+                                <i class="fa fa-building"/>
+                                <t t-esc="record.provider_ids.raw_value.length"/>
+                                Providers
                             </div>
                         </div>
                     </t>
@@ -179,7 +210,7 @@
     <!-- Menu Item -->
     <menuitem id="benfits_service_settings"
               name="Service Settings"
-              parent="odex_benefit.menu_benefits_config_benefits"
+              parent="odex_benefit.benefit_services"
               action="action_service"
-              sequence="20"/>
+              sequence="2"/>
 </odoo>

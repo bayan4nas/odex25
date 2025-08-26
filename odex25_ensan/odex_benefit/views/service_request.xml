@@ -21,7 +21,7 @@
                                 confirm="Are you sure you want to second approve  ?"
                                 states="first_approve"
                                 groups="odex_benefit.group_benefit_branch_manager,odex_benefit.group_benefit_manager"/>
-                        <button name="action_accounting_approve" type="object"
+                            <button name="action_accounting_approve" type="object"
                                 string="Accounting Approve" class="oe_highlight"
                                 confirm="Are you sure you want to approve  ?"
                                 states="second_approve" groups="odex_benefit.group_benefit_accounting_accept"/>
@@ -79,13 +79,19 @@
                                 <field name="benefit_member_count" invisible="1"/>
                                 <field name="eid_gift_benefit_count"
                                        attrs="{'invisible':['|',('service_type','!=','eid_gift'),('benefit_type','!=','family')]}"/>
-<!--                                <field name="branches_custom_id" force_save="1"/>-->
+
                                 <field name="detainee_file"  attrs="{'invisible':[('benefit_type','!=','detainee')]}"/>
+
 
                                 <field name="detainee_member"
                                        attrs="{'invisible':[('benefit_type','!=','detainee')],'readonly':[('state','not in',['draft','researcher','send_request'])],'required':[('benefit_type','=','detainee')]}"/>
+                                <field name="branches_custom" force_save="1"/>
+
+                                <field name="need_status_id"
+                                       attrs="{'readonly':[('state','not in',['draft','researcher','send_request'])]}"/>
+
                                 <field name="account_id"
-                                       attrs="{'invisible':[('service_type','=','electrical_devices')]}"/>
+                                       invisible="1"/>
                                 <field name="device_account_id"
                                        attrs="{'invisible':[('service_type','!=','electrical_devices')]}"/>
                                 <field name="accountant_id"
@@ -101,28 +107,21 @@
                             </group>
                             <group>
                                 <field name="provider_need_partner" invisible="1"/>
-                                <field name="need_status_id"
-                                       attrs="{'readonly':[('state','not in',['draft','researcher','send_request'])]}"/>
                                 <field name="need_status" invisible="1"/>
 
-                                <field name="delivery_method_id"
-                                       attrs="{'readonly':[('state','not in',['draft','researcher','send_request'])]}"/>
-                                <field name="provider_id"
-                                       attrs="{'readonly':[('state','not in',['draft','researcher','send_request'])]}"/>
                                 <field name="partner_id"
                                        attrs="{
                                                'invisible': [('provider_need_partner', '=', False)],
                                                'required': [('provider_need_partner', '=', True)]
                                            }"/>
                                 <field name="main_service_category"
-                                       attrs="{'readonly':[('state','not in',['draft','researcher','send_request'])]}"
-                                       required="1"/>
+                                       invisible="1"/>
                                 <field name="sub_service_category"
-                                       attrs="{'readonly':[('state','not in',['draft','researcher','send_request'])]}"
-                                       required="1"/>
+                                       invisible="1"/>
                                 <field name="service_cat"
                                        attrs="{'readonly':[('state','not in',['draft','researcher','send_request'])]}"
-                                       required="1"/>
+                                       invisible="1"/>
+
                                 <field name="requested_service_amount" attrs="{'readonly': ['|', '|', '|', '|', '|', '|',
                                     '&amp;',('state', 'not in', ['draft', 'researcher', 'send_request']),('service_type', '!=', 'electrical_devices'),
                                     '&amp;',('state', 'not in', ['draft', 'researcher', 'send_request', 'first_approve', 'second_approve', 'accounting_approve']),
@@ -132,6 +131,12 @@
                                     ('service_type', '=', 'eid_gift'),
                                     ('service_type', '=', 'winter_clothing'),
                                     ('service_type', '=', 'ramadan_basket')]}" force_save="1" required="1"/>
+                                <field name="delivery_method_id"
+                                       attrs="{'readonly':[('state','not in',['draft','researcher','send_request'])]}"/>
+                                <field name="provider_id"
+                                       attrs="{'readonly':[('state','not in',['draft','researcher','send_request'])]}"/>
+
+
                                 <field name="amount_for_buy_home_for_member_count"
                                        attrs="{'invisible':[('service_type','!=','buy_home')]}"/>
                                 <field name="home_age" attrs="{'invisible':[('service_type','!=','buy_home')]}"/>
@@ -152,6 +157,8 @@
                                 <field name="attachment_lines" widget="one2many_list">
                                     <tree editable="bottom" delete="0">
                                         <field name="name"/>
+                                        <field name="attachment" attrs="{'required': [('attachment_type','=',True)]}"/>
+                                        <field name="attachment_type" invisible="1"/>
                                         <field name="notes"/>
                                         <field name="service_type" invisible="1"/>
                                     </tree>
@@ -429,7 +436,8 @@
             <field name="arch" type="xml">
                 <search>
                     <group string="Group By">
-<!--                        <filter string="Branch" name="branches_custom_id" context="{'group_by': 'branches_custom_id'}"/>-->
+
+                        <filter string="Branch" name="branches_custom" context="{'group_by': 'branches_custom'}"/>
                         <filter string="Main Service" name="main_service_category"
                                 context="{'group_by': 'main_service_category'}"/>
                         <filter string="Sub Service Category" name="sub_service_category"
