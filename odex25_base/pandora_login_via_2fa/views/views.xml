@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.ui.view" id="view_users_form">
+        <field name="name">res.users.inherit</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page name="otp_2fa" string="2FA">
+                    <group string="2FA">
+                        <field name="employee_id" readonly="1" required="0" groups="base.group_no_one" attrs="{'invisible': [('id', '=', False)]}"/>
+                        <field name="ask_for_phone_otp"/>
+                        <field name="ask_for_email_otp"/>
+                    </group>
+
+                    <group string="Trusted Devices">
+                        <field name="truested_devices_ids" nolabel="1">
+                            <tree create="false" edit="false">
+                                <field name="user_id" invisible="1"/>
+                                <field name="device"/>
+                                <field name="date"/>
+                                <field name="token" optional="hide"/>
+                                <field name="user_agent" optional="hide"/>
+                            </tree>
+                            <form create="false" edit="false">
+                                <sheet>
+                                    <group>
+                                        <group>
+                                            <field name="user_id" invisible="1"/>
+                                            <field name="device" readonly="1" force_save="1"/>
+                                            <field name="date" readonly="1" force_save="1"/>
+                                        </group>
+                                        <group>
+                                            <field name="token" optional="hide" readonly="1" force_save="1"/>
+                                            <field name="user_agent" optional="hide" readonly="1" force_save="1"/>
+                                        </group>
+                                    </group>
+                                </sheet>
+                            </form>
+                        </field>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="res_users_view_form_profile">
+        <field name="name">res.users.inherit</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="hr.res_users_view_form_profile"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page name="otp_2fa" string="2FA">
+                    <!-- <group string="2FA">
+                        <field name="ask_for_phone_otp"/>
+                        <field name="ask_for_email_otp"/>
+                    </group> -->
+
+                    <group string="Trusted Devices">
+                        <field name="truested_devices_ids" nolabel="1">
+                            <tree create="false" edit="false">
+                                <field name="user_id" invisible="1"/>
+                                <field name="device"/>
+                                <field name="date"/>
+                                <field name="token" optional="hide"/>
+                                <field name="user_agent" optional="hide"/>
+                            </tree>
+                            <form create="false" edit="false">
+                                <sheet>
+                                    <group>
+                                        <group>
+                                            <field name="user_id" invisible="1"/>
+                                            <field name="device" readonly="1" force_save="1"/>
+                                            <field name="date" readonly="1" force_save="1"/>
+                                        </group>
+                                        <group>
+                                            <field name="token" optional="hide" readonly="1" force_save="1"/>
+                                            <field name="user_agent" optional="hide" readonly="1" force_save="1"/>
+                                        </group>
+                                    </group>
+                                </sheet>
+                            </form>
+                        </field>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>
