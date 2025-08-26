@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-25 11:29+0000\n"
-"PO-Revision-Date: 2025-08-25 11:29+0000\n"
+"POT-Creation-Date: 2024-10-10 09:58+0000\n"
+"PO-Revision-Date: 2024-10-10 09:58+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -38,6 +38,7 @@ msgid "Account SAIP Config"
 msgstr "اعدادات أوامر الصرف"
 
 #. module: odex25_account_saip
+#: model:ir.model.fields.selection,name:odex25_account_saip.selection__account_payment__state__accountant
 #: model:res.groups,name:odex25_account_saip.group_accountant
 msgid "Accountant"
 msgstr "محاسب"
@@ -58,13 +59,33 @@ msgid "Add Credit Note"
 msgstr "إضافة اشعار خصم"
 
 #. module: odex25_account_saip
-#: model:ir.model.fields,field_description:odex25_account_saip.field_account_payment__analytic_account_id
-msgid "Analytic Account"
-msgstr "الحساب التحليلي"
+#: model_terms:ir.ui.view,arch_db:odex25_account_saip.view_account_payment_new_approve_form
+msgid "Approve - 1"
+msgstr "موافقة"
 
 #. module: odex25_account_saip
-#: model_terms:ir.ui.view,arch_db:odex25_account_saip.view_account_payment_form_inherit_odex25_account_accountant
-msgid "Approve"
+#: model_terms:ir.ui.view,arch_db:odex25_account_saip.view_account_payment_new_approve_form
+msgid "Approve - 10"
+msgstr "إعتماد"
+
+#. module: odex25_account_saip
+#: model_terms:ir.ui.view,arch_db:odex25_account_saip.view_account_payment_new_approve_form
+msgid "Approve - 2"
+msgstr "موافقة"
+
+#. module: odex25_account_saip
+#: model_terms:ir.ui.view,arch_db:odex25_account_saip.view_account_payment_new_approve_form
+msgid "Approve - 6"
+msgstr "إعتماد"
+
+#. module: odex25_account_saip
+#: model_terms:ir.ui.view,arch_db:odex25_account_saip.view_account_payment_new_approve_form
+msgid "Approve - 8"
+msgstr "إعتماد"
+
+#. module: odex25_account_saip
+#: model_terms:ir.ui.view,arch_db:odex25_account_saip.view_account_payment_new_approve_form
+msgid "Approve - 9"
 msgstr "إعتماد"
 
 #. module: odex25_account_saip
@@ -75,6 +96,7 @@ msgstr "مساعد محاسب"
 
 #. module: odex25_account_saip
 #: model:ir.model.fields.selection,name:odex25_account_saip.selection__account_move__state__budget_management
+#: model:ir.model.fields.selection,name:odex25_account_saip.selection__account_payment__state__budget_management
 #: model:res.groups,name:odex25_account_saip.group_budget_management
 msgid "Budget Management"
 msgstr "إدارة الميزانية"
@@ -91,6 +113,7 @@ msgid "Cancelled"
 msgstr "ملغي"
 
 #. module: odex25_account_saip
+#: model:ir.model.fields.selection,name:odex25_account_saip.selection__account_payment__state__chief_executive_officer
 #: model:res.groups,name:odex25_account_saip.group_chief_executive_officer
 msgid "Chief Executive Officer"
 msgstr "الرئيس التنفيذي"
@@ -98,38 +121,42 @@ msgstr "الرئيس التنفيذي"
 #. module: odex25_account_saip
 #: model:ir.model,name:odex25_account_saip.model_res_config_settings
 msgid "Config Settings"
-msgstr "ضبط الاعدادات"
+msgstr "ضبط الإعدادات"
 
 #. module: odex25_account_saip
-#: model:ir.model.fields.selection,name:odex25_account_saip.selection__account_payment__state__confirmed
-msgid "Confirmed"
-msgstr "معتمدة"
+#: model:ir.model.fields,field_description:odex25_account_saip.field_account_move__display_name
+#: model:ir.model.fields,field_description:odex25_account_saip.field_account_payment__display_name
+#: model:ir.model.fields,field_description:odex25_account_saip.field_account_payment_register__display_name
+#: model:ir.model.fields,field_description:odex25_account_saip.field_res_company__display_name
+#: model:ir.model.fields,field_description:odex25_account_saip.field_res_config_settings__display_name
+msgid "Display Name"
+msgstr "الاسم المعروض"
 
 #. module: odex25_account_saip
 #: model:ir.model.fields.selection,name:odex25_account_saip.selection__account_payment__state__draft
 msgid "Draft"
-msgstr "مسودة"
+msgstr "مبدئي"
 
 #. module: odex25_account_saip
+#: model:ir.model.fields.selection,name:odex25_account_saip.selection__account_payment__state__executive_director_finance
 #: model:res.groups,name:odex25_account_saip.group_executive_director_finance
 msgid "Executive Director of Finance"
 msgstr "المدير التنفيذي للإدارة المالية"
 
 #. module: odex25_account_saip
-#: model:ir.model.fields.selection,name:odex25_account_saip.selection__account_payment__state__finance_manager
-msgid "Finance Manager"
-msgstr "المدير المالي"
-
-#. module: odex25_account_saip
+#: model:ir.model.fields.selection,name:odex25_account_saip.selection__account_payment__state__head_accounting
 #: model:res.groups,name:odex25_account_saip.group_head_accounting
 msgid "Head Of Accounting"
 msgstr "مدير إدارة المحاسبة"
 
 #. module: odex25_account_saip
-#: code:addons/odex25_account_saip/models/AccountMove.py:0
-#, python-format
-msgid "Insufficient budget for the line with item budget %s"
-msgstr ""
+#: model:ir.model.fields,field_description:odex25_account_saip.field_account_move__id
+#: model:ir.model.fields,field_description:odex25_account_saip.field_account_payment__id
+#: model:ir.model.fields,field_description:odex25_account_saip.field_account_payment_register__id
+#: model:ir.model.fields,field_description:odex25_account_saip.field_res_company__id
+#: model:ir.model.fields,field_description:odex25_account_saip.field_res_config_settings__id
+msgid "ID"
+msgstr "المُعرف"
 
 #. module: odex25_account_saip
 #: model:ir.model,name:odex25_account_saip.model_account_move
@@ -137,9 +164,13 @@ msgid "Journal Entry"
 msgstr "قيد اليومية"
 
 #. module: odex25_account_saip
-#: model:ir.model.fields,field_description:odex25_account_saip.field_account_move__partner_id
-msgid "Partner"
-msgstr "الشريك"
+#: model:ir.model.fields,field_description:odex25_account_saip.field_account_move____last_update
+#: model:ir.model.fields,field_description:odex25_account_saip.field_account_payment____last_update
+#: model:ir.model.fields,field_description:odex25_account_saip.field_account_payment_register____last_update
+#: model:ir.model.fields,field_description:odex25_account_saip.field_res_company____last_update
+#: model:ir.model.fields,field_description:odex25_account_saip.field_res_config_settings____last_update
+msgid "Last Modified on"
+msgstr "آخر تعديل في"
 
 #. module: odex25_account_saip
 #: model:ir.model.fields,field_description:odex25_account_saip.field_res_company__payment_approved
@@ -150,6 +181,7 @@ msgstr "موافقة الرئيس التنفيذي"
 #. module: odex25_account_saip
 #: model:ir.actions.act_window,name:odex25_account_saip.action_account_payments_approve_payable
 #: model:ir.model,name:odex25_account_saip.model_account_payment
+#: model:ir.ui.menu,name:odex25_account_saip.menu_action_account_payments_payable
 msgid "Payments"
 msgstr "أوامر الصرف"
 
@@ -179,6 +211,7 @@ msgid "Preview"
 msgstr "معاينة"
 
 #. module: odex25_account_saip
+#: model:ir.model,name:odex25_account_saip.model_account_payment_register
 #: model_terms:ir.ui.view,arch_db:odex25_account_saip.account_move_form_inherit
 msgid "Register Payment"
 msgstr "تسجيل دفعة"
@@ -191,7 +224,7 @@ msgstr "انقر لتسجيل أمر الصرف"
 #. module: odex25_account_saip
 #: model:ir.model,name:odex25_account_saip.model_res_company
 msgid "Res Company SMS Configuration"
-msgstr ""
+msgstr "إعداد الرسائل القصيرة للمؤسسة"
 
 #. module: odex25_account_saip
 #: model_terms:ir.ui.view,arch_db:odex25_account_saip.account_move_form_inherit
@@ -204,16 +237,6 @@ msgid "Reverse Entry"
 msgstr "عكس القيد"
 
 #. module: odex25_account_saip
-#: model:ir.model.fields.selection,name:odex25_account_saip.selection__account_payment__state__secretary_general
-msgid "Secretary General"
-msgstr "الأمين العام"
-
-#. module: odex25_account_saip
-#: model:ir.model.fields.selection,name:odex25_account_saip.selection__account_payment__state__sector_manager
-msgid "Sector Manager"
-msgstr "مدير القطاع"
-
-#. module: odex25_account_saip
 #: model_terms:ir.ui.view,arch_db:odex25_account_saip.account_move_form_inherit
 msgid "Send"
 msgstr "إرسال"
@@ -224,14 +247,15 @@ msgid "Send & Print"
 msgstr "طباعة"
 
 #. module: odex25_account_saip
+#: model:ir.model.fields.selection,name:odex25_account_saip.selection__account_payment__state__senior_accountant
 #: model:res.groups,name:odex25_account_saip.group_senior_accountant
 msgid "Senior Accountant"
 msgstr "محاسب اول"
 
 #. module: odex25_account_saip
-#: model:ir.model.fields,field_description:odex25_account_saip.field_account_payment__state_history
-msgid "State History"
-msgstr "الحالة السابقة"
+#: model:ir.model.fields,field_description:odex25_account_saip.field_account_payment__state
+msgid "State"
+msgstr "حالة الإجراء"
 
 #. module: odex25_account_saip
 #: model:ir.model.fields,field_description:odex25_account_saip.field_account_bank_statement_line__state_in
@@ -239,26 +263,13 @@ msgstr "الحالة السابقة"
 #: model:ir.model.fields,field_description:odex25_account_saip.field_account_move__state
 #: model:ir.model.fields,field_description:odex25_account_saip.field_account_move__state_in
 #: model:ir.model.fields,field_description:odex25_account_saip.field_account_move__state_in_receipt
-#: model:ir.model.fields,field_description:odex25_account_saip.field_account_payment__state
 #: model:ir.model.fields,field_description:odex25_account_saip.field_account_payment__state_in
 #: model:ir.model.fields,field_description:odex25_account_saip.field_account_payment__state_in_receipt
 msgid "Status"
 msgstr "الحالة"
 
 #. module: odex25_account_saip
+#: model:ir.model.fields.selection,name:odex25_account_saip.selection__account_payment__state__vice_president_resources
 #: model:res.groups,name:odex25_account_saip.group_vice_president_resources
 msgid "Vice President of Corporate Resources "
 msgstr "نائب الرئيس للموارد المؤسسية "
-
-#. module: odex25_account_saip
-#: code:addons/odex25_account_saip/models/AccountPaymentInherit.py:0
-#, python-format
-msgid ""
-"You can't post this journal entry because the payment is not posted yet."
-msgstr ""
-
-#. module: odex25_account_saip
-#: code:addons/odex25_account_saip/models/AccountPaymentInherit.py:0
-#, python-format
-msgid "You do not have the necessary permissions (%s) to perform this action."
-msgstr ""
