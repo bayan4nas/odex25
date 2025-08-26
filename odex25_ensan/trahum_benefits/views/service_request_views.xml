@@ -6,15 +6,23 @@
         <field name="arch" type="xml">
             <form string="Service Request">
                 <header>
-                    <field name="state" widget="statusbar" statusbar_visible="draft,setup,verification,audit,approval,implementation,done,canceled"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,setup,verification,audit,approval,implementation,done,canceled"/>
                     <button name="action_submit" string="Submit" type="object" class="oe_highlight" states="draft"/>
-                    <button name="action_confirm_setup" string="Confirm Setup" type="object" class="oe_highlight" states="setup"/>
-                    <button name="action_confirm_verification" string="Confirm Verification" type="object" class="oe_highlight" states="verification"/>
-                    <button name="action_confirm_audit" string="Confirm Audit" type="object" class="oe_highlight" states="audit"/>
-                    <button name="action_confirm_approval" string="Confirm Approval" type="object" class="oe_highlight" states="approval"/>
-                    <button name="action_complete" string="Complete" type="object" class="oe_highlight" states="implementation"/>
-                    <button name="action_return" string="Return" type="object" states="setup,verification,audit,approval,implementation"/>
-                    <button name="action_cancel" string="Cancel" type="object" states="draft,setup,verification,audit,approval,implementation"/>
+                    <button name="action_confirm_setup" string="Confirm Setup" type="object" class="oe_highlight"
+                            states="setup"/>
+                    <button name="action_confirm_verification" string="Confirm Verification" type="object"
+                            class="oe_highlight" states="verification"/>
+                    <button name="action_confirm_audit" string="Confirm Audit" type="object" class="oe_highlight"
+                            states="audit"/>
+                    <button name="action_confirm_approval" string="Confirm Approval" type="object" class="oe_highlight"
+                            states="approval"/>
+                    <button name="action_complete" string="Complete" type="object" class="oe_highlight"
+                            states="implementation"/>
+                    <button name="action_return" string="Return" type="object"
+                            states="setup,verification,audit,approval,implementation"/>
+                    <button name="action_cancel" string="Cancel" type="object"
+                            states="draft,setup,verification,audit,approval,implementation"/>
                     <button name="action_draft" string="Reset to Draft" type="object" states="canceled"/>
                 </header>
                 <sheet>
@@ -23,7 +31,7 @@
                             <field name="name" class="oe_inline" readonly="1"/>
                         </h1>
                     </div>
-                    
+
                     <!-- Basic Information Section -->
                     <group>
                         <group string="Request Information">
@@ -40,21 +48,23 @@
                             <field name="service_count" readonly="1"/>
                         </group>
                     </group>
-                    
+
                     <notebook>
                         <!-- Service Details Tab -->
                         <page string="Service Details">
                             <group>
                                 <group>
                                     <field name="classification_id" required="1"/>
-                                    <field name="service_id" required="1" domain="[('classification_id', '=', classification_id)]"/>
+                                    <field name="service_id" required="1"
+                                           domain="[('classification_id', '=', classification_id)]"/>
                                 </group>
                             </group>
                             <group>
-                                <field name="description" placeholder="Enter detailed description of the request..." colspan="4"/>
+                                <field name="description" placeholder="Enter detailed description of the request..."
+                                       colspan="4"/>
                             </group>
                         </page>
-                        
+
                         <!-- Outputs Tab -->
                         <page string="Outputs" attrs="{'invisible': [('request_type', '!=', 'service')]}">
                             <field name="output_ids">
@@ -63,8 +73,8 @@
                                     <field name="output_id" required="1"/>
                                     <field name="state"/>
                                     <field name="notes"/>
-                                    <button name="action_confirm_execute" string="Confirm Execute" type="object" 
-                                            class="oe_highlight" 
+                                    <button name="action_confirm_execute" string="Confirm Execute" type="object"
+                                            class="oe_highlight"
                                             states="draft"
                                             attrs="{'invisible': [('parent.state', '!=', 'implementation')]}"/>
                                 </tree>
@@ -98,7 +108,8 @@
                 <field name="request_date"/>
                 <field name="requester_id"/>
                 <field name="request_type"/>
-                <field name="state" widget="badge" decoration-info="state in ['setup','verification','audit','approval']"/>
+                <field name="state" widget="badge"
+                       decoration-info="state in ['setup','verification','audit','approval']"/>
                 <field name="service_id"/>
             </tree>
         </field>
@@ -116,7 +127,8 @@
                 <field name="state"/>
                 <filter string="Today's Requests" name="today" domain="[('request_date','=',current_date)]"/>
                 <filter string="Draft" name="draft" domain="[('state','=','draft')]"/>
-                <filter string="In Progress" name="in_progress" domain="['|',('state','=','setup'),('state','=','verification'),('state','=','audit'),('state','=','approval'),('state','=','implementation')]"/>
+                <filter string="In Progress" name="in_progress"
+                        domain="['|',('state','=','setup'),('state','=','verification'),('state','=','audit'),('state','=','approval'),('state','=','implementation')]"/>
                 <filter string="Completed" name="done" domain="[('state','=','done')]"/>
                 <filter string="Canceled" name="canceled" domain="[('state','=','canceled')]"/>
             </search>
@@ -146,4 +158,25 @@
               parent="odex_benefit.menu_benefits_config_benefits"
               action="action_benefits_service_request"
               sequence="21"/>
+
+
+    <record id="service_request_form_inherit" model="ir.ui.view">
+        <field name="name">service.request.form.inherit</field>
+        <field name="model">service.request</field>
+        <field name="inherit_id" ref="odex_benefit.service_request_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='need_status_id']" position="after">
+                <field name="service_cats"
+                       attrs="{'readonly':[('state','not in',['draft','researcher','send_request'])]}"
+                       required="0"/>
+                <field name="service_path"/>
+                <field name="sub_service_path"/>
+                <field name="account_expense"/>
+
+
+            </xpath>
+        </field>
+    </record>
+
+
 </odoo>

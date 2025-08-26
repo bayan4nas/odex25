@@ -1,6 +1,7 @@
 from odoo import models, fields, api, _
 from odoo.exceptions import ValidationError
 
+
 class ServiceSetting(models.Model):
     _name = 'benefits.service'
     _description = 'Service Settings'
@@ -8,34 +9,46 @@ class ServiceSetting(models.Model):
     _inherit = ['mail.thread', 'mail.activity.mixin']
 
     name = fields.Char(
-        string='Service Name', 
+        string='Service Name',
         required=True,
         tracking=True
     )
     code = fields.Char(
-        string='Service Code', 
+        string='Service Code',
         required=True,
         tracking=True,
         help="Unique identifier for the service"
     )
-
-    path = fields.Selection([
-        ('primary_care', 'Primary Care'),
-        ('family_care', 'Family Care'),
-        ('capacity_development', 'Capacity Development')
-    ], 
-    string='Path', 
-    required=True,
-    tracking=True
+    account_id = fields.Many2one(
+        'account.account',
+        string='Expense Account',
+        domain=['|', ('user_type_id.name', '=', 'Expenses'), ('user_type_id.name', '=', 'المصروفات')]
     )
-
+    accountant_id = fields.Many2one(
+        'res.users',
+        string='Responsible Accountant',
+        domain=lambda self: [('groups_id', 'in', [self.env.ref('account.group_account_readonly').id,
+                              self.env.ref('account.group_account_manager').id,
+                              self.env.ref('account.group_account_invoice').id,
+                              self.env.ref('account.group_account_user').id,])]
+    )
+    paths = fields.Many2one('beneficiary.path',
+                            string='Path',
+                            required=True,
+                            tracking=True
+                            )
     classification_id = fields.Many2one(
         'benefits.service.classification',
         string='Service Classification',
         required=True,
-        domain=[('active', '=', True)],
-        tracking=True
+        tracking=True,
+
     )
+    service_duration = fields.Integer('Service Duration')
+
+    beneficiary_category = fields.Selection(
+        [('detainee', 'Detainee'), ('detainee_family', 'Detainee Family'), ('released_family', 'Released Family')],
+        string='Beneficiary Category  ')
 
     description = fields.Html(
         string='Service Description',
@@ -43,7 +56,7 @@ class ServiceSetting(models.Model):
         strip_style=False,
         help="Detailed description of the service"
     )
-
+    attachment_ids = fields.One2many('service.attachment', 'attachment_id')
     provider_ids = fields.Many2many(
         'res.partner',
         string='Service Providers',
@@ -59,7 +72,7 @@ class ServiceSetting(models.Model):
     )
 
     active = fields.Boolean(
-        string='Active', 
+        string='Active',
         default=True,
         tracking=True
     )
@@ -76,16 +89,33 @@ class ServiceSetting(models.Model):
         string='Disbursement Periodicity Settings',
         help="Configure different disbursement periods for different need categories"
     )
+    rule_ids = fields.Many2many('sr.rule', string="قواعد التحقق")
 
     _sql_constraints = [
         ('code_unique', 'UNIQUE(code)', 'Service code must be unique!'),
     ]
 
+    @api.onchange('paths')
+    def _onchange_path(self):
+        print('sdcccccccccccc')
+        for rec in self:
+            domain = []
+            if rec.paths:
+                print(rec.paths,'ddddddddddddddddd')
+                linked_classifications = self.env['benefits.service.classification'].search([
+                    ('benefit_path_id', '=', rec.paths.id)
+                ])
+                print(linked_classifications,'lllllllllllllll')
+                if linked_classifications:
+                    domain.append(('id', 'in', linked_classifications.ids))
+
+            return {'domain': {'classification_id': domain}}
+
     @api.constrains('disbursement_periodicity_ids')
     def _check_disbursement_periodicity(self):
         for service in self:
             if service.enable_disbursement_periodicity:
-                categories = service.disbursement_periodicity_ids.mapped('category')
+                categories = service.disbursement_periodicity_ids.mapped('categories')
                 if len(categories) != len(set(categories)):
                     raise ValidationError(_("Duplicate category found in disbursement periodicity settings."))
                 if not categories:
@@ -108,7 +138,7 @@ class ServiceSetting(models.Model):
 class ServiceDisbursementPeriodicity(models.Model):
     _name = 'benefits.service.disbursement.periodicity'
     _description = 'Service Disbursement Periodicity Settings'
-    _order = 'service_id, category'
+    _order = 'service_id, categories'
 
     service_id = fields.Many2one(
         'benefits.service',
@@ -117,26 +147,38 @@ class ServiceDisbursementPeriodicity(models.Model):
         ondelete='cascade'
     )
 
-    category = fields.Selection([
-        ('least_needed', 'Least Needed'),
-        ('average_needed', 'Average Needed'),
-        ('most_needed', 'Most Needed')
-    ], 
-    string='Category', 
-    required=True,
-    help="Category of need for this disbursement period"
-    )
+    categories = fields.Many2one('family.need.category',
+                                 string='Category',
+                                 required=True,
+                                 help="Category of need for this disbursement period"
+                                 )
 
+    value = fields.Integer(
+        string='Value',
+        required=True,
+        default=1
+    )
+    periodicity = fields.Selection([('month', 'Month'), ('Year', 'year')])
     months = fields.Integer(
-        string='Months', 
+        string='Months',
         required=True,
         help="Number of months between disbursements for this category",
         default=1
     )
 
     _sql_constraints = [
-        ('unique_category_per_service', 'UNIQUE(service_id, category)', 
+        ('unique_category_per_service', 'UNIQUE(service_id, categories)',
          'Each need category can only be defined once per service.'),
-        ('positive_months', 'CHECK(months > 0)', 
+        ('positive_months', 'CHECK(months > 0)',
          'Months must be a positive number.')
     ]
+
+
+class ServiceAttachment(models.Model):
+    _name = 'service.attachment'
+    _description = 'Service Attachment'
+
+    attachment_id = fields.Many2one('benefits.service', 'attachment id')
+    attach = fields.Binary('Attachment')
+    attach_type = fields.Boolean('Attachment Type')
+    attachment_name = fields.Char('Attachment Name')

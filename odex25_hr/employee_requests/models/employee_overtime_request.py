@@ -360,6 +360,7 @@ class HrEmployeeOverTime(models.Model):
     # Relational fields
     account_id = fields.Many2one('account.account')
     journal_id = fields.Many2one('account.journal', string='Payment Method', domain=[('type', 'in', ('bank', 'cash'))])
+    journal_id = fields.Many2one('account.journal', string='Payment Method', domain=[('type', 'in', ('bank', 'cash'))])
     move_id = fields.Many2one('account.move')
     employee_id = fields.Many2one('hr.employee', string='Employee', required=True)
     employee_over_time_id = fields.Many2one('employee.overtime.request', string='Employee')
@@ -533,3 +534,33 @@ class HrEmployeeOverTime(models.Model):
             if i.state != 'draft':
                 raise exceptions.Warning(_('You can not delete record in state not in draft'))
         return super(HrEmployeeOverTime, self).unlink()
+
+
+    @api.depends('employee_id.contract_id', 'over_time_workdays_hours', 'over_time_vacation_hours')
+    def get_over_time_amount(self):
+        for line in self:
+            contract = line.employee_id.contract_id
+            if contract:
+                total_monthly_wage = contract.salary + contract.house_allowance_temp + contract.transport_allowance
+
+                fixed_monthly_hours = getattr(contract.resource_calendar_id, 'monthly_hours', 176)
+
+                normal_hour_rate = total_monthly_wage / fixed_monthly_hours
+
+                overtime_workday_rate = normal_hour_rate * 1.5
+
+                overtime_holiday_rate = normal_hour_rate * 2
+
+                o_t_a_d = overtime_workday_rate * line.over_time_workdays_hours
+                o_t_a_v = overtime_holiday_rate * line.over_time_vacation_hours
+
+                line.daily_hourly_rate = overtime_workday_rate
+                line.holiday_hourly_rate = overtime_holiday_rate
+                line.price_hour = o_t_a_d + o_t_a_v
+
+            else:
+                line.daily_hourly_rate = 0
+                line.holiday_hourly_rate = 0
+                line.price_hour = 0
+
+

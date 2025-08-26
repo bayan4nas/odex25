@@ -4,6 +4,9 @@ from odoo import models, fields, api, _
 from random import randint
 import logging
 
+from odoo.exceptions import  ValidationError
+
+
 _logger = logging.getLogger(__name__)
 
 
@@ -748,6 +751,15 @@ class ServiceAttachmentsSettings(models.Model):
     service_id = fields.Many2one('services.settings',string='Service')
     service_request_id = fields.Many2one('service.request',string='Service Request')
     notes = fields.Text(string='Notes')
+    attachment = fields.Binary(string='Attachment')
+    attachment_type = fields.Boolean(string='Attachment Type')
+
+    @api.constrains('attachment_type', 'attachment')
+    def _check_required_attachment(self):
+        for rec in self:
+            if rec.attachment_type and not rec.attachment:
+                raise ValidationError("Attachment is required for line: %s" % (rec.name or ""))
+
 
 class HomeMaintenanceItems(models.Model):
     _name = 'home.maintenance.items'

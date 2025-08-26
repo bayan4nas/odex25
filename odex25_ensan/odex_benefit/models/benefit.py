@@ -28,7 +28,7 @@ class GrantBenefitProfile(models.Model):
         result = []
         for rec in self:
             if rec.name and rec.code:
-                name = rec.name + " " + rec.code
+                name = rec.name
                 result.append((rec.id, name))
         return result
 
@@ -68,6 +68,7 @@ class GrantBenefitProfile(models.Model):
     ], string='Mother Status', compute="check_mother_status", store=True, default=False)
     phone2 = fields.Char(string="Phone2")
     relative_phone = fields.Char(string="Relative Phone")
+    branch_details_id = fields.Many2one(comodel_name='branch.details', string='Branch Name', tracking=True, required=1)
     relative_relation = fields.Char(string="Relative Relation")
     sms_phone = fields.Char(string="Contact Phone")
     name_in_bank = fields.Char()

@@ -22,7 +22,10 @@ class FamilyMemberRelation(models.Model):
 
     name = fields.Char(string='Relation', required=True)
     gender = fields.Selection(selection=[('male', _('Male')), ('female', _('Female'))], string="Gender")
-
+    exclude_need = fields.Boolean(
+        string="Exclude from Need Calculation",
+        default=False
+    )
 
 class FamilyMemberQualification(models.Model):
     _name = 'family.member.qualification'
@@ -236,7 +239,7 @@ class FamilyMember(models.Model):
     street_name = fields.Char(string='Street Name')
     district_id = fields.Many2one(
         'res.district',
-        string='District',
+        string=' District',
         domain="[('city_id', '=', city)]")
 
     city = fields.Many2one("res.country.city", string='City')
@@ -340,7 +343,16 @@ class FamilyMember(models.Model):
         compute='_compute_family_beneficiary_category_display',
         readonly=True
     )
-
+    
+    @api.model
+    def name_search(self, name='', args=None, operator='ilike', limit=100):
+        args = args or []
+        domain = []
+        if name:
+            domain = ['|', ('name', operator, name), ('member_id_number', operator, name)]
+        records = self.search(domain + args, limit=limit)
+        return records.name_get()
+    # end
     @api.depends('family_file_link.beneficiary_category')
     def _compute_family_beneficiary_category_display(self):
         for rec in self:
@@ -559,11 +571,11 @@ class DetaineeFile(models.Model):
     prison_id = fields.Many2one('res.prison', string="Prison", domain=[('country_id', '=', prison_country_id)])
 
     cancel_reason: fields.Text = fields.Text(string="Rejection Reason", tracking=True, copy=False)
-    file_state = fields.Selection([('active', 'Active'), ('inactive', 'Inactive')], string='File Status')
+    file_state = fields.Selection([('active', 'Active'), ('inactive', 'Inactive ')], string='File Status')
 
     prisoner_state = fields.Selection([('convicted', 'Convicted'), ('not_convicted', 'Not Convicted')],
                                       string='Inmate Status')
-    beneficiary_category = fields.Selection([('gust', 'Gust'), ('released', 'Released')], string='Beneficiary Category')
+    beneficiary_category = fields.Selection([('gust', 'Gust'), ('released', 'Released')], string='  Beneficiary Category')
     entitlement_status = fields.Selection([('deserved', 'Deserved'), ('undeserved', 'Undeserved')],
                                           string='Entitlement Status')
 

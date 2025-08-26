@@ -1,0 +1,15 @@
+<odoo>
+
+
+    <record id="ir_cron_service_sla" model="ir.cron">
+        <field name="name">Check SLA Deadlines</field>
+        <field name="model_id" ref="model_service_request"/>
+        <field name="state">code</field>
+        <field name="code">model.check_sla_deadlines()</field>
+        <field name="interval_number">30</field>
+        <field name="interval_type">minutes</field>
+        <field name="numbercall">-1</field>
+        <field name="active">True</field>
+    </record>
+
+</odoo>

@@ -20,7 +20,7 @@ class ServiceRequest(models.Model):
     benefit_type = fields.Selection(string='Benefit Type',
                                     selection=[('family', 'Family'), ('member', 'Member'), ('detainee', 'Detainee')])
     date = fields.Datetime(string='Request Date', default=fields.Datetime.now)
-    family_id = fields.Many2one('grant.benefit', string='Family',)
+    family_id = fields.Many2one('grant.benefit', string='Family', )
     family_category = fields.Many2one('benefit.category', string='Family Category',
                                       related='family_id.benefit_category_id')
     benefit_member_count = fields.Integer(string="Benefit Member count", related='family_id.member_count')
@@ -52,6 +52,7 @@ class ServiceRequest(models.Model):
         required=True
 
     )
+
     partner_id = fields.Many2one("res.partner", string="Partner")
 
     provider_need_partner = fields.Boolean(
@@ -67,7 +68,9 @@ class ServiceRequest(models.Model):
                                            domain="[('is_main_service','=',False),('service_type','=',False),('parent_service','=',main_service_category)]",
                                            string='Sub Service Category')
     service_cat = fields.Many2one('services.settings', string='Service Cat.')
+    service_cats = fields.Many2one('benefits.service', string='Service Cat.')
     # service_attach = fields.Many2many('ir.attachment', 'rel_service_attachment_service_request', 'service_request_id','attachment_id', string='Service Attachment')
+
     requested_service_amount = fields.Float(string="Requested Service Amount")
     # yearly Estimated Rent Amount
     estimated_rent_amount = fields.Float(string="Estimated Rent Amount", compute="_get_estimated_rent_amount")
@@ -115,8 +118,7 @@ class ServiceRequest(models.Model):
                                               'attachment_id', string='Rent Attachment')
     added_amount_if_mother_dead = fields.Float(string="Added Amount (If mother dead)",
                                                compute="_get_added_amount_if_mother_dead")
-    attachment_lines = fields.One2many('service.attachments.settings', 'service_request_id',
-                                       related='service_cat.attachment_lines', readonly=False)
+    attachment_lines = fields.One2many('service.attachments.settings', 'service_request_id', readonly=False)
     account_id = fields.Many2one('account.account', string='Expenses Account', related='service_cat.account_id')
     device_account_id = fields.Many2one('account.account', string='Expenses Account', related='device_id.account_id')
     accountant_id = fields.Many2one('res.users', string='Accountant', related='service_cat.accountant_id',
@@ -242,13 +244,17 @@ class ServiceRequest(models.Model):
         for rec in self:
             rec.allowed_member_ids = rec.family_id.benefit_member_ids.mapped('member_id')
 
-    # @api.depends('member_id')
-    # def compute_allowed_family(self):
-    #     for rec in self:
-    #         if rec.member_id.family_file_link:
-    #             family_id = rec.env['grant.benefit'].search([('id', '=', rec.member_id.family_file_link.id)],
-    #                                                             limit=1).id
-    #             return {'domain': {'family_id': [('id', '=', family_id),('state','=','approved')]}}
+    @api.onchange('service_cats')
+    def _onchange_service_cats(self):
+        if self.service_cats:
+            self.attachment_lines = [(5, 0, 0)]
+            self.attachment_lines = [
+                (0, 0, {
+                    'name': line.attachment_name,
+                    'attachment_type': line.attach_type,
+                })
+                for line in self.service_cats.attachment_ids
+            ]
 
     @api.onchange('detainee_file')
     def _onchange_detainee_file_id(self):
@@ -256,23 +262,6 @@ class ServiceRequest(models.Model):
             member_id = self.detainee_file.detainee_id.id
             return {'domain': {'detainee_member': [('id', '=', member_id)]}}
         return {'domain': {'detainee_member': []}}
-
-    @api.depends('benefit_type', 'family_id', 'member_id')
-    def get_branch_custom_id(self):
-        for rec in self:
-            branch_id = False
-            if rec.benefit_type == 'family' and rec.family_id:
-                branch_id = rec.family_id.branch_details_id.id
-            elif rec.benefit_type == 'member' and rec.member_id:
-                fam = self.env['grant.benefit'].search(
-                    [('benefit_member_ids.member_id', '=', rec.member_id.id)],
-                    limit=1
-                )
-                branch_id = fam.branch_details_id.id if fam else False
-            elif rec.benefit_type == 'detainee' and rec.detainee_file:
-                branch_id = rec.detainee_file.branch_id.id
-
-            rec.branches_custom_id = branch_id
 
     @api.depends('family_id', 'member_id')
     def _compute_member_relation(self):
@@ -429,7 +418,7 @@ class ServiceRequest(models.Model):
                         continue
 
                     # Determine rent amount based on branch type and property type
-                    branch_type = rec.family_id.branches_custom_id.branch_type
+                    branch_type = rec.family_id.branches_custom.branch_type
                     is_shared_rent = rec.family_id.property_type == 'rent_shared'
 
                     if branch_type == 'branches':
@@ -445,7 +434,7 @@ class ServiceRequest(models.Model):
                         continue
 
                     # Determine rent amount based on branch type and property type
-                    branch_type = rec.family_id.branches_custom_id.branch_type
+                    branch_type = rec.family_id.branches_custom.branch_type
                     is_shared_rent = rec.family_id.property_type == 'rent_shared'
 
                     if branch_type == 'branches':
@@ -1100,7 +1089,7 @@ class ServiceRequest(models.Model):
             invoice_line = (0, 0, {
                 'name': f'{request.family_id.name}/{request.device_id.device_name}/{request.description}/{request.name}',
                 'account_id': request.device_account_id.id,
-                'analytic_account_id': request.branches_custom_id.branch.analytic_account_id.id,
+                'analytic_account_id': request.branches_custom.branch.analytic_account_id.id,
                 'quantity': request.requested_quantity,
                 'price_unit': request.requested_service_amount,
             })
