@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+    <record id="inherit_hr_view_employee_form" model="ir.ui.view">
+        <field name="name">hr.employee.public.view.form.inherit</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button string="GET INFO Nafaz" name="get_nafaz_page" type="object" class="oe_highlight" invisible="1"/>
+                <button string="National Address" name="get_individual_address" type="object" class="oe_highlight" groups="hr.group_hr_user"/>
+            </xpath>
+
+        </field>
+    </record>
+
+
+    <record id="hr_extension_form_view_inherit" model="ir.ui.view">
+            <field name="name">hr.extension.form.inherit</field>
+            <field name="model">hr.employee</field>
+            <field name="priority" eval="16"/>
+            <field name="inherit_id" ref="hr_base.hr_extension_form_view"/>
+            <field name="arch" type="xml">
+                <field name="country_address_id" position="attributes">
+                  <attribute name="readonly">1</attribute>
+                   <attribute name="options">{'no_open':True,"no_create": True}</attribute>
+                </field>
+                <field name="address_city" position="attributes">
+                  <attribute name="readonly">1</attribute>
+                   <attribute name="options">{'no_open':True,"no_create": True}</attribute>
+                    <attribute name="attrs">{'invisible': [('is_english_language', '=', True)]}</attribute>
+                </field>
+                <field name="address_city" position="after">
+                     <field name="city_name_english" attrs="{'invisible': [('is_english_language', '=', False)]}"/>
+                     <field name="is_english_language" invisible="1"/>
+                </field>
+                <field name="street" position="after">
+                     <field name="street_name_english" attrs="{'invisible': [('is_english_language', '=', False)]}"/>
+                </field>
+                <field name="address_region" position="after">
+                     <field name="district_area_english" attrs="{'invisible': [('is_english_language', '=', False)]}"/>
+                </field>
+                <field name="address_region" position="attributes">
+                  <attribute name="readonly">1</attribute>
+                  <attribute name="options">{'no_open':True,"no_create": True}</attribute>
+                    <attribute name="attrs">{'invisible': [('is_english_language', '=', True)]}</attribute>
+                </field>
+                <field name="country_address_id" position="attributes">
+                  <attribute name="readonly">1</attribute>
+                </field>
+                <field name="street" position="attributes">
+                  <attribute name="readonly">1</attribute>
+                    <attribute name="attrs">{'invisible': [('is_english_language', '=', True)]}</attribute>
+                </field>
+                <field name="building_number" position="attributes">
+                  <attribute name="readonly">1</attribute>
+                </field>
+                <field name="postal_code" position="attributes">
+                  <attribute name="readonly">1</attribute>
+                </field>
+                <field name="extra_number" position="attributes">
+                  <attribute name="readonly">1</attribute>
+                </field>
+                <field name="apartment_number" position="attributes">
+                  <attribute name="readonly">1</attribute>
+                </field>
+            </field>
+    </record>
+
+
+
+    <record id="view_hr_job_form_inherit2" model="ir.ui.view">
+        <field name="name">hr.job.form.inherit2</field>
+        <field name="model">hr.job</field>
+        <field name="priority" eval="16"/>
+        <field name="inherit_id" ref="hr.view_hr_job_form"/>
+        <field name="arch" type="xml">
+            <field name="description" position="attributes">
+                <attribute name="invisible">0</attribute>
+            </field>
+            <label for="description" position="attributes">
+                <attribute name="invisible">0</attribute>
+            </label>
+            <xpath expr="//notebook/page/div" position="inside">
+                <group>
+                    <group>
+                        <field name="close_date"/>
+                        <field widget="text" name="job_description"/>
+                        <field name="job_location"/>
+                        <field name="job_advantages"/>
+                        <field name="responspility"/>
+                        <field name="skill"/>
+                    </group>
+                    <group string="Experiences" name="experience">
+                        <field  name="experience"/>
+                        <field name="general_experience"/>
+                        <field name="domain_experience"/>
+                    </group>
+                </group>
+
+
+            </xpath>
+
+
+        </field>
+    </record>
+</odoo>

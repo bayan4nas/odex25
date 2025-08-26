@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--    test-->
+
+    <template id="custom_index" inherit_id="website_hr_recruitment.index" name="Jobs">
+        <xpath expr="//div[@id='wrap']" position="replace">
+            <div id="wrap" class="o_website_hr_recruitment_jobs_list bg-100">
+                <div class="oe_structure">
+                    <!-- Breadcrumb -->
+                    <section class="breadcrumb-section">
+                        <div class="container">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item active-breadcrumb">
+                                        <a href="https://www.saip.gov.sa/">Home</a>
+                                    </li>
+                                    <li class="breadcrumb-item disabled-breadcrumb" aria-current="page">
+                                        <span>About SAIP</span>
+                                    </li>
+                                    <li class="breadcrumb-item active-breadcrumb">
+                                        <a href="https://www.saip.gov.sa/recruitment/">Recruitment</a>
+                                    </li>
+                                    <li class="breadcrumb-item disabled-breadcrumb">
+                                        <span>Jobs offered</span>
+                                    </li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </section>
+                    <!-- Jobs Cover -->
+                    <section class="jobs_cover">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-lg-12 cover_head">
+                                    <h2>Jobs offered</h2>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+
+                <div class="container oe_website_jobs">
+                    <div class="row pt48 pb48">
+                        <div class="d-none" id="jobs_grid_left">
+
+                        </div>
+                        <div class="col-lg" id="jobs_grid">
+                            <div t-if="not jobs">
+                                <div class="text-center text-muted">
+                                    <h3 class="css_editable_hidden">
+                                        <a t-attf-href="/contactus">Contact
+                                            us
+                                        </a>
+                                        for job opportunities.
+                                    </h3>
+                                    <h4 groups="hr_recruitment.group_hr_recruitment_manager">Create
+                                        new job pages from the
+                                        <strong>
+                                            <i>+New</i>
+                                        </strong>
+                                        top-right button.
+                                    </h4>
+                                </div>
+                            </div>
+                            <div t-foreach="jobs" t-as="job" t-if="job.website_published"
+                                 class="card card-default mb32">
+                                <div class="card-body"
+                                     t-att-data-publish="job.website_published and 'on' or 'off'">
+                                    <span t-if="not job.website_published" class="badge badge-danger mb8 p-2">
+                                        Unavailable
+                                    </span>
+                                    <h3 class="text-secondary mt0 mb4">
+                                        <span t-field="job.name"/>
+                                    </h3>
+                                    <!-- <h5 t-if="job.no_of_recruitment &gt; 1">
+                                        <t t-esc="job.no_of_recruitment"/> <span>Open Positions</span>
+                                    </h5> -->
+                                    <div class="o_job_summry">
+                                        <t t-esc="job.job_description"/>
+                                    </div>
+                                    <div class="col-md-12 o_job_infos">
+                                        <div class="col-md-4 infos_location">
+                                            <p>
+                                                <img src="/saip_website_theme/static/src/img/location.png"
+                                                     title="Location" aria-label="Location"/>
+                                                <span>Location</span>
+                                            </p>
+                                            <h4>
+                                                <span>الرياض , المملكة العربية السعودية</span>
+<!--                                                <span t-field="job.address_id"-->
+<!--                                                      t-options='{-->
+<!--                                                "widget": "contact",-->
+<!--                                                "fields": ["address"],-->
+<!--                                                "no_tag_br": True,-->
+<!--                                                "no_marker": True-->
+<!--                                                }'/>-->
+                                            </h4>
+                                        </div>
+<!--                                        <div class="col-md-4 infos_date">-->
+<!--                                            <p>-->
+<!--                                                <img src="/saip_website_theme/static/src/img/clock.png"-->
+<!--                                                     title="Publication date" aria-label="Publication date"/>-->
+<!--                                                <span>Application Closing date</span>-->
+<!--                                            </p>-->
+<!--                                            <h4>-->
+<!--                                                <span t-field="job.close_date"/>-->
+<!--                                            </h4>-->
+<!--                                        </div>-->
+                                        <div class="col-md-4 infos_link">
+                                            <a t-attf-href="/jobs/detail/#{ slug(job) }"  t-attf-class="btn btn-info" style="outline: none; box-shadow: none;">
+                                                <span>Read More</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 jobs_pagination">
+                                <t t-call="website.pager"/>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </xpath>
+    </template>
+
+    <!--    odoo form setting inherit -->
+    <!-- Inherit Form View to Modify it -->
+    <record id="hr_recruitment_inherit" model="ir.ui.view">
+        <field name="name">hr_recruitment.form.extend</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="hr_recruitment.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@id='publish_available_jobs_setting']/div[2]" position="after">
+                <div class="">
+                    <label for="jobs_per_page" string="Jobs Per Page"/>
+                    <field name="jobs_per_page"/>
+                    <div class="text-muted">
+                        Configure the number of jobs displayed per page.
+                    </div>
+
+                </div>
+            </xpath>
+        </field>
+    </record>
+    <!--    end-->
+</odoo>
