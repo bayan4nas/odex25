@@ -54,6 +54,11 @@ class PurchaseRequest(models.Model):
         [('draft', 'Draft'), ('direct_manager', 'Direct Manager'),
          ('waiting', 'In Purchase'), ('done', 'Done'), ('cancel', 'Cancel'), ('refuse', 'Refuse')], default="draft",
         tracking=True, )
+
+    # just to solve bug in production after new changes 26/8/2025 5:50 pm
+    state_a = fields.Selection(related='state', tracking=False)
+    state_b = fields.Selection(related='state', tracking=False)
+
     product_category_ids = fields.Many2many('product.category', string='Items Categories',inverse='_inverse_product_category_ids',
                                             compute='_compute_product_category_ids',
                                             store=True)
