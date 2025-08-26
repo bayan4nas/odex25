@@ -109,6 +109,7 @@ class HrPayslipRun(models.Model):
                     general_budget = item_budget.crossovered_budget_line.filtered(
                         lambda bl: bl.general_budget_id in self.env['account.budget.post'].search([]).filtered(
                             lambda post: account in post.account_ids))
+
                     if not general_budget:
                         raise ValidationError(_('No budget for this account: {}').format(account.name))
                     total_list.append({

@@ -1,0 +1,14 @@
+<odoo>
+
+    <template id="assets_backend" name="Your Module Assets" inherit_id="web.assets_backend">
+        <xpath expr="." position="inside">
+            <link rel="stylesheet" href="/saip_watermark/static/src/css/custom_watermark.css"/>
+        </xpath>
+    </template>
+    <template id="base_layout_inherit" inherit_id="web.layout">
+        <xpath expr="//head" position="inside">
+            <t t-call="saip_watermark.watermark_template" t-set="watermark_data"
+               t-value="saip_watermark.get_watermark_data()"/>
+        </xpath>
+    </template>
+</odoo>

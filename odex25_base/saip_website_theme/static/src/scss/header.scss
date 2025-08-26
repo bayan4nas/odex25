@@ -1,0 +1,77 @@
+
+.rtl, .o_rtl {
+    *:not(.fa) {
+        font-family: 'bukra', serif !important;
+    }
+}
+
+body{
+    font-family: 'bukra', serif !important;
+}
+
+.header-container{
+    border-bottom: 1px solid #f9f9f9;
+    nav{
+        #top_menu_container{
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            .navbar-brand{
+                margin-right: 100px;
+                img{
+                    height: 50px;
+                }
+            }
+            #top_menu_collapse{
+                .navbar-nav{
+                    .nav-item{
+                        .nav-link{
+                            font-size: 14px;
+                            &.dropdown-toggle{
+                                &::after{
+                                    content: "\F0140";
+                                    font: normal normal normal 24px / 1 "Material Design Icons";
+                                    margin-left: 5px;
+                                    margin-right: 0;
+                                    font-size: 14px;
+                                    border: none;
+                                    vertical-align: middle;
+                                }
+                            }
+                        }
+
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+.container_f{
+    width: 100%;
+    padding-left: 15px;
+    padding-right: 15px;
+    margin-left: auto;
+    margin-right: auto;
+}
+@media (min-width: 576px) {
+    .container_f {
+        max-width: 540px;
+    }
+}
+@media (min-width: 768px) {
+    .container_f {
+        max-width: 720px;
+    }
+}
+@media (min-width: 992px) {
+    .container_f {
+        max-width: 960px;
+    }
+}
+@media (min-width: 1200px) {
+    .container_f{
+        max-width: 1320px;
+    }
+}
