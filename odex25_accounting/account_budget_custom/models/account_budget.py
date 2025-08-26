@@ -33,10 +33,10 @@ class CrossoveredBudgetLines(models.Model):
 
     reserved_percent = fields.Float(related='crossovered_budget_id.reserved_percent', string='Reserved Percent')
     reserved_amount = fields.Float(string='Reserved Amount', readonly=True, compute='_compute_reserved_amount')
-    pull_out = fields.Float(string='Pull Out', compute='_compute_operations_amount',compute_sudo=True)
-    provide = fields.Float(string='Provide', compute='_compute_operations_amount',compute_sudo=True)
+    pull_out = fields.Float(string='Pull Out',compute_sudo=True)
+    provide = fields.Float(string='Provide',compute_sudo=True)
     remain = fields.Float(string='Remaining of Reliance', compute='_compute_remaining_amount',compute_sudo=True)
-    budget_confirm_amount = fields.Float(string='confirmation amount', compute='_compute_operations_amount',compute_sudo=True)
+    budget_confirm_amount = fields.Float(string='confirmation amount',compute_sudo=True)
     # purchase_remain = fields.Float(store=True, compute='_compute_operations_amount', tracking=True ,compute_sudo=True)
     practical_amount = fields.Float(compute='_compute_practical_amount', string='Practical Amount', digits=0,
                                     store=False)
