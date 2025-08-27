@@ -38,13 +38,31 @@
                         </span>
                     </div>
                 </div>
+                
+                <span id="error_message_view"></span>
 
-                <div class="form-group field-login effect">
+                <div class="form-group field-login effect" id="login_email_view">
                     <input type="text" placeholder="Email ..." name="login" t-att-value="login" id="login" t-attf-class="form-control #{'form-control-sm' if form_small else ''}" required="required" autofocus="autofocus" autocapitalize="off"/>
                 </div>
 
-                <div class="form-group field-password effect">
+                <div class="form-group field-password effect" id="login_password_view"> 
                     <input type="password" placeholder="Password ..." name="password" id="password" t-attf-class="form-control #{'form-control-sm' if form_small else ''}" required="required" autocomplete="current-password" t-att-autofocus="'autofocus' if login else None" maxlength="4096"/>
+                </div>
+
+                <div class="form-group align-items-center mb-0" id="otp_source_view" >
+                <!-- <label>Choose Method</label>
+                <div>
+                    <label><input type="radio" name="contactMethod" value="phone" checked="true"/> Phone</label>
+                </div>
+                <div>
+                    <label><input type="radio" name="contactMethod" value="email"/> Email</label>
+                    </div> -->
+                </div>
+
+                <div class="form-group field-login form-group align-items-center" id="login_otp_view" style="display:none !important;">
+                    <label for="password">OTP</label>
+                    <!-- <i class="login-icon ml-2 fa fa-envelope fa-lg"></i> -->
+                    <input type="number" placeholder="OTP" name="otp" id="login_otp_input" class="form-control "/>
                 </div>
 
                 <p class="alert alert-danger" t-if="error" role="alert">
@@ -55,7 +73,13 @@
                 </p>
 
                 <div t-attf-class="clearfix oe_login_buttons text-center mb-1 {{'pt-2' if form_small else 'pt-3'}}">
-                    <button type="submit" class="btn btn-primary btn-block" id="login_submit_button">Log in</button>
+                    <button type="submit" class="btn btn-primary btn-block" id="login_submit_button" type="button" onClick="check_for_2fa()">Log in</button>
+                    <button type="button" class="btn btn-primary btn-block" id="send_otp_button" onClick="send_otp()" style="display:none !important;">
+                        Send OTP
+                    </button>
+                    <button type="button" class="btn btn-primary btn-block" id="verify_otp_button" onClick="verify_otp()" style="display:none !important;">
+                        Verify OTP
+                    </button>
                     <div class="justify-content-between mt-2 d-flex small">
                         <a t-if="signup_enabled" t-attf-href="/web/signup?{{ keep_query() }}">Don't have an account?</a>
                         <a t-if="reset_password_enabled" t-attf-href="/web/reset_password?{{ keep_query() }}">Reset
@@ -70,10 +94,10 @@
                 <script>
                 function get_fields () {
                     return {
-                        uname: document.getElementById('login_email_input'),
+                        uname: document.getElementById('login'),
                         pwd: document.getElementById('login_password_input'),
                         uname_v: document.getElementById('login_email_view'),
-                        pwd_v: document.getElementById('login_password_view'),
+                        pwd_v: document.getElementById('password'),
                         login_btn: document.getElementById('login_submit_button'),
                         otp_view: document.getElementById('login_otp_view'),
                         otp_input: document.getElementById('login_otp_input'),
