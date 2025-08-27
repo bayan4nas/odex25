@@ -44,9 +44,7 @@ METRICS = [
     ('days_since_last_request', 'Days Since Last Request'),
     ('family_members_count', 'Family Members Count'),
     ('family_value', 'Family Value'),
-    ('tolerance_ratio', 'Tolerance Ratio'),
 ]
-
 
 class SrRule(models.Model):
     _name = 'sr.rule'
@@ -72,4 +70,4 @@ class SrRule(models.Model):
 
     message = fields.Char(string='Violation Message')
 
-    numeric_value = fields.Float(string='Tolerance Ratio %')
+    numeric_value = fields.Float(string='نسبة مئوية')
