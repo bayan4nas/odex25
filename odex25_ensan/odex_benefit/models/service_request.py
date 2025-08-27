@@ -68,7 +68,7 @@ class ServiceRequest(models.Model):
                                            domain="[('is_main_service','=',False),('service_type','=',False),('parent_service','=',main_service_category)]",
                                            string='Sub Service Category')
     service_cat = fields.Many2one('services.settings', string='Service Cat.')
-    service_cats = fields.Many2one('benefits.service', string='Service Cat.', domain=[('active', '=', True)])
+    service_cats = fields.Many2one('benefits.service', string='Service Cat.')
     # service_attach = fields.Many2many('ir.attachment', 'rel_service_attachment_service_request', 'service_request_id','attachment_id', string='Service Attachment')
 
     requested_service_amount = fields.Float(string="Requested Service Amount")
