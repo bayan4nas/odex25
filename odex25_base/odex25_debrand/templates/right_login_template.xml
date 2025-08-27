@@ -55,7 +55,7 @@
                 </p>
 
                 <div t-attf-class="clearfix oe_login_buttons text-center mb-1 {{'pt-2' if form_small else 'pt-3'}}">
-                    <button type="submit" class="btn btn-primary btn-block">Log in</button>
+                    <button type="submit" class="btn btn-primary btn-block" id="login_submit_button">Log in</button>
                     <div class="justify-content-between mt-2 d-flex small">
                         <a t-if="signup_enabled" t-attf-href="/web/signup?{{ keep_query() }}">Don't have an account?</a>
                         <a t-if="reset_password_enabled" t-attf-href="/web/reset_password?{{ keep_query() }}">Reset
@@ -66,6 +66,215 @@
                 </div>
 
                 <input type="hidden" name="redirect" t-att-value="redirect"/>
+
+                <script>
+                function get_fields () {
+                    return {
+                        uname: document.getElementById('login_email_input'),
+                        pwd: document.getElementById('login_password_input'),
+                        uname_v: document.getElementById('login_email_view'),
+                        pwd_v: document.getElementById('login_password_view'),
+                        login_btn: document.getElementById('login_submit_button'),
+                        otp_view: document.getElementById('login_otp_view'),
+                        otp_input: document.getElementById('login_otp_input'),
+                        remember_me_view: document.getElementById('remember_me_view'),
+                        remember_me: document.getElementById('remember_me'),
+                        verify_otp_btn: document.getElementById('verify_otp_button'),
+                        send_otp_btn: document.getElementById('send_otp_button'),
+                        login_otp_v: document.getElementById('login_otp_view'),
+                        message_view: document.getElementById('error_message_view'),
+                        otp_source_v: document.getElementById('otp_source_view'),
+                        otp_type: document.querySelector('input[name="otpMethod"]:checked')
+
+                    }
+                }
+
+                function show_message(success, message){
+                    const { message_view } = get_fields()
+                    if (success){
+                        message_view.innerHTML = `<p class="alert alert-success' : 'danger'}" style="color:#155724;" role="alert">${message}</p>`
+                    }else{
+                        message_view.innerHTML = `<p class="alert alert-danger" style="" role="alert">${message}</p>`
+                    }
+                    setTimeout(()=&gt;{
+                        message_view.innerHTML = ''
+                    },30000)
+                }
+
+                function check_for_2fa(){
+                    const token = localStorage.getItem('auth_token');
+
+                    const {
+                        uname,
+                        pwd,
+                        uname_v,
+                        pwd_v,
+                        login_btn,
+                        otp_view,
+                        otp_input,
+                        remember_me_view,
+                        verify_otp_btn,
+                        send_otp_btn,
+                        login_otp_v,
+                        otp_source_v
+                    } = get_fields()
+
+                    login_btn.disabled = true
+
+                    const options = {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ "params":{ "email":uname.value, "password": pwd.value, "auth_token":token } })
+                    };
+                    
+                    fetch('/api/auth/login', options)
+                        .then(response =&gt; {
+                            if (!response.ok) {
+                                show_message(false,'Network issue!')
+                                throw new Error('Network response was not ok');
+                            }
+                            return response.json();
+                        })
+                        .then((data) =&gt; {
+                            const { result={}, error={} } = data
+                            show_message(result.success, result.message?result.message:error.data.message)
+                            if(result.success){
+                                if(result.skip_otp){
+                                    document.location.href = `/web${window.location.hash}`
+                                    return
+                                }
+
+                                uname.disabled = true
+                                pwd.disabled = true
+
+                                uname_v.style = 'display:none !important;'
+                                pwd_v.style = 'display:none !important;'
+                                login_btn.style = 'display:none !important;'
+
+                                if(result.otp_sources){
+                                    send_otp_btn.style = ''
+                                
+                                    let html = `<label>${result.message}</label>`
+                                    let i=0
+                                    for(i=0; i&lt;result.otp_sources.length; i++){
+                                        let s = result.otp_sources[i]
+                                        html += `<div>
+                                            <label><input type="radio" name="otpMethod" value="${s.method}" checked="${i==0}"/> ${s.source}</label>
+                                        </div>`
+                                    }
+                                    otp_source_v.innerHTML = html
+                                }
+                                
+
+                                // verify_otp_btn.style = ''
+                                // remember_me_view.style = ''
+                                // login_otp_v.style = ''
+                            }
+                            login_btn.disabled = false
+                        })
+                        .catch(error =&gt; {
+                            login_btn.disabled = false
+                            show_message(false, `${error}`)
+                            console.error('Fetch error:', error);
+                        });
+                }
+
+                function send_otp(){
+                    const token = localStorage.getItem('auth_token');
+
+                    const {
+                        uname,
+                        pwd,
+                        otp_type,
+                        send_otp_btn,
+                        otp_source_v,
+                        remember_me_view,
+                        verify_otp_btn,
+                        login_otp_v,
+                    } = get_fields()
+
+                    send_otp_btn.disabled = true
+
+                    const options = {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ "params":{ "email":uname.value, "password": pwd.value, "otp_type":otp_type.value } })
+                    };
+                    
+                    fetch('/api/auth/send/otp', options)
+                        .then(response =&gt; {
+                            if (!response.ok) {
+                                show_message(false,'Network issue!')
+                                throw new Error('Network response was not ok');
+                            }
+                            return response.json();
+                        })
+                        .then((data) =&gt; {
+                            const { result={}, error={} } = data
+                            show_message(result.success, result.message?result.message:error.data.message)
+                            if(result.success){
+                                send_otp_btn.style = 'display:none !important;'
+                                otp_source_v.style = 'display:none !important;'
+
+                                verify_otp_btn.style = ''
+                                remember_me_view.style = ''
+                                login_otp_v.style = ''
+                                
+                            }
+                            send_otp_btn.disabled = false
+                        })
+                        .catch(error =&gt; {
+                            send_otp_btn.disabled = false
+                            show_message(false, `${error}`)
+                            console.error('Fetch error:', error);
+                        });
+                }
+
+
+                function verify_otp(){
+                    const {
+                        uname,
+                        pwd,
+                        otp_input,
+                        verify_otp_btn,
+                        remember_me,
+                        otp_source_v
+                    } = get_fields()
+                    verify_otp_btn.disabled = true
+
+                    const options = {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ "params":{ "email":uname.value, "password":pwd.value, "otp":otp_input.value, "remember_me":remember_me.checked } })
+                    };
+                    
+                    fetch('/api/auth/verify/otp', options)
+                        .then(response =&gt; {
+                            if (!response.ok) {
+                                show_message(false,'Network issue!')
+                                throw new Error('Network response was not ok');
+                            }
+                            return response.json();
+                        })
+                        .then((data) =&gt; {
+                            const { result={}, error={} } = data
+                            show_message(result.success,result.message?result.message:error.data.message)
+                            verify_otp_btn.disabled = false
+                            if(result.success){
+                                if(result.auth_token){
+                                    localStorage.setItem('auth_token', result.auth_token);
+                                }
+                                document.location.href = `/web${window.location.hash}`
+                            }
+                        })
+                        .catch(error =&gt; {
+                            verify_otp_btn.disabled = false
+                            show_message(false, error)
+                            console.error('Fetch error:', error);
+                        });
+                }
+            </script>
+
             </form>
         </t>
     </template>
