@@ -59,10 +59,15 @@
                     </div> -->
                 </div>
 
-                <div class="form-group field-login form-group align-items-center" id="login_otp_view" style="display:none !important;">
+                <div class="form-group field-login" id="login_otp_view" style="display:none !important;">
                     <label for="password">OTP</label>
                     <!-- <i class="login-icon ml-2 fa fa-envelope fa-lg"></i> -->
                     <input type="number" placeholder="OTP" name="otp" id="login_otp_input" class="form-control "/>
+                </div>
+
+                <div class="form-group align-items-center mb-0" id="remember_me_view" style="display:none !important;">
+                    <input type="checkbox" id="remember_me" name="remember_me" style="display:none !important;"/>
+                    <label for="remember_me" style="display:none !important;">Remember Me</label>
                 </div>
 
                 <p class="alert alert-danger" t-if="error" role="alert">
