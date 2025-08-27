@@ -35,7 +35,8 @@
               action="website_slides.slide_channel_action_overview"/>
 
 
-    <menuitem id="base.menu_board_root" name="Dashboards" sequence="305" web_icon="trahum_apps_icons,static/description/dashboards.png"
+    <menuitem id="base.menu_board_root" name="Dashboards" sequence="305"
+              web_icon="trahum_apps_icons,static/description/dashboards.png"
               groups="base.group_user"/>
 
 
@@ -126,10 +127,10 @@
 
 
     <menuitem id="sale.sale_menu_root"
-            name="Sales"
-            web_icon="trahum_apps_icons,static/description/Sales.png"
-            active="False"
-            sequence="7"/>
+              name="Sales"
+              web_icon="trahum_apps_icons,static/description/Sales.png"
+              active="False"
+              sequence="7"/>
 
     <menuitem id="hr_timesheet.timesheet_menu_root"
               name="Timesheets"
@@ -143,6 +144,23 @@
               sequence="9"
               groups="base.group_user"
               web_icon="trahum_apps_icons,static/description/Website.png"/>
+
+
+    <menuitem name="Accounting"
+              id="odex25_account_accountant.menu_accounting"
+              groups="account.group_account_readonly,account.group_account_invoice"
+              web_icon="trahum_apps_icons,static/description/Accounting.png"
+              sequence="40"/>
+
+
+    <menuitem id="base.menu_management" name="Apps"
+              web_icon="trahum_apps_icons,static/src/img/icons/Apps.png"/>
+
+
+    <menuitem id="exp_asset_base.menu_account_asset_management_main"
+              name="Assets Management"
+              groups="exp_asset_base.group_asset_chuhad_user,exp_asset_base.group_assets_manager,exp_asset_base.group_assets_user"
+              sequence="11" web_icon="trahum_apps_icons,static/description/Assets management.png"/>
 
 
 </odoo>
