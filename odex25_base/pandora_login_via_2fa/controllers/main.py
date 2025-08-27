@@ -207,7 +207,7 @@ class ApiMain(http.Controller):
                     if phone is None and email is not None:
                         res = self.send_mail(email, otp)
                     if res[0]:
-                        return { 'success': True, 'message': 'OTP sent successfully, please check your mobile inbox!', 'otp':otp }
+                        return { 'success': True, 'message': 'OTP sent successfully, please check your inbox!', 'otp':otp }
                     else:
                         return { 'success': res[0], 'message': res[1] }
                 else:
