@@ -92,7 +92,6 @@ class ApiMain(http.Controller):
             
             return [True, "Your mail was sent successfully!"]
         except Exception as e:
-            print("\n\n\n *********************** \n\n\n", str(e) , "\n\n\n *********************** \n\n\n")
             return [False, str(e)]
 
     def get_req_user_agent(self, user_agent):
