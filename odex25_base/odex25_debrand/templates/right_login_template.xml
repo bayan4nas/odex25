@@ -95,9 +95,9 @@
                 function get_fields () {
                     return {
                         uname: document.getElementById('login'),
-                        pwd: document.getElementById('login_password_input'),
+                        pwd: document.getElementById('password'),
                         uname_v: document.getElementById('login_email_view'),
-                        pwd_v: document.getElementById('password'),
+                        pwd_v: document.getElementById('login_password_view'),
                         login_btn: document.getElementById('login_submit_button'),
                         otp_view: document.getElementById('login_otp_view'),
                         otp_input: document.getElementById('login_otp_input'),
@@ -112,6 +112,8 @@
 
                     }
                 }
+
+                console.log(get_fields())
 
                 function show_message(success, message){
                     const { message_view } = get_fields()
