@@ -963,7 +963,7 @@ msgstr ""
 #. module: trahum_benefits
 #: model:ir.model.fields.selection,name:trahum_benefits.selection__sr_rule__metric__days_since_last_request
 msgid "Days Since Last Request"
-msgstr ""
+msgstr "أيام اخر طلب"
 
 #. module: trahum_benefits
 #: model_terms:ir.actions.act_window,help:trahum_benefits.action_service
@@ -1469,7 +1469,7 @@ msgstr "إعدادات الأسرة"
 #. module: trahum_benefits
 #: model:ir.model.fields.selection,name:trahum_benefits.selection__sr_rule__metric__family_value
 msgid "Family Value"
-msgstr ""
+msgstr "قيمة العائل والفرد في الأسرة"
 
 #. module: trahum_benefits
 #: model:ir.model.fields,field_description:trahum_benefits.field_family_member__father_name
@@ -1640,12 +1640,12 @@ msgid "Grant Benefit Members"
 msgstr ""
 
 #. module: trahum_benefits
-#: model:ir.model.fields.selection,name:trahum_benefits.selection__sr_rule__operator__<
+#: model:ir.model.fields.selection,name:trahum_benefits.selection__sr_rule__operator__>
 msgid "Greater than"
 msgstr ""
 
 #. module: trahum_benefits
-#: model:ir.model.fields.selection,name:trahum_benefits.selection__sr_rule__operator__<=
+#: model:ir.model.fields.selection,name:trahum_benefits.selection__sr_rule__operator__>=
 msgid "Greater than or equal to"
 msgstr ""
 
@@ -2094,12 +2094,12 @@ msgid "Last Updated on"
 msgstr "آخر تحديث بتاريخ"
 
 #. module: trahum_benefits
-#: model:ir.model.fields.selection,name:trahum_benefits.selection__sr_rule__operator__>
+#: model:ir.model.fields.selection,name:trahum_benefits.selection__sr_rule__operator__<
 msgid "Less than"
 msgstr ""
 
 #. module: trahum_benefits
-#: model:ir.model.fields.selection,name:trahum_benefits.selection__sr_rule__operator__>=
+#: model:ir.model.fields.selection,name:trahum_benefits.selection__sr_rule__operator__<=
 msgid "Less than or equal to"
 msgstr ""
 
@@ -2338,11 +2338,6 @@ msgid "Need Calculation"
 msgstr "الحساب والنتيجة"
 
 #. module: trahum_benefits
-#: model:ir.model.fields,field_description:trahum_benefits.field_grant_benefit__need_calculator
-msgid "Need Calculator"
-msgstr "فئة الاحتياج"
-
-#. module: trahum_benefits
 #: model:ir.model.fields,field_description:trahum_benefits.field_benefits_service_request__need_category
 msgid "Need Category"
 msgstr ""
@@ -2355,6 +2350,7 @@ msgstr "نسبة قيمة الاحتياج"
 #. module: trahum_benefits
 #: model:ir.model.fields,field_description:trahum_benefits.field_family_member__detainee_file_link_entitlement_status
 #: model:ir.model.fields,field_description:trahum_benefits.field_family_member__family_file_link_need_calculator
+#: model:ir.model.fields,field_description:trahum_benefits.field_family_member__family_file_link_family_need_class_id
 msgid "Needs Assessment"
 msgstr "تقدير الاحتياج"
 
@@ -2458,7 +2454,7 @@ msgstr "عدد الإجراءات"
 #. module: trahum_benefits
 #: model:ir.model.fields.selection,name:trahum_benefits.selection__sr_rule__metric__count_requests_period
 msgid "Number of Requests in Period"
-msgstr ""
+msgstr "عدد الطلبات في الفترة"
 
 #. module: trahum_benefits
 #: model:ir.model.fields,field_description:trahum_benefits.field_bank_stop_reason__message_has_error_counter
@@ -3160,7 +3156,7 @@ msgstr "الخدمات"
 #: model:ir.ui.menu,name:trahum_benefits.menu_sr_rule
 #: model_terms:ir.ui.view,arch_db:trahum_benefits.view_sr_rule_form
 msgid "Services Request Rule"
-msgstr "قواهد طلب الخدمة"
+msgstr "قواعد طلب الخدمة"
 
 #. module: trahum_benefits
 #: model:ir.ui.menu,name:trahum_benefits.menu_benefit_setting
@@ -3361,7 +3357,7 @@ msgstr ""
 #. module: trahum_benefits
 #: model:ir.model.fields.selection,name:trahum_benefits.selection__sr_rule__metric__sum_amount_period
 msgid "Total Amount in Period"
-msgstr ""
+msgstr "مجموع الطلبات في الفترة"
 
 #. module: trahum_benefits
 #: model:ir.model.fields,field_description:trahum_benefits.field_grant_benefit__total_income
@@ -3371,7 +3367,7 @@ msgstr "إجمالي الدخل"
 #. module: trahum_benefits
 #: model:ir.model.fields.selection,name:trahum_benefits.selection__sr_rule__metric__request_total
 msgid "Total Requests"
-msgstr ""
+msgstr "مجموع الطلب"
 
 #. module: trahum_benefits
 #: model:ir.model.fields,field_description:trahum_benefits.field_grant_benefit__total_salary
@@ -3433,7 +3429,7 @@ msgstr "القيمة"
 #. module: trahum_benefits
 #: model:ir.model.fields,field_description:trahum_benefits.field_sr_rule__message
 msgid "Violation Message"
-msgstr ""
+msgstr "رسالة الشرط"
 
 #. module: trahum_benefits
 #: model_terms:ir.ui.view,arch_db:trahum_benefits.view_sr_rule_form
@@ -3807,3 +3803,101 @@ msgstr ""
 msgid "🟢 Active"
 msgstr ""
 
+#. module: service_sla
+#: model:ir.model.fields,field_description:service_sla.field_service_request__service_output
+msgid "Service Output"
+msgstr "المخرجات"
+
+#. module: service_sla
+#: model_terms:ir.ui.view,arch_db:service_sla.view_service_request_form_sla
+msgid "Outputs"
+msgstr "المخرجات"
+
+#. module: trahum_benefits
+#: model:ir.model.fields,field_description:trahum_benefits.field_grant_benefit__need_calculator
+#: model:ir.model.fields,field_description:trahum_benefits.field_service_request__family_need_class_id
+#: model:ir.model.fields,field_description:trahum_benefits.field_service_request__member_family_need_class_id
+#: model:ir.model.fields,field_description:trahum_benefits.field_service_request__member_need_class_id
+msgid "Need Calculator"
+msgstr "فئة الاحتياج"
+
+#. module: trahum_benefits
+#: model_terms:ir.ui.view,arch_db:trahum_benefits.sr_rule_form_view
+msgid "Rule Configuration"
+msgstr "تكوين القاعدة"
+
+#. module: trahum_benefits
+#: model_terms:ir.ui.view,arch_db:trahum_benefits.sr_rule_form_view
+msgid "Period Configuration"
+msgstr "تكوين الفترة"
+
+#. module: trahum_benefits
+#: model:ir.model.fields.selection,name:trahum_benefits.selection__sr_rule__metric__tolerance_ratio
+msgid "Tolerance Ratio"
+msgstr "نسبة التحمل"
+
+#. module: trahum_benefits
+#: model:ir.model.fields.selection,name:trahum_benefits.selection__sr_rule__metric__service_repetition
+msgid "Service Repetition Count"
+msgstr "عدد طلبات الخدمة"
+
+#. module: trahum_benefits
+#: model:ir.model.fields.selection,name:trahum_benefits.selection__sr_rule__metric__housing_support_rule
+msgid "Housing Support Rule"
+msgstr "الدعم السكني"
+
+#. module: trahum_benefits
+#: model:ir.model.fields,field_description:trahum_benefits.field_sr_rule__housing_property_type
+msgid "Target Housing Type"
+msgstr "نوع السكن"
+
+#. module: trahum_benefits
+#: model:ir.model.fields,field_description:trahum_benefits.field_sr_rule__date_from
+msgid "From Date"
+msgstr "من تاريخ"
+
+#. module: trahum_benefits
+#: model:ir.model.fields,field_description:trahum_benefits.field_sr_rule__date_to
+msgid "To Date"
+msgstr "الى تاريخ"
+
+
+#. module: trahum_benefits
+#: code:addons/odoo/preprod_master/odex25_ensan/trahum_benefits/models/service_request.py:0
+#: code:addons/trahum_benefits/models/service_request.py:0
+#, python-format
+msgid ""
+"The service request cannot be submitted. The required period (%s days) since"
+" the last request has not yet passed."
+msgstr "لا يمكن تقديم طلب الخدمة. لم تنقضِ الفترة المطلوبة (%s يومًا) منذ آخر طلب."
+
+#. module: trahum_benefits
+#: code:addons/odoo/preprod_master/odex25_ensan/trahum_benefits/models/service_request.py:0
+#: code:addons/trahum_benefits/models/service_request.py:0
+#, python-format
+msgid "The exchange period '%s' specified in the family file is invalid."
+msgstr "دورية الصرف '%s' المحددة في ملف الأسرة غير صالحة."
+
+#. module: trahum_benefits
+#: code:addons/odoo/preprod_master/odex25_ensan/trahum_benefits/models/service_request.py:0
+#: code:addons/trahum_benefits/models/service_request.py:0
+#, python-format
+msgid "The exchange period has not been specified in the family file."
+msgstr "لم يتم تحديد دورية الصرف في ملف الأسرة."
+
+#. module: trahum_benefits
+#: code:addons/odoo/preprod_master/odex25_ensan/trahum_benefits/models/service_request.py:0
+#: code:addons/trahum_benefits/models/service_request.py:0
+#, python-format
+msgid ""
+"The requested service amount (%s) cannot exceed the housing value (%s)."
+msgstr "لا يمكن أن يتجاوز مبلغ الخدمة المطلوب (%s) قيمة السكن (%s)."
+
+#. module: trahum_benefits
+#: code:addons/odoo/preprod_master/odex25_ensan/trahum_benefits/models/service_request.py:0
+#: code:addons/trahum_benefits/models/service_request.py:0
+#, python-format
+msgid ""
+"The service request cannot be submitted. Total requested amount (%s) exceeds"
+" the allowed limit (%s)."
+msgstr "لا يمكن تقديم طلب الخدمة. مجموع المبالغ المطلوبة (%s) يتجاوز الحد المسموح به (%s)."
