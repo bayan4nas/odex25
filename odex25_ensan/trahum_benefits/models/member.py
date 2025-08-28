@@ -337,7 +337,9 @@ class FamilyMember(models.Model):
     family_file_link_name = fields.Char(  related='family_file_link.name',string='File number' , readonly=True)
     family_file_link_folder_state = fields.Selection(  related='family_file_link.folder_state',string='File State', readonly=True)
     family_file_link_beneficiary_category =fields.Selection(  related='family_file_link.beneficiary_category',string='beneficiary category ', readonly=True)
-    family_file_link_need_calculator =fields.Selection(  related='family_file_link.need_calculator',string='Needs Assessment', readonly=True)
+    family_file_link_family_need_class_id = fields.Many2one('family.need.category',
+                                                            related='family_file_link.family_need_class_id',
+                                                            string='Needs Assessment', readonly=True)
     family_file_link_beneficiary_category_display = fields.Char(
         string='beneficiary category ',
         compute='_compute_family_beneficiary_category_display',
