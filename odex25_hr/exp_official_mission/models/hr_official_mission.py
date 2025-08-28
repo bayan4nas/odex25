@@ -780,48 +780,48 @@ class TicketClass(models.Model):
         return super(TicketClass, self).unlink()
 
 
-class HrAppraisalGroup(models.Model):
-    _inherit = "hr.group.employee.appraisal"
-
-    mission_id = fields.Many2one('hr.official.mission', string="Training")
-
-    @api.onchange('department_id', 'mission_id', 'appraisal_type')
-    def employee_ids_domain(self):
-        self.employee_ids = False
-        if self.mission_id and self.appraisal_type in ['mission', 'training']:
-            employee_list = self.mission_id.employee_ids.mapped('employee_id').ids
-            return {'domain': {'employee_ids': [('id', 'in', employee_list)]}}
-        else:
-            res = super(HrAppraisalGroup, self).employee_ids_domain()
-            return res
-
-    @api.onchange('appraisal_type')
-    def get_mission_domain(self):
-        if self.appraisal_type == 'training':
-            return {
-                'domain': {'mission_id': [('process_type', "=", 'training')]}
-            }
-        else:
-            return {
-                'domain': {'mission_id': [('process_type', "=", 'mission')]}
-            }
-
-
-class HrAppraisal(models.Model):
-    _inherit = "hr.employee.appraisal"
-
-    def set_state_done(self):
-        res = super(HrAppraisal, self).set_state_done()
-        if self.appraisal_type in ['mission', 'training'] and self.employee_appraisal.mission_id:
-            mission = self.employee_appraisal.mission_id.employee_ids.sudo().filtered(
-                lambda r: r.employee_id == self.employee_id)
-            self.employee_appraisal.mission_id.appraisal_check = True
-            if mission:
-                mission.sudo().write({
-                    'appraisal_id': self.id,
-                    'appraisal_result': self.appraisal_result.id if self.appraisal_result else False
-                })
-        return res
+# class HrAppraisalGroup(models.Model):
+#     _inherit = "hr.group.employee.appraisal"
+#
+#     mission_id = fields.Many2one('hr.official.mission', string="Training")
+#
+#     @api.onchange('department_id', 'mission_id', 'appraisal_type')
+#     def employee_ids_domain(self):
+#         self.employee_ids = False
+#         if self.mission_id and self.appraisal_type in ['mission', 'training']:
+#             employee_list = self.mission_id.employee_ids.mapped('employee_id').ids
+#             return {'domain': {'employee_ids': [('id', 'in', employee_list)]}}
+#         else:
+#             res = super(HrAppraisalGroup, self).employee_ids_domain()
+#             return res
+#
+#     @api.onchange('appraisal_type')
+#     def get_mission_domain(self):
+#         if self.appraisal_type == 'training':
+#             return {
+#                 'domain': {'mission_id': [('process_type', "=", 'training')]}
+#             }
+#         else:
+#             return {
+#                 'domain': {'mission_id': [('process_type', "=", 'mission')]}
+#             }
+#
+#
+# class HrAppraisal(models.Model):
+#     _inherit = "hr.employee.appraisal"
+#
+#     def set_state_done(self):
+#         res = super(HrAppraisal, self).set_state_done()
+#         if self.appraisal_type in ['mission', 'training'] and self.employee_appraisal.mission_id:
+#             mission = self.employee_appraisal.mission_id.employee_ids.sudo().filtered(
+#                 lambda r: r.employee_id == self.employee_id)
+#             self.employee_appraisal.mission_id.appraisal_check = True
+#             if mission:
+#                 mission.sudo().write({
+#                     'appraisal_id': self.id,
+#                     'appraisal_result': self.appraisal_result.id if self.appraisal_result else False
+#                 })
+#         return res
 
 
 class MissionDestinationLine(models.Model):

@@ -5,8 +5,7 @@ from lxml import etree
 import json
 from odoo.exceptions import UserError
 from datetime import date
-from dateutil.relativedelta import relativedelta
-
+from odoo.tools import config
 
 class GrantBenefit(models.Model):
     _inherit = 'grant.benefit'
@@ -22,9 +21,6 @@ class GrantBenefit(models.Model):
         ('cancelled', 'Rejected'),
 
     ]
-    rent_start_date = fields.Date('Start Date')
-    rent_end_date = fields.Date('End Date')
-    period_text = fields.Char(string="Rent Period", compute="compute_rent_period", store=True)
 
     previous_state = fields.Selection(STATE_SELECTION, string="Previous State")
     need_calculator = fields.Selection([('high', 'High Need'), ('medium', 'Medium Need'), ('low', 'Low Need'), ],
@@ -41,18 +37,18 @@ class GrantBenefit(models.Model):
     folder_state = fields.Selection([('Active', 'active'), ('not_active', 'Not Active')], string='Folder State')
 
     # related = 'benefit_breadwinner_ids[0].member_name.building_number'
-    building_number = fields.Integer(string='Building Number', compute='_compute_breadwinner_address')
-    sub_number = fields.Integer(string='Sub Number', compute='_compute_breadwinner_address')
-    additional_number = fields.Integer(string='Additional Number', compute='_compute_breadwinner_address')
-    street_name = fields.Char(string='Street Name', compute='_compute_breadwinner_address')
-    city = fields.Many2one("res.country.city", string='City', compute='_compute_breadwinner_address')
+    building_number = fields.Integer(string='Building Number',compute='_compute_breadwinner_address')
+    sub_number = fields.Integer(string='Sub Number',compute='_compute_breadwinner_address')
+    additional_number = fields.Integer(string='Additional Number',compute='_compute_breadwinner_address')
+    street_name = fields.Char(string='Street Name',compute='_compute_breadwinner_address')
+    city = fields.Many2one("res.country.city", string='City',compute='_compute_breadwinner_address')
 
     district_name = fields.Many2one(
         'res.district',
         string='District', compute='_compute_breadwinner_address')
 
-    postal_code = fields.Char(string='Postal Code', compute='_compute_breadwinner_address')
-    national_address_code = fields.Char(string='National address code', compute='_compute_breadwinner_address')
+    postal_code = fields.Char(string='Postal Code',compute='_compute_breadwinner_address')
+    national_address_code = fields.Char(string='National address code',compute='_compute_breadwinner_address')
 
     @api.depends(
         'benefit_breadwinner_ids.member_name.building_number',
@@ -116,6 +112,7 @@ class GrantBenefit(models.Model):
                 record.period_text = rtl_marker + " و ".join(parts) if parts else rtl_marker + "0 يوم"
             else:
                 record.period_text = "\u200Fالمدة غير متوفرة"
+
 
     @api.depends('benefit_member_ids')
     def _compute_member_name(self):

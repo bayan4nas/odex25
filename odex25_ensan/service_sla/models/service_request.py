@@ -9,6 +9,34 @@ class ServiceRequest(models.Model):
     escalated = fields.Boolean(_("Escalated"), default=False)
     service_id = fields.Many2one('benefits.service', string=_("Service"))
     sent_notification = fields.Boolean("Notification Sent", default=False)
+    available_outputs = fields.Many2many(
+        'benefits.output',
+        compute='_compute_available_outputs',
+        store=False
+    )
+    service_output = fields.Many2many(
+        'benefits.output',
+        string='Service Output',
+        domain="[('id', 'in', available_outputs)]"
+    )
+
+
+
+    @api.depends('service_cats')
+    def _compute_available_outputs(self):
+        for record in self:
+            if record.service_cats:
+                record.available_outputs = record.service_cats.output_ids.ids
+            else:
+                record.available_outputs = []
+
+    @api.onchange('service_cats')
+    def _onchange_service_cats(self):
+        if self.service_cats:
+            if self.service_output and self.service_output not in self.service_cats.output_ids:
+                self.service_output = False
+        else:
+            self.service_output = False
 
     @api.depends('date', 'service_id.sla_duration', 'service_id.sla_unit')
     def _compute_deadline(self):

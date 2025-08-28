@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Login Config Start -->
+        <record id="action_login_api_configuration_tree" model="ir.ui.view">
+            <field name="name">login.api.config.tree</field>
+            <field name="model">login.api.config</field>
+            <field name="arch" type="xml">
+                <tree string="Login 2FA Configuration List">
+                    <field name="name"/>
+                    <field name="url"/>
+                    <field name="method"/>
+                    <field name="mail_from"/>
+                    <field name="mail_server"/>
+                    <field name="mail_port"/>
+                    <field name="mail_pwd" optional="hide"/>
+                    <field name="mail_subject_start_with" optional="hide"/>
+                    <field name="default"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_login_api_configuration_form" model="ir.ui.view">
+            <field name="name">login.api.config.form</field>
+            <field name="model">login.api.config</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="name" string="Name" class="oe_edit_only"/>
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                        </div>
+                        <notebook>
+                            <page name="api_config" string="Api Configuration">
+                                <group>
+                                    <field name="url"/>
+                                    <field name="method"/>
+                                    <field name="default"/>
+                                </group>
+
+                                <group string="Api Headers" name="headers" attrs="{'invisible': [('id', 'in', (False,None))]}">
+                                    <field name="headers">
+                                        <tree>
+                                            <field name="name" placeholder="optional" optional="hide"/>
+                                            <field name="key"/>
+                                            <field name="value"/>
+                                        </tree>
+                                    </field>
+                                </group>
+
+                                <group string="Api Body" name="body" attrs="{'invisible': ['|',('id', 'in', (False,None)),('method', '=', 'get')]}">
+                                    <field name="body">
+                                        <tree>
+                                            <field name="name" placeholder="optional" optional="hide"/>
+                                            <field name="key"/>
+                                            <field name="value"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                            </page>
+                            <page name="mail_config" string="Mail Configuration">
+                                <group>
+                                    <field name="mail_from"/>
+                                    <field name="mail_server"/>
+                                    <field name="mail_port"/>
+                                    <field name="mail_pwd"/>
+                                    <field name="mail_subject_start_with"/>
+                                    <field name="mail_otp_msg"/>
+                                </group>
+                            </page>
+                        </notebook>
+
+                        <group string="Help" name="help" priority="2">
+                            <h2>Pass prompts in any field like this: {otp}</h2>
+                            <br/>
+                            <ol>
+                                <li>{otp} -&gt; will take auto generated unique 6 digit number</li>
+                                <li>{mobile} -&gt; will take selected user mapped employee mobile_phone/work_phone field</li>
+                                <li>{base_url} -&gt; will take system base url from system prameters</li>
+                            </ol>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_login_api_configuration_action" model="ir.actions.act_window">
+            <field name="name">Login 2FA Configuration</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">login.api.config</field>
+            <field name="binding_view_types">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to add Login 2FA Configuration in your list.
+                </p>
+            </field>
+        </record>
+        <!-- Login Config End -->
+
+        <!-- Headers Start -->
+        <record id="action_login_api_headers_tree" model="ir.ui.view">
+            <field name="name">login.api.headers.tree</field>
+            <field name="model">login.api.headers</field>
+            <field name="arch" type="xml">
+                <tree string="2FA Api Headers List">
+                    <field name="name" placeholder="optional"/>
+                    <field name="key"/>
+                    <field name="value"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_login_api_headers_action" model="ir.actions.act_window">
+            <field name="name">2FA Api Headers</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">login.api.headers</field>
+            <field name="view_mode">tree</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to add 2FA Api Headers in your list.
+                </p>
+            </field>
+        </record>
+        <!-- Headers End -->
+
+        <!-- Headers Start -->
+        <record id="action_login_api_body_tree" model="ir.ui.view">
+            <field name="name">login.api.body.tree</field>
+            <field name="model">login.api.body</field>
+            <field name="arch" type="xml">
+                <tree string="2FA Api Body Params List">
+                    <field name="name" placeholder="optional"/>
+                    <field name="key"/>
+                    <field name="value"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_login_api_body_action" model="ir.actions.act_window">
+            <field name="name">2FA Api Body Params</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">login.api.body</field>
+            <field name="view_mode">tree</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to add 2FA Api Body Params in your list.
+                </p>
+            </field>
+        </record>
+        <!-- Headers End -->
+
+		<menuitem id="menu_main_login_2fa_config" name="Login 2FA" parent="base.menu_administration"/>
+		<menuitem id="menu_main_login_api_configuration" name="2FA Api Configuration" action="action_login_api_configuration_action" parent="menu_main_login_2fa_config"/>
+		<menuitem id="menu_main_login_api_headers" name="2FA Api Headers" action="action_login_api_headers_action" parent="menu_main_login_2fa_config"/>
+		<menuitem id="menu_main_login_api_body" name="2FA Api Body Params" action="action_login_api_body_action" parent="menu_main_login_2fa_config"/>
+
+    </data>
+</odoo>

@@ -2,9 +2,8 @@
     <record id="view_service_request_form_sla" model="ir.ui.view">
         <field name="name">service.request.form.sla</field>
         <field name="model">service.request</field>
-        <field name="inherit_id" ref="odex_benefit.service_request_form"/> <!-- XML ID للنموذج الأصلي -->
+        <field name="inherit_id" ref="odex_benefit.service_request_form"/>
         <field name="arch" type="xml">
-
             <xpath expr="//notebook" position="inside">
                 <page string="SLA Details">
                     <group>
@@ -16,6 +15,20 @@
                 </page>
             </xpath>
 
+            <xpath expr="//notebook" position="inside">
+                <page string="Outputs" attrs="{'invisible': [('service_cats', '=', False)]}">
+                    <group>
+                        <field name="service_output"
+                               attrs="{'invisible': [('service_cats', '=', False)]}">
+                            <tree editable="bottom" create="false" delete="true">
+                                <field name="name"/>
+                            </tree>
+                        </field>
+                    </group>
+
+                    <field name="available_outputs" invisible="1"/>
+                </page>
+            </xpath>
         </field>
     </record>
 </odoo>

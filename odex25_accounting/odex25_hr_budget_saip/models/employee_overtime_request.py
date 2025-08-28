@@ -16,28 +16,29 @@ class HREmployeeOvertimeRequest(models.Model):
              'context': {'default_reason': '', 'default_type':'overtime'}
         }
 
-    @api.onchange('transfer_type', 'benefits_discounts', 'journal_id', 'line_ids_over_time')
-    def onchange_transfer_type(self):
-        if self.transfer_type == 'accounting':
-            for line in self.line_ids_over_time:
-                if self.state == 'account_manager':
+    # @api.onchange('transfer_type', 'benefits_discounts', 'journal_id', 'line_ids_over_time')
+    # def onchange_transfer_type(self):
+    #     if self.transfer_type == 'accounting':
+    #         for line in self.line_ids_over_time:
+    #             if self.state == 'account_manager':
+    #
+    #                 if not line.account_id:
+    #                     line.account_id = self.benefits_discounts.rule_debit_account_id
+    #                 if not line.journal_id:
+    #                     line.journal_id = self.journal_id
+    #             else:
+    #                 line.account_id = False
+    #                 line.journal_id = False
 
-                    if not line.account_id:
-                        line.account_id = self.benefits_discounts.rule_debit_account_id
-                    if not line.journal_id:
-                        line.journal_id = self.journal_id
-                else:
-                    line.account_id = False
-                    line.journal_id = False
+    # def hr_aaproval(self):
+    #     self.chick_not_mission()
+    #     self.state = "account_manager"
 
     def hr_aaproval(self):
-        self.chick_not_mission()
-        self.state = "account_manager"
-
-    def account_manager(self):
         if self.transfer_type == "accounting":
             for item in self:
                 for record in item.line_ids_over_time:
+                    journal_id = record.employee_id.contract_id.working_hours.journal_overtime_id
                     budget_lines = self.benefits_discounts.item_budget_id.crossovered_budget_line.filtered(
                         lambda bl: bl.crossovered_budget_id.state == 'done' and fields.Date.from_string(
                             bl.date_from) <= fields.Date.from_string(self.request_date) <= fields.Date.from_string(bl.date_to))
@@ -62,7 +63,7 @@ class HREmployeeOvertimeRequest(models.Model):
                         })]
                         bill = self.env['account.move'].create({
                             'partner_id': record.employee_id.user_id.partner_id.id,
-                            'journal_id': self.journal_id.id,
+                            'journal_id': journal_id.id,
                             'hr_operation': True,
                             'invoice_line_ids': invoice_line_ids,
                             'date': self.request_date,
