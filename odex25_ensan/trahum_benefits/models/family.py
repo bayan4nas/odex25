@@ -8,7 +8,6 @@ from datetime import date
 from dateutil.relativedelta import relativedelta
 
 
-
 class GrantBenefit(models.Model):
     _inherit = 'grant.benefit'
 
@@ -82,41 +81,42 @@ class GrantBenefit(models.Model):
                 rec.street_name = rec.district_name = rec.city = False
                 rec.postal_code = rec.national_address_code = False
 
-    @api.depends('rent_start_date','rent_end_date')
+    @api.depends('rent_start_date', 'rent_end_date')
     def compute_rent_period(self):
-            for record in self:
-                if record.rent_start_date and record.rent_end_date:
-                    delta = relativedelta(record.rent_end_date, record.rent_start_date)
-                    years = delta.years
-                    months = delta.months
-                    days = delta.days
+        for record in self:
+            if record.rent_start_date and record.rent_end_date:
+                delta = relativedelta(record.rent_end_date, record.rent_start_date)
+                years = delta.years
+                months = delta.months
+                days = delta.days
 
-                    def arabic_plural(value, singular, dual, plural):
-                        if value == 1:
-                            return f"1 {singular}"
-                        elif value == 2:
-                            return dual
-                        elif 3 <= value <= 10:
-                            return f"{value} {plural}"
-                        else:
-                            return f"{value} {singular}"
+                def arabic_plural(value, singular, dual, plural):
+                    if value == 1:
+                        return f"1 {singular}"
+                    elif value == 2:
+                        return dual
+                    elif 3 <= value <= 10:
+                        return f"{value} {plural}"
+                    else:
+                        return f"{value} {singular}"
 
-                    year_txt = arabic_plural(years, "سنة", "سنتان", "سنوات")
-                    month_txt = arabic_plural(months, "شهر", "شهران", "أشهر")
-                    day_txt = arabic_plural(days, "يومًا", "يومان", "أيام")
+                year_txt = arabic_plural(years, "سنة", "سنتان", "سنوات")
+                month_txt = arabic_plural(months, "شهر", "شهران", "أشهر")
+                day_txt = arabic_plural(days, "يومًا", "يومان", "أيام")
 
-                    parts = []
-                    if years:
-                        parts.append(year_txt)
-                    if months:
-                        parts.append(month_txt)
-                    if days:
-                        parts.append(day_txt)
+                parts = []
+                if years:
+                    parts.append(year_txt)
+                if months:
+                    parts.append(month_txt)
+                if days:
+                    parts.append(day_txt)
 
-                    rtl_marker = '\u200F'
-                    record.period_text = rtl_marker + " و ".join(parts) if parts else rtl_marker + "0 يوم"
-                else:
-                    record.period_text = "\u200Fالمدة غير متوفرة"
+                rtl_marker = '\u200F'
+                record.period_text = rtl_marker + " و ".join(parts) if parts else rtl_marker + "0 يوم"
+            else:
+                record.period_text = "\u200Fالمدة غير متوفرة"
+
     @api.depends('benefit_member_ids')
     def _compute_member_name(self):
         self.name_member = ''
@@ -196,16 +196,12 @@ class GrantBenefit(models.Model):
             doc = etree.XML(res['arch'])
 
             for node in doc.xpath("//field"):
-                field_name = node.get('name')
                 modifiers = json.loads(node.get("modifiers", '{}'))
 
-                if field_name == 'researcher_insights':  # Make this field editable in 'confirm'
-                    modifiers['readonly'] = [('state', 'not in', ['review'])]
-                else:
-                    # Make all other fields readonly unless in 'draft'
-                    if 'readonly' not in modifiers:
+
+                if 'readonly' not in modifiers:
                         modifiers['readonly'] = [('state', 'not in', ['draft'])]
-                    else:
+                else:
                         if not isinstance(modifiers['readonly'], bool):
                             if ('state', 'not in', ['draft']) not in modifiers['readonly']:
                                 modifiers['readonly'].insert(0, '|')
@@ -257,7 +253,12 @@ class GrantBenefit(models.Model):
             'type': 'ir.actions.act_window',
             'res_model': 'family.member',
             'view_mode': 'tree,form',
-            'domain': [('id', 'in', self.benefit_member_ids.mapped('member_id').ids)],
+            'domain': [
+                ('id', 'in', (
+                        self.benefit_member_ids.mapped('member_id').ids +
+                        self.benefit_breadwinner_ids.mapped('member_name').ids
+                ))
+            ],
             'target': 'current',
         }
 
@@ -310,16 +311,14 @@ class GrantBenefit(models.Model):
         for rec in self:
             rec.family_need_class_id = False
 
-
-
             ratio = round(rec.need_ratio / 100, 2)
             category = self.env['family.need.category'].sudo().search([
-                    ('min_need', '<=', ratio),
-                    ('max_need', '>=', ratio)
-                ], order='min_need asc', limit=1)
+                ('min_need', '<=', ratio),
+                ('max_need', '>=', ratio)
+            ], order='min_need asc', limit=1)
 
             if category:
-                    rec.family_need_class_id = category.id
+                rec.family_need_class_id = category.id
 
     @api.depends('total_salary', 'natural_income')
     def _compute_need_ratio(self):
@@ -346,7 +345,6 @@ class GrantBenefit(models.Model):
             self.env['ir.config_parameter'].sudo().get_param('trahum_benefits.base_line_value', 0)
         )
         for rec in self:
-
             filtered = rec.benefit_breadwinner_ids.filtered(
                 lambda bw: bw.relation_id and not bw.relation_id.exclude_need
             )
@@ -403,8 +401,11 @@ class GrantBenefit(models.Model):
 
     @api.onchange('benefit_breadwinner_ids')
     def _onchange_benefit_breadwinner_ids(self):
-        if len(self.benefit_breadwinner_ids) > 1:
-            raise UserError(_('You can only add one breadwinner line.'))
+        for rec in self:
+            if rec.benefit_breadwinner_ids:
+                rec.breadwinner_member_id = rec.benefit_breadwinner_ids[0].member_name.id
+            else:
+                rec.breadwinner_member_id = False
 
     def action_revert_state(self):
         return {
@@ -434,8 +435,6 @@ class GrantBenefit(models.Model):
         if self.detainee_file_id:
             self.inmate_member_id = self.detainee_file_id.detainee_id
 
-
-
     def action_set_basic_manager(self):
         self.ensure_one()
         if not self.researcher_id or not self.folder_state:
@@ -443,10 +442,8 @@ class GrantBenefit(models.Model):
         self._compute_need_calculator()
         self.state = 'confirm'
 
-
     def action_set_service_manager(self):
         self.state = 'validate'
-
 
     def action_approve(self):
         self.state = 'approved'
@@ -529,7 +526,8 @@ class GrantBenefit(models.Model):
     partner_id = fields.Many2one('res.partner', required=True, ondelete='cascade')
     inmate_member_id = fields.Many2one('family.member', string='Inmate', domain="[('benefit_type', '=', 'inmate')]")
     breadwinner_member_id = fields.Many2one('family.member', string='Breadwinner',
-                                            domain="[('benefit_type', '=', 'breadwinner')]")
+                                            domain="[('benefit_type', '=', 'breadwinner')]",
+                                        )
     education_ids = fields.One2many('family.profile.learn', 'grant_benefit_id', string='Education History')
     member_ids = fields.One2many('family.member', 'benefit_id')
     rehabilitation_ids = fields.One2many('comprehensive.rehabilitation', 'grant_benefit_id',

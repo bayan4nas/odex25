@@ -8,9 +8,9 @@
                     <field name="name" readonly="1" string="Folder number"/>
                     <field name="detainee_file_id"/>
                     <field name="breadwinner_member_id"/>
-                    <field name="member_count"/>
-                    <field name="state"/>
+                    <!--                    <field name="member_count"/>-->
                     <field name="folder_state"/>
+                    <field name="state"/>
 
                 </tree>
             </field>
@@ -29,16 +29,17 @@
                         <header>
 
                             <!-- Action Buttons -->
-                            <button name="action_set_basic_manager" type="object" string="Approve"
+                            <button name="action_set_basic_manager" type="object" string="Researcher's insights"
                                     class="oe_highlight"
                                     groups="odex_benefit.group_family_researcher"
                                     attrs="{'invisible': [('state', '!=', 'draft')]}"/>
 
-                            <button name="action_set_service_manager" type="object" string="Initial Accreditation"
+                            <button name="action_set_service_manager" type="object"
+                                    string="Primary Care Director Review"
                                     class="oe_highlight" groups="odex_benefit.group_basic_care_manager"
                                     attrs="{'invisible': [('state', '!=', 'confirm')]}"/>
 
-                            <button name="action_approve" type="object" string="Final Approval"
+                            <button name="action_approve" type="object" string="Beneficiary Services Director Approval"
                                     class="oe_highlight" groups="odex_benefit.group_service_manager"
                                     attrs="{'invisible': [('state', '!=', 'validate')]}"/>
 
@@ -59,17 +60,17 @@
                         </header>
                         <sheet>
                             <div class="oe_button_box" name="button_box">
-                                <button type="object"
-                                        name="action_open_salary_income"
-                                        class="btn btn-primary" icon="fa-money">
-                                    عرض اﻹيرادات
-                                </button>
+                                <!--                                <button type="object"-->
+                                <!--                                        name="action_open_salary_income"-->
+                                <!--                                        class="btn btn-primary" icon="fa-money">-->
+                                <!--                                    عرض اﻹيرادات-->
+                                <!--                                </button>-->
 
-                                <button type="object"
-                                        name="action_open_expenses"
-                                        class="btn btn-primary" icon="fa-money">
-                                    عرض المصروفات
-                                </button>
+                                <!--                                <button type="object"-->
+                                <!--                                        name="action_open_expenses"-->
+                                <!--                                        class="btn btn-primary" icon="fa-money">-->
+                                <!--                                    عرض المصروفات-->
+                                <!--                                </button>-->
 
                                 <button type="object"
                                         name="action_open_family_member"
@@ -272,12 +273,14 @@
                                     </group>
                                 </page>
                                 <page string="Researcher's insights"
-                                      attrs="{'invisible': [('state', '=', 'validate')]}">
+                                >
 
                                     <group>
                                         <group>
-                                            <field name="researcher_insights"/>
-                                            <field name="researcher_id"/>
+                                            <field name="researcher_insights"
+                                                   attrs="{'required': [('state', '=', 'draft')]}"/>
+                                            <field name="researcher_id"
+                                                   attrs="{'required': [('state', '=', 'draft')]}"/>
                                             <field name="folder_state"/>
                                         </group>
                                     </group>
@@ -356,6 +359,15 @@
                                         <strong>State:</strong>
                                         <field name="state"/>
                                     </div>
+                                </div>
+
+                                <div class="mt-2">
+                                    <button type="object"
+                                            name="action_open_family_member"
+                                            class="btn btn-primary btn-sm"
+                                            style="margin-top: 8px;">
+                                        View Members
+                                    </button>
                                 </div>
                             </div>
                         </t>
