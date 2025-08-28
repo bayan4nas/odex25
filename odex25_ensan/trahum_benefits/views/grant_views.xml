@@ -22,71 +22,6 @@
             <field name="model">grant.benefit</field>
               <field name="inherit_id" ref="odex_benefit.grant_benefit_form"/>
             <field name="arch" type="xml">
-                 <xpath expr="." position="replace">
-                <form string="Family Profile">
-                    <!-- Header with statusbar -->
-                    <header>
-
-                        <!-- Action Buttons -->
-                        <button name="action_set_basic_manager" type="object" string="Approve"
-                                class="oe_highlight"
-                                groups="odex_benefit.group_family_researcher"
-                                attrs="{'invisible': [('state', '!=', 'draft')]}"/>
-
-                        <button name="action_set_service_manager" type="object" string="Initial Accreditation"
-                                class="oe_highlight" groups="odex_benefit.group_basic_care_manager"
-                                attrs="{'invisible': [('state', '!=', 'confirm')]}"/>
-
-                        <button name="action_approve" type="object" string="Final Approval"
-                                class="oe_highlight" groups="odex_benefit.group_service_manager"
-                                attrs="{'invisible': [('state', '!=', 'validate')]}"/>
-
-
-                        <button name="action_reject" type="object" string="Refuse"
-                                class="btn-danger"
-                                groups="odex_benefit.group_service_manager,odex_benefit.group_basic_care_manager"
-                                attrs="{'invisible': [('state','not in', ('confirm','validate'))]}"/>
-
-                        <button name="reset_to_draft" type="object" string="Reset to Draft"
-                                class="btn-secondary"
-                                confirm="Are you sure?" attrs="{'invisible': [('state', 'not in', ('cancelled','approved'))]}"/>
-
-                        <field name="state" widget="statusbar"
-                               statusbar_visible="draft,confirm,validate,approved,cancelled"/>
-
-                    </header>
-                    <sheet>
-                        <div class="oe_button_box" name="button_box">
-                            <button type="object"
-                                    name="action_open_salary_income"
-                                    class="btn btn-primary" icon="fa-money">
-                                عرض اﻹيرادات
-                            </button>
-
-                            <button type="object"
-                                    name="action_open_expenses"
-                                    class="btn btn-primary" icon="fa-money">
-                                عرض المصروفات
-                            </button>
-
-                            <button type="object"
-                                    name="action_open_family_member"
-                                    class="btn btn-primary" icon="fa-money">
-                                الأفراد
-                            </button>
-                        </div>
-                        <group>
-                            <group attrs="{'readonly': [('state','!=','draft')]}">
-                                <field name="previous_state" invisible="1"/>
-                                <field name="name" string="Folder number" readonly="1"/>
-                                <field name="name_member" invisible="1"/>
-                                <field name="detainee_file_id"/>
-                                <field invisible="1" name="inmate_member_id" readonly="1" force_save="True"
-                                       context="{'form_view_ref': 'trahum_benefits.view_family_member_form'}"/>
-                                <field name="breadwinner_member_id" invisible="1"/>
-                                <field name="branch_details_id"/>
-                                <field name="beneficiary_category"/>
-                                <field name="member_count" invisible="1"/>
 
                 <xpath expr="." position="replace">
                     <form string="Family Profile">
@@ -159,7 +94,7 @@
                                 </group>
 
                             </group>
-                        </group>
+
                         <notebook>
                             <page string="Breadwinner" attrs="{'readonly': [('state','!=','draft')]}">
                                 <field name="benefit_breadwinner_ids" nolabel="1" required="1">
@@ -339,8 +274,7 @@
                                         </group>
                                     </group>
                                 </page>
-                                <page string="Researcher's insights"
-                                >
+
 
 
                             <page string="Researcher's insights" attrs="{'invisible': [('state', '=', 'validate')]}">
