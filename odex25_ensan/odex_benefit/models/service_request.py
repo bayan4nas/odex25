@@ -187,13 +187,14 @@ class ServiceRequest(models.Model):
     home_age = fields.Integer(string='Home Age')
     state = fields.Selection(selection=[
         ('draft', 'Draft'),
-        ('researcher', 'Researcher'),
+        ('researcher', 'Primary Care Director Review'),
         ('send_request', 'Send Request'),
         ('first_approve', 'Request First Approve'),
         ('second_approve', 'Request Second Approve'),
         ('accounting_approve', 'Accounting Approve'),
         ('send_request_to_supplier', 'Send Request To Supplier'),
         ('family_received_device', 'Family Received Device'),
+        ('approved', 'Approved'),
         ('refused', 'Refused')
     ], string='state', default='draft', tracking=True)
     state_a = fields.Selection(related='state', tracking=False)
@@ -545,7 +546,7 @@ class ServiceRequest(models.Model):
 
     def action_send_request(self):
         for rec in self:
-            rec.state = 'send_request'
+            rec.state = 'accounting_approve'
 
     def action_first_approve(self):
         for rec in self:
@@ -557,7 +558,7 @@ class ServiceRequest(models.Model):
 
     def action_accounting_approve(self):
         for rec in self:
-            rec.state = 'accounting_approve'
+            rec.state = 'approved'
             if rec.service_type == 'buy_car':
                 rec.family_id.has_car = True
 
