@@ -37,7 +37,7 @@ class ServiceRequest(models.Model):
         "service.need.status",
         string="Need Status",
         tracking=True,
-        required=True
+
     )
     need_status = fields.Char(related="need_status_id.name")
     delivery_method_id = fields.Many2one(
@@ -68,9 +68,8 @@ class ServiceRequest(models.Model):
                                            domain="[('is_main_service','=',False),('service_type','=',False),('parent_service','=',main_service_category)]",
                                            string='Sub Service Category')
     service_cat = fields.Many2one('services.settings', string='Service Cat.')
-    service_cats = fields.Many2one('benefits.service', string='Service Cat.')
+    service_cats = fields.Many2one('benefits.service', string='Service Cat.', domain=[('active', '=', True)])
     # service_attach = fields.Many2many('ir.attachment', 'rel_service_attachment_service_request', 'service_request_id','attachment_id', string='Service Attachment')
-
     requested_service_amount = fields.Float(string="Requested Service Amount")
     # yearly Estimated Rent Amount
     estimated_rent_amount = fields.Float(string="Estimated Rent Amount", compute="_get_estimated_rent_amount")

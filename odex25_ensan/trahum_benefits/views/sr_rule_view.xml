@@ -19,46 +19,60 @@
     </record>
 
     <!-- Form view -->
-    <record id="view_sr_rule_form" model="ir.ui.view">
+  <record id="sr_rule_form_view" model="ir.ui.view">
         <field name="name">sr.rule.form</field>
         <field name="model">sr.rule</field>
         <field name="arch" type="xml">
-            <form string="Services Request Rule">
-                                <sheet>
-                    <div class="oe_title">
-                        <h1>
-                            <field name="name" placeholder="Rule Name"/>
-                        </h1>
-                    </div>
-
+            <form>
+                <sheet>
                     <group>
-                        <field name="active"/>
-                        <field name="sequence"/>
-                        <field name="severity"/>
+                        <group>
+                            <field name="name"/>
+                            <field name="active"/>
+                            <field name="sequence"/>
+                        </group>
+                        <group>
+                            <field name="severity"/>
+                            <field name="message" string="Violation Message"/>
+                        </group>
                     </group>
 
-                    <notebook>
-                        <page string="عام">
-                            <group>
-                                <field name="metric"/>
-                                <field name="operator"/>
-                                <field name="threshold_value"/>
-                                <field name="breadwinner_value" attrs="{'invisible':[('metric','!=','family_value')]}"/>
-                                <field name="member_value" attrs="{'invisible':[('metric','!=','family_value')]}"/>
-<!--                                <field name="period_days" attrs="{'invisible':[('metric','!=','days')]}"/>-->
+                    <hr/>
 
-                            </group>
-                            <group>
-                                <field name="period"/>
-                            </group>
-                        </page>
+                    <group string="Rule Configuration">
+                        <group>
+                            <field name="metric"/>
 
+                            <field name="member_value" attrs="{'invisible': [('metric', '!=', 'family_value')]}"/>
+                            <field name="breadwinner_value" attrs="{'invisible': [('metric', '!=', 'family_value')]}"/>
+                        </group>
 
+                        <group>
+                            <field name="operator" attrs="{'invisible': [('metric', 'in', ['family_value'])]}"/>
+                            <field name="threshold_value" attrs="{'invisible': [('metric', 'in', ['family_value'])]}"/>
 
-                        <page string="Violation of Condition Message">
-                            <field name="message" placeholder="Message when the rule is violated"/>
-                        </page>
-                    </notebook>
+                            <field name="numeric_value" string="Tolerance Ratio %"
+                                   attrs="{'invisible': [('metric', '!=', 'tolerance_ratio')], 'required': [('metric', '=', 'tolerance_ratio')]}"/>
+                        </group>
+                    </group>
+
+                    <group string="Period Configuration"
+                           attrs="{'invisible': [('metric', 'not in', ['sum_amount_period', 'count_requests_period', 'service_repetition'])]}">
+                        <group>
+                            <field name="period"/>
+                        </group>
+                        <group>
+                            <field name="date_from"
+                                   attrs="{'invisible': [('period', '!=', 'custom')], 'required': [('period', '=', 'custom')]}"/>
+                            <field name="date_to"
+                                   attrs="{'invisible': [('period', '!=', 'custom')], 'required': [('period', '=', 'custom')]}"/>
+                        </group>
+                    </group>
+                    <group string="Housing Settings"  attrs="{'invisible': [('metric', 'not in', ['housing_support_rule'])]}">
+                        <field name="housing_property_type"/>
+                        <field name="housing_exchange_type"/>
+                        <field name="one_time_support"/>
+                    </group>
                 </sheet>
             </form>
         </field>

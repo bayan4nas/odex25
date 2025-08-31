@@ -274,20 +274,34 @@ class StagesGoals(models.Model):
             if item.status != 'not_start':
                 raise ValidationError(_('You cannot delete a record in a state other than "not start"'))
         return super(StagesGoals, self).unlink()
-        
+
     def name_get(self):
-         """
-         Overloading the method to include period start and end ino the names
-         """
-         result = []
-         lang = self._context.get("lang")
-         lang_date_format = "%m/%d/%Y"
-         if lang:
-             record_lang = self.env['res.lang'].search([("code", "=", lang)], limit=1)
-             lang_date_format = record_lang.date_format
-         for period in self:
-             date_start = period.start_date.strftime(lang_date_format)
-             date_end = period.end_date.strftime(lang_date_format)
-             name = "{} ({} - {})".format(period.name, date_start, date_end)
-             result.append((period.id, name))
-         return result
+        """
+        Overloading the method to include period start and end into the names
+        with fixed date format: dd/mm/YYYY
+        """
+        result = []
+        lang_date_format = "%d/%m/%Y"
+        for period in self:
+            date_start = period.start_date.strftime(lang_date_format) if period.start_date else ""
+            date_end = period.end_date.strftime(lang_date_format) if period.end_date else ""
+            name = "{} ({} - {})".format(period.name, date_start, date_end)
+            result.append((period.id, name))
+        return result
+    #
+    # def name_get(self):
+    #      """
+    #      Overloading the method to include period start and end ino the names
+    #      """
+    #      result = []
+    #      lang = self._context.get("lang")
+    #      lang_date_format = "%m/%d/%Y"
+    #      if lang:
+    #          record_lang = self.env['res.lang'].search([("code", "=", lang)], limit=1)
+    #          lang_date_format = record_lang.date_format
+    #      for period in self:
+    #          date_start = period.start_date.strftime(lang_date_format)
+    #          date_end = period.end_date.strftime(lang_date_format)
+    #          name = "{} ({} - {})".format(period.name, date_start, date_end)
+    #          result.append((period.id, name))
+    #      return result
