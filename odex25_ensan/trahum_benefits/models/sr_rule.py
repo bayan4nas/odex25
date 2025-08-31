@@ -98,6 +98,10 @@ class SrRule(models.Model):
         HOUSING_PROPERTY_TYPES,
         string="Target Housing Type"
     )
+    housing_exchange_type = fields.Selection(
+        HOUSING_EXCHANGE_PERIODS,
+        string="Target Housing Type"
+    )
 
 
     one_time_support = fields.Boolean(string='دعم لمرة واحدة',

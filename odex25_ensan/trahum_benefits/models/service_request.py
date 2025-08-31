@@ -488,96 +488,63 @@ class ServiceRequest(models.Model):
 
                     count = self.env['service.request'].search_count(domain) + 1
                     value_to_check = count
-
             elif rule.metric == 'housing_support_rule':
-
                 if not self.family_id:
                     return
 
                 family_property_type = self.family_id.property_type
-
                 if rule.housing_property_type != 'all' and family_property_type != rule.housing_property_type:
                     return
 
                 domain = base_domain + [('service_cats', '=', self.service_cats.id)]
+                family_exchange_period = self.family_id.exchange_period
 
                 if rule.one_time_support:
+                    if rule.housing_exchange_type and rule.housing_exchange_type == family_exchange_period:
 
-
-                    total_previous = sum(self.env['service.request'].search(domain).mapped('requested_service_amount'))
-
-                    total_after_request = total_previous + self.requested_service_amount
-
-
-                    max_allowed = min(rule.threshold_value, self.family_id.housing_value)
-
-                    if total_after_request > rule.threshold_value:
-                        message = rule.message or _(
-
-                            "The service request cannot be submitted. Total requested amount (%s) exceeds the allowed limit (%s)."
-
-                        ) % (total_after_request, max_allowed)
-
-                        raise ValidationError(message)
-
-
+                        total_previous = sum(self.env['service.request'].search(domain).mapped('requested_service_amount'))
+                        total_after_request = total_previous + self.requested_service_amount
+                        max_allowed = min(rule.threshold_value, self.family_id.housing_value)
+                        if total_after_request > rule.threshold_value:
+                            message = rule.message or _(
+                                "The service request cannot be submitted. Total requested amount (%s) exceeds the allowed limit (%s)."
+                            ) % (total_after_request, max_allowed)
+                            raise ValidationError(message)
                 else:
 
+                    if rule.housing_exchange_type and rule.housing_exchange_type == family_exchange_period:
+                        if self.requested_service_amount > self.family_id.housing_value:
+                            raise ValidationError(_(
+                                "The requested service amount (%s) cannot exceed the housing value (%s)."
+                            ) % (self.requested_service_amount, self.family_id.housing_value))
 
-                    if self.requested_service_amount > self.family_id.housing_value:
-                        raise ValidationError(_(
-
-                            "The requested service amount (%s) cannot exceed the housing value (%s)."
-
-                        ) % (self.requested_service_amount, self.family_id.housing_value))
-
-
-                    housing_exchange_period = self.family_id.exchange_period
-
-                    if not housing_exchange_period:
+                    if not family_exchange_period:
                         raise ValidationError(_("The exchange period has not been specified in the family file."))
 
                     period_in_days = {
-
                         'monthly': 30,
-
                         'every_three_months': 90,
-
                         'every_six_months': 180,
-
                         'every_nine_months': 270,
-
                         'annually': 365,
-
                         'two_years': 730
-
                     }
-
-                    required_days = period_in_days.get(housing_exchange_period, 0)
-
+                    required_days = period_in_days.get(family_exchange_period, 0)
                     if required_days == 0:
                         raise ValidationError(
-                            _("The exchange period '%s' specified in the family file is invalid.") % housing_exchange_period)
+                            _("The exchange period '%s' specified in the family file is invalid.") % family_exchange_period)
 
                     last_request = self.env['service.request'].search(domain, order='date desc', limit=1)
-
                     if last_request:
-
-                        days_diff = (fields.Datetime.now() - last_request.date).days
-
+                        days_diff = (date.today() - last_request.date).days
                         if days_diff < required_days:
                             message = rule.message or _(
-
                                 "The service request cannot be submitted. The required period (%s days) since the last request has not yet passed."
-
                             ) % required_days
-
                             raise ValidationError(message)
-
                 return
 
-
-# The `eval` function is used here for dynamic operator evaluation.
+            # The `eval` function is used here for dynamic operator evaluation.
             # It's safe because the inputs (value, operator, threshold) are controlled within Odoo.
             condition_met = eval(f"{value_to_check} {rule.operator} {rule.threshold_value}")
 
