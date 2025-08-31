@@ -155,7 +155,7 @@
     <!-- new action -->
     <!-- Action -->
     <record id="action_account_move_commitee_expense" model="ir.actions.act_window">
-        <field name="name">Commitee Expenses</field>
+        <field name="name">Committee Expenses</field>
         <field name="res_model">account.move</field>
         <field name="view_mode">tree,form</field>
         <field name="domain">[('journal_id.commitee_expense', '=', True),('move_type', 'in', ['in_receipt'])]
@@ -169,16 +169,21 @@
     </record>
     <!--    end -->
 
+    <record id="account.menu_finance_payables" model="ir.ui.menu">
+        <field name="name">Payments</field>
+    </record>
+
+    <record id="account.action_move_in_receipt_type" model="ir.actions.act_window">
+        <field name="name">Direct Exchange Orders</field>
+    </record>
     <menuitem id="menu_employee_benefits" name="Employee Benefits" parent="odex25_account_accountant.menu_accounting"
               groups="group_account_employee_benefit" sequence="4"/>
-    <menuitem id="menu_employee_payroll" action="employee_benefits_payroll_bill_action" parent="menu_employee_benefits"
+
+    <menuitem id="menu_employee_payroll" action="employee_benefits_payroll_bill_action" parent="account.menu_finance_payables"
               groups="group_account_employee_benefit" sequence="1"/>
 
-    <menuitem id="menu_employee_expense" name="Commitee Expenses" parent="odex25_account_accountant.menu_accounting"
-              groups="group_account_expenses_manager,group_account_expenses_user" sequence="5"/>
-
-    <menuitem id="employee_expense_menu" action="action_account_move_commitee_expense" parent="menu_employee_expense"
-              groups="group_account_expenses_manager,group_account_expenses_user" sequence="1"/>
+    <menuitem id="employee_expense_menu" action="action_account_move_commitee_expense" parent="account.menu_finance_payables"
+              groups="group_account_expenses_manager,group_account_expenses_user" sequence="2"/>
 
 
 </odoo>
