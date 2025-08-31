@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-03 07:39+0000\n"
-"PO-Revision-Date: 2025-08-03 07:39+0000\n"
+"POT-Creation-Date: 2025-08-31 11:09+0000\n"
+"PO-Revision-Date: 2025-08-31 11:09+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -43,11 +43,6 @@ msgid "Access rights related to Commitee Expenses actions"
 msgstr ""
 
 #. module: odex25_hr_budget_saip
-#: model_terms:ir.ui.view,arch_db:odex25_hr_budget_saip.employee_overtime_request_hr_budget_form_view
-msgid "Account"
-msgstr "بند الصرف"
-
-#. module: odex25_hr_budget_saip
 #: model:ir.model.fields,field_description:odex25_hr_budget_saip.field_return_state_account__account_id
 msgid "Account Move"
 msgstr ""
@@ -63,11 +58,6 @@ msgid "Accounting Department"
 msgstr "ادارة المحاسبة"
 
 #. module: odex25_hr_budget_saip
-#: model:ir.model.fields,field_description:odex25_hr_budget_saip.field_employee_other_request__rule_id
-msgid "Allowance Name"
-msgstr "البدل"
-
-#. module: odex25_hr_budget_saip
 #: model_terms:ir.ui.view,arch_db:odex25_hr_budget_saip.view_in_invoice_tree_no_create
 msgid "Amount Taxe"
 msgstr ""
@@ -75,11 +65,6 @@ msgstr ""
 #. module: odex25_hr_budget_saip
 #: model_terms:ir.ui.view,arch_db:odex25_hr_budget_saip.account_payment_budget_inhert_view
 msgid "Approve - 5"
-msgstr "إعتماد"
-
-#. module: odex25_hr_budget_saip
-#: model_terms:ir.ui.view,arch_db:odex25_hr_budget_saip.employee_overtime_request_hr_budget_form_view
-msgid "Approves"
 msgstr "إعتماد"
 
 #. module: odex25_hr_budget_saip
@@ -93,9 +78,9 @@ msgid "Beneficiary Partner"
 msgstr "الشريك المستفيد"
 
 #. module: odex25_hr_budget_saip
-#: model:ir.model.fields,field_description:odex25_hr_budget_saip.field_employee_other_request__item_budget_id
 #: model:ir.model.fields,field_description:odex25_hr_budget_saip.field_hr_payslip_line__item_budget_id
 #: model:ir.model.fields,field_description:odex25_hr_budget_saip.field_hr_salary_rule__item_budget_id
+#: model:ir.model.fields,field_description:odex25_hr_budget_saip.field_hr_salary_rule_account__item_budget_id
 msgid "Budget Item"
 msgstr "بند الميزانية"
 
@@ -118,11 +103,8 @@ msgid "Cannot return to the same state: %s."
 msgstr ""
 
 #. module: odex25_hr_budget_saip
-#: model:ir.actions.act_window,name:odex25_hr_budget_saip.action_account_move_commitee_expense
 #: model:ir.model.fields,field_description:odex25_hr_budget_saip.field_account_journal__commitee_expense
 #: model:ir.module.category,name:odex25_hr_budget_saip.module_category_expense
-#: model:ir.ui.menu,name:odex25_hr_budget_saip.employee_expense_menu
-#: model:ir.ui.menu,name:odex25_hr_budget_saip.menu_employee_expense
 msgid "Commitee Expenses"
 msgstr "مصروفات اللجان والمستفيدين"
 
@@ -140,6 +122,25 @@ msgstr "مدير مصروفات اللجان والمستفدين"
 #: model:res.groups,name:odex25_hr_budget_saip.group_account_expenses_user
 msgid "Commitee Expenses User"
 msgstr "مستخدم مصروفات اللجان والمستفيدين"
+
+#. module: odex25_hr_budget_saip
+#: model:ir.actions.act_window,name:odex25_hr_budget_saip.action_account_move_commitee_expense
+#: model:ir.ui.menu,name:odex25_hr_budget_saip.employee_expense_menu
+msgid "Committee Expenses"
+msgstr "أوامر صرف اللجان"
+
+#. module: account
+#: model:ir.actions.act_window,name:account.action_move_in_receipt_type
+#: model:ir.ui.menu,name:account.menu_action_move_in_receipt_type
+msgid "Direct Exchange Orders"
+msgstr "أوامر الصرف المباشرة"
+
+
+#. module: account
+#: model:ir.ui.menu,name:account.menu_finance_payables
+#: model_terms:ir.ui.view,arch_db:account.view_account_invoice_report_search
+msgid "Payments"
+msgstr "المدفوعات"
 
 #. module: odex25_hr_budget_saip
 #: model:ir.model.fields,field_description:odex25_hr_budget_saip.field_hr_payslip_run__company_id
@@ -183,18 +184,6 @@ msgid "Department"
 msgstr "القسم"
 
 #. module: odex25_hr_budget_saip
-#: model:ir.model.fields,field_description:odex25_hr_budget_saip.field_account_journal__display_name
-#: model:ir.model.fields,field_description:odex25_hr_budget_saip.field_account_move__display_name
-#: model:ir.model.fields,field_description:odex25_hr_budget_saip.field_account_move_line__display_name
-#: model:ir.model.fields,field_description:odex25_hr_budget_saip.field_account_payment__display_name
-#: model:ir.model.fields,field_description:odex25_hr_budget_saip.field_account_payment_line__display_name
-#: model:ir.model.fields,field_description:odex25_hr_budget_saip.field_employee_other_request__display_name
-#: model:ir.model.fields,field_description:odex25_hr_budget_saip.field_employee_overtime_request__display_name
-#: model:ir.model.fields,field_description:odex25_hr_budget_saip.field_hr_official_mission__display_name
-#: model:ir.model.fields,field_description:odex25_hr_budget_saip.field_hr_payroll_structure__display_name
-#: model:ir.model.fields,field_description:odex25_hr_budget_saip.field_hr_payslip_run__display_name
-#: model:ir.model.fields,field_description:odex25_hr_budget_saip.field_hr_salary_rule__display_name
-#: model:ir.model.fields,field_description:odex25_hr_budget_saip.field_hr_termination__display_name
 #: model:ir.model.fields,field_description:odex25_hr_budget_saip.field_overtime_reject_wizard__display_name
 #: model:ir.model.fields,field_description:odex25_hr_budget_saip.field_return_state_account__display_name
 msgid "Display Name"
@@ -230,18 +219,6 @@ msgid "HR Journal Entries"
 msgstr "يومية الموارد البشرية"
 
 #. module: odex25_hr_budget_saip
-#: model:ir.model.fields,field_description:odex25_hr_budget_saip.field_account_journal__id
-#: model:ir.model.fields,field_description:odex25_hr_budget_saip.field_account_move__id
-#: model:ir.model.fields,field_description:odex25_hr_budget_saip.field_account_move_line__id
-#: model:ir.model.fields,field_description:odex25_hr_budget_saip.field_account_payment__id
-#: model:ir.model.fields,field_description:odex25_hr_budget_saip.field_account_payment_line__id
-#: model:ir.model.fields,field_description:odex25_hr_budget_saip.field_employee_other_request__id
-#: model:ir.model.fields,field_description:odex25_hr_budget_saip.field_employee_overtime_request__id
-#: model:ir.model.fields,field_description:odex25_hr_budget_saip.field_hr_official_mission__id
-#: model:ir.model.fields,field_description:odex25_hr_budget_saip.field_hr_payroll_structure__id
-#: model:ir.model.fields,field_description:odex25_hr_budget_saip.field_hr_payslip_run__id
-#: model:ir.model.fields,field_description:odex25_hr_budget_saip.field_hr_salary_rule__id
-#: model:ir.model.fields,field_description:odex25_hr_budget_saip.field_hr_termination__id
 #: model:ir.model.fields,field_description:odex25_hr_budget_saip.field_overtime_reject_wizard__id
 #: model:ir.model.fields,field_description:odex25_hr_budget_saip.field_return_state_account__id
 msgid "ID"
@@ -251,12 +228,19 @@ msgstr "المُعرف"
 #: code:addons/odex25_hr_budget_saip/models/account_payment.py:0
 #, python-format
 msgid "Insufficient budget for the line with item budget %s"
-msgstr "لا توجد ميزانية كافية للبند %s"
+msgstr ""
 
 #. module: odex25_hr_budget_saip
 #: code:addons/odex25_hr_budget_saip/wizard/ReturnState.py:0
 #, python-format
 msgid "Invalid state transition: cannot move from %s to %s."
+msgstr ""
+
+#. module: odex25_hr_budget_saip
+#: model:ir.model.fields,field_description:odex25_hr_budget_saip.field_account_bank_statement_line__is_recipte
+#: model:ir.model.fields,field_description:odex25_hr_budget_saip.field_account_move__is_recipte
+#: model:ir.model.fields,field_description:odex25_hr_budget_saip.field_account_payment__is_recipte
+msgid "Is Recipte"
 msgstr ""
 
 #. module: odex25_hr_budget_saip
@@ -285,18 +269,6 @@ msgid "Journal Item"
 msgstr "عنصر اليومية"
 
 #. module: odex25_hr_budget_saip
-#: model:ir.model.fields,field_description:odex25_hr_budget_saip.field_account_journal____last_update
-#: model:ir.model.fields,field_description:odex25_hr_budget_saip.field_account_move____last_update
-#: model:ir.model.fields,field_description:odex25_hr_budget_saip.field_account_move_line____last_update
-#: model:ir.model.fields,field_description:odex25_hr_budget_saip.field_account_payment____last_update
-#: model:ir.model.fields,field_description:odex25_hr_budget_saip.field_account_payment_line____last_update
-#: model:ir.model.fields,field_description:odex25_hr_budget_saip.field_employee_other_request____last_update
-#: model:ir.model.fields,field_description:odex25_hr_budget_saip.field_employee_overtime_request____last_update
-#: model:ir.model.fields,field_description:odex25_hr_budget_saip.field_hr_official_mission____last_update
-#: model:ir.model.fields,field_description:odex25_hr_budget_saip.field_hr_payroll_structure____last_update
-#: model:ir.model.fields,field_description:odex25_hr_budget_saip.field_hr_payslip_run____last_update
-#: model:ir.model.fields,field_description:odex25_hr_budget_saip.field_hr_salary_rule____last_update
-#: model:ir.model.fields,field_description:odex25_hr_budget_saip.field_hr_termination____last_update
 #: model:ir.model.fields,field_description:odex25_hr_budget_saip.field_overtime_reject_wizard____last_update
 #: model:ir.model.fields,field_description:odex25_hr_budget_saip.field_return_state_account____last_update
 msgid "Last Modified on"
@@ -315,11 +287,6 @@ msgid "Last Updated on"
 msgstr ""
 
 #. module: odex25_hr_budget_saip
-#: model:ir.model.fields,field_description:odex25_hr_budget_saip.field_employee_other_request__move_id
-msgid "Move Number"
-msgstr "القيد المحاسبي"
-
-#. module: odex25_hr_budget_saip
 #: model:ir.model.fields,field_description:odex25_hr_budget_saip.field_return_state_account__new_state
 msgid "New State"
 msgstr ""
@@ -331,7 +298,6 @@ msgstr "لا"
 
 #. module: odex25_hr_budget_saip
 #: code:addons/odex25_hr_budget_saip/models/employee_overtime_request.py:0
-#: code:addons/odex25_hr_budget_saip/models/hr_official_mission.py:0
 #: code:addons/odex25_hr_budget_saip/models/hr_salary_rules.py:0
 #: code:addons/odex25_hr_budget_saip/models/hr_salary_rules.py:0
 #, python-format
@@ -367,36 +333,11 @@ msgid "Official mission for employee %s"
 msgstr "مهمة عمل للموظف %s"
 
 #. module: odex25_hr_budget_saip
-#: model:ir.model.fields,field_description:odex25_hr_budget_saip.field_employee_other_request__other
-msgid "Oher"
-msgstr "أخرى"
-
-#. module: odex25_hr_budget_saip
 #: code:addons/odex25_hr_budget_saip/models/account_payment.py:0
 #: model:ir.actions.act_window,name:odex25_hr_budget_saip.action_open_return_state_wizard_2
 #, python-format
 msgid "Open Return State Wizard"
 msgstr ""
-
-#. module: odex25_hr_budget_saip
-#: model:ir.model.fields.selection,name:odex25_hr_budget_saip.selection__employee_other_request__operation_type__operation_budget
-msgid "Operation Budget"
-msgstr "الميزانية التشغيلية"
-
-#. module: odex25_hr_budget_saip
-#: model:ir.model.fields,field_description:odex25_hr_budget_saip.field_employee_other_request__operation_type
-msgid "Operation Type"
-msgstr "نوع الميزانية"
-
-#. module: odex25_hr_budget_saip
-#: model:ir.model.fields.selection,name:odex25_hr_budget_saip.selection__employee_other_request__operation_type__other_budget
-msgid "Other"
-msgstr "أخرى"
-
-#. module: odex25_hr_budget_saip
-#: model:ir.model,name:odex25_hr_budget_saip.model_employee_other_request
-msgid "Other Request"
-msgstr "طلبات اخرى"
 
 #. module: odex25_hr_budget_saip
 #: model:ir.model,name:odex25_hr_budget_saip.model_overtime_reject_wizard
@@ -417,7 +358,7 @@ msgstr "مرحل"
 #. module: odex25_hr_budget_saip
 #: model:ir.model,name:odex25_hr_budget_saip.model_account_payment
 msgid "Payments"
-msgstr "أوامر الصرف"
+msgstr "تسوية الدفعات"
 
 #. module: odex25_hr_budget_saip
 #: model:ir.model,name:odex25_hr_budget_saip.model_hr_payslip_run
@@ -432,17 +373,19 @@ msgstr "قسائم الرواتب"
 #. module: odex25_hr_budget_saip
 #: model:ir.model.fields,field_description:odex25_hr_budget_saip.field_account_move_line__product_id
 msgid "Product"
-msgstr "المنتج"
+msgstr "الصنف/الخدمة"
+
+#. module: odex25_hr_budget_saip
+#: model:ir.model.fields,field_description:odex25_hr_budget_saip.field_account_bank_statement_line__purpose
+#: model:ir.model.fields,field_description:odex25_hr_budget_saip.field_account_move__purpose
+#: model:ir.model.fields,field_description:odex25_hr_budget_saip.field_account_payment__purpose
+msgid "Purpose"
+msgstr "مبررات طلب الشراء (الغرض)"
 
 #. module: odex25_hr_budget_saip
 #: model:ir.model.fields,field_description:odex25_hr_budget_saip.field_overtime_reject_wizard__reason
 msgid "Reason"
 msgstr "السبب"
-
-#. module: odex25_hr_budget_saip
-#: model_terms:ir.ui.view,arch_db:odex25_hr_budget_saip.employee_overtime_request_hr_budget_form_view
-msgid "Refuse"
-msgstr "رفض"
 
 #. module: odex25_hr_budget_saip
 #: model:ir.actions.act_window,name:odex25_hr_budget_saip.action_budget_reject_wizard
@@ -455,7 +398,6 @@ msgid "Remain Balance"
 msgstr "الرصيد المتبقي"
 
 #. module: odex25_hr_budget_saip
-#: model_terms:ir.ui.view,arch_db:odex25_hr_budget_saip.employee_overtime_request_hr_budget_form_view
 #: model_terms:ir.ui.view,arch_db:odex25_hr_budget_saip.termination_resignation_eos_ht_budgetform_view_inherit
 #: model_terms:ir.ui.view,arch_db:odex25_hr_budget_saip.view_move_form_no_create1
 #: model_terms:ir.ui.view,arch_db:odex25_hr_budget_saip.view_overtime_return_wizard_form
@@ -485,19 +427,24 @@ msgid "ReturnState"
 msgstr ""
 
 #. module: odex25_hr_budget_saip
-#: model:ir.model.fields,field_description:odex25_hr_budget_saip.field_employee_other_request__journal_id
-msgid "Salary Journal"
-msgstr "دفتر اليومية"
-
-#. module: odex25_hr_budget_saip
 #: model:ir.model,name:odex25_hr_budget_saip.model_hr_salary_rule
 msgid "Salary Rule"
 msgstr "قاعدة المرتب"
 
 #. module: odex25_hr_budget_saip
+#: model:ir.model,name:odex25_hr_budget_saip.model_hr_salary_rule_account
+msgid "Salary Rule Account Mapping"
+msgstr ""
+
+#. module: odex25_hr_budget_saip
 #: model:ir.model,name:odex25_hr_budget_saip.model_hr_payroll_structure
 msgid "Salary Structure"
-msgstr "هيكل المرتب"
+msgstr "سلم الرواتب"
+
+#. module: odex25_hr_budget_saip
+#: model:ir.model.fields,field_description:odex25_hr_budget_saip.field_account_payment__skip_budget
+msgid "Skip Budget"
+msgstr ""
 
 #. module: odex25_hr_budget_saip
 #: model:ir.model.fields,field_description:odex25_hr_budget_saip.field_return_state_account__state
@@ -509,15 +456,7 @@ msgstr "ارجاع الي"
 #: model:ir.model.fields,field_description:odex25_hr_budget_saip.field_account_move__state_history
 #: model:ir.model.fields,field_description:odex25_hr_budget_saip.field_account_payment__state_history
 msgid "State History"
-msgstr ""
-
-#. module: odex25_hr_budget_saip
-#: model:ir.model.fields,field_description:odex25_hr_budget_saip.field_account_bank_statement_line__old_state
-#: model:ir.model.fields,field_description:odex25_hr_budget_saip.field_account_move__old_state
-#: model:ir.model.fields,field_description:odex25_hr_budget_saip.field_account_payment__old_state
-#: model:ir.model.fields,field_description:odex25_hr_budget_saip.field_return_state_account__old_state
-msgid "Status"
-msgstr ""
+msgstr "الحالة السابقة"
 
 #. module: odex25_hr_budget_saip
 #: model:ir.model,name:odex25_hr_budget_saip.model_hr_termination
@@ -550,7 +489,7 @@ msgstr "النوع"
 #: code:addons/odex25_hr_budget_saip/models/hr_termination.py:0
 #, python-format
 msgid "Undefined debit account for salary rule %s."
-msgstr "حساب مدين غير محدد لقاعدة الراتب %s"
+msgstr ""
 
 #. module: odex25_hr_budget_saip
 #: code:addons/odex25_hr_budget_saip/models/hr_termination.py:0
@@ -588,7 +527,7 @@ msgstr ""
 #: code:addons/odex25_hr_budget_saip/models/hr_official_mission.py:0
 #, python-format
 msgid "You do not have account or journal in mission type \"%s\" "
-msgstr "لا يوجد اعداد حساب او يومية لـ \\%s\\ "
+msgstr ""
 
 #. module: odex25_hr_budget_saip
 #: model:ir.model,name:odex25_hr_budget_saip.model_account_payment_line
@@ -598,7 +537,7 @@ msgstr ""
 #. module: odex25_hr_budget_saip
 #: model:ir.model,name:odex25_hr_budget_saip.model_employee_overtime_request
 msgid "employee.overtime.request"
-msgstr "طلب العمل الاضافي للموظف"
+msgstr "العمل الاضافي"
 
 #. module: odex25_hr_budget_saip
 #: model:ir.model.fields.selection,name:odex25_hr_budget_saip.selection__overtime_reject_wizard__type__overtime
@@ -626,9 +565,3 @@ msgstr "تم إرجاع نهاية الخدمة ل"
 #: model:mail.template,subject:odex25_hr_budget_saip.email_template_compensation_budget
 msgid "طلب تعويض تعليم الأبناء: ${object.employee_id.name}"
 msgstr ""
-
-#. module: odex25_hr_budget_saip
-#: code:addons/odex25_hr_budget_saip/models/account_payment.py:0
-#, python-format
-msgid "⚠️ Please note: You must select a journal."
-msgstr "عذرا يرجي تحديد دفتر اليومية"
