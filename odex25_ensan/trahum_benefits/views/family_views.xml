@@ -417,16 +417,16 @@
             <field name="arch" type="xml">
                 <form string="Detainee File">
                     <header>
-                        <button name="action_confirm" string="Confirm" type="object" class="oe_highlight"
-                                attrs="{'invisible': [('state', 'not in', ['draft'])]}"/>
+<!--                        <button name="action_confirm" string="Confirm" type="object" class="oe_highlight"-->
+<!--                                attrs="{'invisible': [('state', 'not in', ['draft'])]}"/>-->
 
-                        <button name="action_cancel" string="Reject" type="object" class="oe_highlight"
-                                attrs="{'invisible': [('state', 'not in', ['draft'])]}"/>
+<!--                        <button name="action_cancel" string="Reject" type="object" class="oe_highlight"-->
+<!--                                attrs="{'invisible': [('state', 'not in', ['draft'])]}"/>-->
 
-                        <button name="reset_to_draft" string="RE-set To Draft" type="object" class="oe_highlight"
-                                attrs="{'invisible': [('state', 'not in', ['confirmed','rejected'])]}"/>
+<!--                        <button name="reset_to_draft" string="RE-set To Draft" type="object" class="oe_highlight"-->
+<!--                                attrs="{'invisible': [('state', 'not in', ['confirmed','rejected'])]}"/>-->
 
-                        <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,rejected"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,rejected" invisible="1"/>
                     </header>
                     <sheet>
                         <div class="oe_button_box" name="button_box">
