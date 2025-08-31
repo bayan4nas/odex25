@@ -15,7 +15,19 @@
             </tree>
         </field>
     </record>
-
+  <!-- Search View for Services -->
+    <record id="view_service_search" model="ir.ui.view">
+        <field name="name">service.search</field>
+        <field name="model">benefits.service</field>
+        <field name="arch" type="xml">
+            <search string="Search Services">
+                <field name="name" string="Service Name"/>
+                <field name="code" string="Service Code"/>
+                <separator/>
+                <filter string="المؤرشفة" name="inactive" domain="[('active', '=', False)]"/>
+            </search>
+        </field>
+    </record>
     <!-- Form View: Service Details -->
     <record id="view_service_form" model="ir.ui.view">
         <field name="name">service.form</field>

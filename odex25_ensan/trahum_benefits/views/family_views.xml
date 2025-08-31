@@ -9,6 +9,7 @@
                     <field name="member_id_number"/>
                     <field name="member_phone"/>
                     <field name="benefit_type" invisible="1"/>
+                    <field name="state"/>
                 </tree>
             </field>
         </record>
@@ -43,29 +44,30 @@
                     <header>
                         <field name="grant_benefit_member_ids" invisible="1"/>
                         <button name="action_confirm" string="Confirm" type="object" class="oe_highlight"
-                                attrs="{'invisible': [('state', 'not in', ['draft'])]}"/>
+                                attrs="{'invisible': [('state', 'not in', ['draft'])]}"
+                                groups="odex_benefit.group_family_researcher"/>
 
-                        <button name="action_cancel" string="Reject" type="object" class="oe_highlight"
-                                attrs="{'invisible': [('state', 'not in', ['draft'])]}"/>
+                        <!--                        <button name="action_cancel" string="Reject" type="object" class="oe_highlight"-->
+                        <!--                                attrs="{'invisible': [('state', 'not in', ['draft'])]}"/>-->
 
                         <button name="reset_to_draft" string="RE-set To Draft" type="object" class="oe_highlight"
-                                attrs="{'invisible': [('state', 'not in', ['confirmed','cancelled'])]}"/>
-                        <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,cancelled"/>
+                                attrs="{'invisible': [('state', '!=', 'confirmed')]}"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,confirmed"/>
                     </header>
                     <sheet>
-                        <div class="oe_button_box" name="button_box">
-                            <button type="object"
-                                    name="action_open_salary_income"
-                                    class="btn btn-primary" icon="fa-money">
-                                عرض اﻹيرادات
-                            </button>
+                        <!--                        <div class="oe_button_box" name="button_box">-->
+                        <!--                            <button type="object"-->
+                        <!--                                    name="action_open_salary_income"-->
+                        <!--                                    class="btn btn-primary" icon="fa-money">-->
+                        <!--                                عرض اﻹيرادات-->
+                        <!--                            </button>-->
 
-                            <button type="object"
-                                    name="action_open_expenses"
-                                    class="btn btn-primary" icon="fa-money">
-                                عرض المصروفات
-                            </button>
-                        </div>
+                        <!--                            <button type="object"-->
+                        <!--                                    name="action_open_expenses"-->
+                        <!--                                    class="btn btn-primary" icon="fa-money">-->
+                        <!--                                عرض المصروفات-->
+                        <!--                            </button>-->
+                        <!--                        </div>-->
                         <group>
                             <h1>
                                 <field name="name" placeholder="الأسم" readonly="1"/>
@@ -146,8 +148,9 @@
                                     <field name="sub_number"/>
                                     <field name="additional_number"/>
                                     <field name="street_name"/>
-                                    <field string="District Name" name="district_id"/>
                                     <field name="city"/>
+                                    <field string="District Name" name="district_id"/>
+
                                     <field name="postal_code"/>
                                     <field name="national_address_code"/>
                                 </group>
@@ -200,7 +203,7 @@
                             <page string="Social Insurance and Security">
                                 <group>
                                     <group string="Social Insurance">
-                                         <field name="social_insurance_state"/>
+                                        <field name="social_insurance_state"/>
                                         <field name="social_insurance_income"
                                                attrs="{
                                                    'invisible': [('social_insurance_state', '=', False)],
@@ -307,7 +310,8 @@
                                     <field name="start_date"/>
                                     <field name="in_work"/>
                                     <field name="end_date" attrs="{'invisible': [('in_work', '=', True)]}"/>
-                                    <field name="experience_certificate" required="1" widget="many2many_attachment_preview"/>
+                                    <field name="experience_certificate" required="1"
+                                           widget="many2many_attachment_preview"/>
                                 </group>
                             </page>
                             <page string="Detainee File" attrs="{'invisible': [('detainee_file_link', '=', False)]}">
@@ -315,7 +319,7 @@
                                     <field name="detainee_file_link"/>
                                     <field name="detainee_file_link_name" invisible="1"/>
                                     <field name="detainee_file_link_file_state"/>
-                                    <field name="detainee_file_link_beneficiary_category" />
+                                    <field name="detainee_file_link_beneficiary_category"/>
                                     <field name="detainee_file_link_prisoner_state"
                                            attrs="{'invisible': [('detainee_file_link_beneficiary_category', '!=', 'gust')]}"/>
                                     <field name="detainee_file_link_entitlement_status"/>
@@ -328,7 +332,7 @@
                                     <field name="family_file_link_name" invisible="1"/>
                                     <field name="family_file_link_folder_state"/>
                                     <field name="family_file_link_beneficiary_category" invisible="1"/>
-                                    <field name="family_file_link_need_calculator"/>
+                                    <field name="family_file_link_family_need_class_id"/>
                                     <field name="family_file_link_beneficiary_category_display"/>
                                 </group>
 
@@ -446,8 +450,9 @@
                             <group>
                                 <field name="branch_id"/>
                                 <field name="record_end_date"/>
-                                <field name="file_state" />
-                                <field name="prisoner_state"  attrs="{'invisible': [('beneficiary_category', '!=', 'gust')]}"/>
+                                <field name="file_state"/>
+                                <field name="prisoner_state"
+                                       attrs="{'invisible': [('beneficiary_category', '!=', 'gust')]}"/>
 
                             </group>
                             <group>
@@ -461,11 +466,12 @@
                                 <group>
                                     <group>
                                         <field name="arrest_date" string="تاريخ الاعتقال"/>
-                                        <field invisible="0" name="prison_id" />
+                                        <field invisible="0" name="prison_id"/>
 
                                     </group>
                                     <group>
-                                        <field name="expected_release_date"  attrs="{'required': [('prisoner_state', '=', 'convicted')]}"/>
+                                        <field name="expected_release_date"
+                                               attrs="{'required': [('prisoner_state', '=', 'convicted')]}"/>
                                         <field name="prison_country_id"/>
                                     </group>
                                     <group>
@@ -478,11 +484,16 @@
                                 <group>
                                     <field nolabel="1" name="issues_ids">
                                         <tree editable="bottom">
-                                            <field width="12" name="case_type" attrs="{'required': [('parent.prisoner_state', '=', 'convicted')]}"/>
-                                            <field width="12" name="case_name" attrs="{'required': [('parent.prisoner_state', '=', 'convicted')]}"/>
-                                            <field width="12" name="release_date"  attrs="{'required': [('parent.prisoner_state', '=', 'convicted')]}"/>
-                                            <field width="12" name="arrest_date" attrs="{'required': [('parent.prisoner_state', '=', 'convicted')]}"/>
-                                            <field width="12" string="Prison Name" name="prison_id" attrs="{'required': [('parent.prisoner_state', '=', 'convicted')]}"/>
+                                            <field width="12" name="case_type"
+                                                   attrs="{'required': [('parent.prisoner_state', '=', 'convicted')]}"/>
+                                            <field width="12" name="case_name"
+                                                   attrs="{'required': [('parent.prisoner_state', '=', 'convicted')]}"/>
+                                            <field width="12" name="release_date"
+                                                   attrs="{'required': [('parent.prisoner_state', '=', 'convicted')]}"/>
+                                            <field width="12" name="arrest_date"
+                                                   attrs="{'required': [('parent.prisoner_state', '=', 'convicted')]}"/>
+                                            <field width="12" string="Prison Name" name="prison_id"
+                                                   attrs="{'required': [('parent.prisoner_state', '=', 'convicted')]}"/>
                                             <field width="12" invisible="1" string="Prison Name"
                                                    name="prison_prison_id"/>
                                         </tree>
@@ -608,7 +619,6 @@
             <field name="padding">4</field>
         </record>
         <!--        end -->
-
 
 
     </data>

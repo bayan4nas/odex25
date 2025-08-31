@@ -8,7 +8,8 @@
     'license': 'GPL-3',
     'author': 'Expert Ltd',
     'depends': ['base', 'takaful_core', 'website', 'account', 'report_xlsx', 'sale', 'product', 'stock', 'hr',
-                'purchase','web_google_maps','odex25_account_payment_fix'],
+                'purchase','web_google_maps'],
+
     'data': [
         'security/security_view.xml',
         'security/ir.model.access.csv',

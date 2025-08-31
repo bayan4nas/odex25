@@ -9,11 +9,14 @@
                         <button name="action_accountant_approve" type="object" states="draft"
                                 string="Accountant Approve" class="oe_highlight" groups="odex_benefit.group_benefit_accountant_accept"/>
                         <button name="action_department_manager_approve" type="object" states="accountant_approve"
-                                string="Department Manager Approve" class="oe_highlight" groups="odex25_account_payment_fix.group_depart_manager"/>
+                                string="Department Manager Approve" class="oe_highlight"/>
+<!--                        groups="odex25_account_payment_fix.group_depart_manager"-->
                         <button name="action_accounting_approve" type="object" states="department_manager_approve"
-                                string="Accounting Approve" class="oe_highlight" groups="odex25_account_payment_fix.group_accounting_manager"/>
+                                string="Accounting Approve" class="oe_highlight"/>
+<!--                        groups="odex25_account_payment_fix.group_accounting_manager"-->
                         <button name="action_general_manager_approve" type="object" states="accounting_approve"
-                                string="General Manager Approve" class="oe_highlight" groups="odex25_account_payment_fix.group_general_manager"/>
+                                string="General Manager Approve" class="oe_highlight"/>
+<!--                        groups="odex25_account_payment_fix.group_general_manager"-->
                         <button name="action_refuse" type="object" states="draft,accountant_approve,department_manager_approve,accounting_approve"
                                 string="Refuse" class="oe_highlight"/>
 

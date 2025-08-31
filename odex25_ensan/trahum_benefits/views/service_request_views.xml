@@ -165,7 +165,12 @@
         <field name="model">service.request</field>
         <field name="inherit_id" ref="odex_benefit.service_request_form"/>
         <field name="arch" type="xml">
-            <xpath expr="//field[@name='need_status_id']" position="after">
+            <xpath expr="//field[@name='need_status_id']" position="replace">
+                <field name="member_need_class_id"
+                   attrs="{'readonly':[('state','not in',['draft','researcher','send_request'])],
+                           'invisible':[('benefit_type','=','family')]}"/>
+                <field name="family_need_class_id" attrs="{'invisible':[('benefit_type','!=','family')]}" />
+
                 <field name="service_cats"
                        attrs="{'readonly':[('state','not in',['draft','researcher','send_request'])]}"
                        required="0"/>
@@ -175,6 +180,23 @@
 
 
             </xpath>
+
+            <xpath expr="//field[@name='member_id_phone']" position="after">
+                <field name="member_family_need_class_id"/>
+            </xpath>
+            <xpath expr="//field[@name='requested_service_amount']" position="after">
+                <field name="requested_service_amount_before_tolerance"
+                       attrs="{'invisible': [('requested_service_amount_before_tolerance', '=', 0)]}"
+                       readonly="1"/>
+            </xpath>
+            <xpath expr="//field[@name='family_id_phone']" position="after">
+                <field name="family_need_class_id"/>
+            </xpath>
+            <xpath expr="//field[@name='member_id']" position="replace">
+                <field name="available_members" invisible="1"/>
+                <field name="member_id"/>
+            </xpath>
+
         </field>
     </record>
 
