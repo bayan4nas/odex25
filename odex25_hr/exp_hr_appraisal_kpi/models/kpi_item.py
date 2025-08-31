@@ -16,7 +16,7 @@ class KPIitem(models.Model):
         [
             ("more", "Ascending"),
             ("less", "Descending"),
-            ("fixed", "Fixed"),
+            ("fixed", "Within scope"),
         ],
         string="Success Criteria",
         default="more",
