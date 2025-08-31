@@ -108,26 +108,26 @@ class AccountMove(models.Model):
         for rec in self:
             rec.department_id = rec.employee_id.department_id.id if rec.employee_id and rec.employee_id.department_id else False
 
-    @api.model
-    def search(self, args, **kwargs):
-        """
-        Override the search method to restrict records based on user group and
-        whether the journal is marked as a committee expense.
-        """
-        if   self.env.user.has_group('odex25_hr_budget_saip.group_account_expenses_user'):
-            # Allow users to see only their own records related to committee expense journals
-            args += [
-                ('create_uid', '=', self.env.uid),
-            ]
-        elif  self.env.user.has_group('odex25_hr_budget_saip.group_account_expenses_manager'):
-            # Find the employee record for the current user
-            employee = self.env['hr.employee'].search([('user_id', '=', self.env.uid)], limit=1)
-            if employee and employee.department_id:
-                # Allow managers to see records in their own department related to committee expense journals
-                args += [
-                    ('department_id', '=', employee.department_id.id)
-                ]
-        return super(AccountMove, self).search(args, **kwargs)
+    # @api.model
+    # def search(self, args, **kwargs):
+    #     """
+    #     Override the search method to restrict records based on user group and
+    #     whether the journal is marked as a committee expense.
+    #     """
+    #     if   self.env.user.has_group('odex25_hr_budget_saip.group_account_expenses_user'):
+    #         # Allow users to see only their own records related to committee expense journals
+    #         args += [
+    #             ('create_uid', '=', self.env.uid),
+    #         ]
+    #     elif  self.env.user.has_group('odex25_hr_budget_saip.group_account_expenses_manager'):
+    #         # Find the employee record for the current user
+    #         employee = self.env['hr.employee'].search([('user_id', '=', self.env.uid)], limit=1)
+    #         if employee and employee.department_id:
+    #             # Allow managers to see records in their own department related to committee expense journals
+    #             args += [
+    #                 ('department_id', '=', employee.department_id.id)
+    #             ]
+    #     return super(AccountMove, self).search(args, **kwargs)
 
     # @api.model
     # def create(self, vals):
