@@ -8,15 +8,15 @@
         <record id="extended_kpi_category_rule" model="ir.rule">
             <field name="name">Extended KPI Category Rule</field>
             <field name="model_id" ref="kpi_scorecard.model_kpi_category"/>
-            <field name="domain_force">[ '|', ('company_id','=', False), ('company_id', 'in', company_ids), ]
+            <field name="domain_force">[ '|', ('company_id','=', False), ('company_id', 'in', user.company_ids.ids) ]
             </field>
             <field name="groups"
                    eval="[(4, ref('base.group_user')), (4, ref('exp_hr_appraisal.group_appraisal_employee')),(4, ref('exp_hr_appraisal.group_appraisal_manager'))]"/>
         </record>
         <record id="extended_kpi_item_rule" model="ir.rule">
-            <field name="name">Extended KPI Category Rule</field>
+            <field name="name">Extended KPI item Rule</field>
             <field name="model_id" ref="kpi_scorecard.model_kpi_item"/>
-            <field name="domain_force">[ '|', ('company_id','=', False), ('company_id', 'in', company_ids), ]
+            <field name="domain_force">[ '|', ('company_id','=', False), ('company_id', 'in', user.company_ids.ids) ]
             </field>
             <field name="groups"
                    eval="[(4, ref('base.group_user')), (4, ref('exp_hr_appraisal.group_appraisal_employee')),(4, ref('exp_hr_appraisal.group_appraisal_manager'))]"/>
@@ -37,10 +37,12 @@
             <field name="groups" eval="[(4, ref('hr_base.group_division_manager'))]"/>
         </record>
 
-         <record id="years_employee_goals_executive_director_rule" model="ir.rule">
+        <record id="years_employee_goals_executive_director_rule" model="ir.rule">
             <field name="name">Executive Director: views goals of its subordinates</field>
             <field name="model_id" ref="model_years_employee_goals"/>
-           <field name="domain_force">[('employee_id.department_id.parent_id.manager_id.user_id','child_of', [user.id]),('is_last_stage','=',True)]</field>
+            <field name="domain_force">[('employee_id.department_id.parent_id.manager_id.user_id','child_of',
+                [user.id]),('is_last_stage','=',True)]
+            </field>
             <field name="groups" eval="[(4, ref('exp_hr_appraisal.group_kpi_executive_director'))]"/>
         </record>
 
@@ -48,7 +50,8 @@
             <field name="name">Appraisal Manager: views skill Appraisal Result of all subordinates</field>
             <field name="model_id" ref="model_years_employee_goals"/>
             <field name="domain_force">[(1,'=',1)]</field>
-            <field name="groups" eval="[(4, ref('exp_hr_appraisal.group_appraisal_manager')), (4, ref('exp_hr_appraisal.group_appraisal_employee'))]"/>
+            <field name="groups"
+                   eval="[(4, ref('exp_hr_appraisal.group_appraisal_manager')), (4, ref('exp_hr_appraisal.group_appraisal_employee'))]"/>
         </record>
 
         <!-- record id="skill_appraisal_result_employee_rule" model="ir.rule">

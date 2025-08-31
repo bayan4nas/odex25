@@ -2,14 +2,27 @@ from odoo import models, fields, _, api, exceptions
 
 from lxml import etree
 import logging
+from odoo.exceptions import ValidationError
 
 _logger = logging.getLogger(__name__)
 
 
 class EmployeeAppraisal(models.Model):
     _inherit = 'hr.employee.appraisal'       
-                
+
+
     employee_id = fields.Many2one('hr.employee', 'Employee', tracking=True, required=True)
+
+    work_state = fields.Selection([('work', _('In work')),
+                                   ('Secondment', _('Secondment')),
+                                   ('legation', _('Legation')),
+                                   ('depute', _('Deputation')),
+                                   ('consultation', _('Consultation')),
+                                   ('emission', _('Emission')),
+                                   # ('delegate', _('Delegation')),
+                                   ('training', _('Training')),
+                                   ('others', _('others'))], 'Work Status',compute='_compute_work_state',default='work')
+
     manager_id = fields.Many2one('hr.employee')
     appraisal_id = fields.Many2one('hr.employee.appraisal', readonly=True)
     coach_id = fields.Many2one(related='employee_id.coach_id')
@@ -75,6 +88,14 @@ class EmployeeAppraisal(models.Model):
                                  compute='_compute_requests_count', compute_sudo=True)
     exp_performance_count = fields.Integer('# Exceptional Performance Requests', help='Number of groups that apply to the current user',
                                   compute='_compute_requests_count', compute_sudo=True)
+
+    def _compute_work_state(self):
+
+        for rec in self:
+            rec.work_state = False
+            if rec.employee_id:
+                rec.work_state = rec.employee_id.work_state
+
     @api.depends('appraisal_id')
     def _compute_requests_count(self):
         for rec in self:
@@ -105,6 +126,17 @@ class EmployeeAppraisal(models.Model):
 
         return result
 
+    @api.constrains('employee_id', 'appraisal_stage_id')
+    def _check_unique_employee_stage(self):
+        for rec in self:
+            if rec.employee_id and rec.appraisal_stage_id:
+                duplicate = self.search([
+                    ('employee_id', '=', rec.employee_id.id),
+                    ('appraisal_stage_id', '=', rec.appraisal_stage_id.id),
+                    ('id', '!=', rec.id),
+                ], limit=1)
+                if duplicate:
+                    raise ValidationError(_('This employee already has an appraisal in the same stage.'))
     @api.model
     def _apply_objection_state(self, view_arch, view_type='form'):
         doc = etree.XML(view_arch)
