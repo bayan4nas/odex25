@@ -6,6 +6,8 @@ import json
 from odoo.exceptions import UserError
 from datetime import date
 from odoo.tools import config
+from dateutil.relativedelta import relativedelta
+
 
 class GrantBenefit(models.Model):
     _inherit = 'grant.benefit'
@@ -37,18 +39,19 @@ class GrantBenefit(models.Model):
     folder_state = fields.Selection([('Active', 'active'), ('not_active', 'Not Active')], string='Folder State')
 
     # related = 'benefit_breadwinner_ids[0].member_name.building_number'
-    building_number = fields.Integer(string='Building Number',compute='_compute_breadwinner_address')
-    sub_number = fields.Integer(string='Sub Number',compute='_compute_breadwinner_address')
-    additional_number = fields.Integer(string='Additional Number',compute='_compute_breadwinner_address')
-    street_name = fields.Char(string='Street Name',compute='_compute_breadwinner_address')
-    city = fields.Many2one("res.country.city", string='City',compute='_compute_breadwinner_address')
+    building_number = fields.Integer(string='Building Number', compute='_compute_breadwinner_address', readonly=False,
+                                     store=False)
+    sub_number = fields.Integer(string='Sub Number', compute='_compute_breadwinner_address')
+    additional_number = fields.Integer(string='Additional Number', compute='_compute_breadwinner_address')
+    street_name = fields.Char(string='Street Name', compute='_compute_breadwinner_address')
+    city = fields.Many2one("res.country.city", string='City', compute='_compute_breadwinner_address')
 
     district_name = fields.Many2one(
         'res.district',
         string='District', compute='_compute_breadwinner_address')
 
-    postal_code = fields.Char(string='Postal Code',compute='_compute_breadwinner_address')
-    national_address_code = fields.Char(string='National address code',compute='_compute_breadwinner_address')
+    postal_code = fields.Char(string='Postal Code', compute='_compute_breadwinner_address')
+    national_address_code = fields.Char(string='National address code', compute='_compute_breadwinner_address')
 
     @api.depends(
         'benefit_breadwinner_ids.member_name.building_number',
@@ -112,7 +115,6 @@ class GrantBenefit(models.Model):
                 record.period_text = rtl_marker + " و ".join(parts) if parts else rtl_marker + "0 يوم"
             else:
                 record.period_text = "\u200Fالمدة غير متوفرة"
-
 
     @api.depends('benefit_member_ids')
     def _compute_member_name(self):
@@ -195,14 +197,13 @@ class GrantBenefit(models.Model):
             for node in doc.xpath("//field"):
                 modifiers = json.loads(node.get("modifiers", '{}'))
 
-
                 if 'readonly' not in modifiers:
-                        modifiers['readonly'] = [('state', 'not in', ['draft'])]
+                    modifiers['readonly'] = [('state', 'not in', ['draft'])]
                 else:
-                        if not isinstance(modifiers['readonly'], bool):
-                            if ('state', 'not in', ['draft']) not in modifiers['readonly']:
-                                modifiers['readonly'].insert(0, '|')
-                                modifiers['readonly'].append(('state', 'not in', ['draft']))
+                    if not isinstance(modifiers['readonly'], bool):
+                        if ('state', 'not in', ['draft']) not in modifiers['readonly']:
+                            modifiers['readonly'].insert(0, '|')
+                            modifiers['readonly'].append(('state', 'not in', ['draft']))
 
                 node.set("modifiers", json.dumps(modifiers))
 
@@ -524,7 +525,7 @@ class GrantBenefit(models.Model):
     inmate_member_id = fields.Many2one('family.member', string='Inmate', domain="[('benefit_type', '=', 'inmate')]")
     breadwinner_member_id = fields.Many2one('family.member', string='Breadwinner',
                                             domain="[('benefit_type', '=', 'breadwinner')]",
-                                        )
+                                            )
     education_ids = fields.One2many('family.profile.learn', 'grant_benefit_id', string='Education History')
     member_ids = fields.One2many('family.member', 'benefit_id')
     rehabilitation_ids = fields.One2many('comprehensive.rehabilitation', 'grant_benefit_id',
