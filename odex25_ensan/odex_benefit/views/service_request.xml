@@ -24,6 +24,7 @@
                                 groups="odex_benefit.group_benefit_branch_manager,odex_benefit.group_benefit_manager"/>
                         <button name="action_accounting_approve" type="object"
                                 string="Request Approve" class="oe_highlight"
+                                confirm="Are you sure you want to approve  ?"
                                 states="accounting_approve" groups="odex_benefit.group_benefit_accounting_accept"/>
                         <button name="action_accounting_first_refuse" type="object"
                                 string="Accounting First Refuse" class="oe_highlight"
@@ -40,6 +41,7 @@
                                 attrs="{'invisible': ['|',('service_type','!=','electrical_devices'),('state_b','!=','send_request_to_supplier')]}"/>
                         <button name="action_refuse" type="object"
                                 string="Refuse" class="oe_highlight"
+                                groups="odex_benefit.group_benefit_accounting_accept"
                                 confirm="Are you sure you want to refuse request  ?"
                                 states="first_approve,second_approve,draft,send_request,accounting_approve"/>
                         <field name="state" widget="statusbar" invisible="1"/>
