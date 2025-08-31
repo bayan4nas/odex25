@@ -177,6 +177,9 @@ class EmployeeOtherRequest(models.Model):
                         missing_fields.append(_("End Date"))
                     if not line.country_id:
                         missing_fields.append(_("Country"))
+                    if not line.attachment:
+                        missing_fields.append(_("Attachment"))
+
 
                     if missing_fields:
                         raise ValidationError(_(
