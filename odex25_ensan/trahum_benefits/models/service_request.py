@@ -461,7 +461,6 @@ class ServiceRequest(models.Model):
                     return
             # 7.  (tolerance_ratio)
             elif rule.metric == 'tolerance_ratio' and rule.numeric_value:
-                print(self.requested_service_amount, rule.operator, rule.threshold_value)
                 if not self.requested_service_amount_before_tolerance:
                     print(self.requested_service_amount ,rule.operator ,rule.threshold_value)
                     condition_met = eval(f"{self.requested_service_amount} {rule.operator} {rule.threshold_value}")
