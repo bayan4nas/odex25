@@ -322,7 +322,8 @@ class GrantBenefit(models.Model):
     def _compute_need_ratio(self):
         for rec in self:
             if rec.natural_income:
-                rec.need_ratio = (rec.total_salary / rec.natural_income) * 100
+                ratio = (rec.total_salary / rec.natural_income) * 100
+                rec.need_ratio = min(ratio, 100)
             else:
                 rec.need_ratio = 0.0
 
