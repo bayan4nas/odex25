@@ -100,7 +100,7 @@ class SrRule(models.Model):
     )
     housing_exchange_type = fields.Selection(
         HOUSING_EXCHANGE_PERIODS,
-        string="Target Housing Type"
+        string="EXCHANGE PERIODS"
     )
 
 
