@@ -103,7 +103,9 @@
                                statusbar_visible="draft,wait_employee,wait_performance_officer,closed,refused"/>
                     </header>
                 </header>
-                                
+                <xpath expr="//field[@name='employee_id']" position="after">
+                    <field name="work_state"/>
+                </xpath>
                 <xpath expr="//field[@name='employee_id']" position="after">
 		            <field name="is_last_stage" invisible="1"/>
 		            <field name="type" invisible="1"/>
