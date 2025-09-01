@@ -175,6 +175,7 @@
 
     <record id="account.action_move_in_receipt_type" model="ir.actions.act_window">
         <field name="name">Direct Exchange Orders</field>
+        <field name="domain">[('journal_id.commitee_expense', '=', False),('move_type', 'in', ['in_receipt'])] </field>
     </record>
     <menuitem id="menu_employee_benefits" name="Employee Benefits" parent="odex25_account_accountant.menu_accounting"
               groups="group_account_employee_benefit" sequence="4"/>

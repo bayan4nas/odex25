@@ -19,7 +19,7 @@ class ContractInstallmentLine(models.Model):
         ('not_invoiced', 'Not Invoiced'),
         ('invoiced', 'Invoiced'),
         ('paid', 'Paid'), ('cancel', 'Cancel')],tracking=True, string="Status", default="coc")
-    need_coc = fields.Selection([('yes', 'Yes'), ('no', 'No')], string="Need COC ?")
+    need_coc = fields.Selection([('yes', 'Yes'), ('no', 'No')], string="Need COC ?",default="yes")
     coc_count = fields.Integer(string='Cocs', compute="_compute_coc_count")
     explanation = fields.Char(string='explanation')
     coc = fields.Boolean(string='CoC Created')
