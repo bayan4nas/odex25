@@ -124,6 +124,13 @@
                                     <group colspan="2">
                                         <field name="housing_type"/>
                                         <field name="property_type"/>
+                                        <field name="rent_start_date"
+                                               attrs="{'invisible': [('property_type', '!=', 'rent')]}"/>
+                                        <field name="rent_end_date"
+                                               attrs="{'invisible': [('property_type', '!=', 'rent')]}"/>
+                                        <field name="period_text"
+                                               attrs="{'invisible': [('property_type', '!=', 'rent')]}"/>
+
                                         <field name="exchange_period"/>
                                         <field name="housing_value"/>
                                         <field name="accommodation_attachments" required="1"/>
