@@ -45,7 +45,9 @@ class GrantBenefit(models.Model):
     additional_number = fields.Integer(string='Additional Number', compute='_compute_breadwinner_address')
     street_name = fields.Char(string='Street Name', compute='_compute_breadwinner_address')
     city = fields.Many2one("res.country.city", string='City', compute='_compute_breadwinner_address')
-
+    rent_start_date = fields.Date(string='Rent Start Date')
+    rent_end_date = fields.Date(string='Rent End Date')
+    period_text = fields.Text(string='Rent Period', compute='compute_rent_period')
     district_name = fields.Many2one(
         'res.district',
         string='District', compute='_compute_breadwinner_address')
@@ -407,7 +409,6 @@ class GrantBenefit(models.Model):
                 rec.breadwinner_member_id = False
             if len(rec.benefit_breadwinner_ids) > 1:
                 raise ValidationError(_("You cannot add more than one Breadwinner"))
-
 
     def action_revert_state(self):
         return {
