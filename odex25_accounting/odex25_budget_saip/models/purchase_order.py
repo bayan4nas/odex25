@@ -1,11 +1,26 @@
 from odoo import models, fields, api, _
 from odoo.exceptions import UserError, ValidationError
-
+# import ast
 
 class PurchaseOrder(models.Model):
     _inherit = "purchase.order"
 
     item_budget_id = fields.Many2one(related='request_id.item_budget_id')
+
+
+    # def action_view_invoice(self, invoices=False):
+    #     res = super(PurchaseOrder, self).action_view_invoice(invoices=invoices)
+    #     if res:
+    #         context = {}
+    #         if res.get('context') == None:
+    #             res['context'] = {}
+    #         if res['context']:
+    #             context = ast.literal_eval(res['context'])
+    #         order = self[0]
+    #         context.update({'default_item_budget_id': order.item_budget_id.id})
+    #         res['context'] = context
+    #     return res
+
 
     def action_budget(self):
         self.ensure_one()
@@ -92,3 +107,8 @@ class PurchaseRequest(models.Model):
     _inherit = 'purchase.order.line'
 
     item_budget_id = fields.Many2one(related='order_id.item_budget_id')
+
+    def _prepare_account_move_line(self, **optional_values):
+        res = super()._prepare_account_move_line(**optional_values)
+        res['item_budget_id'] = self.item_budget_id.id
+        return res

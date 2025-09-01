@@ -26,19 +26,19 @@
             <field name="context">{'default_move_type': 'out_invoice','create': False}</field>
         </record>
 
-        <record id="purchase_order_custom_form_view_inherit" model="ir.ui.view">
-        <field name="name">purchase.order.form.inherit</field>
-        <field name="model">purchase.order</field>
-        <field name="inherit_id" ref="purchase.purchase_order_form"/>
-        <field eval="100" name="priority"/>
-        <field name="arch" type="xml">
-            <xpath expr="//div[hasclass('oe_button_box')]" position="inside">
-                <button name="action_view_contract" class="oe_stat_button" string="contract"
-                        icon="fa-book" type="object" attrs="{'invisible':[('state','not in',['purchase'])]}">
-                </button>
-            </xpath>
-        </field>
-    </record>
+<!--        <record id="purchase_order_custom_form_view_inherit" model="ir.ui.view">-->
+<!--        <field name="name">purchase.order.form.inherit</field>-->
+<!--        <field name="model">purchase.order</field>-->
+<!--        <field name="inherit_id" ref="purchase.purchase_order_form"/>-->
+<!--        <field eval="100" name="priority"/>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <xpath expr="//div[hasclass('oe_button_box')]" position="inside">-->
+<!--                <button name="action_view_contract" class="oe_stat_button" string="contract"-->
+<!--                        icon="fa-book" type="object" attrs="{'invisible':[('state','not in',['purchase'])]}">-->
+<!--                </button>-->
+<!--            </xpath>-->
+<!--        </field>-->
+<!--    </record>-->
 
 
     <menuitem action="purchase_contract_form_action" id="menu_purchase_contract_form_action" parent="contract.contract_contract_menu" sequence="2"/>
