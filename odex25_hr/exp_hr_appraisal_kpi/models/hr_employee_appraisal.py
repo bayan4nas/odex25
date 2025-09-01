@@ -1,5 +1,5 @@
-from odoo import models, fields, _, api, exceptions 
-
+from odoo import models, fields, _, api, exceptions
+from odoo.exceptions import UserError
 from lxml import etree
 import logging
 from odoo.exceptions import ValidationError
@@ -8,8 +8,7 @@ _logger = logging.getLogger(__name__)
 
 
 class EmployeeAppraisal(models.Model):
-    _inherit = 'hr.employee.appraisal'       
-
+    _inherit = 'hr.employee.appraisal'
 
     employee_id = fields.Many2one('hr.employee', 'Employee', tracking=True, required=True)
 
@@ -21,7 +20,8 @@ class EmployeeAppraisal(models.Model):
                                    ('emission', _('Emission')),
                                    # ('delegate', _('Delegation')),
                                    ('training', _('Training')),
-                                   ('others', _('others'))], 'Work Status',compute='_compute_work_state',default='work')
+                                   ('others', _('others'))], 'Work Status', compute='_compute_work_state',
+                                  default='work')
 
     manager_id = fields.Many2one('hr.employee')
     appraisal_id = fields.Many2one('hr.employee.appraisal', readonly=True)
@@ -34,13 +34,15 @@ class EmployeeAppraisal(models.Model):
     appraisal_percentage_id = fields.Many2one('job.class.apprisal', 'Job Category')
     appraisal_stage_id = fields.Many2one('goals.stages', 'Appraisal Stage')
     company_id = fields.Many2one('res.company', string='Company', default=lambda self: self.env.company)
-    goal_ids = fields.One2many('years.employee.goals', 'employee_apprisal_id', ondelete='cascade', string='Goals',copy=True)
+    goal_ids = fields.One2many('years.employee.goals', 'employee_apprisal_id', ondelete='cascade', string='Goals',
+                               copy=True)
     skill_ids = fields.One2many('skill.item.employee.table', 'employee_apprisal_id', ondelete='cascade',
-                                string='Skills',copy=True)
-    exceptional_performance_ids = fields.One2many('exceptional.performance.appraisal.line', 'employee_apprisal_id', ondelete='cascade',
-                                string='Exceptional Performance')
+                                string='Skills', copy=True)
+    exceptional_performance_ids = fields.One2many('exceptional.performance.appraisal.line', 'employee_apprisal_id',
+                                                  ondelete='cascade',
+                                                  string='Exceptional Performance')
     development_plan_ids = fields.One2many('development.plan', 'employee_apprisal_id', ondelete='cascade',
-                                string='Development Plan',copy=True)
+                                           string='Development Plan', copy=True)
     goals_mark = fields.Float(string='Goals Appraisal Mark', compute='_compute_goals_mark', tracking=True)
     skill_mark = fields.Float(string='Skills Appraisal Mark', compute='_compute_skills_mark', tracking=True)
     total_score = fields.Float(string='Total Mark', readonly=True, compute='_compute_total_score', tracking=True)
@@ -52,42 +54,57 @@ class EmployeeAppraisal(models.Model):
     performance_officer_comment = fields.Text('Performance Officer Comment')
     performance_manager_comment = fields.Text('Performance Manager Comment')
     state = fields.Selection([
-        ("draft", "Draft"), ("wait_employee", "Wait Employee"),
+        ("draft", "Draft"),("wait_direct_manager", "Waiting Direct Manager"),
+        ("wait_employee", "Wait Employee"),
         ("wait_dept_manager", "Waiting Department manager"),
         ("wait_performance_officer", "Waiting Performance Officer"),
         ("wait_hr_manager", "Waiting Human Resources Manager"),
         ("wait_services_manager", "Waiting Head of Shared Services"),
         ("wait_gm", "Waiting Secretary General"),
-        
-        ("closed", "Approved"), ('refused', 'Refused')
+        ("closed", "Approved"), ('refused', 'Cancel')
     ], default='draft', tracking=True)
-    
+    # group_appraisal_manager
+    # group_appraisal_employee
     objection_state = fields.Selection([
         ("draft", "Draft"), ("wait_employee", "Wait Employee"),
         ("wait_performance_officer", "Waiting Performance Officer"),
         ("closed", "Approved"), ('refused', 'Refused')
     ], default='draft', tracking=True)
-    
-    
+
     type = fields.Selection([
         ("appraisal", "Appraisal"), ("objection", "Objection"),
         ("correction", "Correction"),
         ("exp_performance", "Exceptional performance")
     ], default='appraisal', tracking=True)
-    can_see_appraisal_result = fields.Boolean(compute="_compute_can_see_appraisal_result", string="Can See Appraisal Result", store=False)
+    can_see_appraisal_result = fields.Boolean(compute="_compute_can_see_appraisal_result",
+                                              string="Can See Appraisal Result", store=False)
     is_appraisal_employee = fields.Boolean(compute="_compute_is_appraisal_employee")
     is_direct_manager = fields.Boolean(compute="_compute_is_direct_manager")
     is_executive_director = fields.Boolean(compute="_compute_is_executive_director")
     is_last_stage = fields.Boolean(string="Is Last Stage", compute="_compute_is_last_stage", store=True)
     is_first_stage = fields.Boolean(string="Is Last Stage", compute="_compute_is_first_stage", store=True)
     exceptional_performance = fields.Boolean('Exceptional Performance', compute='_compute_exceptional_performance')
-    
+
     objection_count = fields.Integer('# Objection Requests',
-                                    compute='_compute_requests_count', compute_sudo=True)
+                                     compute='_compute_requests_count', compute_sudo=True)
     correction_count = fields.Integer('# KPI Correction Requests',
-                                 compute='_compute_requests_count', compute_sudo=True)
-    exp_performance_count = fields.Integer('# Exceptional Performance Requests', help='Number of groups that apply to the current user',
-                                  compute='_compute_requests_count', compute_sudo=True)
+                                      compute='_compute_requests_count', compute_sudo=True)
+    exp_performance_count = fields.Integer('# Exceptional Performance Requests',
+                                           help='Number of groups that apply to the current user',
+                                           compute='_compute_requests_count', compute_sudo=True)
+    meeting_done = fields.Selection([('yes', 'Yes'),  ('no', 'No'), ], string="Has the meeting with the employee been held and goals discussed for the year?",required=True, default=False,)
+
+    @api.model
+    def search(self, args, offset=0, limit=None, order=None, count=False):
+        user = self.env.user
+        if not (user.has_group("exp_hr_appraisal.group_appraisal_manager") or user.has_group("exp_hr_appraisal.group_appraisal_employee")):
+            args = args + [('state', '!=', 'refused')]
+
+        return super(EmployeeAppraisal, self).search(args, offset=offset, limit=limit, order=order, count=count)
+
+    def send_to_direct_manager(self):
+        for rec in self:
+            rec.state = "wait_direct_manager"
 
     def _compute_work_state(self):
 
@@ -99,10 +116,11 @@ class EmployeeAppraisal(models.Model):
     @api.depends('appraisal_id')
     def _compute_requests_count(self):
         for rec in self:
-            rec.objection_count = self.search_count([ ('appraisal_id', '=', rec.id) ,('type', '=', 'objection') ])
-            rec.correction_count = self.search_count([ ('appraisal_id', '=', rec.id) ,('type', '=', 'correction') ])
-            rec.exp_performance_count = self.search_count([ ('appraisal_id', '=', rec.id) ,('type', '=', 'exp_performance') ])
-            
+            rec.objection_count = self.search_count([('appraisal_id', '=', rec.id), ('type', '=', 'objection')])
+            rec.correction_count = self.search_count([('appraisal_id', '=', rec.id), ('type', '=', 'correction')])
+            rec.exp_performance_count = self.search_count(
+                [('appraisal_id', '=', rec.id), ('type', '=', 'exp_performance')])
+
     @api.depends('appraisal_result')
     def _compute_exceptional_performance(self):
         for rec in self:
@@ -110,19 +128,25 @@ class EmployeeAppraisal(models.Model):
                 rec.exceptional_performance = True
             else:
                 rec.exceptional_performance = False
-                    
-                
+
     @api.model
     def fields_view_get(self, view_id=None, view_type='form', toolbar=False, submenu=False):
 
-        result = super(EmployeeAppraisal, self).fields_view_get(view_id=view_id, view_type=view_type, toolbar=toolbar, submenu=submenu)
-        if view_type == 'form' and self.env.context.get('default_type', 'appraisal')=='objection':
+        result = super(EmployeeAppraisal, self).fields_view_get(view_id=view_id, view_type=view_type, toolbar=toolbar,
+                                                                submenu=submenu)
+        doc = etree.XML(result['arch'])
+        for node in doc.xpath("//field[@name='appraisal_stage_id']"):
+            node.set("attrs", "{'readonly': [('state','!=','draft')]}")
+            result['arch'] = etree.tostring(doc, encoding='unicode')
+        for node in doc.xpath("//field[@name='year_id']"):
+            node.set("attrs", "{'readonly': [('state','!=','draft')]}")
+            result['arch'] = etree.tostring(doc, encoding='unicode')
+        if view_type == 'form' and self.env.context.get('default_type', 'appraisal') == 'objection':
             result['arch'] = self._apply_objection_state(result['arch'], view_type=view_type)
-        if view_type == 'form' and self.env.context.get('default_type', 'appraisal')=='exp_performance':
+        if view_type == 'form' and self.env.context.get('default_type', 'appraisal') == 'exp_performance':
             result['arch'] = self._apply_exp_performance_state(result['arch'], view_type=view_type)
-        if view_type == 'form' and self.env.context.get('default_type', 'appraisal')=='correction':
+        if view_type == 'form' and self.env.context.get('default_type', 'appraisal') == 'correction':
             result['arch'] = self._apply_correction_state(result['arch'], view_type=view_type)
-
 
         return result
 
@@ -137,6 +161,7 @@ class EmployeeAppraisal(models.Model):
                 ], limit=1)
                 if duplicate:
                     raise ValidationError(_('This employee already has an appraisal in the same stage.'))
+
     @api.model
     def _apply_objection_state(self, view_arch, view_type='form'):
         doc = etree.XML(view_arch)
@@ -144,21 +169,23 @@ class EmployeeAppraisal(models.Model):
             node.set('statusbar_visible', "draft,wait_performance_officer,closed,refused")
 
         return etree.tostring(doc, encoding='unicode')
-        
+
     @api.model
     def _apply_exp_performance_state(self, view_arch, view_type='form'):
         doc = etree.XML(view_arch)
         for node in doc.xpath("//field[@name='state']"):
-            node.set('statusbar_visible', "draft,wait_dept_manager,wait_performance_officer,wait_hr_manager,wait_services_manager,wait_gm,closed,refused")
+            node.set('statusbar_visible',
+                     "draft,wait_dept_manager,wait_performance_officer,wait_hr_manager,wait_services_manager,wait_gm,closed,refused")
         return etree.tostring(doc, encoding='unicode')
-        
+
     @api.model
     def _apply_correction_state(self, view_arch, view_type='form'):
         doc = etree.XML(view_arch)
         for node in doc.xpath("//field[@name='state']"):
-            node.set('statusbar_visible', "draft,wait_dept_manager,wait_performance_officer,wait_hr_manager,closed,refused")
+            node.set('statusbar_visible',
+                     "draft,wait_dept_manager,wait_performance_officer,wait_hr_manager,closed,refused")
         return etree.tostring(doc, encoding='unicode')
-        
+
     @api.depends('appraisal_stage_id')
     def _compute_is_last_stage(self):
         for item in self:
@@ -166,7 +193,7 @@ class EmployeeAppraisal(models.Model):
                 ('period_id', '=', item.appraisal_stage_id.period_id.id)
             ], order="sequence desc", limit=1)
             item.is_last_stage = item.appraisal_stage_id.id == last_stage_record.id if last_stage_record else False
-            
+
     @api.depends('appraisal_stage_id')
     def _compute_is_first_stage(self):
         for item in self:
@@ -179,7 +206,8 @@ class EmployeeAppraisal(models.Model):
     def _compute_can_see_appraisal_result(self):
         for record in self:
             user = self.env.user
-            if user.has_group('exp_hr_appraisal.group_appraisal_manager') or user.has_group('exp_hr_appraisal.group_appraisal_employee')\
+            if user.has_group('exp_hr_appraisal.group_appraisal_manager') or user.has_group(
+                    'exp_hr_appraisal.group_appraisal_employee') \
                     or user.has_group('exp_hr_appraisal.group_kpi_executive_director'):
                 record.can_see_appraisal_result = True
                 continue
@@ -261,15 +289,16 @@ class EmployeeAppraisal(models.Model):
                     self.flush()
                     Mail.browse(template.id).send_mail(record.id, force_send=True)
             except Exception as e:
-                    _logger.error(f"SMTP Error: {str(e)} - Retrying...")
-                    self.env.cr.rollback()  # Rollback any uncommitted transactions
-                    Mail.browse(template.id).send_mail(record.id, force_send=True)  # Retry
-
+                _logger.error(f"SMTP Error: {str(e)} - Retrying...")
+                self.env.cr.rollback()  # Rollback any uncommitted transactions
+                Mail.browse(template.id).send_mail(record.id, force_send=True)  # Retry
     def sent_appraisal_to_employee(self):
+        if self.state=='wait_direct_manager' and self.employee_id.parent_id.user_id != self.env.user:
+            raise UserError(_("You cannot move this evaluation to this stage unless you are the employee's direct manager."))
         for record in self:
             if not record.year_id:
                 raise exceptions.ValidationError(_("Please select an Appraisal Year before submitting."))
-                
+
             num_goals = len(record.goal_ids)
             min_no_goals, max_no_goals = record.appraisal_percentage_id.min_no_goals, record.appraisal_percentage_id.max_no_goals
             min_goal_weight, max_goal_weight = record.appraisal_percentage_id.min_goal_weight, record.appraisal_percentage_id.max_goal_weight
@@ -288,14 +317,15 @@ class EmployeeAppraisal(models.Model):
 
             if sum(skill.skill_weight for skill in record.skill_ids) != 100:
                 raise exceptions.ValidationError(_("Total skill weight must be exactly 100."))
-                
+
             for rec in record.appraisal_percentage_id.skill_percentage_ids:
-                if sum(skill.skill_weight for skill in record.skill_ids if skill.skill_type_id in rec.skill_type_ids) != rec.skill_percentage:
-                    name =''
+                if sum(skill.skill_weight for skill in record.skill_ids if
+                       skill.skill_type_id in rec.skill_type_ids) != rec.skill_percentage:
+                    name = ''
                     for typ in rec.skill_type_ids:
-                        name = name +"-"+ typ.name
+                        name = name + "-" + typ.name
                     raise exceptions.Warning(
-                            _('percentage of  "%s" must be "%s" ') % (name,rec.skill_percentage) )
+                        _('percentage of  "%s" must be "%s" ') % (name, rec.skill_percentage))
             template = self.env.ref('exp_hr_appraisal_kpi.email_template_appraisal_request_employee')
             try:
                 template.send_mail(record.id, force_send=True)  # force_send=True sends the email immediately
@@ -324,70 +354,70 @@ class EmployeeAppraisal(models.Model):
 
     def send_hr_manager(self):
         self.state = 'wait_hr_manager'
-    
+
     def send_services_manager(self):
         self.state = 'wait_services_manager'
-        
+
     def send_to_gm(self):
         self.state = 'wait_gm'
-        
+
     def objection_request(self):
         self.ensure_one()
         objection_request = self.copy({
-        'appraisal_id': self.id,
-        'appraisal_date': fields.Date.today(),
-        'state': 'draft',
-        'type': 'objection' })
+            'appraisal_id': self.id,
+            'appraisal_date': fields.Date.today(),
+            'state': 'draft',
+            'type': 'objection'})
         action = self.env['ir.actions.actions']._for_xml_id('exp_hr_appraisal_kpi.hr_objection_action')
-        action['domain'] = [('id','=', objection_request.id),('type', '=', 'objection')]
+        action['domain'] = [('id', '=', objection_request.id), ('type', '=', 'objection')]
         return action
 
     def kpi_correction_request(self):
         self.ensure_one()
         objection_request = self.copy({
-        'appraisal_id': self.id,
-        'appraisal_date': fields.Date.today(),
-        'state': 'draft',
-        'type': 'correction' })
+            'appraisal_id': self.id,
+            'appraisal_date': fields.Date.today(),
+            'state': 'draft',
+            'type': 'correction'})
         action = self.env['ir.actions.actions']._for_xml_id('exp_hr_appraisal_kpi.hr_correction_action')
-        action['domain'] = [('id','=', objection_request.id),('type', '=', 'correction')]
+        action['domain'] = [('id', '=', objection_request.id), ('type', '=', 'correction')]
         return action
-        
+
     def exceptional_performance_request(self):
         self.ensure_one()
         objection_request = self.copy({
-        'appraisal_id': self.id,
-        'appraisal_date': fields.Date.today(),
-        'state': 'draft',
-        'type': 'exp_performance' })
+            'appraisal_id': self.id,
+            'appraisal_date': fields.Date.today(),
+            'state': 'draft',
+            'type': 'exp_performance'})
         if self.appraisal_result.template_id:
             for line in self.appraisal_result.template_id.exceptional_performance_ids:
                 record = self.env['exceptional.performance.appraisal.line'].create({
-                                'name': line.name,
-                                'employee_apprisal_id': objection_request.id,
-                                'standard_id': line.standard_id.id,})
+                    'name': line.name,
+                    'employee_apprisal_id': objection_request.id,
+                    'standard_id': line.standard_id.id, })
         action = self.env['ir.actions.actions']._for_xml_id('exp_hr_appraisal_kpi.hr_exp_performance_action')
-        action['domain'] = [('id','=', objection_request.id),('type', '=', 'exp_performance')]
+        action['domain'] = [('id', '=', objection_request.id), ('type', '=', 'exp_performance')]
         return action
 
     def action_show_objection_request(self):
         self.ensure_one()
         action = self.env['ir.actions.actions']._for_xml_id('exp_hr_appraisal_kpi.hr_objection_action')
-        action['domain'] = [('appraisal_id','=', self.id),('type', '=', 'objection')]
-        return action 
-        
+        action['domain'] = [('appraisal_id', '=', self.id), ('type', '=', 'objection')]
+        return action
+
     def action_show_correction_request(self):
         self.ensure_one()
         action = self.env['ir.actions.actions']._for_xml_id('exp_hr_appraisal_kpi.hr_correction_action')
-        action['domain'] = [('appraisal_id','=', self.id),('type', '=', 'correction')]
-        return action 
-        
+        action['domain'] = [('appraisal_id', '=', self.id), ('type', '=', 'correction')]
+        return action
+
     def action_show_exp_performance_request(self):
         self.ensure_one()
         action = self.env['ir.actions.actions']._for_xml_id('exp_hr_appraisal_kpi.hr_exp_performance_action')
-        action['domain'] = [('appraisal_id','=', self.id),('type', '=', 'exp_performance')]
-        return action 
-        
+        action['domain'] = [('appraisal_id', '=', self.id), ('type', '=', 'exp_performance')]
+        return action
+
     def approve(self):
         GoalStages = self.env['goals.stages']
         YearsEmployeeGoals = self.env['years.employee.goals']
@@ -418,7 +448,7 @@ class EmployeeAppraisal(models.Model):
                     template.sudo().send_mail(item.id, force_send=True)
 
             elif item.type == 'objection':
-               
+
                 for goal in item.goal_ids:
                     if goal.approved > 0 and goal.approved != goal.done:
                         appraisal_goal = YearsEmployeeGoals.search([
@@ -427,7 +457,7 @@ class EmployeeAppraisal(models.Model):
                         ], limit=1)
                         if appraisal_goal:
                             appraisal_goal.write({'done': goal.approved})
-                            
+
                 for skill in item.skill_ids:
                     if skill.approved and skill.approved != skill.mark:
                         appraisal_skill = EmployeeSkills.search([
@@ -437,20 +467,19 @@ class EmployeeAppraisal(models.Model):
                         if appraisal_skill:
                             appraisal_skill.write({'mark': skill.approved})
 
-
             item.state = 'closed'
-        
 
     def refused(self):
         self.state = 'refused'
-        
+
     _sql_constraints = [
-        ('appraisal', 'UNIQUE (id)',  'Employee Appraisal must be unique per Employee, Year, and Stage !')
+        ('appraisal', 'UNIQUE (id)', 'Employee Appraisal must be unique per Employee, Year, and Stage !')
     ]
+
     @api.constrains('employee_id', 'year_id')
     def check_unique_employee_year_period_goals(self):
         for record in self:
-            if record.type=='appraisal' and  self.search_count([
+            if record.type == 'appraisal' and self.search_count([
                 ('employee_id', '=', record.employee_id.id),
                 ('year_id', '=', record.year_id.id),
                 ('appraisal_stage_id', '=', record.appraisal_stage_id.id),
@@ -508,15 +537,15 @@ class EmployeeAppraisal(models.Model):
             item_lines.append((0, 0, line_item))
         self.skill_ids = item_lines
 
-    @api.depends('goal_ids','goal_ids.kpi_result')
+    @api.depends('goal_ids', 'goal_ids.kpi_result')
     def _compute_goals_mark(self):
         for record in self:
             total_mark = 0.0
             for kpi in record.goal_ids:
                 total_mark += kpi.kpi_result
             record.goals_mark = total_mark
-                    
-    @api.depends('skill_ids','skill_ids.skill_result')
+
+    @api.depends('skill_ids', 'skill_ids.skill_result')
     def _compute_skills_mark(self):
         for record in self:
             total_mark = 0.0
@@ -531,7 +560,7 @@ class EmployeeAppraisal(models.Model):
             skill_mark_percentage = rec.skill_mark * rec.appraisal_percentage_id.percentage_skills
             goal_mark_percentage = rec.goals_mark * rec.appraisal_percentage_id.percentage_kpi
             rec.total_score = skill_mark_percentage + goal_mark_percentage
-            if rec.goals_mark ==100:
+            if rec.goals_mark == 100:
                 for kpi in rec.goal_ids:
                     rec.total_score += kpi.exceeds
             appraisal_result = self.env['appraisal.result'].search([
@@ -561,7 +590,7 @@ class SkillItems(models.Model):
     item_id = fields.Many2one(comodel_name='item.item', string='Item')
     skill_type_id = fields.Many2one('skill.type')
     skill_id = fields.Many2one('skill.skill', string='Skill')
-    name = fields.Char(string='Description')
+    name = fields.Text(related='skill_id.description', readonly=False, string='Description')
     state = fields.Selection(related='employee_apprisal_id.state')
     is_last_stage = fields.Boolean(related='employee_apprisal_id.is_last_stage')
     is_direct_manager = fields.Boolean(related='employee_apprisal_id.is_direct_manager')
@@ -570,7 +599,8 @@ class SkillItems(models.Model):
     self_assessment = fields.Selection([('1', '1'), ('2', '2'), ('3', '3')], string='Self Assessment')
     approved = fields.Selection([('1', '1'), ('2', '2'), ('3', '3')], string='Approved')
     mark = fields.Selection([('1', '1'), ('2', '2'), ('3', '3')], string='SCurrent Skill Apprisal')
-    apprisal_start_year = fields.Selection([('1', '1'), ('2', '2'), ('3', '3')], string='Start Year Skill Apprisal')
+    apprisal_start_year = fields.Selection([('0', '0'), ('1', '1'), ('2', '2'), ('3', '3')], default='0',
+                                           string='Start Year Skill Apprisal')
     target = fields.Selection([('1', '1'), ('2', '2'), ('3', '3')], string='Target')
     level_id = fields.Many2one('skill.level', string='Target')
     skill_weight = fields.Float(string="Weight")
@@ -579,20 +609,35 @@ class SkillItems(models.Model):
     remarks = fields.Text(string="Apprisal Remarks")
     comments = fields.Text(string="General Comments")
     appraiser_comments = fields.Selection([
-         ('achieved', 'Achieved The Target"'), 
-         ('remedied', 'Below target can be remedied'), 
-         ('below', 'Below Target')], string='Appraiser Comments')
+        ('achieved', 'Achieved The Target"'),
+        ('remedied', 'Below target can be remedied'),
+        ('below', 'Below Target')], string='Appraiser Comments')
 
+    @api.onchange('skill_type_id')
+    def _onchange_skill_type(self):
+        if self.employee_apprisal_id:
+            used_skills = self.employee_apprisal_id.skill_ids.filtered(
+                lambda r: r.skill_type_id == self.skill_type_id
+            ).mapped('skill_id').ids
+            return {
+                'domain': {
+                    'skill_id': [('id', 'not in', used_skills)]
+                }
+            }
+        return {}
+    # @api.onchange('skill_type_id')
+    # def _onchange_skill_type_id(self):
+    #     selected_skills = self.employee_apprisal_id.skill_ids.mapped('skill_type_id.id')
+    #     return {'domain': {'skill_type_id': [('id', 'not in', selected_skills)]}}
 
-    @api.depends('mark', 'skill_weight','target')
+    @api.depends('mark', 'skill_weight', 'target')
     def _compute_skill_result(self):
         for record in self:
             result = 0.0
             if record.target:
-                result = float(record.mark) * record.skill_weight / float(record.target) 
-            record.skill_result = min (round(result,0), record.skill_weight)
-            
-            
+                result = float(record.mark) * record.skill_weight / float(record.target)
+            record.skill_result = min(round(result, 0), record.skill_weight)
+
     @api.onchange('skill_id')
     def _onchange_skill_id(self):
         if self.skill_id:
@@ -607,11 +652,13 @@ class SkillItems(models.Model):
     #             raise exceptions.ValidationError(_("Sorry, you are not allowed to delete skills"))
     #     return super(SkillItems, self).unlink()
 
+
 class DevelopmentMethods(models.Model):
     _name = 'development.methods'
 
     name = fields.Char(string='Name')
     description = fields.Text(string='Description')
+
 
 class DevelopmentPlan(models.Model):
     _name = 'development.plan'
@@ -619,17 +666,24 @@ class DevelopmentPlan(models.Model):
     employee_apprisal_id = fields.Many2one(comodel_name='hr.employee.appraisal')
     name = fields.Text(related='development_method_id.description', string='Description')
     development_method_id = fields.Many2one('development.methods', string='Development Methods', required=True)
-    needs = fields.Selection([('yes', 'Yes'), ('no', 'No')], string='Needs',default='no', required=True )
+    needs = fields.Selection([('yes', 'Yes'), ('no', 'No')], string='Needs', default='no', required=True)
     suggestions = fields.Text(string='Suggestions')
+
+    @api.onchange('development_method_id')
+    def _onchange_development_method_id(self):
+        selected_development_method_id = self.employee_apprisal_id.development_plan_ids.mapped('development_method_id.id')
+        return {'domain': {'development_method_id': [('id', 'not in', selected_development_method_id)]}}
+
 
 class ExceptionalPerformanceTemplate(models.Model):
     _name = 'exceptional.performance.template'
 
     name = fields.Char(string='Name')
     description = fields.Text(string='Description')
-    exceptional_performance_ids = fields.One2many('exceptional.performance.template.line', 'template_id', ondelete='cascade',
-                                string='Exceptional Performance',copy=True)
-                                
+    exceptional_performance_ids = fields.One2many('exceptional.performance.template.line', 'template_id',
+                                                  ondelete='cascade',
+                                                  string='Exceptional Performance', copy=True)
+
 
 class ExceptionalPerformanceStandards(models.Model):
     _name = 'exceptional.performance.standards'
@@ -643,8 +697,8 @@ class ExceptionalPerformanceTemplateLine(models.Model):
     name = fields.Char(string='Supporting Questions')
     template_id = fields.Many2one(comodel_name='exceptional.performance.template')
     standard_id = fields.Many2one(comodel_name='exceptional.performance.standards')
- 
- 
+
+
 class ExceptionalPerformanceAppraisal(models.Model):
     _name = 'exceptional.performance.appraisal.line'
 
@@ -652,12 +706,10 @@ class ExceptionalPerformanceAppraisal(models.Model):
     description = fields.Text(string='Direct Manager Visuals')
     employee_apprisal_id = fields.Many2one(comodel_name='hr.employee.appraisal')
     standard_id = fields.Many2one(comodel_name='exceptional.performance.standards')
-        
-    
-class AppraisalResult(models.Model):
-    _inherit = 'appraisal.result'  
-    
-    exceptional_performance = fields.Boolean(string="Exceptional Performance")
-    template_id = fields.Many2one(comodel_name='exceptional.performance.template') 
-  
 
+
+class AppraisalResult(models.Model):
+    _inherit = 'appraisal.result'
+
+    exceptional_performance = fields.Boolean(string="Exceptional Performance")
+    template_id = fields.Many2one(comodel_name='exceptional.performance.template')

@@ -45,6 +45,11 @@ class YearEmployeeGoals(models.Model):
     change_justification = fields.Text(string="Change Justification")
     change_details = fields.Text(string="Change Details")
 
+    @api.onchange('kpi_id')
+    def _onchange_kpi_id(self):
+        selected_kpis = self.employee_apprisal_id.goal_ids.mapped('kpi_id.id')
+        return {'domain': {'kpi_id': [('id', 'not in', selected_kpis)]}}
+
     @api.depends('year_target', 'weight', 'done')
     def _compute_goal_result(self):
         for record in self:
