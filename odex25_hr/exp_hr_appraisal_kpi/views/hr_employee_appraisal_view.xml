@@ -201,6 +201,8 @@
                     <field name="appraisal_stage_id" force_save="1" required="1"
                            attrs="{'readonly':['|',('state','!=','draft'),('type','!=','appraisal')]}"
                            options="{'no_create': True, 'no_open': True}"/>
+                    <field name="meeting_done" widget="radio"
+                           attrs="{'invisible': [('state', '=', 'draft')],'required': [('state', '=', 'wait_direct_manager')],'readonly': [('state', '!=', 'wait_direct_manager')]}"/>
                     <field name="can_see_appraisal_result" invisible="1"/>
                     <field name="goals_mark" decoration-bf="1"
                            attrs="{'invisible': [('is_last_stage', '=', False)]}"/>
