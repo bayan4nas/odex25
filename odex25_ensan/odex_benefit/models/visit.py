@@ -18,7 +18,7 @@ class Visit(models.Model):
     benefit_code= fields.Char(related="benefit_id.code")
     researcher_team = fields.Many2one("committees.line", string="Researcher Team",related="benefit_id.researcher_id")
     researcher_ids = fields.Many2many("hr.employee", string="Researcher",compute="get_researcher_ids",readonly=False)
-    visit_date = fields.Datetime(string='Visit Date')
+    visit_date = fields.Datetime(string='Visit Date', default=fields.Datetime.now)
     description = fields.Char(string='Visit Reason')
     message = fields.Text(string='Message')
 
