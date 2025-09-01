@@ -405,6 +405,9 @@ class GrantBenefit(models.Model):
                 rec.breadwinner_member_id = rec.benefit_breadwinner_ids[0].member_name.id
             else:
                 rec.breadwinner_member_id = False
+            if len(rec.benefit_breadwinner_ids) > 1:
+                raise ValidationError(_("You cannot add more than one Breadwinner"))
+
 
     def action_revert_state(self):
         return {
@@ -693,6 +696,7 @@ class GrantBenefitMember(models.Model):
     def _onchange_member_name(self):
         linked_member_ids = self.env['detainee.file'].search([]).mapped('detainee_id').ids
         used_members = self.grant_benefit_id.benefit_member_ids.mapped('member_id').ids
+        members_breadwinner = self.grant_benefit_id.benefit_breadwinner_ids.mapped('member_name').ids
         used_members_family = self.env['grant.benefit'].search([]).benefit_member_ids.mapped('member_id').ids
         return {
             'domain': {
@@ -701,6 +705,7 @@ class GrantBenefitMember(models.Model):
                     ('id', 'not in', linked_member_ids),
                     ('id', 'not in', used_members),
                     ('id', 'not in', used_members_family),
+                    ('id', 'not in', members_breadwinner),
                 ]
             }
         }
@@ -718,15 +723,17 @@ class GrantBenefitBreadwinner(models.Model):
 
     @api.onchange('member_name')
     def _onchange_member_name(self):
+        family = self.env['grant.benefit'].search([])
         linked_member_ids = self.env['detainee.file'].search([]).mapped('detainee_id').ids
-        used_members_family = self.env['grant.benefit'].search([]).benefit_breadwinner_ids.mapped('member_name').ids
-
+        used_members_family = family.benefit_breadwinner_ids.mapped('member_name').ids
+        used_members = self.grant_benefit_ids.benefit_member_ids.mapped('member_id').ids
         return {
             'domain': {
                 'member_name': [
                     ('state', '=', 'confirmed'),
                     ('id', 'not in', linked_member_ids),
                     ('id', 'not in', used_members_family),
+                    ('id', 'not in', used_members),
                 ]
             }
         }
