@@ -692,12 +692,15 @@ class GrantBenefitMember(models.Model):
     @api.onchange('member_id')
     def _onchange_member_name(self):
         linked_member_ids = self.env['detainee.file'].search([]).mapped('detainee_id').ids
-
+        used_members = self.grant_benefit_id.benefit_member_ids.mapped('member_id').ids
+        used_members_family = self.env['grant.benefit'].search([]).benefit_member_ids.mapped('member_id').ids
         return {
             'domain': {
                 'member_id': [
                     ('state', '=', 'confirmed'),
-                    ('id', 'not in', linked_member_ids)
+                    ('id', 'not in', linked_member_ids),
+                    ('id', 'not in', used_members),
+                    ('id', 'not in', used_members_family),
                 ]
             }
         }
@@ -716,12 +719,14 @@ class GrantBenefitBreadwinner(models.Model):
     @api.onchange('member_name')
     def _onchange_member_name(self):
         linked_member_ids = self.env['detainee.file'].search([]).mapped('detainee_id').ids
+        used_members_family = self.env['grant.benefit'].search([]).benefit_breadwinner_ids.mapped('member_name').ids
 
         return {
             'domain': {
                 'member_name': [
                     ('state', '=', 'confirmed'),
-                    ('id', 'not in', linked_member_ids)
+                    ('id', 'not in', linked_member_ids),
+                    ('id', 'not in', used_members_family),
                 ]
             }
         }
