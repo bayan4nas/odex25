@@ -201,8 +201,8 @@
                     <field name="appraisal_stage_id" force_save="1" required="1"
                            attrs="{'readonly':['|',('state','!=','draft'),('type','!=','appraisal')]}"
                            options="{'no_create': True, 'no_open': True}"/>
-                    <field name="meeting_done" widget="radio"
-                           attrs="{'invisible': [('state', '=', 'draft')],'required': [('state', '=', 'wait_direct_manager')],'readonly': [('state', '!=', 'wait_direct_manager')]}"/>
+                    <field name="meeting_done"
+                           attrs="{'required': [('state','!=','draft')],'invisible': [('state', '=', 'draft')],'readonly': [('state', '!=', 'wait_direct_manager')]}"/>
                     <field name="can_see_appraisal_result" invisible="1"/>
                     <field name="goals_mark" decoration-bf="1"
                            attrs="{'invisible': [('is_last_stage', '=', False)]}"/>
@@ -309,7 +309,7 @@
                                     <field name="target" width="5" force_save='1' required="1"
                                            attrs="{'readonly':['|',('parent.is_first_stage', '=', False),('state','!=','draft')]}"/>
                                     <field name="apprisal_start_year" width="5" force_save='1' required="1"
-                                           attrs="{'readonly':['|',('parent.is_first_stage', '=', False),('state','!=','draft')]}"/>
+                                           attrs="{'readonly':[('parent.is_first_stage', '=', True)]}"/>
                                     <field name="mark" force_save='1' width="12"
                                            attrs="{'readonly':['|','|',('parent.type', '!=', 'appraisal'),('parent.is_last_stage', '=', False),('state','!=','draft')],'column_invisible': [('parent.is_last_stage', '=', False)]}"/>
 
