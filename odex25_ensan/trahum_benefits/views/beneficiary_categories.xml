@@ -1,0 +1,53 @@
+<odoo>
+    <odoo>
+    <data>
+        <!--"Benefit Path-->
+        <record model="ir.ui.view" id="benefit_categories_tree">
+            <field name="name">benefit.categories.tree</field>
+            <field name="model">beneficiary.categories</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+
+                </tree>
+            </field>
+        </record>
+        <record id="benefit_categories_form" model="ir.ui.view">
+            <field name="name">benefit.categories.form</field>
+            <field name="model">beneficiary.categories</field>
+            <field name="arch" type="xml">
+                <form string="Benefit Categories">
+
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                            </group>
+
+                        </group>
+
+                    </sheet>
+
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="benefit_categories_action">
+            <field name="name">Paths</field>
+            <field name="res_model">beneficiary.categories</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Create the Beneficiary Categpry
+                </p>
+            </field>
+        </record>
+
+
+        <menuitem id="benefit_categories_menu" name="Paths" sequence="4"
+                  parent="odex_benefit.benefit_services" action="benefit_categories_action"/>
+
+
+    </data>
+
+</odoo>
+</odoo>
