@@ -615,20 +615,17 @@ class SkillItems(models.Model):
 
     @api.onchange('skill_type_id')
     def _onchange_skill_type(self):
-        if self.employee_apprisal_id:
-            used_skills = self.employee_apprisal_id.skill_ids.filtered(
-                lambda r: r.skill_type_id == self.skill_type_id
-            ).mapped('skill_id').ids
-            return {
-                'domain': {
-                    'skill_id': [('id', 'not in', used_skills)]
-                }
-            }
-        return {}
-    # @api.onchange('skill_type_id')
-    # def _onchange_skill_type_id(self):
-    #     selected_skills = self.employee_apprisal_id.skill_ids.mapped('skill_type_id.id')
-    #     return {'domain': {'skill_type_id': [('id', 'not in', selected_skills)]}}
+        domain = {}
+        if self.skill_type_id:
+            # ALL SKILLS as same type
+            domain['skill_id'] = [('skill_type_id', '=', self.skill_type_id.id)]
+            if self.employee_apprisal_id:
+                used_skills = self.employee_apprisal_id.skill_ids.filtered(
+                    lambda r: r.skill_type_id == self.skill_type_id
+                ).mapped('skill_id').ids
+                domain['skill_id'].append(('id', 'not in', used_skills))
+
+        return {'domain': domain}
 
     @api.depends('mark', 'skill_weight', 'target')
     def _compute_skill_result(self):
