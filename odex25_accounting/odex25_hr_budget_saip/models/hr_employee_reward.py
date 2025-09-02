@@ -52,7 +52,7 @@ class LoanRequestTypes(models.Model):
 
                 invoice_vals = {
                     'partner_id': item.company_id.partner_id.id,
-                    'journal_id': item.journal_id.id, 
+                    'journal_id': item.journal_id.id,
                     'move_type': 'in_invoice',
                     'hr_operation': True,
                     'date': item.date,
