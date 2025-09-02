@@ -21,6 +21,8 @@ def daterange(start_date, end_date):
 
 class HRHolidays(models.Model):
     _inherit = 'hr.holidays'
+    _order = "create_date desc"
+
 
     replace_by = fields.Many2one(comodel_name='hr.employee', string="Replace By")
     emp_id = fields.Integer(string="id")
@@ -94,6 +96,29 @@ class HRHolidays(models.Model):
     request_done = fields.Boolean(default=False,readonly=True)
     is_branch = fields.Many2one(related='department_id.branch_name', store=True, readonly=True)
 
+    to_date = fields.Boolean(string='Today',compute='_leave_today_run', store=True)
+
+    def _compute_number_of_days(self):
+        res = super(HRHolidays, self)._compute_number_of_days()
+        self._leave_today_run()
+
+    @api.depends('date_from','date_to', 'create_date','state')
+    def _leave_today_run(self):
+        today = datetime.now().date()
+        for item in self:
+            if item.date_to and item.date_from:
+               if item.date_from.date() <= today <= item.date_to.date():
+                  item.to_date = True
+               else:
+                  item.to_date = False
+
+    ## to remove followers ##
+    def _remove_followers_holiday(self):
+        for rec in self:
+            followers = self.env['mail.followers'].search(
+                       [('res_id', '=', rec.id),('res_model','=','hr.holidays')])
+            followers.sudo().unlink()
+
 
     def _check_state_access_right(self, vals):
         if vals.get('state') and vals['state'] not in ['draft', 'confirm', 'cancel'] and not \
@@ -143,6 +168,7 @@ class HRHolidays(models.Model):
     @api.depends('date_from','date_to', 'holiday_status_id')
     def _leave_balance_date(self):
         for rec in self:
+            rec._remove_followers_holiday()
             to_work_days = 0
             to_work_days2 = 0
             leave = rec.holiday_status_id
@@ -247,8 +273,8 @@ class HRHolidays(models.Model):
                     raise ValidationError(_('Sorry you have no balance'))
                 worked_days = ((datetime.utcnow() + timedelta(hours=3)).date() -
                                datetime.strptime(str(rec.employee_id.first_hiring_date), "%Y-%m-%d").date()).days + 1
-                if worked_days < rec.holiday_status_id.number_of_days:
-                    raise exceptions.Warning(_('Sorry you can not create leave request you have not holidays'))
+                #if worked_days < rec.holiday_status_id.number_of_days:
+                 #   raise exceptions.Warning(_('Sorry you can not create leave request you have not holidays'))
                 #### Delete upcoming_leave  and add up##
 
                 if rec.number_of_days_temp > rec.leave_balance_date and rec.state != 'validate1' and not (
@@ -431,23 +457,27 @@ class HRHolidays(models.Model):
                             _('Sorry The Employee %s Actually On Permission For this Period') % rec.employee_id.name)
 
                 if rec.replace_by:
-                    holiday_dfrm = self.env['hr.holidays'].search(
-                        [('employee_id', '=', rec.replace_by.id), ('type', '=', 'remove'), ('state', '!=', 'refuse'),
-                         ('date_from', '<=', rec.date_from), ('date_to', '>=', rec.date_from)], order='id desc',
-                        limit=1)
+                    if rec.state != 'validate1':
+                        holiday_dfrm = self.env['hr.holidays'].search(
+                            [('employee_id', '=', rec.replace_by.id), ('type', '=', 'remove'), ('state', '!=', 'refuse'),
+                             ('date_from', '<=', rec.date_from), ('date_to', '>=', rec.date_from)], order='id desc',
+                            limit=1)
 
-                    holiday_dto = self.env['hr.holidays'].search(
-                        [('employee_id', '=', rec.replace_by.id), ('type', '=', 'remove'), ('state', '!=', 'refuse'),
-                         ('date_from', '<=', rec.date_to), ('date_to', '>=', rec.date_to)], order='id desc', limit=1)
+                        holiday_dto = self.env['hr.holidays'].search(
+                            [('employee_id', '=', rec.replace_by.id), ('type', '=', 'remove'), ('state', '!=', 'refuse'),
+                             ('date_from', '<=', rec.date_to), ('date_to', '>=', rec.date_to)], order='id desc', limit=1)
 
-                    holiday_btw = self.env['hr.holidays'].search(
-                        [('employee_id', '=', rec.replace_by.id), ('type', '=', 'remove'), ('state', '!=', 'refuse'),
-                         ('date_from', '>=', rec.date_from), ('date_from', '<=', rec.date_to)], order='id desc',
-                        limit=1)
+                        holiday_btw = self.env['hr.holidays'].search(
+                            [('employee_id', '=', rec.replace_by.id), ('type', '=', 'remove'), ('state', '!=', 'refuse'),
+                             ('date_from', '>=', rec.date_from), ('date_from', '<=', rec.date_to)], order='id desc',
+                            limit=1)
 
-                    if holiday_dfrm or holiday_dto or holiday_btw:
-                        raise exceptions.Warning(
-                            _('Sorry The Replacement Employee %s Actually On Holiday For this Period') % rec.replace_by.name)
+                        if holiday_dfrm or holiday_dto or holiday_btw:
+                            raise exceptions.Warning(
+                                _('Sorry The Replacement Employee %s Actually On Holiday For this Period') % rec.replace_by.name)
+                    rec.delegate_acc = True
+                else:
+                    rec.delegate_acc = False
 
     def send_email_holiday(self, holiday, emp):
         if holiday.visible_fields and holiday.remained_before > 0 and holiday.leave_type=='annual':
@@ -518,7 +548,7 @@ class HRHolidays(models.Model):
         if self.is_last_day_of_year(current_date):
             dutartion = 0 
             this_year_balance = 0
-            if item.number_of_save_days >= 0:
+            if item.number_of_save_days > 0:
                 dutartion = item.number_of_save_days
                 if is_years:
                     open_year = datetime(current_date.year - 1, 12, 31).date()
@@ -536,7 +566,8 @@ class HRHolidays(models.Model):
                 for index in range(1, days_diff):
                     open_year_date = open_year + timedelta(days=index)
                     dutartion += self.remaining_leaves_of_day_by_date(emp, str(open_year_date), item , is_month=False, is_years=False)
-            if already_exist.remaining_leaves > dutartion:
+            # fix fix 
+            if already_exist.remaining_leaves - this_year_balance > dutartion:
                 dutartion = dutartion + this_year_balance
                 already_exist.write({'remaining_leaves': dutartion})
     @api.model
@@ -1130,7 +1161,7 @@ class HRHolidays(models.Model):
                                                         'balance_leaves':duration})
 
     def renewal_balance_leaves_last_day_of_year(self , current_date, item, already_exist , emp):
-        leave_type = ['exam', 'marriage','parental']#'death']  # Just set type leave in list add new Leave 
+        leave_type = ['exam', 'marriage','parental','emergency']#'death']  # Just set type leave in list add new Leave 
         if (item.leave_type in leave_type) and (already_exist.remaining_leaves < item.duration):
             duration = item.duration  # >= already_exist.remaining_leaves and item.duration  or already_exist.remaining_leaves
             # current_date = datetime(2024, 12, 31).date()
@@ -1198,8 +1229,8 @@ class HRHolidays(models.Model):
             next_years = date_from.replace(year=date_from.year + 1)
             number_of_years = relativedelta.relativedelta(current_date, date_from).years
             if number_of_years >= 1:
-                self._create_inverse_holiday(already_exist, next_years)
                 remaining_leaves = self._calculate_remaining_leaves(emp , item, next_years)
+                self._create_inverse_holiday(already_exist, next_years,remaining_leaves)
                 already_exist.write({
                     'name': f'Yearly Allocation of {item.name} Leaves',
                     'remaining_leaves': remaining_leaves,
@@ -1228,10 +1259,12 @@ class HRHolidays(models.Model):
         ]
         return self.env['hr.holidays'].search(domain, order="date_from desc")
 
-    def _create_inverse_holiday(self, already_exist, next_years):
+    def _create_inverse_holiday(self, already_exist, next_years,balance):
         self.env['hr.inverse.holidays'].create({
             'holiday_id': already_exist.id,
             'cron_run_date': next_years,
+            'balance_leaves': balance,
+
         })
 
     def _calculate_remaining_leaves(self, emp,item, next_years):
@@ -1276,6 +1309,7 @@ class HRHolidays(models.Model):
 
     def draft_state(self):
         for item in self:
+            item._remove_followers_holiday()
             have_cancel_request = self.env['leave.cancellation'].search([('leave_request_id', '=', item.id),
                                                                          ('state', 'not in', ('draft', 'refuse'))])
             have_return_from_leave = self.env['return.from.leave'].search(
@@ -1309,6 +1343,7 @@ class HRHolidays(models.Model):
     def confirm(self):
         for item in self:
             self._compute_leave_balance()
+            item._remove_followers_holiday()
             ## ticket allowance per year ###
             if item.issuing_ticket == 'yes':
                 current_date = (datetime.utcnow() + timedelta(hours=3)).date()
@@ -1369,8 +1404,9 @@ class HRHolidays(models.Model):
 
     def hr_manager(self):
         self._compute_leave_balance()
+        self._remove_followers_holiday()
         if not self.replace_by and self.type == 'remove':
-            if self.holiday_status_id.alternative_chick == True:
+            if self.holiday_status_id.alternative_chick == True and self.number_of_days_temp >= self.holiday_status_id.alternative_days:
                raise exceptions.Warning(_('Select employee Replacement before The approve holiday Request'))
             if self.delegate_acc == True:
                raise exceptions.Warning(_('The replacement Employee Must be entered To Giving him Access'))
@@ -1406,8 +1442,9 @@ class HRHolidays(models.Model):
 
     def financial_manager(self):
         for item in self:
+            item._remove_followers_holiday()
             if not item.replace_by and item.type == 'remove':
-                if item.holiday_status_id.alternative_chick == True:
+                if item.holiday_status_id.alternative_chick == True and item.number_of_days_temp >= item.holiday_status_id.alternative_days:
                    raise exceptions.Warning(_('Select employee Replacement before The approve holiday Request'))
                 if item.delegate_acc == True:
                    raise exceptions.Warning(_('The replacement Employee Must be entered To Giving him Access'))
@@ -1425,8 +1462,9 @@ class HRHolidays(models.Model):
                                                                  order='id desc', limit=1)
             if employee_balance:
                 if item.type == 'remove' and item.request_done==False:
+                    holiday_days = item._chick_year_leavs_balance()
                     employee_balance.write({
-                        'remaining_leaves': employee_balance.remaining_leaves - item.number_of_days_temp,
+                        'remaining_leaves': employee_balance.remaining_leaves - holiday_days,
                         'leaves_taken': employee_balance.leaves_taken + item.number_of_days_temp,
                     })
                     if item.issuing_ticket == 'yes':
@@ -1580,6 +1618,30 @@ class HRHolidays(models.Model):
         self.remove_delegated_access()
         self.write({'state': 'cancel'})
 
+    def _chick_year_leavs_balance(self):
+        """chick a holiday take balance with years balance"""
+        for item in self:
+            holiday_days = item.number_of_days_temp
+            employee_balance = self.env['hr.holidays'].search([('employee_id', '=', item.employee_id.id),
+                                                               ('holiday_status_id', '=', item.holiday_status_id.id),
+                                                               ('type', '=', 'add'),
+                                                               ('check_allocation_view', '=', 'balance')],
+                                                              order='id desc', limit=1)
+            leave_type = ['exam', 'marriage','parental','emergency','sick']
+            if item.holiday_status_id.leave_type in leave_type:
+               cron_run_date = item.employee_id.first_hiring_date
+               holi_date_from = fields.Date.from_string(item.date_from)
+               holi_date_to = fields.Date.from_string(item.date_to)
+               if employee_balance.holiday_ids:
+                  cron_run_date = employee_balance.holiday_ids[-1].cron_run_date
+
+               if cron_run_date > holi_date_to:
+                  holiday_days = 0
+               if holi_date_to >= cron_run_date > holi_date_from:
+                  holiday_days = (holi_date_to - cron_run_date).days+1
+
+        return holiday_days
+
     def reconcile_holiday_balance(self):
         for holiday in self:
             domain = [('check_allocation_view', '=', 'balance'),
@@ -1591,8 +1653,9 @@ class HRHolidays(models.Model):
             allocation = self.env['hr.holidays'].search(domain, order='id desc', limit=1)
             if balance:
                 if holiday.type == 'remove':
+                    holiday_days = holiday._chick_year_leavs_balance() 
                     balance.write({
-                        'remaining_leaves': balance.remaining_leaves + holiday.number_of_days_temp,
+                        'remaining_leaves': balance.remaining_leaves + holiday_days,
                         'leaves_taken': balance.leaves_taken - holiday.number_of_days_temp,
                     })
                     [self.env[model].search([('employee_id', '=', holiday.employee_id.id),
@@ -1604,8 +1667,9 @@ class HRHolidays(models.Model):
 
     def refuse(self):
         for item in self:
+            item._remove_followers_holiday()
             have_cancel_request = self.env['leave.cancellation'].search(
-                [('leave_request_id', '=', item.id), ('state', 'not in', ('draft', 'refuse'))])
+                [('leave_request_id', '=', item.id), ('cancellation_type', '!=', 'cancel'), ('state', 'not in', ('draft', 'refuse'))])
             have_return_from_leave = self.env['return.from.leave'].search(
                 [('leave_request_id', '=', item.id), ('state', 'not in', ('draft', 'refuse'))])
             if have_cancel_request:
@@ -1632,6 +1696,9 @@ class HRHolidays(models.Model):
                 item.remove_delegated_access()
                 item.call_cron_function()
                 self.check_allocation_balance_annual('addition')
+                #Need Review
+                self.write({'request_done': False})
+
             item.write({'state': 'refuse'})
 
     def direct_manager_refused(self):
@@ -1652,6 +1719,7 @@ class HRHolidays(models.Model):
             if item.employee_id.first_hiring_date:
                 leaves_ids = self.env['hr.holidays'].search([('employee_id', '=', item.employee_id.id),
                                                              ('state', '=', 'validate1'),
+                                                             ('type', '=', 'remove'),
                                                              ('holiday_status_id.used_once', '=', True)])
                 for leave_id in leaves_ids:
                     if item.holiday_status_id == leave_id.holiday_status_id:
@@ -1774,11 +1842,27 @@ class HRHolidays(models.Model):
                 current_date = (datetime.utcnow() + timedelta(hours=3))
                 date_from_value = datetime.strptime(str(item.date_from), "%Y-%m-%d %H:%M:%S")
                 date_to_value = datetime.strptime(str(item.date_to), "%Y-%m-%d %H:%M:%S")
+
+                user = self.env.user
+
+                # Check if user is **NOT** in the HR group
+                # self.env.user.has_group(
+
                 if date_to_value < date_from_value:
                     raise exceptions.Warning(_('Sorry Date TO must be bigger than Date From'))
+
+                if not self.env.user.has_group("hr.group_hr_user"):
+                    if (date_from_value - current_date).days + 1 < item.holiday_status_id.request_before:
+                        raise exceptions.Warning(_('Sorry your request must be before  %s Days of your leave') \
+                                                 % item.holiday_status_id.request_before)
+
+                # if date_to_value < date_from_value:
+                #     raise exceptions.Warning(_('Sorry Date TO must be bigger than Date From'))
                 # if (date_from_value - current_date).days + 1 < item.holiday_status_id.request_before:
                 #     raise exceptions.Warning(_('Sorry your request must be before  %s Days of your leave') \
                 #                              % item.holiday_status_id.request_before)
+
+
                 self.number_of_days_temp = self._get_number_of_days(item.date_from, item.date_to, self.employee_id.id,
                                                                     self.holiday_status_id.official_holidays,
                                                                     self.holiday_status_id.working_days)
@@ -1989,7 +2073,7 @@ class holidaysAttach(models.Model):
             records.check_access_rule(mode)
 
         if require_employee:
-            if not (self.env.user._is_admin() or self.env.user.has_group('base.group_user')):
+            if not (self.env.user._is_admin() or self.env.user.has_group('base.group_user') or self._context.get('bypass_check_public_holidays', False)):
                 raise AccessError(_("Sorry, you are not allowed to access this document."))
     
     # @api.model
@@ -2003,4 +2087,7 @@ class holidaysAttach(models.Model):
     #             'res_id': result.att_holiday_ids.id
     #         })
     #     return result
+
+
+
 
