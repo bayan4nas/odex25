@@ -239,6 +239,11 @@ class ServiceRequest(models.Model):
     )
     allowed_member_ids = fields.Many2many('family.member', compute='_compute_allowed_members')
 
+    detainee_name = fields.Char('Detainee Name', related='detainee_member.name')
+    detainee_number = fields.Char('Detainee Name', related='detainee_member.member_id_number')
+    detainee_category = fields.Selection('Detainee Name', related='detainee_file.beneficiary_category')
+    detainee_phone = fields.Char('Detainee Name', related='detainee_member.member_phone')
+
     @api.depends('family_id')
     def _compute_allowed_members(self):
         for rec in self:
@@ -634,6 +639,21 @@ class ServiceRequest(models.Model):
                                                                            x: x.benefit_category_id.id == self.family_category.id and x.max_count_member > self.benefit_member_count > x.min_count_member)
         self.max_electricity_bill_amount = electricity_bill_amount.max_amount_for_electricity_bill
         self.max_water_bill_amount = water_bill_amount.max_amount_for_water_bill
+
+    @api.onchange('detainee_file', 'family_id')
+    def onchange_benefit_type(self):
+        for rec in self:
+            category = False
+            if rec.benefit_type in ['family', 'member']:
+                category = rec.family_id.beneficiary_category
+            elif rec.benefit_type == 'detainee':
+                category = rec.detainee_file.beneficiary_category
+            if not category:
+                continue
+            domain = [('beneficiary_categories', 'ilike', 'نزيل')] \
+                if category == 'gust' else [('beneficiary_categories', 'ilike', 'مفرج')]
+
+            return {'domain': {'service_cats': domain}}
 
     @api.onchange('requested_service_amount', 'benefit_type', 'date', 'service_cat', 'family_id', 'exception_or_steal',
                   'home_furnishing_exception', 'has_marriage_course', 'home_age')

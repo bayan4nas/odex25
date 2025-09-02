@@ -202,6 +202,15 @@
                                     <field name="family_id_phone"/>
                                 </group>
                             </page>
+                            <page string="Benefit Detainee Details"
+                                  attrs="{'invisible': [('benefit_type', '!=', 'detainee')]}">
+                                <group>
+                                    <field name="detainee_name"/>
+                                    <field name="detainee_number"/>
+                                    <field name="detainee_category"/>
+                                    <field name="detainee_phone" />
+                                </group>
+                            </page>
                             <page string="Rent Information"
                                   attrs="{'invisible':[('service_type', '!=', 'rent'),'|',('service_type', '!=', 'alternative_housing'),('providing_alternative_housing_based_rent','=',False)]}">
                                 <form>
