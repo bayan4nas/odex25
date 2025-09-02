@@ -2245,12 +2245,12 @@ msgid "Has the meeting with the employee been held and goals discussed for the y
 msgstr "هل تم الاجتماع مع الموظف ومناقشة أهدافه للعام؟"
 
 #. module: exp_hr_appraisal_kpi
-##: model:ir.model.fields.selection,name:exp_hr_appraisal_kpi.field_hr_employee_appraisal__meeting_done__0
+#: model:ir.model.fields.selection,name:exp_hr_appraisal_kpi.selection__hr_employee_appraisal__meeting_done__yes
 msgid "Yes"
 msgstr "نعم"
 
 #. module: exp_hr_appraisal_kpi
-#: model:ir.model.fields.selection,name:exp_hr_appraisal_kpi.field_hr_employee_appraisal__meeting_done__1
+#: model:ir.model.fields.selection,name:exp_hr_appraisal_kpi.selection__hr_employee_appraisal__meeting_done__no
 msgid "No"
 msgstr "لا"
 
@@ -2264,3 +2264,9 @@ msgstr "لا يمكنك نقل التقييم إلى هذه المرحلة إل�
 #: model:ir.model.fields.selection,name:exp_hr_appraisal_kpi.selection__hr_employee_appraisal__state__wait_direct_manager
 msgid "Waiting Direct Manager"
 msgstr "المدير المباشر"
+
+#. module: exp_hr_appraisal_kpi
+#: code:addons/exp_hr_appraisal_kpi/models/years_employee_goals.py:0
+#, python-format
+msgid "You cannot add the same KPI twice in the same appraisal."
+msgstr "لا يمكنك إضافة نفس المؤشر مرتين في نفس التقييم."
