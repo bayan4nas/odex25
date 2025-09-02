@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="loan_request_type_form_inherit" model="ir.ui.view">
+        <field name="name">loan.request.type.inherit2</field>
+        <field name="model">loan.request.type</field>
+        <field name="inherit_id" ref="hr_loans_salary_advance.loan_request_type_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='account_id']" position="after">
+                <field name="item_budget_id" required="1" options="{'no_create': True, 'no_open': True}"/>
+            </xpath>
+            <xpath expr="//field[@name='journal_id']" position="attributes">
+            <attribute name="domain">[('type','=','purchase'),('hr_journal', '=', True)]</attribute>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

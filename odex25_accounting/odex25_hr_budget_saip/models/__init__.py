@@ -6,3 +6,4 @@ from . import hr_official_mission
 from . import employee_overtime_request
 from . import hr_termination
 from . import account_payment
+from . import hr_loan_salary
