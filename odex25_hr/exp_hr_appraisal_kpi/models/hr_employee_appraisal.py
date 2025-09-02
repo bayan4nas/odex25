@@ -92,7 +92,13 @@ class EmployeeAppraisal(models.Model):
     exp_performance_count = fields.Integer('# Exceptional Performance Requests',
                                            help='Number of groups that apply to the current user',
                                            compute='_compute_requests_count', compute_sudo=True)
-    meeting_done = fields.Selection([('yes', 'Yes'),  ('no', 'No'), ], string="Has the meeting with the employee been held and goals discussed for the year?",required=True, default=False,)
+    meeting_done = fields.Selection([('yes', 'Yes'),  ('no', 'No'), ], string="Has the meeting with the employee been held and goals discussed for the year?")
+
+    @api.constrains('development_plan_ids')
+    def _check_development_plan_ids(self):
+        for rec in self:
+            if not rec.development_plan_ids:
+                raise ValidationError(_("You must add at least one Development Plan."))
 
     @api.model
     def search(self, args, offset=0, limit=None, order=None, count=False):
