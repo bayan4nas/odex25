@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-31 11:09+0000\n"
-"PO-Revision-Date: 2025-08-31 11:09+0000\n"
+"POT-Creation-Date: 2025-09-02 10:37+0000\n"
+"PO-Revision-Date: 2025-09-02 10:37+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -78,9 +78,11 @@ msgid "Beneficiary Partner"
 msgstr "الشريك المستفيد"
 
 #. module: odex25_hr_budget_saip
+#: model:ir.model.fields,field_description:odex25_hr_budget_saip.field_hr_employee_reward__item_budget_id
 #: model:ir.model.fields,field_description:odex25_hr_budget_saip.field_hr_payslip_line__item_budget_id
 #: model:ir.model.fields,field_description:odex25_hr_budget_saip.field_hr_salary_rule__item_budget_id
 #: model:ir.model.fields,field_description:odex25_hr_budget_saip.field_hr_salary_rule_account__item_budget_id
+#: model:ir.model.fields,field_description:odex25_hr_budget_saip.field_loan_request_type__item_budget_id
 msgid "Budget Item"
 msgstr "بند الميزانية"
 
@@ -95,6 +97,13 @@ msgstr "ادارة الميزانية"
 #: model_terms:ir.ui.view,arch_db:odex25_hr_budget_saip.view_return_state_form
 msgid "Cancel"
 msgstr "إلغاء"
+
+#. module: odex25_hr_budget_saip
+#: code:addons/odex25_hr_budget_saip/models/hr_employee_reward.py:0
+#: code:addons/odex25_hr_budget_saip/models/hr_loan_salary.py:0
+#, python-format
+msgid "Cannot create invoice without a valid amount."
+msgstr "لا يمكن إنشاء فاتورة بدون مبلغ"
 
 #. module: odex25_hr_budget_saip
 #: code:addons/odex25_hr_budget_saip/wizard/ReturnState.py:0
@@ -214,6 +223,11 @@ msgid "Employee Benefits"
 msgstr "تعويضات العاملين"
 
 #. module: odex25_hr_budget_saip
+#: model:ir.model,name:odex25_hr_budget_saip.model_hr_loan_salary_advance
+msgid "Employee Loan"
+msgstr "سلفية الموظف"
+
+#. module: odex25_hr_budget_saip
 #: model:ir.model.fields,field_description:odex25_hr_budget_saip.field_account_journal__hr_journal
 msgid "HR Journal Entries"
 msgstr "يومية الموارد البشرية"
@@ -235,6 +249,12 @@ msgstr ""
 #, python-format
 msgid "Invalid state transition: cannot move from %s to %s."
 msgstr ""
+
+#. module: odex25_hr_budget_saip
+#: code:addons/odex25_hr_budget_saip/models/hr_loan_salary.py:0
+#, python-format
+msgid "Invoice must contain at least one line."
+msgstr "يجب أن تحتوي الفاتورة على سطر واحد على الأقل"
 
 #. module: odex25_hr_budget_saip
 #: model:ir.model.fields,field_description:odex25_hr_budget_saip.field_account_bank_statement_line__is_recipte
@@ -287,6 +307,11 @@ msgid "Last Updated on"
 msgstr ""
 
 #. module: odex25_hr_budget_saip
+#: model:ir.model.fields,field_description:odex25_hr_budget_saip.field_hr_employee_reward__move_id
+msgid "Move"
+msgstr "فاتورة المكافأة"
+
+#. module: odex25_hr_budget_saip
 #: model:ir.model.fields,field_description:odex25_hr_budget_saip.field_return_state_account__new_state
 msgid "New State"
 msgstr ""
@@ -297,20 +322,53 @@ msgid "No"
 msgstr "لا"
 
 #. module: odex25_hr_budget_saip
+#: code:addons/odex25_hr_budget_saip/models/hr_employee_reward.py:0
+#, python-format
+msgid "No account defined"
+msgstr "لم يتم تعريف أي حساب"
+
+#. module: odex25_hr_budget_saip
+#: code:addons/odex25_hr_budget_saip/models/hr_loan_salary.py:0
+#, python-format
+msgid "No account defined for this request type."
+msgstr "لم يتم تعريف أي حساب لهذا النوع من الطلب"
+
+#. module: odex25_hr_budget_saip
 #: code:addons/odex25_hr_budget_saip/models/employee_overtime_request.py:0
+#: code:addons/odex25_hr_budget_saip/models/hr_employee_reward.py:0
+#: code:addons/odex25_hr_budget_saip/models/hr_loan_salary.py:0
 #: code:addons/odex25_hr_budget_saip/models/hr_salary_rules.py:0
 #: code:addons/odex25_hr_budget_saip/models/hr_salary_rules.py:0
 #, python-format
 msgid "No budget for this account: {}"
-msgstr ""
+msgstr "لا يوجد ميزانية كافية لهذا الحساب : {}"
+
+#. module: odex25_hr_budget_saip
+#: code:addons/odex25_hr_budget_saip/models/hr_employee_reward.py:0
+#, python-format
+msgid "No budget for this service: {}"
+msgstr "لا يوجد ميزانية كافية لهذه الخدمة : {}"
 
 #. module: odex25_hr_budget_saip
 #: code:addons/odex25_hr_budget_saip/models/employee_overtime_request.py:0
+#: code:addons/odex25_hr_budget_saip/models/hr_loan_salary.py:0
 #: code:addons/odex25_hr_budget_saip/models/hr_official_mission.py:0
 #: code:addons/odex25_hr_budget_saip/models/hr_salary_rules.py:0
 #: code:addons/odex25_hr_budget_saip/models/hr_salary_rules.py:0
 #, python-format
 msgid "No budget for this service: {} - {}"
+msgstr "لا يوجد ميزانية كافية :{} - {}"
+
+#. module: odex25_hr_budget_saip
+#: code:addons/odex25_hr_budget_saip/models/hr_employee_reward.py:0
+#, python-format
+msgid "No expense account defined for employee: %s"
+msgstr ""
+
+#. module: odex25_hr_budget_saip
+#: code:addons/odex25_hr_budget_saip/models/hr_employee_reward.py:0
+#, python-format
+msgid "No journal defined for employee: %s"
 msgstr ""
 
 #. module: odex25_hr_budget_saip
@@ -427,6 +485,12 @@ msgid "ReturnState"
 msgstr ""
 
 #. module: odex25_hr_budget_saip
+#: code:addons/odex25_hr_budget_saip/models/hr_employee_reward.py:0
+#, python-format
+msgid "Rewards Batch - %s"
+msgstr "دفعة المكافآت - %s"
+
+#. module: odex25_hr_budget_saip
 #: model:ir.model,name:odex25_hr_budget_saip.model_hr_salary_rule
 msgid "Salary Rule"
 msgstr "قاعدة المرتب"
@@ -468,6 +532,14 @@ msgstr "إنهاء الخدمة/الإستقالة للموظفين"
 #, python-format
 msgid "Termination of %s"
 msgstr " نهاية الخدمة ل %s"
+
+#. module: odex25_hr_budget_saip
+#: code:addons/odex25_hr_budget_saip/models/hr_employee_reward.py:0
+#, python-format
+msgid ""
+"The account %s is not valid for invoice lines. It must be an Expense "
+"account."
+msgstr ""
 
 #. module: odex25_hr_budget_saip
 #: code:addons/odex25_hr_budget_saip/models/hr_official_mission.py:0
@@ -538,6 +610,16 @@ msgstr ""
 #: model:ir.model,name:odex25_hr_budget_saip.model_employee_overtime_request
 msgid "employee.overtime.request"
 msgstr "العمل الاضافي"
+
+#. module: odex25_hr_budget_saip
+#: model:ir.model,name:odex25_hr_budget_saip.model_hr_employee_reward
+msgid "hr.employee.reward"
+msgstr ""
+
+#. module: odex25_hr_budget_saip
+#: model:ir.model,name:odex25_hr_budget_saip.model_loan_request_type
+msgid "loan.request.type"
+msgstr ""
 
 #. module: odex25_hr_budget_saip
 #: model:ir.model.fields.selection,name:odex25_hr_budget_saip.selection__overtime_reject_wizard__type__overtime
