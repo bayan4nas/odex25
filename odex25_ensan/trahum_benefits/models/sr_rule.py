@@ -47,7 +47,8 @@ METRICS = [
     ('family_value', 'Family Value'),
     ('tolerance_ratio', 'Tolerance Ratio'),
     ('service_repetition', 'Service Repetition Count'),
-    ('housing_support_rule', 'Housing Support Rule')
+    ('housing_support_rule', 'Housing Support Rule'),
+
 ]
 HOUSING_PROPERTY_TYPES = [
     ('ownership', 'ownership'),
@@ -106,3 +107,44 @@ class SrRule(models.Model):
 
     one_time_support = fields.Boolean(string='دعم لمرة واحدة',
                                      )
+
+    rent_duration_years = fields.Integer(
+        string='Years',
+    )
+
+    rent_duration_months = fields.Integer(
+        string='Months',
+    )
+
+    duration_operator = fields.Selection(
+        OPERATORS,
+        string='Duration Comparison Operator',
+    )
+
+    duration_violation_message = fields.Text(
+        string='Rental Duration Violation Message'
+    )
+
+    # Second condition - Amount
+    max_service_amount = fields.Float(
+        string='Reference Amount',
+        help='The reference amount used to compare with the service request amount'
+    )
+
+    amount_operator = fields.Selection(
+        OPERATORS,
+        string='Amount Comparison Operator',
+        help='The operator applied to the service request amount'
+    )
+
+    amount_violation_message = fields.Text(
+        string='Service Amount Violation Message'
+    )
+    allowed_need_categories = fields.Many2many(
+        'family.need.category',
+        'sr_rule_need_category_rel',
+        'rule_id',
+        'category_id',
+        string='تصنيف الاحتياج المسموح',
+        help='اختر تصنيفات الاحتياج التي ستطبق عليها هذه القاعدة. إذا لم يتم اختيار أي تصنيف، ستطبق القاعدة على جميع الأسر'
+    )
