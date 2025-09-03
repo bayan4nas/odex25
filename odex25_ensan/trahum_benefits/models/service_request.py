@@ -391,12 +391,42 @@ class ServiceRequest(models.Model):
                 domain.append(('date', '<=', rule.date_to))
         return domain
 
+    def _calculate_family_rent_duration(self):
+        """
+        حساب مدة الإيجار من ملف الأسرة بالأشهر
+        """
+        if not self.family_id or not self.family_id.rent_start_date or not self.family_id.rent_end_date:
+            return 0
+
+        try:
+            from dateutil.relativedelta import relativedelta
+
+            delta = relativedelta(self.family_id.rent_end_date, self.family_id.rent_start_date)
+            total_months = delta.years * 12 + delta.months
+
+            if delta.days > 15:
+                total_months += 1
+
+            return total_months
+        except:
+            return 0
     def _apply_rule(self, rule):
         """
         Applies a single rule to the service request.
         This function contains the core logic for each metric.
         """
         self.ensure_one()
+        if rule.allowed_need_categories:
+            family_need_category = None
+
+            if self.family_id and self.family_id.family_need_class_id:
+                family_need_category = self.family_id.family_need_class_id
+            elif hasattr(self, 'family_need_class_id') and self.family_need_class_id:
+                family_need_category = self.family_need_class_id
+
+
+            if family_need_category not in rule.allowed_need_categories:
+                return
 
         #
         # ---  (Validation Rules) ---
@@ -496,69 +526,64 @@ class ServiceRequest(models.Model):
                 if not self.family_id:
                     return
 
-                family_property_type = self.family_id.property_type
-                if rule.housing_property_type != 'all' and family_property_type != rule.housing_property_type:
+                # Step 1: Check housing property type first
+                family_property_type = getattr(self.family_id, 'property_type', False)
+                print(family_property_type)
+                if rule.housing_property_type and rule.housing_property_type != family_property_type:
                     return
+                print("family_property_type")
 
-                domain = base_domain + [('service_cats', '=', self.service_cats.id)]
-                family_exchange_period = self.family_id.exchange_period
+                # Step 2: Validate rental duration
+                if rule.duration_operator and (rule.rent_duration_years or rule.rent_duration_months):
+                    # Calculate family rental duration in months
+                    family_rent_duration = self._calculate_family_rent_duration()
 
+                    # Calculate rule duration in months
+                    rule_duration_months = (rule.rent_duration_years or 0) * 12 + (rule.rent_duration_months or 0)
+
+                    # Apply operator to compare durations
+                    duration_condition = eval(
+                        f"{family_rent_duration} {rule.duration_operator} {rule_duration_months}"
+                    )
+
+                    if duration_condition:
+                        message = rule.duration_violation_message or "Violation: Rental duration condition not met"
+                        if rule.severity == 'error':
+                            raise ValidationError(message)
+                        elif rule.severity == 'warning':
+                            self.message_post(body=f"Warning: {message}")
+
+                # Step 3: Validate service amount
+                if rule.amount_operator and rule.max_service_amount:
+                    amount_condition = eval(
+                        f"{self.requested_service_amount} {rule.amount_operator} {rule.max_service_amount}"
+                    )
+
+                    if amount_condition:
+                        message = rule.amount_violation_message or "Violation: Service amount condition not met"
+                        if rule.severity == 'error':
+                            raise ValidationError(message)
+                        elif rule.severity == 'warning':
+                            self.message_post(body=f"Warning: {message}")
+
+                # Step 4: One-time support check
                 if rule.one_time_support:
-                    if rule.housing_exchange_type and rule.housing_exchange_type == family_exchange_period:
+                    base_domain = self._get_beneficiary_domain()
+                    if base_domain:
+                        domain = base_domain + [
+                            ('service_cats', '=', self.service_cats.id)
+                        ]
 
-                        total_previous = sum(
-                            self.env['service.request'].search(domain).mapped('requested_service_amount'))
-                        total_after_request = total_previous + self.requested_service_amount
-                        max_allowed = min(rule.threshold_value, self.family_id.housing_value)
-                        if total_after_request > rule.threshold_value:
-                            message = rule.message or _(
-                                "The service request cannot be submitted. Total requested amount (%s) exceeds the allowed limit (%s)."
-                            ) % (total_after_request, max_allowed)
-                            raise ValidationError(message)
-                else:
+                        existing_requests = self.env['service.request'].search_count(domain)
 
-                    if rule.housing_exchange_type and rule.housing_exchange_type == family_exchange_period:
-                        if self.requested_service_amount > self.family_id.housing_value:
-                            raise ValidationError(_(
-                                "The requested service amount (%s) cannot exceed the housing value (%s)."
-                            ) % (self.requested_service_amount, self.family_id.housing_value))
+                        if existing_requests > 0:
+                            message = "This service can only be requested once - one-time support only"
+                            if rule.severity == 'error':
+                                raise ValidationError(message)
+                            elif rule.severity == 'warning':
+                                self.message_post(body=f"Warning: {message}")
 
-                    if not family_exchange_period:
-                        raise ValidationError(_("The exchange period has not been specified in the family file."))
-
-                    period_in_days = {
-                        'monthly': 30,
-                        'every_three_months': 90,
-                        'every_six_months': 180,
-                        'every_nine_months': 270,
-                        'annually': 365,
-                        'two_years': 730
-                    }
-                    required_days = period_in_days.get(family_exchange_period, 0)
-                    if required_days == 0:
-                        raise ValidationError(
-                            _("The exchange period '%s' specified in the family file is invalid.") % family_exchange_period)
-
-                    last_request = self.env['service.request'].search(domain, order='date desc', limit=1)
-                    if last_request:
-                        days_diff = (date.today() - last_request.date).days
-                        if days_diff < required_days:
-                            message = rule.message or _(
-                                "The service request cannot be submitted. The required period (%s days) since the last request has not yet passed."
-                            ) % required_days
-                            raise ValidationError(message)
                 return
-
-            # The `eval` function is used here for dynamic operator evaluation.
-            # It's safe because the inputs (value, operator, threshold) are controlled within Odoo.
-            condition_met = eval(f"{value_to_check} {rule.operator} {rule.threshold_value}")
-
-            if condition_met:
-                message = rule.message or f"Rule Violation: {rule.name}"
-                if rule.severity == 'error':
-                    raise ValidationError(message)
-                elif rule.severity == 'warning':
-                    self.message_post(body=f"Warning: {message}")
 
         #
         # --- (Computation Rules) ---
