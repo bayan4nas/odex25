@@ -76,7 +76,7 @@
                                        attrs="{'invisible':[('benefit_type','!=','member')],'readonly':[('state','not in',['draft','researcher','send_request'])],'required':[('benefit_type','=','member')]}"/>
                                 <field name="family_id"
                                        attrs="{'readonly':[('state','not in',['draft','researcher','send_request'])],'invisible':[('benefit_type','=','detainee')]}"
-                                       required="1"/>
+                                       />
                                 <field name="family_category" invisible="1"/>
                                 <field name="benefit_member_count" invisible="1"/>
                                 <field name="eid_gift_benefit_count"

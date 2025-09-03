@@ -240,9 +240,9 @@ class ServiceRequest(models.Model):
     allowed_member_ids = fields.Many2many('family.member', compute='_compute_allowed_members')
 
     detainee_name = fields.Char('Detainee Name', related='detainee_member.name')
-    detainee_number = fields.Char('Detainee Name', related='detainee_member.member_id_number')
-    detainee_category = fields.Selection('Detainee Name', related='detainee_file.beneficiary_category')
-    detainee_phone = fields.Char('Detainee Name', related='detainee_member.member_phone')
+    detainee_number = fields.Char('Detainee Number', related='detainee_member.member_id_number')
+    detainee_category = fields.Selection('Detainee Category', related='detainee_file.beneficiary_category')
+    detainee_phone = fields.Char('Detainee Phone', related='detainee_member.member_phone')
 
     @api.depends('family_id')
     def _compute_allowed_members(self):
@@ -643,15 +643,29 @@ class ServiceRequest(models.Model):
     @api.onchange('detainee_file', 'family_id')
     def onchange_benefit_type(self):
         for rec in self:
-            category = False
+            domain = []
             if rec.benefit_type in ['family', 'member']:
-                category = rec.family_id.beneficiary_category
-            elif rec.benefit_type == 'detainee':
-                category = rec.detainee_file.beneficiary_category
-            if not category:
-                continue
-            domain = [('beneficiary_categories', 'ilike', 'نزيل')] \
-                if category == 'gust' else [('beneficiary_categories', 'ilike', 'مفرج')]
+                if rec.family_id.beneficiary_category == 'gust':
+                    domain = [('beneficiary_categories', 'ilike', 'نزيل')]
+                else:
+                    domain = [('beneficiary_categories', 'ilike', 'مفرج')]
+            else:
+                if rec.family_id.beneficiary_category == 'gust':
+                    domain = [('beneficiary_categories', 'ilike', 'نزيل'),
+                              ('beneficiary_categories', 'not ilike', 'اسرة')]
+                else:
+                    domain = [('beneficiary_categories', 'ilike', 'مفرج'),
+                              ('beneficiary_categories', 'not ilike', 'اسرة')]
+
+            # category = False
+            # if rec.benefit_type in ['family', 'member']:
+            #     category = rec.family_id.beneficiary_category
+            # elif rec.benefit_type == 'detainee':
+            #     category = rec.detainee_file.beneficiary_category
+            # if not category:
+            #     continue
+            # domain = [('beneficiary_categories', 'ilike', 'نزيل')] \
+            #     if category == 'gust' else [('beneficiary_categories', 'ilike', 'مفرج')]
 
             return {'domain': {'service_cats': domain}}
 
