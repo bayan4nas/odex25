@@ -95,13 +95,27 @@ class EmployeeAppraisal(models.Model):
                                            compute='_compute_requests_count', compute_sudo=True)
     meeting_done = fields.Selection([('yes', 'Yes'),  ('no', 'No'), ], string="Has the meeting with the employee been held and goals discussed for the year?")
 
-    apprisal_result_display = fields.Char(string="Appraisal Result", compute="_compute_apprisal_result_display",store=False  )
+    apprisal_result_display = fields.Char(string="Appraisal Result",store=False)
 
-    @api.depends("appraisal_result", "state", "appraisal_plan_id")
-    def _compute_apprisal_result_display(self):
+    def read(self, fields=None, load='_classic_read'):
         for rec in self:
             if rec.is_first_stage:
                 rec.apprisal_result_display = _("In the Performance and Development Planning Stage")
+
+                new  = self.env['appraisal.result'].create({'name': rec.apprisal_result_display})
+                rec.appraisal_result = new.id
+
+        return super(EmployeeAppraisal, self).read(fields, load=load)
+
+    @api.model
+    def search(self, args, offset=0, limit=None, order=None, count=False):
+        user = self.env.user
+        if not (user.has_group("exp_hr_appraisal.group_appraisal_manager") or user.has_group(
+                "exp_hr_appraisal.group_appraisal_employee")):
+            args = args + [('state', '!=', 'refused')]
+        return super(EmployeeAppraisal, self).search(args, offset=offset, limit=limit, order=order, count=count)
+
+
 
     @api.constrains('development_plan_ids')
     def _check_development_plan_ids(self):
@@ -123,7 +137,10 @@ class EmployeeAppraisal(models.Model):
         user = self.env.user
         if not (user.has_group("exp_hr_appraisal.group_appraisal_manager") or user.has_group("exp_hr_appraisal.group_appraisal_employee")):
             args = args + [('state', '!=', 'refused')]
-
+        for rec in self:
+            if rec.is_first_stage and not  rec.appraisal_result:
+                rec.appraisal_result = self.env['appraisal.result'].create({'name': rec.apprisal_result_display}).id
+                rec.apprisal_result_display = rec.appraisal_result.name
         return super(EmployeeAppraisal, self).search(args, offset=offset, limit=limit, order=order, count=count)
 
     def send_to_direct_manager(self):
