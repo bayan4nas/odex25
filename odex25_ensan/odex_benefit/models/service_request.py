@@ -650,23 +650,11 @@ class ServiceRequest(models.Model):
                 else:
                     domain = [('beneficiary_categories', 'ilike', 'مفرج')]
             else:
-                if rec.family_id.beneficiary_category == 'gust':
+                if rec.detainee_file.beneficiary_category == 'gust':
                     domain = [('beneficiary_categories', 'ilike', 'نزيل'),
                               ('beneficiary_categories', 'not ilike', 'اسرة')]
                 else:
-                    domain = [('beneficiary_categories', 'ilike', 'مفرج'),
-                              ('beneficiary_categories', 'not ilike', 'اسرة')]
-
-            # category = False
-            # if rec.benefit_type in ['family', 'member']:
-            #     category = rec.family_id.beneficiary_category
-            # elif rec.benefit_type == 'detainee':
-            #     category = rec.detainee_file.beneficiary_category
-            # if not category:
-            #     continue
-            # domain = [('beneficiary_categories', 'ilike', 'نزيل')] \
-            #     if category == 'gust' else [('beneficiary_categories', 'ilike', 'مفرج')]
-
+                    domain = [('beneficiary_categories', 'ilike', 'مفرج')]
             return {'domain': {'service_cats': domain}}
 
     @api.onchange('requested_service_amount', 'benefit_type', 'date', 'service_cat', 'family_id', 'exception_or_steal',
