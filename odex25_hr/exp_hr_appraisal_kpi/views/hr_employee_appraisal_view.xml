@@ -119,6 +119,14 @@
                                 class="oe_highlight"
                                 type="object"
                                 attrs="{'invisible': ['|','|','|',('type', '!=', 'appraisal'),('state', '!=', 'draft'),('is_last_stage', '!=', True),('exceptional_performance', '=', False)]}"/>
+                        <button name="action_open_cancel_wizard"
+                                string="Cancel Request"
+                                type="object"
+                                class="oe_highlight"
+                                confirm="Are you sure you want to cancel this request?"
+                                groups="exp_hr_appraisal.group_appraisal_manager,exp_hr_appraisal.group_appraisal_employee"
+                                attrs="{'invisible': [('state','in',('cancel','draft'))]}"/>
+
                         <field name="state" widget="statusbar"
                                statusbar_visible="draft,wait_direct_manager,wait_employee,wait_performance_officer,closed"/>
                     </header>
@@ -204,6 +212,7 @@
                     <field name="meeting_done"
                            attrs="{'required': [('state','!=','draft')],'invisible': [('state', '=', 'draft')],'readonly': [('state', '!=', 'wait_direct_manager')]}"/>
                     <field name="can_see_appraisal_result" invisible="1"/>
+
                     <field name="goals_mark" decoration-bf="1"
                            attrs="{'invisible': [('is_last_stage', '=', False)]}"/>
                     <field name="skill_mark" decoration-bf="1"
@@ -219,6 +228,8 @@
                            decoration-warning="appraisal_result_color == 'orange'"
                            decoration-muted="appraisal_result_color == 'purple'"
                            options="{'no_create': True, 'no_open': True}" readonly="1"/>
+                    <field style="color:blue; font-weight:bold;" attrs="{'invisible': [('is_first_stage', '!=',True)]}"
+                           name="apprisal_result_display" readonly="1" nolabel="1"/>
                     <field name="exceptional_performance"
                            attrs="{'invisible': [('exceptional_performance', '=', False)]}"/>
                 </xpath>
