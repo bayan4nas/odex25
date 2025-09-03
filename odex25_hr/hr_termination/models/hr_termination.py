@@ -1121,13 +1121,13 @@ class HrSalaryRuleAndLoansLines(models.Model):
     account_credit_id = fields.Many2one('account.account', required=False, store=True)
     account_debit_id = fields.Many2one('account.account', required=False, store=True)
 
-    # get acoount IDs base on salary rule config
+    #get acoount IDs base on salary rule config
     def get_account_ids(self):
         for rec in self:
-            emp_type = rec.allowance_deduction_inverse_id.employee_id.employee_type_id
-            if rec.category_id.rule_type == 'allowance':
-                account_debit = rec.salary_rule_id.get_debit_account_id(emp_type)
-                rec.account_debit_id = account_debit.id
-            if rec.category_id.rule_type == 'deduction':
-                account_credit = rec.salary_rule_id.get_credit_account_id(emp_type)
-                rec.account_credit_id = account_credit.id
+            emp_type = rec.allowance_deduction_inverse_id.employee_id.employee_type_id.id
+            if rec.category_id.rule_type=='allowance':
+               account_debit = rec.salary_rule_id.get_debit_account_id(emp_type)
+               rec.account_debit_id = account_debit
+            if rec.category_id.rule_type=='deduction':
+               account_credit = rec.salary_rule_id.get_credit_account_id(emp_type)
+               rec.account_credit_id = account_credit
