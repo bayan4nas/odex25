@@ -20,7 +20,7 @@ This course provides a comprehensive, hands-on guide to managing employee custod
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base','hr','account','exp_payroll_custom','hr_expense','odex25_account_reports','system_dashboard_classic','exp_budget_check'],
+    'depends': ['base','hr','account','exp_payroll_custom','hr_expense','odex25_account_reports','system_dashboard_classic'],
 
     # always loaded
     'data': [
