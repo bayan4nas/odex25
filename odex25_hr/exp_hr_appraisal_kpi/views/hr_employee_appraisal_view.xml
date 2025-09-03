@@ -79,7 +79,8 @@
                                 groups="exp_hr_appraisal.group_appraisal_employee"
                                 confirm="Are you sure to Reset To Performance Officer This Record?"/>
                         <button name="refused" string="Refuse" class="oe_highlight" type="object"
-                                states="wait_performance_officer" groups="exp_hr_appraisal.group_appraisal_employee"/>
+                               invisible="1"  groups="exp_hr_appraisal.group_appraisal_employee"/>
+<!--                        states="wait_performance_officer"-->
 
                         <button name="send_to_gm" string="Approve" class="oe_highlight"
                                 attrs="{'invisible': ['|',('state', '!=', 'wait_services_manager'),('type', '!=', 'exp_performance')]}"
@@ -100,7 +101,7 @@
                                 attrs="{'invisible': ['|',('state', '!=', 'wait_gm'),('type', '!=', 'exp_performance')]}"
                                 type="object" groups="hr_base.group_general_manager"/>
                         <button name="refused" string="Refuse" class="oe_highlight" type="object"
-                                states="wait_gm" groups="hr_base.group_general_manager"/>
+                                states="wait_gm"   attrs="{'invisible': [('state', '=', 'wait_performance_officer')]}" groups="hr_base.group_general_manager"/>
 
                         <button name="draft" string="Re-Draft" class="oe_highlight" type="object"
                                 states="refused,closed"
@@ -125,7 +126,7 @@
                                 class="oe_highlight"
                                 confirm="Are you sure you want to cancel this request?"
                                 groups="exp_hr_appraisal.group_appraisal_manager,exp_hr_appraisal.group_appraisal_employee"
-                                attrs="{'invisible': [('state','in',('cancel','draft'))]}"/>
+                                attrs="{'invisible': [('state','not in',('wait_performance_officer'))]}"/>
 
                         <field name="state" widget="statusbar"
                                statusbar_visible="draft,wait_direct_manager,wait_employee,wait_performance_officer,closed"/>
