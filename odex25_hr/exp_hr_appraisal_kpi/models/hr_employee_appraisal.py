@@ -61,7 +61,7 @@ class EmployeeAppraisal(models.Model):
         ("wait_hr_manager", "Waiting Human Resources Manager"),
         ("wait_services_manager", "Waiting Head of Shared Services"),
         ("wait_gm", "Waiting Secretary General"),
-        ("closed", "Approved"), ('refused', 'Cancel')
+        ("closed", "Approved"), ('refused', 'Cancel'),('cancel', 'Cancelled')
     ], default='draft', tracking=True)
     # group_appraisal_manager
     # group_appraisal_employee
@@ -76,6 +76,7 @@ class EmployeeAppraisal(models.Model):
         ("correction", "Correction"),
         ("exp_performance", "Exceptional performance")
     ], default='appraisal', tracking=True)
+    cancel_reason = fields.Text(string="Cancel Reason", tracking=True,readonly=True)
     can_see_appraisal_result = fields.Boolean(compute="_compute_can_see_appraisal_result",
                                               string="Can See Appraisal Result", store=False)
     is_appraisal_employee = fields.Boolean(compute="_compute_is_appraisal_employee")
@@ -94,11 +95,28 @@ class EmployeeAppraisal(models.Model):
                                            compute='_compute_requests_count', compute_sudo=True)
     meeting_done = fields.Selection([('yes', 'Yes'),  ('no', 'No'), ], string="Has the meeting with the employee been held and goals discussed for the year?")
 
+    apprisal_result_display = fields.Char(string="Appraisal Result", compute="_compute_apprisal_result_display",store=False  )
+
+    @api.depends("appraisal_result", "state", "appraisal_plan_id")
+    def _compute_apprisal_result_display(self):
+        for rec in self:
+            if rec.is_first_stage:
+                rec.apprisal_result_display = _("In the Performance and Development Planning Stage")
+
     @api.constrains('development_plan_ids')
     def _check_development_plan_ids(self):
         for rec in self:
             if not rec.development_plan_ids:
                 raise ValidationError(_("You must add at least one Development Plan."))
+
+    def action_open_cancel_wizard(self):
+        return {
+            'type': 'ir.actions.act_window',
+            'res_model': 'appraisal.cancel.wizard',
+            'view_mode': 'form',
+            'target': 'new',
+            'context': {'active_id': self.id},
+        }
 
     @api.model
     def search(self, args, offset=0, limit=None, order=None, count=False):
@@ -207,7 +225,6 @@ class EmployeeAppraisal(models.Model):
                 ('period_id', '=', item.appraisal_stage_id.period_id.id)
             ], order="sequence ASC", limit=1)
             item.is_first_stage = item.appraisal_stage_id.id == first_stage_record.id if first_stage_record else False
-
     @api.depends('employee_id', 'state')
     def _compute_can_see_appraisal_result(self):
         for record in self:
@@ -609,7 +626,7 @@ class SkillItems(models.Model):
                                            string='Start Year Skill Apprisal')
     target = fields.Selection([('1', '1'), ('2', '2'), ('3', '3')], string='Target')
     level_id = fields.Many2one('skill.level', string='Target')
-    skill_weight = fields.Float(string="Weight")
+    skill_weight = fields.Integer(string="Weight")
     skill_result = fields.Float(string='Result', compute="_compute_skill_result",
                                 store=True, help="Calculated as (sum of marks / number of items) * skill weight")
     remarks = fields.Text(string="Apprisal Remarks")

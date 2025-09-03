@@ -9,6 +9,18 @@ from datetime import date
 from dateutil.relativedelta import relativedelta
 from odoo import models, fields, api, _
 from odoo.exceptions import UserError
+class AppraisalCancelWizard(models.TransientModel):
+    _name = "appraisal.cancel.wizard"
+    _description = "Appraisal Cancel Wizard"
+
+    cancel_reason = fields.Text(string="Reason", required=True)
+
+    def action_confirm_cancel(self):
+        appraisal = self.env['hr.employee.appraisal'].browse(self._context.get('active_id'))
+        appraisal.write({
+            'state': 'cancel',
+            'cancel_reason': self.cancel_reason,
+        })
 
 
 class PerformanceEvaluationReport(models.TransientModel):

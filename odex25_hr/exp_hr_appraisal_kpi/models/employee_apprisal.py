@@ -65,9 +65,9 @@ class EmployeeApprisal(models.Model):
     department_id = fields.Many2one('hr.department',required=True,readonly=False,store=True,compute='compute_depart_job', tracking=True,string='Department')
     job_id = fields.Many2one('hr.job',force_save=1,readonly=True,store=True, string='Job Title',related='employee_id.job_id',tracking=True,)
 
-    goals_mark = fields.Float(store=True,string='Goals Apprisal Mark',readonly=True,tracking=True)
-    skill_mark = fields.Float(store=True,string='Skills Apprisal Mark',readonly=True,tracking=True)
-    total_score = fields.Float(string='Total Mark',store=True,readonly=True,compute='compute_total_score',tracking=True)
+    goals_mark = fields.Integer(store=True,string='Goals Apprisal Mark',readonly=True,tracking=True)
+    skill_mark = fields.Integer(store=True,string='Skills Apprisal Mark',readonly=True,tracking=True)
+    total_score = fields.Integer(string='Total Mark',store=True,readonly=True,compute='compute_total_score',tracking=True)
     apprisal_result = fields.Many2one('appraisal.result',string='Apprisal Result',store=True,tracking=True)
 
     notes= fields.Text(string='Notes',required=False)
