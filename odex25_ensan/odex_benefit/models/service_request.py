@@ -651,8 +651,7 @@ class ServiceRequest(models.Model):
                     domain = [('beneficiary_categories', 'ilike', 'مفرج')]
             else:
                 if rec.detainee_file.beneficiary_category == 'gust':
-                    domain = [('beneficiary_categories', 'ilike', 'نزيل'),
-                              ('beneficiary_categories', 'not ilike', 'اسرة')]
+                    domain = [('beneficiary_categories', '=', 'نزيل')]
                 else:
                     domain = [('beneficiary_categories', 'ilike', 'مفرج')]
             return {'domain': {'service_cats': domain}}
