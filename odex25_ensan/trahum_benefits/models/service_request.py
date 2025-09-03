@@ -525,19 +525,17 @@ class ServiceRequest(models.Model):
             elif rule.metric == 'housing_support_rule':
                 if not self.family_id:
                     return
-
+                print("housing_support_rule")
                 # Step 1: Check housing property type first
                 family_property_type = getattr(self.family_id, 'property_type', False)
-                print(family_property_type)
                 if rule.housing_property_type and rule.housing_property_type != family_property_type:
                     return
-                print("family_property_type")
-
+                print("duration_condition")
                 # Step 2: Validate rental duration
                 if rule.duration_operator and (rule.rent_duration_years or rule.rent_duration_months):
                     # Calculate family rental duration in months
                     family_rent_duration = self._calculate_family_rent_duration()
-
+                    print( family_rent_duration)
                     # Calculate rule duration in months
                     rule_duration_months = (rule.rent_duration_years or 0) * 12 + (rule.rent_duration_months or 0)
 
@@ -545,45 +543,40 @@ class ServiceRequest(models.Model):
                     duration_condition = eval(
                         f"{family_rent_duration} {rule.duration_operator} {rule_duration_months}"
                     )
-
+                    print(duration_condition,family_rent_duration)
                     if duration_condition:
-                        message = rule.duration_violation_message or "Violation: Rental duration condition not met"
-                        if rule.severity == 'error':
-                            raise ValidationError(message)
-                        elif rule.severity == 'warning':
-                            self.message_post(body=f"Warning: {message}")
+                        # Step 3: Validate service amount
+                        if rule.amount_operator and rule.max_service_amount:
+                            amount_condition = eval(
+                                f"{self.requested_service_amount} {rule.amount_operator} {rule.max_service_amount}"
+                            )
 
-                # Step 3: Validate service amount
-                if rule.amount_operator and rule.max_service_amount:
-                    amount_condition = eval(
-                        f"{self.requested_service_amount} {rule.amount_operator} {rule.max_service_amount}"
-                    )
+                            if amount_condition:
+                                message = rule.amount_violation_message or "Violation: Service amount condition not met"
+                                if rule.severity == 'error':
+                                    raise ValidationError(message)
+                                elif rule.severity == 'warning':
+                                    self.message_post(body=f"Warning: {message}")
 
-                    if amount_condition:
-                        message = rule.amount_violation_message or "Violation: Service amount condition not met"
-                        if rule.severity == 'error':
-                            raise ValidationError(message)
-                        elif rule.severity == 'warning':
-                            self.message_post(body=f"Warning: {message}")
+                        # Step 4: One-time support check
+                        if rule.one_time_support:
+                            base_domain = self._get_beneficiary_domain()
+                            if base_domain:
+                                domain = base_domain + [
+                                    ('service_cats', '=', self.service_cats.id)
+                                ]
 
-                # Step 4: One-time support check
-                if rule.one_time_support:
-                    base_domain = self._get_beneficiary_domain()
-                    if base_domain:
-                        domain = base_domain + [
-                            ('service_cats', '=', self.service_cats.id)
-                        ]
+                                existing_requests = self.env['service.request'].search_count(domain)
 
-                        existing_requests = self.env['service.request'].search_count(domain)
+                                if existing_requests > 0:
+                                    message = "This service can only be requested once - one-time support only"
+                                    if rule.severity == 'error':
+                                        raise ValidationError(message)
+                                    elif rule.severity == 'warning':
+                                        self.message_post(body=f"Warning: {message}")
 
-                        if existing_requests > 0:
-                            message = "This service can only be requested once - one-time support only"
-                            if rule.severity == 'error':
-                                raise ValidationError(message)
-                            elif rule.severity == 'warning':
-                                self.message_post(body=f"Warning: {message}")
+                        return
 
-                return
 
         #
         # --- (Computation Rules) ---
