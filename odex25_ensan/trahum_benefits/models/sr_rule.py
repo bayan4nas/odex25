@@ -104,6 +104,7 @@ class SrRule(models.Model):
         string="EXCHANGE PERIODS"
     )
 
+    period_days = fields.Integer(string='Period in Days')
 
     one_time_support = fields.Boolean(string='دعم لمرة واحدة',
                                      )
@@ -146,5 +147,8 @@ class SrRule(models.Model):
         'rule_id',
         'category_id',
         string='تصنيف الاحتياج المسموح',
-        help='اختر تصنيفات الاحتياج التي ستطبق عليها هذه القاعدة. إذا لم يتم اختيار أي تصنيف، ستطبق القاعدة على جميع الأسر'
     )
+
+    restrict_to_threshold = fields.Boolean(string='Restrict to Threshold', default=False)
+    default_member_count = fields.Integer(string='Default Member Count', default=0)
+    default_breadwinner_count = fields.Integer(string='Default Breadwinner Count', default=0)
