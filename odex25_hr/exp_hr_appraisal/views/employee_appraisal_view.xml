@@ -92,7 +92,7 @@
                       decoration-danger="state == 'refused'">
                     <field name="employee_id" width="9" />
                     <field name="appraisal_plan_id" string="Appraisal plan"/>
-                    <field name="appraisal_date" string="Appraisal Date" width="6"/>
+                    <field invisible="1" name="appraisal_date" string="Appraisal Date" width="6"/>
                     <field name="is_manager" string="Is manager?"/>
                     <field name="state" widget="badge" decoration-info="state == 'draft'"
                       decoration-bf="state == 'wait_dmanager'" decoration-warning="state == 'wait_performance_officer'"

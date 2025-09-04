@@ -7,6 +7,7 @@ from odoo.exceptions import ValidationError, UserError
 from odoo.exceptions import ValidationError
 from datetime import date, timedelta, datetime
 
+
 class BenefitsServiceRequest(models.Model):
     _name = 'benefits.service.request'
     _description = 'Benefits Service Request'
@@ -279,7 +280,7 @@ class ServiceRequest(models.Model):
     service_path = fields.Many2one('beneficiary.path', 'Service Path', related='service_cats.paths')
     sub_service_path = fields.Many2one('benefits.service.classification', 'Sub Service Path',
                                        related='service_cats.classification_id')
-    account_expense = fields.Many2one('account.account',related='service_cats.account_id' )
+    account_expense = fields.Many2one('account.account', related='service_cats.account_id')
     family_need_class_id = fields.Many2one('family.need.category', related="family_id.family_need_class_id",
                                            string="Need Calculator", store=True,
                                            readonly=True)
@@ -296,26 +297,30 @@ class ServiceRequest(models.Model):
         readonly=True,
     )
 
-    available_members = fields.Many2many(
-        'family.member',
-        compute='_compute_available_members',
+    available_families = fields.Many2many(
+        'grant.benefit',
+        compute='_compute_available_families',
         store=False
     )
+    family_id = fields.Many2one('grant.benefit', string='Family', domain="[('id', 'in', available_families)]")
 
     member_id = fields.Many2one(
         'family.member',
         string='Member',
-        domain="[('id', 'in', available_members)]"
+
     )
 
-    @api.depends('family_id', 'family_id.benefit_member_ids')
-    def _compute_available_members(self):
+    @api.depends('member_id', 'family_id.benefit_member_ids')
+    def _compute_available_families(self):
         for record in self:
-            if record.family_id and record.family_id.benefit_member_ids:
-                member_ids = record.family_id.benefit_member_ids.mapped('member_id.id')
-                record.available_members = [(6, 0, member_ids)]
+            if record.member_id:
+                families = self.env['grant.benefit'].search([
+                    ('benefit_member_ids.member_id', '=', record.member_id.id)
+                ])
+                record.available_families = [(6, 0, families.ids)]
             else:
-                record.available_members = [(5, 0, 0)]
+                families = self.env['grant.benefit'].search([])
+                record.available_families = [(6, 0, families.ids)]
 
     @api.onchange('family_id')
     def _onchange_family_id(self):
@@ -326,6 +331,7 @@ class ServiceRequest(models.Model):
                     self.member_id = False
         else:
             self.member_id = False
+
     @api.depends('benefit_type', 'family_id', 'member_id')
     def get_branch_custom_id(self):
         for rec in self:
@@ -385,12 +391,42 @@ class ServiceRequest(models.Model):
                 domain.append(('date', '<=', rule.date_to))
         return domain
 
+    def _calculate_family_rent_duration(self):
+        """
+        حساب مدة الإيجار من ملف الأسرة بالأشهر
+        """
+        if not self.family_id or not self.family_id.rent_start_date or not self.family_id.rent_end_date:
+            return 0
+
+        try:
+            from dateutil.relativedelta import relativedelta
+
+            delta = relativedelta(self.family_id.rent_end_date, self.family_id.rent_start_date)
+            total_months = delta.years * 12 + delta.months
+
+            if delta.days > 15:
+                total_months += 1
+
+            return total_months
+        except:
+            return 0
     def _apply_rule(self, rule):
         """
         Applies a single rule to the service request.
         This function contains the core logic for each metric.
         """
         self.ensure_one()
+        if rule.allowed_need_categories:
+            family_need_category = None
+
+            if self.family_id and self.family_id.family_need_class_id:
+                family_need_category = self.family_id.family_need_class_id
+            elif hasattr(self, 'family_need_class_id') and self.family_need_class_id:
+                family_need_category = self.family_need_class_id
+
+
+            if family_need_category not in rule.allowed_need_categories:
+                return
 
         #
         # ---  (Validation Rules) ---
@@ -461,9 +497,8 @@ class ServiceRequest(models.Model):
                     return
             # 7.  (tolerance_ratio)
             elif rule.metric == 'tolerance_ratio' and rule.numeric_value:
-                print(self.requested_service_amount, rule.operator, rule.threshold_value)
                 if not self.requested_service_amount_before_tolerance:
-                    print(self.requested_service_amount ,rule.operator ,rule.threshold_value)
+                    print(self.requested_service_amount, rule.operator, rule.threshold_value)
                     condition_met = eval(f"{self.requested_service_amount} {rule.operator} {rule.threshold_value}")
                     if condition_met:
                         original_amount = self.requested_service_amount
@@ -478,115 +513,70 @@ class ServiceRequest(models.Model):
                         message = f" '{rule.message}'"
                         self.message_post(body=message)
             elif rule.metric == 'service_repetition':
-                    if not self.service_cats:
-                        return
+                if not self.service_cats:
+                    return
 
-                    period_domain = self._get_period_domain(rule)
+                period_domain = self._get_period_domain(rule)
 
+                domain = base_domain + period_domain + [('service_cats', '=', self.service_cats.id)]
 
-                    domain = base_domain + period_domain + [('service_cats', '=', self.service_cats.id)]
-
-                    count = self.env['service.request'].search_count(domain) + 1
-                    value_to_check = count
-
+                count = self.env['service.request'].search_count(domain) + 1
+                value_to_check = count
             elif rule.metric == 'housing_support_rule':
-
                 if not self.family_id:
                     return
-
-                family_property_type = self.family_id.property_type
-
-                if rule.housing_property_type != 'all' and family_property_type != rule.housing_property_type:
+                print("housing_support_rule")
+                # Step 1: Check housing property type first
+                family_property_type = getattr(self.family_id, 'property_type', False)
+                if rule.housing_property_type and rule.housing_property_type != family_property_type:
                     return
+                print("duration_condition")
+                # Step 2: Validate rental duration
+                if rule.duration_operator and (rule.rent_duration_years or rule.rent_duration_months):
+                    # Calculate family rental duration in months
+                    family_rent_duration = self._calculate_family_rent_duration()
+                    print( family_rent_duration)
+                    # Calculate rule duration in months
+                    rule_duration_months = (rule.rent_duration_years or 0) * 12 + (rule.rent_duration_months or 0)
 
-                domain = base_domain + [('service_cats', '=', self.service_cats.id)]
+                    # Apply operator to compare durations
+                    duration_condition = eval(
+                        f"{family_rent_duration} {rule.duration_operator} {rule_duration_months}"
+                    )
+                    print(duration_condition,family_rent_duration)
+                    if duration_condition:
+                        # Step 3: Validate service amount
+                        if rule.amount_operator and rule.max_service_amount:
+                            amount_condition = eval(
+                                f"{self.requested_service_amount} {rule.amount_operator} {rule.max_service_amount}"
+                            )
 
-                if rule.one_time_support:
+                            if amount_condition:
+                                message = rule.amount_violation_message or "Violation: Service amount condition not met"
+                                if rule.severity == 'error':
+                                    raise ValidationError(message)
+                                elif rule.severity == 'warning':
+                                    self.message_post(body=f"Warning: {message}")
 
+                        # Step 4: One-time support check
+                        if rule.one_time_support:
+                            base_domain = self._get_beneficiary_domain()
+                            if base_domain:
+                                domain = base_domain + [
+                                    ('service_cats', '=', self.service_cats.id)
+                                ]
 
-                    total_previous = sum(self.env['service.request'].search(domain).mapped('requested_service_amount'))
+                                existing_requests = self.env['service.request'].search_count(domain)
 
-                    total_after_request = total_previous + self.requested_service_amount
+                                if existing_requests > 0:
+                                    message = "This service can only be requested once - one-time support only"
+                                    if rule.severity == 'error':
+                                        raise ValidationError(message)
+                                    elif rule.severity == 'warning':
+                                        self.message_post(body=f"Warning: {message}")
 
+                        return
 
-                    max_allowed = min(rule.threshold_value, self.family_id.housing_value)
-
-                    if total_after_request > rule.threshold_value:
-                        message = rule.message or _(
-
-                            "The service request cannot be submitted. Total requested amount (%s) exceeds the allowed limit (%s)."
-
-                        ) % (total_after_request, max_allowed)
-
-                        raise ValidationError(message)
-
-
-                else:
-
-
-                    if self.requested_service_amount > self.family_id.housing_value:
-                        raise ValidationError(_(
-
-                            "The requested service amount (%s) cannot exceed the housing value (%s)."
-
-                        ) % (self.requested_service_amount, self.family_id.housing_value))
-
-
-                    housing_exchange_period = self.family_id.exchange_period
-
-                    if not housing_exchange_period:
-                        raise ValidationError(_("The exchange period has not been specified in the family file."))
-
-                    period_in_days = {
-
-                        'monthly': 30,
-
-                        'every_three_months': 90,
-
-                        'every_six_months': 180,
-
-                        'every_nine_months': 270,
-
-                        'annually': 365,
-
-                        'two_years': 730
-
-                    }
-
-                    required_days = period_in_days.get(housing_exchange_period, 0)
-
-                    if required_days == 0:
-                        raise ValidationError(
-                            _("The exchange period '%s' specified in the family file is invalid.") % housing_exchange_period)
-
-                    last_request = self.env['service.request'].search(domain, order='date desc', limit=1)
-
-                    if last_request:
-
-                        days_diff = (fields.Datetime.now() - last_request.date).days
-
-                        if days_diff < required_days:
-                            message = rule.message or _(
-
-                                "The service request cannot be submitted. The required period (%s days) since the last request has not yet passed."
-
-                            ) % required_days
-
-                            raise ValidationError(message)
-
-                return
-
-
-# The `eval` function is used here for dynamic operator evaluation.
-            # It's safe because the inputs (value, operator, threshold) are controlled within Odoo.
-            condition_met = eval(f"{value_to_check} {rule.operator} {rule.threshold_value}")
-
-            if  condition_met:
-                message = rule.message or f"Rule Violation: {rule.name}"
-                if rule.severity == 'error':
-                    raise ValidationError(message)
-                elif rule.severity == 'warning':
-                    self.message_post(body=f"Warning: {message}")
 
         #
         # --- (Computation Rules) ---

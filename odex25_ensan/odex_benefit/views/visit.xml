@@ -37,6 +37,18 @@
                                 <field name="contact_type" attrs="{'readonly':[('state', 'in', ['close','cancel'])]}"/>
                             </group>
                         </group>
+                        <notebook>
+                                <page string="Attachment" >
+                                   <field name="attachment_id">
+                                            <tree editable="bottom">
+                                                <field name="attachment_filename" invisible="1"/>
+                                                <field name="description_attachment" />
+                                                <field name="file_save"  widget="many2many_attachment_preview" />
+                                            </tree>
+                                    </field>
+                                </page>
+                        </notebook>
+
                     </sheet>
                     <div class="oe_chatter">
                         <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>

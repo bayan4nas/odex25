@@ -10,6 +10,11 @@ class EmployeesAppraisal(models.Model):
     _rec_name = 'name'
     _description = 'Appraisal'
 
+    company_id = fields.Many2one(
+        'res.company',
+        string='Company',
+        default=lambda self: self.env.company.id
+    )
     name = fields.Char()
     date = fields.Date()
     state = fields.Selection([("draft", _("Draft")),

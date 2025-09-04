@@ -19,7 +19,7 @@
     </record>
 
     <!-- Form view -->
-  <record id="sr_rule_form_view" model="ir.ui.view">
+    <record id="sr_rule_form_view" model="ir.ui.view">
         <field name="name">sr.rule.form</field>
         <field name="model">sr.rule</field>
         <field name="arch" type="xml">
@@ -42,14 +42,17 @@
                     <group string="Rule Configuration">
                         <group>
                             <field name="metric"/>
+                            <field name="allowed_need_categories"
+                                   widget="many2many_tags"
+                                   string="تصنيف الاحتياج المطلوب"/>
 
                             <field name="member_value" attrs="{'invisible': [('metric', '!=', 'family_value')]}"/>
                             <field name="breadwinner_value" attrs="{'invisible': [('metric', '!=', 'family_value')]}"/>
                         </group>
 
                         <group>
-                            <field name="operator" attrs="{'invisible': [('metric', 'in', ['family_value', 'tolerance_ratio'])]}"/>
-                            <field name="threshold_value" attrs="{'invisible': [('metric', 'in', ['family_value'])]}"/>
+                            <field name="operator" attrs="{'invisible': [('metric', 'in', ['family_value', 'housing_support_rule'])]}"/>
+                            <field name="threshold_value" attrs="{'invisible': [('metric', 'in', ['family_value', 'housing_support_rule'])]}"/>
 
                             <field name="numeric_value" string="Tolerance Ratio %"
                                    attrs="{'invisible': [('metric', '!=', 'tolerance_ratio')], 'required': [('metric', '=', 'tolerance_ratio')]}"/>
@@ -68,14 +71,42 @@
                                    attrs="{'invisible': [('period', '!=', 'custom')], 'required': [('period', '=', 'custom')]}"/>
                         </group>
                     </group>
-                    <group string="Housing Settings"  attrs="{'invisible': [('metric', 'not in', ['housing_support_rule'])]}">
-                        <field name="housing_property_type"/>
-                        <field name="one_time_support"/>
+
+                    <group string="Housing Support Settings" attrs="{'invisible': [('metric', '!=', 'housing_support_rule')]}">
+                        <group>
+                            <field name="housing_property_type"/>
+                            <field name="one_time_support"/>
+                        </group>
                     </group>
+
+                    <group string="First Condition: Rental Duration Comparison"
+                           attrs="{'invisible': [('metric', '!=', 'housing_support_rule')]}">
+                        <group>
+                            <field name="rent_duration_years"/>
+                            <field name="rent_duration_months"/>
+                        </group>
+                        <group>
+                            <field name="duration_operator"/>
+                        </group>
+
+                    </group>
+
+                    <group string="Second Condition: Service Amount Comparison"
+                           attrs="{'invisible': [('metric', '!=', 'housing_support_rule')]}">
+                        <group>
+                            <field name="max_service_amount"/>
+                            <field name="amount_operator"/>
+                        </group>
+                        <group colspan="4">
+                            <field name="amount_violation_message" placeholder="Enter service amount violation message"/>
+                        </group>
+                    </group>
+
                 </sheet>
             </form>
         </field>
     </record>
+
 
     <!-- Action -->
     <record id="action_sr_rule" model="ir.actions.act_window">

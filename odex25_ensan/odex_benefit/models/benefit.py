@@ -37,11 +37,17 @@ class GrantBenefitProfile(models.Model):
         if not args:
             args = []
 
-            # Extend the domain filter with custom search conditions
-        domain = ['|', '|', '|', ('name', operator, name), ('phone', operator, name),
-                  ('code', operator, name), ('father_id_number', operator, name)]
 
-        # Combine domain filter with any existing args (domain filter in Many2one)
+        domain = [
+            '|', '|', '|', '|',
+            ('name', operator, name),
+            ('phone', operator, name),
+            ('code', operator, name),
+            ('father_id_number', operator, name),
+            ('benefit_breadwinner_ids.member_name.member_id_number', operator, name)
+        ]
+
+
         partners = self.search(domain + args, limit=limit)
 
         return partners.name_get()

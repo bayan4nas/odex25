@@ -9,109 +9,143 @@
             <field name="priority" eval="8"/>
             <field name="arch" type="xml">
                 <xpath expr="//sheet/group[1]" position="before">
-                <div class="oe_button_box" name="button_box">
-                            <button name="action_show_objection_request" type="object"  class="oe_stat_button" icon="fa-list-ul" 
-                                    attrs="{'invisible': ['|',('is_last_stage', '!=', True),('type', '!=', 'appraisal')]}">
-                                <field string="Objection Requests" name="objection_count" widget="statinfo"/>
-                            </button>
-                            
-                            <button name="action_show_correction_request" type="object" class="oe_stat_button" icon="fa-list-ul"
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_show_objection_request" type="object" class="oe_stat_button"
+                                icon="fa-list-ul"
+                                attrs="{'invisible': ['|',('is_last_stage', '!=', True),('type', '!=', 'appraisal')]}">
+                            <field string="Objection Requests" name="objection_count" widget="statinfo"/>
+                        </button>
+
+                        <button name="action_show_correction_request" type="object" class="oe_stat_button"
+                                icon="fa-list-ul"
                                 attrs="{'invisible': ['|','|',('type', '!=', 'appraisal'),('is_first_stage', '=', True),('is_last_stage', '=', True)]}">
-                                <field string="KPI Correction Requests" name="correction_count" widget="statinfo"/>
-                            </button>
-                            
-                            <button name="action_show_exp_performance_request" type="object"  class="oe_stat_button" icon="fa-list-ul"
-                            attrs="{'invisible': ['|','|',('type', '!=', 'appraisal'),('is_last_stage', '!=', True),('exceptional_performance', '=', False)]}">
-                                <field string="Exceptional Performance Requests" name="exp_performance_count" widget="statinfo"/>
-                            </button>
-                        </div>
-                
+                            <field string="KPI Correction Requests" name="correction_count" widget="statinfo"/>
+                        </button>
+
+                        <button name="action_show_exp_performance_request" type="object" class="oe_stat_button"
+                                icon="fa-list-ul"
+                                attrs="{'invisible': ['|','|',('type', '!=', 'appraisal'),('is_last_stage', '!=', True),('exceptional_performance', '=', False)]}">
+                            <field string="Exceptional Performance Requests" name="exp_performance_count"
+                                   widget="statinfo"/>
+                        </button>
+                    </div>
+
                 </xpath>
                 <header position="replace">
-                   <header>
-                         <field name="is_last_stage" invisible="1"/>
-                         
+                    <header>
+                        <field name="is_last_stage" invisible="1"/>
+
+                        <button name="send_to_direct_manager"
+                                string="Send To Direct Manager"
+                                class="oe_highlight"
+                                type="object"
+                                states="draft"/>
+
                         <button name="sent_appraisal_to_employee" string="Send To Employee" class="oe_highlight"
-                                attrs="{'invisible': ['|',('state', '!=', 'draft'),('type', '!=', 'appraisal')]}" type="object" groups="hr_base.group_division_manager"/>
-                                
-                        <button name="send_to_dmanager" string="Approve" class="oe_highlight"
-                                attrs="{'invisible': ['|',('state', '!=', 'draft'),('type','not in',['exp_performance','correction'])]}" 
+                                attrs="{'invisible': ['|',('state', '!=', 'wait_direct_manager'),('type', '!=', 'appraisal')]}"
                                 type="object" groups="hr_base.group_division_manager"/>
-                         
-                         
-                         <button name="send_to_performance_officer" string="Approve" class="oe_highlight"
-                                attrs="{'invisible': ['|',('state', '!=', 'wait_dept_manager'),('type','not in',['exp_performance','correction'])]}" 
+
+                        <button name="send_to_dmanager" string="Approve" class="oe_highlight"
+                                attrs="{'invisible': ['|',('state', '!=', 'draft'),('type','not in',['exp_performance','correction'])]}"
+                                type="object" groups="hr_base.group_division_manager"/>
+
+
+                        <button name="send_to_performance_officer" string="Approve" class="oe_highlight"
+                                attrs="{'invisible': ['|',('state', '!=', 'wait_dept_manager'),('type','not in',['exp_performance','correction'])]}"
                                 type="object" groups="hr_base.group_department_manager"/>
-                         <button name="refused" string="Refuse" class="oe_highlight" type="object"
+                        <button name="refused" string="Refuse" class="oe_highlight" type="object"
                                 states="wait_dept_manager" groups="hr_base.group_department_manager"/>
-                                
-                                
-                         <button name="send_to_performance_officer" string="Complete" class="oe_highlight"
-                                type="object" attrs="{'invisible': ['|',('state', '!=', 'draft'),('type', '!=', 'objection')]}" />
+
+
+                        <button name="send_to_performance_officer" string="Complete" class="oe_highlight"
+                                type="object"
+                                attrs="{'invisible': ['|',('state', '!=', 'draft'),('type', '!=', 'objection')]}"/>
 
                         <button name="send_to_performance_officer" string="Complete" class="oe_highlight"
                                 type="object" states="wait_employee"/>
-                        <button name="draft" string="Re Send To Direct Manager"  type="object"
+                        <button name="draft" string="Re Send To Direct Manager" type="object"
                                 states="wait_employee"
                                 confirm="Are you sure to Reset To Direct Manager This Record?"/>
-                                
+
                         <button name="approve" string="Approve" class="oe_highlight" type="object"
                                 attrs="{'invisible': ['|',('state', '!=', 'wait_performance_officer'),('type', 'in', ['exp_performance','correction'])]}"
                                 groups="exp_hr_appraisal.group_appraisal_employee"/>
                         <button name="send_hr_manager" string="Approve" class="oe_highlight" type="object"
-                                attrs="{'invisible': ['|',('state', '!=', 'wait_performance_officer'),('type','not in',['exp_performance','correction'])]}" 
+                                attrs="{'invisible': ['|',('state', '!=', 'wait_performance_officer'),('type','not in',['exp_performance','correction'])]}"
                                 groups="exp_hr_appraisal.group_appraisal_employee"/>
-                                
+
                         <button name="draft" string="Re-Draft"
                                 class="oe_highlight" type="object" states="wait_performance_officer"
                                 groups="exp_hr_appraisal.group_appraisal_employee"
                                 confirm="Are you sure to Reset To Performance Officer This Record?"/>
                         <button name="refused" string="Refuse" class="oe_highlight" type="object"
-                                states="wait_performance_officer" groups="exp_hr_appraisal.group_appraisal_employee"/>
-                                
+                               invisible="1"  groups="exp_hr_appraisal.group_appraisal_employee"/>
+<!--                        states="wait_performance_officer"-->
+
                         <button name="send_to_gm" string="Approve" class="oe_highlight"
-                                attrs="{'invisible': ['|',('state', '!=', 'wait_services_manager'),('type', '!=', 'exp_performance')]}" type="object" groups="hr_base.group_services_manager"/>
-                         <button name="refused" string="Refuse" class="oe_highlight" type="object"
+                                attrs="{'invisible': ['|',('state', '!=', 'wait_services_manager'),('type', '!=', 'exp_performance')]}"
+                                type="object" groups="hr_base.group_services_manager"/>
+                        <button name="refused" string="Refuse" class="oe_highlight" type="object"
                                 states="wait_services_manager" groups="hr_base.group_services_manager"/>
-                                
-                          <button name="approve" string="Approve" class="oe_highlight"
-                                attrs="{'invisible': ['|',('state', '!=', 'wait_hr_manager'),('type', '!=', 'correction')]}" type="object" groups="hr.group_hr_manager"/>
-                          <button name="send_services_manager" string="Approve" class="oe_highlight"
-                                attrs="{'invisible': ['|',('state', '!=', 'wait_hr_manager'),('type', '!=', 'exp_performance')]}" type="object" groups="hr.group_hr_manager"/>
-                         <button name="refused" string="Refuse" class="oe_highlight" type="object"
+
+                        <button name="approve" string="Approve" class="oe_highlight"
+                                attrs="{'invisible': ['|',('state', '!=', 'wait_hr_manager'),('type', '!=', 'correction')]}"
+                                type="object" groups="hr.group_hr_manager"/>
+                        <button name="send_services_manager" string="Approve" class="oe_highlight"
+                                attrs="{'invisible': ['|',('state', '!=', 'wait_hr_manager'),('type', '!=', 'exp_performance')]}"
+                                type="object" groups="hr.group_hr_manager"/>
+                        <button name="refused" string="Refuse" class="oe_highlight" type="object"
                                 states="wait_hr_manager" groups="hr.group_hr_manager"/>
-                                
-                         <button name="approve" string="Approve" class="oe_highlight"
-                                attrs="{'invisible': ['|',('state', '!=', 'wait_gm'),('type', '!=', 'exp_performance')]}" type="object" groups="hr_base.group_general_manager"/>
-                         <button name="refused" string="Refuse" class="oe_highlight" type="object"
-                                states="wait_gm" groups="hr_base.group_general_manager"/>     
-                                
+
+                        <button name="approve" string="Approve" class="oe_highlight"
+                                attrs="{'invisible': ['|',('state', '!=', 'wait_gm'),('type', '!=', 'exp_performance')]}"
+                                type="object" groups="hr_base.group_general_manager"/>
+                        <button name="refused" string="Refuse" class="oe_highlight" type="object"
+                                states="wait_gm"   attrs="{'invisible': [('state', '=', 'wait_performance_officer')]}" groups="hr_base.group_general_manager"/>
+
                         <button name="draft" string="Re-Draft" class="oe_highlight" type="object"
                                 states="refused,closed"
                                 confirm="Are you sure to Reset To Draft This Record?"
                                 groups="exp_hr_appraisal.group_appraisal_employee"/>
-                                
-                         <button name="objection_request" string="Objection Request" class="oe_highlight"
-                                type="object" attrs="{'invisible': ['|',('state', '!=', 'wait_employee'),('is_last_stage', '!=', True)]}"/>  
-                                
-                         <button name="kpi_correction_request" string="KPI Correction Request" class="oe_highlight"
-                                type="object" attrs="{'invisible': ['|','|','|',('type', '!=', 'appraisal'),('state', '!=', 'draft'),('is_first_stage', '=', True),('is_last_stage', '=', True)]}"/>
-                                
-                          <button name="exceptional_performance_request" string="Exceptional Performance Request" class="oe_highlight"
-                                type="object"  attrs="{'invisible': ['|','|','|',('type', '!=', 'appraisal'),('state', '!=', 'draft'),('is_last_stage', '!=', True),('exceptional_performance', '=', False)]}"/>  
+
+                        <button name="objection_request" string="Objection Request" class="oe_highlight"
+                                type="object"
+                                attrs="{'invisible': ['|',('state', '!=', 'wait_employee'),('is_last_stage', '!=', True)]}"/>
+
+                        <button name="kpi_correction_request" string="KPI Correction Request" class="oe_highlight"
+                                type="object"
+                                attrs="{'invisible': ['|','|','|',('type', '!=', 'appraisal'),('state', '!=', 'wait_direct_manager'),('is_first_stage', '=', True),('is_last_stage', '=', True)]}"/>
+
+                        <button name="exceptional_performance_request" string="Exceptional Performance Request"
+                                class="oe_highlight"
+                                type="object"
+                                attrs="{'invisible': ['|','|','|',('type', '!=', 'appraisal'),('state', '!=', 'draft'),('is_last_stage', '!=', True),('exceptional_performance', '=', False)]}"/>
+                        <button name="action_open_cancel_wizard"
+                                string="Cancel Request"
+                                type="object"
+                                class="oe_highlight"
+                                confirm="Are you sure you want to cancel this request?"
+                                groups="exp_hr_appraisal.group_appraisal_manager,exp_hr_appraisal.group_appraisal_employee"
+                                attrs="{'invisible': [('state','not in',('wait_performance_officer'))]}"/>
+
                         <field name="state" widget="statusbar"
-                               statusbar_visible="draft,wait_employee,wait_performance_officer,closed,refused"/>
+                               statusbar_visible="draft,wait_direct_manager,wait_employee,wait_performance_officer,closed"/>
                     </header>
                 </header>
-                                
                 <xpath expr="//field[@name='employee_id']" position="after">
-		            <field name="is_last_stage" invisible="1"/>
-		            <field name="type" invisible="1"/>
-		            <field name="is_first_stage" invisible="1"/>
-		            <field name="is_appraisal_employee" invisible="1"/>
-		            <field name="is_direct_manager" invisible="1"/>
-		            <field name="is_executive_director" invisible="1"/>
-		            <field name="emp_no" options="{'no_create': True, 'no_open': True}"/>
+                    <field name="work_state"/>
+                </xpath>
+                <xpath expr="//field[@name='employee_id']" position="attributes">
+                    <attribute name="attrs">{'readonly': [('state', '!=', 'draft')]}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='employee_id']" position="after">
+                    <field name="is_last_stage" invisible="1"/>
+                    <field name="type" invisible="1"/>
+                    <field name="is_first_stage" invisible="1"/>
+                    <field name="is_appraisal_employee" invisible="1"/>
+                    <field name="is_direct_manager" invisible="1"/>
+                    <field name="is_executive_director" invisible="1"/>
+                    <field name="emp_no" options="{'no_create': True, 'no_open': True}"/>
                     <field name="manager_id" force_save="1" readonly="1"
                            options="{'no_create': True, 'no_open': True}"/>
                     <field name="department_id" force_save="1" readonly="1"
@@ -164,19 +198,22 @@
                     <attribute name="domain">[('state','=','open')]</attribute>
                 </xpath>
                 <xpath expr="//field[@name='appraisal_date']" position="attributes">
-                     <attribute name="attrs">{'readonly':[('state','!=','draft')]}</attribute>
+                    <attribute name="attrs">{'readonly':[('state','!=','draft')]}</attribute>
 
                 </xpath>
 
                 <xpath expr="//field[@name='appraisal_date']" position="after">
-                     <field name="appraisal_id" options="{'no_create': True}" 
-                           attrs="{'invisible':[('appraisal_id', '=', False)]}"/> 
+                    <field name="appraisal_id" options="{'no_create': True}"
+                           attrs="{'invisible':[('appraisal_id', '=', False)]}"/>
                     <field name="year_id" options="{'no_create': True, 'no_open': True}" domain="[('state','=','open')]"
-                           attrs="{'readonly':['|',('is_first_stage', '=', False),('state','!=','draft')]}"/> 
+                           attrs="{'readonly':['|',('is_first_stage', '=', False),('state','!=','draft')]}"/>
                     <field name="appraisal_stage_id" force_save="1" required="1"
-                         attrs="{'readonly':['|',('state','!=','draft'),('type','!=','appraisal')]}"
+                           attrs="{'readonly':['|',('state','!=','draft'),('type','!=','appraisal')]}"
                            options="{'no_create': True, 'no_open': True}"/>
+                    <field name="meeting_done"
+                           attrs="{'required': [('state','!=','draft')],'invisible': [('state', '=', 'draft')],'readonly': [('state', '!=', 'wait_direct_manager')]}"/>
                     <field name="can_see_appraisal_result" invisible="1"/>
+
                     <field name="goals_mark" decoration-bf="1"
                            attrs="{'invisible': [('is_last_stage', '=', False)]}"/>
                     <field name="skill_mark" decoration-bf="1"
@@ -192,127 +229,149 @@
                            decoration-warning="appraisal_result_color == 'orange'"
                            decoration-muted="appraisal_result_color == 'purple'"
                            options="{'no_create': True, 'no_open': True}" readonly="1"/>
-                     <field name="exceptional_performance" attrs="{'invisible': [('exceptional_performance', '=', False)]}"/>
+                    <field style="color:blue; font-weight:bold;" attrs="{'invisible': [('is_first_stage', '!=',True)]}"
+                           name="apprisal_result_display" readonly="1" nolabel="1"/>
+                    <field name="exceptional_performance"
+                           attrs="{'invisible': [('exceptional_performance', '=', False)]}"/>
                 </xpath>
 
 
                 <xpath expr="//sheet" position="inside">
                     <notebook>
-		                <page string="Exceptional Performance" attrs="{'invisible': [('type', '!=', 'exp_performance')]}">
-		                	<field name="exceptional_performance_ids" nolabel="1">
-						    	<tree editable="bottom" create="false" delete="false" >
-									<field name="standard_id" required="1"  readonly="1" decoration-info="1"/>
-									<field name="name" required="1" readonly="1"/>
-									<field name="description" required="1" decoration-bf="1"/>
-					    		</tree>
-					         </field>
-						</page >  
+                        <page string="Exceptional Performance"
+                              attrs="{'invisible': [('type', '!=', 'exp_performance')]}">
+                            <field name="exceptional_performance_ids" nolabel="1">
+                                <tree editable="bottom" create="false" delete="false">
+                                    <field name="standard_id" required="1" readonly="1" decoration-info="1"/>
+                                    <field name="name" required="1" readonly="1"/>
+                                    <field name="description" required="1" decoration-bf="1"/>
+                                </tree>
+                            </field>
+                        </page>
                         <page string="Goals">
                             <field name="goal_ids"
                                    attrs="{'readonly':[('state','not in',['draft','wait_performance_officer'])]}">
-                                <tree editable="bottom" >
+                                <tree editable="bottom">
                                     <field name="state" invisible="1"/>
                                     <field name="kpi_id" width="10" required="1"
-                                          attrs="{'readonly':['|',('parent.is_first_stage', '=', False),('state','!=','draft')]}"
+                                           attrs="{'readonly':['|',('parent.is_first_stage', '=', False),('state','!=','draft')]}"
                                            options='{"no_open": True,"no_create_edit": True,"no_create":True}'/>
-                                    <field name="description" width="10" force_save="1" optional="show" readonly="1" />
-                                    <field name="result_appearance" width="5"  optional="show"/>
+                                    <field name="description" width="10" force_save="1" optional="show" readonly="1"/>
+                                    <field name="result_appearance" width="5" optional="show"/>
                                     <field name="result_type" width="5" required="1" optional="show"/>
-                                    <field name="year_target" width="4" attrs="{'readonly':['|',('parent.is_first_stage', '=', False),('state','!=','draft')]}"  />
-                                    <field name="done" width="5" attrs="{'readonly':['|','|',('parent.type', '!=', 'appraisal'),('parent.is_last_stage', '=', False),('state','!=','draft')],'column_invisible': [('parent.is_last_stage', '=', False)]}" />
-                                    
-                                     <field name="self_assessment" width="5" attrs="{'readonly':[('state','!=','draft')],'column_invisible': [('parent.type', '!=', 'objection')]}" decoration-danger="self_assessment != done and self_assessment != 0"/>
-                                     <field name="approved" width="5" attrs="{'readonly':[('state','!=','wait_performance_officer')],'column_invisible': [('parent.type', '!=', 'objection')]}" />
-                                    
-                                    
+                                    <field name="year_target" width="4"
+                                           attrs="{'readonly':['|',('parent.is_first_stage', '=', False),('state','!=','draft')]}"/>
+                                    <field name="done" width="5"
+                                           attrs="{'readonly':['|','|',('parent.type', '!=', 'appraisal'),('parent.is_last_stage', '=', False),('state','!=','draft')],'column_invisible': [('parent.is_last_stage', '=', False)]}"/>
+
+                                    <field name="self_assessment" width="5"
+                                           attrs="{'readonly':[('state','!=','draft')],'column_invisible': [('parent.type', '!=', 'objection')]}"
+                                           decoration-danger="self_assessment != done and self_assessment != 0"/>
+                                    <field name="approved" width="5"
+                                           attrs="{'readonly':[('state','!=','wait_performance_officer')],'column_invisible': [('parent.type', '!=', 'objection')]}"/>
+
+
                                     <field name="exceeds" width="5" sum="Total Exceeds"
                                            attrs="{'column_invisible': [('parent.is_last_stage', '=', False)]}"/>
-                                     <field name="result" width="5"
+                                    <field name="result" width="5"
                                            attrs="{'column_invisible': [('parent.is_last_stage', '=', False)]}"/>
-                                           
-                                    <field name="weight" sum="Total Weight" width="4" attrs="{'readonly':['|',('parent.is_first_stage', '=', False),('state','!=','draft')]}"
-                                            />
-                                     <field name="kpi_result" width="5" sum="Total Result"
+
+                                    <field name="weight" sum="Total Weight" width="4"
+                                           attrs="{'readonly':['|',('parent.is_first_stage', '=', False),('state','!=','draft')]}"
+                                    />
+                                    <field name="kpi_result" width="5" sum="Total Result"
                                            attrs="{'column_invisible': [('parent.is_last_stage', '=', False)]}"/>
-                                     
-                                     <field name="appraiser_comments" force_save='1' width="12" 
-                                            attrs="{'column_invisible': ['|','|',('parent.type','!=','appraisal'),('parent.is_first_stage', '=', True),('parent.is_last_stage', '=', True)]}" />
-                                     <field name="comments" force_save='1' width="12" 
-                                            attrs="{'column_invisible': ['|','|',('parent.type','!=','appraisal'),('parent.is_first_stage', '=', True),('parent.is_last_stage', '=', True)]}" />
-                                            
-                                     <field name="change_justification" force_save='1' width="12" 
-                                            attrs="{'column_invisible': ['|','|',('parent.type','!=','correction'),('parent.is_first_stage', '=', True),('parent.is_last_stage', '=', True)]}" />
-                                     <field name="change_details" force_save='1' width="12" 
-                                            attrs="{'column_invisible': ['|','|',('parent.type','!=','correction'),('parent.is_first_stage', '=', True),('parent.is_last_stage', '=', True)]}" />
-                                            
-                                     <field name="remarks" force_save='1' width="12" attrs="{'readonly':[('parent.type','!=','appraisal')],'column_invisible': [('parent.is_last_stage', '=', False)]}"/>        
+
+                                    <field name="appraiser_comments" force_save='1' width="12"
+                                           attrs="{'column_invisible': ['|','|',('parent.type','!=','appraisal'),('parent.is_first_stage', '=', True),('parent.is_last_stage', '=', True)]}"/>
+                                    <field name="comments" force_save='1' width="12"
+                                           attrs="{'column_invisible': ['|','|',('parent.type','!=','appraisal'),('parent.is_first_stage', '=', True),('parent.is_last_stage', '=', True)]}"/>
+
+                                    <field name="change_justification" force_save='1' width="12"
+                                           attrs="{'column_invisible': ['|','|',('parent.type','!=','correction'),('parent.is_first_stage', '=', True),('parent.is_last_stage', '=', True)]}"/>
+                                    <field name="change_details" force_save='1' width="12"
+                                           attrs="{'column_invisible': ['|','|',('parent.type','!=','correction'),('parent.is_first_stage', '=', True),('parent.is_last_stage', '=', True)]}"/>
+
+                                    <field name="remarks" force_save='1' width="12"
+                                           attrs="{'readonly':[('parent.type','!=','appraisal')],'column_invisible': [('parent.is_last_stage', '=', False)]}"/>
                                 </tree>
                             </field>
                         </page>
 
                         <page string="Skills">
-                                    <field name="skill_ids"
-                                           attrs="{'readonly':[('state','not in',['draft','wait_performance_officer'])]}">
-                                        <tree editable="bottom">
-                                            <field name="state" invisible="1"/>
-                                            <field name="is_direct_manager" invisible="1"/>
-                                            <field name="is_appraisal_employee" invisible="1"/>
-                                            <field name="skill_type_id" force_save='1' width="12" required="1"
-                                                    attrs="{'readonly':['|',('parent.is_first_stage', '=', False),('state','!=','draft')]}"
-                                                   options='{"no_open": True,"no_create_edit": True,"no_create":True}'/>
-                                            <field name="skill_id" force_save='1' width="12" required="1"
-                                                   attrs="{'readonly':['|',('parent.is_first_stage', '=', False),('state','!=','draft')]}"
-                                                   domain="[('skill_type_id','=',skill_type_id)]"
-                                                   options='{"no_open": True,"no_create_edit": True,"no_create":True}'/>
-                                            <field name="item_id" force_save='1' width="12" invisible="1"
-                                                    attrs="{'readonly':['|',('parent.is_first_stage', '=', False),('state','!=','draft')]}"
-                                                   options='{"no_open": True,"no_create_edit": True,"no_create":True}'/>
-                                            <field name="name" attrs="{'readonly':['|',('parent.is_first_stage', '=', False),('state','!=','draft')]}" force_save='1' width="12"/>
-                                            <field name="target" width="5" force_save='1'   required="1" attrs="{'readonly':['|',('parent.is_first_stage', '=', False),('state','!=','draft')]}" />
-                                            <field name="apprisal_start_year" width="5" force_save='1' required="1" attrs="{'readonly':['|',('parent.is_first_stage', '=', False),('state','!=','draft')]}"/>
-                                            <field name="mark" force_save='1' width="12" attrs="{'readonly':['|','|',('parent.type', '!=', 'appraisal'),('parent.is_last_stage', '=', False),('state','!=','draft')],'column_invisible': [('parent.is_last_stage', '=', False)]}"/>
-                                            
-                                            <field name="self_assessment" width="5" attrs="{'readonly':[('state','!=','draft')],'column_invisible': [('parent.type', '!=', 'objection')]}" decoration-danger="self_assessment != mark and self_assessment != 0"/>
-                                            <field name="approved" width="5" attrs="{'readonly':[('state','!=','wait_performance_officer')],'column_invisible': [('parent.type', '!=', 'objection')]}" />
-                                    
-                                            <field name="skill_weight" sum="Total Weight" width="4" required="1" attrs="{'readonly':['|',('parent.is_first_stage', '=', False),('state','!=','draft')]}"/>
-                                            <field name="skill_result" force_save='1' width="12" sum="Total Result" attrs="{'column_invisible': [('parent.is_last_stage', '=', False)]}"/>
-                                            
-                                            <field name="appraiser_comments" force_save='1' width="12" 
-                                                   attrs="{'readonly':[('parent.type','!=','appraisal')],'column_invisible': ['|',('parent.is_first_stage', '=', True),('parent.is_last_stage', '=', True)]}"/>
-                                            <field name="comments" force_save='1' width="12" 
-                                                   attrs="{'readonly':[('parent.type','!=','appraisal')],'column_invisible': ['|',('parent.is_first_stage', '=', True),('parent.is_last_stage', '=', True)]}"/>
-                                            <field name="remarks" force_save='1' width="12" attrs="{'readonly':[('parent.type','!=','appraisal')],'column_invisible': [('parent.is_last_stage', '=', False)]}" />
-                                        </tree>
-                                    </field>
-                                </page>
-                                <page string="Development Plan" attrs="{'invisible':[('is_first_stage','=',False)]}">
-                                    <field name="development_plan_ids"
-                                           attrs="{'readonly':[('state','not in',['draft'])]}">
-                                        <tree editable="bottom">
-                                            <field name="development_method_id" width="5" force_save='1'   />
-                                            <field name="name" readonly="1" force_save='1' width="12"/>
-                                            <field name="needs" width="5" force_save='1' />
-                                            <field name="suggestions" force_save='1' width="12"/>
-                                        </tree>
-                                     </field>
-                                </page> 
-                                        
-		                    <page string="Career Development Plan" attrs="{'invisible':[('is_first_stage','=',True)]}">
-		                        <group>
-		                            <group string="Employee Strengths">
-		                                <field name="employee_strengths" widget="html" nolabel="1"
-		                                attrs="{'readonly':[('state','=','closed')]}" />
-		                            </group>
-		                            <group string="Employee Development Points">
-		                                <field name="employee_development_points" widget="html" nolabel="1"
-		                                attrs="{'readonly':[('state','=','closed')]}" />
-		                            </group>
-		                        </group>
-		                    </page>
+                            <field name="skill_ids"
+                                   attrs="{'readonly':[('state','not in',['draft','wait_performance_officer'])]}">
+                                <tree editable="bottom">
+                                    <field name="state" invisible="1"/>
+                                    <field name="is_direct_manager" invisible="1"/>
+                                    <field name="is_appraisal_employee" invisible="1"/>
+                                    <field name="skill_type_id" force_save='1' width="12" required="1"
+                                           attrs="{'readonly':['|',('parent.is_first_stage', '=', False),('state','!=','draft')]}"
+                                           options='{"no_open": True,"no_create_edit": True,"no_create":True}'/>
+                                    <field name="skill_id" force_save='1' width="12" required="1"
+                                           attrs="{'readonly':['|',('parent.is_first_stage', '=', False),('state','!=','draft')]}"
+                                           domain="[('skill_type_id','=',skill_type_id)]"
+                                           options='{"no_open": True,"no_create_edit": True,"no_create":True}'/>
+                                    <field name="item_id" force_save='1' width="12" invisible="1"
+                                           attrs="{'readonly':['|',('parent.is_first_stage', '=', False),('state','!=','draft')]}"
+                                           options='{"no_open": True,"no_create_edit": True,"no_create":True}'/>
+                                    <field name="name"
+                                           attrs="{'readonly':['|',('parent.is_first_stage', '=', False),('state','!=','draft')]}"
+                                           force_save='1' width="12"/>
+                                    <field name="target" width="5" force_save='1' required="1"
+                                           attrs="{'readonly':['|',('parent.is_first_stage', '=', False),('state','!=','draft')]}"/>
+                                    <field name="apprisal_start_year" width="5" force_save='1' required="1"
+                                           attrs="{'readonly':[('parent.is_first_stage', '=', True)]}"/>
+                                    <field name="mark" force_save='1' width="12"
+                                           attrs="{'readonly':['|','|',('parent.type', '!=', 'appraisal'),('parent.is_last_stage', '=', False),('state','!=','draft')],'column_invisible': [('parent.is_last_stage', '=', False)]}"/>
+
+                                    <field name="self_assessment" width="5"
+                                           attrs="{'readonly':[('state','!=','draft')],'column_invisible': [('parent.type', '!=', 'objection')]}"
+                                           decoration-danger="self_assessment != mark and self_assessment != 0"/>
+                                    <field name="approved" width="5"
+                                           attrs="{'readonly':[('state','!=','wait_performance_officer')],'column_invisible': [('parent.type', '!=', 'objection')]}"/>
+
+                                    <field name="skill_weight" sum="Total Weight" width="4" required="1"
+                                           attrs="{'readonly':['|',('parent.is_first_stage', '=', False),('state','!=','draft')]}"/>
+                                    <field name="skill_result" force_save='1' width="12" sum="Total Result"
+                                           attrs="{'column_invisible': [('parent.is_last_stage', '=', False)]}"/>
+
+                                    <field name="appraiser_comments" force_save='1' width="12"
+                                           attrs="{'readonly':[('parent.type','!=','appraisal')],'column_invisible': ['|',('parent.is_first_stage', '=', True),('parent.is_last_stage', '=', True)]}"/>
+                                    <field name="comments" force_save='1' width="12"
+                                           attrs="{'readonly':[('parent.type','!=','appraisal')],'column_invisible': ['|',('parent.is_first_stage', '=', True),('parent.is_last_stage', '=', True)]}"/>
+                                    <field name="remarks" force_save='1' width="12"
+                                           attrs="{'readonly':[('parent.type','!=','appraisal')],'column_invisible': [('parent.is_last_stage', '=', False)]}"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Development Plan" attrs="{'invisible':[('is_first_stage','=',False)]}">
+                            <field required="1" name="development_plan_ids"
+                                   attrs="{'readonly':[('state','not in',['draft'])]}">
+                                <tree editable="bottom">
+                                    <field required="1" name="development_method_id" width="5" force_save='1'/>
+                                    <field required="1" name="name" readonly="1" force_save='1' width="12"/>
+                                    <field required="1" name="needs" width="5" force_save='1'/>
+                                    <field required="1" name="suggestions" force_save='1' width="12"/>
+                                </tree>
+                            </field>
+                        </page>
+
+                        <page string="Career Development Plan" attrs="{'invisible':[('is_first_stage','=',True)]}">
+                            <group>
+                                <group string="Employee Strengths">
+                                    <field name="employee_strengths" widget="html" nolabel="1"
+                                           attrs="{'readonly':[('state','=','closed')]}"/>
+                                </group>
+                                <group string="Employee Development Points">
+                                    <field name="employee_development_points" widget="html" nolabel="1"
+                                           attrs="{'readonly':[('state','=','closed')]}"/>
+                                </group>
+                            </group>
+                        </page>
                         <page string="Comments">
                             <group>
-                                <group >
+                                <group>
                                     <field name="employee_comment" widget="html"
                                            attrs="{'readonly':[('state','!=','wait_employee')]}"/>
                                     <field name="dmanager_comment" widget="html"
@@ -320,7 +379,7 @@
                                     <field name="executive_director_comment" widget="html"
                                            attrs="{'readonly':[('state','!=','wait_executive_director')]}"/>
                                 </group>
-                                <group >
+                                <group>
                                     <field name="performance_officer_comment" widget="html"
                                            attrs="{'readonly':[('state','!=','wait_performance_officer')]}"/>
                                     <field name="performance_manager_comment" widget="html"
@@ -401,9 +460,8 @@
                 </xpath>
             </field>
         </record>
-        
-        
-        
+
+
         <record id="exp_hr_appraisal.employee_appraisal_menu_item" model="ir.ui.menu">
             <field name="active" eval="False"/>
         </record>
@@ -435,7 +493,7 @@
             <field name="domain">[('type','=','correction')]</field>
             <field name="view_mode">tree,form,activity</field>
             <field name="search_view_id" ref="hr_appraisal_view_search"/>
-            
+
         </record>
 
         <record id="action_hr_correction_action_tree" model="ir.actions.act_window.view">
@@ -453,19 +511,19 @@
         </record>
 
         <menuitem
-            id="menu_hr_correction_action"
-            parent="exp_hr_appraisal.appraisal_menu_id"
-            action="hr_correction_action"
-            sequence="4"/> 
-            
-       <record id="hr_objection_action" model="ir.actions.act_window">
+                id="menu_hr_correction_action"
+                parent="exp_hr_appraisal.appraisal_menu_id"
+                action="hr_correction_action"
+                sequence="4"/>
+
+        <record id="hr_objection_action" model="ir.actions.act_window">
             <field name="name">Objection Requests</field>
             <field name="res_model">hr.employee.appraisal</field>
             <field name="context">{'default_type': 'objection'}</field>
             <field name="domain">[('type','=','objection')]</field>
             <field name="view_mode">tree,form,activity</field>
             <field name="search_view_id" ref="hr_appraisal_view_search"/>
-            
+
         </record>
 
         <record id="action_hr_objection_action_tree" model="ir.actions.act_window.view">
@@ -483,19 +541,19 @@
         </record>
 
         <menuitem
-            id="menu_hr_objection_action"
-            parent="exp_hr_appraisal.appraisal_menu_id"
-            action="hr_objection_action"
-            sequence="5"/> 
-            
-       <record id="hr_exp_performance_action" model="ir.actions.act_window">
+                id="menu_hr_objection_action"
+                parent="exp_hr_appraisal.appraisal_menu_id"
+                action="hr_objection_action"
+                sequence="5"/>
+
+        <record id="hr_exp_performance_action" model="ir.actions.act_window">
             <field name="name">Exceptional Performance Requests</field>
             <field name="res_model">hr.employee.appraisal</field>
             <field name="context">{'default_type': 'exp_performance'}</field>
             <field name="domain">[('type','=','exp_performance')]</field>
             <field name="view_mode">tree,form,activity</field>
             <field name="search_view_id" ref="hr_appraisal_view_search"/>
-            
+
         </record>
 
         <record id="action_hr_exp_performance_action_tree" model="ir.actions.act_window.view">
@@ -513,59 +571,59 @@
         </record>
 
         <menuitem
-            id="menu_hr_exp_performance_action"
-            parent="exp_hr_appraisal.appraisal_menu_id"
-            action="hr_exp_performance_action"
-            sequence="6"/>       
-        
-		 <record id="hr_exp_performance_template_action_form" model="ir.ui.view">
-		        <field name="name">exceptional.performance.template.form</field>
-		        <field name="model">exceptional.performance.template</field>
-		        <field name="arch" type="xml">
-		            <form string="Exceptional Performance Templates">
-		             <sheet>
-				        <group>
-				            <field name="name" required="1"/>
-				            <field name="description"/>
-				            </group>
-				            <field name="exceptional_performance_ids" nolabel="1">
-						        <tree editable="bottom">
-								    <field name="standard_id" required="1"/>
-								    <field name="name" required="1"/>
-				        		</tree>
-				             </field>
-				          </sheet>
-		            </form>
-		        </field>
-		 </record>   
-		 <record id="hr_exp_performance_template_tree" model="ir.ui.view">
-		        <field name="name">exceptional.performance.template.tree</field>
-		        <field name="model">exceptional.performance.template</field>
-		        <field name="arch" type="xml">
-		            <tree string="Exceptional Performance Templates">
-		                <field name="name" />
-		                <field name="description"/>
-		                <field name="exceptional_performance_ids"/>
-		            </tree>
-		        </field>
-		    </record>
+                id="menu_hr_exp_performance_action"
+                parent="exp_hr_appraisal.appraisal_menu_id"
+                action="hr_exp_performance_action"
+                sequence="6"/>
 
-		 <record id="hr_exp_performance_template_action" model="ir.actions.act_window">
-		        <field name="name">Exceptional Performance Templates</field>
-		        <field name="res_model">exceptional.performance.template</field>
-		        <field name="context">{}</field>
-		        <field name="domain">[]</field>
-		        <field name="view_mode">tree,form</field>
-		    </record>
-		    
-		   <menuitem
-		        id="menu_hr_exp_performance_template_action"
-		        parent="exp_hr_appraisal.appraisal_configuration"
-		        action="hr_exp_performance_template_action"
-		        sequence="6"/> 
+        <record id="hr_exp_performance_template_action_form" model="ir.ui.view">
+            <field name="name">exceptional.performance.template.form</field>
+            <field name="model">exceptional.performance.template</field>
+            <field name="arch" type="xml">
+                <form string="Exceptional Performance Templates">
+                    <sheet>
+                        <group>
+                            <field name="name" required="1"/>
+                            <field name="description"/>
+                        </group>
+                        <field name="exceptional_performance_ids" nolabel="1">
+                            <tree editable="bottom">
+                                <field name="standard_id" required="1"/>
+                                <field name="name" required="1"/>
+                            </tree>
+                        </field>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="hr_exp_performance_template_tree" model="ir.ui.view">
+            <field name="name">exceptional.performance.template.tree</field>
+            <field name="model">exceptional.performance.template</field>
+            <field name="arch" type="xml">
+                <tree string="Exceptional Performance Templates">
+                    <field name="name"/>
+                    <field name="description"/>
+                    <field name="exceptional_performance_ids"/>
+                </tree>
+            </field>
+        </record>
 
-        
-       <record id="appraisal_result_form_view" model="ir.ui.view">
+        <record id="hr_exp_performance_template_action" model="ir.actions.act_window">
+            <field name="name">Exceptional Performance Templates</field>
+            <field name="res_model">exceptional.performance.template</field>
+            <field name="context">{}</field>
+            <field name="domain">[]</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem
+                id="menu_hr_exp_performance_template_action"
+                parent="exp_hr_appraisal.appraisal_configuration"
+                action="hr_exp_performance_template_action"
+                sequence="6"/>
+
+
+        <record id="appraisal_result_form_view" model="ir.ui.view">
             <field name="name">Appraisal Result</field>
             <field name="model">appraisal.result</field>
             <field name="inherit_id" ref="exp_hr_appraisal.appraisal_result_form_view"/>
@@ -576,7 +634,7 @@
                 </xpath>
             </field>
         </record>
-        
-        
+
+
     </data>
 </odoo>

@@ -20,7 +20,7 @@
         <record id="view_grant_benefit_form" model="ir.ui.view">
             <field name="name">grant.benefit.form</field>
             <field name="model">grant.benefit</field>
-              <field name="inherit_id" ref="odex_benefit.grant_benefit_form"/>
+            <field name="inherit_id" ref="odex_benefit.grant_benefit_form"/>
             <field name="arch" type="xml">
 
                 <xpath expr="." position="replace">
@@ -46,8 +46,13 @@
 
                             <button name="action_reject" type="object" string="Refuse"
                                     class="btn-danger"
-                                    groups="odex_benefit.group_service_manager,odex_benefit.group_basic_care_manager"
-                                    attrs="{'invisible': [('state','not in', ('confirm','validate'))]}"/>
+                                    groups="odex_benefit.group_basic_care_manager"
+                                    attrs="{'invisible': [('state','!=', 'confirm')]}"/>
+
+                            <button name="action_reject" type="object" string="Refuse"
+                                    class="btn-danger"
+                                    groups="odex_benefit.group_service_manager"
+                                    attrs="{'invisible': [('state','!=', 'validate')]}"/>
 
                             <button name="reset_to_draft" type="object" string="Reset to Draft"
                                     class="btn-secondary"
@@ -95,211 +100,220 @@
 
                             </group>
 
-                        <notebook>
-                            <page string="Breadwinner" attrs="{'readonly': [('state','!=','draft')]}">
-                                <field name="benefit_breadwinner_ids" nolabel="1" required="1">
-                                    <tree editable="bottom">
-                                        <field name="member_name" required="1" options="{'no_create': False}"/>
-                                        <field name="relation_id" required="1"/>
-                                        <field name="breadwinner" readonly="1"/>
-                                    </tree>
-                                </field>
-                            </page>
-
-                            <page string="Members" attrs="{'readonly': [('state','!=','draft')]}">
-                                <field name="benefit_member_ids" nolabel="1">
-                                    <tree editable="bottom">
-                                        <field name="member_id"/>
-                                        <field name="relation_id"/>
-                                        <field name="rel_with_resd" readonly="1"/>
-                                    </tree>
-                                </field>
-                            </page>
-                            <page string="Housing" attrs="{'readonly': [('state','!=','draft')]}">
-                                <group colspan="2">
-                                    <field name="housing_type"/>
-                                    <field name="property_type"/>
-                                    <field name="exchange_period"/>
-                                    <field name="housing_value"/>
-                                    <field name="accommodation_attachments" required="1"/>
-                                </group>
-
-
-                            </page>
-                            <page string="National Address" attrs="{'readonly': [('state','!=','draft')]}">
-                                <group>
-                                    <group>
-                                        <field name="building_number"/>
-                                        <field name="sub_number"/>
-                                        <field name="additional_number"/>
-                                        <field name="street_name"/>
-                                    </group>
-                                    <group>
-                                        <field name="district_name"/>
-                                        <field name="city"/>
-                                        <field name="postal_code"/>
-                                        <field name="national_address_code"/>
-                                    </group>
-                                </group>
-                            </page>
-
-                            <page string="expenses" attrs="{'readonly': [('state','!=','draft')]}">
-                                <group>
-                                    <field force_save="1" nolabel="1" name="expenses_ids">
+                            <notebook>
+                                <page string="Breadwinner" attrs="{'readonly': [('state','!=','draft')]}">
+                                    <field name="benefit_breadwinner_ids" nolabel="1" required="1">
                                         <tree editable="bottom">
-                                            <field name="member_id" invisible="1"/>
-                                            <!--                                                   domain="['|', ('id', 'in', parent.member_ids), ('id', '=', parent.breadwinner_member_id)]"/>-->
-                                            <field name="benefit_id" invisible="1"/>
-                                            <field name="expenses_type" invisible="1"/>
-                                            <field name="expenses_type_custom"/>
-                                            <!--                                            <field name="note"/>-->
-                                            <field name="revenue_periodicity"/>
-                                            <field name="amount" sum="amount"/>
-                                            <field name="side"/>
-                                            <field name="attachment" required="1"/>
+                                            <field name="member_name" required="1" options="{'no_create': False}"/>
+                                            <field name="relation_id" required="1"/>
+                                            <field name="breadwinner" readonly="1"/>
                                         </tree>
                                     </field>
-                                </group>
-                            </page>
-                            <page string="Income and salary" attrs="{'readonly': [('state','!=','draft')]}">
-                                <field name="salary_ids" force_save="1">
-                                    <tree editable="bottom" delete="1">
-                                        <field name="benefit_id" invisible="1"/>
-                                        <field name="member_id" invisible="1"/>
-                                        <!--                                               domain="['|', ('id', 'in', parent.member_ids), ('id', '=', parent.breadwinner_member_id)]"/>-->
-                                        <field name="income_type"/>
-                                        <field name="side"/>
-                                        <field name="salary_amount"/>
-                                        <field name="salary_attach" widget="many2many_attachment_preview"/>
-                                        <field name="revenue_periodicity"/>
-                                        <field name="is_required" invisible="1"/>
-                                        <field name="is_default" invisible="1"/>
+                                </page>
 
-                                    </tree>
-                                </field>
-                                <group>
-                                    <field name="income_required_attach"/>
-                                </group>
-                            </page>
-                            <page string="Banking information" attrs="{'readonly': [('state','!=','draft')]}">
-                                <group>
-                                    <group>
-                                        <label for="acc_number"/>
-                                        <div class="o_row">
-                                            <field name="acc_number" width="100%"/>
-                                            <field name="sa_iban"/>
-                                        </div>
-                                        <field name="acc_holder_name"/>
-                                        <field name="account_status"/>
-                                        <field name="Add_appendix"/>
-                                        <field name="relation_to_family"/>
-                                    </group>
-                                    <group attrs="{'invisible': [('account_status', '!=', 'inactive')]}">
-                                        <field name="stop_reason"/>
-                                        <field name="stop_proof"/>
-                                        <field name="delegate_id_number"/>
-                                        <field name="delegate_mobile"/>
-                                        <field name="delegate_name"/>
-                                        <field name="delegate_iban"/>
-                                        <field name="delegate_document"/>
-                                    </group>
-                                </group>
-                            </page>
-                            <page string="Education History" invisible="1"  attrs="{'readonly': [('state','!=','draft')]}">
-                                <field name="education_ids">
-                                    <tree editable="bottom">
-                                        <field name="name"/>
-                                        <field name="identity_number"/>
-                                        <field name="level_id" string="Education Level"/>
-                                        <field name="school_name" string="School Name"/>
-                                        <field name="path" string="Path"/>
-                                        <field name="education_department_id" string="Department"/>
-                                        <field name="grade" string="Grade"/>
-                                        <field name="graduation_year"/>
-                                        <field name="attachments"/>
-                                    </tree>
-                                </field>
-                            </page>
-                            <page string="Comprehensive Rehabilitation" invisible="1">
-                                <field name="rehabilitation_ids">
-                                    <tree>
-                                        <field name="disability_date"/>
-                                        <field name="disability_type_id"/>
-                                        <field name="income_value" sum="amount"/>
-                                    </tree>
-                                </field>
-                            </page>
-                            <page string="Health Data" invisible="1">
-                                <group>
-                                    <field name="health_data_ids" nolabel="1"
-                                           context="{'form_view_ref': 'trahum_benefits.view_family_member_form'}">
-                                        <tree>
-                                            <field name="name" string="Name"/>
-                                            <field name="benefit_id"/>
-                                            <field name="blood_type" string="Blood Type"/>
-                                            <field name="member_diseases_ids" string="Diseases">
-                                            </field>
+                                <page string="Members" attrs="{'readonly': [('state','!=','draft')]}">
+                                    <field name="benefit_member_ids" nolabel="1">
+                                        <tree editable="bottom">
+                                            <field name="member_id"/>
+                                            <field name="relation_id"/>
+                                            <field name="rel_with_resd" readonly="1"/>
                                         </tree>
                                     </field>
-                                </group>
-                            </page>
-                            <page string="Attachment" attrs="{'readonly': [('state','!=','draft')]}">
-                                <field name="attachment_id">
-                                    <tree editable="bottom">
-                                        <field name="attachment_name"/>
-                                        <field name="classification"/>
-                                        <field name="attachment_attachment"/>
-                                    </tree>
-                                </field>
-                            </page>
-                            <page string="Need Assessment">
-                                <group col="4">
-                                    <group string="Summary" col="4">
-                                        <field name="benefit_member_count" readonly="1" class="oe_inline"/>
-                                        <field name="benefit_breadwinner_count" readonly="1" class="oe_inline"/>
-                                        <field name="members_under_18" readonly="1" class="oe_inline"/>
-                                        <field name="members_18_and_above" readonly="1" class="oe_inline"/>
+                                </page>
+                                <page string="Housing" attrs="{'readonly': [('state','!=','draft')]}">
+                                    <group colspan="2">
+                                        <field name="housing_type"/>
+                                        <field name="property_type"/>
+                                        <field name="rent_start_date"
+                                               attrs="{'invisible': [('property_type', '!=', 'rent')]}"/>
+                                        <field name="rent_end_date"
+                                               attrs="{'invisible': [('property_type', '!=', 'rent')]}"/>
+                                        <field name="period_text"
+                                               attrs="{'invisible': [('property_type', '!=', 'rent')]}"/>
+
+                                        <field name="exchange_period"/>
+                                        <field name="housing_value"/>
+                                        <field name="accommodation_attachments" required="1"/>
                                     </group>
-                                    <group string="Income" col="2">
-                                        <field name="total_salary" readonly="1"/>
-                                        <field name="natural_income" readonly="1"/>
-                                        <field name="total_income" readonly="1" attrs="{'invisible': True}"/>
-                                        <field name="expected_income" readonly="1" attrs="{'invisible': True}"/>
+
+
+                                </page>
+                                <page string="National Address" attrs="{'readonly': [('state','!=','draft')]}">
+                                    <group>
+                                        <group>
+                                            <field name="building_number"/>
+                                            <field name="sub_number"/>
+                                            <field name="additional_number"/>
+                                            <field name="street_name"/>
+                                        </group>
+                                        <group>
+                                            <field name="district_name"/>
+                                            <field name="city"/>
+                                            <field name="postal_code"/>
+                                            <field name="national_address_code"/>
+                                        </group>
                                     </group>
-                                    <group string="Need Calculation" col="2">
-                                        <field name="need_ratio" readonly="1" widget="progressbar" options="{'max_value': 100}"/>
-                                        <field name="family_need_class_id" readonly="1"/>
-                                        <field name="member_count" readonly="1" attrs="{'invisible': True}"/>
-                                        <field name="need_calculator" readonly="1" attrs="{'invisible': True}"/>
+                                </page>
+
+                                <page string="expenses" attrs="{'readonly': [('state','!=','draft')]}">
+                                    <group>
+                                        <field force_save="1" nolabel="1" name="expenses_ids">
+                                            <tree editable="bottom">
+                                                <field name="member_id" invisible="1"/>
+                                                <!--                                                   domain="['|', ('id', 'in', parent.member_ids), ('id', '=', parent.breadwinner_member_id)]"/>-->
+                                                <field name="benefit_id" invisible="1"/>
+                                                <field name="expenses_type" invisible="1"/>
+                                                <field name="expenses_type_custom"/>
+                                                <!--                                            <field name="note"/>-->
+                                                <field name="revenue_periodicity"/>
+                                                <field name="amount" sum="amount"/>
+                                                <field name="side"/>
+                                                <field name="attachment" required="1"/>
+                                            </tree>
+                                        </field>
+                                    </group>
+                                </page>
+                                <page string="Income and salary" attrs="{'readonly': [('state','!=','draft')]}">
+                                    <field name="salary_ids" force_save="1">
+                                        <tree editable="bottom" delete="1">
+                                            <field name="benefit_id" invisible="1"/>
+                                            <field name="member_id" invisible="1"/>
+                                            <!--                                               domain="['|', ('id', 'in', parent.member_ids), ('id', '=', parent.breadwinner_member_id)]"/>-->
+                                            <field name="income_type"/>
+                                            <field name="side"/>
+                                            <field name="salary_amount"/>
+                                            <field name="salary_attach" widget="many2many_attachment_preview"/>
+                                            <field name="revenue_periodicity"/>
+                                            <field name="is_required" invisible="1"/>
+                                            <field name="is_default" invisible="1"/>
+
+                                        </tree>
+                                    </field>
+                                    <group>
+                                        <field name="income_required_attach"/>
+                                    </group>
+                                </page>
+                                <page string="Banking information" attrs="{'readonly': [('state','!=','draft')]}">
+                                    <group>
+                                        <group>
+                                            <label for="acc_number"/>
+                                            <div class="o_row">
+                                                <field name="acc_number" width="100%"/>
+                                                <field name="sa_iban"/>
+                                            </div>
+                                            <field name="acc_holder_name"/>
+                                            <field name="account_status"/>
+                                            <field name="Add_appendix"/>
+                                            <field name="relation_to_family"/>
+                                        </group>
+                                        <group attrs="{'invisible': [('account_status', '!=', 'inactive')]}">
+                                            <field name="stop_reason"/>
+                                            <field name="stop_proof"/>
+                                            <field name="delegate_id_number"/>
+                                            <field name="delegate_mobile"/>
+                                            <field name="delegate_name"/>
+                                            <field name="delegate_iban"/>
+                                            <field name="delegate_document"/>
+                                        </group>
+                                    </group>
+                                </page>
+                                <page string="Education History" invisible="1"
+                                      attrs="{'readonly': [('state','!=','draft')]}">
+                                    <field name="education_ids">
+                                        <tree editable="bottom">
+                                            <field name="name"/>
+                                            <field name="identity_number"/>
+                                            <field name="level_id" string="Education Level"/>
+                                            <field name="school_name" string="School Name"/>
+                                            <field name="path" string="Path"/>
+                                            <field name="education_department_id" string="Department"/>
+                                            <field name="grade" string="Grade"/>
+                                            <field name="graduation_year"/>
+                                            <field name="attachments"/>
+                                        </tree>
+                                    </field>
+                                </page>
+                                <page string="Comprehensive Rehabilitation" invisible="1">
+                                    <field name="rehabilitation_ids">
+                                        <tree>
+                                            <field name="disability_date"/>
+                                            <field name="disability_type_id"/>
+                                            <field name="income_value" sum="amount"/>
+                                        </tree>
+                                    </field>
+                                </page>
+                                <page string="Health Data" invisible="1">
+                                    <group>
+                                        <field name="health_data_ids" nolabel="1"
+                                               context="{'form_view_ref': 'trahum_benefits.view_family_member_form'}">
+                                            <tree>
+                                                <field name="name" string="Name"/>
+                                                <field name="benefit_id"/>
+                                                <field name="blood_type" string="Blood Type"/>
+                                                <field name="member_diseases_ids" string="Diseases">
+                                                </field>
+                                            </tree>
+                                        </field>
+                                    </group>
+                                </page>
+                                <page string="Attachment" attrs="{'readonly': [('state','!=','draft')]}">
+                                    <field name="attachment_id">
+                                        <tree editable="bottom">
+                                            <field name="attachment_name"/>
+                                            <field name="classification"/>
+                                            <field name="attachment_attachment"/>
+                                        </tree>
+                                    </field>
+                                </page>
+                                <page string="Need Assessment">
+                                    <group col="4">
+                                        <group string="Summary" col="4">
+                                            <field name="benefit_member_count" readonly="1" class="oe_inline"/>
+                                            <field name="benefit_breadwinner_count" readonly="1" class="oe_inline"/>
+                                            <field name="members_under_18" readonly="1" class="oe_inline"/>
+                                            <field name="members_18_and_above" readonly="1" class="oe_inline"/>
+                                        </group>
+                                        <group string="Income" col="2">
+                                            <field name="total_salary" readonly="1"/>
+                                            <field name="natural_income" readonly="1"/>
+                                            <field name="total_income" readonly="1" attrs="{'invisible': True}"/>
+                                            <field name="expected_income" readonly="1" attrs="{'invisible': True}"/>
+                                        </group>
+                                        <group string="Need Calculation" col="2">
+                                            <field name="need_ratio" readonly="1" widget="progressbar"
+                                                   options="{'max_value': 100}"/>
+                                            <field name="family_need_class_id" readonly="1"/>
+                                            <field name="member_count" readonly="1" attrs="{'invisible': True}"/>
+                                            <field name="need_calculator" readonly="1" attrs="{'invisible': True}"/>
                                         </group>
                                     </group>
                                 </page>
 
 
-
-                            <page string="Researcher's insights" attrs="{'invisible': [('state', '=', 'validate')]}">
-                                <group>
+                                <page string="Researcher's insights"
+                                      attrs="{'invisible': [('state', '=', 'validate')]}">
                                     <group>
                                         <group>
-                                            <field name="researcher_insights"
-                                                   attrs="{'required': [('state', '=', 'draft')]}"/>
-                                            <field name="researcher_id"
-                                                   attrs="{'required': [('state', '=', 'draft')]}"/>
-                                            <field name="folder_state"/>
+                                            <group>
+                                                <field name="researcher_insights"
+                                                       attrs="{'required': [('state', '=', 'draft')]}"/>
+                                                <field name="researcher_id"
+                                                       attrs="{'required': [('state', '=', 'draft')]}"/>
+                                                <field name="folder_state"/>
+                                            </group>
+
                                         </group>
-
                                     </group>
-                                </group>
-                            </page>
+                                </page>
 
 
-                        </notebook>
-                    </sheet>
-                    <div class="oe_chatter">
-                        <field name="message_follower_ids" widget="mail_followers"/>
-                        <field name="message_ids" widget="mail_thread"/>
-                    </div>
-                </form>
+                            </notebook>
+                        </sheet>
+                        <div class="oe_chatter">
+                            <field name="message_follower_ids" widget="mail_followers"/>
+                            <field name="message_ids" widget="mail_thread"/>
+                        </div>
+                    </form>
                 </xpath>
             </field>
         </record>

@@ -118,6 +118,16 @@ class AccountMove(models.Model):
                 payment_vals['item_budget_ids'] = budget_item_vals
                 payment = self.env['account.payment'].create(payment_vals)
 
+                attachments = self.env['ir.attachment'].search([
+                    ('res_model', '=', 'account.move'),
+                    ('res_id', '=', move.id)
+                ])
+
+                for attachment in attachments:
+                    attachment.copy({
+                        'res_model': 'account.payment',
+                        'res_id': payment.id,
+                    })
     def action_register_payment(self):
         res = super(AccountMove, self).action_register_payment()
         res['context'].update({'default_hr_operation': self.hr_operation,'default_is_related_to_cotract': self.is_related_to_cotract})

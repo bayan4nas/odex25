@@ -16,7 +16,7 @@ class KPIitem(models.Model):
         [
             ("more", "Ascending"),
             ("less", "Descending"),
-            ("fixed", "Fixed"),
+            ("fixed", "Within scope"),
         ],
         string="Success Criteria",
         default="more",
@@ -40,7 +40,7 @@ class KPIitem(models.Model):
             ("4", "Annual"),
         ],
         string="Rounding Decimals",
-        default="monthly",
+        default="2",
         required=True,
     )
 

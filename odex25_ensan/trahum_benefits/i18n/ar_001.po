@@ -413,10 +413,15 @@ msgstr "مستفيد"
 msgid "Beneficiary Category"
 msgstr "حالة المستفيد اﻷساسي"
 
+
 #. module: trahum_benefits
+#: model:ir.model.fields,field_description:trahum_benefits.field_benefits_service__beneficiary_categories
 #: model:ir.model.fields,field_description:trahum_benefits.field_benefits_service__beneficiary_category
 msgid "Beneficiary Category  "
-msgstr ""
+msgstr "الفئة المستفيدة"
+
+
+
 
 #. module: trahum_benefits
 #: model:ir.model,name:trahum_benefits.model_beneficiary_path
@@ -503,7 +508,7 @@ msgstr "مكان الميلاد"
 #. module: trahum_benefits
 #: model:ir.model.fields.selection,name:trahum_benefits.selection__sr_rule__severity__error
 msgid "Blocker"
-msgstr ""
+msgstr "مانع"
 
 #. module: trahum_benefits
 #: model:ir.model.fields,field_description:trahum_benefits.field_family_member__blood_type
@@ -559,7 +564,7 @@ msgstr "عائل"
 #. module: trahum_benefits
 #: model:ir.model.fields,field_description:trahum_benefits.field_sr_rule__breadwinner_value
 msgid "Breadwinner Value"
-msgstr ""
+msgstr "قيمة العائل"
 
 #. module: trahum_benefits
 #: model:ir.model.fields,field_description:trahum_benefits.field_family_member__building_number
@@ -581,7 +586,7 @@ msgstr "إلغاء"
 #: code:addons/trahum_benefits/models/family.py:0
 #, python-format
 msgid "Cancel Benefit"
-msgstr "الغاء"
+msgstr "سبب الرفض"
 
 #. module: trahum_benefits
 #: code:addons/trahum_benefits/models/service_request.py:0
@@ -964,7 +969,7 @@ msgstr "تم الإنشاء بتاريخ"
 #. module: trahum_benefits
 #: model:ir.model.fields.selection,name:trahum_benefits.selection__sr_rule__period__days
 msgid "Days"
-msgstr ""
+msgstr "أيام"
 
 #. module: trahum_benefits
 #: model:ir.model.fields.selection,name:trahum_benefits.selection__sr_rule__metric__days_since_last_request
@@ -1066,6 +1071,13 @@ msgstr "حالة النزيل"
 #: model:ir.model.fields,field_description:trahum_benefits.field_detainee_file__period_text
 msgid "Detention Period"
 msgstr "مدة الحكم"
+
+
+#. module: trahum_benefits
+#: model:ir.model.fields,field_description:trahum_benefits.field_grant_benefit__period_text
+msgid "Rent Period"
+msgstr "مدة اﻹيجار"
+
 
 #. module: trahum_benefits
 #: model:ir.actions.act_window,name:trahum_benefits.res_disability_type_list_action
@@ -1645,15 +1657,20 @@ msgstr ""
 msgid "Grant Benefit Members"
 msgstr ""
 
-#. module: trahum_benefits
-#: model:ir.model.fields.selection,name:trahum_benefits.selection__sr_rule__operator__>
-msgid "Greater than"
-msgstr ""
 
 #. module: trahum_benefits
+#: model:ir.model.fields.selection,name:trahum_benefits.selection__sr_rule__amount_operator__>
+#: model:ir.model.fields.selection,name:trahum_benefits.selection__sr_rule__duration_operator__>
+#: model:ir.model.fields.selection,name:trahum_benefits.selection__sr_rule__operator__>
+msgid "Greater than"
+msgstr "أكبر من"
+
+#. module: trahum_benefits
+#: model:ir.model.fields.selection,name:trahum_benefits.selection__sr_rule__amount_operator__>=
+#: model:ir.model.fields.selection,name:trahum_benefits.selection__sr_rule__duration_operator__>=
 #: model:ir.model.fields.selection,name:trahum_benefits.selection__sr_rule__operator__>=
 msgid "Greater than or equal to"
-msgstr ""
+msgstr "أكبر من أو يساوي"
 
 #. module: trahum_benefits
 #: model_terms:ir.ui.view,arch_db:trahum_benefits.view_grant_benefit_search
@@ -2102,12 +2119,12 @@ msgstr "آخر تحديث بتاريخ"
 #. module: trahum_benefits
 #: model:ir.model.fields.selection,name:trahum_benefits.selection__sr_rule__operator__<
 msgid "Less than"
-msgstr ""
+msgstr "أقل من"
 
 #. module: trahum_benefits
 #: model:ir.model.fields.selection,name:trahum_benefits.selection__sr_rule__operator__<=
 msgid "Less than or equal to"
-msgstr ""
+msgstr "أقل من أو يساوي"
 
 #. module: trahum_benefits
 #: model:ir.model.fields.selection,name:trahum_benefits.selection__grant_benefit__need_calculator__low
@@ -2186,7 +2203,7 @@ msgstr ""
 #. module: trahum_benefits
 #: model:ir.model.fields,field_description:trahum_benefits.field_sr_rule__member_value
 msgid "Member Value"
-msgstr ""
+msgstr "قيمة الفرد"
 
 #. module: trahum_benefits
 #: model:ir.model.fields,field_description:trahum_benefits.field_grant_benefit_breadwinner__member_name
@@ -2247,7 +2264,7 @@ msgstr "الرسائل"
 #. module: trahum_benefits
 #: model:ir.model.fields,field_description:trahum_benefits.field_sr_rule__metric
 msgid "Metric"
-msgstr ""
+msgstr "قائمة الشروط"
 
 #. module: trahum_benefits
 #: model:ir.model.fields,field_description:trahum_benefits.field_benefits_output__min_limit
@@ -2404,7 +2421,7 @@ msgstr "نوع النشاط التالي"
 #. module: trahum_benefits
 #: model:ir.model.fields.selection,name:trahum_benefits.selection__sr_rule__period__none
 msgid "No Period"
-msgstr ""
+msgstr "بدون فترة"
 
 #. module: trahum_benefits
 #: model:ir.model.fields.selection,name:trahum_benefits.selection__family_member__entitlement_status__non_beneficiary
@@ -2508,7 +2525,7 @@ msgstr ""
 #. module: trahum_benefits
 #: model:ir.model.fields,field_description:trahum_benefits.field_sr_rule__operator
 msgid "Operator"
-msgstr ""
+msgstr "العملية"
 
 #. module: trahum_benefits
 #: model:ir.model.fields,help:trahum_benefits.field_benefits_service__provider_ids
@@ -2588,7 +2605,7 @@ msgstr ""
 #. module: trahum_benefits
 #: model:ir.model.fields,field_description:trahum_benefits.field_sr_rule__period
 msgid "Period"
-msgstr ""
+msgstr "الفترة"
 
 #. module: trahum_benefits
 #: model:ir.model.fields.selection,name:trahum_benefits.selection__benefits_service_request__request_source__periodic
@@ -2840,7 +2857,7 @@ msgstr "مفرج عنه"
 #. module: trahum_benefits
 #: model:ir.model.fields.selection,name:trahum_benefits.selection__benefits_service__beneficiary_category__released_family
 msgid "Released Family"
-msgstr "أسرة المفرج عنه"
+msgstr " المفرج عنه"
 
 #. module: trahum_benefits
 #: model:ir.model.fields,field_description:trahum_benefits.field_family_member__released_status
@@ -3029,7 +3046,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:trahum_benefits.field_benefits_service_request_output__sequence
 #: model:ir.model.fields,field_description:trahum_benefits.field_sr_rule__sequence
 msgid "Sequence"
-msgstr ""
+msgstr "تسلسل"
 
 #. module: trahum_benefits
 #: model:ir.model.fields,field_description:trahum_benefits.field_benefits_service_disbursement_periodicity__service_id
@@ -3172,7 +3189,7 @@ msgstr "الإعدادات"
 #. module: trahum_benefits
 #: model:ir.model.fields,field_description:trahum_benefits.field_sr_rule__severity
 msgid "Severity"
-msgstr ""
+msgstr "درجة الخطورة"
 
 #. module: trahum_benefits
 #: model:ir.model.fields.selection,name:trahum_benefits.selection__grant_benefit__housing_status__shared
@@ -3353,7 +3370,7 @@ msgstr ""
 #. module: trahum_benefits
 #: model:ir.model.fields,field_description:trahum_benefits.field_sr_rule__threshold_value
 msgid "Threshold Value"
-msgstr ""
+msgstr "القيمة/الحد"
 
 #. module: trahum_benefits
 #: model_terms:ir.ui.view,arch_db:trahum_benefits.view_benefits_service_request_search
@@ -3445,7 +3462,7 @@ msgstr ""
 #. module: trahum_benefits
 #: model:ir.model.fields.selection,name:trahum_benefits.selection__sr_rule__severity__warning
 msgid "Warning"
-msgstr ""
+msgstr "تحذير"
 
 #. module: trahum_benefits
 #: model:ir.model.fields.selection,name:trahum_benefits.selection__benefits_service_request__request_source__website
@@ -3487,7 +3504,7 @@ msgstr "نوع العمل"
 #. module: trahum_benefits
 #: model:ir.model.fields.selection,name:trahum_benefits.selection__sr_rule__period__year
 msgid "Yearly"
-msgstr ""
+msgstr "سنوي"
 
 #. module: trahum_benefits
 #: code:addons/trahum_benefits/models/member.py:0
@@ -3858,6 +3875,11 @@ msgid "Target Housing Type"
 msgstr "نوع السكن"
 
 #. module: trahum_benefits
+#: model:ir.model.fields,field_description:trahum_benefits.field_sr_rule__housing_exchange_type
+msgid "EXCHANGE PERIODS"
+msgstr "دورية الصرف"
+
+#. module: trahum_benefits
 #: model:ir.model.fields,field_description:trahum_benefits.field_sr_rule__date_from
 msgid "From Date"
 msgstr "من تاريخ"
@@ -3907,3 +3929,56 @@ msgid ""
 "The service request cannot be submitted. Total requested amount (%s) exceeds"
 " the allowed limit (%s)."
 msgstr "لا يمكن تقديم طلب الخدمة. مجموع المبالغ المطلوبة (%s) يتجاوز الحد المسموح به (%s)."
+
+#. module: trahum_benefits
+#: model:ir.model.fields.selection,name:trahum_benefits.selection__sr_rule__period__custom
+msgid "Custom Period"
+msgstr "فترة معينة"
+
+#. module: trahum_benefits
+#: model_terms:ir.ui.view,arch_db:trahum_benefits.sr_rule_form_view
+msgid "Housing Support Settings"
+msgstr "إعدادات دعم الإسكان"
+
+#. module: trahum_benefits
+#: model:ir.model.fields,field_description:trahum_benefits.field_sr_rule__rent_duration_years
+msgid "Years"
+msgstr "السنوات"
+
+
+#. module: trahum_benefits
+#: model:ir.model.fields,field_description:trahum_benefits.field_benefits_service_disbursement_periodicity__months
+#: model:ir.model.fields,field_description:trahum_benefits.field_sr_rule__rent_duration_months
+msgid "Months"
+msgstr "الأشهر"
+
+#. module: trahum_benefits
+#: model:ir.model.fields,field_description:trahum_benefits.field_sr_rule__duration_operator
+msgid "Duration Comparison Operator"
+msgstr "عملية مقارنة المدة"
+
+#. module: trahum_benefits
+#: model_terms:ir.ui.view,arch_db:trahum_benefits.sr_rule_form_view
+msgid "Second Condition: Service Amount Comparison"
+msgstr "الشرط الثاني: مقارنة مبلغ الخدمة"
+
+#. module: trahum_benefits
+#: model_terms:ir.ui.view,arch_db:trahum_benefits.sr_rule_form_view
+msgid "First Condition: Rental Duration Comparison"
+msgstr "الشرط الأول: مقارنة مدة الإيجار"
+
+#. module: trahum_benefits
+#: model:ir.model.fields,field_description:trahum_benefits.field_sr_rule__max_service_amount
+msgid "Reference Amount"
+msgstr "المبلغ"
+
+
+#. module: trahum_benefits
+#: model:ir.model.fields,field_description:trahum_benefits.field_sr_rule__amount_operator
+msgid "Amount Comparison Operator"
+msgstr "عملية مقارنة المبالغ"
+
+#. module: trahum_benefits
+#: model:ir.model.fields,field_description:trahum_benefits.field_sr_rule__amount_violation_message
+msgid "Service Amount Violation Message"
+msgstr "رسالة انتهاك مبلغ الخدمة"

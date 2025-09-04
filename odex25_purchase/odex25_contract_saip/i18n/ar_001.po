@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-08 07:57+0000\n"
-"PO-Revision-Date: 2025-05-08 07:57+0000\n"
+"POT-Creation-Date: 2025-09-01 08:13+0000\n"
+"PO-Revision-Date: 2025-09-01 08:13+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -29,7 +29,7 @@ msgstr "إعتماد"
 #. module: odex25_contract_saip
 #: model:ir.model.fields.selection,name:odex25_contract_saip.selection__line_contract_installment_coc__state__approve
 msgid "Approveed"
-msgstr ""
+msgstr "معتمدة"
 
 #. module: odex25_contract_saip
 #: model_terms:ir.ui.view,arch_db:odex25_contract_saip.inherit_contract_contract_supplier_form_view
@@ -61,6 +61,11 @@ msgstr "هل أنت متأكد من استئناف هذا العقد؟"
 #: model_terms:ir.ui.view,arch_db:odex25_contract_saip.inherit_contract_contract_supplier_form_view
 msgid "Are you sure you want to suspend this installment?"
 msgstr "هل أنت متأكد من تعليق هذا العقد؟"
+
+#. module: odex25_contract_saip
+#: model:ir.model.fields,field_description:odex25_contract_saip.field_line_contract_installment_coc__attachment_ids
+msgid "Attachments"
+msgstr "المرفقات"
 
 #. module: odex25_contract_saip
 #: model:ir.model.fields,field_description:odex25_contract_saip.field_contract_contract__award_date
@@ -253,7 +258,9 @@ msgid "Confirmed"
 msgstr "مؤكد"
 
 #. module: odex25_contract_saip
+#: code:addons/odex25_contract_saip/models/account_move.py:0
 #: model:ir.model,name:odex25_contract_saip.model_contract_contract
+#, python-format
 msgid "Contract"
 msgstr "العقد"
 
@@ -346,8 +353,6 @@ msgstr "لا يمكن إجراء عملية الحذف نظرا لوجود دف�
 msgid "Department Name"
 msgstr "الإدارة"
 
-
-
 #. module: odex25_contract_saip
 #: model:ir.model.fields,field_description:odex25_contract_saip.field_line_contract_installment_coc__description_completed
 #: model_terms:ir.ui.view,arch_db:odex25_contract_saip.line_contract_installment_coc_form
@@ -355,11 +360,8 @@ msgid "Description Of Completed Work"
 msgstr "وصف العمل المنجز"
 
 #. module: odex25_contract_saip
-#: model:ir.model.fields,field_description:odex25_contract_saip.field_account_move__display_name
-#: model:ir.model.fields,field_description:odex25_contract_saip.field_contract_contract__display_name
 #: model:ir.model.fields,field_description:odex25_contract_saip.field_installment_reject_wizard__display_name
 #: model:ir.model.fields,field_description:odex25_contract_saip.field_installment_return_wizard__display_name
-#: model:ir.model.fields,field_description:odex25_contract_saip.field_line_contract_installment__display_name
 #: model:ir.model.fields,field_description:odex25_contract_saip.field_line_contract_installment_coc__display_name
 #: model:ir.model.fields,field_description:odex25_contract_saip.field_return_state_wiz__display_name
 msgid "Display Name"
@@ -399,11 +401,8 @@ msgid "Final Warranty"
 msgstr "الضمان النهائي"
 
 #. module: odex25_contract_saip
-#: model:ir.model.fields,field_description:odex25_contract_saip.field_account_move__id
-#: model:ir.model.fields,field_description:odex25_contract_saip.field_contract_contract__id
 #: model:ir.model.fields,field_description:odex25_contract_saip.field_installment_reject_wizard__id
 #: model:ir.model.fields,field_description:odex25_contract_saip.field_installment_return_wizard__id
-#: model:ir.model.fields,field_description:odex25_contract_saip.field_line_contract_installment__id
 #: model:ir.model.fields,field_description:odex25_contract_saip.field_line_contract_installment_coc__id
 #: model:ir.model.fields,field_description:odex25_contract_saip.field_return_state_wiz__id
 msgid "ID"
@@ -421,14 +420,6 @@ msgid "Installment"
 msgstr "الدفعة"
 
 #. module: odex25_contract_saip
-#: code:addons/odex25_contract_saip/models/contract_installment_line.py:0
-#, python-format
-msgid ""
-"Installment Name must contain letters only (no digits or special "
-"characters)."
-msgstr "يجب أن يحتوي اسم الدفعة على أحرف فقط (بدون أرقام أو أحرف خاصة)"
-
-#. module: odex25_contract_saip
 #: model:ir.model,name:odex25_contract_saip.model_installment_reject_wizard
 msgid "Installment Reject Wizard"
 msgstr "معالج رفض الدفعة"
@@ -437,6 +428,12 @@ msgstr "معالج رفض الدفعة"
 #: model:ir.model,name:odex25_contract_saip.model_installment_return_wizard
 msgid "Installment Return State"
 msgstr "إرجاع دفعة العقد"
+
+#. module: odex25_contract_saip
+#: code:addons/odex25_contract_saip/models/contract.py:0
+#, python-format
+msgid "Installment you have scheduled is not equal to the contract amount"
+msgstr "القسط الذي قمت بجدولته لا يساوي مبلغ العقد"
 
 #. module: odex25_contract_saip
 #: code:addons/odex25_contract_saip/wizard/ReturnState.py:0
@@ -467,11 +464,8 @@ msgid "Journal Entry"
 msgstr "قيد اليومية"
 
 #. module: odex25_contract_saip
-#: model:ir.model.fields,field_description:odex25_contract_saip.field_account_move____last_update
-#: model:ir.model.fields,field_description:odex25_contract_saip.field_contract_contract____last_update
 #: model:ir.model.fields,field_description:odex25_contract_saip.field_installment_reject_wizard____last_update
 #: model:ir.model.fields,field_description:odex25_contract_saip.field_installment_return_wizard____last_update
-#: model:ir.model.fields,field_description:odex25_contract_saip.field_line_contract_installment____last_update
 #: model:ir.model.fields,field_description:odex25_contract_saip.field_line_contract_installment_coc____last_update
 #: model:ir.model.fields,field_description:odex25_contract_saip.field_return_state_wiz____last_update
 msgid "Last Modified on"
@@ -516,9 +510,9 @@ msgid "New State"
 msgstr "حالة جديدة"
 
 #. module: odex25_contract_saip
-#: model_terms:ir.actions.act_window,help:odex25_contract_saip.purchase_contract_form_action
-msgid "No purchase order found. Let's create one!"
-msgstr "لم يتم العثور على أي أمر شراء. فلنقم بإنشاء واحد!"
+#: model:ir.model.fields.selection,name:odex25_contract_saip.selection__line_contract_installment__need_coc__no
+msgid "No"
+msgstr "لا"
 
 #. module: odex25_contract_saip
 #: model:ir.model.fields.selection,name:odex25_contract_saip.selection__installment_return_wizard__state__not_invoiced
@@ -547,15 +541,6 @@ msgstr "الملاحـــــــــــــظـة:"
 #, python-format
 msgid "Note return installment"
 msgstr "ملاحظة إجاع الحالة"
-
-#. module: odex25_contract_saip
-#: model_terms:ir.actions.act_window,help:odex25_contract_saip.purchase_contract_form_action
-msgid ""
-"Once you ordered your products to your supplier, confirm your request for "
-"quotation and it will turn into a purchase order."
-msgstr ""
-"بمجرد أن قمت بطلب الاصناف إلى مورّدك، قم بتأكيد طلب عرض السعر وسوف يتحول إلى"
-" أمر شراء."
 
 #. module: odex25_contract_saip
 #: code:addons/odex25_contract_saip/models/contract.py:0
@@ -595,39 +580,20 @@ msgstr "الرجاء إدخال تاريخ بداية العقد!!"
 
 #. module: odex25_contract_saip
 #: code:addons/odex25_contract_saip/models/contract.py:0
-#, python-format
-msgid "Please enter contractor number"
-msgstr "الرجاء إدخال رقم المتعاقد"
-
-#. module: odex25_contract_saip
-#: code:addons/odex25_contract_saip/models/contract.py:0
-#, python-format
-msgid "Please enter department number"
-msgstr "الرجاء إدخال رقم الإدارة"
-
-#. module: odex25_contract_saip
-#: code:addons/odex25_contract_saip/models/contract.py:0
 #: code:addons/odex25_contract_saip/models/contract.py:0
 #, python-format
 msgid "Please enter the installments!"
 msgstr ""
 
 #. module: odex25_contract_saip
-#: code:addons/odex25_contract_saip/models/contract.py:0
-#, python-format
-msgid "Please fill in both Project Initiative Number and Name."
-msgstr "يرجى ملء كل من رقم و إسم المبادرة المشروع"
-
-#. module: odex25_contract_saip
-#: code:addons/odex25_contract_saip/models/contract.py:0
-#, python-format
-msgid "Please select if this is a Project / Initiative."
-msgstr "يرجى تحديد ما إذا كان هذا مشروع/مبادرة"
-
-#. module: odex25_contract_saip
 #: model:ir.model.fields,field_description:odex25_contract_saip.field_line_contract_installment_coc__contract_id
 msgid "Project Name"
 msgstr "اسم المشروع (العقد)"
+
+#. module: odex25_contract_saip
+#: model:ir.model,name:odex25_contract_saip.model_purchase_order
+msgid "Purchase Order"
+msgstr "أمر شراء"
 
 #. module: odex25_contract_saip
 #: model:ir.actions.act_window,name:odex25_contract_saip.purchase_contract_form_action
@@ -783,12 +749,6 @@ msgid "The contract is not linked with purchase request"
 msgstr "هذا العقد لم يرتبط بطلب شراء"
 
 #. module: odex25_contract_saip
-#: code:addons/odex25_contract_saip/models/contract.py:0
-#, python-format
-msgid "The project Initiative Number must contain digits only"
-msgstr "يجب أن يحتوي رقم المشروع - المبادرة على أرقام فقط"
-
-#. module: odex25_contract_saip
 #: model_terms:ir.ui.view,arch_db:odex25_contract_saip.contract_installment_form_view_inherit
 msgid "To Pay"
 msgstr "إنشاء فاتورة الاستحقاق"
@@ -846,20 +806,19 @@ msgid "installment  return to COC: {}"
 msgstr "سبب الإرجاع :{}"
 
 #. module: odex25_contract_saip
-#: code:addons/odex25_contract_saip/models/contract.py:0
-#, python-format
-msgid "installment you have scheduled not equal the contract amount"
-msgstr "قيمة الدفعات يجب أن تكون مساوية لقيمة العقد"
-
-#. module: odex25_contract_saip
 #: model:ir.model.fields,field_description:odex25_contract_saip.field_contract_contract__old_state
 #: model:ir.model.fields,field_description:odex25_contract_saip.field_line_contract_installment__old_state
 msgid "old_state"
 msgstr ""
-
 
 #. module: odex25_contract_saip
 #: code:addons/odex25_contract_saip/models/contract_installment_line.py:0
 #, python-format
 msgid "you can not send installment before approve contract"
 msgstr "لا يمكن إرسال دفعات العقد قبل إعتماد العقد"
+
+#. module: odex25_contract_saip
+#: model_terms:ir.actions.act_window,help:odex25_contract_saip.action_budget_confirmation_contract
+#: model_terms:ir.actions.act_window,help:odex25_contract_saip.action_contract_in_budget
+msgid "إنشاء مستند جديد من النوع مستند"
+msgstr ""

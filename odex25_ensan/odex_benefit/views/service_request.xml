@@ -8,9 +8,10 @@
                 <form string="Service Request">
                     <header>
                         <button name="action_for_researcher" type="object" states="draft"
-                                string="Researcher Accept" class="oe_highlight"/>
+                                string="Researcher's insights" class="oe_highlight"/>
                         <button name="action_send_request" type="object" states="researcher"
-                                string="Send Request" class="oe_highlight"/>
+                                string="Basic Care Manager" class="oe_highlight"
+                                groups="odex_benefit.group_basic_care_manager"/>
                         <button name="action_first_approve" type="object"
                                 string="Request First Approve" class="oe_highlight"
                                 confirm="Are you sure you want to first approve  ?"
@@ -21,10 +22,10 @@
                                 confirm="Are you sure you want to second approve  ?"
                                 states="first_approve"
                                 groups="odex_benefit.group_benefit_branch_manager,odex_benefit.group_benefit_manager"/>
-                            <button name="action_accounting_approve" type="object"
-                                string="Accounting Approve" class="oe_highlight"
+                        <button name="action_accounting_approve" type="object"
+                                string="Request Approve" class="oe_highlight"
                                 confirm="Are you sure you want to approve  ?"
-                                states="second_approve" groups="odex_benefit.group_benefit_accounting_accept"/>
+                                states="accounting_approve" groups="odex_benefit.group_benefit_accounting_accept"/>
                         <button name="action_accounting_first_refuse" type="object"
                                 string="Accounting First Refuse" class="oe_highlight"
                                 confirm="Are you sure you want to first refuse  ?"
@@ -40,14 +41,15 @@
                                 attrs="{'invisible': ['|',('service_type','!=','electrical_devices'),('state_b','!=','send_request_to_supplier')]}"/>
                         <button name="action_refuse" type="object"
                                 string="Refuse" class="oe_highlight"
+                                groups="odex_benefit.group_benefit_accounting_accept"
                                 confirm="Are you sure you want to refuse request  ?"
                                 states="first_approve,second_approve,draft,send_request,accounting_approve"/>
                         <field name="state" widget="statusbar" invisible="1"/>
                         <field name="state_a" widget="statusbar"
-                               statusbar_visible="draft,researcher,send_request,first_approve,second_approve,accounting_approve,refused"
+                               statusbar_visible="draft,researcher,approved,refused,approved"
                                attrs="{'invisible': [('service_type','=','electrical_devices')]}"/>
                         <field name="state_b" widget="statusbar"
-                               statusbar_visible="draft,researcher,send_request,first_approve,second_approve,accounting_approve,send_request_to_supplier,family_received_device,refused"
+                               statusbar_visible="draft,researcher,approved,refused"
                                attrs="{'invisible': [('service_type','!=','electrical_devices')]}"
                                groups="odex_benefit.group_benefit_accounting_accept"/>
                     </header>
@@ -74,13 +76,13 @@
                                        attrs="{'invisible':[('benefit_type','!=','member')],'readonly':[('state','not in',['draft','researcher','send_request'])],'required':[('benefit_type','=','member')]}"/>
                                 <field name="family_id"
                                        attrs="{'readonly':[('state','not in',['draft','researcher','send_request'])],'invisible':[('benefit_type','=','detainee')]}"
-                                       required="1"/>
+                                       />
                                 <field name="family_category" invisible="1"/>
                                 <field name="benefit_member_count" invisible="1"/>
                                 <field name="eid_gift_benefit_count"
                                        attrs="{'invisible':['|',('service_type','!=','eid_gift'),('benefit_type','!=','family')]}"/>
 
-                                <field name="detainee_file"  attrs="{'invisible':[('benefit_type','!=','detainee')]}"/>
+                                <field name="detainee_file" attrs="{'invisible':[('benefit_type','!=','detainee')]}"/>
 
 
                                 <field name="detainee_member"
@@ -198,6 +200,15 @@
                                     <field name="benefit_member_count" readonly="1"/>
                                     <field name="family_id_relationn"/>
                                     <field name="family_id_phone"/>
+                                </group>
+                            </page>
+                            <page string="Benefit Detainee Details"
+                                  attrs="{'invisible': [('benefit_type', '!=', 'detainee')]}">
+                                <group>
+                                    <field name="detainee_name"/>
+                                    <field name="detainee_number"/>
+                                    <field name="detainee_category"/>
+                                    <field name="detainee_phone" />
                                 </group>
                             </page>
                             <page string="Rent Information"

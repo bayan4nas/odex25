@@ -187,13 +187,14 @@ class ServiceRequest(models.Model):
     home_age = fields.Integer(string='Home Age')
     state = fields.Selection(selection=[
         ('draft', 'Draft'),
-        ('researcher', 'Researcher'),
+        ('researcher', 'Primary Care Director Review'),
         ('send_request', 'Send Request'),
         ('first_approve', 'Request First Approve'),
         ('second_approve', 'Request Second Approve'),
         ('accounting_approve', 'Accounting Approve'),
         ('send_request_to_supplier', 'Send Request To Supplier'),
         ('family_received_device', 'Family Received Device'),
+        ('approved', 'Approved'),
         ('refused', 'Refused')
     ], string='state', default='draft', tracking=True)
     state_a = fields.Selection(related='state', tracking=False)
@@ -237,6 +238,11 @@ class ServiceRequest(models.Model):
         readonly=True
     )
     allowed_member_ids = fields.Many2many('family.member', compute='_compute_allowed_members')
+
+    detainee_name = fields.Char('Detainee Name', related='detainee_member.name')
+    detainee_number = fields.Char('Detainee Number', related='detainee_member.member_id_number')
+    detainee_category = fields.Selection('Detainee Category', related='detainee_file.beneficiary_category')
+    detainee_phone = fields.Char('Detainee Phone', related='detainee_member.member_phone')
 
     @api.depends('family_id')
     def _compute_allowed_members(self):
@@ -545,7 +551,7 @@ class ServiceRequest(models.Model):
 
     def action_send_request(self):
         for rec in self:
-            rec.state = 'send_request'
+            rec.state = 'accounting_approve'
 
     def action_first_approve(self):
         for rec in self:
@@ -557,7 +563,7 @@ class ServiceRequest(models.Model):
 
     def action_accounting_approve(self):
         for rec in self:
-            rec.state = 'accounting_approve'
+            rec.state = 'approved'
             if rec.service_type == 'buy_car':
                 rec.family_id.has_car = True
 
@@ -633,6 +639,22 @@ class ServiceRequest(models.Model):
                                                                            x: x.benefit_category_id.id == self.family_category.id and x.max_count_member > self.benefit_member_count > x.min_count_member)
         self.max_electricity_bill_amount = electricity_bill_amount.max_amount_for_electricity_bill
         self.max_water_bill_amount = water_bill_amount.max_amount_for_water_bill
+
+    @api.onchange('detainee_file', 'family_id')
+    def onchange_benefit_type(self):
+        for rec in self:
+            domain = []
+            if rec.benefit_type in ['family', 'member']:
+                if rec.family_id.beneficiary_category == 'gust':
+                    domain = [('beneficiary_categories', 'ilike', 'نزيل')]
+                else:
+                    domain = [('beneficiary_categories', 'ilike', 'مفرج')]
+            else:
+                if rec.detainee_file.beneficiary_category == 'gust':
+                    domain = [('beneficiary_categories', '=', 'نزيل')]
+                else:
+                    domain = [('beneficiary_categories', 'ilike', 'مفرج')]
+            return {'domain': {'service_cats': domain}}
 
     @api.onchange('requested_service_amount', 'benefit_type', 'date', 'service_cat', 'family_id', 'exception_or_steal',
                   'home_furnishing_exception', 'has_marriage_course', 'home_age')

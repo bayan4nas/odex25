@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 from odoo import fields, models, api, exceptions, _
-
+from odoo.exceptions import ValidationError
 
 class YearEmployeeGoals(models.Model):
     _name = 'years.employee.goals'
@@ -9,13 +9,13 @@ class YearEmployeeGoals(models.Model):
     _description = 'years employee goals'
     _rec_name = 'kpi_id'
 
-    kpi_id = fields.Many2one(comodel_name='kpi.item', string='KPI')
+    kpi_id = fields.Many2one(comodel_name='kpi.item', string='KPI',)
     description = fields.Text(string="Description")
     result_type = fields.Selection(related='kpi_id.result_type', string="KPI Type")
     result_appearance = fields.Selection(related='kpi_id.result_appearance', string="Measurement Standard")
-    year_target = fields.Float(string='Target')
+    year_target = fields.Integer(string='Target')
     done = fields.Float(string='Achieved')
-    weight = fields.Float(string='Weight')
+    weight = fields.Integer(string='Weight')
     self_assessment = fields.Float(string='Self Assessment')
     approved = fields.Float(string='Approved')
     result = fields.Float(string='Result', compute="_compute_goal_result", store=True)
@@ -44,6 +44,24 @@ class YearEmployeeGoals(models.Model):
 
     change_justification = fields.Text(string="Change Justification")
     change_details = fields.Text(string="Change Details")
+
+    @api.onchange('kpi_id')
+    def _onchange_kpi_id(self):
+        selected_kpis = self.employee_apprisal_id.goal_ids.mapped('kpi_id.id')
+        return {'domain': {'kpi_id': [('id', 'not in', selected_kpis)]}}
+
+
+    @api.constrains('kpi_id', 'employee_apprisal_id')
+    def _check_unique_kpi(self):
+        for rec in self:
+            if rec.kpi_id and rec.employee_apprisal_id:
+                duplicates = self.search([
+                    ('id', '!=', rec.id),
+                    ('employee_apprisal_id', '=', rec.employee_apprisal_id.id),
+                    ('kpi_id', '=', rec.kpi_id.id),
+                ])
+                if duplicates:
+                    raise ValidationError(_("You cannot add the same KPI twice in the same appraisal."))
 
     @api.depends('year_target', 'weight', 'done')
     def _compute_goal_result(self):

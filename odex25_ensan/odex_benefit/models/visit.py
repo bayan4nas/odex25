@@ -6,19 +6,22 @@ class Visit(models.Model):
     _name = 'visit.location'
     _inherit = ['mail.thread', 'mail.activity.mixin']
 
+    attachment_id = fields.One2many('attachment.visit', 'visit_id', string='')
+    benefit_id = fields.Many2one(
+        'grant.benefit', string='Family file', )
     benefit_type = fields.Selection([
         ('benefit', 'Benefit'),
         ('family', 'Family'),
     ], string='Type', default="benefit")
-    benefit_id = fields.Many2one(
-        'grant.benefit',string='Family file',domain="[('state', '=', 'second_approve')]")
+
     benefit_name = fields.Char(related="benefit_id.name")
     benefit_code= fields.Char(related="benefit_id.code")
     researcher_team = fields.Many2one("committees.line", string="Researcher Team",related="benefit_id.researcher_id")
     researcher_ids = fields.Many2many("hr.employee", string="Researcher",compute="get_researcher_ids",readonly=False)
-    visit_date = fields.Datetime(string='Visit Date')
-    description = fields.Char(string='Description')
+    visit_date = fields.Datetime(string='Visit Date', default=fields.Datetime.now)
+    description = fields.Char(string='Visit Reason')
     message = fields.Text(string='Message')
+
     visit_objective = fields.Selection([
         ('inform_visit', 'Inform Visit'),
         ('objective_visit', 'Objective Visit'),
@@ -29,6 +32,7 @@ class Visit(models.Model):
     contact_type = fields.Selection([
         ('email', 'Email'),
         ('sms', 'SMS'),
+        ('phone_number', 'Phone Number ')
         ], string='Contact Type')
     state = fields.Selection([
         ('draft', 'Draft'),
@@ -150,3 +154,29 @@ class Visit(models.Model):
             if visit.benefit_id:
                 url = "http://maps.google.com/maps/search/?api=1&query=%s,%s" % (visit.benefit_id.lat,visit.benefit_id.lon)
                 return url
+
+
+class AttachmentRule(models.Model):
+    _name = 'attachment.visit'
+
+    file_save = fields.Many2many('ir.attachment', string="Attachment Visit ")
+    description_attachment= fields.Char('Description Attachment')
+    visit_id = fields.Many2one('visit.location')
+    attachment_filename = fields.Char(
+        string="Attachment Visit Name",
+        compute='_compute_attachment_filename',
+        store=True
+    )
+
+
+    @api.depends('file_save')
+    def _compute_attachment_filename(self):
+        for record in self:
+            if record.file_save:
+
+                latest_attachment = record.file_save[-1] if record.file_save else False
+                record.attachment_filename = latest_attachment.name if latest_attachment else ''
+            else:
+                record.attachment_filename = ''
+
+

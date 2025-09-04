@@ -28,9 +28,9 @@ class ServiceSetting(models.Model):
         'res.users',
         string='Responsible Accountant',
         domain=lambda self: [('groups_id', 'in', [self.env.ref('account.group_account_readonly').id,
-                              self.env.ref('account.group_account_manager').id,
-                              self.env.ref('account.group_account_invoice').id,
-                              self.env.ref('account.group_account_user').id,])]
+                                                  self.env.ref('account.group_account_manager').id,
+                                                  self.env.ref('account.group_account_invoice').id,
+                                                  self.env.ref('account.group_account_user').id, ])]
     )
     paths = fields.Many2one('beneficiary.path',
                             string='Path',
@@ -49,6 +49,9 @@ class ServiceSetting(models.Model):
     beneficiary_category = fields.Selection(
         [('detainee', 'Detainee'), ('detainee_family', 'Detainee Family'), ('released_family', 'Released Family')],
         string='Beneficiary Category  ')
+
+    beneficiary_categories = fields.Many2many('beneficiary.categories',
+                                              string='Beneficiary Category  ')
 
     description = fields.Html(
         string='Service Description',
@@ -101,11 +104,11 @@ class ServiceSetting(models.Model):
         for rec in self:
             domain = []
             if rec.paths:
-                print(rec.paths,'ddddddddddddddddd')
+                print(rec.paths, 'ddddddddddddddddd')
                 linked_classifications = self.env['benefits.service.classification'].search([
                     ('benefit_path_id', '=', rec.paths.id)
                 ])
-                print(linked_classifications,'lllllllllllllll')
+                print(linked_classifications, 'lllllllllllllll')
                 if linked_classifications:
                     domain.append(('id', 'in', linked_classifications.ids))
 
