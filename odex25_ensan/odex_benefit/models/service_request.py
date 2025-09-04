@@ -27,7 +27,7 @@ class ServiceRequest(models.Model):
     branches_custom = fields.Many2one('branch.details', string="Branch")
     member_id = fields.Many2one(
         'family.member',
-        string='Member',
+        string='Member'
     )
     detainee_member = fields.Many2one('family.member', string='Detainee')
     detainee_file = fields.Many2one('detainee.file', string='Detainee File')
@@ -287,25 +287,25 @@ class ServiceRequest(models.Model):
             else:
                 rec.first_breadwinner_id = False
 
-    @api.onchange('family_id', 'member_id')
-    def _onchange_family_id(self):
-        if self.family_id:
-            member_ids = self.family_id.benefit_member_ids.mapped('member_id.id')
-            if member_ids:
+    @api.onchange('benefit_type')
+    def _onchange_family_idss(self):
+        for rec in self:
+            if rec.benefit_type == 'member':
                 return {
-                    'domain': {'member_id': [('id', 'in', member_ids)]}
+                    'domain': {
+                        'member_id': [('detainee_file_link', '=', False)],
+
+                    }
                 }
-            else:
-                self.member_id = False
+
+            if rec.member_id:
+                families = rec.member_id.family_file_link.id
+                print(families, 'family_file_link')
                 return {
-                    'domain': {'member_id': [('id', '=', 0)]}
+                    'domain': {'family_id': [('id', '=', families)],
+
+                               }
                 }
-        elif self.member_id:
-            families = self.member_id.family_file_link.id
-            print(families, 'family_file_link')
-            return {
-                'domain': {'family_id': [('id', '=', families)]}
-            }
 
     @api.model
     def search(self, args, offset=0, limit=None, order=None, count=False):
@@ -646,7 +646,7 @@ class ServiceRequest(models.Model):
             domain = []
             if rec.benefit_type in ['family', 'member']:
                 if rec.family_id.beneficiary_category == 'gust':
-                    domain = [('beneficiary_categories', 'ilike', 'نزيل')]
+                    domain = [('beneficiary_categories', 'ilike', 'سرة')]
                 else:
                     domain = [('beneficiary_categories', 'ilike', 'مفرج')]
             else:
