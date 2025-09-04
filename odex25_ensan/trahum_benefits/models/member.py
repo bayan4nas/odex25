@@ -241,7 +241,6 @@ class FamilyMember(models.Model):
         'res.district',
         string=' District',
         domain="[('city_id', '=', city)]")
-    is_detainee = fields.Boolean(compute='compute_is_detainee', store=True)
     city = fields.Many2one("res.country.city", string='City')
     postal_code = fields.Char(string='Postal Code')
     national_address_code = fields.Char(string='National address code')
