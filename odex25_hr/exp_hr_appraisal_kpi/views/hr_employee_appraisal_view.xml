@@ -229,8 +229,7 @@
                            decoration-warning="appraisal_result_color == 'orange'"
                            decoration-muted="appraisal_result_color == 'purple'"
                            options="{'no_create': True, 'no_open': True}" readonly="1"/>
-                    <field style="color:blue; font-weight:bold;" attrs="{'invisible': [('is_first_stage', '!=',True)]}"
-                           name="apprisal_result_display" readonly="1" nolabel="1"/>
+
                     <field name="exceptional_performance"
                            attrs="{'invisible': [('exceptional_performance', '=', False)]}"/>
                 </xpath>
