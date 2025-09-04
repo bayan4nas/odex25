@@ -250,7 +250,7 @@
                         </page>
                         <page string="Goals">
                             <field name="goal_ids"
-                                   attrs="{'readonly':[('state','not in',['draft','wait_performance_officer'])]}">
+                                   attrs="{'readonly':[('state','not in',['draft','wait_direct_manager','wait_performance_officer'])]}">
                                 <tree editable="bottom">
                                     <field name="state" invisible="1"/>
                                     <field name="kpi_id" width="10" required="1"
@@ -300,7 +300,7 @@
 
                         <page string="Skills">
                             <field name="skill_ids"
-                                   attrs="{'readonly':[('state','not in',['draft','wait_performance_officer'])]}">
+                                   attrs="{'readonly':[('state','not in',['draft','wait_direct_manager','wait_performance_officer'])]}">
                                 <tree editable="bottom">
                                     <field name="state" invisible="1"/>
                                     <field name="is_direct_manager" invisible="1"/>
@@ -347,7 +347,7 @@
                         </page>
                         <page string="Development Plan" attrs="{'invisible':[('is_first_stage','=',False)]}">
                             <field required="1" name="development_plan_ids"
-                                   attrs="{'readonly':[('state','not in',['draft'])]}">
+                                   attrs="{'readonly':[('state','not in',['draft','wait_direct_manager'])]}">
                                 <tree editable="bottom">
                                     <field required="1" name="development_method_id" width="5" force_save='1'/>
                                     <field required="1" name="name" readonly="1" force_save='1' width="12"/>

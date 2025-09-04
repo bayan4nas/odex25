@@ -190,13 +190,22 @@ class StagesGoals(models.Model):
         # unapproved_appraisals = appraisals.filtered(lambda a: a.state != 'approved')
         # if unapproved_appraisals:
         #     raise ValidationError(_("All appraisals in the previous stage must be approved before copying."))
+        last_stage = self.search([
+            ('period_id', '=', self.period_id.id)
+        ], order="sequence desc", limit=1)
 
         for appraisal in appraisals:
+            # If the appraisal is refused → move it directly to the last stage
+            if appraisal.state == 'refused' and last_stage:
+                appraisal.appraisal_stage_id = last_stage.id
+                continue
+            #     end
             new_job_id = appraisal.employee_id.job_id.id
             if new_job_id == appraisal.job_id.id:
                 self._copy_appraisal_with_same_job(appraisal)
             else:
                 self._copy_appraisal_with_same_job(appraisal)
+
 
     def _copy_appraisal_with_same_job(self, appraisal):
         

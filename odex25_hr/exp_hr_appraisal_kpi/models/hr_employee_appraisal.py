@@ -122,6 +122,10 @@ class EmployeeAppraisal(models.Model):
         for rec in self:
             if not rec.development_plan_ids:
                 raise ValidationError(_("You must add at least one Development Plan."))
+            if not rec.goal_ids:
+                raise ValidationError(_("You must add at least one Goal."))
+            if not rec.skill_ids:
+                            raise ValidationError(_("You must add at least one Skill."))
 
     def action_open_cancel_wizard(self):
         return {
@@ -131,17 +135,6 @@ class EmployeeAppraisal(models.Model):
             'target': 'new',
             'context': {'active_id': self.id},
         }
-
-    @api.model
-    def search(self, args, offset=0, limit=None, order=None, count=False):
-        user = self.env.user
-        if not (user.has_group("exp_hr_appraisal.group_appraisal_manager") or user.has_group("exp_hr_appraisal.group_appraisal_employee")):
-            args = args + [('state', '!=', 'refused')]
-        for rec in self:
-            if rec.is_first_stage and not  rec.appraisal_result:
-                rec.appraisal_result = self.env['appraisal.result'].create({'name': rec.apprisal_result_display}).id
-                rec.apprisal_result_display = rec.appraisal_result.name
-        return super(EmployeeAppraisal, self).search(args, offset=offset, limit=limit, order=order, count=count)
 
     def send_to_direct_manager(self):
         for rec in self:
@@ -545,7 +538,8 @@ class EmployeeAppraisal(models.Model):
                 ('start_date', '<=', self.appraisal_date),
                 ('end_date', '>=', self.appraisal_date)
             ], limit=1)
-            self.appraisal_stage_id = appraisal_stage.id if appraisal_stage else False
+            if appraisal_stage:
+                self.appraisal_stage_id = appraisal_stage.id
         else:
             self.appraisal_stage_id = False
 
