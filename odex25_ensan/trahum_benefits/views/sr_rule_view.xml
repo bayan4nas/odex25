@@ -48,6 +48,11 @@
 
                             <field name="member_value" attrs="{'invisible': [('metric', '!=', 'family_value')]}"/>
                             <field name="breadwinner_value" attrs="{'invisible': [('metric', '!=', 'family_value')]}"/>
+                            <field name="restrict_to_threshold" attrs="{'invisible': [('metric', '!=', 'family_value')]}"/>
+                            <field name="default_member_count" attrs="{'invisible': [('restrict_to_threshold', '=', False)]}"/>
+                            <field name="default_breadwinner_count" attrs="{'invisible': [('restrict_to_threshold', '=', False)]}"/>
+
+
                         </group>
 
                         <group>
@@ -63,6 +68,8 @@
                            attrs="{'invisible': [('metric', 'not in', ['sum_amount_period', 'count_requests_period', 'service_repetition'])]}">
                         <group>
                             <field name="period"/>
+                            <field name="period_days" attrs="{'invisible': [('period', '!=', 'days')]}"/>
+
                         </group>
                         <group>
                             <field name="date_from"
