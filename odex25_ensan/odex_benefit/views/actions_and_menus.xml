@@ -75,25 +75,25 @@
         </record>
         <!--        committees.line-->
         <!--        البحث الاجتماعي -->
-        <!--        1-اللجان الرجالية -->
+        <!--        1-فريق يحث النزيل -->
         <record id="committees_men_action" model="ir.actions.act_window">
             <field name="name">committees_men_action</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">committees.line</field>
 <!--            <field name="view_type">form</field>-->
             <field name="view_mode">tree,form</field>
-            <field name="context">{'default_type': 'male'}</field>
-            <field name="domain">[('type', '=', 'male')]</field>
+<!--            <field name="context">{'default_type': 'male'}</field>-->
+<!--            <field name="domain">[('type', '=', 'male')]</field>-->
         </record>
-        <!--        2-اللجان النسائية-->
-        <record id="committees_women_action" model="ir.actions.act_window">
-            <field name="name">committees_women_action</field>
+        <!--        2-فريق بحث اسرة النزيل -->
+        <record id="detainee_family_research_action" model="ir.actions.act_window">
+            <field name="name">Detainee Family Research</field>
             <field name="type">ir.actions.act_window</field>
-            <field name="res_model">committees.line</field>
+            <field name="res_model">detainee.family.research</field>
 <!--            <field name="view_type">form</field>-->
             <field name="view_mode">tree,form</field>
-            <field name="context">{'default_type': 'female'}</field>
-            <field name="domain">[('type', '=', 'female')]</field>
+<!--            <field name="context">{'default_type': 'female'}</field>-->
+<!--            <field name="domain">[('type', '=', 'female')]</field>-->
         </record>
         <!--        3-اللجان المشتركة-->
         <record id="committees_combined_action" model="ir.actions.act_window">
@@ -102,8 +102,8 @@
             <field name="res_model">committees.line</field>
 <!--            <field name="view_type">form</field>-->
             <field name="view_mode">tree,form</field>
-            <field name="context">{'default_type': 'both'}</field>
-            <field name="domain">[('type', '=', 'both')]</field>
+<!--            <field name="context">{'default_type': 'both'}</field>-->
+<!--            <field name="domain">[('type', '=', 'both')]</field>-->
         </record>
 
          <record id="changes_requests_action" model="ir.actions.act_window">
@@ -836,9 +836,9 @@
         <menuitem id='social_search_men' name='Committees Men' parent='social_search_menu'
                   action="committees_men_action"
                   sequence="1"/>
-        <!--        اللجان النسائية-->
-        <menuitem id='social_search_women' name='committees Women' parent='social_search_menu'
-                  action="committees_women_action"
+        <!--        فريق بحث اسرة النزيل -->
+        <menuitem id='social_search_family' name='Detainee Family Research' parent='social_search_menu'
+                  action="detainee_family_research_action"
                   sequence="2"/>
         <!--        اللجان المشتركة-->
         <!--combined-->

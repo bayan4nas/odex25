@@ -26,6 +26,7 @@
         'views/users_inherit.xml',
         'views/branch_details.xml',
         'views/committees_view.xml',
+        'views/detainee_family_research_view.xml',
         'views/branch_inherit.xml',
         'views/family_members.xml',
         'views/family_complaints.xml',
