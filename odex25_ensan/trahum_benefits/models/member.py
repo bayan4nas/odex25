@@ -142,13 +142,13 @@ class IssuesInformation(models.Model):
     case_type = fields.Many2one('cases.type', string="Case Type")
     record_start_date = fields.Date(string="Record Start Date")
     record_end_date = fields.Date(string="Record End Date")
-    release_date = fields.Date(string="Release Date", related='detainee_id.expected_release_date', readonly=0)
+    release_date = fields.Date(string="Release Date", readonly=0)
     account_status = fields.Selection(
         [('active', 'Active'), ('inactive', 'Inactive')],
         string="status")
     prison_prison_id = fields.Many2one('prison.benefit')
-    prison_id = fields.Many2one('res.prison', readonly=0, related='detainee_id.prison_id')
-    arrest_date = fields.Date('Arrest Date', related='detainee_id.arrest_date', readonly=0)
+    prison_id = fields.Many2one('res.prison', readonly=0)
+    arrest_date = fields.Date('Arrest Date', readonly=0)
 
     @api.constrains('release_date', 'detainee_id')
     def _check_release_date_required(self):
@@ -349,8 +349,6 @@ class FamilyMember(models.Model):
         compute='_compute_family_beneficiary_category_display',
         readonly=True
     )
-
-
 
     @api.model
     def name_search(self, name='', args=None, operator='ilike', limit=100):
@@ -561,10 +559,10 @@ class DetaineeFile(models.Model):
         ('released', 'Released')
     ], string="Detainee Status", required=True, tracking=True, default='non_convicted')
 
-    arrest_date = fields.Date(string="Arrest Date", required=True, )
+    arrest_date = fields.Date(string="Arrest Date", required=True, compute='get_last_issue_info', store=True)
     record_start_date = fields.Date(string="Start Date", default=fields.Date.today)
     record_end_date = fields.Date(string="End Date", )
-    expected_release_date = fields.Date(string="Expected Release Date")
+    expected_release_date = fields.Date(string="Expected Release Date", compute='get_last_issue_info', store=True)
     issues_ids = fields.One2many('issues.information', 'detainee_id')
 
     state = fields.Selection([
@@ -577,7 +575,7 @@ class DetaineeFile(models.Model):
 
     prison_country_id = fields.Many2one('res.prison.country', string="Prison Country")
 
-    prison_id = fields.Many2one('res.prison', string="Prison", domain=[('country_id', '=', prison_country_id)])
+    prison_id = fields.Many2one('res.prison', compute='get_last_issue_info', string="Prison", store=True)
 
     cancel_reason: fields.Text = fields.Text(string="Rejection Reason", tracking=True, copy=False)
     file_state = fields.Selection([('active', 'Active'), ('inactive', 'Inactive ')], string='File Status')
@@ -590,6 +588,14 @@ class DetaineeFile(models.Model):
                                           string='Entitlement Status')
 
     period_text = fields.Char(string="Detention Period", compute="_compute_period", store=True)
+
+    @api.depends('issues_ids')
+    def get_last_issue_info(self):
+        for rec in self.issues_ids:
+            last_issue = rec[-1]
+            self.arrest_date = last_issue.arrest_date
+            self.prison_id = last_issue.prison_id
+            self.expected_release_date = last_issue.release_date
 
     @api.constrains('issues_ids')
     def check_prisoner_state(self):
