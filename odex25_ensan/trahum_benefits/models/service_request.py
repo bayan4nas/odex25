@@ -486,7 +486,7 @@ class ServiceRequest(models.Model):
 
             # 2.  (sum_amount_period)
             elif rule.metric == 'sum_amount_period':
-                period_domain = self._get_period_domain(rule.period, rule.period_days)
+                period_domain = self._get_period_domain(rule)
                 domain = base_domain + period_domain
                 requests = self.env['service.request'].search(domain)
                 total_amount = sum(requests.mapped('requested_service_amount'))
@@ -494,7 +494,7 @@ class ServiceRequest(models.Model):
 
             # 3. (count_requests_period)
             elif rule.metric == 'count_requests_period':
-                period_domain = self._get_period_domain(rule.period, rule.period_days)
+                period_domain = self._get_period_domain(rule)
                 domain = base_domain + period_domain
                 value_to_check = self.env['service.request'].search_count(domain)
 
