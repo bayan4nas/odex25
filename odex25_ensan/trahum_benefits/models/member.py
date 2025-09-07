@@ -559,7 +559,7 @@ class DetaineeFile(models.Model):
         ('released', 'Released')
     ], string="Detainee Status", required=True, tracking=True, default='non_convicted')
 
-    arrest_date = fields.Date(string="Arrest Date", required=True, compute='get_last_issue_info', store=True)
+    arrest_date = fields.Date(string="Arrest Date", compute='get_last_issue_info', store=True)
     record_start_date = fields.Date(string="Start Date", default=fields.Date.today)
     record_end_date = fields.Date(string="End Date", )
     expected_release_date = fields.Date(string="Expected Release Date", compute='get_last_issue_info', store=True)
