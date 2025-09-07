@@ -1,0 +1,51 @@
+<odoo>
+    <record id="committees_view_form_inherit_issues" model="ir.ui.view">
+    <field name="name">committees_view_form_inherit_issues</field>
+    <field name="model">committees.line</field>
+    <field name="inherit_id" ref="odex_benefit.committees_view_form"/>
+    <field name="arch" type="xml">
+        <xpath expr="//field[@name='family_head_name']" position="after">
+            <field name="family_head_relation_id"/>
+        </xpath>
+        <xpath expr="//field[@name='home_status']" position="after">
+
+            <field name="district"/>
+            <field name="city"/>
+        </xpath>
+        <xpath expr="//field[@name='entity_type']" position="replace">
+            <field name="work_type_id"/>
+        </xpath>
+        <xpath expr="//field[@name='detainee_file_id']" position="after">
+            <field name="period_text"/>
+            <field name="prison_id"/>
+            <field name="marital_status_id"/>
+
+
+        </xpath>
+        <xpath expr="//sheet" position="inside">
+            <notebook>
+                <page string="Issues">
+                    <field name="detainee_issues_ids" readonly="1">
+                        <tree editable="bottom">
+                            <field name="case_name"/>
+
+                        </tree>
+                    </field>
+                </page>
+                <page string="Educational level">
+                    <field name="detainee_education_ids" readonly="1">
+                        <tree editable="bottom">
+                            <field name="level_id" string="Education Level"/>
+                            <field name="school_name" string="School Name"/>
+                        </tree>
+                    </field>
+                </page>
+                <page string="Needs">
+                    <field name="service_cats"/>
+                </page>
+            </notebook>
+        </xpath>
+    </field>
+</record>
+
+</odoo>

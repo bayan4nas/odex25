@@ -25,6 +25,7 @@
             <field name="arch" type="xml">
                 <form string="committees_form">
                     <sheet>
+                        <field name="name"/>
 
                             <group string="بيانات النزيل">
                                 <group>
@@ -44,7 +45,7 @@
                                 <field name="has_talent"/>
                                 <field name="talent_name" attrs="{'invisible':[('has_talent','=',False)]}"/>
                                 <field name="was_employee"/>
-                                <field name="work_type" attrs="{'invisible':[('was_employee','=',False)]}"/>
+                                <field name="entity_type" attrs="{'invisible':[('was_employee','=',False)]}"/>
 <!--                                <field name="work_sector" attrs="{'invisible':[('was_employee','=',False)]}"/>-->
                                 <field name="experience_years" attrs="{'invisible':[('was_employee','=',False)]}"/>
                                 <field name="experience_unit" attrs="{'invisible':[('was_employee','=',False)]}"/>
@@ -84,26 +85,6 @@
                           </group>
 
                             </group>
-
-<!--                            <group>-->
-<!--                                <field name="has_talent"/>-->
-<!--                                <field name="talent_name" attrs="{'invisible':[('has_talent','=',False)]}"/>-->
-<!--                                <field name="was_employee"/>-->
-<!--                                <field name="work_type_id" attrs="{'invisible':[('was_employee','=',False)]}"/>-->
-<!--                                <field name="work_sector" attrs="{'invisible':[('was_employee','=',False)]}"/>-->
-<!--                                <field name="experience_years" attrs="{'invisible':[('was_employee','=',False)]}"/>-->
-<!--                                <field name="experience_unit" attrs="{'invisible':[('was_employee','=',False)]}"/>-->
-<!--                            </group>-->
-
-<!--                            <group>-->
-<!--                                <field name="name"/>-->
-<!--                                <field name="type" invisible="1"/>-->
-<!--                                <field name="employee_id"/>-->
-<!--                                <field name="branch_custom_id"/>-->
-<!--                            </group>-->
-<!--                            <group>-->
-<!--                                <field name="benefit_ids" string="Assign files"/>-->
-<!--                            </group>-->
                     </sheet>
                 </form>
             </field>

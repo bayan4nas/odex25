@@ -5,6 +5,7 @@ import logging
 from odoo.exceptions import  ValidationError
 class Committees(models.Model):
     _name = 'committees.line'
+    name = fields.Char(string="Name", copy=False, default=lambda x: _('New'))
     detainee_id = fields.Many2one(
         'detainee.file', string="Detainee",
     )
@@ -35,7 +36,7 @@ class Committees(models.Model):
     talent_name = fields.Char(string="Talent")
     was_employee = fields.Boolean(string="Former Employee?")
     # work_sector =fields.Many2one('work.type', string="جهة العمل")
-    work_type = fields.Selection([
+    entity_type = fields.Selection([
         ('government', 'Government'),
         ('private', 'Private'),
         ('freelance', 'Freelance'),
@@ -67,8 +68,7 @@ class Committees(models.Model):
     family_is_trahum = fields.Boolean(string="Is the family a Trahum beneficiary?")
     housing_type = fields.Selection(related="family_id.housing_type", string="Housing Type", readonly=True)
     property_type = fields.Selection(related="family_id.property_type", string="Property Type", readonly=True)
-    # city = fields.Char(related="family_id.benefit_breadwinner_ids.member_name.city.name", string="المدينة", readonly=True)
-    # district = fields.Char(related="family_id.benefit_breadwinner_ids.member_name.district_id.name", string="الحي")
+
     home_status = fields.Selection([
         ('bad', 'Bad'),
         ('good', 'Good'),

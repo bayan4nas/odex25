@@ -7,3 +7,4 @@ class BeneficiaryCategories(models.Model):
     _rec_name = 'name'
 
     name = fields.Char(string='Name')
+    group_guest = fields.Boolean(string=" Is Guest?")

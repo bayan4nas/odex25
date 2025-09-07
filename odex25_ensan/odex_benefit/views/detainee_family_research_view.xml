@@ -37,10 +37,7 @@
 <!--                            <field name="relation_id" readonly="1"/>-->
                             <field name="benefit_member_count" readonly="1"/>
                         </group>
-                        <group string="النزيل">
-                            <field name="detainee_id"/>
-                            <field name="detainee_name" readonly="1"/>
-                        </group>
+
                     </group>
 
                     <group string="السكن">
@@ -74,83 +71,7 @@
                     <group>
                         <field name="create_date" readonly="1"/>
                     </group>
-<!--                            <group string="بيانات النزيل">-->
-<!--                                <group>-->
-<!--                                <field name="detainee_id" options="{'no_open': False}"/>-->
-<!--                                <field name="detainee_file_id"/>-->
-<!--&lt;!&ndash;                                <field name="case_name" readonly="1"/>&ndash;&gt;-->
-<!--&lt;!&ndash;                                <field name="period_text" readonly="1"/>&ndash;&gt;-->
-<!--&lt;!&ndash;                                <field name="prison_id" readonly="1"/>&ndash;&gt;-->
-<!--&lt;!&ndash;                                <field name="marital_status_id" readonly="1"/>&ndash;&gt;-->
-<!--                                <field name="is_trahum"/>-->
-<!--&lt;!&ndash;                                <field name="level_id" readonly="1"/>&ndash;&gt;-->
-<!--                                <field name="specialization"/>-->
-<!--                                <field name="has_training"/>-->
-<!--                                <field name="training_name" attrs="{'invisible':[('has_training','=',False)]}"/>-->
-<!--                            </group>-->
-<!--                                <group>-->
-<!--                                <field name="has_talent"/>-->
-<!--                                <field name="talent_name" attrs="{'invisible':[('has_talent','=',False)]}"/>-->
-<!--                                <field name="was_employee"/>-->
-<!--                                <field name="work_type_id" attrs="{'invisible':[('was_employee','=',False)]}"/>-->
-<!--&lt;!&ndash;                                <field name="work_sector" attrs="{'invisible':[('was_employee','=',False)]}"/>&ndash;&gt;-->
-<!--                                <field name="experience_years" attrs="{'invisible':[('was_employee','=',False)]}"/>-->
-<!--                                <field name="experience_unit" attrs="{'invisible':[('was_employee','=',False)]}"/>-->
-<!--                                </group>-->
-<!--                            </group>-->
 
-<!--                            <group string="بيانات الأسرة">-->
-<!--                                <group>-->
-<!--                                <field name="has_family"/>-->
-<!--                                <field name="family_id" attrs="{'invisible':[('has_family','=',False)]}"/>-->
-<!--                                <field name="family_file_id" attrs="{'invisible':[('has_family','=',False)]}"/>-->
-<!--                                <field name="family_id_number" readonly="1" attrs="{'invisible':[('has_family','=',False)]}"/>-->
-<!--                                <field name="family_count" readonly="1" attrs="{'invisible':[('has_family','=',False)]}"/>-->
-<!--                                <field name="family_head_name" readonly="1" attrs="{'invisible':[('has_family','=',False)]}"/>-->
-<!--&lt;!&ndash;                                <field name="family_relation" readonly="1" attrs="{'invisible':[('has_family','=',False)]}"/>&ndash;&gt;-->
-<!--                                <field name="family_is_trahum" attrs="{'invisible':[('has_family','=',False)]}"/>-->
-<!--                                <field name="family_housing_type" readonly="1" attrs="{'invisible':[('has_family','=',False)]}"/>-->
-<!--                                <field name="family_property_type" attrs="{'invisible':[('has_family','=',False)]}"/>-->
-<!--&lt;!&ndash;                                <field name="family_city" readonly="1" attrs="{'invisible':[('has_family','=',False)]}"/>&ndash;&gt;-->
-<!--&lt;!&ndash;                                <field name="family_district" attrs="{'invisible':[('has_family','=',False)]}"/>&ndash;&gt;-->
-<!--                                </group>-->
-<!--                                <group>-->
-
-<!--                                <field name="researcher_report" attrs="{'invisible':[('has_family','=',False)]}"/>-->
-<!--&lt;!&ndash;                                <field name="service_ids" widget="many2many_tags"/>&ndash;&gt;-->
-
-<!--                                <field name="researcher_id" attrs="{'invisible':[('has_family','=',False)]}"/>-->
-<!--                                <field name="researcher_signature" attrs="{'invisible':[('has_family','=',False)]}"/>-->
-<!--                                <field name="specialist_name" attrs="{'invisible':[('has_family','=',False)]}"/>-->
-<!--                                <field name="specialist_signature" attrs="{'invisible':[('has_family','=',False)]}"/>-->
-<!--                                <field name="benefit_service_manager_name" attrs="{'invisible':[('has_family','=',False)]}"/>-->
-<!--                                <field name="benefit_service_manager_signature" attrs="{'invisible':[('has_family','=',False)]}"/>-->
-<!--                                <field name="ceo_name" attrs="{'invisible':[('has_family','=',False)]}"/>-->
-<!--                                <field name="ceo_signature" attrs="{'invisible':[('has_family','=',False)]}"/>-->
-<!--                                    <field name="create_date"/>-->
-<!--                          </group>-->
-
-<!--                            </group>-->
-
-<!--                            <group>-->
-<!--                                <field name="has_talent"/>-->
-<!--                                <field name="talent_name" attrs="{'invisible':[('has_talent','=',False)]}"/>-->
-<!--                                <field name="was_employee"/>-->
-<!--                                <field name="work_type_id" attrs="{'invisible':[('was_employee','=',False)]}"/>-->
-<!--                                <field name="work_sector" attrs="{'invisible':[('was_employee','=',False)]}"/>-->
-<!--                                <field name="experience_years" attrs="{'invisible':[('was_employee','=',False)]}"/>-->
-<!--                                <field name="experience_unit" attrs="{'invisible':[('was_employee','=',False)]}"/>-->
-<!--                            </group>-->
-
-<!--                            <group>-->
-<!--                                <field name="name"/>-->
-<!--                                <field name="type" invisible="1"/>-->
-<!--                                <field name="employee_id"/>-->
-<!--                                <field name="branch_custom_id"/>-->
-<!--                            </group>-->
-<!--                            <group>-->
-<!--                                <field name="benefit_ids" string="Assign files"/>-->
-<!--                            </group>-->
                     </sheet>
                 </form>
             </field>
