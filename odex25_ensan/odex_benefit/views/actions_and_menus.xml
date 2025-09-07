@@ -5,7 +5,7 @@
         <record model="ir.actions.act_window" id="grant_benefit_dashboard_action">
             <field name="name">Benefits Dashboard</field>
             <field name="res_model">grant.benefit</field>
-<!--            <field name="view_type">form</field>-->
+            <!--            <field name="view_type">form</field>-->
             <field name="view_mode">kanban,form,tree,activity,google_map</field>
             <!--            <field name="domain">[('state','=','draft')]-->
             <!--            </field>-->
@@ -17,7 +17,7 @@
         <record model="ir.actions.act_window" id="grant_benefit_list_draft_action">
             <field name="name">Benefits in draft</field>
             <field name="res_model">grant.benefit</field>
-<!--            <field name="view_type">form</field>-->
+            <!--            <field name="view_type">form</field>-->
             <field name="view_mode">tree,form</field>
             <field name="domain">[('state','=','draft')]
             </field>
@@ -29,7 +29,7 @@
         <record model="ir.actions.act_window" id="grant_benefit_list_complete_action">
             <field name="name">Benefits in complete</field>
             <field name="res_model">grant.benefit</field>
-<!--            <field name="view_type">form</field>-->
+            <!--            <field name="view_type">form</field>-->
             <field name="view_mode">tree,form</field>
             <field name="context">{'create': False}</field>
             <field name="domain">[('state','=','complete_info')]
@@ -42,7 +42,7 @@
         <record model="ir.actions.act_window" id="grant_benefit_to_waiting_approve_action">
             <field name="name">Benefit To Waiting Approve</field>
             <field name="res_model">grant.benefit</field>
-<!--            <field name="view_type">form</field>-->
+            <!--            <field name="view_type">form</field>-->
             <field name="view_mode">tree,form,graph</field>
             <field name="context">{'create': False}</field>
             <field name="domain">[('state','=','waiting_approve')]</field>
@@ -50,7 +50,7 @@
         <record model="ir.actions.act_window" id="grant_benefit_approve_action">
             <field name="name">Benefit Approve</field>
             <field name="res_model">grant.benefit</field>
-<!--            <field name="view_type">form</field>-->
+            <!--            <field name="view_type">form</field>-->
             <field name="view_mode">tree,form,graph</field>
             <field name="context">{'create': False}</field>
             <field name="domain">[('state','=','approved')]</field>
@@ -58,7 +58,7 @@
         <record model="ir.actions.act_window" id="grant_benefit_reject_action">
             <field name="name">Benefit Reject List</field>
             <field name="res_model">grant.benefit</field>
-<!--            <field name="view_type">form</field>-->
+            <!--            <field name="view_type">form</field>-->
             <field name="view_mode">tree,form</field>
             <field name="context">{'create': False}</field>
             <field name="domain">[('state','in',['refused'])]
@@ -67,7 +67,7 @@
         <record model="ir.actions.act_window" id="grant_benefit_black_list_action">
             <field name="name">Benefit Black List</field>
             <field name="res_model">grant.benefit</field>
-<!--            <field name="view_type">form</field>-->
+            <!--            <field name="view_type">form</field>-->
             <field name="view_mode">tree,form</field>
             <field name="context">{'create': False}</field>
             <field name="domain">[('state','in',['not_leaving','black_list'])]
@@ -80,7 +80,7 @@
             <field name="name">committees_men_action</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">committees.line</field>
-<!--            <field name="view_type">form</field>-->
+            <!--            <field name="view_type">form</field>-->
             <field name="view_mode">tree,form</field>
             <field name="context">{'default_type': 'male'}</field>
             <field name="domain">[('type', '=', 'male')]</field>
@@ -90,7 +90,7 @@
             <field name="name">committees_women_action</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">committees.line</field>
-<!--            <field name="view_type">form</field>-->
+            <!--            <field name="view_type">form</field>-->
             <field name="view_mode">tree,form</field>
             <field name="context">{'default_type': 'female'}</field>
             <field name="domain">[('type', '=', 'female')]</field>
@@ -100,13 +100,13 @@
             <field name="name">committees_combined_action</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">committees.line</field>
-<!--            <field name="view_type">form</field>-->
+            <!--            <field name="view_type">form</field>-->
             <field name="view_mode">tree,form</field>
             <field name="context">{'default_type': 'both'}</field>
             <field name="domain">[('type', '=', 'both')]</field>
         </record>
 
-         <record id="changes_requests_action" model="ir.actions.act_window">
+        <record id="changes_requests_action" model="ir.actions.act_window">
             <field name="name">changes Requests</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">changes.requests</field>
@@ -122,7 +122,7 @@
             <field name="name">external_benefit_action</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">external.benefits</field>
-<!--            <field name="view_type">form</field>-->
+            <!--            <field name="view_type">form</field>-->
             <field name="view_mode">tree,form</field>
         </record>
         <!--Neighborhood Representative Action-->
@@ -130,7 +130,7 @@
             <field name="name">Benefits Representative</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">benefits.representative</field>
-<!--            <field name="view_type">form</field>-->
+            <!--            <field name="view_type">form</field>-->
             <field name="view_mode">tree,form</field>
         </record>
         <!--###########################################################-->
@@ -139,7 +139,7 @@
         <record model="ir.actions.act_window" id="housing_rooms_items_action">
             <field name="name">Housing Rooms Type</field>
             <field name="res_model">rooms.items</field>
-<!--            <field name="view_type">form</field>-->
+            <!--            <field name="view_type">form</field>-->
             <field name="view_mode">tree</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">Create the Housing Rooms items
@@ -149,7 +149,7 @@
         <record model="ir.actions.act_window" id="insurance_company_action">
             <field name="name">Insurance Company</field>
             <field name="res_model">insurance.company</field>
-<!--            <field name="view_type">form</field>-->
+            <!--            <field name="view_type">form</field>-->
             <field name="view_mode">tree</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">Create the Insurance Company
@@ -159,7 +159,7 @@
         <record model="ir.actions.act_window" id="family_action">
             <field name="name">Beneficiaries family</field>
             <field name="res_model">benefit.family</field>
-<!--            <field name="view_type">form</field>-->
+            <!--            <field name="view_type">form</field>-->
             <field name="context">{'create': False,'edit':False}</field>
             <field name="view_mode">tree,form</field>
             <field name="help" type="html">
@@ -176,7 +176,7 @@
         <record model="ir.actions.act_window" id="res_city_list_action">
             <field name="name">Country Cities</field>
             <field name="res_model">res.country.city</field>
-<!--            <field name="view_type">form</field>-->
+            <!--            <field name="view_type">form</field>-->
             <field name="view_mode">tree,form</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">Create the first City
@@ -186,7 +186,7 @@
         <record model="ir.actions.act_window" id="res_branch_action">
             <field name="name">Branch Settings</field>
             <field name="res_model">branch.settings</field>
-<!--            <field name="view_type">form</field>-->
+            <!--            <field name="view_type">form</field>-->
             <field name="view_mode">tree,form</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">Create the First Branch
@@ -211,15 +211,15 @@
                 </p>
             </field>
         </record>
-<!--        <record model="ir.actions.act_window" id="main_service_action">-->
-<!--            <field name="name">Service Types</field>-->
-<!--            <field name="res_model">main.service</field>-->
-<!--            <field name="view_mode">tree,form</field>-->
-<!--            <field name="help" type="html">-->
-<!--                <p class="oe_view_nocontent_create">Create the First Service-->
-<!--                </p>-->
-<!--            </field>-->
-<!--        </record>-->
+        <!--        <record model="ir.actions.act_window" id="main_service_action">-->
+        <!--            <field name="name">Service Types</field>-->
+        <!--            <field name="res_model">main.service</field>-->
+        <!--            <field name="view_mode">tree,form</field>-->
+        <!--            <field name="help" type="html">-->
+        <!--                <p class="oe_view_nocontent_create">Create the First Service-->
+        <!--                </p>-->
+        <!--            </field>-->
+        <!--        </record>-->
         <record model="ir.actions.act_window" id="exception_reason_action">
             <field name="name">Exception Reason</field>
             <field name="res_model">exception.reason</field>
@@ -232,7 +232,7 @@
         <record model="ir.actions.act_window" id="res_bank_list_action">
             <field name="name">Banks</field>
             <field name="res_model">res.bank</field>
-<!--            <field name="view_type">form</field>-->
+            <!--            <field name="view_type">form</field>-->
             <field name="view_mode">tree,form</field>
             <field name="view_id" ref="banks_view_tree"/>
             <field name="help" type="html">
@@ -243,7 +243,7 @@
         <record model="ir.actions.act_window" id="category_action">
             <field name="name">Beneficiaries Category</field>
             <field name="res_model">benefit.category</field>
-<!--            <field name="view_type">form</field>-->
+            <!--            <field name="view_type">form</field>-->
             <field name="view_mode">tree,form</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">Create the Category
@@ -259,7 +259,7 @@
                 </p>
             </field>
         </record>
-         <record model="ir.actions.act_window" id="location_action">
+        <record model="ir.actions.act_window" id="location_action">
             <field name="name">Location Settings</field>
             <field name="res_model">location.settings</field>
             <field name="view_mode">tree,form</field>
@@ -268,7 +268,7 @@
                 </p>
             </field>
         </record>
-         <record model="ir.actions.act_window" id="marital_status_action">
+        <record model="ir.actions.act_window" id="marital_status_action">
             <field name="name">Marital Status</field>
             <field name="res_model">marital.status</field>
             <field name="view_mode">tree,form</field>
@@ -286,7 +286,7 @@
                 </p>
             </field>
         </record>
-         <record model="ir.actions.act_window" id="complaints_category_action">
+        <record model="ir.actions.act_window" id="complaints_category_action">
             <field name="name">Complaints Category</field>
             <field name="res_model">complaints.category</field>
             <field name="view_mode">tree,form</field>
@@ -325,7 +325,7 @@
         <record model="ir.actions.act_window" id="domestic_labor_action">
             <field name="name">The Domestic Labor</field>
             <field name="res_model">domestic.labor</field>
-<!--            <field name="view_type">form</field>-->
+            <!--            <field name="view_type">form</field>-->
             <field name="view_mode">tree,form</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">Create the first Domestic labor
@@ -346,14 +346,14 @@
             <field name="res_model">family.validation.setting</field>
             <field name="view_mode">tree,form</field>
             <field name="help" type="html">
-               <p class="oe_view_nocontent_create">Create the Housing
+                <p class="oe_view_nocontent_create">Create the Housing
                 </p>
             </field>
         </record>
         <record model="ir.actions.act_window" id="housing_action">
             <field name="name">Benefit Housing</field>
             <field name="res_model">benefit.housing</field>
-<!--            <field name="view_type">form</field>-->
+            <!--            <field name="view_type">form</field>-->
             <field name="view_mode">kanban,tree,form</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">Create the Housing
@@ -370,7 +370,7 @@
                 </p>
             </field>
         </record>
-         <!-- Hobbies Settings Action -->
+        <!-- Hobbies Settings Action -->
         <record model="ir.actions.act_window" id="hobbies_settings_action">
             <field name="name">Hobbies Settings</field>
             <field name="res_model">hobbies.settings</field>
@@ -380,7 +380,7 @@
                 </p>
             </field>
         </record>
-         <!-- Disabilities Settings Action -->
+        <!-- Disabilities Settings Action -->
         <record model="ir.actions.act_window" id="disabilities_settings_action">
             <field name="name">Disabilities Settings</field>
             <field name="res_model">disabilities.settings</field>
@@ -390,7 +390,7 @@
                 </p>
             </field>
         </record>
-         <!-- Diseases Settings Action -->
+        <!-- Diseases Settings Action -->
         <record model="ir.actions.act_window" id="diseases_settings_action">
             <field name="name">Diseases Settings</field>
             <field name="res_model">diseases.settings</field>
@@ -403,7 +403,7 @@
         <record model="ir.actions.act_window" id="food_surplus_type_action">
             <field name="name">Food Surplus Type</field>
             <field name="res_model">food.surplus.type</field>
-<!--            <field name="view_type">form</field>-->
+            <!--            <field name="view_type">form</field>-->
             <field name="view_mode">tree</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">Create the Food Surplus Type
@@ -413,7 +413,7 @@
         <record model="ir.actions.act_window" id="benefit_behaviors_type_action">
             <field name="name">Benefit Behaviors Type</field>
             <field name="res_model">benefit.behaviors.type</field>
-<!--            <field name="view_type">form</field>-->
+            <!--            <field name="view_type">form</field>-->
             <field name="view_mode">tree</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">Create the benefitbehaviors.type
@@ -423,7 +423,7 @@
         <record model="ir.actions.act_window" id="club_programs_action">
             <field name="name">Club Programs</field>
             <field name="res_model">benefit.programs</field>
-<!--            <field name="view_type">form</field>-->
+            <!--            <field name="view_type">form</field>-->
             <field name="view_mode">tree</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">Create the Food Surplus Type
@@ -433,7 +433,7 @@
         <record model="ir.actions.act_window" id="specialization_action">
             <field name="name">Specialization</field>
             <field name="res_model">specialization.specialization</field>
-<!--            <field name="view_type">form</field>-->
+            <!--            <field name="view_type">form</field>-->
             <field name="view_mode">tree</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">Create the Specialization
@@ -443,7 +443,7 @@
         <record model="ir.actions.act_window" id="other_associations_action">
             <field name="name">Other Associations</field>
             <field name="res_model">other.associations</field>
-<!--            <field name="view_type">form</field>-->
+            <!--            <field name="view_type">form</field>-->
             <field name="view_mode">tree</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">Create the Other Associations
@@ -453,14 +453,14 @@
         <record model="ir.actions.act_window" id="sport_type_action">
             <field name="name">Sport Type</field>
             <field name="res_model">sport.type</field>
-<!--            <field name="view_type">form</field>-->
+            <!--            <field name="view_type">form</field>-->
             <field name="view_mode">tree</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">Create the Sport Type
                 </p>
             </field>
         </record>
-          <record model="ir.actions.act_window" id="income_type_action">
+        <record model="ir.actions.act_window" id="income_type_action">
             <field name="name">Income Type</field>
             <field name="res_model">income.type</field>
             <field name="view_mode">tree,form</field>
@@ -478,7 +478,7 @@
                 </p>
             </field>
         </record>
-         <record model="ir.actions.act_window" id="loan_giver_action">
+        <record model="ir.actions.act_window" id="loan_giver_action">
             <field name="name">Loan Giver</field>
             <field name="res_model">loan.giver</field>
             <field name="view_mode">tree,form</field>
@@ -487,7 +487,7 @@
                 </p>
             </field>
         </record>
-        
+
         <record model="ir.actions.act_window" id="loan_reason_action">
             <field name="name">Loan Reason</field>
             <field name="res_model">loan.reason</field>
@@ -527,7 +527,7 @@
         <record model="ir.actions.act_window" id="item_status_action">
             <field name="name">Item Status</field>
             <field name="res_model">item.status</field>
-<!--            <field name="view_type">form</field>-->
+            <!--            <field name="view_type">form</field>-->
             <field name="view_mode">tree</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">Create the Housing Rooms items
@@ -537,7 +537,7 @@
         <record model="ir.actions.act_window" id="hospital_action">
             <field name="name">Hospital file</field>
             <field name="res_model">hospital.hospital</field>
-<!--            <field name="view_type">form</field>-->
+            <!--            <field name="view_type">form</field>-->
             <field name="view_mode">tree</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">Create the Hospital file
@@ -547,7 +547,7 @@
         <record model="ir.actions.act_window" id="housing_rooms_type_action">
             <field name="name">Housing Rooms Type</field>
             <field name="res_model">housing.rooms.type</field>
-<!--            <field name="view_type">form</field>-->
+            <!--            <field name="view_type">form</field>-->
             <field name="view_mode">tree,form</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">Create the Housing Rooms Type
@@ -557,7 +557,7 @@
         <record model="ir.actions.act_window" id="rooms_categories_action">
             <field name="name">Rooms Categories</field>
             <field name="res_model">rooms.categories</field>
-<!--            <field name="view_type">form</field>-->
+            <!--            <field name="view_type">form</field>-->
             <field name="view_mode">tree</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">Create the Housing Rooms categories
@@ -567,7 +567,7 @@
         <record model="ir.actions.act_window" id="email_list_action">
             <field name="name">Email Template</field>
             <field name="res_model">mail.template</field>
-<!--            <field name="view_type">form</field>-->
+            <!--            <field name="view_type">form</field>-->
             <field name="domain">[('model_id.model', '=', 'grant.benefit')]</field>
             <field name="view_mode">tree,form</field>
         </record>
@@ -582,7 +582,7 @@
                 </p>
             </field>
         </record>
-         <record model="ir.actions.act_window" id="service_request_action">
+        <record model="ir.actions.act_window" id="service_request_action">
             <field name="name">Services Requests</field>
             <field name="res_model">service.request</field>
             <field name="view_mode">tree,form</field>
@@ -593,13 +593,14 @@
         </record>
 
 
-
-         <record model="ir.actions.act_window" id="service_request_accounting_action">
+        <record model="ir.actions.act_window" id="service_request_accounting_action">
             <field name="name">Services Requests</field>
             <field name="res_model">service.request</field>
             <field name="view_mode">tree,form</field>
-             <field name="domain">['|','|','|','|',('state','=','second_approve'),('state','=','accounting_approve'),('state','=','refused'),
-                 ('state','=','send_request_to_supplier'), ('state','=','family_received_device')]</field>
+            <field name="domain">
+                ['|','|','|','|',('state','=','second_approve'),('state','=','accounting_approve'),('state','=','refused'),
+                ('state','=','send_request_to_supplier'), ('state','=','family_received_device')]
+            </field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">Create the Service Request
                 </p>
@@ -608,7 +609,7 @@
         <record model="ir.actions.act_window" id="benefit_need_action">
             <field name="name">Benefit Need</field>
             <field name="res_model">benefit.need</field>
-<!--            <field name="view_type">form</field>-->
+            <!--            <field name="view_type">form</field>-->
             <field name="view_mode">tree,form</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">Create the Benefit Need
@@ -618,7 +619,7 @@
         <record model="ir.actions.act_window" id="benefit_receive_zkat_action">
             <field name="name">Receive Benefit Zkat</field>
             <field name="res_model">receive.benefit.zkat</field>
-<!--            <field name="view_type">form</field>-->
+            <!--            <field name="view_type">form</field>-->
             <field name="view_mode">tree,form</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">receive the Benefit Zkat
@@ -628,7 +629,7 @@
         <record model="ir.actions.act_window" id="benefit_zkat_action">
             <field name="name">Benefit Zkat</field>
             <field name="res_model">benefit.zkat</field>
-<!--            <field name="view_type">form</field>-->
+            <!--            <field name="view_type">form</field>-->
             <field name="view_mode">tree,form</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">Create the Benefit Zkat
@@ -638,7 +639,7 @@
         <record model="ir.actions.act_window" id="benefit_food_surplus_action">
             <field name="name">Food Surplus</field>
             <field name="res_model">benefit.food.surplus</field>
-<!--            <field name="view_type">form</field>-->
+            <!--            <field name="view_type">form</field>-->
             <field name="view_mode">tree,form</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">Create the Food Surplus
@@ -648,7 +649,7 @@
         <record model="ir.actions.act_window" id="receive_food_basket_action">
             <field name="name">Receive Food Basket</field>
             <field name="res_model">receive.food.basket</field>
-<!--            <field name="view_type">form</field>-->
+            <!--            <field name="view_type">form</field>-->
             <field name="view_mode">tree,form</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">Create the receive food basket
@@ -658,7 +659,7 @@
         <record model="ir.actions.act_window" id="benefit_food_basket_action">
             <field name="name">Food Basket</field>
             <field name="res_model">benefit.food.basket</field>
-<!--            <field name="view_type">form</field>-->
+            <!--            <field name="view_type">form</field>-->
             <field name="view_mode">tree,form</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">Create the food basket
@@ -668,7 +669,7 @@
         <record model="ir.actions.act_window" id="receive_appliances_furniture_action">
             <field name="name">Receive Appliances Furniture</field>
             <field name="res_model">receive.appliances.furniture</field>
-<!--            <field name="view_type">form</field>-->
+            <!--            <field name="view_type">form</field>-->
             <field name="view_mode">tree,form</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">Create the appliances and furniture
@@ -678,7 +679,7 @@
         <record model="ir.actions.act_window" id="benefit_appliances_furniture_action">
             <field name="name">Appliances Furniture</field>
             <field name="res_model">appliances.furniture</field>
-<!--            <field name="view_type">form</field>-->
+            <!--            <field name="view_type">form</field>-->
             <field name="view_mode">tree,form</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">Create the appliances and furniture
@@ -688,7 +689,7 @@
         <record model="ir.actions.act_window" id="receive_benefit_loans_action">
             <field name="name">Receive Benefit Loans</field>
             <field name="res_model">receive.benefit.loans</field>
-<!--            <field name="view_type">form</field>-->
+            <!--            <field name="view_type">form</field>-->
             <field name="view_mode">tree,form</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">Create the Receive benefit Loans
@@ -698,7 +699,7 @@
         <record model="ir.actions.act_window" id="benefit_benefit_loans_action">
             <field name="name">Benefit Loans</field>
             <field name="res_model">benefit.loans</field>
-<!--            <field name="view_type">form</field>-->
+            <!--            <field name="view_type">form</field>-->
             <field name="view_mode">tree,form</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">Create the benefit Loans
@@ -708,7 +709,7 @@
         <record model="ir.actions.act_window" id="benefit_club_action">
             <field name="name">club</field>
             <field name="res_model">benefit.club</field>
-<!--            <field name="view_type">form</field>-->
+            <!--            <field name="view_type">form</field>-->
             <field name="view_mode">tree,form</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">Create the club
@@ -718,7 +719,7 @@
         <record model="ir.actions.act_window" id="benefit_reports_log_action">
             <field name="name">Generate Reports Log</field>
             <field name="res_model">generate.reports.log</field>
-<!--            <field name="view_type">form</field>-->
+            <!--            <field name="view_type">form</field>-->
             <field name="view_mode">tree,form</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">Create the Log
@@ -729,14 +730,14 @@
             <field name="name">generate.reports</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">generate.reports</field>
-<!--            <field name="view_type">form</field>-->
+            <!--            <field name="view_type">form</field>-->
             <field name="view_mode">form</field>
             <field name="target">new</field>
         </record>
         <record model="ir.actions.act_window" id="benefit_benefits_needs_action_2">
             <field name="name">Benefits Needs</field>
             <field name="res_model">benefits.needs</field>
-<!--            <field name="view_type">form</field>-->
+            <!--            <field name="view_type">form</field>-->
             <field name="view_mode">tree,form</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">Create the needs
@@ -746,7 +747,7 @@
         <record model="ir.actions.act_window" id="needs_categories_action">
             <field name="name">Benefits Needs Categories</field>
             <field name="res_model">needs.categories</field>
-<!--            <field name="view_type">form</field>-->
+            <!--            <field name="view_type">form</field>-->
             <field name="view_mode">tree,form</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">Create the Needs Categories
@@ -756,7 +757,7 @@
         <record model="ir.actions.act_window" id="benefit_sms_configuration_action">
             <field name="name">SMS Template</field>
             <field name="res_model">benefit.sms.configuration</field>
-<!--            <field name="view_type">form</field>-->
+            <!--            <field name="view_type">form</field>-->
             <field name="view_mode">tree,form</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">Sms Configuration
@@ -771,29 +772,30 @@
                 <p class="oe_view_nocontent_create">Create the Family Complaints
                 </p>
             </field>
-    </record>
+        </record>
 
         <!--###########################################################-->
         <!--Benefit Menus-->
         <!--###########################################################-->
         <menuitem id="benefits_root_menu" name="Benefit Management"
-                  web_icon="odex_benefit,static/description/icon1.png" groups="odex_benefit.group_benefit_info,odex_benefit.group_benefit_edit,odex_benefit.group_benefit_manager,odex_benefit.group_benefit_researcher,odex_benefit.group_benefit_woman_commitee,odex_benefit.group_benefit_branch_manager"/>
-<!--        <menuitem id="benefits_root_menu" name="Benefit Management"/>-->
+                  web_icon="odex_benefit,static/description/icon1.png"
+                  groups="odex_benefit.group_benefit_info,odex_benefit.group_benefit_edit,odex_benefit.group_benefit_manager,odex_benefit.group_benefit_researcher,odex_benefit.group_benefit_woman_commitee,odex_benefit.group_benefit_branch_manager"/>
+        <!--        <menuitem id="benefits_root_menu" name="Benefit Management"/>-->
         <!--#ملفات المستفيدين-->
         <menuitem id="benefit_main_menu" name="Benefit Managements"
-                  parent="benefits_root_menu" sequence="1" />
+                  parent="benefits_root_menu" sequence="1" active="False"/>
         <!--social search-->
         <!--البحث الاجتماعي-->
         <menuitem id='social_search_menu' name='social search' parent='benefits_root_menu'
                   sequence="2" groups="odex_benefit.group_hide_not_needed_menus"/>
-         <menuitem id='change_requests_menu' name='Change Requests' parent='benefits_root_menu'
+        <menuitem id='change_requests_menu' name='Change Requests' parent='benefits_root_menu'
                   sequence="3" groups="odex_benefit.group_hide_not_needed_menus"/>
         <menuitem id='benefit_services' name='Services'
                   parent="benefits_root_menu" sequence="7" groups="odex_benefit.group_hide_not_needed_menus"/>
         <!-- family complaints -->
         <menuitem id='family_complaints_menu' name='Family Complaints' parent='benefits_root_menu'
                   sequence="3" groups="odex_benefit.group_hide_not_needed_menus"/>
-         <menuitem id='family_complaints_child_menu' name='Family Complaints' parent='family_complaints_menu'
+        <menuitem id='family_complaints_child_menu' name='Family Complaints' parent='family_complaints_menu'
                   action="family_complaints_action"
                   sequence="1"/>
 
@@ -848,20 +850,20 @@
         <menuitem id='changes_requests_men' name='Changes Requests' parent='change_requests_menu'
                   action="changes_requests_action"
                   sequence="4"/>
-<!--        <menuitem id="benefit_generate_needs" name="needs Screen" parent="benefits_root_menu"-->
-<!--                  action="benefit_benefits_needs_action_2" sequence="5"/>-->
+        <!--        <menuitem id="benefit_generate_needs" name="needs Screen" parent="benefits_root_menu"-->
+        <!--                  action="benefit_benefits_needs_action_2" sequence="5"/>-->
         <menuitem id="visits_menu" name="Visits" parent="benefits_root_menu"
                   action="visits_action" sequence="5" groups="odex_benefit.group_hide_not_needed_menus"/>
-<!--        <menuitem id='benefit_report' name='Reports' parent='benefits_root_menu'-->
-<!--                  sequence="6"/>-->
-<!--        <menuitem id="benefit_reports" name="Generate report" parent="benefits_root_menu"-->
-<!--                  sequence="7"/>-->
-<!--        <menuitem id="benefit_generate_reports" name="Generate report Screen" parent="benefit_reports"-->
-<!--                  action="benefit_generate_reports_action"-->
-<!--                  sequence="1"/>-->
-<!--        <menuitem id="benefit_reports_log" name="Generate report log" parent="benefit_reports"-->
-<!--                  action="benefit_reports_log_action"-->
-<!--                  sequence="2"/>-->
+        <!--        <menuitem id='benefit_report' name='Reports' parent='benefits_root_menu'-->
+        <!--                  sequence="6"/>-->
+        <!--        <menuitem id="benefit_reports" name="Generate report" parent="benefits_root_menu"-->
+        <!--                  sequence="7"/>-->
+        <!--        <menuitem id="benefit_generate_reports" name="Generate report Screen" parent="benefit_reports"-->
+        <!--                  action="benefit_generate_reports_action"-->
+        <!--                  sequence="1"/>-->
+        <!--        <menuitem id="benefit_reports_log" name="Generate report log" parent="benefit_reports"-->
+        <!--                  action="benefit_reports_log_action"-->
+        <!--                  sequence="2"/>-->
         <menuitem id='benefit_tools' name='Tools' parent='benefits_root_menu'
                   sequence="8"/>
 
@@ -886,71 +888,71 @@
                 groups="odex_benefit.group_hide_not_needed_menus"
                 sequence="9"
         />
-<!--         <menuitem-->
-<!--                id="menu_survey_setting"-->
-<!--                name="Survey Setting"-->
-<!--                parent="benefit_tools"-->
-<!--                groups="odex_benefit.group_hide_not_needed_menus"-->
-<!--                action="survey_setting_action"-->
-<!--                sequence="100"-->
-<!--        />-->
-<!--        <menuitem-->
-<!--                id="menu_suspend_reason"-->
-<!--                name="Suspend Reason"-->
-<!--                parent="benefit_tools"-->
-<!--                groups="odex_benefit.group_hide_not_needed_menus"-->
-<!--                action="suspend_reason_action"-->
-<!--                sequence="101"-->
-<!--        />-->
-<!--        <menuitem-->
-<!--                id="menu_member_location"-->
-<!--                name="Member Location"-->
-<!--                parent="benefit_tools"-->
-<!--                groups="odex_benefit.group_hide_not_needed_menus"-->
-<!--                action="member_location_action"-->
-<!--                sequence="10"-->
-<!--        />-->
-<!--        <menuitem-->
-<!--                id="family_validation_location"-->
-<!--                name="Family Validation Setting"-->
-<!--                parent="benefit_tools"-->
-<!--                groups="odex_benefit.group_hide_not_needed_menus"-->
-<!--                action="family_validation_action"-->
-<!--                sequence="11"-->
-<!--        />-->
-<!--        <menuitem id="benefit_category_menu" name="category" parent="menu_benefits_config_organizing"-->
-<!--                  action="category_action"-->
-<!--                  sequence="2"/>-->
-<!--        <menuitem id="relation_settings_menu" name="Relation Settings" parent="menu_benefits_config_organizing"-->
-<!--                  action="relation_action"-->
-<!--                  sequence="3"/>-->
+        <!--         <menuitem-->
+        <!--                id="menu_survey_setting"-->
+        <!--                name="Survey Setting"-->
+        <!--                parent="benefit_tools"-->
+        <!--                groups="odex_benefit.group_hide_not_needed_menus"-->
+        <!--                action="survey_setting_action"-->
+        <!--                sequence="100"-->
+        <!--        />-->
+        <!--        <menuitem-->
+        <!--                id="menu_suspend_reason"-->
+        <!--                name="Suspend Reason"-->
+        <!--                parent="benefit_tools"-->
+        <!--                groups="odex_benefit.group_hide_not_needed_menus"-->
+        <!--                action="suspend_reason_action"-->
+        <!--                sequence="101"-->
+        <!--        />-->
+        <!--        <menuitem-->
+        <!--                id="menu_member_location"-->
+        <!--                name="Member Location"-->
+        <!--                parent="benefit_tools"-->
+        <!--                groups="odex_benefit.group_hide_not_needed_menus"-->
+        <!--                action="member_location_action"-->
+        <!--                sequence="10"-->
+        <!--        />-->
+        <!--        <menuitem-->
+        <!--                id="family_validation_location"-->
+        <!--                name="Family Validation Setting"-->
+        <!--                parent="benefit_tools"-->
+        <!--                groups="odex_benefit.group_hide_not_needed_menus"-->
+        <!--                action="family_validation_action"-->
+        <!--                sequence="11"-->
+        <!--        />-->
+        <!--        <menuitem id="benefit_category_menu" name="category" parent="menu_benefits_config_organizing"-->
+        <!--                  action="category_action"-->
+        <!--                  sequence="2"/>-->
+        <!--        <menuitem id="relation_settings_menu" name="Relation Settings" parent="menu_benefits_config_organizing"-->
+        <!--                  action="relation_action"-->
+        <!--                  sequence="3"/>-->
         <menuitem id="location_settings_menu" name="Location Settings" parent="menu_benefits_config_organizing"
                   action="location_action"
                   sequence="4"/>
-<!--        <menuitem id="marital_status_menu" name="Marital Status" parent="menu_benefits_config_organizing"-->
-<!--                  action="marital_status_action"-->
-<!--                  sequence="5"/>-->
-<!--        <menuitem id="age_category_menu" name="Age Category" parent="menu_benefits_config_organizing"-->
-<!--                  action="age_category_action"-->
-<!--                  sequence="6"/>-->
-<!--        <menuitem id="complaints_category_menu" name="Complaints Category" parent="menu_benefits_config_organizing"-->
-<!--                  action="complaints_category_action"-->
-<!--                  sequence="7"/>-->
-<!--        <menuitem id="hobbies_settings_menu" name="Hobbies Settings" parent="menu_benefits_config_organizing"-->
-<!--                  action="hobbies_settings_action"-->
-<!--                  sequence="4"/>-->
-<!--        <menuitem id="disabilities_settings_menu" name="Disabilities Settings" parent="menu_benefits_config_organizing"-->
-<!--                  action="disabilities_settings_action"-->
-<!--                  sequence="5"/>-->
-<!--        <menuitem id="diseases_settings_menu" name="Diseases Settings" parent="menu_benefits_config_organizing"-->
-<!--                  action="diseases_settings_action"-->
-<!--                  sequence="6"/>-->
-<!--        <menuitem id="benefit_families_menu" name="Families" parent="menu_benefits_config_organizing"-->
-<!--                  action="family_action"-->
-<!--                  sequence="3"/>-->
-<!--        <menuitem id="benefit_housing_menu" name="Housing" parent="menu_benefits_config_organizing"-->
-<!--                  action="housing_action"-->
-<!--                  sequence="4"/>-->
+        <!--        <menuitem id="marital_status_menu" name="Marital Status" parent="menu_benefits_config_organizing"-->
+        <!--                  action="marital_status_action"-->
+        <!--                  sequence="5"/>-->
+        <!--        <menuitem id="age_category_menu" name="Age Category" parent="menu_benefits_config_organizing"-->
+        <!--                  action="age_category_action"-->
+        <!--                  sequence="6"/>-->
+        <!--        <menuitem id="complaints_category_menu" name="Complaints Category" parent="menu_benefits_config_organizing"-->
+        <!--                  action="complaints_category_action"-->
+        <!--                  sequence="7"/>-->
+        <!--        <menuitem id="hobbies_settings_menu" name="Hobbies Settings" parent="menu_benefits_config_organizing"-->
+        <!--                  action="hobbies_settings_action"-->
+        <!--                  sequence="4"/>-->
+        <!--        <menuitem id="disabilities_settings_menu" name="Disabilities Settings" parent="menu_benefits_config_organizing"-->
+        <!--                  action="disabilities_settings_action"-->
+        <!--                  sequence="5"/>-->
+        <!--        <menuitem id="diseases_settings_menu" name="Diseases Settings" parent="menu_benefits_config_organizing"-->
+        <!--                  action="diseases_settings_action"-->
+        <!--                  sequence="6"/>-->
+        <!--        <menuitem id="benefit_families_menu" name="Families" parent="menu_benefits_config_organizing"-->
+        <!--                  action="family_action"-->
+        <!--                  sequence="3"/>-->
+        <!--        <menuitem id="benefit_housing_menu" name="Housing" parent="menu_benefits_config_organizing"-->
+        <!--                  action="housing_action"-->
+        <!--                  sequence="4"/>-->
 
         <!--###########################################################-->
         <!-- Benefit / Tools-->
@@ -965,12 +967,12 @@
                   parent="menu_benefits_config_addresses" action="action_country_state_benefit"/>
         <menuitem id="res_city_menu" name="Cities" sequence="2"
                   parent="menu_benefits_config_addresses" action="res_city_list_action"/>
-<!--        <menuitem id="res_branch_menu" name="Branch Settings" sequence="3"-->
-<!--                  parent="menu_benefits_config_addresses" action="res_branch_action"/>-->
-<!--        <menuitem id="res_district_menu" name="Districts" sequence="4" groups="odex_benefit.group_hide_not_needed_menus"-->
-<!--                  parent="menu_benefits_config_addresses" action="districts_action"/>-->
+        <!--        <menuitem id="res_branch_menu" name="Branch Settings" sequence="3"-->
+        <!--                  parent="menu_benefits_config_addresses" action="res_branch_action"/>-->
+        <!--        <menuitem id="res_district_menu" name="Districts" sequence="4" groups="odex_benefit.group_hide_not_needed_menus"-->
+        <!--                  parent="menu_benefits_config_addresses" action="districts_action"/>-->
         <!-- Attachment Settings menu -->
-           <menuitem
+        <menuitem
                 id="menu_attachment_settings"
                 name="Attachments Settings"
                 parent="benefit_tools"
@@ -986,16 +988,16 @@
                 groups="odex_benefit.group_hide_not_needed_menus"
                 sequence="5"
         />
-<!--        <menuitem id="housing_rooms_items_menu" name="Rooms Items"-->
-<!--                  parent="menu_benefits_config_housing" action="housing_rooms_items_action" sequence="1"/>-->
-<!--        <menuitem id="housing_rooms_type_menu" name="Rooms Type"-->
-<!--                  parent="menu_benefits_config_housing" action="housing_rooms_type_action" sequence="2"/>-->
-<!--        <menuitem id="housing_rooms_categories_menu" name="Rooms Categories"-->
-<!--                  parent="menu_benefits_config_housing" action="rooms_categories_action" sequence="3"/>-->
-<!--        <menuitem id="domestic_labor_menu" name="The domestic labor" sequence="3"-->
-<!--                  parent="menu_benefits_config_housing" action="domestic_labor_action"/>-->
-<!--        <menuitem id="item_status_menu" name="Item Status"-->
-<!--                  parent="menu_benefits_config_housing" action="item_status_action" sequence="4"/>-->
+        <!--        <menuitem id="housing_rooms_items_menu" name="Rooms Items"-->
+        <!--                  parent="menu_benefits_config_housing" action="housing_rooms_items_action" sequence="1"/>-->
+        <!--        <menuitem id="housing_rooms_type_menu" name="Rooms Type"-->
+        <!--                  parent="menu_benefits_config_housing" action="housing_rooms_type_action" sequence="2"/>-->
+        <!--        <menuitem id="housing_rooms_categories_menu" name="Rooms Categories"-->
+        <!--                  parent="menu_benefits_config_housing" action="rooms_categories_action" sequence="3"/>-->
+        <!--        <menuitem id="domestic_labor_menu" name="The domestic labor" sequence="3"-->
+        <!--                  parent="menu_benefits_config_housing" action="domestic_labor_action"/>-->
+        <!--        <menuitem id="item_status_menu" name="Item Status"-->
+        <!--                  parent="menu_benefits_config_housing" action="item_status_action" sequence="4"/>-->
         <menuitem
                 id="menu_benefits_config_benefits"
                 name="benefits"
@@ -1003,10 +1005,10 @@
                 sequence="5"/>
         <menuitem id="res_bank_menu" name="Banks" parent="menu_benefits_config_benefits" action="res_bank_list_action"
                   sequence="1" groups="odex_benefit.group_hide_not_needed_menus"/>
-<!--        <menuitem id="hospital_menu" name="Hospital" parent="menu_benefits_config_benefits" action="hospital_action"-->
-<!--                  sequence="2"/>-->
-<!--        <menuitem id="insurance_company_menu" name="Insurance Company" parent="menu_benefits_config_benefits"-->
-<!--                  action="insurance_company_action" sequence="3"/>-->
+        <!--        <menuitem id="hospital_menu" name="Hospital" parent="menu_benefits_config_benefits" action="hospital_action"-->
+        <!--                  sequence="2"/>-->
+        <!--        <menuitem id="insurance_company_menu" name="Insurance Company" parent="menu_benefits_config_benefits"-->
+        <!--                  action="insurance_company_action" sequence="3"/>-->
         <menuitem id="income_type_menu" name="Income Type" groups="odex_benefit.group_hide_not_needed_menus"
                   parent="menu_benefits_config_benefits" action="income_type_action" sequence="7"/>
         <menuitem id="expenses_type_menu" name="Expenses Type" groups="odex_benefit.group_hide_not_needed_menus"
@@ -1017,23 +1019,23 @@
                   parent="menu_benefits_config_benefits" action="loan_reason_action" sequence="10"/>
 
         <menuitem id="health_genetic_diseases_menu" name="Health Genetic Diseases"
-                parent="menu_benefits_config_benefits" action="health_genetic_diseases_action" sequence="11"/>
+                  parent="menu_benefits_config_benefits" action="health_genetic_diseases_action" sequence="11"/>
 
         <menuitem id="health_mental_illnesses_menu" name="Health Mental Illnesses"
-                parent="menu_benefits_config_benefits" action="health_mental_illnesses_action" sequence="12"/>
+                  parent="menu_benefits_config_benefits" action="health_mental_illnesses_action" sequence="12"/>
 
         <menuitem id="health_chronic_diseases_menu" name="Health Chronic Diseases"
-                parent="menu_benefits_config_benefits" action="health_chronic_diseases_action" sequence="13"/>
+                  parent="menu_benefits_config_benefits" action="health_chronic_diseases_action" sequence="13"/>
         <menuitem id="service_delivery_method_menu" name="Service Delivery Method"
-                parent="menu_benefits_config_benefits" action="action_service_delivery_method_list" sequence="13"/>
-<!--        <menuitem id="service_need_status_list_menu" name="Service Need Status"-->
-<!--                parent="menu_benefits_config_benefits" action="action_service_need_status_list" sequence="13"/>-->
+                  parent="menu_benefits_config_benefits" action="action_service_delivery_method_list" sequence="13"/>
+        <!--        <menuitem id="service_need_status_list_menu" name="Service Need Status"-->
+        <!--                parent="menu_benefits_config_benefits" action="action_service_need_status_list" sequence="13"/>-->
         <menuitem id="service_provider_list_menu" name="Service Provider"
-                parent="menu_benefits_config_benefits" action="action_service_provider_list" sequence="13"/>
-<!--        <menuitem id="sport_type_menu" name="Sport Type"-->
-<!--                  parent="menu_benefits_config_benefits" action="sport_type_action" sequence="5"/>-->
-<!--        <menuitem id="needs_categories_menu" name="Needs Categories"-->
-<!--                  parent="menu_benefits_config_benefits" action="needs_categories_action" sequence="6"/>-->
+                  parent="menu_benefits_config_benefits" action="action_service_provider_list" sequence="13"/>
+        <!--        <menuitem id="sport_type_menu" name="Sport Type"-->
+        <!--                  parent="menu_benefits_config_benefits" action="sport_type_action" sequence="5"/>-->
+        <!--        <menuitem id="needs_categories_menu" name="Needs Categories"-->
+        <!--                  parent="menu_benefits_config_benefits" action="needs_categories_action" sequence="6"/>-->
         <menuitem
                 id="menu_benefits_config_contact"
                 name="contact"
@@ -1051,68 +1053,69 @@
                 parent="benefit_tools"
                 sequence="6"
         />
-<!--        <menuitem id="main_service_menu" name="Service Types" parent="benefit_tools"-->
-<!--                  action="main_service_action" sequence="7"/>-->
+        <!--        <menuitem id="main_service_menu" name="Service Types" parent="benefit_tools"-->
+        <!--                  action="main_service_action" sequence="7"/>-->
         <menuitem id="exception_reason_menu" name="Exception Reason" parent="menu_benefits_config_others"
                   action="exception_reason_action" sequence="8"/>
-<!--        <menuitem id="other_associations_menu" name="Other Associations"-->
-<!--                  parent="menu_benefits_config_others" action="other_associations_action" sequence="1"/>-->
+        <!--        <menuitem id="other_associations_menu" name="Other Associations"-->
+        <!--                  parent="menu_benefits_config_others" action="other_associations_action" sequence="1"/>-->
         <!--##########################################-->
         <!-- Benefit Services menu-->
         <!--##########################################-->
-<!--        <menuitem id="services_settings_menu" name="Services Settings" sequence="1"-->
-<!--                  parent="odex_benefit.benefit_services" />-->
-<!--        <menuitem id="services_settings_menu" name="Services Settings" sequence="2"-->
-<!--                  parent="odex_benefit.benefit_services" action="services_settings_action" groups="odex_benefit.group_benefit_manager"/>-->
+        <!--        <menuitem id="services_settings_menu" name="Services Settings" sequence="1"-->
+        <!--                  parent="odex_benefit.benefit_services" />-->
+        <!--        <menuitem id="services_settings_menu" name="Services Settings" sequence="2"-->
+        <!--                  parent="odex_benefit.benefit_services" action="services_settings_action" groups="odex_benefit.group_benefit_manager"/>-->
         <menuitem id="services_requests_menu" name="Services Requests" sequence="1"
                   parent="odex_benefit.benefit_services" action="service_request_action"/>
 
-        <menuitem id="menu_service_request_accounting_accept" name="Services Requests" parent="account.menu_finance_payables"
-              action="service_request_accounting_action" sequence="1"/>
+        <menuitem id="menu_service_request_accounting_accept" name="Services Requests"
+                  parent="account.menu_finance_payables"
+                  action="service_request_accounting_action" sequence="1"/>
 
 
         <!--        <menuitem id="benefit_need_menu" name="Benefit Need" sequence="1"-->
         <!--                  parent="odex_benefit.benefit_services" action="benefit_need_action"/>-->
-<!--        <menuitem id="benefit_zkat_main_menu" name="Benefit Zkat" sequence="2"-->
-<!--                  parent="odex_benefit.benefit_services"/>-->
-<!--        <menuitem id="benefit_receive_zkat_menu" name="Benefit Receive Zkat" sequence="1"-->
-<!--                  parent="odex_benefit.benefit_zkat_main_menu" action="benefit_receive_zkat_action"/>-->
-<!--        <menuitem id="benefit_zkat_menu" name="Benefit Zkat" sequence="2"-->
-<!--                  parent="odex_benefit.benefit_zkat_main_menu" action="benefit_zkat_action"/>-->
-<!--        <menuitem id="food_basket_main_menu" name="Benefit Food Basket" sequence="3"-->
-<!--                  parent="odex_benefit.benefit_services"/>-->
-<!--        <menuitem id="receive_food_basket_menu" name="receive Food Basket" sequence="1"-->
-<!--                  parent="odex_benefit.food_basket_main_menu" action="receive_food_basket_action"/>-->
-<!--        <menuitem id="benefit_food_basket_menu" name="Benefit Food Basket" sequence="2"-->
-<!--                  parent="odex_benefit.food_basket_main_menu" action="benefit_food_basket_action"/>-->
-<!--        <menuitem id="benefit_food_surplus_menu" name="Food Surplus" sequence="4"-->
-<!--                  parent="odex_benefit.benefit_services" action="benefit_food_surplus_action"/>-->
-<!--        <menuitem id="benefit_appliances_furniture_main_menu" name="Appliances Furniture" sequence="5"-->
-<!--                  parent="odex_benefit.benefit_services"/>-->
-<!--        <menuitem id="receive_appliances_furniture_menu" name="Receive Appliances Furniture" sequence="1"-->
-<!--                  parent="odex_benefit.benefit_appliances_furniture_main_menu"-->
-<!--                  action="receive_appliances_furniture_action"/>-->
-<!--        <menuitem id="benefit_appliances_furniture_menu" name="Appliances Furniture" sequence="2"-->
-<!--                  parent="odex_benefit.benefit_appliances_furniture_main_menu"-->
-<!--                  action="benefit_appliances_furniture_action"/>-->
-<!--        <menuitem id="loans_benefit_main_menu" name="Benefit Loans" sequence="6"-->
-<!--                  parent="odex_benefit.benefit_services"/>-->
-<!--        <menuitem id="benefit_loans_menu" name="Benefit Loans" sequence="1"-->
-<!--                  parent="odex_benefit.loans_benefit_main_menu" action="benefit_benefit_loans_action"/>-->
-<!--        <menuitem id="receive_benefit_loans_menu" name="Receive Benefit Loans" sequence="2"-->
-<!--                  parent="odex_benefit.loans_benefit_main_menu" action="receive_benefit_loans_action"/>-->
-<!--        <menuitem id="benefit_club_menu" name="Benefit Club" sequence="7"-->
-<!--                  parent="odex_benefit.benefit_services" action="benefit_club_action"/>-->
-<!--        <menuitem id='benefit_extra_tools' name='Extra Tools' parent='odex_benefit.benefit_services'-->
-<!--                  sequence="8"/>-->
+        <!--        <menuitem id="benefit_zkat_main_menu" name="Benefit Zkat" sequence="2"-->
+        <!--                  parent="odex_benefit.benefit_services"/>-->
+        <!--        <menuitem id="benefit_receive_zkat_menu" name="Benefit Receive Zkat" sequence="1"-->
+        <!--                  parent="odex_benefit.benefit_zkat_main_menu" action="benefit_receive_zkat_action"/>-->
+        <!--        <menuitem id="benefit_zkat_menu" name="Benefit Zkat" sequence="2"-->
+        <!--                  parent="odex_benefit.benefit_zkat_main_menu" action="benefit_zkat_action"/>-->
+        <!--        <menuitem id="food_basket_main_menu" name="Benefit Food Basket" sequence="3"-->
+        <!--                  parent="odex_benefit.benefit_services"/>-->
+        <!--        <menuitem id="receive_food_basket_menu" name="receive Food Basket" sequence="1"-->
+        <!--                  parent="odex_benefit.food_basket_main_menu" action="receive_food_basket_action"/>-->
+        <!--        <menuitem id="benefit_food_basket_menu" name="Benefit Food Basket" sequence="2"-->
+        <!--                  parent="odex_benefit.food_basket_main_menu" action="benefit_food_basket_action"/>-->
+        <!--        <menuitem id="benefit_food_surplus_menu" name="Food Surplus" sequence="4"-->
+        <!--                  parent="odex_benefit.benefit_services" action="benefit_food_surplus_action"/>-->
+        <!--        <menuitem id="benefit_appliances_furniture_main_menu" name="Appliances Furniture" sequence="5"-->
+        <!--                  parent="odex_benefit.benefit_services"/>-->
+        <!--        <menuitem id="receive_appliances_furniture_menu" name="Receive Appliances Furniture" sequence="1"-->
+        <!--                  parent="odex_benefit.benefit_appliances_furniture_main_menu"-->
+        <!--                  action="receive_appliances_furniture_action"/>-->
+        <!--        <menuitem id="benefit_appliances_furniture_menu" name="Appliances Furniture" sequence="2"-->
+        <!--                  parent="odex_benefit.benefit_appliances_furniture_main_menu"-->
+        <!--                  action="benefit_appliances_furniture_action"/>-->
+        <!--        <menuitem id="loans_benefit_main_menu" name="Benefit Loans" sequence="6"-->
+        <!--                  parent="odex_benefit.benefit_services"/>-->
+        <!--        <menuitem id="benefit_loans_menu" name="Benefit Loans" sequence="1"-->
+        <!--                  parent="odex_benefit.loans_benefit_main_menu" action="benefit_benefit_loans_action"/>-->
+        <!--        <menuitem id="receive_benefit_loans_menu" name="Receive Benefit Loans" sequence="2"-->
+        <!--                  parent="odex_benefit.loans_benefit_main_menu" action="receive_benefit_loans_action"/>-->
+        <!--        <menuitem id="benefit_club_menu" name="Benefit Club" sequence="7"-->
+        <!--                  parent="odex_benefit.benefit_services" action="benefit_club_action"/>-->
+        <!--        <menuitem id='benefit_extra_tools' name='Extra Tools' parent='odex_benefit.benefit_services'-->
+        <!--                  sequence="8"/>-->
 
         <!--###########################################################-->
         <!--Extra tools-->
         <!--###########################################################-->
-<!--        <menuitem id="food_surplus_type_menu" name="Food Surplus Type"-->
-<!--                  parent="benefit_extra_tools" action="food_surplus_type_action" sequence="5"/>-->
-<!--        <menuitem id="benefit_programs_menu" name="benefit Club programs"-->
-<!--                  parent="benefit_extra_tools" action="club_programs_action" sequence="6"/>-->
+        <!--        <menuitem id="food_surplus_type_menu" name="Food Surplus Type"-->
+        <!--                  parent="benefit_extra_tools" action="food_surplus_type_action" sequence="5"/>-->
+        <!--        <menuitem id="benefit_programs_menu" name="benefit Club programs"-->
+        <!--                  parent="benefit_extra_tools" action="club_programs_action" sequence="6"/>-->
 
     </data>
 </odoo>
