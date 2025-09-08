@@ -179,12 +179,12 @@ class AccountPayment(models.Model):
     def action_senior_accountant(self):
         self.state = 'budget_management'
 
-    @api.constrains('amount', 'item_budget_ids')
-    def _check_amount_equals_lines(self):
-        for rec in self:
-            total_lines = sum(rec.item_budget_ids.mapped('amount'))
-            if rec.amount != total_lines:
-                raise ValidationError(_("The payment amount must be equal to the total of the payment lines."))
+    # @api.constrains('amount', 'item_budget_ids')
+    # def _check_amount_equals_lines(self):
+    #     for rec in self:
+    #         total_lines = sum(rec.item_budget_ids.mapped('amount'))
+    #         if rec.amount != total_lines:
+    #             raise ValidationError(_("The payment amount must be equal to the total of the payment lines."))
 
 
 class AccountPayment(models.Model):

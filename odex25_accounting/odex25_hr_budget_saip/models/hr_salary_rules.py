@@ -28,13 +28,6 @@ class HrSalaryRules(models.Model):
     def get_item_budget_id(self, emp_type):
         if not self.transfer_by_emp_type :  return self.item_budget_id
         account_mapping = self.account_ids.filtered(lambda a: a.emp_type_id.id == emp_type.id)
-        print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!",account_mapping)
-        for i in self.account_ids:
-            print("##########################id",i.emp_type_id.id)
-            print("##########################emp_type",emp_type.id)
-            print("##########################item_budget_id",i.item_budget_id)
-        # print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@2",account_mapping[0])
-        # print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$",account_mapping[0].item_budget_id)
         return account_mapping[0].item_budget_id if account_mapping else False
 
 class HrSalaryRuleAccount(models.Model):
@@ -75,7 +68,6 @@ class HrPayslipRun(models.Model):
             total_of_list = []
             for line in self.slip_ids:
                 emp_type = line.employee_id.get_emp_type_id()
-                print("1111111111111111111111111111", line.employee_id.name)
                 total_allow, total_ded, total_loan = 0.0, 0.0, 0.0
                 total_list = []
                 move_vals = dict()
@@ -91,12 +83,9 @@ class HrPayslipRun(models.Model):
                     account = l.salary_rule_id.get_debit_account_id(emp_type)
                     # if not account:
                     #     raise ValidationError(_('Employee type is not exit in salary structure: {}').format(emp_type.name))
-                    print("##########################l", l.name)
-                    print("##########################account", account)
                     item_budget = l.salary_rule_id.get_item_budget_id(emp_type)
                     # if not item_budget:
                     #     raise ValidationError(_('Employee type is not exit in salary structure: {}').format(emp_type.name))
-                    print("###########################333",item_budget)
 
                     budget_lines = item_budget.crossovered_budget_line.filtered(
                         lambda bl: bl.crossovered_budget_id.state == 'done' and fields.Date.from_string(

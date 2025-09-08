@@ -23,17 +23,18 @@ class HrTermination(models.Model):
                 allowance = item.cause_type.allowance_id
                 emp_type = item.employee_id.get_emp_type_id()
                 item_budget_id = allowance.get_item_budget_id(emp_type)
+                rule_debit_account_id = allowance.get_debit_account_id(emp_type)
                 if not allowance:
                     raise exceptions.Warning(_('Undefined end of service rule for %s.') % item.cause_type.name)
-                if not allowance.rule_debit_account_id:
-                    raise exceptions.Warning(_('Undefined debit account for salary rule %s.') % allowance.name)
+                if not rule_debit_account_id:
+                    raise exceptions.Warning(_('Undefined debit account for salary rule %s.') % rule_debit_account_id.name)
                 if not item_budget_id:
-                    raise exceptions.Warning(_('Undefined item budget for salary rule %s.') % allowance.name)
+                    raise exceptions.Warning(_('Undefined item budget for salary rule %s.') % item_budget_id.name)
 
                 # Add the allowance or deduction to the invoice line items
                 invoice_line_ids.append((0, 0, {
                     'name': allowance.name,
-                    'account_id': allowance.rule_debit_account_id.id,
+                    'account_id': rule_debit_account_id.id,
                     'analytic_account_id': allowance.analytic_account_id.id,
                     'item_budget_id': item_budget_id.id,
                     'quantity': 1.0,
