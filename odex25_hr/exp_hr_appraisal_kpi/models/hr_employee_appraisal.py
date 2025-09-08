@@ -328,7 +328,7 @@ class EmployeeAppraisal(models.Model):
     def sent_appraisal_to_employee(self):
         user = self.env.user
 
-        is_direct_manager = record.employee_id.parent_id.user_id == user
+        is_direct_manager = self.employee_id.parent_id.user_id == user
         in_allowed_group = (user.has_group('exp_hr_appraisal.group_appraisal_manager')or user.has_group('exp_hr_appraisal.group_appraisal_employee'))
 
         if not (is_direct_manager or in_allowed_group):
