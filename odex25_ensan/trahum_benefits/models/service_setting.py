@@ -8,6 +8,9 @@ class ServiceSetting(models.Model):
     _order = 'name asc'
     _inherit = ['mail.thread', 'mail.activity.mixin']
 
+    beneficiary_categories = fields.Many2many('beneficiary.categories',
+                                              string='Beneficiary Category  ')
+
     name = fields.Char(
         string='Service Name',
         required=True,

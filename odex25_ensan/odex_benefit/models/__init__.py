@@ -39,4 +39,6 @@ from . import family_complaints
 from . import health_genetic_diseases
 from . import health_mental_illnesses
 from . import health_chronic_diseases
+from . import committees_line
+from . import detainee_family_research
 # from . import res_config_settings
