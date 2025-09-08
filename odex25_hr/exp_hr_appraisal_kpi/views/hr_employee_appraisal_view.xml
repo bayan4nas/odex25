@@ -229,8 +229,7 @@
                            decoration-warning="appraisal_result_color == 'orange'"
                            decoration-muted="appraisal_result_color == 'purple'"
                            options="{'no_create': True, 'no_open': True}" readonly="1"/>
-                    <field style="color:blue; font-weight:bold;" attrs="{'invisible': [('is_first_stage', '!=',True)]}"
-                           name="apprisal_result_display" readonly="1" nolabel="1"/>
+
                     <field name="exceptional_performance"
                            attrs="{'invisible': [('exceptional_performance', '=', False)]}"/>
                 </xpath>
@@ -250,19 +249,19 @@
                         </page>
                         <page string="Goals">
                             <field name="goal_ids"
-                                   attrs="{'readonly':[('state','not in',['draft','wait_performance_officer'])]}">
+                                   attrs="{'readonly':[('state','not in',['draft','wait_direct_manager','wait_performance_officer'])]}">
                                 <tree editable="bottom">
                                     <field name="state" invisible="1"/>
                                     <field name="kpi_id" width="10" required="1"
-                                           attrs="{'readonly':['|',('parent.is_first_stage', '=', False),('state','!=','draft')]}"
+                                           attrs="{'readonly':['|',('parent.is_first_stage', '=', False),('state','not in',('wait_direct_manager','draft'))]}"
                                            options='{"no_open": True,"no_create_edit": True,"no_create":True}'/>
                                     <field name="description" width="10" force_save="1" optional="show" readonly="1"/>
                                     <field name="result_appearance" width="5" optional="show"/>
                                     <field name="result_type" width="5" required="1" optional="show"/>
                                     <field name="year_target" width="4"
-                                           attrs="{'readonly':['|',('parent.is_first_stage', '=', False),('state','!=','draft')]}"/>
+                                           attrs="{'readonly':['|',('parent.is_first_stage', '=', False),('state','not in',('wait_direct_manager','draft'))]}"/>
                                     <field name="done" width="5"
-                                           attrs="{'readonly':['|','|',('parent.type', '!=', 'appraisal'),('parent.is_last_stage', '=', False),('state','!=','draft')],'column_invisible': [('parent.is_last_stage', '=', False)]}"/>
+                                           attrs="{'readonly':['|','|',('parent.type', '!=', 'appraisal'),('parent.is_last_stage', '=', False),('state','not in',('wait_direct_manager','draft'))],'column_invisible': [('parent.is_last_stage', '=', False)]}"/>
 
                                     <field name="self_assessment" width="5"
                                            attrs="{'readonly':[('state','!=','draft')],'column_invisible': [('parent.type', '!=', 'objection')]}"
@@ -277,7 +276,7 @@
                                            attrs="{'column_invisible': [('parent.is_last_stage', '=', False)]}"/>
 
                                     <field name="weight" sum="Total Weight" width="4"
-                                           attrs="{'readonly':['|',('parent.is_first_stage', '=', False),('state','!=','draft')]}"
+                                           attrs="{'readonly':['|',('parent.is_first_stage', '=', False),('state','not in',('wait_direct_manager','draft'))]}"
                                     />
                                     <field name="kpi_result" width="5" sum="Total Result"
                                            attrs="{'column_invisible': [('parent.is_last_stage', '=', False)]}"/>
@@ -300,39 +299,39 @@
 
                         <page string="Skills">
                             <field name="skill_ids"
-                                   attrs="{'readonly':[('state','not in',['draft','wait_performance_officer'])]}">
+                                   attrs="{'readonly':[('state','not in',['draft','wait_direct_manager','wait_performance_officer'])]}">
                                 <tree editable="bottom">
                                     <field name="state" invisible="1"/>
                                     <field name="is_direct_manager" invisible="1"/>
                                     <field name="is_appraisal_employee" invisible="1"/>
                                     <field name="skill_type_id" force_save='1' width="12" required="1"
-                                           attrs="{'readonly':['|',('parent.is_first_stage', '=', False),('state','!=','draft')]}"
+                                           attrs="{'readonly':['|',('parent.is_first_stage', '=', False),('state','not in',('wait_direct_manager','draft'))]}"
                                            options='{"no_open": True,"no_create_edit": True,"no_create":True}'/>
                                     <field name="skill_id" force_save='1' width="12" required="1"
-                                           attrs="{'readonly':['|',('parent.is_first_stage', '=', False),('state','!=','draft')]}"
+                                           attrs="{'readonly':['|',('parent.is_first_stage', '=', False),('state','not in',('wait_direct_manager','draft'))]}"
                                            domain="[('skill_type_id','=',skill_type_id)]"
                                            options='{"no_open": True,"no_create_edit": True,"no_create":True}'/>
                                     <field name="item_id" force_save='1' width="12" invisible="1"
-                                           attrs="{'readonly':['|',('parent.is_first_stage', '=', False),('state','!=','draft')]}"
+                                           attrs="{'readonly':['|',('parent.is_first_stage', '=', False),('state','not in',('wait_direct_manager','draft'))]}"
                                            options='{"no_open": True,"no_create_edit": True,"no_create":True}'/>
                                     <field name="name"
-                                           attrs="{'readonly':['|',('parent.is_first_stage', '=', False),('state','!=','draft')]}"
+                                           attrs="{'readonly':['|',('parent.is_first_stage', '=', False),('state','not in',('wait_direct_manager','draft'))]}"
                                            force_save='1' width="12"/>
                                     <field name="target" width="5" force_save='1' required="1"
-                                           attrs="{'readonly':['|',('parent.is_first_stage', '=', False),('state','!=','draft')]}"/>
+                                           attrs="{'readonly':['|',('parent.is_first_stage', '=', False),('state','not in',('wait_direct_manager','draft'))]}"/>
                                     <field name="apprisal_start_year" width="5" force_save='1' required="1"
                                            attrs="{'readonly':[('parent.is_first_stage', '=', True)]}"/>
                                     <field name="mark" force_save='1' width="12"
-                                           attrs="{'readonly':['|','|',('parent.type', '!=', 'appraisal'),('parent.is_last_stage', '=', False),('state','!=','draft')],'column_invisible': [('parent.is_last_stage', '=', False)]}"/>
+                                           attrs="{'readonly':['|','|',('parent.type', '!=', 'appraisal'),('parent.is_last_stage', '=', False),('state','not in',('wait_direct_manager','draft'))],'column_invisible': [('parent.is_last_stage', '=', False)]}"/>
 
                                     <field name="self_assessment" width="5"
                                            attrs="{'readonly':[('state','!=','draft')],'column_invisible': [('parent.type', '!=', 'objection')]}"
                                            decoration-danger="self_assessment != mark and self_assessment != 0"/>
                                     <field name="approved" width="5"
-                                           attrs="{'readonly':[('state','!=','wait_performance_officer')],'column_invisible': [('parent.type', '!=', 'objection')]}"/>
+                                           attrs="{'readonly':[('state','not in',('wait_direct_manager','draft'))],'column_invisible': [('parent.type', '!=', 'objection')]}"/>
 
                                     <field name="skill_weight" sum="Total Weight" width="4" required="1"
-                                           attrs="{'readonly':['|',('parent.is_first_stage', '=', False),('state','!=','draft')]}"/>
+                                           attrs="{'readonly':['|',('parent.is_first_stage', '=', False),('state','not in',('wait_direct_manager','draft'))]}"/>
                                     <field name="skill_result" force_save='1' width="12" sum="Total Result"
                                            attrs="{'column_invisible': [('parent.is_last_stage', '=', False)]}"/>
 
@@ -347,7 +346,7 @@
                         </page>
                         <page string="Development Plan" attrs="{'invisible':[('is_first_stage','=',False)]}">
                             <field required="1" name="development_plan_ids"
-                                   attrs="{'readonly':[('state','not in',['draft'])]}">
+                                   attrs="{'readonly':[('state','not in',['draft','wait_direct_manager'])]}">
                                 <tree editable="bottom">
                                     <field required="1" name="development_method_id" width="5" force_save='1'/>
                                     <field required="1" name="name" readonly="1" force_save='1' width="12"/>

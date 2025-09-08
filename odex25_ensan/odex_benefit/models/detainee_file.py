@@ -19,3 +19,7 @@ class DetaineeFile(models.Model):
 
     name = fields.Char(string="code", readonly=True, copy=False, default=lambda self: _('New'))
     beneficiary_category = fields.Selection([('gust', 'Gust'), ('released', 'Released')], string='Beneficiary Category')
+    # marital_status_id = fields.Many2one('family.member', string='Marital Status')
+    # level_id = fields.Many2one('family.education.level', string='Education Level')
+
+    # case_id_name = fields.Many2one('case.information', string="القضية", readonly=True)

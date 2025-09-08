@@ -46,6 +46,9 @@
         'views/family_member_relation_views.xml',
         'views/sr_rule_view.xml',
         'views/beneficiary_categories.xml',
+        'views/committees_line_view.xml',
+        'views/detainee_family_research_view.xml',
+
 
         'views/res_config_settings_view.xml',
         'views/family_need_category_view.xml'

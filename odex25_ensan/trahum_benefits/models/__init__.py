@@ -16,4 +16,5 @@ from . import benificiary_path
 from . import sr_rule
 from . import res_config_settings_need_calculat
 from . import beneficiary_category
-
+from . import committees_line
+from . import detainee_family_research

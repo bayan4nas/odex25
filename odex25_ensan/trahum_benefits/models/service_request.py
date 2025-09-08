@@ -391,10 +391,46 @@ class ServiceRequest(models.Model):
                 domain.append(('date', '<=', rule.date_to))
         return domain
 
+    def _validate_service_amount(self, rule):
+        # تحقق أولاً من القيم
+        if not rule.amount_operator or not rule.max_service_amount:
+            return True
+
+        # Step 1: تحقق من قيمة الخدمة
+        amount_condition = eval(
+            f"{self.requested_service_amount} {rule.amount_operator} {rule.max_service_amount}"
+        )
+
+        if amount_condition:
+            message = rule.amount_violation_message or "Violation: Service amount condition not met"
+            if rule.severity == 'error':
+                raise ValidationError(message)
+            elif rule.severity == 'warning':
+                self.message_post(body=f"Warning: {message}")
+                return
+        else:
+            return
+        # Step 2: تحقق من One-time support
+        if rule.one_time_support:
+            base_domain = self._get_beneficiary_domain()
+            if base_domain:
+                domain = base_domain + [('service_cats', '=', self.service_cats.id)]
+                existing_requests = self.env['service.request'].search_count(domain)
+
+                if existing_requests > 0:
+                    message = "This service can only be requested once - one-time support only"
+                    if rule.severity == 'error':
+                        raise ValidationError(message)
+                    elif rule.severity == 'warning':
+                        self.message_post(body=f"Warning: {message}")
+                        return
+        else:
+            return
+
+        return
+
     def _calculate_family_rent_duration(self):
-        """
-        حساب مدة الإيجار من ملف الأسرة بالأشهر
-        """
+
         if not self.family_id or not self.family_id.rent_start_date or not self.family_id.rent_end_date:
             return 0
 
@@ -418,22 +454,25 @@ class ServiceRequest(models.Model):
         self.ensure_one()
         if rule.allowed_need_categories:
             family_need_category = None
+            if self.benefit_type == 'family':
+                if self.family_id and self.family_id.family_need_class_id:
+                    family_need_category = self.family_id.family_need_class_id
+                elif hasattr(self, 'family_need_class_id') and self.family_need_class_id:
+                    family_need_category = self.family_need_class_id
 
-            if self.family_id and self.family_id.family_need_class_id:
-                family_need_category = self.family_id.family_need_class_id
-            elif hasattr(self, 'family_need_class_id') and self.family_need_class_id:
-                family_need_category = self.family_need_class_id
+            else:  # benefit_type != 'family'
+                if hasattr(self, 'member_need_class_id') and self.member_need_class_id:
+                    family_need_category = self.member_need_class_id
 
-
-            if family_need_category not in rule.allowed_need_categories:
+            if not family_need_category or family_need_category not in rule.allowed_need_categories:
                 return
+
 
         #
         # ---  (Validation Rules) ---
         #
 
         if rule.rule_type == 'validation':
-
             value_to_check = 0
             base_domain = self._get_beneficiary_domain()
             if not base_domain:
@@ -442,11 +481,12 @@ class ServiceRequest(models.Model):
             base_domain += [('id', '!=', self.id)]
             # 1.  (request_total)
             if rule.metric == 'request_total':
+
                 value_to_check = self.requested_service_amount
 
             # 2.  (sum_amount_period)
             elif rule.metric == 'sum_amount_period':
-                period_domain = self._get_period_domain(rule.period, rule.period_days)
+                period_domain = self._get_period_domain(rule)
                 domain = base_domain + period_domain
                 requests = self.env['service.request'].search(domain)
                 total_amount = sum(requests.mapped('requested_service_amount'))
@@ -454,7 +494,7 @@ class ServiceRequest(models.Model):
 
             # 3. (count_requests_period)
             elif rule.metric == 'count_requests_period':
-                period_domain = self._get_period_domain(rule.period, rule.period_days)
+                period_domain = self._get_period_domain(rule)
                 domain = base_domain + period_domain
                 value_to_check = self.env['service.request'].search_count(domain)
 
@@ -479,26 +519,55 @@ class ServiceRequest(models.Model):
             # 6.  (family_value)
             elif rule.metric == 'family_value':
                 if self.family_id:
-                    member = len(self.family_id.benefit_member_ids)
-                    breadwinner = len(self.family_id.benefit_breadwinner_ids)
-                    value_to_check = (member * rule.member_value) + (breadwinner * rule.breadwinner_value)
-                    if self.requested_service_amount > value_to_check:
-                        message = rule.message or f"Rule Violation: {rule.name}"
+
+                    member_count = 0
+                    breadwinner_count = 0
+
+
+                    if rule.restrict_to_threshold:
+                        member_count = rule.default_member_count
+                        breadwinner_count = rule.default_breadwinner_count
+                    else:
+                        member_count = len(self.family_id.benefit_member_ids)
+                        breadwinner_count = len(self.family_id.benefit_breadwinner_ids)
+
+
+                    max_allowed_value = (member_count * rule.member_value) + (
+                                breadwinner_count * rule.breadwinner_value)
+
+
+                    if self.requested_service_amount > max_allowed_value:
+                        message = rule.message or f"المبلغ المطلوب {self.requested_service_amount} يتجاوز الحد المسموح به وهو {max_allowed_value}"
+
                         if rule.severity == 'error':
                             raise ValidationError(message)
-
                         elif rule.severity == 'warning':
-                            self.message_post(body=f"Warning: {message}")
-                            return
+                            self.message_post(body=f"<b>تحذير: </b>{message}")
                     else:
                         return
-
                 else:
                     return
+            # elif rule.metric == 'family_value':
+            #     if self.family_id:
+            #         member = len(self.family_id.benefit_member_ids)
+            #         breadwinner = len(self.family_id.benefit_breadwinner_ids)
+            #         value_to_check = (member * rule.member_value) + (breadwinner * rule.breadwinner_value)
+            #         if self.requested_service_amount > value_to_check:
+            #             message = rule.message or f"Rule Violation: {rule.name}"
+            #             if rule.severity == 'error':
+            #                 raise ValidationError(message)
+            #
+            #             elif rule.severity == 'warning':
+            #                 self.message_post(body=f"Warning: {message}")
+            #                 return
+            #         else:
+            #             return
+            #
+            #     else:
+            #         return
             # 7.  (tolerance_ratio)
             elif rule.metric == 'tolerance_ratio' and rule.numeric_value:
                 if not self.requested_service_amount_before_tolerance:
-                    print(self.requested_service_amount, rule.operator, rule.threshold_value)
                     condition_met = eval(f"{self.requested_service_amount} {rule.operator} {rule.threshold_value}")
                     if condition_met:
                         original_amount = self.requested_service_amount
@@ -525,17 +594,18 @@ class ServiceRequest(models.Model):
             elif rule.metric == 'housing_support_rule':
                 if not self.family_id:
                     return
-                print("housing_support_rule")
                 # Step 1: Check housing property type first
                 family_property_type = getattr(self.family_id, 'property_type', False)
                 if rule.housing_property_type and rule.housing_property_type != family_property_type:
                     return
-                print("duration_condition")
+
+                if rule.housing_property_type == 'ownership':
+                    self._validate_service_amount(rule)
+                    return
+
                 # Step 2: Validate rental duration
                 if rule.duration_operator and (rule.rent_duration_years or rule.rent_duration_months):
-                    # Calculate family rental duration in months
                     family_rent_duration = self._calculate_family_rent_duration()
-                    print( family_rent_duration)
                     # Calculate rule duration in months
                     rule_duration_months = (rule.rent_duration_years or 0) * 12 + (rule.rent_duration_months or 0)
 
@@ -543,40 +613,24 @@ class ServiceRequest(models.Model):
                     duration_condition = eval(
                         f"{family_rent_duration} {rule.duration_operator} {rule_duration_months}"
                     )
-                    print(duration_condition,family_rent_duration)
-                    if duration_condition:
+
+                    if duration_condition :
                         # Step 3: Validate service amount
-                        if rule.amount_operator and rule.max_service_amount:
-                            amount_condition = eval(
-                                f"{self.requested_service_amount} {rule.amount_operator} {rule.max_service_amount}"
-                            )
-
-                            if amount_condition:
-                                message = rule.amount_violation_message or "Violation: Service amount condition not met"
-                                if rule.severity == 'error':
-                                    raise ValidationError(message)
-                                elif rule.severity == 'warning':
-                                    self.message_post(body=f"Warning: {message}")
-
-                        # Step 4: One-time support check
-                        if rule.one_time_support:
-                            base_domain = self._get_beneficiary_domain()
-                            if base_domain:
-                                domain = base_domain + [
-                                    ('service_cats', '=', self.service_cats.id)
-                                ]
-
-                                existing_requests = self.env['service.request'].search_count(domain)
-
-                                if existing_requests > 0:
-                                    message = "This service can only be requested once - one-time support only"
-                                    if rule.severity == 'error':
-                                        raise ValidationError(message)
-                                    elif rule.severity == 'warning':
-                                        self.message_post(body=f"Warning: {message}")
-
+                        self._validate_service_amount(rule)
                         return
+                    else:
+                        return
+            duration_condition = eval(
+                f"{value_to_check} {rule.operator} {rule.threshold_value}"
+            )
+            if duration_condition:
+                message = rule.message
+                if rule.severity == 'error':
+                    raise ValidationError(message)
 
+                elif rule.severity == 'warning':
+                    self.message_post(body=f"Warning: {message}")
+                    return
 
         #
         # --- (Computation Rules) ---

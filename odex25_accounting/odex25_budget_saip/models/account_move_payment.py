@@ -148,6 +148,30 @@ class AccountPayment(models.Model):
     is_related_to_cotract = fields.Boolean()
     hr_operation = fields.Boolean()
 
+    payment_attach_no = fields.Integer(
+        string="Documents",
+        compute="_compute_payment_attach_no"
+    )
+
+    def _compute_payment_attach_no(self):
+        for rec in self:
+            rec.payment_attach_no = self.env['ir.attachment'].search_count([
+                ('res_model', '=', 'account.payment'),
+                ('res_id', '=', rec.id)
+            ])
+    def get_payment_attachments(self):
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Attachments',
+            'res_model': 'ir.attachment',
+            'view_mode': 'tree,form',
+            'domain': [
+                ('res_model', '=', 'account.payment'),
+                ('res_id', '=', self.id)
+            ],
+            'context': {'default_res_model': 'account.payment', 'default_res_id': self.id},
+        }
     @api.onchange('item_budget_ids')
     def _onchange_item_budget_ids(self):
         self.amount = sum(self.item_budget_ids.mapped('amount'))
@@ -155,12 +179,12 @@ class AccountPayment(models.Model):
     def action_senior_accountant(self):
         self.state = 'budget_management'
 
-    @api.constrains('amount', 'item_budget_ids')
-    def _check_amount_equals_lines(self):
-        for rec in self:
-            total_lines = sum(rec.item_budget_ids.mapped('amount'))
-            if rec.amount != total_lines:
-                raise ValidationError(_("The payment amount must be equal to the total of the payment lines."))
+    # @api.constrains('amount', 'item_budget_ids')
+    # def _check_amount_equals_lines(self):
+    #     for rec in self:
+    #         total_lines = sum(rec.item_budget_ids.mapped('amount'))
+    #         if rec.amount != total_lines:
+    #             raise ValidationError(_("The payment amount must be equal to the total of the payment lines."))
 
 
 class AccountPayment(models.Model):

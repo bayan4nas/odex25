@@ -27,6 +27,7 @@ class FamilyMemberRelation(models.Model):
         default=False
     )
 
+
 class FamilyMemberQualification(models.Model):
     _name = 'family.member.qualification'
     _description = 'Family Member Qualification'
@@ -141,13 +142,13 @@ class IssuesInformation(models.Model):
     case_type = fields.Many2one('cases.type', string="Case Type")
     record_start_date = fields.Date(string="Record Start Date")
     record_end_date = fields.Date(string="Record End Date")
-    release_date = fields.Date(string="Release Date", related='detainee_id.expected_release_date', readonly=0)
+    release_date = fields.Date(string="Release Date", readonly=0)
     account_status = fields.Selection(
         [('active', 'Active'), ('inactive', 'Inactive')],
         string="status")
     prison_prison_id = fields.Many2one('prison.benefit')
-    prison_id = fields.Many2one('res.prison', readonly=0, related='detainee_id.prison_id')
-    arrest_date = fields.Date('Arrest Date', related='detainee_id.arrest_date', readonly=0)
+    prison_id = fields.Many2one('res.prison', readonly=0)
+    arrest_date = fields.Date('Arrest Date', readonly=0)
 
     @api.constrains('release_date', 'detainee_id')
     def _check_release_date_required(self):
@@ -155,7 +156,6 @@ class IssuesInformation(models.Model):
             if rec.detainee_id and rec.detainee_id.prisoner_state == 'convicted':
                 if not rec.release_date:
                     raise ValidationError(_("Release Date is required when the prisoner state is 'Convicted'."))
-
 
     @api.onchange('case_type')
     def _onchange_case_type(self):
@@ -241,7 +241,6 @@ class FamilyMember(models.Model):
         'res.district',
         string=' District',
         domain="[('city_id', '=', city)]")
-
     city = fields.Many2one("res.country.city", string='City')
     postal_code = fields.Char(string='Postal Code')
     national_address_code = fields.Char(string='National address code')
@@ -310,7 +309,6 @@ class FamilyMember(models.Model):
     experience_certificate = fields.Many2many('ir.attachment', string="Experience Certificate", tracking=True)
     job_title = fields.Many2one('job.title', string='Job Title')
 
-
     grant_benefit_member_ids = fields.One2many(
         'grant.benefit.member',
         'member_id',
@@ -320,13 +318,17 @@ class FamilyMember(models.Model):
         'detainee.file',
         string="File Number",
         compute='_compute_file_links',
-        readonly=True
+        readonly=True, store=True
     )
-    detainee_file_link_name = fields.Char(  related='detainee_file_link.name',string='File number' ,  readonly=True)
-    detainee_file_link_file_state = fields.Selection(  related='detainee_file_link.file_state',string='File State' , readonly=True)
-    detainee_file_link_beneficiary_category =fields.Selection(  related='detainee_file_link.beneficiary_category',string='beneficiary category ' ,  readonly=True)
-    detainee_file_link_prisoner_state =fields.Selection(  related='detainee_file_link.prisoner_state',string='Inmate Status', readonly=True)
-    detainee_file_link_entitlement_status =fields.Selection(  related='detainee_file_link.entitlement_status',string='Needs Assessment', readonly=True)
+    detainee_file_link_name = fields.Char(related='detainee_file_link.name', string='File number', readonly=True)
+    detainee_file_link_file_state = fields.Selection(related='detainee_file_link.file_state', string='File State',
+                                                     readonly=True)
+    detainee_file_link_beneficiary_category = fields.Selection(related='detainee_file_link.beneficiary_category',
+                                                               string='beneficiary category ', readonly=True)
+    detainee_file_link_prisoner_state = fields.Selection(related='detainee_file_link.prisoner_state',
+                                                         string='Inmate Status', readonly=True)
+    detainee_file_link_entitlement_status = fields.Selection(related='detainee_file_link.entitlement_status',
+                                                             string='Needs Assessment', readonly=True)
 
     family_file_link = fields.Many2one(
         'grant.benefit',
@@ -334,9 +336,11 @@ class FamilyMember(models.Model):
         compute='_compute_file_links',
         readonly=True
     )
-    family_file_link_name = fields.Char(  related='family_file_link.name',string='File number' , readonly=True)
-    family_file_link_folder_state = fields.Selection(  related='family_file_link.folder_state',string='File State', readonly=True)
-    family_file_link_beneficiary_category =fields.Selection(  related='family_file_link.beneficiary_category',string='beneficiary category ', readonly=True)
+    family_file_link_name = fields.Char(related='family_file_link.name', string='File number', readonly=True)
+    family_file_link_folder_state = fields.Selection(related='family_file_link.folder_state', string='File State',
+                                                     readonly=True)
+    family_file_link_beneficiary_category = fields.Selection(related='family_file_link.beneficiary_category',
+                                                             string='beneficiary category ', readonly=True)
     family_file_link_family_need_class_id = fields.Many2one('family.need.category',
                                                             related='family_file_link.family_need_class_id',
                                                             string='Needs Assessment', readonly=True)
@@ -345,7 +349,7 @@ class FamilyMember(models.Model):
         compute='_compute_family_beneficiary_category_display',
         readonly=True
     )
-    
+
     @api.model
     def name_search(self, name='', args=None, operator='ilike', limit=100):
         args = args or []
@@ -354,6 +358,7 @@ class FamilyMember(models.Model):
             domain = ['|', ('name', operator, name), ('member_id_number', operator, name)]
         records = self.search(domain + args, limit=limit)
         return records.name_get()
+
     # end
     @api.depends('family_file_link.beneficiary_category')
     def _compute_family_beneficiary_category_display(self):
@@ -372,7 +377,6 @@ class FamilyMember(models.Model):
                     _(' family ') + selection_dict.get(rec.family_file_link.beneficiary_category, ' ')
             else:
                 rec.family_file_link_beneficiary_category_display = False
-
 
     def _compute_file_links(self):
         for member in self:
@@ -395,6 +399,7 @@ class FamilyMember(models.Model):
                     raise ValidationError(_("Social Security Income must be greater than 0."))
                 if not rec.social_insurance_income or rec.social_insurance_income == 0.0:
                     raise ValidationError(_("Social Insurance Income must be greater than 0."))
+
     def action_confirm(self):
         for record in self:
             all_fields = [
@@ -554,10 +559,10 @@ class DetaineeFile(models.Model):
         ('released', 'Released')
     ], string="Detainee Status", required=True, tracking=True, default='non_convicted')
 
-    arrest_date = fields.Date(string="Arrest Date", required=True, )
+    arrest_date = fields.Date(string="Arrest Date", compute='get_last_issue_info', store=True)
     record_start_date = fields.Date(string="Start Date", default=fields.Date.today)
     record_end_date = fields.Date(string="End Date", )
-    expected_release_date = fields.Date(string="Expected Release Date")
+    expected_release_date = fields.Date(string="Expected Release Date", compute='get_last_issue_info', store=True)
     issues_ids = fields.One2many('issues.information', 'detainee_id')
 
     state = fields.Selection([
@@ -570,18 +575,27 @@ class DetaineeFile(models.Model):
 
     prison_country_id = fields.Many2one('res.prison.country', string="Prison Country")
 
-    prison_id = fields.Many2one('res.prison', string="Prison", domain=[('country_id', '=', prison_country_id)])
+    prison_id = fields.Many2one('res.prison', compute='get_last_issue_info', string="Prison", store=True)
 
     cancel_reason: fields.Text = fields.Text(string="Rejection Reason", tracking=True, copy=False)
     file_state = fields.Selection([('active', 'Active'), ('inactive', 'Inactive ')], string='File Status')
 
     prisoner_state = fields.Selection([('convicted', 'Convicted'), ('not_convicted', 'Not Convicted')],
                                       string='Inmate Status')
-    beneficiary_category = fields.Selection([('gust', 'Gust'), ('released', 'Released')], string='  Beneficiary Category')
+    beneficiary_category = fields.Selection([('gust', 'Gust'), ('released', 'Released')],
+                                            string='  Beneficiary Category')
     entitlement_status = fields.Selection([('deserved', 'Deserved'), ('undeserved', 'Undeserved')],
                                           string='Entitlement Status')
 
     period_text = fields.Char(string="Detention Period", compute="_compute_period", store=True)
+
+    @api.depends('issues_ids')
+    def get_last_issue_info(self):
+        for rec in self.issues_ids:
+            last_issue = rec[-1]
+            self.arrest_date = last_issue.arrest_date
+            self.prison_id = last_issue.prison_id
+            self.expected_release_date = last_issue.release_date
 
     @api.constrains('issues_ids')
     def check_prisoner_state(self):

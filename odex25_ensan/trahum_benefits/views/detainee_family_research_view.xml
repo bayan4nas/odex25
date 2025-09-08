@@ -1,0 +1,86 @@
+<odoo>
+    <record id="detainee_family_research_view_form_inherit_issues" model="ir.ui.view">
+        <field name="name">detainee.family.research.view</field>
+        <field name="model">detainee.family.research</field>
+        <field name="inherit_id" ref="odex_benefit.detainee_family_research_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="." position="replace">
+                <form>
+                    <sheet>
+                        <field name="name"/>
+
+                        <group>
+                            <group string="Family"> <!-- Family -->
+                                <field name="benefit_id"/>
+                                <field name="breadwinner_name" readonly="1"/>
+                                <field name="breadwinner_id_number" readonly="1"/>
+                                <!-- <field name="relation_id" readonly="1"/> -->
+                                <field name="benefit_member_count" readonly="1"/>
+                                <field name="family_head_relation_id"/>
+                                <field name="family_marital_status_id"/>
+                            </group>
+                        </group>
+
+                        <group string="Housing "> <!-- Housing -->
+                            <field name="city"/>
+                            <field name="district"/>
+                            <field name="housing_type" readonly="1"/>
+                            <field name="property_type" readonly="1"/>
+                            <field name="housing_status"/>
+                        </group>
+
+                        <!-- Guest -->
+                        <group string="Guest">
+                            <field name="detainee_id"/>
+                            <field name="period_text"/>
+                            <field name="prison_id"/>
+                        </group>
+
+                        <group string="Work"> <!-- Work  -->
+                            <field name="specialization"/>
+                            <field name="is_employee" attrs="{'invisible': [('is_employee', '!=', True)]}"/>
+
+                            <field name="experience_years" attrs="{'invisible': [('is_employee', '!=', True)]}"/>
+                            <field name="experience_unit" attrs="{'invisible': [('is_employee', '!=', True)]}"/>
+                            <field name="dest_name" attrs="{'invisible': [('is_employee', '!=', True)]}"/>
+                            <field name="work_type_id" attrs="{'invisible': [('is_employee', '!=', True)]}"/>
+                        </group>
+
+                        <group string="Researcher Report"> <!-- Researcher Report -->
+                            <field name="researcher_report" nolabel="1"/>
+                        </group>
+
+                        <group string="Officials"> <!-- Officials -->
+                            <field name="researcher_id"/>
+                            <field name="researcher_signature"/>
+                            <field name="specialist_name"/>
+                            <field name="specialist_signature"/>
+                            <field name="benefit_service_manager_name"/>
+                            <field name="benefit_service_manager_signature"/>
+                            <field name="ceo_name"/>
+                            <field name="ceo_signature"/>
+                        </group>
+
+                        <group>
+                            <field name="create_date" readonly="1"/>
+                        </group>
+
+                        <notebook>
+                            <page string="Issues">
+                                <field name="detainee_issues_ids" readonly="1">
+                                    <tree editable="bottom">
+                                        <field name="case_name"/>
+                                    </tree>
+                                </field>
+                            </page>
+
+                            <page string="Needs">
+                                <field name="service_cats"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </xpath>
+        </field>
+    </record>
+</odoo>

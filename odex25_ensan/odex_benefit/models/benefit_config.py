@@ -560,28 +560,7 @@ class TrainingType(models.Model):
     name = fields.Char()
 
 
-class Committees(models.Model):
-    _name = 'committees.line'
 
-    name = fields.Char()
-    employee_id = fields.Many2many('hr.employee')
-    benefit_ids = fields.Many2many('grant.benefit',compute="get_benefit_ids")
-    type = fields.Selection(
-        string='',
-        selection=[('male', 'Men'),
-                   ('female', 'women'),
-                   ('both', 'combined'),
-                   ],
-        required=False, )
-    branch_custom_id = fields.Many2one("branch.settings", string="Branch")
-
-    def get_benefit_ids(self):
-        obj = self.env["grant.benefit"].search([])
-        for rec in obj:
-            if rec.researcher_id.id == self.id:
-                self.write({'benefit_ids': [(4, rec.id)]})
-            else:
-                self.write({'benefit_ids': []})
 
 class ResDistricts(models.Model):
     _name = 'res.districts'

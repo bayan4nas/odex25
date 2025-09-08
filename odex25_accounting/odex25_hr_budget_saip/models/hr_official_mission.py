@@ -34,25 +34,28 @@ class HrOfficialMission(models.Model):
                     self.Tra_cost_invo_id = invoice.id
 
                 for item in self.employee_ids:
-                    budget_lines = self.mission_type.allowance_id.item_budget_id.crossovered_budget_line.filtered(
+                    emp_type = item.employee_id.employee_type_id
+                    item_budget_id = self.mission_type.allowance_id.get_item_budget_id(emp_type)
+                    rule_debit_account_id = self.mission_type.allowance_id.get_debit_account_id(emp_type)
+                    budget_lines = item_budget_id.crossovered_budget_line.filtered(
                         lambda bl: bl.crossovered_budget_id.state == 'done' and fields.Date.from_string(
                             bl.date_from) <= fields.Date.from_string(self.date) <= fields.Date.from_string(
                             bl.date_to))
                     if not budget_lines:
                         raise ValidationError(_('No budget for this service: {} - {}').format(
-                            self.mission_type.allowance_id.name, self.mission_type.allowance_id.item_budget_id.name))
+                            self.mission_type.allowance_id.name, item_budget_id.name))
 
-                    # general_budget = self.official_mission.item_budget_id.crossovered_budget_line.filtered(
-                    #     lambda bl: bl.general_budget_id in self.env['account.budget.post'].search([]).filtered(
-                    #         lambda post: self.mission_type.allowance_id.rule_debit_account_id in post.account_ids))
-                    # if not general_budget:
-                    #     raise ValidationError(_('No budget for this account: {}').format(self.mission_type.allowance_id.rule_debit_account_id.name))
+                    general_budget = item_budget_id.crossovered_budget_line.filtered(
+                        lambda bl: bl.general_budget_id in self.env['account.budget.post'].search([]).filtered(
+                            lambda post: rule_debit_account_id in post.account_ids))
+                    if not general_budget:
+                        raise ValidationError(_('No budget for this account: {}').format(rule_debit_account_id.name))
                     if item.amount > 0.0:
                         invoice_line_ids = [(0, 0, {
                             'name': self.official_mission.name,
-                            'account_id': self.mission_type.allowance_id.rule_debit_account_id.id,
+                            'account_id': rule_debit_account_id.id,
                             'analytic_account_id': self.mission_type.allowance_id.analytic_account_id.id,
-                            'item_budget_id': self.mission_type.allowance_id.item_budget_id.id,
+                            'item_budget_id': item_budget_id.id,
                             'quantity': 1.0,
                             'price_unit': item.amount,
                         })]
