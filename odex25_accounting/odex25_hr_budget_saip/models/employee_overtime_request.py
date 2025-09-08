@@ -39,12 +39,14 @@ class HREmployeeOvertimeRequest(models.Model):
             for item in self:
                 for record in item.line_ids_over_time:
                     journal_id = record.employee_id.contract_id.working_hours.journal_overtime_id
-                    budget_lines = self.benefits_discounts.item_budget_id.crossovered_budget_line.filtered(
+                    emp_type = record.employee_id.get_emp_type_id()
+                    item_budget_id = self.benefits_discounts.get_item_budget_id(emp_type)
+                    budget_lines =  item_budget_id.crossovered_budget_line.filtered(
                         lambda bl: bl.crossovered_budget_id.state == 'done' and fields.Date.from_string(
                             bl.date_from) <= fields.Date.from_string(self.request_date) <= fields.Date.from_string(bl.date_to))
                     if not budget_lines:
                         raise ValidationError(_('No budget for this service: {} - {}').format(
-                            self.benefits_discounts.name, self.benefits_discounts.item_budget_id.name))
+                            self.benefits_discounts.name, self.item_budget_id.name))
 
                     general_budget = item.benefits_discounts.item_budget_id.crossovered_budget_line.filtered(
                         lambda bl: bl.general_budget_id in self.env['account.budget.post'].search([]).filtered(
