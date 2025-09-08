@@ -326,7 +326,12 @@ class EmployeeAppraisal(models.Model):
                 self.env.cr.rollback()  # Rollback any uncommitted transactions
                 Mail.browse(template.id).send_mail(record.id, force_send=True)  # Retry
     def sent_appraisal_to_employee(self):
-        if self.state=='wait_direct_manager' and self.employee_id.parent_id.user_id != self.env.user:
+        user = self.env.user
+
+        is_direct_manager = record.employee_id.parent_id.user_id == user
+        in_allowed_group = (user.has_group('exp_hr_appraisal.group_appraisal_manager')or user.has_group('exp_hr_appraisal.group_appraisal_employee'))
+
+        if not (is_direct_manager or in_allowed_group):
             raise UserError(_("You cannot move this evaluation to this stage unless you are the employee's direct manager."))
         for record in self:
             if not record.year_id:
