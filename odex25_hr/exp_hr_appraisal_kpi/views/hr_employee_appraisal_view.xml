@@ -72,15 +72,15 @@
                                 groups="exp_hr_appraisal.group_appraisal_employee"/>
                         <button name="send_hr_manager" string="Approve" class="oe_highlight" type="object"
                                 attrs="{'invisible': ['|',('state', '!=', 'wait_performance_officer'),('type','not in',['exp_performance','correction'])]}"
-                                groups="exp_hr_appraisal.group_appraisal_employee"/>
+                                 groups="exp_hr_appraisal.group_appraisal_manager,exp_hr_appraisal.group_appraisal_employee"/>
 
                         <button name="draft" string="Re-Draft"
                                 class="oe_highlight" type="object" states="wait_performance_officer"
                                 groups="exp_hr_appraisal.group_appraisal_employee"
                                 confirm="Are you sure to Reset To Performance Officer This Record?"/>
                         <button name="refused" string="Refuse" class="oe_highlight" type="object"
-                               invisible="1"  groups="exp_hr_appraisal.group_appraisal_employee"/>
-<!--                        states="wait_performance_officer"-->
+                                invisible="1" groups="exp_hr_appraisal.group_appraisal_employee"/>
+                        <!--                        states="wait_performance_officer"-->
 
                         <button name="send_to_gm" string="Approve" class="oe_highlight"
                                 attrs="{'invisible': ['|',('state', '!=', 'wait_services_manager'),('type', '!=', 'exp_performance')]}"
@@ -101,12 +101,13 @@
                                 attrs="{'invisible': ['|',('state', '!=', 'wait_gm'),('type', '!=', 'exp_performance')]}"
                                 type="object" groups="hr_base.group_general_manager"/>
                         <button name="refused" string="Refuse" class="oe_highlight" type="object"
-                                states="wait_gm"   attrs="{'invisible': [('state', '=', 'wait_performance_officer')]}" groups="hr_base.group_general_manager"/>
+                                states="wait_gm" attrs="{'invisible': [('state', '=', 'wait_performance_officer')]}"
+                                groups="hr_base.group_general_manager"/>
 
                         <button name="draft" string="Re-Draft" class="oe_highlight" type="object"
                                 states="refused,closed"
                                 confirm="Are you sure to Reset To Draft This Record?"
-                                groups="exp_hr_appraisal.group_appraisal_employee"/>
+                        groups="exp_hr_appraisal.group_appraisal_manager,exp_hr_appraisal.group_appraisal_employee"/>
 
                         <button name="objection_request" string="Objection Request" class="oe_highlight"
                                 type="object"
