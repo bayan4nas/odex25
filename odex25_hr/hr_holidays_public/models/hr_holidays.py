@@ -1669,7 +1669,7 @@ class HRHolidays(models.Model):
         for item in self:
             item._remove_followers_holiday()
             have_cancel_request = self.env['leave.cancellation'].search(
-                [('leave_request_id', '=', item.id), ('cancellation_type', '!=', 'cancel'), ('state', 'not in', ('draft', 'refuse'))])
+                [('leave_request_id', '=', item.id), ('state', 'not in', ('draft', 'refuse'))])
             have_return_from_leave = self.env['return.from.leave'].search(
                 [('leave_request_id', '=', item.id), ('state', 'not in', ('draft', 'refuse'))])
             if have_cancel_request:

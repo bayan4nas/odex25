@@ -1,0 +1,47 @@
+<odoo>
+    <data>
+        <record id="employee_other_request_ext_form_view" model="ir.ui.view">
+            <field name="name">employee.other.request..ext.form.view</field>
+            <field name="model">employee.other.request</field>
+            <field name="inherit_id" ref="employee_requests.employee_other_request_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='submit']" position="attributes">
+                    <attribute name="attrs">{'invisible': [('state', '!=', 'draft')]}</attribute>
+                </xpath>
+
+                <xpath expr="//button[@name='print_with_details']" position="attributes">
+                    <attribute name="attrs">{'invisible': ['|', '|',('request_type', '!=',
+                        'salary_define'),('print_type', '!=', 'detail'), ('state', '!=', 'approved')]}
+                    </attribute>
+                </xpath>
+
+                <xpath expr="//button[@name='print_with_details2']" position="attributes">
+                    <attribute name="attrs">{'invisible': ['|', '|',('request_type', '!=',
+                        'salary_define'),('print_type',
+                        '!=', 'no_detail'),('state', '!=', 'approved')]}
+                    </attribute>
+                </xpath>
+
+                <xpath expr="//button[@name='print_with_details2']" position="attributes">
+                    <attribute name="attrs">{'invisible': ['|', '|',('request_type', '!=',
+                        'salary_define'),('print_type',
+                        '!=', 'no_detail'),('state', '!=', 'approved')]}
+                    </attribute>
+                </xpath>
+
+                <xpath expr="//button[@name='print_with_details3']" position="attributes">
+                    <attribute name="attrs">{'invisible': ['|', '|',('request_type', '!=',
+                        'salary_define'),('print_type',
+                        '!=', 'no_detail'),('state', '!=', 'approved')]}
+                    </attribute>
+                </xpath>
+
+                <xpath expr="//button[@name='draft']" position="attributes">
+                    <attribute name="attrs">{'invisible': ['|',('request_type', '=', 'salary_define')]}
+                    </attribute>
+                </xpath>
+
+            </field>
+        </record>
+    </data>
+</odoo>

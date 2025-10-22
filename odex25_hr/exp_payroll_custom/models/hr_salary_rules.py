@@ -48,16 +48,18 @@ class HrSalaryRules(models.Model):
     salary_amount_ids = fields.One2many('related.salary.amount', 'salary_rule_id')
     rule_credit_account_id = fields.Many2one('account.account')
     rule_debit_account_id = fields.Many2one('account.account')
-    rules_type = fields.Selection([('salary', _('Salary Allowance')),
-                                   ('house', _('House Allowance')),
-                                   ('overtime', _('Overtime Allowance')),
-                                   ('mandate', _('Mandate Allowance')),
-                                   ('transport', _('Transport Allowance')),
-                                   ('termination', _('End Of Services')),
-                                   ('insurnce', _('Insurnce Deduction')),
-                                   ('other', _('Other'))
-                                   ], string='Rules Type')
-    
+    rules_type = fields.Selection([
+        ('salary', _('Salary Allowance')),
+        ('house', _('House Allowance')),
+        ('overtime', _('Overtime Allowance')),
+        ('mandate', _('Mandate Allowance')),
+        ('transport', _('Transport Allowance')),
+        ('phone', _('Phone Allowance')),
+        ('termination', _('End Of Services')),
+        ('insurnce', _('Insurnce Deduction')),
+        ('other', _('Other'))
+    ], string='Rules Type')
+
     def get_debit_account_id(self, emp_type):
         if not self.transfer_by_emp_type :  return self.rule_debit_account_id
         print("#@@@@@@@@@@@@@@@@@@@@@@@@#,emp_type",emp_type)

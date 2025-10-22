@@ -16,8 +16,7 @@ class EmployeeOtherRequest(models.Model):
     from_hr = fields.Boolean()
     iqama_number = fields.Many2one(comodel_name="hr.employee.document", domain=[("document_type", "=", "Iqama")],
                                    tracking=True, string="Identity")
-    def print_with_details(self):
-        return self.env.ref('employee_requests.salary_def_report_act').report_action(self)
+
 
     def get_employee_totalallownce(self):
         self.ensure_one()
@@ -64,8 +63,8 @@ class EmployeeOtherRequest(models.Model):
     date = fields.Date(default=lambda self: fields.Date.today())
     comment = fields.Text()
     state = fields.Selection(selection=[('draft', _('Draft')),
-                                        ('submit', _('Waiting Direct Manager')),
-                                        ('hcm', _('Human Capital manager')),
+                                        ('submit', _('Human Capital manager')),
+                                        # ('hcm', _('Human Capital manager')),
                                         ('confirm', _('Wait HR Department')),
                                         ('approved', _('Approval')),
                                         ('refuse', _('Refused'))],
@@ -114,6 +113,9 @@ class EmployeeOtherRequest(models.Model):
 
     # def print_with_details(self):
     #     return self.env.ref('employee_requests.action_report_employee_identification').report_action(self)
+
+    def print_with_details(self):
+        return self.env.ref('employee_requests.action_report_employee_identification').report_action(self)
 
     def print_with_details2(self):
         return self.env.ref('employee_requests.action_report_employee_identify_2').report_action(self)
@@ -202,31 +204,38 @@ class EmployeeOtherRequest(models.Model):
                 for rec in item.certification_employee:
                     if not rec.attachment:
                         raise exceptions.Warning(_('Please Insert Attachments Files Below!'))
+            if item.request_type in ['qualification', 'certification', 'years_of_experienc']:
+                item.state = "submit"
+            else:
+                self.approved_hcm()
 
-            item.state = "submit"
+    # def confirm(self):
+    #     # self.state = 'confirm'
+    #     for rec in self:
+    #         # manager = rec.sudo().employee_id.parent_id
+    #         # hr_manager = rec.sudo().employee_id.company_id.hr_manager_id
+    #         # if manager:
+    #         #     if (manager.user_id.id == rec.env.uid or hr_manager.user_id.id == rec.env.uid):
+    #         #         rec.write({'state': 'confirm'})
+    #         #     else:
+    #         #         raise exceptions.Warning(
+    #         #             _("Sorry, The Approval For The Direct Manager '%s' Only OR HR Manager!") % (
+    #         #                 rec.employee_id.parent_id.name))
+    #         # else:
+    #             if rec.request_type == 'qualification' or rec.request_type == 'certification' or 'years_of_experienc':  to be reeview
+    #                 rec.write({'state': 'hcm'})
+    #             else:
+    #                 rec.write({'state': 'confirm'})
 
-    def confirm(self):
-        # self.state = 'confirm'
-        for rec in self:
-            # manager = rec.sudo().employee_id.parent_id
-            # hr_manager = rec.sudo().employee_id.company_id.hr_manager_id
-            # if manager:
-            #     if (manager.user_id.id == rec.env.uid or hr_manager.user_id.id == rec.env.uid):
-            #         rec.write({'state': 'confirm'})
-            #     else:
-            #         raise exceptions.Warning(
-            #             _("Sorry, The Approval For The Direct Manager '%s' Only OR HR Manager!") % (
-            #                 rec.employee_id.parent_id.name))
-            # else:
-                if rec.request_type == 'qualification' or rec.request_type == 'certification' or 'years_of_experienc':
-                    rec.write({'state': 'hcm'})
-                else:
-                    rec.write({'state': 'confirm'})
 
 
     def approved_hcm(self):
         for rec in self:
-            rec.write({'state': 'confirm'})
+            if rec.request_type in ['qualification', 'certification', 'years_of_experienc']:
+                rec.approved()
+            else:
+                rec.write({'state': 'confirm'})
+
 
     def approved(self):
         for item in self:

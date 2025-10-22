@@ -9,6 +9,30 @@ from datetime import date
 from dateutil.relativedelta import relativedelta
 from odoo import models, fields, api, _
 from odoo.exceptions import UserError
+
+class AppraisalRefuseWizard(models.TransientModel):
+    _name = 'appraisal.refuse.wizard'
+    _description = 'Appraisal Refuse Wizard'
+
+    appraisal_id = fields.Many2one('hr.employee.appraisal', string="Appraisal", default=lambda self: self._default_appraisal_id,required=True)
+    goal_id = fields.Many2one('years.employee.goals', string="Goal to Refuse")
+    skill_id = fields.Many2one('skill.item.employee.table', string="Skill to Refuse")
+
+    def _default_appraisal_id(self):
+        return self.env.context.get("active_id")
+    def action_confirm_refuse(self):
+        self.ensure_one()
+        appraisal = self.appraisal_id
+
+        appraisal.write({
+            'refused_goal_id': self.goal_id.id,
+            'refused_skill_id': self.skill_id.id,
+            'state': 'refused'
+        })
+
+        return {'type': 'ir.actions.act_window_close'}
+
+
 class AppraisalCancelWizard(models.TransientModel):
     _name = "appraisal.cancel.wizard"
     _description = "Appraisal Cancel Wizard"

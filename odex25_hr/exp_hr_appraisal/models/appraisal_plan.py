@@ -11,9 +11,11 @@ class AppraisalPlan(models.Model):
 
     name = fields.Char()
     is_manager = fields.Boolean()
+    company_id = fields.Many2one('res.company', string="Company", default=lambda self: self.env.company)
     great_level = fields.Float(compute='compute_total')
 
     # Relational fields
+    company_id = fields.Many2one('res.company', string="Company", default=lambda self: self.env.company)
     department_id = fields.Many2one('hr.department')
     standard_appraisal_id = fields.One2many('standard.appraisal', 'standard_appraisal_line')
     manager_appraisal_id = fields.One2many('manager.appraisal', 'manager_appraisal_line')

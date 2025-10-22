@@ -2,6 +2,24 @@
 <odoo>
     <data>
         <!-- -->
+        <record id="view_appraisal_refuse_wizard_form" model="ir.ui.view">
+            <field name="name">appraisal.refuse.wizard.form</field>
+            <field name="model">appraisal.refuse.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Refuse Appraisal">
+                    <group>
+                        <separator string="Choose the goal and skill you refuse to evaluate"/>
+                        <field name="goal_id"/>
+                        <field name="skill_id"/>
+                    </group>
+                    <footer>
+                        <button string="Confirm" type="object" name="action_confirm_refuse" class="btn-primary"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
         <record id="view_appraisal_cancel_wizard" model="ir.ui.view">
             <field name="name">appraisal.cancel.wizard.form</field>
             <field name="model">appraisal.cancel.wizard</field>

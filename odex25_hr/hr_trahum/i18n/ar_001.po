@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-02 07:37+0000\n"
-"PO-Revision-Date: 2025-09-02 07:37+0000\n"
+"POT-Creation-Date: 2025-09-30 11:36+0000\n"
+"PO-Revision-Date: 2025-09-30 11:36+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -40,6 +40,11 @@ msgstr ""
 #, python-format
 msgid "Accounting Head Approval"
 msgstr "مدير الادارة الماليه"
+
+#. module: hr_trahum
+#: model:ir.model.fields,field_description:hr_trahum.field_hr_elements__answer
+msgid "Answer"
+msgstr "إجابة السؤال"
 
 #. module: hr_trahum
 #: model_terms:ir.ui.view,arch_db:hr_trahum.employee_overtime_request_inherit
@@ -78,7 +83,23 @@ msgstr "هل أنت متأكد من إرجاع السجل لحالة المسو�
 #: code:addons/hr_trahum/models/models.py:0
 #, python-format
 msgid "Attach the attachment to the Document %s"
-msgstr "يجب إرفاق المرفق للمستند %s"
+msgstr ""
+
+#. module: hr_trahum
+#: model:ir.model.fields,field_description:hr_trahum.field_employee_behaviors__attachment_ids
+#: model:ir.model.fields,field_description:hr_trahum.field_hr_competencies__attachment_ids
+#: model:ir.model.fields,field_description:hr_trahum.field_hr_competency__attachment_ids
+#: model:ir.model.fields,field_description:hr_trahum.field_hr_elements__attachment_ids
+msgid "Attachments"
+msgstr ""
+
+#. module: hr_trahum
+#: model:ir.actions.act_window,name:hr_trahum.employee_behaviors_action
+#: model:ir.ui.menu,name:hr_trahum.employee_behaviors_menu_item
+#: model_terms:ir.ui.view,arch_db:hr_trahum.employee_behaviors_view_form
+#: model_terms:ir.ui.view,arch_db:hr_trahum.employee_behaviors_view_tree
+msgid "Behaviors"
+msgstr "السلوكيات"
 
 #. module: hr_trahum
 #: model:ir.model.fields,field_description:hr_trahum.field_hr_payslip_run__is_branch
@@ -104,6 +125,25 @@ msgid "Coach"
 msgstr "مدرب"
 
 #. module: hr_trahum
+#: model:ir.actions.act_window,name:hr_trahum.hr_competencies_settings_action
+#: model:ir.model,name:hr_trahum.model_hr_competencies
+#: model:ir.ui.menu,name:hr_trahum.hr_competencies_settings_settings_menu_item
+#: model_terms:ir.ui.view,arch_db:hr_trahum.hr_competencies_view_form
+#: model_terms:ir.ui.view,arch_db:hr_trahum.hr_competencies_view_tree
+msgid "Competencies"
+msgstr "الكفاءة المطلوبة"
+
+#. module: hr_trahum
+#: model:ir.actions.act_window,name:hr_trahum.hr_competency_settings_action
+#: model:ir.model.fields,field_description:hr_trahum.field_hr_elements__competencies_id
+#: model:ir.model.fields,field_description:hr_trahum.field_hr_official_mission__competency_id
+#: model:ir.ui.menu,name:hr_trahum.hr_competency_settings_menu_item
+#: model_terms:ir.ui.view,arch_db:hr_trahum.hr_competency_view_form
+#: model_terms:ir.ui.view,arch_db:hr_trahum.hr_competency_view_tree
+msgid "Competency"
+msgstr "مستوى الكفاءة المطلوبة"
+
+#. module: hr_trahum
 #: model:ir.model.fields.selection,name:hr_trahum.selection__hr_payslip_run__state__computed
 msgid "Computed"
 msgstr "تم الحساب"
@@ -119,6 +159,27 @@ msgid "Contract Type"
 msgstr "نوع العقد"
 
 #. module: hr_trahum
+#: model_terms:ir.ui.view,arch_db:hr_trahum.employee_training_form_view_inherit
+msgid "Course Skill"
+msgstr "مهارة الدورة"
+
+#. module: hr_trahum
+#: model:ir.model.fields,field_description:hr_trahum.field_employee_behaviors__create_uid
+#: model:ir.model.fields,field_description:hr_trahum.field_hr_competencies__create_uid
+#: model:ir.model.fields,field_description:hr_trahum.field_hr_competency__create_uid
+#: model:ir.model.fields,field_description:hr_trahum.field_hr_elements__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: hr_trahum
+#: model:ir.model.fields,field_description:hr_trahum.field_employee_behaviors__create_date
+#: model:ir.model.fields,field_description:hr_trahum.field_hr_competencies__create_date
+#: model:ir.model.fields,field_description:hr_trahum.field_hr_competency__create_date
+#: model:ir.model.fields,field_description:hr_trahum.field_hr_elements__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: hr_trahum
 #: model:ir.model.fields,field_description:hr_trahum.field_hr_contract__delgiation_status_type
 #: model_terms:ir.ui.view,arch_db:hr_trahum.hr_contract_form_view
 msgid "Delgiation Type"
@@ -126,6 +187,9 @@ msgstr "نوع الإنتداب"
 
 #. module: hr_trahum
 #: model:ir.model,name:hr_trahum.model_hr_department
+#: model:ir.model.fields,field_description:hr_trahum.field_hr_competencies__department_id
+#: model:ir.model.fields,field_description:hr_trahum.field_hr_competency__department_id
+#: model:ir.model.fields,field_description:hr_trahum.field_hr_elements__department_id
 msgid "Department"
 msgstr "القسم"
 
@@ -139,6 +203,12 @@ msgstr "موافقة مدير اﻹدارة"
 #: model_terms:ir.ui.view,arch_db:hr_trahum.termination_resignation_inherit_form_view
 msgid "Department Manager Approve"
 msgstr "موافقة مدير الادارة"
+
+#. module: hr_trahum
+#: model:ir.model.fields,field_description:hr_trahum.field_hr_official_mission__destination_air
+#: model_terms:ir.ui.view,arch_db:hr_trahum.employee_training_form_view_inherit
+msgid "Destination"
+msgstr "الجهة"
 
 #. module: hr_trahum
 #: model:ir.model.fields.selection,name:hr_trahum.selection__hr_re_contract__state__direct_manager
@@ -161,6 +231,14 @@ msgid "Director Financial Management"
 msgstr "انتظار  الادارة الماليه"
 
 #. module: hr_trahum
+#: model:ir.model.fields,field_description:hr_trahum.field_employee_behaviors__display_name
+#: model:ir.model.fields,field_description:hr_trahum.field_hr_competencies__display_name
+#: model:ir.model.fields,field_description:hr_trahum.field_hr_competency__display_name
+#: model:ir.model.fields,field_description:hr_trahum.field_hr_elements__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: hr_trahum
 #: code:addons/hr_trahum/models/models.py:0
 #: code:addons/hr_trahum/models/models.py:0
 #: code:addons/hr_trahum/models/models.py:0
@@ -179,10 +257,35 @@ msgid "Draft"
 msgstr "مسودة"
 
 #. module: hr_trahum
+#: model:ir.actions.act_window,name:hr_trahum.hr_elements_settings_action
+#: model:ir.model,name:hr_trahum.model_hr_elements
+#: model:ir.model.fields,field_description:hr_trahum.field_hr_official_mission__elements_id
+#: model:ir.ui.menu,name:hr_trahum.hr_elements_settings_menu_item
+#: model_terms:ir.ui.view,arch_db:hr_trahum.hr_competencies_view_form
+#: model_terms:ir.ui.view,arch_db:hr_trahum.hr_elements_view_tree
+msgid "Elements"
+msgstr "العناصر"
+
+#. module: hr_trahum
+#: model_terms:ir.ui.view,arch_db:hr_trahum.hr_competencies_view_form
+msgid "Elements Name"
+msgstr "اسماء العناصر"
+
+#. module: hr_trahum
 #: model:ir.model,name:hr_trahum.model_hr_employee
 #: model:ir.model.fields.selection,name:hr_trahum.selection__hr_contract__delgiation_status_type__employee
 msgid "Employee"
 msgstr "الموظف"
+
+#. module: hr_trahum
+#: model:ir.model.fields,field_description:hr_trahum.field_hr_elements__employee_applicant_line
+msgid "Employee Applicant Line"
+msgstr "بند الموظف المتقدم"
+
+#. module: hr_trahum
+#: model:ir.model,name:hr_trahum.model_employee_behaviors
+msgid "Employee Behaviors"
+msgstr "سلوكيات المتقدم"
 
 #. module: hr_trahum
 #: model:ir.model,name:hr_trahum.model_hr_contract
@@ -256,7 +359,7 @@ msgstr "اعتماد عقد الموظف"
 #. module: hr_trahum
 #: model:ir.model.fields.selection,name:hr_trahum.selection__hr_re_contract__state__executive_manager
 msgid "Executive Manager"
-msgstr "انتظار الرئيس التنفيذي"
+msgstr "انتظار الأمين العام"
 
 #. module: hr_trahum
 #: model_terms:ir.ui.view,arch_db:hr_trahum.employee_official_mission_form_view_inherit
@@ -266,7 +369,12 @@ msgstr "موافقة المدير التنفيذي"
 #. module: hr_trahum
 #: model_terms:ir.ui.view,arch_db:hr_trahum.view_hr_re_contract_form
 msgid "Executive manager"
-msgstr "الرئيس التنفيذي"
+msgstr "الأمين العام"
+
+#. module: hr_trahum
+#: model:ir.model.fields,field_description:hr_trahum.field_hr_official_mission__expiration_date_passport
+msgid "Expiry Date"
+msgstr "تاريخ الانتهاء "
 
 #. module: hr_trahum
 #: model_terms:ir.ui.view,arch_db:hr_trahum.termination_resignation_inherit_form_view
@@ -282,6 +390,11 @@ msgstr "موافقة اﻹدارة المالية"
 #: model_terms:ir.ui.view,arch_db:hr_trahum.termination_resignation_inherit_form_view
 msgid "GM Approval"
 msgstr "موافقة اﻷمين العام"
+
+#. module: hr_trahum
+#: model:ir.model.fields,field_description:hr_trahum.field_hr_official_mission__gender
+msgid "Gender"
+msgstr "الجنس"
 
 #. module: hr_trahum
 #: model:ir.model.fields.selection,name:hr_trahum.selection__hr_contract__delgiation_status_type__gm
@@ -365,9 +478,52 @@ msgid "Head Sector Approval"
 msgstr "موافقة رئيس القطاع"
 
 #. module: hr_trahum
+#: model:ir.model.fields,field_description:hr_trahum.field_employee_behaviors__id
+#: model:ir.model.fields,field_description:hr_trahum.field_hr_competencies__id
+#: model:ir.model.fields,field_description:hr_trahum.field_hr_competency__id
+#: model:ir.model.fields,field_description:hr_trahum.field_hr_elements__id
+msgid "ID"
+msgstr ""
+
+#. module: hr_trahum
 #: model:ir.model.fields,field_description:hr_trahum.field_hr_payslip__is_branch
 msgid "Is Branch"
 msgstr ""
+
+#. module: hr_trahum
+#: model:ir.model.fields,field_description:hr_trahum.field_hr_official_mission__is_middle_east
+#: model:ir.model.fields,field_description:hr_trahum.field_hr_official_mission_type__is_middle_east
+msgid "Is Middle East"
+msgstr "دول الخليج و الشرق الأوسط"
+
+#. module: hr_trahum
+#: model:ir.model.fields,field_description:hr_trahum.field_employee_behaviors____last_update
+#: model:ir.model.fields,field_description:hr_trahum.field_hr_competencies____last_update
+#: model:ir.model.fields,field_description:hr_trahum.field_hr_competency____last_update
+#: model:ir.model.fields,field_description:hr_trahum.field_hr_elements____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: hr_trahum
+#: model:ir.model.fields,field_description:hr_trahum.field_employee_behaviors__write_uid
+#: model:ir.model.fields,field_description:hr_trahum.field_hr_competencies__write_uid
+#: model:ir.model.fields,field_description:hr_trahum.field_hr_competency__write_uid
+#: model:ir.model.fields,field_description:hr_trahum.field_hr_elements__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: hr_trahum
+#: model:ir.model.fields,field_description:hr_trahum.field_employee_behaviors__write_date
+#: model:ir.model.fields,field_description:hr_trahum.field_hr_competencies__write_date
+#: model:ir.model.fields,field_description:hr_trahum.field_hr_competency__write_date
+#: model:ir.model.fields,field_description:hr_trahum.field_hr_elements__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: hr_trahum
+#: model:ir.model,name:hr_trahum.model_hr_competency
+msgid "Level Of Required Competency"
+msgstr "مستوى الكفاءة المطلوبة"
 
 #. module: hr_trahum
 #: code:addons/hr_trahum/models/models.py:0
@@ -379,7 +535,7 @@ msgstr "القرض معلق"
 #. module: hr_trahum
 #: model_terms:ir.ui.view,arch_db:hr_trahum.employee_loan_salary_form_view_inherit
 msgid "Loan Suspension"
-msgstr "تعليق القرض"
+msgstr ""
 
 #. module: hr_trahum
 #: model:ir.model.fields,field_description:hr_trahum.field_hr_employee__parent_id
@@ -388,9 +544,37 @@ msgid "Manager"
 msgstr "المدير"
 
 #. module: hr_trahum
+#: model:ir.model.fields.selection,name:hr_trahum.selection__hr_official_mission__destination_air__multi_way
+msgid "Multi Distnation"
+msgstr "وجهات متعددة"
+
+#. module: hr_trahum
+#: model:ir.model.fields,field_description:hr_trahum.field_employee_behaviors__name
+#: model:ir.model.fields,field_description:hr_trahum.field_hr_competencies__name
+#: model:ir.model.fields,field_description:hr_trahum.field_hr_competency__name
+#: model:ir.model.fields,field_description:hr_trahum.field_hr_elements__name
+msgid "Name"
+msgstr "الاسم"
+
+#. module: hr_trahum
+#: model:ir.model.fields.selection,name:hr_trahum.selection__hr_official_mission__is_companion__not_companion
+msgid "Not need Companion"
+msgstr "لا يحتاج مرافق "
+
+#. module: hr_trahum
 #: model:ir.model,name:hr_trahum.model_hr_official_mission
 msgid "Official mission"
 msgstr "الانتدابات ومهام العمل"
+
+#. module: hr_trahum
+#: model:ir.model.fields.selection,name:hr_trahum.selection__hr_official_mission__destination_air__one_way
+msgid "One Way"
+msgstr "ذهاب فقط"
+
+#. module: hr_trahum
+#: model:ir.model.fields,field_description:hr_trahum.field_hr_official_mission__passport_id
+msgid "Passport"
+msgstr "جواز السفر"
 
 #. module: hr_trahum
 #: model:ir.model,name:hr_trahum.model_hr_payslip
@@ -408,6 +592,11 @@ msgid "Payslip Batches"
 msgstr "حساب رواتب الموظفين"
 
 #. module: hr_trahum
+#: model:ir.model.fields,field_description:hr_trahum.field_hr_official_mission__preferred_language_id
+msgid "Preferred Language"
+msgstr "اللغة المفضلة"
+
+#. module: hr_trahum
 #: model_terms:ir.ui.view,arch_db:hr_trahum.employee_loan_salary_form_view_inherit
 #: model_terms:ir.ui.view,arch_db:hr_trahum.employee_official_mission_form_view_inherit
 #: model_terms:ir.ui.view,arch_db:hr_trahum.employee_overtime_request_inherit
@@ -419,6 +608,11 @@ msgstr "اعادة الى مسودة"
 #: model:ir.model.fields.selection,name:hr_trahum.selection__hr_re_contract__state__done
 msgid "Re-Contract"
 msgstr "تجديد العقد"
+
+#. module: hr_trahum
+#: model:ir.model.fields,field_description:hr_trahum.field_hr_official_mission__course_link
+msgid "Recommended Course Link"
+msgstr "رابط الدورة الموصى به"
 
 #. module: hr_trahum
 #: model:ir.model.fields.selection,name:hr_trahum.selection__hr_re_contract__state__refuse
@@ -447,6 +641,11 @@ msgid "Refused"
 msgstr "مرفوض"
 
 #. module: hr_trahum
+#: model:ir.model.fields,field_description:hr_trahum.field_hr_official_mission__competencie_id
+msgid "Required Competencie"
+msgstr "الكفاءة المطلوبة"
+
+#. module: hr_trahum
 #: model_terms:ir.ui.view,arch_db:hr_trahum.employee_loan_salary_form_view_inherit
 msgid "Return To Deduct"
 msgstr "إرجاع للخصم"
@@ -455,6 +654,16 @@ msgstr "إرجاع للخصم"
 #: model_terms:ir.ui.view,arch_db:hr_trahum.view_hr_re_contract_form
 msgid "Roll Back"
 msgstr "إرجاع"
+
+#. module: hr_trahum
+#: model:ir.model.fields,field_description:hr_trahum.field_hr_official_mission__salary_group
+msgid "Salary Group"
+msgstr "الدرجة الوظيفية"
+
+#. module: hr_trahum
+#: model:ir.model.fields,field_description:hr_trahum.field_hr_official_mission__saudi_number
+msgid "Saudi Number"
+msgstr "رقم الهوية "
 
 #. module: hr_trahum
 #: code:addons/hr_trahum/models/models.py:0
@@ -635,6 +844,21 @@ msgid ""
 msgstr ""
 
 #. module: hr_trahum
+#: model:ir.model.fields,field_description:hr_trahum.field_hr_official_mission__ticket_class_id
+msgid "Ticket Class "
+msgstr "نوع التذكرة "
+
+#. module: hr_trahum
+#: model:ir.model.fields,field_description:hr_trahum.field_hr_official_mission__to_country_id
+msgid "To Country"
+msgstr "الى دولة الوصول"
+
+#. module: hr_trahum
+#: model:ir.model.fields,field_description:hr_trahum.field_hr_official_mission__to_destination
+msgid "To Destination"
+msgstr "الى وجهة "
+
+#. module: hr_trahum
 #: model:ir.model.fields.selection,name:hr_trahum.selection__hr_payslip__state__transfered
 #: model:ir.model.fields.selection,name:hr_trahum.selection__hr_payslip_run__state__transfered
 #: model_terms:ir.ui.view,arch_db:hr_trahum.employee_loan_salary_form_view_inherit
@@ -655,6 +879,16 @@ msgstr ""
 #, python-format
 msgid "Transferred"
 msgstr "تم "
+
+#. module: hr_trahum
+#: model:ir.model.fields.selection,name:hr_trahum.selection__hr_official_mission__destination_air__two_way
+msgid "Two Way"
+msgstr "ذهاب وعودة "
+
+#. module: hr_trahum
+#: model:ir.model.fields,field_description:hr_trahum.field_hr_official_mission__type_of_mission
+msgid "Type Of Mission"
+msgstr "نوع المهمة"
 
 #. module: hr_trahum
 #: code:addons/hr_trahum/models/models.py:0
@@ -796,6 +1030,22 @@ msgid "Waiting Payroll Officer"
 msgstr "إنتظار مسؤول الرواتب"
 
 #. module: hr_trahum
+#: model:ir.model.fields,field_description:hr_trahum.field_hr_official_mission__course_skill
+#: model_terms:ir.ui.view,arch_db:hr_trahum.employee_training_form_view_inherit
+msgid "What skill wants to develop or Gap wants to fill ?"
+msgstr "ماهي المهارة المراد تطويرها ؟"
+
+#. module: hr_trahum
+#: model:ir.model.fields,field_description:hr_trahum.field_hr_official_mission__work_email
+msgid "Work Email"
+msgstr "البريد الالكتروني "
+
+#. module: hr_trahum
+#: model:ir.model.fields,field_description:hr_trahum.field_hr_official_mission__work_phone
+msgid "Work Phone"
+msgstr "رقم الجوال "
+
+#. module: hr_trahum
 #: code:addons/hr_trahum/models/models.py:0
 #, python-format
 msgid "You can not create termination when missing clearance for Employee %s"
@@ -808,13 +1058,33 @@ msgid "You cannot create Employee with the same employee number"
 msgstr ""
 
 #. module: hr_trahum
+#: model:ir.model.fields,field_description:hr_trahum.field_hr_competencies__elements_ids
+msgid "elements"
+msgstr ""
+
+#. module: hr_trahum
 #: model:ir.model,name:hr_trahum.model_employee_overtime_request
 msgid "employee.overtime.request"
 msgstr "العمل الاضافي"
 
 #. module: hr_trahum
+#: model:ir.model,name:hr_trahum.model_hr_official_mission_type
+msgid "hr.official.mission.type"
+msgstr ""
+
+#. module: hr_trahum
 #: model:ir.model,name:hr_trahum.model_hr_re_contract
 msgid "hr.re.contract"
+msgstr ""
+
+#. module: hr_trahum
+#: model:ir.model.fields,field_description:hr_trahum.field_hr_official_mission__is_companion
+msgid "is_companion"
+msgstr ""
+
+#. module: hr_trahum
+#: model:ir.model.fields.selection,name:hr_trahum.selection__hr_official_mission__is_companion__companion
+msgid "need Companion"
 msgstr ""
 
 #. module: hr_trahum

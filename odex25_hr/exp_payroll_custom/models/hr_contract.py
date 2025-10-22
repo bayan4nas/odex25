@@ -21,6 +21,7 @@ class HrContractSalaryScale(models.Model):
     advantages = fields.One2many('contract.advantage', 'contract_advantage_id', string='Advantages')
     house_allowance_temp = fields.Float(string='House Allowance', compute='compute_function',store=True)
     transport_allowance = fields.Float(string='Transport Allowance', compute='compute_function',store=True)
+    phone_allowance = fields.Float(string='Phone Allowance', compute='compute_function', store=True)
 
     @api.constrains('advantages', 'salary', 'salary_group')
     def amount_constrains(self):
@@ -45,11 +46,13 @@ class HrContractSalaryScale(models.Model):
         else:
             self.required_condition = False
 
-    @api.depends('salary_scale', 'salary_level', 'salary_group', 'salary_degree','salary','advantages','house_allowance_temp','transport_allowance','total_deduction','salary_insurnce','total_allowance','state')
+    @api.depends('salary_scale', 'salary_level', 'salary_group', 'salary_degree','salary','advantages','house_allowance_temp','phone_allowance','transport_allowance','total_deduction','salary_insurnce','total_allowance','state')
     def compute_function(self):
         for item in self:
             item.house_allowance_temp = 0
             item.transport_allowance = 0
+            item.phone_allowance = 0
+
             item.total_net = 0
             contract = self.env['hr.contract'].search([('employee_id', '=', item.employee_id.id)])
             localdict = dict(employee=item.employee_id.id, contract=contract)
@@ -69,6 +72,10 @@ class HrContractSalaryScale(models.Model):
 
                 if x.benefits_discounts.rules_type == 'transport':
                     item.transport_allowance += x.amount
+
+                if x.benefits_discounts.rules_type == 'phone':
+                    item.phone_allowance += x.amount
+
             # allow_custom_ids = [record.benefits_discounts.id for record in allowance_customize_items]
 
             deduction_customize_items = item.advantages.filtered(
@@ -104,6 +111,7 @@ class HrContractSalaryScale(models.Model):
                         sum_customize_expect += total_rule_result
                         if x.benefits_discounts.rules_type == 'house':
                             item.house_allowance_temp += total_rule_result - x.amount
+
                     else:
                         sum_except += total_rule_result
 
@@ -137,6 +145,8 @@ class HrContractSalaryScale(models.Model):
                     item.house_allowance_temp += line._compute_rule(localdict)[0]
                 if line.rules_type == 'transport':
                     item.transport_allowance += line._compute_rule(localdict)[0]
+                if line.rules_type == 'phone':
+                    item.phone_allowance += line._compute_rule(localdict)[0]
 
                 item.total_allowance = total_allowance
                 item.total_deduction = -total_ded
@@ -235,6 +245,8 @@ class HrContractSalaryScale(models.Model):
                 if record.special_allowance_type == 'perc' else record.special_allowance
             record.other_allowance_temp = record.other_allowance * record.wage / 100 \
                 if record.other_allowance_type == 'perc' else record.other_allowance
+            record.phone_allowance_temp = record.phone_allowance * record.wage / 100 \
+                if record.phone_allowance_type == 'perc' else record.phone_allowance
 
     @api.depends('contractor_type.salary_type')
     def compute_type(self):

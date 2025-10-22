@@ -1,0 +1,66 @@
+<odoo>
+    <data>
+        <template id="report_employee_identification_ext_with" inherit_id="employee_requests.report_employee_identification">
+            <xpath expr="//table[contains(@class, 'table table-sm')]/tbody/tr[last()]" position="before">
+                <tr>
+                    <td style="border: 1px solid #000" class="backgroundgrea text-left">
+                        <strong>بدلات أخرى</strong>
+                    </td>
+                    <td style="border: 1px solid #000" class="text-center">
+                        <span t-esc="round(doc.employee_id.contract_id.field_allowance_custom + doc.employee_id.contract_id.other_allowance_custom + doc.employee_id.contract_id.phone_allowance,2)"/>
+                        <span>ريال</span>
+                    </td>
+                    <td style="border: 1px solid #000" class="text-center">
+                        <span t-esc="round(doc.employee_id.contract_id.field_allowance_custom + doc.employee_id.contract_id.other_allowance_custom + doc.employee_id.contract_id.phone_allowance,2)"/>
+                        <span>SAR</span>
+                    </td>
+                    <td style="border: 1px solid #000" class="backgroundgrea text-right">
+                        <strong>Other Allowances</strong>
+                    </td>
+                </tr>
+            </xpath>
+
+
+            <xpath expr="//table[contains(@class, 'table table-sm')]/tbody/tr[last()]" position="replace">
+                <tr>
+                    <td style="border: 1px solid #000" class="backgroundgrea text-left">
+                        <strong>اجمالي الراتب</strong>
+                    </td>
+                    <td style="border: 1px solid #000" class="text-center">
+                        <span t-esc="round(doc.employee_id.contract_id.salary + doc.employee_id.contract_id.house_allowance_temp + doc.employee_id.contract_id.transport_allowance + doc.employee_id.contract_id.field_allowance_custom + doc.employee_id.contract_id.other_allowance_custom,2)"/>
+                        <span>ريال</span>
+                    </td>
+                    <td style="border: 1px solid #000" class="text-center">
+                        <span t-esc="round(doc.employee_id.contract_id.salary + doc.employee_id.contract_id.house_allowance_temp + doc.employee_id.contract_id.transport_allowance + doc.employee_id.contract_id.field_allowance_custom + doc.employee_id.contract_id.other_allowance_custom,2)"/>
+                        <span>SAR</span>
+                    </td>
+                    <td style="border: 1px solid #000" class="backgroundgrea text-right">
+                        <strong>Total Salary</strong>
+                    </td>
+                </tr>
+            </xpath>
+        </template>
+
+        <template id="report_employee_identification_extend_without" inherit_id="employee_requests.report_employee_identify_2">
+            <xpath expr="//table[contains(@class, 'table table-sm')]/tbody/tr[last()]" position="replace">
+                <tr>
+                    <td style="border: 1px solid #000" class="backgroundgrea text-left">
+                        <strong>اجمالي الراتب</strong>
+                    </td>
+                    <td style="border: 1px solid #000" class="text-center">
+                        <span t-esc="round(doc.employee_id.contract_id.salary + doc.employee_id.contract_id.house_allowance_temp + doc.employee_id.contract_id.transport_allowance + doc.employee_id.contract_id.field_allowance_custom + doc.employee_id.contract_id.other_allowance_custom ,2)"/>
+                        <span>ريال</span>
+                    </td>
+                    <td style="border: 1px solid #000" class="text-center">
+                        <span t-esc="round(doc.employee_id.contract_id.salary + doc.employee_id.contract_id.house_allowance_temp + doc.employee_id.contract_id.transport_allowance + doc.employee_id.contract_id.field_allowance_custom + doc.employee_id.contract_id.other_allowance_custom,2)"/>
+                        <span>SAR</span>
+                    </td>
+                    <td style="border: 1px solid #000" class="backgroundgrea text-right">
+                        <strong>Total Salary</strong>
+                    </td>
+                </tr>
+
+            </xpath>
+        </template>
+    </data>
+</odoo>

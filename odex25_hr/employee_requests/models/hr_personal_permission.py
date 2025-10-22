@@ -344,8 +344,14 @@ class HrPersonalPermission(models.Model):
                 if item.duration <= 0.0:
                     raise exceptions.Warning(_('This Duration Must Be Greater Than Zero'))
 
-                if item.duration > item.balance:
-                    raise exceptions.Warning(_('This Duration must be less than or equal to the Permission Limit'))
+                if item.balance and item.balance > 0:
+                    if item.duration > item.balance:
+                        raise exceptions.UserError(
+                            _('This Duration must be less than or equal to the Permission Limit'))
+                else:
+                    if item.duration > 8:
+                        raise exceptions.UserError(
+                            _('This Duration must not exceed 8 hours when no Permission Limit is set'))
 
                 if item.duration > item.permission_number:
                     raise exceptions.Warning(

@@ -31,23 +31,23 @@
             <field name="arch" type="xml">
                 <form string="Employee Other Request">
                     <header>
-                        <button name="submit" string="Submit" class="oe_highlight" states="draft" type="object"/>
+                        <button name="submit" string="Submit" class="oe_highlight" type="object"
+                                attrs="{'invisible': ['|',('request_type', '=', 'salary_define'),('state', '!=', 'draft')]}"/>
 
-                        <button name="confirm" string="Direct Manager Approve" class="oe_highlight" states="submit"
-                                type="object" groups="hr_base.group_division_manager"/>
-                        <button name="direct_manager_refused" string="Refuse" class="oe_highlight" states="submit" type="object"
-                                groups="hr_base.group_division_manager"/>
-
-                        <button name="approved" string="HR Approval" class="oe_highlight" states="confirm" type="object"
+                        <button name="approved" string="HR Approval" class="oe_highlight" type="object"
+                                attrs="{'invisible': ['|',('request_type', '=', 'salary_define'),('state', '!=', 'confirm')]}"
                                 groups="hr.group_hr_user"/>
 
-                        <button name="approved_hcm" string="HCM Approval" class="oe_highlight" states="hcm" type="object"
+                        <button name="approved_hcm" string="HCM Approval" class="oe_highlight" type="object"
+                                attrs="{'invisible': ['|',('request_type', '=', 'salary_define'),('state', '!=', 'submit')]}"
                                 groups="employee_requests.group_hcm"/>
 
-                        <button name="refuse" string=" HCM Refuse" class="oe_highlight" states="hcm"
+                        <button name="refuse" string=" HCM Refuse" class="oe_highlight"
+                                attrs="{'invisible': ['|',('request_type', '=', 'salary_define'),('state', '!=', 'submit')]}"
                                 type="object" groups="employee_requests.group_hcm"/>
 
-                        <button name="refuse" string="Refuse" class="oe_highlight" states="confirm"
+                        <button name="refuse" string="Refuse" class="oe_highlight"
+                                attrs="{'invisible': ['|',('request_type', '=', 'salary_define'),('state', '!=', 'confirm')]}"
                                 type="object" groups="hr.group_hr_user"/>
 
                         <button name="draft" string="RE-Draft" class="oe_highlight" states="approved,refuse" type="object"
@@ -56,20 +56,16 @@
 
 
                         <button name="print_with_details" string="Print With Details" type="object" id="with_details"
-                                attrs="{'invisible': ['|','|',('request_type', '!=', 'salary_define'),('state', '!=', 'approved'),
-                                                      ('print_type', '!=', 'detail')]}"
+                                attrs="{'invisible': ['|',('request_type', '!=', 'salary_define'),('print_type', '!=', 'detail')]}"
                                 class="oe_highlight" groups="base.group_user"/>
 
-                        <button name="print_with_details2" string="Print Without Details" type="object"
-                                id="with_details2"
-                                attrs="{'invisible': ['|','|',('request_type', '!=', 'salary_define'),('state', '!=', 'approved'),
-                                                      ('print_type', '!=', 'no_detail')]}"
+                        <button name="print_with_details2" string="Print Without Details" type="object" id="with_details2"
+                                attrs="{'invisible': ['|',('request_type', '!=', 'salary_define'),('print_type', '!=', 'no_detail')]}"
                                 class="oe_highlight" groups="base.group_user"/>
 
                         <button name="print_with_details3" string="Print Without Salary" type="object"
                                 id="with_details2" class="oe_highlight"
-                                attrs="{'invisible': ['|','|',('request_type', '!=', 'salary_define'),('state', '!=', 'approved'),
-                                                      ('print_type', '!=', 'no_salary')]}"/>
+                                attrs="{'invisible': ['|',('request_type', '!=', 'salary_define'),('print_type', '!=', 'no_salary')]}"/>
 
                         <button name="print_salary_confirmation" string="Print Salary Confirmation" type="object"
                                 id="with_details2"

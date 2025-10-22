@@ -155,10 +155,20 @@ class Contract(models.Model):
     transport_allowance = fields.Float(_('Transportation Allowance'))
 
     transport_allowance_temp = fields.Float(string='Transportation Allowance', compute='_get_amount')
+    house_allowance_temp = fields.Float(string='House Allowance', compute='_get_amount',store=True)
 
     field_allowance_type = fields.Selection(
         [('none', _('None')), ('perc', _('Percentage')), ('num', _('Number')), ('company', 'By Company')],
         _('Field Allowance Type'), default='none')
+
+    phone_allowance_type = fields.Selection(
+        [('none', 'None'), ('perc', 'Percentage'), ('num', 'Number')],
+        string='Phone Allowance Type', default='none')
+    phone_allowance = fields.Float(string='Phone Allowance')
+    phone_allowance_temp = fields.Float(string='Phone Allowance Value', compute='_get_amount', store=True)
+    salary_degree = fields.Many2one(comodel_name='hr.payroll.structure', domain=[('id', 'in', [])])
+
+
     field_allowance = fields.Float(_('Field Allowance'))
 
     field_allowance_temp = fields.Float(string='Field Allowance', compute='_get_amount')
@@ -325,6 +335,7 @@ class Contract(models.Model):
 
     has_transportation = fields.Boolean(string='Has Transportation?', default=True)
     has_housing = fields.Boolean(string='Has Housing?', default=True)
+    has_phone_allowance = fields.Boolean(string='Has Phone Allowance?', default=True)
 
     check_nationality = fields.Boolean(related='employee_id.check_nationality', store=True, string="Saudi?")
 
@@ -516,12 +527,30 @@ class Contract(models.Model):
             self.contract_duration = 'none'
             self.date_end = ''
 
-    @api.depends('wage', 'house_allowance', 'transport_allowance', 'communication_allowance')
+    @api.depends('salary_degree')
+    def _get_amount(self):
+        for record in self:
+            record.transport_allowance_temp = record.transport_allowance * record.wage / 100 \
+                if record.transport_allowance_type == 'perc' else record.transport_allowance
+            record.house_allowance_temp = record.house_allowance * record.wage / 100 \
+                if record.house_allowance_type == 'perc' else record.house_allowance
+            record.communication_allowance_temp = record.communication_allowance * record.wage / 100 \
+                if record.communication_allowance_type == 'perc' else record.communication_allowance
+            record.field_allowance_temp = record.field_allowance * record.wage / 100 \
+                if record.field_allowance_type == 'perc' else record.field_allowance
+            record.special_allowance_temp = record.special_allowance * record.wage / 100 \
+                if record.special_allowance_type == 'perc' else record.special_allowance
+            record.other_allowance_temp = record.other_allowance * record.wage / 100 \
+                if record.other_allowance_type == 'perc' else record.other_allowance
+            record.phone_allowance_temp = record.phone_allowance * record.wage / 100 \
+                if record.phone_allowance_type == 'perc' else record.phone_allowance
+
+    @api.depends('wage', 'house_allowance', 'transport_allowance', 'communication_allowance','phone_allowance')
     def _compute_monthly_salary(self):
         for rec in self:
-            rec.monthly_salary = rec.wage + rec.house_allowance_temp + rec.transport_allowance_temp + \
-                              rec.communication_allowance_temp + rec.field_allowance_temp + \
-                              rec.special_allowance_temp + rec.other_allowance_temp
+            rec.monthly_salary = rec.wage + rec.house_allowance_temp + rec.phone_allowance_temp + rec.transport_allowance_temp + \
+                                 rec.communication_allowance_temp + rec.field_allowance_temp + \
+                                 rec.special_allowance_temp + rec.other_allowance_temp
 
     @api.depends()
     def _cal_allowance(self):

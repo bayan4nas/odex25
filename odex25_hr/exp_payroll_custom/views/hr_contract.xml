@@ -29,6 +29,8 @@
                            groups="hr.group_hr_user,hr.group_hr_manager"/>
                     <field name="transport_allowance" attrs="{'readonly':[('state','!=','draft')]}"
                            groups="hr.group_hr_user,hr.group_hr_manager"/>
+                     <field name="phone_allowance" attrs="{'readonly':[('state','!=','draft')]}"
+                           groups="hr.group_hr_user,hr.group_hr_manager"/>
                 </xpath>
 
                 <xpath expr="//group[@name='salary_info']" position="after">

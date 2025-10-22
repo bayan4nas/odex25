@@ -306,12 +306,12 @@ msgstr "<strong>تاريخ بداية العمل</strong>"
 #. module: employee_requests
 #: model_terms:ir.ui.view,arch_db:employee_requests.employee_appointment_template
 msgid "<strong>Identity End Date</strong>"
-msgstr "<strong>تاريخ انتهاء الهوية<strong>"
+msgstr "<strong>تاريخ انتهاء الهوية<s/trong>"
 
 #. module: employee_requests
 #: model_terms:ir.ui.view,arch_db:employee_requests.employee_appointment_template
 msgid "<strong>Iqama</strong>"
-msgstr "<strong>هوية رقم  </strong>"
+msgstr "<strong>هوية رقم<s/trong>"
 
 #. module: employee_requests
 #: model_terms:ir.ui.view,arch_db:employee_requests.employee_appointment_template
@@ -2970,7 +2970,13 @@ msgstr "فترة الإستئذان يجب ان تكون اكبر من الصف�
 #: code:addons/employee_requests/models/hr_personal_permission.py:0
 #, python-format
 msgid "This Duration must be less than or equal to the Permission Limit"
-msgstr ""
+msgstr "يجب أن تكون مدة الاستئذان أقل من أو تساوي الحد المسموح به"
+
+#. module: employee_requests
+#: code:addons/employee_requests/models/hr_personal_permission.py:0
+#, python-format
+msgid "This Duration must not exceed 8 hours when no Permission Limit is set"
+msgstr "يجب ألا تتجاوز مدة الاستئذان 8 ساعات عند عدم وجود حد مسموح به"
 
 #. module: employee_requests
 #: code:addons/employee_requests/models/hr_personal_permission.py:0
@@ -3410,6 +3416,11 @@ msgid "Submit"
 msgstr "إرســـال"
 
 #. module: employee_requests
+#: model_terms:ir.ui.view,arch_db:employee_requests.employee_clearance_form_form_view
+msgid "Direct Manager"
+msgstr "موافقة المدير المباشر"
+
+#. module: employee_requests
 #: model_terms:ir.ui.view,arch_db:employee_requests.employee_clearance_details_template
 #: model_terms:ir.ui.view,arch_db:employee_requests.employee_clearance_form_form_view
 #, python-format
@@ -3536,9 +3547,8 @@ msgstr "مسودة"
 #. module: employee_requests
 #: model:ir.model.fields.selection,name:employee_requests.selection__hr_personal_permission__state__send
 #: model:ir.model.fields.selection,name:employee_requests.selection__employee_overtime_request__state__submit
-#: model:ir.model.fields.selection,name:employee_requests.selection__employee_other_request__state__submit
 msgid "Waiting Direct Manager"
-msgstr "إنتظنتالبؤار المدير المباشر"
+msgstr "إنتظار المدير المباشر"
 
 #. module: employee_requests
 #: model:ir.model.fields.selection,name:employee_requests.selection__hr_personal_permission__state__direct_manager
@@ -4007,12 +4017,12 @@ msgid "You Can Not Choose The Same Employee Type"
 msgstr "لايمكن إختيار نفس نوع الموظف الحالي"
 
 #. module: employee_requests
-#: model:ir.model.fields.selection,name:employee_requests.selection__employee_other_request__state__hcm
+#: code:addons/employee_requests/models/other_request.py:0
+#: model:ir.model.fields.selection,name:employee_requests.selection__employee_other_request__state__submit
 #: model:res.groups,name:employee_requests.group_hcm
 #, python-format
 msgid "Human Capital manager"
-msgstr "مدير الرأس المال البشري"
-
+msgstr "تنمية المواهب"
 
 
 #. module: employee_requests

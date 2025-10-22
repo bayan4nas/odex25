@@ -10,6 +10,7 @@
     'depends': [
         'hr_contract',
         'hr_holidays_community',
+        'hr_base'
     ],
     'data': [
         'security/hr_payroll_security.xml',

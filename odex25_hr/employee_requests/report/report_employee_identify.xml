@@ -2,276 +2,569 @@
 <odoo>
     <template id="report_employee_identification">
         <t t-call="web.html_container" t-translation="off">
-            <div class="header">
-                <div class="row text-center">
-                    <!--<img src="/hr_custom_workflow/static/img/header.png" style="width:100%;" class="text-center"/>-->
-                </div>
-            </div>
             <t t-foreach="docs" t-as="doc">
-                <div class="article" style="font-family:'Sakkal Majalla'!important;font-size:18pt;direction:rtl">
+                <t t-call="hr_base.hr_layout">
+                    <div class="report_box">
+                        <style type="text/css">
+                            @charset "UTF-8";
+                            @font-face {
+                            font-family: 'Somar';
+                            src: url('/employee_requests/static/fonts/alfont_com_Somar-Regular.otf') format('truetype');
+                            font-weight: 700;
+                            font-style: normal;
+                            }
+                            .pt-5{
+                            padding-top: 0rem !important;
+                            font-family: "Somar", serif !important;
+                            }
+                            .backgroundsaip{
+                            background-color: #006665;
+                            color:#ffffff;
+                            font-family: "Somar", serif !important;
+                            font-size: 14px ;
+                            }
+                            .backgroundgrea{
+                            background-color: #d9d9d9;
+                            font-size: 10px ;
+                            font-family: "Somar", serif !important;
+                            }
+                            .backgroundbule{
+                            background-color: #34679a;
+                            color:#ffffff;
+                            font-family: "Somar", serif !important;
+                            font-size: 14px ;
 
-                    <style>
-                        @font-face {font-family: "Sakkal Majalla"; src:
-                        url("/employee_requests/static/fonts/ce7b5754581057e6f7444e2192850cc8.eot"); src:
-                        url("/employee_requests/static/fonts/ce7b5754581057e6f7444e2192850cc8.eot?#iefix")
-                        format("embedded-opentype"),
-                        url("/employee_requests/static/fonts/ce7b5754581057e6f7444e2192850cc8.woff2") format("woff2"),
-                        url("/employee_requests/static/fonts/ce7b5754581057e6f7444e2192850cc8.woff") format("woff"),
-                        url("/employee_requests/static/fonts/ce7b5754581057e6f7444e2192850cc8.ttf") format("truetype");
-                        }
-                        #content-table thead tr th{
-                        background-color: rgb(77, 168, 178);
-                        border: 1px solid #222;
-                        vertical-align: middle;
-                        font-weight: bold;
-                        text-align:center;
-                        color: #fff;
-                        padding: 10px 0;
-                        font-size: 14pt;
+                            }
+                            table, td ,tr {
+                            font-family: "Somar", serif !important;
+                            font-size: 14px ;
+                            padding:0px;
+                            }
+                            .o_field_widget.o_priority .o_priority_star.fa-star {
+                            color: gold;
+                            }
+                            .report_box{
+                            padding: 0px;
+                            font-family: "Somar", serif !important;
+                            font-size: 14px ;
+                            }
+                            .o_report_layout_boxed table tbody tr td {
+                            border-top: none;
+                            border-left: 0px solid #495057;
+                            }
+                            .signature{
+
+                            }
+                            .o_report_layout_boxed table {
+                            border: none;
+                            }
+                        </style>
 
 
-                        }
-                        #content-table td{
-                        font-family: 'Sakkal Majalla'!important;
-                        }
-                        #content-table thead tr th{
-                        width: 50%;
-                        font-family: 'Sakkal Majalla'!important;
-                        }
-                        #content-table tbody tr td{
-                        border: 1px solid;
-                        vertical-align: middle;
-                        padding: 10px 0;
-                        text-align: center;
-                        font-size:14pt;
-                        }
-                        #content-table tbody tr td:last-child{
-                        direction: ltr;
-                        background-color: rgb(230, 230, 231);
-                        color: #222;
-                        font-weight: bold;
-                        width: 25%;
-                        }
-                        #content-table tbody tr td:first-child{
-                        direction: rtl;
-                        background-color: rgb(230, 230, 231);
-                        color: #222;
-                        font-weight: bold;
-                        width: 25%;
-                        }
-                        .connsign{
-                        width: 450px;
-                        height:90px;
-                        float:left;
-                        margin-top:-66px;
-                        margin-left:-140px !important;
-                        text-align:right;
-                        padding:0px;
-                        }
-                        .con{
-                        width: 400px;
-                        height:25px;
-                        text-align:right;
-                        }
-                        .sign{
-                        width: 400px;
-                        height:50px;
-                        margin-top:5px;
-                        text-align:right;
-                        }
-                    </style>
-                    <div class="OutlineElement Rtl SCXW182515882 BCX2">
-                        <h3 style="font-weight:bold;margin-bottom: 40px;text-align:center;font-family: 'Sakkal Majalla'!important;color:rgb(77, 168, 178);font-size: 20pt;margin-top: 0;">
-                            <span>شهادة تعريف</span>
-                            |
-                            <span>Employment Certificate</span>
-                        </h3>
-                    </div>
-                    <table class="table table-borderless"
-                           style="margin-bottom: 10px;font-family: 'Sakkal Majalla'!important;font-size: 14pt;                             background-size: 35%; background-position: right;background-repeat: no-repeat;">
-                        <tr style="border:0;">
-                            <td style="text-align:right;width:50%;padding-left:50px;padding-right: 20px;">
-                                <p style="font-weight: bold;color: #333;margin-bottom: 20px;">
-                                    <span style="border-bottom: 1px solid #333;">مقدم إلى:</span>
-                                    <span t-esc="doc.destination.name"/>
-                                </p>
-                                <span>نفيدكم بأن الموظف الموضح هويته أدناه يعمل لدى</span>
-                                <span style="font-weight: bold;"><span t-esc="env.user.sudo().company_id.name"/>-
-                                </span>
-                                <span>ولا يزال على رأس العمل حتى تاريخه و أعطيت له هذه الشهادة بناء على</span>
-                                <span>طلبه دون أدنى مسئولية.</span>
-                            </td>
-                            <td style="direction:ltr;text-align:left;border:0;width:50%;padding-right: 50px;padding-left:20px;">
-                                <p style="font-weight: bold;color: #333;margin-bottom: 20px;">
-                                    <span style="border-bottom: 1px solid #333;">Addressed To:</span>
-                                    <span t-esc="doc.destination.english_name"/>
+                        <table style="width:100%;">
+                            <tr>
+                                <td style="text-align:right; width:50%;">
+                                    <strong>التاريخ :</strong>
+                                    <strong t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d')"/>
+                                </td>
+                                <td style="text-align:left; width:50%;">
+                                    <strong>Date :</strong>
+                                    <strong t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d')"/>
+                                </td>
+                            </tr>
+                        </table>
 
-                                </p>
-                                <span>This is to certify that Below-mentioned employee is working in</span>
-                                <span style="font-weight: bold;">
-                                    <span t-esc="env.user.sudo().company_id.english_name"/>
-                                    -
-                                </span>
-                                <span>This certification</span>
-                                <span>is issued</span>
-                                <span>upon the request of the employee without any obligation</span>
-                            </td>
-                        </tr>
-                    </table>
-
-                    <div class="OutlineElement Rtl SCXW182515882 BCX2">
-                        <div class="TableContainer SCXW182515882 BCX2">
+                        <div class="">
                             <center>
-                                <table id="content-table" aria-rowcount="12" border="1"
-                                       class="Table  Rtl TableWordWrap SCXW182515882 BCX2" data-tablelook="1184"
-                                       data-tablestyle="MsoTableGrid" style="margin-right:13%;">
-                                    <thead>
-                                        <tr>
-                                            <th colspan="2">تعريف عمل</th>
-                                            <th colspan="2">Certificate of Employment</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="SCXW182515882 BCX2">
-                                        <tr>
-                                            <td>التاريخ</td>
-                                            <td colspan="2">
-                                                <span t-esc="doc.date"/>
-                                            </td>
-                                            <td>Date</td>
-                                        </tr>
-
-                                        <tr>
-                                            <td>رقم الموظف</td>
-                                            <td colspan="2">
-                                                <span t-esc="doc.employee_id.emp_no"/>
-                                            </td>
-                                            <td>Emp No.</td>
-                                        </tr>
-                                        <tr>
-                                            <td>اسم الموظف</td>
-                                            <td>
-                                                <span t-esc="doc.employee_id.name"/>
-                                            </td>
-                                            <td>
-                                                <span t-esc="doc.employee_id.english_name"/>
-                                            </td>
-                                            <td>Name</td>
-                                        </tr>
-                                        <tr t-if="doc.passport_number">
-                                            <td>رقم الجواز</td>
-                                            <td colspan="2">
-                                                <span t-esc="doc.passport_number"/>
-                                            </td>
-                                            <td>Passport No.</td>
-                                        </tr>
-                                        <tr>
-                                            <td>الوظيفة الحالية</td>
-                                            <td>
-                                                <span t-esc="doc.employee_id.job_id.name"/>
-                                            </td>
-                                             <td t-if="doc.employee_id.job_id.english_name">
-                                                <span t-esc="doc.employee_id.job_id.english_name"/>
-                                            </td>
-                                            <td>Position</td>
-                                        </tr>
-
-                                        <tr>
-                                            <td>رقم الهوية</td>
-                                            <td colspan="2">
-                                                <span t-esc="doc.employee_id.saudi_number.saudi_id or doc.employee_id.iqama_number.iqama_id"/>
-                                            </td>
-                                            <td>ID No.</td>
-                                        </tr>
-
-                                        <tr>
-                                            <td>الجنسية</td>
-                                            <td colspan="2">
-                                                <span t-esc="doc.employee_id.country_id.name"/>
-                                            </td>
-                                            <td>Nationality</td>
-                                        </tr>
-
-                                        <tr>
-                                            <td>الراتب الأساسي</td>
-                                            <td colspan="2">
-                                                <span t-esc="round(doc.employee_id.contract_id.salary,2)"/>
-                                                <span>ريال</span>
-                                            </td>
-                                            <td>Basic Salary</td>
-                                        </tr>
-
-                                        <t t-set="allowances" t-value="doc.get_employee_allowances()"/>
-                                        <t t-set="total_salary" t-value="doc.get_employee_totalallownce()"/>
-
-                                        <t t-foreach="allowances" t-as="allowance">
-<!--                                            <t t-set="total_salary" t-value="total_salary + allowance['amount']"/>-->
-                                            <tr>
-                                                <!-- Arabic Allowance Name -->
-                                                <td t-esc="allowance['name']"/>
-
-                                                <!-- Allowance Amount -->
-                                                <td colspan="2">
-                                                    <span t-esc="round(allowance['amount'], 2)"/>
-                                                    <span>ريال</span>
-                                                </td>
-
-                                                <!-- English Allowance Name -->
-                                                <td>
-                                                    <t t-if="allowance['name'] == 'بدل السكن'">Housing Allowance</t>
-                                                    <t t-elif="allowance['name'] == 'بدل النقل'">Transportation
-                                                        Allowance
-                                                    </t>
-                                                    <t t-else="" t-esc="allowance['name']"/>
-                                                </td>
-                                            </tr>
-                                        </t>
-                                        <!-- Calculate Total Salary -->
-                                        <tr>
-                                            <td>الراتب الشهري الإجمالي</td>
-                                            <td colspan="2">
-                                                <span t-esc="total_salary"/>
-<!--                                                <span t-esc="round(doc.employee_id.contract_id.salary + doc.employee_id.contract_id.house_allowance_temp + doc.employee_id.contract_id.transport_allowance,2)"/>-->
-                                                <span>ريال</span>
-                                            </td>
-                                            <td>Total Salary / month</td>
-                                        </tr>
-
-                                        <tr>
-                                            <td>تاريخ التعيين</td>
-                                            <td colspan="2">
-                                                <span t-esc="doc.employee_id.contract_id.hiring_date"/>
-                                            </td>
-                                            <td>Hire Date</td>
-                                        </tr>
-
-                                    </tbody>
-                                </table>
+                                <h5 style="font-weight: bold;">
+                                    <span>خطاب تعريف راتب</span>
+                                    <br/>
+                                    <span>Salary Letter</span>
+                                </h5>
                             </center>
                         </div>
+
+                        <table cellpadding="2" cellspacing="2"
+                               class="table table-borderless"
+                               style="width:100%;border-collapse: collapse;border-collapse:separate;border-spacing: 0 10px;">
+                            <tr style="border:0;">
+                                <td class="text-left" style="width: 50%;height=50%;border:0;">
+                                    <span style="border-bottom: 1px solid #333;">إلى:</span>
+                                    <span style="font-weight: bold;" t-esc="doc.destination.name"/>
+                                    <br/>
+                                    <span>نحيطكم علما بأن الموظف</span>
+                                    <span style="font-weight: bold;">
+                                        <span t-esc="doc.employee_id.name"/>
+                                    </span>
+                                    <br/>
+                                    <span>من العاملين لدى</span>
+                                    <span style="font-weight: bold;">
+                                        <span t-esc="env.user.company_id.name"/>
+                                    </span>
+                                    <br/>
+                                    <span>المملكة العربية السعودية</span>
+                                </td>
+                                <td class="text-right" style="width: 50%;height=50%;border:0;">
+                                    <span style="border-bottom: 1px solid #333;">To:</span>
+                                    <span style="font-weight: bold;" t-esc="doc.destination_english"/>
+                                    <br/>
+                                    <span>This is to certify that</span>
+                                    <span style="font-weight: bold;">
+                                        <span t-esc="doc.employee_id.english_name"/>
+                                    </span>
+                                    <br/>
+                                    <span>Is Employed By</span>
+                                    <span style="font-weight: bold;">
+                                        <span t-esc="env.user.company_id.english_name"/>
+                                    </span>
+                                    <br/>
+                                    <span>Kingdom of Saudi Arabia</span>
+                                </td>
+                            </tr>
+                        </table>
                         <br/>
-                        <h4 style="text-align: center;">
-                            <span>مدير إدارة الموارد البشرية</span>
-                            <br/>
-                            <span>Director of Human Resource</span>
-                            <br/>
-                            <span t-esc="env.user.sudo().company_id.hr_manager_id.name"/>
+                        <table class="table table-sm" style="width: 100%;height=100%">
+                            <tbody>
+                                <tr>
+                                    <td style="border: 1px solid #000" class="backgroundgrea text-left">
+                                        <strong>تاريخ التعين</strong>
+                                    </td>
+                                    <td style="border: 1px solid #000" class="text-center">
+                                        <span t-esc="doc.employee_id.contract_id.hiring_date"/>
+                                    </td>
+                                    <td style="border: 1px solid #000" class="text-center">
+                                        <span t-esc="doc.employee_id.contract_id.hiring_date"/>
+                                    </td>
+                                    <td style="border: 1px solid #000" class="backgroundgrea text-right">
+                                        <strong>Date of Hire</strong>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="border: 1px solid #000" class="backgroundgrea text-left">
+                                        <strong>المسمي الوظيفي</strong>
+                                    </td>
+                                    <td style="border: 1px solid #000" class="text-center">
+                                        <span t-esc="doc.employee_id.job_id.name"/>
+                                    </td>
+                                    <td style="border: 1px solid #000" class="text-center">
+                                        <span t-esc="doc.employee_id.job_id.english_name"/>
+                                    </td>
+                                    <td style="border: 1px solid #000" class="backgroundgrea text-right">
+                                        <strong>Position</strong>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="border: 1px solid #000" class="backgroundgrea text-left">
+                                        <strong>رقم الهوية</strong>
+                                    </td>
+                                    <td style="border: 1px solid #000" class="text-center">
+                                        <span t-esc="doc.employee_id.saudi_number.saudi_id or doc.employee_id.iqama_number.iqama_id"/>
+                                    </td>
+                                    <td style="border: 1px solid #000" class="text-center">
+                                        <span t-esc="doc.employee_id.saudi_number.saudi_id or doc.employee_id.iqama_number.iqama_id"/>
+                                    </td>
+                                    <td style="border: 1px solid #000" class="backgroundgrea text-right">
+                                        <strong>ID Number</strong>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="border: 1px solid #000" class="backgroundgrea text-left">
+                                        <strong>الراتب الأساسي</strong>
+                                    </td>
+                                    <td style="border: 1px solid #000" class="text-center">
+                                        <span t-esc="doc.employee_id.contract_id.salary"/>
+                                        <span>ريال</span>
+                                    </td>
+                                    <td style="border: 1px solid #000" class="text-center">
+                                        <span t-esc="doc.employee_id.contract_id.salary"/>
+                                        <span>SAR</span>
+                                    </td>
+                                    <td style="border: 1px solid #000" class="backgroundgrea text-right">
+                                        <strong>Basic Salary</strong>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="border: 1px solid #000" class="backgroundgrea text-left">
+                                        <strong>بدل السكن</strong>
+                                    </td>
+                                    <td style="border: 1px solid #000" class="text-center">
+                                        <span t-esc="round(doc.employee_id.contract_id.house_allowance_temp,2)"/>
+                                        <span>ريال</span>
+                                    </td>
+                                    <td style="border: 1px solid #000" class="text-center">
+                                        <span t-esc="round(doc.employee_id.contract_id.house_allowance_temp,2)"/>
+                                        <span>SAR</span>
+                                    </td>
+                                    <td style="border: 1px solid #000" class="backgroundgrea text-right">
+                                        <strong>Housing Allow</strong>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="border: 1px solid #000" class="backgroundgrea text-left">
+                                        <strong>بدل الموصلات</strong>
+                                    </td>
+                                    <td style="border: 1px solid #000" class="text-center">
+                                        <span t-esc="round(doc.employee_id.contract_id.transport_allowance,2)"/>
+                                        <span>ريال</span>
+                                    </td>
+                                    <td style="border: 1px solid #000" class="text-center">
+                                        <span t-esc="round(doc.employee_id.contract_id.transport_allowance,2)"/>
+                                        <span>SAR</span>
+                                    </td>
+                                    <td style="border: 1px solid #000" class="backgroundgrea text-right">
+                                        <strong>Transportation Allow</strong>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="border: 1px solid #000" class="backgroundgrea text-left">
+                                        <strong>اجمالي الراتب</strong>
+                                    </td>
+                                    <td style="border: 1px solid #000" class="text-center">
+                                        <span t-esc="round(doc.employee_id.contract_id.salary + doc.employee_id.contract_id.house_allowance_temp + doc.employee_id.contract_id.transport_allowance ,2)"/>
+                                        <span>ريال</span>
+                                    </td>
+                                    <td style="border: 1px solid #000" class="text-center">
+                                        <span t-esc="round(doc.employee_id.contract_id.salary + doc.employee_id.contract_id.house_allowance_temp + doc.employee_id.contract_id.transport_allowance ,2)"/>
+                                        <span>SAR</span>
+                                    </td>
+                                    <td style="border: 1px solid #000" class="backgroundgrea text-right">
+                                        <strong>Total Salary</strong>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <br/>
+                        <br/>
 
-                        </h4>
+                        <table cellpadding="2" cellspacing="2" class="table table-borderless"
+                               style="width:100%;border-collapse: collapse;border-collapse:separate;border-spacing: 0 10px;">
+                            <tbody>
+                                <tr style="border: 0">
+                                    <td style="border: 0">
+                                        <span>تم إصدار هذه الشهادة دون أدني مسؤولية على اللجنة الوطنية لرعاية السجناء والمفرج عنهم وأسرهم -تراحم</span>
+                                    </td>
+                                    <td class="text-right" style="border: 0">
+                                        <span>This certificate was issued to the employee with no responsibility on Committee for the Care of Prisoners, Released Prisoners and Their Families -Trahum</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <br/>
+                        <br/>
 
-                        <div class="connsign">
-                            <div class="sign">
-                                <img t-if="user.sign_signature" class="image"
-                                     t-att-src="'data:image/png;base64,%s' % to_text(user.sign_signature)"
-                                     style="width:300px; height:165px;margin-top:-40px !important"/>
-                            </div>
-                        </div>
+                        <table cellpadding="2" cellspacing="2" class="table table-borderless"
+                               style="width:100%;border-collapse: collapse;border-collapse:separate;border-spacing: 0 10px;">
+                            <tbody>
+                                <tr style="border: 0">
+                                    <td style="width: 33%;height=33%;border: 0">
+                                        <center>
+                                            <br/>
+                                            <div class="justify-content: center !important;padding:0px;">
+                                                <img class="img" style="width: 50%;"
+                                                     src="/employee_requests/static/image/img.png"/>
+                                            </div>
 
+                                        </center>
+                                    </td>
+                                    <td style="width: 33%;height=33%;border: 0">
+                                        <center>
+                                            <div class="signature"
+                                                 style="justify-content: center !important;padding:0px;">
+                                                <strong>إدارة رأس المال البشري</strong>
+                                                <br/>
+                                                <br/>
+                                                <t t-if="env.user.company_id.hr_manager_id.user_id.sign_signature">
+                                                    <img t-att-src="image_data_uri(env.user.company_id.hr_manager_id.user_id.sign_signature)"
+                                                          style="width:200px; height:120px; !important"/>
+                                                </t>
+                                                <t t-else="">
+                                                    <p>لايوجد توقيع لهذا المستخدم</p>
+                                                </t>
+                                                <!--                                                <br />-->
+                                                <!--                                                <strong t-esc="env.user.company_id.hr_manager_id.name" />-->
+                                            </div>
+                                        </center>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
-
-                </div>
+                </t>
             </t>
         </t>
+
     </template>
+    <!--        <t t-call="web.html_container" t-translation="off">-->
+    <!--            <div class="header">-->
+    <!--                <div class="row text-center">-->
+    <!--                    &lt;!&ndash;<img src="/hr_custom_workflow/static/img/header.png" style="width:100%;" class="text-center"/>&ndash;&gt;-->
+    <!--                </div>-->
+    <!--            </div>-->
+    <!--            <t t-foreach="docs" t-as="doc">-->
+    <!--                <div class="article" style="font-family:'Sakkal Majalla'!important;font-size:18pt;direction:rtl">-->
+
+    <!--                    <style>-->
+    <!--                        @font-face {font-family: "Sakkal Majalla"; src:-->
+    <!--                        url("/employee_requests/static/fonts/ce7b5754581057e6f7444e2192850cc8.eot"); src:-->
+    <!--                        url("/employee_requests/static/fonts/ce7b5754581057e6f7444e2192850cc8.eot?#iefix")-->
+    <!--                        format("embedded-opentype"),-->
+    <!--                        url("/employee_requests/static/fonts/ce7b5754581057e6f7444e2192850cc8.woff2") format("woff2"),-->
+    <!--                        url("/employee_requests/static/fonts/ce7b5754581057e6f7444e2192850cc8.woff") format("woff"),-->
+    <!--                        url("/employee_requests/static/fonts/ce7b5754581057e6f7444e2192850cc8.ttf") format("truetype");-->
+    <!--                        }-->
+    <!--                        #content-table thead tr th{-->
+    <!--                        background-color: rgb(77, 168, 178);-->
+    <!--                        border: 1px solid #222;-->
+    <!--                        vertical-align: middle;-->
+    <!--                        font-weight: bold;-->
+    <!--                        text-align:center;-->
+    <!--                        color: #fff;-->
+    <!--                        padding: 10px 0;-->
+    <!--                        font-size: 14pt;-->
+
+
+    <!--                        }-->
+    <!--                        #content-table td{-->
+    <!--                        font-family: 'Sakkal Majalla'!important;-->
+    <!--                        }-->
+    <!--                        #content-table thead tr th{-->
+    <!--                        width: 50%;-->
+    <!--                        font-family: 'Sakkal Majalla'!important;-->
+    <!--                        }-->
+    <!--                        #content-table tbody tr td{-->
+    <!--                        border: 1px solid;-->
+    <!--                        vertical-align: middle;-->
+    <!--                        padding: 10px 0;-->
+    <!--                        text-align: center;-->
+    <!--                        font-size:14pt;-->
+    <!--                        }-->
+    <!--                        #content-table tbody tr td:last-child{-->
+    <!--                        direction: ltr;-->
+    <!--                        background-color: rgb(230, 230, 231);-->
+    <!--                        color: #222;-->
+    <!--                        font-weight: bold;-->
+    <!--                        width: 25%;-->
+    <!--                        }-->
+    <!--                        #content-table tbody tr td:first-child{-->
+    <!--                        direction: rtl;-->
+    <!--                        background-color: rgb(230, 230, 231);-->
+    <!--                        color: #222;-->
+    <!--                        font-weight: bold;-->
+    <!--                        width: 25%;-->
+    <!--                        }-->
+    <!--                        .connsign{-->
+    <!--                        width: 450px;-->
+    <!--                        height:90px;-->
+    <!--                        float:left;-->
+    <!--                        margin-top:-66px;-->
+    <!--                        margin-left:-140px !important;-->
+    <!--                        text-align:right;-->
+    <!--                        padding:0px;-->
+    <!--                        }-->
+    <!--                        .con{-->
+    <!--                        width: 400px;-->
+    <!--                        height:25px;-->
+    <!--                        text-align:right;-->
+    <!--                        }-->
+    <!--                        .sign{-->
+    <!--                        width: 400px;-->
+    <!--                        height:50px;-->
+    <!--                        margin-top:5px;-->
+    <!--                        text-align:right;-->
+    <!--                        }-->
+    <!--                    </style>-->
+    <!--                    <div class="OutlineElement Rtl SCXW182515882 BCX2">-->
+    <!--                        <h3 style="font-weight:bold;margin-bottom: 40px;text-align:center;font-family: 'Sakkal Majalla'!important;color:rgb(77, 168, 178);font-size: 20pt;margin-top: 0;">-->
+    <!--                            <span>شهادة تعريف</span>-->
+    <!--                            |-->
+    <!--                            <span>Employment Certificate</span>-->
+    <!--                        </h3>-->
+    <!--                    </div>-->
+    <!--                    <table class="table table-borderless"-->
+    <!--                           style="margin-bottom: 10px;font-family: 'Sakkal Majalla'!important;font-size: 14pt;                             background-size: 35%; background-position: right;background-repeat: no-repeat;">-->
+    <!--                        <tr style="border:0;">-->
+    <!--                            <td style="text-align:right;width:50%;padding-left:50px;padding-right: 20px;">-->
+    <!--                                <p style="font-weight: bold;color: #333;margin-bottom: 20px;">-->
+    <!--                                    <span style="border-bottom: 1px solid #333;">مقدم إلى:</span>-->
+    <!--                                    <span t-esc="doc.destination.name"/>-->
+    <!--                                </p>-->
+    <!--                                <span>نفيدكم بأن الموظف الموضح هويته أدناه يعمل لدى</span>-->
+    <!--                                <span style="font-weight: bold;"><span t-esc="env.user.sudo().company_id.name"/>- -->
+    <!--                                </span>-->
+    <!--                                <span>ولا يزال على رأس العمل حتى تاريخه و أعطيت له هذه الشهادة بناء على</span>-->
+    <!--                                <span>طلبه دون أدنى مسئولية.</span>-->
+    <!--                            </td>-->
+    <!--                            <td style="direction:ltr;text-align:left;border:0;width:50%;padding-right: 50px;padding-left:20px;">-->
+    <!--                                <p style="font-weight: bold;color: #333;margin-bottom: 20px;">-->
+    <!--                                    <span style="border-bottom: 1px solid #333;">Addressed To:</span>-->
+    <!--                                    <span t-esc="doc.destination.english_name"/>-->
+
+    <!--                                </p>-->
+    <!--                                <span>This is to certify that Below-mentioned employee is working in</span>-->
+    <!--                                <span style="font-weight: bold;">-->
+    <!--                                    <span t-esc="env.user.sudo().company_id.english_name"/>-->
+    <!--                                    - -->
+    <!--                                </span>-->
+    <!--                                <span>This certification</span>-->
+    <!--                                <span>is issued</span>-->
+    <!--                                <span>upon the request of the employee without any obligation</span>-->
+    <!--                            </td>-->
+    <!--                        </tr>-->
+    <!--                    </table>-->
+
+    <!--                    <div class="OutlineElement Rtl SCXW182515882 BCX2">-->
+    <!--                        <div class="TableContainer SCXW182515882 BCX2">-->
+    <!--                            <center>-->
+    <!--                                <table id="content-table" aria-rowcount="12" border="1"-->
+    <!--                                       class="Table  Rtl TableWordWrap SCXW182515882 BCX2" data-tablelook="1184"-->
+    <!--                                       data-tablestyle="MsoTableGrid" style="margin-right:13%;">-->
+    <!--                                    <thead>-->
+    <!--                                        <tr>-->
+    <!--                                            <th colspan="2">تعريف عمل</th>-->
+    <!--                                            <th colspan="2">Certificate of Employment</th>-->
+    <!--                                        </tr>-->
+    <!--                                    </thead>-->
+    <!--                                    <tbody class="SCXW182515882 BCX2">-->
+    <!--                                        <tr>-->
+    <!--                                            <td>التاريخ</td>-->
+    <!--                                            <td colspan="2">-->
+    <!--                                                <span t-esc="doc.date"/>-->
+    <!--                                            </td>-->
+    <!--                                            <td>Date</td>-->
+    <!--                                        </tr>-->
+
+    <!--                                        <tr>-->
+    <!--                                            <td>رقم الموظف</td>-->
+    <!--                                            <td colspan="2">-->
+    <!--                                                <span t-esc="doc.employee_id.emp_no"/>-->
+    <!--                                            </td>-->
+    <!--                                            <td>Emp No.</td>-->
+    <!--                                        </tr>-->
+    <!--                                        <tr>-->
+    <!--                                            <td>اسم الموظف</td>-->
+    <!--                                            <td>-->
+    <!--                                                <span t-esc="doc.employee_id.name"/>-->
+    <!--                                            </td>-->
+    <!--                                            <td>-->
+    <!--                                                <span t-esc="doc.employee_id.english_name"/>-->
+    <!--                                            </td>-->
+    <!--                                            <td>Name</td>-->
+    <!--                                        </tr>-->
+    <!--                                        <tr t-if="doc.passport_number">-->
+    <!--                                            <td>رقم الجواز</td>-->
+    <!--                                            <td colspan="2">-->
+    <!--                                                <span t-esc="doc.passport_number"/>-->
+    <!--                                            </td>-->
+    <!--                                            <td>Passport No.</td>-->
+    <!--                                        </tr>-->
+    <!--                                        <tr>-->
+    <!--                                            <td>الوظيفة الحالية</td>-->
+    <!--                                            <td>-->
+    <!--                                                <span t-esc="doc.employee_id.job_id.name"/>-->
+    <!--                                            </td>-->
+    <!--                                             <td t-if="doc.employee_id.job_id.english_name">-->
+    <!--                                                <span t-esc="doc.employee_id.job_id.english_name"/>-->
+    <!--                                            </td>-->
+    <!--                                            <td>Position</td>-->
+    <!--                                        </tr>-->
+
+    <!--                                        <tr>-->
+    <!--                                            <td>رقم الهوية</td>-->
+    <!--                                            <td colspan="2">-->
+    <!--                                                <span t-esc="doc.employee_id.saudi_number.saudi_id or doc.employee_id.iqama_number.iqama_id"/>-->
+    <!--                                            </td>-->
+    <!--                                            <td>ID No.</td>-->
+    <!--                                        </tr>-->
+
+    <!--                                        <tr>-->
+    <!--                                            <td>الجنسية</td>-->
+    <!--                                            <td colspan="2">-->
+    <!--                                                <span t-esc="doc.employee_id.country_id.name"/>-->
+    <!--                                            </td>-->
+    <!--                                            <td>Nationality</td>-->
+    <!--                                        </tr>-->
+
+    <!--                                        <tr>-->
+    <!--                                            <td>الراتب الأساسي</td>-->
+    <!--                                            <td colspan="2">-->
+    <!--                                                <span t-esc="round(doc.employee_id.contract_id.salary,2)"/>-->
+    <!--                                                <span>ريال</span>-->
+    <!--                                            </td>-->
+    <!--                                            <td>Basic Salary</td>-->
+    <!--                                        </tr>-->
+
+    <!--                                        <t t-set="allowances" t-value="doc.get_employee_allowances()"/>-->
+    <!--                                        <t t-set="total_salary" t-value="doc.get_employee_totalallownce()"/>-->
+
+    <!--                                        <t t-foreach="allowances" t-as="allowance">-->
+    <!--&lt;!&ndash;                                            <t t-set="total_salary" t-value="total_salary + allowance['amount']"/>&ndash;&gt;-->
+    <!--                                            <tr>-->
+    <!--                                                &lt;!&ndash; Arabic Allowance Name &ndash;&gt;-->
+    <!--                                                <td t-esc="allowance['name']"/>-->
+
+    <!--                                                &lt;!&ndash; Allowance Amount &ndash;&gt;-->
+    <!--                                                <td colspan="2">-->
+    <!--                                                    <span t-esc="round(allowance['amount'], 2)"/>-->
+    <!--                                                    <span>ريال</span>-->
+    <!--                                                </td>-->
+
+    <!--                                                &lt;!&ndash; English Allowance Name &ndash;&gt;-->
+    <!--                                                <td>-->
+    <!--                                                    <t t-if="allowance['name'] == 'بدل السكن'">Housing Allowance</t>-->
+    <!--                                                    <t t-elif="allowance['name'] == 'بدل النقل'">Transportation-->
+    <!--                                                        Allowance-->
+    <!--                                                    </t>-->
+    <!--                                                    <t t-else="" t-esc="allowance['name']"/>-->
+    <!--                                                </td>-->
+    <!--                                            </tr>-->
+    <!--                                        </t>-->
+    <!--                                        &lt;!&ndash; Calculate Total Salary &ndash;&gt;-->
+    <!--                                        <tr>-->
+    <!--                                            <td>الراتب الشهري الإجمالي</td>-->
+    <!--                                            <td colspan="2">-->
+    <!--                                                <span t-esc="total_salary"/>-->
+    <!--&lt;!&ndash;                                                <span t-esc="round(doc.employee_id.contract_id.salary + doc.employee_id.contract_id.house_allowance_temp + doc.employee_id.contract_id.transport_allowance,2)"/>&ndash;&gt;-->
+    <!--                                                <span>ريال</span>-->
+    <!--                                            </td>-->
+    <!--                                            <td>Total Salary / month</td>-->
+    <!--                                        </tr>-->
+
+    <!--                                        <tr>-->
+    <!--                                            <td>تاريخ التعيين</td>-->
+    <!--                                            <td colspan="2">-->
+    <!--                                                <span t-esc="doc.employee_id.contract_id.hiring_date"/>-->
+    <!--                                            </td>-->
+    <!--                                            <td>Hire Date</td>-->
+    <!--                                        </tr>-->
+
+    <!--                                    </tbody>-->
+    <!--                                </table>-->
+    <!--                            </center>-->
+    <!--                        </div>-->
+    <!--                        <br/>-->
+    <!--                        <h4 style="text-align: center;">-->
+    <!--                            <span>مدير إدارة الموارد البشرية</span>-->
+    <!--                            <br/>-->
+    <!--                            <span>Director of Human Resource</span>-->
+    <!--                            <br/>-->
+    <!--                            <span t-esc="env.user.sudo().company_id.hr_manager_id.name"/>-->
+
+    <!--                        </h4>-->
+
+    <!--                        <div class="connsign">-->
+    <!--                            <div class="sign">-->
+    <!--                                <img t-if="user.sign_signature" class="image"-->
+    <!--                                     t-att-src="'data:image/png;base64,%s' % to_text(user.sign_signature)"-->
+    <!--                                     style="width:300px; height:165px;margin-top:-40px !important"/>-->
+    <!--                            </div>-->
+    <!--                        </div>-->
+
+    <!--                    </div>-->
+
+    <!--                </div>-->
+    <!--            </t>-->
+    <!--        </t>-->
+    <!--    </template>-->
 
     <record id="action_report_employee_identification" model="ir.actions.report">
         <field name="model">employee.other.request</field>

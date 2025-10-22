@@ -303,22 +303,6 @@
         <field name="model">hr.official.mission</field>
         <field name="inherit_id" ref="exp_official_mission.employee_official_mission_form_view"/>
         <field name="arch" type="xml">
-
-            <!-- <xpath expr="//header" position="inside">
-                <button name="action_sector_head_approval" string="Sector Head Approval" type="object"
-                        states="depart_manager" class="oe_highlight" groups="hr_trahum.group_sector_head_approval"/>
-            </xpath>
-
-            <xpath expr="//button[@name='hr_aaproval']" position="attributes">
-                <attribute name="states">sector_head_approval</attribute>
-            </xpath> -->
-
-            <!-- <xpath expr="//button[@name='hr_aaproval']" position="after">
-                <button name="refused" string="Refused" class="oe_highlight" type="object"
-                        states="sector_head_approval"
-                        groups="hr_base.group_general_manager,hr_base.group_executive_manager"/>
-            </xpath> -->
-
             <xpath expr="//header" position="replace">
                 <header>
                     <button name="send" string="Submit" class="oe_highlight" type="object"
@@ -390,10 +374,187 @@
                     <field name="state" widget="statusbar" statusbar_visible="draft,send,approve"/>
                 </header>
             </xpath>
-
         </field>
     </record>
 
+    <record model="ir.ui.view" id="employee_training_form_view_inherit">
+        <field name="name">Employee Training Inherit</field>
+        <field name="model">hr.official.mission</field>
+        <field name="inherit_id" ref="exp_official_mission.employee_training_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='destination']" position="replace">
+                <field name="is_middle_east" invisible="1"/>
+                <field name="type_of_mission" invisible="1"/>
+                <field name="destination" string="Destination" domain="[('country_id','=',country_id)]"
+                       attrs="{'invisible':[('state','=','send')],'required':[('state','=','performance_development')],'readonly':[('state','not in',['direct_manager','performance_development'])]}"/>
+                <field name="to_country_id"
+                       attrs="{'invisible':['|',('state','=','send'),('type_of_mission','=','internal')],'required':[('type_of_mission','!=','internal'),('state','=','performance_development')],'readonly':[('state','not in',['direct_manager','performance_development'])]}"/>
+                <field name="to_destination" options='{"no_open": True, "no_create": True}'
+                       attrs="{'invisible':['|',('state','=','send'),('type_of_mission','=','internal')],'required':[('type_of_mission','!=','internal'),('state','=','performance_development')],'readonly':[('state','not in',['direct_manager','performance_development'])]}"
+                       domain="[('country_id','=',to_country_id),('destination_type','in',('mission','all'))]"/>
+
+            </xpath>
+
+            <xpath expr="//field[@name='destination']" position="after">
+                <field name="competencie_id"
+                       attrs="{'readonly':[('state','not in',('draft','direct_manager','send','performance_development'))],'required':[('state','in',['direct_manager','send'])]}"/>
+                <field name="elements_id"
+                       attrs="{'readonly':[('state','not in',('draft','direct_manager','send','performance_development'))],'required':[('state','in',['direct_manager','send'])]}"/>
+                <field name="competency_id"
+                       attrs="{'readonly':[('state','not in',('draft','direct_manager','send','performance_development'))],'required':[('state','in',['direct_manager','send'])]}"/>
+                <field name="course_link"
+                       attrs="{'readonly':[('state','not in',('draft','direct_manager','send','performance_development'))],'required':[('state','=','performance_development')],'invisible':[('state','=','send')]}"
+                       widget="url"/>
+                <field name="preferred_language_id"
+                       attrs="{'readonly':[('state','not in',('draft','direct_manager','send','performance_development'))],'required':[('state','=','direct_manager')],'invisible':[('state','=','send')]}"
+                       options="{'no_create': True, 'no_open': True,'no_edit': True}"/>
+            </xpath>
+            <xpath expr="//notebook" position="inside">
+                <page name="course_skill" string="Course Skill">
+                    <group name="group_course_skill" string="What skill wants to develop or Gap wants to fill ?">
+                        <field name="course_skill" nolabel="1"/>
+                    </group>
+                </page>
+            </xpath>
+
+
+        </field>
+    </record>
+    <record id="hr_competencies_view_tree" model="ir.ui.view">
+        <field name="name">hr.competencies.view.tree</field>
+        <field name="model">hr.competencies</field>
+        <field name="arch" type="xml">
+            <tree string="Competencies">
+                <field name="name"/>
+                <field name="department_id"/>
+                <field name="elements_ids" widget="many2many"/>
+            </tree>
+        </field>
+    </record>
+    <record id="hr_competencies_view_form" model="ir.ui.view">
+        <field name="name">hr.competencies.view.tree</field>
+        <field name="model">hr.competencies</field>
+        <field name="arch" type="xml">
+            <form string="Competencies">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                        <group>
+                            <field name="department_id"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="elements_ids" nolabel="1">
+                            <tree string="Elements" editable="top">
+                                <field name="name" string="Elements Name"/>
+                            </tree>
+                        </field>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="hr_elements_view_tree" model="ir.ui.view">
+        <field name="name">hr.elements.view.tree</field>
+        <field name="model">hr.elements</field>
+        <field name="arch" type="xml">
+            <tree string="Elements">
+                <field name="name"/>
+                <field name="competencies_id"/>
+                <field name="department_id"/>
+            </tree>
+        </field>
+    </record>
+
+     <record id="hr_competency_view_form" model="ir.ui.view">
+        <field name="name">hr.competency.view.tree</field>
+        <field name="model">hr.competency</field>
+        <field name="arch" type="xml">
+            <form string="Competency">
+                 <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                        <group>
+                            <field name="department_id" widget="many2many_tags"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="hr_competency_view_tree" model="ir.ui.view">
+        <field name="name">hr.competency.view.tree</field>
+        <field name="model">hr.competency</field>
+        <field name="arch" type="xml">
+            <tree string="Competency">
+                <field name="name"/>
+                <field name="department_id" widget="many2many_tags"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="employee_behaviors_view_form" model="ir.ui.view">
+        <field name="name">employee.behaviors.view.form</field>
+        <field name="model">employee.behaviors</field>
+        <field name="arch" type="xml">
+            <form string="Behaviors">
+                <sheet>
+                    <group>
+                            <field name="name"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="employee_behaviors_view_tree" model="ir.ui.view">
+        <field name="name">employee.behaviors.view.tree</field>
+        <field name="model">employee.behaviors</field>
+        <field name="arch" type="xml">
+            <tree string="Behaviors">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="hr_competencies_settings_action">
+        <field name="name">Competencies</field>
+        <field name="res_model">hr.competencies</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record model="ir.actions.act_window" id="hr_elements_settings_action">
+        <field name="name">Elements</field>
+        <field name="res_model">hr.elements</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <record model="ir.actions.act_window" id="hr_competency_settings_action">
+        <field name="name">Competency</field>
+        <field name="res_model">hr.competency</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record model="ir.actions.act_window" id="employee_behaviors_action">
+        <field name="name">Behaviors</field>
+        <field name="res_model">employee.behaviors</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+
+    <menuitem name="Competencies" id="hr_competencies_settings_settings_menu_item" parent="hr.hr_menu_configuration"
+              action="hr_competencies_settings_action"/>
+    <menuitem name="Elements" id="hr_elements_settings_menu_item" parent="hr.hr_menu_configuration"
+              action="hr_elements_settings_action"/>
+    <menuitem name="Competency" id="hr_competency_settings_menu_item" parent="hr.hr_menu_configuration"
+              action="hr_competency_settings_action"/>
+
+    <menuitem name="Behaviors" id="employee_behaviors_menu_item" parent="hr.hr_menu_configuration"
+              action="employee_behaviors_action"/>
 
     <!--Hide menuitem Buy a permit-->
     <record id="hr_holidays_public.buy_vacation_menu_item" model="ir.ui.menu">

@@ -1,0 +1,52 @@
+<odoo>
+    <data noupdate="0">
+        <!-- Sequence for Planning Stage Appraisals -->
+        <record id="seq_appraisal_plan" model="ir.sequence">
+            <field name="name">Appraisal Planning Sequence</field>
+            <field name="code">appraisal.plan.seq</field>
+            <!-- Prefix will take the year (e.g. 25 for 2025) -->
+            <field name="prefix">%(y)s</field>
+            <!-- Sequence starts from 0001 -->
+            <field eval="1" name="number_next"/>
+            <!-- Increment step is 1 -->
+            <field eval="1" name="number_increment"/>
+            <!-- Sequence will reset based on date range (yearly) -->
+            <field eval="True" name="use_date_range"/>
+            <!-- 4 digits padding, result example: 250001 -->
+            <field eval="4" name="padding"/>
+        </record>
+
+        <!-- Sequence for Mid-Year Stage Appraisals -->
+        <record id="seq_appraisal_mid" model="ir.sequence">
+            <field name="name">Appraisal Midyear Sequence</field>
+            <field name="code">appraisal.mid.seq</field>
+            <!-- Prefix will take the year (e.g. 25 for 2025) -->
+            <field name="prefix">%(y)s</field>
+            <!-- Sequence starts from 0001 -->
+            <field eval="1" name="number_next"/>
+            <!-- Increment step is 1 -->
+            <field eval="1" name="number_increment"/>
+            <!-- Sequence will reset based on date range (yearly) -->
+            <field eval="True" name="use_date_range"/>
+            <!-- 4 digits padding, result example: 250001 -->
+            <field eval="4" name="padding"/>
+        </record>
+
+        <!-- Sequence for Final Stage Appraisals -->
+        <record id="seq_appraisal_final" model="ir.sequence">
+            <field name="name">Appraisal Final Sequence</field>
+            <field name="code">appraisal.final.seq</field>
+            <!-- Prefix will take the year (e.g. 25 for 2025) -->
+            <field name="prefix">%(y)s</field>
+            <!-- Sequence starts from 0001 -->
+            <field eval="1" name="number_next"/>
+            <!-- Increment step is 1 -->
+            <field eval="1" name="number_increment"/>
+            <!-- Sequence will reset based on date range (yearly) -->
+            <field eval="True" name="use_date_range"/>
+            <!-- 4 digits padding, result example: 250001 -->
+            <field eval="4" name="padding"/>
+        </record>
+    </data>
+
+</odoo>

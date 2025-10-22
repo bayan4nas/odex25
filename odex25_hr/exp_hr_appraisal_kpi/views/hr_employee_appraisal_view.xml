@@ -45,16 +45,15 @@
                                 attrs="{'invisible': ['|',('state', '!=', 'wait_direct_manager'),('type', '!=', 'appraisal')]}"
                                 type="object" groups="hr_base.group_division_manager"/>
 
-                        <button name="send_to_dmanager" string="Approve" class="oe_highlight"
-                                attrs="{'invisible': ['|',('state', '!=', 'draft'),('type','not in',['exp_performance','correction'])]}"
-                                type="object" groups="hr_base.group_division_manager"/>
-
+                        <button name="send_to_dmanager" string="Approve DM" class="oe_highlight"
+                                attrs="{'invisible': [('state', '!=', 'wait_employee')]}"
+                                type="object"
+                                groups="exp_hr_appraisal.group_appraisal_manager,exp_hr_appraisal.group_appraisal_employee,hr_base.group_department_manager"/>
 
                         <button name="send_to_performance_officer" string="Approve" class="oe_highlight"
                                 attrs="{'invisible': ['|',('state', '!=', 'wait_dept_manager'),('type','not in',['exp_performance','correction'])]}"
                                 type="object" groups="hr_base.group_department_manager"/>
-                        <button name="refused" string="Refuse" class="oe_highlight" type="object"
-                                states="wait_dept_manager" groups="hr_base.group_department_manager"/>
+
 
 
                         <button name="send_to_performance_officer" string="Complete" class="oe_highlight"
@@ -62,17 +61,15 @@
                                 attrs="{'invisible': ['|',('state', '!=', 'draft'),('type', '!=', 'objection')]}"/>
 
                         <button name="send_to_performance_officer" string="Complete" class="oe_highlight"
-                                type="object" states="wait_employee"/>
-                        <button name="draft" string="Re Send To Direct Manager" type="object"
-                                states="wait_employee"
-                                confirm="Are you sure to Reset To Direct Manager This Record?"/>
+                                type="object" states="wait_dept_manager"/>
+
 
                         <button name="approve" string="Approve" class="oe_highlight" type="object"
                                 attrs="{'invisible': ['|',('state', '!=', 'wait_performance_officer'),('type', 'in', ['exp_performance','correction'])]}"
                                 groups="exp_hr_appraisal.group_appraisal_employee"/>
                         <button name="send_hr_manager" string="Approve" class="oe_highlight" type="object"
                                 attrs="{'invisible': ['|',('state', '!=', 'wait_performance_officer'),('type','not in',['exp_performance','correction'])]}"
-                                 groups="exp_hr_appraisal.group_appraisal_manager,exp_hr_appraisal.group_appraisal_employee"/>
+                                groups="exp_hr_appraisal.group_appraisal_manager,exp_hr_appraisal.group_appraisal_employee"/>
 
                         <button name="draft" string="Re-Draft"
                                 class="oe_highlight" type="object" states="wait_performance_officer"
@@ -81,7 +78,6 @@
                         <button name="refused" string="Refuse" class="oe_highlight" type="object"
                                 invisible="1" groups="exp_hr_appraisal.group_appraisal_employee"/>
                         <!--                        states="wait_performance_officer"-->
-
                         <button name="send_to_gm" string="Approve" class="oe_highlight"
                                 attrs="{'invisible': ['|',('state', '!=', 'wait_services_manager'),('type', '!=', 'exp_performance')]}"
                                 type="object" groups="hr_base.group_services_manager"/>
@@ -101,13 +97,13 @@
                                 attrs="{'invisible': ['|',('state', '!=', 'wait_gm'),('type', '!=', 'exp_performance')]}"
                                 type="object" groups="hr_base.group_general_manager"/>
                         <button name="refused" string="Refuse" class="oe_highlight" type="object"
-                                states="wait_gm" attrs="{'invisible': [('state', '=', 'wait_performance_officer')]}"
+                                attrs="{'invisible': [('state', 'in', ('wait_dept_manager','wait_performance_officer','wait_direct_manager','draft','refused'))]}"
                                 groups="hr_base.group_general_manager"/>
 
                         <button name="draft" string="Re-Draft" class="oe_highlight" type="object"
-                                states="refused,closed"
+                                states="refused,closed,wait_dept_manager"
                                 confirm="Are you sure to Reset To Draft This Record?"
-                        groups="exp_hr_appraisal.group_appraisal_manager,exp_hr_appraisal.group_appraisal_employee"/>
+                                groups="exp_hr_appraisal.group_appraisal_manager,exp_hr_appraisal.group_appraisal_employee"/>
 
                         <button name="objection_request" string="Objection Request" class="oe_highlight"
                                 type="object"
@@ -130,12 +126,18 @@
                                 attrs="{'invisible': [('state','not in',('wait_performance_officer'))]}"/>
 
                         <field name="state" widget="statusbar"
-                               statusbar_visible="draft,wait_direct_manager,wait_employee,wait_performance_officer,closed"/>
+                               statusbar_visible="draft,wait_direct_manager,wait_employee,wait_dept_manager,wait_performance_officer,closed"/>
                     </header>
                 </header>
                 <xpath expr="//field[@name='employee_id']" position="after">
                     <field name="work_state"/>
                 </xpath>
+                <xpath expr="//field[@name='employee_id']" position="before">
+                    <field name="name" readonly="1"
+                           class="oe_inline"
+                           style="font-weight: bold; font-size:20px; width:100%; text-align:center;"/>
+                </xpath>
+
                 <xpath expr="//field[@name='employee_id']" position="attributes">
                     <attribute name="attrs">{'readonly': [('state', '!=', 'draft')]}</attribute>
                 </xpath>
@@ -213,14 +215,17 @@
                            options="{'no_create': True, 'no_open': True}"/>
                     <field name="meeting_done"
                            attrs="{'required': [('state','!=','draft')],'invisible': [('state', '=', 'draft')],'readonly': [('state', '!=', 'wait_direct_manager')]}"/>
+                    <field  attrs="{'invisible':[('state','!=','cancel')]}" name="cancel_reason"/>
                     <field name="can_see_appraisal_result" invisible="1"/>
-
+                    <field attrs="{'invisible': ['|', ('state','!=','refused'), ('refused_goal_id','=',False)]}"
+                           name="refused_goal_id"/>
+                    <field attrs="{'invisible': ['|', ('state','!=','refused'), ('refused_goal_id','=',False)]}"
+                           name="refused_skill_id"/>
                     <field name="goals_mark" decoration-bf="1"
                            attrs="{'invisible': [('is_last_stage', '=', False)]}"/>
                     <field name="skill_mark" decoration-bf="1"
                            attrs="{'invisible': [('is_last_stage', '=', False)]}"/>
-                    <field name="total_score" decoration-bf="1"
-                           attrs="{'invisible': [('is_last_stage', '=', False)]}"/>
+                    <field name="total_score" decoration-bf="1"/>
                     <field name="appraisal_result_color" invisible="1"/>
                     <field name="appraisal_result"
                            attrs="{'invisible': [('is_last_stage', '=', False)]}"
@@ -252,6 +257,7 @@
                             <field name="goal_ids"
                                    attrs="{'readonly':[('state','not in',['draft','wait_direct_manager','wait_performance_officer'])]}">
                                 <tree editable="bottom">
+                                    <field name="sequence" readonly="1"/>
                                     <field name="state" invisible="1"/>
                                     <field name="kpi_id" width="10" required="1"
                                            attrs="{'readonly':['|',('parent.is_first_stage', '=', False),('state','not in',('wait_direct_manager','draft'))]}"
@@ -282,8 +288,14 @@
                                     <field name="kpi_result" width="5" sum="Total Result"
                                            attrs="{'column_invisible': [('parent.is_last_stage', '=', False)]}"/>
 
-                                    <field name="appraiser_comments" force_save='1' width="12"
+                                    <field decoration-success="appraiser_comments == 'achieved'"
+                                           decoration-warning="appraiser_comments == 'remedied'"
+                                           decoration-danger="appraiser_comments == 'below'"
+                                           name="appraiser_comments"
+                                           force_save='1' width="12"
                                            attrs="{'column_invisible': ['|','|',('parent.type','!=','appraisal'),('parent.is_first_stage', '=', True),('parent.is_last_stage', '=', True)]}"/>
+
+
                                     <field name="comments" force_save='1' width="12"
                                            attrs="{'column_invisible': ['|','|',('parent.type','!=','appraisal'),('parent.is_first_stage', '=', True),('parent.is_last_stage', '=', True)]}"/>
 
@@ -294,6 +306,7 @@
 
                                     <field name="remarks" force_save='1' width="12"
                                            attrs="{'readonly':[('parent.type','!=','appraisal')],'column_invisible': [('parent.is_last_stage', '=', False)]}"/>
+
                                 </tree>
                             </field>
                         </page>
@@ -302,6 +315,7 @@
                             <field name="skill_ids"
                                    attrs="{'readonly':[('state','not in',['draft','wait_direct_manager','wait_performance_officer'])]}">
                                 <tree editable="bottom">
+                                    <field name="sequence" readonly="1"/>
                                     <field name="state" invisible="1"/>
                                     <field name="is_direct_manager" invisible="1"/>
                                     <field name="is_appraisal_employee" invisible="1"/>
@@ -321,7 +335,7 @@
                                     <field name="target" width="5" force_save='1' required="1"
                                            attrs="{'readonly':['|',('parent.is_first_stage', '=', False),('state','not in',('wait_direct_manager','draft'))]}"/>
                                     <field name="apprisal_start_year" width="5" force_save='1' required="1"
-                                           attrs="{'readonly':[('parent.is_first_stage', '=', True)]}"/>
+                                           />
                                     <field name="mark" force_save='1' width="12"
                                            attrs="{'readonly':['|','|',('parent.type', '!=', 'appraisal'),('parent.is_last_stage', '=', False),('state','not in',('wait_direct_manager','draft'))],'column_invisible': [('parent.is_last_stage', '=', False)]}"/>
 
@@ -337,6 +351,10 @@
                                            attrs="{'column_invisible': [('parent.is_last_stage', '=', False)]}"/>
 
                                     <field name="appraiser_comments" force_save='1' width="12"
+                                           decoration-success="appraiser_comments == 'achieved'"
+                                           decoration-warning="appraiser_comments == 'remedied'"
+                                           decoration-danger="appraiser_comments == 'below'"
+                                           widget="badge"
                                            attrs="{'readonly':[('parent.type','!=','appraisal')],'column_invisible': ['|',('parent.is_first_stage', '=', True),('parent.is_last_stage', '=', True)]}"/>
                                     <field name="comments" force_save='1' width="12"
                                            attrs="{'readonly':[('parent.type','!=','appraisal')],'column_invisible': ['|',('parent.is_first_stage', '=', True),('parent.is_last_stage', '=', True)]}"/>
@@ -349,6 +367,7 @@
                             <field required="1" name="development_plan_ids"
                                    attrs="{'readonly':[('state','not in',['draft','wait_direct_manager'])]}">
                                 <tree editable="bottom">
+                                    <field name="sequence" readonly="1"/>
                                     <field required="1" name="development_method_id" width="5" force_save='1'/>
                                     <field required="1" name="name" readonly="1" force_save='1' width="12"/>
                                     <field required="1" name="needs" width="5" force_save='1'/>
@@ -371,19 +390,34 @@
                         </page>
                         <page string="Comments">
                             <group>
-                                <group>
-                                    <field name="employee_comment" widget="html"
-                                           attrs="{'readonly':[('state','!=','wait_employee')]}"/>
-                                    <field name="dmanager_comment" widget="html"
-                                           attrs="{'readonly':['|',('is_appraisal_employee', '=', True),('state','not in',['draft','wait_dmanager'])]}"/>
-                                    <field name="executive_director_comment" widget="html"
-                                           attrs="{'readonly':[('state','!=','wait_executive_director')]}"/>
+                                <group attrs="{'invisible':[('is_first_stage','!=',True)]}">
+                                    <field name="employee_comment" widget="html" attrs="{'readonly':[('state','!=','wait_employee')]}"/>
+                                    <field name="dmanager_comment" widget="html" attrs="{'readonly':[('state','not in',['wait_direct_manager'])]}"/>
+                                    <field name="executive_director_comment" widget="html" attrs="{'readonly':[('state','!=','wait_executive_director')]}"/>
                                 </group>
-                                <group>
-                                    <field name="performance_officer_comment" widget="html"
-                                           attrs="{'readonly':[('state','!=','wait_performance_officer')]}"/>
-                                    <field name="performance_manager_comment" widget="html"
-                                           attrs="{'readonly':[('state','!=','wait_performance_manager')]}"/>
+                                <group attrs="{'invisible':[('is_first_stage','!=',True)]}">
+                                    <field name="performance_officer_comment" widget="html" attrs="{'readonly':[('state','not in',['draft','wait_performance_officer'])]}"/>
+                                    <field name="performance_manager_comment" widget="html" attrs="{'readonly':[('state','not in',['wait_performance_manager'])]}"/>
+                                </group>
+
+                                <group attrs="{'invisible':['|',('is_first_stage','=',True),('is_last_stage','=',True)]}">
+                                    <field name="employee_comment_mid" widget="html" attrs="{'readonly':[('state','!=','wait_employee')]}"/>
+                                    <field name="dmanager_comment_mid" widget="html" attrs="{'readonly':[('state','not in',['wait_direct_manager'])]}"/>
+                                    <field name="executive_director_comment_mid" widget="html" attrs="{'readonly':[('state','!=','wait_executive_director')]}"/>
+                                </group>
+                                <group attrs="{'invisible':['|',('is_first_stage','=',True),('is_last_stage','=',True)]}">
+                                    <field name="performance_officer_comment_mid" widget="html" attrs="{'readonly':[('state','not in',['draft','wait_performance_officer'])]}"/>
+                                    <field name="performance_manager_comment_mid" widget="html" attrs="{'readonly':[('state','not in',['wait_performance_manager'])]}"/>
+                                </group>
+
+                                <group  attrs="{'invisible':[('is_last_stage','!=',True)]}">
+                                    <field name="employee_comment_last" widget="html" attrs="{'readonly':[('state','!=','wait_employee')]}"/>
+                                    <field name="dmanager_comment_last" widget="html" attrs="{'readonly':[('state','not in',['wait_direct_manager'])]}"/>
+                                    <field name="executive_director_comment_last" widget="html" attrs="{'readonly':[('state','!=','wait_executive_director')]}"/>
+                                </group>
+                                <group  attrs="{'invisible':[('is_last_stage','!=',True)]}">
+                                    <field name="performance_officer_comment_last" widget="html" attrs="{'readonly':[('state','not in',['draft','wait_performance_officer'])]}"/>
+                                    <field name="performance_manager_comment_last" widget="html" attrs="{'readonly':[('state','not in',['wait_performance_manager'])]}"/>
                                 </group>
                             </group>
 
@@ -401,6 +435,7 @@
             <field name="arch" type="xml">
                 <search string="appraisal">
                     <!-- Search fields -->
+                    <field name="name"/>
                     <field name="employee_id"/>
                     <separator/>
 
@@ -408,6 +443,8 @@
                     <group expand="0" string="Group By">
                         <filter name="group_by_department_id" domain="[]"
                                 context="{'group_by': 'department_id'}"/>
+                        <filter name="name_by" domain="[]"
+                                context="{'group_by': 'name'}"/>
                         <filter name="group_by_appraisal_stage_id" string="Appraisal Stage" domain="[]"
                                 context="{'group_by': 'appraisal_stage_id'}"/>
                         <filter name="group_by_employee_id" string="Employee" domain="[]"
@@ -434,6 +471,9 @@
                 <xpath expr="//field[@name='appraisal_plan_id']" position="attributes">
                     <attribute name="invisible">1</attribute>
                 </xpath>
+                <xpath expr="//field[@name='employee_id']" position="before">
+                    <field width="10" name="name"/>
+                </xpath>
                 <xpath expr="//field[@name='employee_id']" position="after">
                     <field name="department_id" width="10"/>
                     <field name="appraisal_stage_id" width="10"/>
@@ -445,8 +485,7 @@
                            attrs="{'invisible': [('can_see_appraisal_result', '=', False)]}"/>
                     <field name="goals_mark" width="6"
                            attrs="{'invisible': [('can_see_appraisal_result', '=', False)]}"/>
-                    <field name="total_score" width="6"
-                           attrs="{'invisible': [('can_see_appraisal_result', '=', False)]}"/>
+                    <field name="total_score" width="6"/>
                     <field name="can_see_appraisal_result" invisible="1"/>
                     <field name="appraisal_result_color" invisible="1"/>
                     <field name="appraisal_result"

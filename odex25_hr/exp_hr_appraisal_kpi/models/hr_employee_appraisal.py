@@ -9,7 +9,7 @@ _logger = logging.getLogger(__name__)
 
 class EmployeeAppraisal(models.Model):
     _inherit = 'hr.employee.appraisal'
-
+    name = fields.Char(string="Number", readonly=True, copy=False)
     employee_id = fields.Many2one('hr.employee', 'Employee', tracking=True, required=True)
 
     work_state = fields.Selection([('work', _('In work')),
@@ -36,6 +36,9 @@ class EmployeeAppraisal(models.Model):
     company_id = fields.Many2one('res.company', string='Company', default=lambda self: self.env.company)
     goal_ids = fields.One2many('years.employee.goals', 'employee_apprisal_id', ondelete='cascade', string='Goals',
                                copy=True)
+    refused_goal_id = fields.Many2one('years.employee.goals', string="Refused Goal", readonly=True,tracking=1)
+    refused_skill_id = fields.Many2one('skill.item.employee.table', string="Refused Skill", readonly=True,tracking=1)
+
     skill_ids = fields.One2many('skill.item.employee.table', 'employee_apprisal_id', ondelete='cascade',
                                 string='Skills', copy=True)
     exceptional_performance_ids = fields.One2many('exceptional.performance.appraisal.line', 'employee_apprisal_id',
@@ -53,15 +56,28 @@ class EmployeeAppraisal(models.Model):
     executive_director_comment = fields.Text('Executive Director Comment')
     performance_officer_comment = fields.Text('Performance Officer Comment')
     performance_manager_comment = fields.Text('Performance Manager Comment')
+
+    employee_comment_mid = fields.Text("Employee Comment")
+    employee_comment_last = fields.Text("Employee Comment")
+    dmanager_comment_mid = fields.Text("Direct Manager Comment")
+    dmanager_comment_last = fields.Text("Direct Manager Comment")
+    executive_director_comment_mid = fields.Text("Executive Director Comment")
+    executive_director_comment_last = fields.Text("Executive Director Comment")
+    executive_director_comment_mid = fields.Text("Executive Director Comment")
+    executive_director_comment_last = fields.Text("Executive Director Comment")
+    performance_manager_comment_mid = fields.Text("Performance Manager Comment")
+    performance_manager_comment_last = fields.Text("Performance Manager Comment")
+    performance_officer_comment_mid = fields.Text('Performance Officer Comment')
+    performance_officer_comment_last = fields.Text('Performance Officer Comment')
     state = fields.Selection([
-        ("draft", "Draft"),("wait_direct_manager", "Waiting Direct Manager"),
+        ("draft", "Draft"), ("wait_direct_manager", "Waiting Direct Manager"),
         ("wait_employee", "Wait Employee"),
-        ("wait_dept_manager", "Waiting Department manager"),
+        ("wait_dept_manager", "Waiting Department Manager"),
         ("wait_performance_officer", "Waiting Performance Officer"),
         ("wait_hr_manager", "Waiting Human Resources Manager"),
         ("wait_services_manager", "Waiting Head of Shared Services"),
         ("wait_gm", "Waiting Secretary General"),
-        ("closed", "Approved"), ('refused', 'Cancel'),('cancel', 'Cancelled')
+        ("closed", "Approved"), ('refused', 'Cancel'), ('cancel', 'Cancelled')
     ], default='draft', tracking=True)
     # group_appraisal_manager
     # group_appraisal_employee
@@ -76,7 +92,7 @@ class EmployeeAppraisal(models.Model):
         ("correction", "Correction"),
         ("exp_performance", "Exceptional performance")
     ], default='appraisal', tracking=True)
-    cancel_reason = fields.Text(string="Cancel Reason", tracking=True,readonly=True)
+    cancel_reason = fields.Text(string="Cancel Reason", tracking=True, readonly=True)
     can_see_appraisal_result = fields.Boolean(compute="_compute_can_see_appraisal_result",
                                               string="Can See Appraisal Result", store=False)
     is_appraisal_employee = fields.Boolean(compute="_compute_is_appraisal_employee")
@@ -93,16 +109,23 @@ class EmployeeAppraisal(models.Model):
     exp_performance_count = fields.Integer('# Exceptional Performance Requests',
                                            help='Number of groups that apply to the current user',
                                            compute='_compute_requests_count', compute_sudo=True)
-    meeting_done = fields.Selection([('yes', 'Yes'),  ('no', 'No'), ], string="Has the meeting with the employee been held and goals discussed for the year?")
+    meeting_done = fields.Selection([('yes', 'Yes'), ('no', 'No'), ],
+                                    string="Has the meeting with the employee been held and goals discussed for the year?")
 
-    apprisal_result_display = fields.Char(string="Appraisal Result",store=False)
+    apprisal_result_display = fields.Char(string="Appraisal Result", store=False)
+
+    def action_approve_dept_manager(self):
+        self.state = 'wait_performance_officer'
 
     def read(self, fields=None, load='_classic_read'):
         for rec in self:
             if rec.is_first_stage:
                 rec.apprisal_result_display = _("In the Performance and Development Planning Stage")
 
-                new  = self.env['appraisal.result'].create({'name': rec.apprisal_result_display})
+                new = self.env['appraisal.result'].create({'name': rec.apprisal_result_display})
+                rec.appraisal_result = new.id
+            if not rec.is_last_stage and not rec.is_first_stage:
+                new = self.env['appraisal.result'].create({'name': (_("هذه المرحلة مخصصة للتغذية الراجعة"))})
                 rec.appraisal_result = new.id
 
         return super(EmployeeAppraisal, self).read(fields, load=load)
@@ -114,18 +137,6 @@ class EmployeeAppraisal(models.Model):
                 "exp_hr_appraisal.group_appraisal_employee")):
             args = args + [('state', '!=', 'refused')]
         return super(EmployeeAppraisal, self).search(args, offset=offset, limit=limit, order=order, count=count)
-
-
-
-    @api.constrains('development_plan_ids')
-    def _check_development_plan_ids(self):
-        for rec in self:
-            if not rec.development_plan_ids:
-                raise ValidationError(_("You must add at least one Development Plan."))
-            if not rec.goal_ids:
-                raise ValidationError(_("You must add at least one Goal."))
-            if not rec.skill_ids:
-                            raise ValidationError(_("You must add at least one Skill."))
 
     def action_open_cancel_wizard(self):
         return {
@@ -169,12 +180,16 @@ class EmployeeAppraisal(models.Model):
         result = super(EmployeeAppraisal, self).fields_view_get(view_id=view_id, view_type=view_type, toolbar=toolbar,
                                                                 submenu=submenu)
         doc = etree.XML(result['arch'])
+        for node in doc.xpath("//field[@name='total_score']"):
+            node.set('attrs', "{'invisible': ['|', ('is_last_stage','=',False),('can_see_appraisal_result','=',False)]}")
+            result['arch'] = etree.tostring(doc, encoding='unicode')
         for node in doc.xpath("//field[@name='appraisal_stage_id']"):
             node.set("attrs", "{'readonly': [('state','!=','draft')]}")
             result['arch'] = etree.tostring(doc, encoding='unicode')
         for node in doc.xpath("//field[@name='year_id']"):
             node.set("attrs", "{'readonly': [('state','!=','draft')]}")
             result['arch'] = etree.tostring(doc, encoding='unicode')
+
         if view_type == 'form' and self.env.context.get('default_type', 'appraisal') == 'objection':
             result['arch'] = self._apply_objection_state(result['arch'], view_type=view_type)
         if view_type == 'form' and self.env.context.get('default_type', 'appraisal') == 'exp_performance':
@@ -183,6 +198,17 @@ class EmployeeAppraisal(models.Model):
             result['arch'] = self._apply_correction_state(result['arch'], view_type=view_type)
 
         return result
+
+    @api.onchange('appraisal_stage_id','employee_id')
+    def _onchange_appraisal_stage_id(self):
+            print('ON...............................')
+            employees_with_appraisal = self.env['hr.employee.appraisal'].search([('is_first_stage', '=', True) ]).mapped('employee_id').ids
+            print('employees_with_appraisal = ',employees_with_appraisal)
+            return {
+                'domain': {
+                    'employee_id': [('id', 'not in', employees_with_appraisal)]
+                }
+            }
 
     @api.constrains('employee_id', 'appraisal_stage_id')
     def _check_unique_employee_stage(self):
@@ -194,7 +220,8 @@ class EmployeeAppraisal(models.Model):
                     ('id', '!=', rec.id),
                 ], limit=1)
                 if duplicate:
-                    raise ValidationError(_('This employee already has an appraisal in the same stage.'))
+                    pass
+                    # raise ValidationError(_('This employee already has an appraisal in the same stage.'))
 
     @api.model
     def _apply_objection_state(self, view_arch, view_type='form'):
@@ -235,6 +262,7 @@ class EmployeeAppraisal(models.Model):
                 ('period_id', '=', item.appraisal_stage_id.period_id.id)
             ], order="sequence ASC", limit=1)
             item.is_first_stage = item.appraisal_stage_id.id == first_stage_record.id if first_stage_record else False
+
     @api.depends('employee_id', 'state')
     def _compute_can_see_appraisal_result(self):
         for record in self:
@@ -325,14 +353,31 @@ class EmployeeAppraisal(models.Model):
                 _logger.error(f"SMTP Error: {str(e)} - Retrying...")
                 self.env.cr.rollback()  # Rollback any uncommitted transactions
                 Mail.browse(template.id).send_mail(record.id, force_send=True)  # Retry
+
     def sent_appraisal_to_employee(self):
         user = self.env.user
+        if not self.development_plan_ids:
+            raise ValidationError(_("You must add at least one Development Plan."))
+        if not self.goal_ids:
+            raise ValidationError(_("You must add at least one Goal."))
+        if not self.skill_ids:
+            raise ValidationError(_("You must add at least one Skill."))
+        for goal in self.goal_ids:
+            if goal.weight == 0:
+                raise ValidationError(
+                    _("Direct Manager: Weight for goals cannot be 0%%. Please assign a valid percentage."))
+        for skill in self.skill_ids:
+            if skill.skill_weight == 0:
+                raise ValidationError(
+                    _("Direct Manager: Weight for skills cannot be 0%%. Please assign a valid percentage."))
 
         is_direct_manager = self.employee_id.parent_id.user_id == user
-        in_allowed_group = (user.has_group('exp_hr_appraisal.group_appraisal_manager')or user.has_group('exp_hr_appraisal.group_appraisal_employee'))
+        in_allowed_group = (user.has_group('exp_hr_appraisal.group_appraisal_manager') or user.has_group(
+            'exp_hr_appraisal.group_appraisal_employee'))
 
         if not (is_direct_manager or in_allowed_group):
-            raise UserError(_("You cannot move this evaluation to this stage unless you are the employee's direct manager."))
+            raise UserError(
+                _("You cannot move this evaluation to this stage unless you are the employee's direct manager."))
         for record in self:
             if not record.year_id:
                 raise exceptions.ValidationError(_("Please select an Appraisal Year before submitting."))
@@ -347,8 +392,9 @@ class EmployeeAppraisal(models.Model):
                 ) % {'min': min_no_goals, 'max': max_no_goals, 'current': num_goals})
 
             if any(not (min_goal_weight <= goal.weight <= max_goal_weight) for goal in record.goal_ids):
-                raise exceptions.ValidationError(_("Each goal's weight must be between %(min)d and %(max)d.")
-                                                 % {'min': min_goal_weight, 'max': max_goal_weight})
+                pass
+                # raise exceptions.ValidationError(_("Each goal's weight must be between %(min)d and %(max)d.")
+                #                                  % {'min': min_goal_weight, 'max': max_goal_weight})
 
             if sum(goal.weight for goal in record.goal_ids) != 100:
                 raise exceptions.ValidationError(_("Total goal weight must be exactly 100."))
@@ -388,6 +434,8 @@ class EmployeeAppraisal(models.Model):
         self.state = 'wait_dept_manager'
 
     def send_to_performance_officer(self):
+        if self.manager_id.parent_id.user_id != self.env.user:
+            raise ValidationError(_("You are not the direct manager of this employee, so you cannot proceed."))
         self.state = 'wait_performance_officer'
 
     def send_hr_manager(self):
@@ -508,7 +556,19 @@ class EmployeeAppraisal(models.Model):
             item.state = 'closed'
 
     def refused(self):
-        self.state = 'refused'
+        if self.state == 'wait_employee':
+            return {
+                'name': (_("Refuse Appraisal")),
+                'type': 'ir.actions.act_window',
+                'res_model': 'appraisal.refuse.wizard',
+                'view_mode': 'form',
+                'target': 'new',
+                'context': {'default_appraisal_id': self.id},
+            }
+        else:
+            self.state = 'refused'
+
+
 
     _sql_constraints = [
         ('appraisal', 'UNIQUE (id)', 'Employee Appraisal must be unique per Employee, Year, and Stage !')
@@ -621,10 +681,35 @@ class EmployeeAppraisal(models.Model):
             appraisal.skill_ids.unlink()
         return super(EmployeeAppraisal, self).unlink()
 
+    @api.model
+    def create(self, vals):
+        # Get year (last 2 digits)
+        year_prefix = fields.Date.today().strftime('%y')
+
+        if vals.get("is_first_stage"):
+            vals["name"] = self.env["ir.sequence"].next_by_code("appraisal.plan.seq") or "/"
+        elif vals.get("is_last_stage"):
+            vals["name"] = self.env["ir.sequence"].next_by_code("appraisal.final.seq") or "/"
+        else:
+            vals["name"] = self.env["ir.sequence"].next_by_code("appraisal.mid.seq") or "/"
+        # Add year prefix manually if not already in the sequence
+        return super(EmployeeAppraisal, self).create(vals)
+
+    def draft(self):
+        for item in self:
+            if item.employee_id.contract_id.appraisal_result_id:
+                item.employee_id.contract_id.appraisal_result_id = False
+
+            if item.state == 'wait_dept_manager':
+                item.state = 'wait_direct_manager'
+            else:
+                item.state = 'draft'
+
 
 class SkillItems(models.Model):
     _name = 'skill.item.employee.table'
 
+    sequence = fields.Integer(string="Sequence", default=1, compute='_compute_sequences')
     employee_apprisal_id = fields.Many2one(comodel_name='hr.employee.appraisal')
     item_id = fields.Many2one(comodel_name='item.item', string='Item')
     skill_type_id = fields.Many2one('skill.type')
@@ -651,6 +736,16 @@ class SkillItems(models.Model):
         ('achieved', 'Achieved The Target"'),
         ('remedied', 'Below target can be remedied'),
         ('below', 'Below Target')], string='Appraiser Comments')
+
+    def _compute_sequences(self):
+        # Reorder skills
+        for idx, line in enumerate(self.employee_apprisal_id.skill_ids, start=1):
+            line.sequence = idx
+
+    def unlink(self):
+        for rec in self:
+            if rec.employee_apprisal_id.state == "wait_direct_manager":
+                raise ValidationError(_("You cannot delete a record in This state."))
 
     @api.onchange('skill_type_id')
     def _onchange_skill_type(self):
@@ -699,15 +794,23 @@ class DevelopmentMethods(models.Model):
 class DevelopmentPlan(models.Model):
     _name = 'development.plan'
 
+    sequence = fields.Integer(compute='_compute_sequences', string="Sequence", default=1)
     employee_apprisal_id = fields.Many2one(comodel_name='hr.employee.appraisal')
     name = fields.Text(related='development_method_id.description', string='Description')
     development_method_id = fields.Many2one('development.methods', string='Development Methods', required=True)
     needs = fields.Selection([('yes', 'Yes'), ('no', 'No')], string='Needs', default='no', required=True)
     suggestions = fields.Text(string='Suggestions')
 
+    def _compute_sequences(self):
+        # Reorder goals
+        # Reorder development plans
+        for idx, line in enumerate(self.employee_apprisal_id.development_plan_ids, start=1):
+            line.sequence = idx
+
     @api.onchange('development_method_id')
     def _onchange_development_method_id(self):
-        selected_development_method_id = self.employee_apprisal_id.development_plan_ids.mapped('development_method_id.id')
+        selected_development_method_id = self.employee_apprisal_id.development_plan_ids.mapped(
+            'development_method_id.id')
         return {'domain': {'development_method_id': [('id', 'not in', selected_development_method_id)]}}
 
 
@@ -749,3 +852,20 @@ class AppraisalResult(models.Model):
 
     exceptional_performance = fields.Boolean(string="Exceptional Performance")
     template_id = fields.Many2one(comodel_name='exceptional.performance.template')
+
+
+class YearsEmployeeGoals(models.Model):
+    _inherit = "years.employee.goals"
+
+    sequence = fields.Integer(compute='_compute_sequences', string="Sequence", default=1)
+
+    def _compute_sequences(self):
+        # rder goals
+        for idx, line in enumerate(self.employee_apprisal_id.goal_ids, start=1):
+            line.sequence = idx
+
+    def unlink(self):
+        for rec in self:
+            if rec.employee_apprisal_id.state == "wait_direct_manager":
+                raise ValidationError(_("You cannot delete a record in This state."))
+

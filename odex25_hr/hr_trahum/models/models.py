@@ -201,6 +201,47 @@ class HrContractTrahum(models.Model):
         self.program_directory()
 
 
+
+class Competencies(models.Model):
+    _name = "hr.competencies"
+    _description = "Competencies"
+
+    name = fields.Char("Name")
+    department_id = fields.Many2one("hr.department")
+    elements_ids = fields.One2many("hr.elements", "competencies_id", string="elements")
+
+
+class Elements(models.Model):
+    _name = "hr.elements"
+    _description = "Elements"
+
+    name = fields.Char("Name")
+    department_id = fields.Many2one("hr.department", related="competencies_id.department_id")
+    competencies_id = fields.Many2one("hr.competencies", string="Competency")
+    answer = fields.Text()
+
+    employee_applicant_line = fields.Many2one('hr.applicant')
+
+
+class Competency(models.Model):
+    _name = "hr.competency"
+    _description = "Level Of Required Competency"
+
+    name = fields.Char("Name")
+    department_id = fields.Many2many("hr.department")
+
+
+class EmployeeBehaviors(models.Model):
+    _name = "employee.behaviors"
+    _description = "Employee Behaviors"
+
+    name = fields.Char("Name")
+
+class HrOfficialMissionType(models.Model):
+    _inherit = 'hr.official.mission.type'
+
+    is_middle_east = fields.Boolean()
+
 class HrOfficialMissionTrahum(models.Model):
     _inherit = 'hr.official.mission'
     #
@@ -217,6 +258,46 @@ class HrOfficialMissionTrahum(models.Model):
                               ('secret_general', 'Secret General'),
                               ('approve', _('Approved')),
                               ('refused', _('Refused'))], default="draft", tracking=True)
+
+    preferred_language_id = fields.Many2one("ir.model.data", string="Preferred Language",
+                                            domain=[("model", "=", "res.lang")])
+    competency_id = fields.Many2one("hr.competency", string="Competency")
+    elements_id = fields.Many2one("hr.elements", string="Elements")
+    competencie_id = fields.Many2one("hr.competencies", string="Required Competencie")
+    course_link = fields.Char("Recommended Course Link")
+    course_skill = fields.Html("What skill wants to develop or Gap wants to fill ?")
+    is_companion = fields.Selection([("companion", "need Companion"), ("not_companion", "Not need Companion")],
+                                    string="is_companion")
+    gender = fields.Selection(selection=[("male", "Male"), ("female", "Female")], related="employee_id.gender")
+    destination_air = fields.Selection(
+        selection=[("one_way", "One Way"), ("two_way", "Two Way"), ("multi_way", "Multi Distnation")],
+        string="Destination")
+    to_destination = fields.Many2one("mission.destination", string="To Destination")
+    saudi_number = fields.Many2one("hr.employee.document", "Saudi Number", related="employee_id.saudi_number")
+    work_phone = fields.Char("Work Phone", related="employee_id.work_phone")
+    work_email = fields.Char("Work Email", related="employee_id.work_email")
+    salary_group = fields.Many2one(related="employee_id.salary_group")
+    ticket_class_id = fields.Many2one(related="employee_id.contract_id.ticket_class_id")
+    expiration_date_passport = fields.Date(related="employee_id.expiration_date_passport")
+    passport_id = fields.Many2one(related="employee_id.passport_id")
+    to_country_id = fields.Many2one('res.country')
+    type_of_mission = fields.Selection(related='mission_type.type_of_mission')
+    is_middle_east = fields.Boolean(related='mission_type.is_middle_east')
+
+    @api.onchange("department_id")
+    def _onchange_department_competencie_id(self):
+        department_ids = self.department_id.ids
+        return {"domain": {"competencie_id": [("department_id", "in", department_ids)]}}
+
+    @api.onchange("competencie_id")
+    def _onchange_department_id_elements_id(self):
+        competencie_id = self.competencie_id.ids
+        return {"domain": {"elements_id": [("competencies_id", "in", competencie_id)]}}
+
+    @api.onchange("department_id")
+    def _onchange_department_id_competency_id(self):
+        department_ids = self.department_id.ids
+        return {"domain": {"competency_id": [("department_id", "in", department_ids)]}}
 
     def hr_manager_approve(self):
             self.state = "hr_manager_approve2"

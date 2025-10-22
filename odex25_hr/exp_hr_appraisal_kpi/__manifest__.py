@@ -29,6 +29,7 @@
         'views/hr_employee_appraisal_view.xml',
         #'views/last_appraisal_employees_view.xml',
         'data/mail_template.xml',
+        'data/seq.xml',
         'report/performance_evaluation_report_view.xml',
         'wizard/performance_evaluation_wizard_view.xml',
 
