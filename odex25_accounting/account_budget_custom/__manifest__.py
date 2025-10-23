@@ -15,7 +15,7 @@
     'data': [
         'data/budget_operation_data.xml',
         'security/budget_groups.xml',
-        'security/ir.model.access.csv',
+        # 'security/ir.model.access.csv',
         'views/account_budget_views.xml',
         'views/budget_operations_view.xml',
         'views/budget_confirmation_view.xml',
