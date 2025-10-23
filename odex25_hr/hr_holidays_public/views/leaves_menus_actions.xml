@@ -31,10 +31,7 @@
         </record>
 
         <record model='ir.ui.menu' id='hr_holidays_community.menu_open_company_allocation'>
-            <field name="groups_id" eval="[ (4,ref('hr_base.group_division_manager')),
-                                            (4,ref('hr_base.group_general_manager')),
-                                            (4,ref('hr_base.group_executive_manager')),
-                                            (4,ref('hr_holidays_community.group_hr_holidays_user'))]"/>
+            <field name="groups_id" eval="[(4,ref('attendances.make_invisible')),]"/>
         </record>
 
     </data>

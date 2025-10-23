@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 14.0\n"
+"Project-Id-Version: Odoo Server 14.0-20231205\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-12-03 11:57+0000\n"
-"PO-Revision-Date: 2024-12-03 11:57+0000\n"
+"POT-Creation-Date: 2025-01-20 11:12+0000\n"
+"PO-Revision-Date: 2025-01-20 11:12+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -95,11 +95,21 @@ msgid "12 Months"
 msgstr "12 شهر"
 
 #. module: hr_holidays_public
+#: model:ir.model.fields.selection,name:hr_holidays_public.selection__hr_holidays_status__contract_duration__12month
+msgid "12 شهر"
+msgstr ""
+
+#. module: hr_holidays_public
 #: code:addons/hr_holidays_public/models/hr_holidays_status.py:0
 #: model:ir.model.fields.selection,name:hr_holidays_public.selection__hr_holidays_status__contract_duration__24month
 #, python-format
 msgid "24 Months"
 msgstr "24 شهر"
+
+#. module: hr_holidays_public
+#: model:ir.model.fields.selection,name:hr_holidays_public.selection__hr_holidays_status__contract_duration__24month
+msgid "24 شهر"
+msgstr ""
 
 #. module: hr_holidays_public
 #: model_terms:ir.ui.view,arch_db:hr_holidays_public.all_leave_report_template
@@ -219,12 +229,24 @@ msgstr "السماح لتجاوز الحد"
 #. module: hr_holidays_public
 #: model:ir.model.fields,field_description:hr_holidays_public.field_hr_holidays_status__alternative_chick
 msgid "Alternative Chick"
-msgstr ""
+msgstr "تتطلب موظف بديل"
+
+#. module: hr_holidays_public
+#: model_terms:ir.ui.view,arch_db:hr_holidays_public.edit_holiday_status_form
+#: model:ir.model.fields,field_description:hr_holidays_public.field_hr_holidays_status__alternative_days
+msgid "Alternative Days"
+msgstr "أيام للبديل"
 
 #. module: hr_holidays_public
 #: model:ir.model.fields,field_description:hr_holidays_public.field_return_from_leave__alternative_emp_id
 msgid "Alternative Employee"
 msgstr "الموظف البديل"
+
+#. module: hr_holidays_public
+#: code:addons/hr_holidays_public/models/hr_holidays_status.py:0
+#, python-format
+msgid "Sorry, The Alternative Employee Days Must Be Greater Than One Day."
+msgstr "عذرًا، يجب أن تكون أيام الموظف البديل أكبر من يوم واحد"
 
 #. module: hr_holidays_public
 #: model_terms:ir.ui.view,arch_db:hr_holidays_public.edit_holiday_status_form
@@ -407,6 +429,7 @@ msgstr "تقويم سنوي"
 #. module: hr_holidays_public
 #: code:addons/hr_holidays_public/models/hr_holidays.py:0
 #: model:ir.model.fields.selection,name:hr_holidays_public.selection__hr_holidays__state__cancel
+#: model:ir.model.fields.selection,name:hr_holidays_public.selection__leave_cancellation__cancellation_type__cancel
 #: model_terms:ir.ui.view,arch_db:hr_holidays_public.holidays_public_next_year_wizard_view
 #: model_terms:ir.ui.view,arch_db:hr_holidays_public.pubic_leave_report_wizard_view
 #, python-format
@@ -418,6 +441,11 @@ msgstr "إلغاء"
 #: model_terms:ir.ui.view,arch_db:hr_holidays_public.hr_holidays_ext_form_view
 msgid "Canceled Duration"
 msgstr "المدة الملغاة"
+
+#. module: hr_holidays_public
+#: model:ir.model.fields,field_description:hr_holidays_public.field_leave_cancellation__cancellation_type
+msgid "Cancellation Type"
+msgstr "النوع"
 
 #. module: hr_holidays_public
 #: model:ir.model.fields,field_description:hr_holidays_public.field_leave_cancellation__cause
@@ -575,6 +603,11 @@ msgid "Current contract of the employee"
 msgstr "عقد الموظف الحالي "
 
 #. module: hr_holidays_public
+#: model:ir.model.fields.selection,name:hr_holidays_public.selection__leave_cancellation__cancellation_type__cut
+msgid "Cut"
+msgstr "قطع"
+
+#. module: hr_holidays_public
 #: model:ir.model.fields.selection,name:hr_holidays_public.selection__hr_holidays_status__balance_type__daily
 msgid "Daily"
 msgstr "يومي"
@@ -699,6 +732,7 @@ msgstr "الإدارات المفوضة"
 #: model_terms:ir.ui.view,arch_db:hr_holidays_public.public_leave_cost_report
 #: model_terms:ir.ui.view,arch_db:hr_holidays_public.specified_leave_report_template
 #: model_terms:ir.ui.view,arch_db:hr_holidays_public.view_hr_holidays_filter2
+#: model_terms:ir.ui.view,arch_db:hr_holidays_public.leaves_balance_tree_view
 #, python-format
 msgid "Department"
 msgstr "الهيكل الإداري"
@@ -747,7 +781,9 @@ msgstr "فرق الايام"
 #: code:addons/hr_holidays_public/models/hr_buy_vacation.py:0
 #: code:addons/hr_holidays_public/models/return_from_leave.py:0
 #: model:ir.model.fields.selection,name:hr_holidays_public.selection__buy_vacation__state__d_manager
+#: model:ir.model.fields,field_description:attendances.field_hr_attendance_register__manager_id
 #: model:ir.model.fields.selection,name:hr_holidays_public.selection__return_from_leave__state__review
+#: model:ir.model.fields,field_description:hr_holidays_public.field_leave_cancellation__manager_id
 #: model_terms:ir.ui.view,arch_db:hr_holidays_public.buy_vacation_form_view
 #: model_terms:ir.ui.view,arch_db:hr_holidays_public.return_from_leave_form_view
 #, python-format
@@ -827,8 +863,8 @@ msgstr "طوارئ"
 
 #. module: hr_holidays_public
 #: model:ir.model.fields,field_description:hr_holidays_public.field_hr_holidays_status__emp_type
-msgid "Emp Type"
-msgstr "نوع الموظف"
+msgid "Annual Leave Entitlement"
+msgstr "الاستحقاق السنوي للاجازة"
 
 #. module: hr_holidays_public
 #: model:ir.model,name:hr_holidays_public.model_hr_employee
@@ -885,6 +921,14 @@ msgid "Employee NO"
 msgstr "رقم الموظف"
 
 #. module: hr_holidays_public
+#: code:addons/hr_holidays_public/wizards/holiday_public_leave_report_wiz.py:0
+#: model_terms:ir.ui.view,arch_db:hr_holidays_public.all_leave_report_template
+#: model_terms:ir.ui.view,arch_db:hr_holidays_public.specified_leave_report_template
+#, python-format
+msgid "Employee Number"
+msgstr "الرقم الوظيفي"
+
+#. module: hr_holidays_public
 #: code:addons/hr_holidays_public/report/public_leave_cost.py:0
 #: code:addons/hr_holidays_public/report/public_leave_cost.py:0
 #: model_terms:ir.ui.view,arch_db:hr_holidays_public.public_leave_cost_report
@@ -910,6 +954,7 @@ msgstr "نوع الموظف"
 
 #. module: hr_holidays_public
 #: model:ir.model.fields,field_description:hr_holidays_public.field_hr_holidays__emp_number
+#: model_terms:ir.ui.view,arch_db:hr_holidays_public.leaves_balance_tree_view
 msgid "Employee number"
 msgstr "رقم الموظف"
 
@@ -1016,6 +1061,11 @@ msgid "File content"
 msgstr "محتوى الملف"
 
 #. module: hr_holidays_public
+#: model:ir.model.fields,field_description:hr_holidays_public.field_hr_holidays__hiring_date
+msgid "First Hiring Date"
+msgstr ""
+
+#. module: hr_holidays_public
 #: model:ir.model.fields,field_description:hr_holidays_public.field_buy_vacation__message_follower_ids
 #: model:ir.model.fields,field_description:hr_holidays_public.field_hr_holiday_officials__message_follower_ids
 #: model:ir.model.fields,field_description:hr_holidays_public.field_hr_holidays_restriction__message_follower_ids
@@ -1100,7 +1150,7 @@ msgstr "من موظف آخر"
 #: code:addons/hr_holidays_public/wizards/holiday_public_leave_report_wiz.py:0
 #, python-format
 msgid "From date"
-msgstr ""
+msgstr "من تاريخ"
 
 #. module: hr_holidays_public
 #: model:ir.model.fields,field_description:hr_holidays_public.field_hr_holidays_status__gender
@@ -1127,7 +1177,7 @@ msgstr "مدير الموارد البشرية"
 #: model_terms:ir.ui.view,arch_db:hr_holidays_public.hr_holidays_ext_form_view
 #: model_terms:ir.ui.view,arch_db:hr_holidays_public.leave_cancellation_form_view
 msgid "HR Manager Approve"
-msgstr "اخصائى عمليات الموارد البشرية"
+msgstr "تصديق الموارد البشرية"
 
 #. module: hr_holidays_public
 #: code:addons/hr_holidays_public/models/hr_holidays_status.py:0
@@ -1414,7 +1464,7 @@ msgstr "إصدار تذكرة؟"
 #: model_terms:ir.ui.view,arch_db:hr_holidays_public.specified_leave_report_template
 #, python-format
 msgid "Job"
-msgstr "العمل"
+msgstr "المسمى الوظيفي"
 
 #. module: hr_holidays_public
 #: model:ir.model.fields,field_description:hr_holidays_public.field_buy_vacation__job_id
@@ -1750,7 +1800,7 @@ msgstr "تقرير الإجازات"
 #: model_terms:ir.ui.view,arch_db:hr_holidays_public.leaves_balance_form_view
 #: model_terms:ir.ui.view,arch_db:hr_holidays_public.leaves_balance_tree_view
 msgid "Leaves Taken"
-msgstr "الرصيد المأخوذ"
+msgstr "الرصيد المستنفذ"
 
 #. module: hr_holidays_public
 #: model:ir.model.fields,field_description:hr_holidays_public.field_buy_vacation__message_main_attachment_id
@@ -1885,14 +1935,14 @@ msgstr "مولود جديد"
 #: code:addons/hr_holidays_public/wizards/holiday_public_leave_report_wiz.py:0
 #: code:addons/hr_holidays_public/wizards/holiday_public_leave_report_wiz.py:0
 #, python-format
-msgid "New Leave Balance"
-msgstr " الرصيد الجديد"
+msgid "Remaining Leave Balance"
+msgstr "الرصيد المتبقي"
 
 #. module: hr_holidays_public
 #: model_terms:ir.ui.view,arch_db:hr_holidays_public.all_leave_report_template
 #: model_terms:ir.ui.view,arch_db:hr_holidays_public.specified_leave_report_template
-msgid "New Leave balance"
-msgstr "الرصيد الجديد"
+msgid "Remaining Leave balance"
+msgstr "الرصيد المتبقي"
 
 #. module: hr_holidays_public
 #: model:ir.model.fields,field_description:hr_holidays_public.field_buy_vacation__activity_date_deadline
@@ -2951,7 +3001,7 @@ msgstr "الى تاريخ"
 #: code:addons/hr_holidays_public/wizards/holiday_public_leave_report_wiz.py:0
 #, python-format
 msgid "To date"
-msgstr ""
+msgstr "الى تاريخ"
 
 #. module: hr_holidays_public
 #: code:addons/hr_holidays_public/wizards/holiday_public_leave_report_wiz.py:0
@@ -3095,7 +3145,7 @@ msgstr ""
 #: model:ir.model.fields.selection,name:hr_holidays_public.selection__hr_holidays__state__approved
 #, python-format
 msgid "Wait Approval"
-msgstr "إنتظار موافقه الامين العام"
+msgstr "إنتظار التصديق"
 
 #. module: hr_holidays_public
 #: code:addons/hr_holidays_public/models/hr_holidays.py:0
@@ -3338,7 +3388,7 @@ msgstr "تأكد"
 #: model:ir.model.fields.selection,name:hr_holidays_public.selection__hr_holiday_officials__state__confirm
 #, python-format
 msgid "confirm"
-msgstr ""
+msgstr "معتمد"
 
 #. module: hr_holidays_public
 #: model_terms:ir.ui.view,arch_db:hr_holidays_public.leaves_balance_form_view
@@ -3364,7 +3414,7 @@ msgstr "محتوى الملف"
 #. module: hr_holidays_public
 #: model_terms:ir.ui.view,arch_db:hr_holidays_public.specified_leave_report_template
 msgid "from"
-msgstr ""
+msgstr "من"
 
 #. module: hr_holidays_public
 #: model:ir.model,name:hr_holidays_public.model_holiday_status_duration
@@ -3448,3 +3498,8 @@ msgstr "النوع"
 #: model:mail.template,subject:hr_holidays_public.email_template_employee_replace
 msgid "بديل اجازة الموظف  ${object.employee_id.name} "
 msgstr ""
+
+#. module: hr_holidays_public
+#: model_terms:ir.ui.view,arch_db:hr_holidays_public.view_hr_holidays_filter2
+msgid "Holidays Today"
+msgstr "إجازات اليوم"

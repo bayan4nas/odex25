@@ -19,17 +19,18 @@
                         <tr>
                             <th>Sequence</th>
                             <th>Iqama</th>
+                            <th>Employee Number</th>
                             <th>Name</th>
                             <th>Nationality</th>
                             <th>Job</th>
                             <th>Department</th>
                             <th>Leave Type</th>
-                            <th>Working begin Start Date</th>
+                            <!-- <th>Working begin Start Date</th> -->
                             <th>Leave Start Date</th>
                             <th>Leave end Date</th>
                             <th>Leave Balance</th>
                             <th>Leave days</th>
-                            <th>New Leave balance</th>
+                            <th>Remaining Leave balance</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -40,6 +41,9 @@
                                 </td>
                                 <td>
                                     <t t-esc="line['iqama_number']"/>
+                                </td>
+                                <td>
+                                    <t t-esc="line['employee_number']"/>
                                 </td>
                                 <td style="width: 1.5in;">
                                     <t t-esc="line['employee_id']"/>
@@ -56,9 +60,9 @@
                                 <td>
                                     <t t-esc="line['leave_type_name']"/>
                                 </td>
-                                <td>
+                                <!-- <td>
                                     <t t-esc="line['start_day_work']"/>
-                                </td>
+                                </td> -->
                                 <td>
                                     <t t-esc="line['leave_start_date'].date() if line['leave_start_date'] else ''"/>
                                 </td>
@@ -131,17 +135,18 @@
                         <thead>
                             <tr>
                                 <th>Iqama</th>
+                                <th>Employee Number</th>
                                 <th>Name</th>
                                 <th>Nationality</th>
                                 <th>Job</th>
                                 <th>Department</th>
                                 <th>Leave Type</th>
-                                <th>Working begin Start Date</th>
+                                <!-- <th>Working begin Start Date</th> -->
                                 <th>Leave Start Date</th>
                                 <th>Leave end Date</th>
                                 <th>Leave Balance</th>
                                 <th>Leave days</th>
-                                <th>New Leave balance</th>
+                                <th>Remaining Leave balance</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -149,6 +154,9 @@
                                 <tr>
                                     <td>
                                         <t t-esc="line['iqama_number']"/>
+                                    </td>
+                                    <td>
+                                        <t t-esc="line['employee_number']"/>
                                     </td>
                                     <td style="width: 1.5in;">
                                         <t t-esc="line['employee_id']"/>
@@ -165,9 +173,9 @@
                                     <td>
                                         <t t-esc="line['leave_type_name']"/>
                                     </td>
-                                    <td>
+                                    <!-- <td>
                                         <t t-esc="line['start_day_work']"/>
-                                    </td>
+                                    </td> -->
 
                                     <td>
                                         <t t-esc="line['leave_start_date']" t-options="{'widget': 'date'}"/>

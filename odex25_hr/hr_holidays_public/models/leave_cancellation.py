@@ -29,10 +29,17 @@ class LeaveCancellation(models.Model):
     leave_date_to = fields.Datetime(string="Leave Date End", store=True)
     attachment_ids = fields.One2many('ir.attachment', 'leave_cancel_id')
     employee_id = fields.Many2one('hr.employee', 'Employee', default=lambda item: item.get_user_id())
+    manager_id = fields.Many2one('hr.employee', string='Direct Manager', related='employee_id.parent_id', store=True,
+                                 readonly=True,
+                                 domain="['|', ('company_id', '=', False), ('company_id', '=', company_id)]")
     duration_canceled = fields.Float(store=1)
     salary_rule_id = fields.Many2one('hr.salary.rule', string='Benefits/Discounts')
     reconcile_leave = fields.Boolean(related='leave_request_id.reconcile_leave')
     company_id = fields.Many2one('res.company', default=lambda self: self.env.company)
+    cancellation_type = fields.Selection([
+        ('cut', 'Cut'),
+        ('cancel', 'Cancel')
+    ], string="Cancellation Type", default='cut', tracking=True, required=True)
 
     def get_user_id(self):
         employee_id = self.env['hr.employee'].search([('user_id', '=', self.env.uid)], limit=1)
@@ -54,15 +61,21 @@ class LeaveCancellation(models.Model):
         self.leave_date_to = self.leave_request_id.date_to
         self.leave_cancellation_date = self.leave_request_id.date_to
 
-    @api.onchange('from_date', 'leave_cancellation_date', 'leave_date_from')
+    @api.onchange('from_date', 'leave_cancellation_date', 'leave_date_from', 'cancellation_type')
     def onchange_dates(self):
         for leave_req in self:
-            if self.from_date and self.leave_cancellation_date:
+            date_from = False
+            if self.from_date:
+                date_from = self.from_date
+            elif self.leave_date_from:
+                date_from = self.leave_date_from
+
+            if date_from and self.leave_cancellation_date:
                 if leave_req.leave_request_id.date_to:
                     if leave_req.leave_request_id.date_from:
                         leave_cancel_1 = dt.strptime(str(leave_req.leave_cancellation_date),
                                                      "%Y-%m-%d %H:%M:%S").date()
-                        leave_from_1 = dt.strptime(str(leave_req.from_date), "%Y-%m-%d %H:%M:%S").date()
+                        leave_from_1 = dt.strptime(str(date_from), "%Y-%m-%d %H:%M:%S").date()
                         leave_date_to_value = dt.strptime(str(leave_req.leave_request_id.date_to),
                                                           "%Y-%m-%d %H:%M:%S").date()
                         leave_date_from_value = dt.strptime(str(leave_req.leave_request_id.date_from),
@@ -75,7 +88,7 @@ class LeaveCancellation(models.Model):
                                 _('Duration of leave cancel must be between duration of request of leave '))
                         else:
                             if leave_req.leave_request_id.holiday_status_id.working_days:
-                                from_dt = fields.Datetime.from_string(leave_req.from_date)
+                                from_dt = fields.Datetime.from_string(date_from)
                                 to_dt = fields.Datetime.from_string(leave_req.leave_cancellation_date)
                                 time_delta = math.ceil((leave_cancel_1 - leave_from_1).days + float(
                                     (leave_cancel_1 - leave_from_1).seconds) / 86400)
@@ -93,7 +106,10 @@ class LeaveCancellation(models.Model):
                                             time_delta = time_delta - 1
                                 leave_req.duration_canceled = time_delta
                             else:
-                                leave_req.duration_canceled = (leave_cancel_1 - leave_from_1).days
+                                if leave_req.cancellation_type == 'cancel':
+                                    leave_req.duration_canceled = (leave_cancel_1 - leave_from_1).days + 1
+                                else:
+                                    leave_req.duration_canceled = (leave_cancel_1 - leave_from_1).days
             else:
                 leave_req.duration_canceled = 0
 
@@ -109,28 +125,33 @@ class LeaveCancellation(models.Model):
 
     def draft(self):
         for item in self:
-            balance = self.env['hr.holidays'].search([('employee_id', '=', item.employee_id.id),
-                                                      ('holiday_status_id', '=',
-                                                       item.leave_request_id.holiday_status_id.id),
-                                                      ('type', '=', 'add'),
-                                                      ('check_allocation_view', '=', 'balance')])
+            if item.cancellation_type:
+                balance = self.env['hr.holidays'].search([('employee_id', '=', item.employee_id.id),
+                                                          ('holiday_status_id', '=',
+                                                           item.leave_request_id.holiday_status_id.id),
+                                                          ('type', '=', 'add'),
+                                                          ('check_allocation_view', '=', 'balance')])
 
-            if balance and item.leave_request_id.canceled_duration > 0:
-                cancelled_days = self.get_pure_holiday_days()
-                var_remaining_leaves = balance.remaining_leaves - cancelled_days
-                var_taken_leaves = balance.leaves_taken + cancelled_days
-                item.leave_request_id.date_to = item.leave_date_to
-                item.leave_request_id.number_of_days_temp = item.leave_request_id.number_of_days_temp + cancelled_days
-                item.leave_request_id.canceled_duration = item.leave_request_id.canceled_duration > item.duration_canceled and \
-                                                          item.leave_request_id.canceled_duration - item.duration_canceled or \
-                                                          0.0
-                balance.write({
-                    'remaining_leaves': var_remaining_leaves,
-                    'leaves_taken': var_taken_leaves,
-                    # 'number_of_days_temp': var_remaining_leaves,
-                    # 'virtual_remaining_leaves': var_remaining_leaves,
-                })
-        self.leave_request_id.remove_delegated_access()
+                if balance and item.leave_request_id.canceled_duration > 0:
+                    cancelled_days = self.get_pure_holiday_days()
+                    var_remaining_leaves = balance.remaining_leaves - cancelled_days
+                    var_taken_leaves = balance.leaves_taken + cancelled_days
+                    item.leave_request_id.date_to = item.leave_date_to
+                    item.leave_request_id.number_of_days_temp = item.leave_request_id.number_of_days_temp + cancelled_days
+                    item.leave_request_id.canceled_duration = item.leave_request_id.canceled_duration > item.duration_canceled and \
+                                                              item.leave_request_id.canceled_duration - item.duration_canceled or \
+                                                              0.0
+                    balance.write({
+                        'remaining_leaves': var_remaining_leaves,
+                        'leaves_taken': var_taken_leaves,
+                        # 'number_of_days_temp': var_remaining_leaves,
+                        # 'virtual_remaining_leaves': var_remaining_leaves,
+                    })
+                else:
+                    item.leave_request_id.financial_manager()
+
+
+        # self.leave_request_id.remove_delegated_access()
         self.state = 'draft'
 
     def submit(self):
@@ -143,23 +164,31 @@ class LeaveCancellation(models.Model):
         self.state = 'review'
 
     def confirm(self):
-        #self.state = 'confirm'
-        #The Approval For The Direct Manager only
+        # self.state = 'confirm'
+        # The Approval For The Direct Manager only
         for rec in self:
-           manager = rec.sudo().employee_id.parent_id
-           hr_manager = rec.sudo().employee_id.company_id.hr_manager_id
-           if manager:
-              if manager.user_id.id == rec.env.uid or hr_manager.user_id.id == rec.env.uid:
-                 rec.write({'state': 'confirm'})
-              else:
-                  raise exceptions.Warning(_("Sorry, The Approval For The Direct Manager '%s' Only OR HR Manager!")%(rec.employee_id.parent_id.name))
-           else:
-               rec.write({'state': 'confirm'})
+            manager = rec.sudo().employee_id.parent_id
+            hr_manager = rec.sudo().employee_id.company_id.hr_manager_id
+            if manager:
+                if manager.user_id.id == rec.env.uid or hr_manager.user_id.id == rec.env.uid:
+                    rec.write({'state': 'confirm'})
+                else:
+                    raise exceptions.Warning(
+                        _("Sorry, The Approval For The Direct Manager '%s' Only OR HR Manager!") % (
+                            rec.employee_id.parent_id.name))
+            else:
+                rec.write({'state': 'confirm'})
+
 
     def get_pure_holiday_days(self):
         for item in self:
             cancellation_dates = []
-            from_dt = dt.strptime(str(item.from_date), "%Y-%m-%d %H:%M:%S")
+            date_from = False
+            if item.from_date:
+                date_from = self.from_date
+            elif item.leave_date_from:
+                date_from = self.leave_date_from
+            from_dt = dt.strptime(str(date_from), "%Y-%m-%d %H:%M:%S")
             for i in range((dt.strptime(str(item.leave_cancellation_date), "%Y-%m-%d %H:%M:%S") - from_dt).days):
                 cancellation_dates.append(from_dt.date() + timedelta(days=i))
             cancelled_days = list(set(cancellation_dates))
@@ -168,7 +197,7 @@ class LeaveCancellation(models.Model):
                 event_dates = []
                 for event in self.env['hr.holiday.officials'].search([('active', '=', True), ('state', '=', 'confirm'),
                                                                       ('date_from', '<=', item.leave_cancellation_date),
-                                                                      ('date_to', '>=', item.from_date)]):
+                                                                      ('date_to', '>=', date_from)]):
                     if event.religion and item.employee_id and item.employee_id.religion != event.religion:
                         continue
                     event_df = dt.strptime(str(event.date_from), '%Y-%m-%d').date()
@@ -191,57 +220,61 @@ class LeaveCancellation(models.Model):
 
     def approve(self):
         for item in self:
-            balance = self.env['hr.holidays'].search([('employee_id', '=', item.employee_id.id),
-                                                      ('holiday_status_id', '=',
-                                                       item.leave_request_id.holiday_status_id.id),
-                                                      ('type', '=', 'add'),
-                                                      ('check_allocation_view', '=', 'balance')])
-            if balance:
-                cancelled_days = self.get_pure_holiday_days()
-                var_remaining_leaves = balance.remaining_leaves + cancelled_days
-                var_taken_leaves = balance.leaves_taken - cancelled_days
+            if item.cancellation_type == 'cut':
+                balance = self.env['hr.holidays'].search([('employee_id', '=', item.employee_id.id),
+                                                          ('holiday_status_id', '=',
+                                                           item.leave_request_id.holiday_status_id.id),
+                                                          ('type', '=', 'add'),
+                                                          ('check_allocation_view', '=', 'balance')])
+                if balance:
+                    cancelled_days = self.get_pure_holiday_days()
+                    var_remaining_leaves = balance.remaining_leaves + cancelled_days
+                    var_taken_leaves = balance.leaves_taken - cancelled_days
 
 
-                item.leave_request_id.date_to = item.from_date
-                item.leave_request_id.number_of_days_temp = item.leave_request_id.number_of_days_temp - cancelled_days
-                #item.leave_request_id.canceled_duration = item.leave_request_id.canceled_duration > 0 and \
-                #                                          item.leave_request_id.canceled_duration + cancelled_days or \
-                #                                          cancelled_days
-                item.leave_request_id.canceled_duration = cancelled_days
-                balance.write({
-                    'remaining_leaves': var_remaining_leaves,
-                    'leaves_taken': var_taken_leaves,
-                    # 'number_of_days_temp': var_remaining_leaves,
-                    #'virtual_remaining_leaves': var_remaining_leaves,
-                })
+                    item.leave_request_id.date_to = item.from_date or item.leave_date_from
+                    item.leave_request_id.number_of_days_temp = item.leave_request_id.number_of_days_temp - cancelled_days
+                    #item.leave_request_id.canceled_duration = item.leave_request_id.canceled_duration > 0 and \
+                    #                                          item.leave_request_id.canceled_duration + cancelled_days or \
+                    #                                          cancelled_days
+                    item.leave_request_id.canceled_duration = cancelled_days
+                    balance.write({
+                        'remaining_leaves': var_remaining_leaves,
+                        'leaves_taken': var_taken_leaves,
+                        # 'number_of_days_temp': var_remaining_leaves,
+                        #'virtual_remaining_leaves': var_remaining_leaves,
+                    })
 
-            Module = self.env['ir.module.module'].sudo()
-            modules_reconcile = Module.search([('state', '=', 'installed'), ('name', '=', 'exp_payroll_loans')])
-            if modules_reconcile:
+                Module = self.env['ir.module.module'].sudo()
+                modules_reconcile = Module.search([('state', '=', 'installed'), ('name', '=', 'exp_payroll_loans')])
+                if modules_reconcile:
 
-               reconcile_leave_id = self.env['reconcile.leaves'].search([
-                   ('yearly_vacation', '=', item.leave_request_id.id),
-                   ('state', '=', 'pay'),
-               ])
-               if item.leave_request_id.reconcile_leave:
-                   if not reconcile_leave_id:
-                       raise exceptions.Warning(_('Kindly, process the reconciliation of leave'
-                                               ' before process cancel leave'))
-                   date_start = dt.strptime(str(item.from_date), "%Y-%m-%d %H:%M:%S")
-                   date_end = dt.strptime(str(item.leave_cancellation_date), "%Y-%m-%d %H:%M:%S")
-                   cancel_leave_duration = int((date_end - date_start).days)
-                   self.env['contract.advantage'].create({
-                       "employee_id": item.employee_id.id,
-                       "contract_advantage_id": self.employee_id.contract_id and
-                                             self.employee_id.contract_id.id or False,
-                       "type": "exception",
-                       "date_from": item.from_date,
-                       "date_to": item.leave_cancellation_date,
-                       "amount": reconcile_leave_id.salary / (30 / cancel_leave_duration),
-                       "benefits_discounts": item.salary_rule_id and
-                                          item.salary_rule_id.id or False,
-                   })
-            item.leave_request_id.remove_delegated_access()
+                   reconcile_leave_id = self.env['reconcile.leaves'].search([
+                       ('yearly_vacation', '=', item.leave_request_id.id),
+                       ('state', '=', 'pay'),
+                   ])
+                   if item.leave_request_id.reconcile_leave:
+                       if not reconcile_leave_id:
+                           raise exceptions.Warning(_('Kindly, process the reconciliation of leave'
+                                                   ' before process cancel leave'))
+                       date_start = dt.strptime(str(item.from_date), "%Y-%m-%d %H:%M:%S")
+                       date_end = dt.strptime(str(item.leave_cancellation_date), "%Y-%m-%d %H:%M:%S")
+                       cancel_leave_duration = int((date_end - date_start).days)
+                       self.env['contract.advantage'].create({
+                           "employee_id": item.employee_id.id,
+                           "contract_advantage_id": self.employee_id.contract_id and
+                                                 self.employee_id.contract_id.id or False,
+                           "type": "exception",
+                           "date_from": item.from_date,
+                           "date_to": item.leave_cancellation_date,
+                           "amount": reconcile_leave_id.salary / (30 / cancel_leave_duration),
+                           "benefits_discounts": item.salary_rule_id and
+                                              item.salary_rule_id.id or False,
+                       })
+                item.leave_request_id.remove_delegated_access()
+
+            elif item.cancellation_type == 'cancel':
+                item.leave_request_id.refuse()
 
             item.state = 'approve'
 

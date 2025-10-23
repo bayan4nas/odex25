@@ -96,7 +96,7 @@
         <!--        Leave Balance-->
         <template id="public_leave_balance_report">
             <t t-call="web.html_container">
-                <t t-call="hr_base.hr_layout">
+                <t t-call="web.external_layout">
                     <style>
                         @font-face {font-family: "Sakkal Majalla"; src:
                         url("/employee_requests/static/fonts/ce7b5754581057e6f7444e2192850cc8.eot"); src:
@@ -107,16 +107,17 @@
                         url("/employee_requests/static/fonts/ce7b5754581057e6f7444e2192850cc8.ttf") format("truetype");
                         }
                     </style>
-                    <div class="page" style="font-family:'Sakkal Majalla'!important;direction:rtl;font-size:15pt">
-                        <table class="table table-condensed table-bordered">
-                            <thead class="text-center">
-                                <tr style="width:100%;">
-                                    <th colspan="9" class="text-center" style="font-size:20px">Employee Leave Balance Report
-                                    </th>
-                                </tr>
-                                <tr style="background-color: #263f79;width:100%;">
+                    <div class="page" style="font-family:'Sakkal Majalla'!important;direction:rtl;font-size:12pt">
+                        <center>
+                            <h2 style="font-weight:bold">
+                                Employee Leave Balance Report
+                            </h2>
+                        </center>
+                        <table class="table table-condensed table-bordered" style="width:100%;">
+                            <thead style="width:100%;">
+                                <tr style="width:100%;text-align:center; background-color: #b9d7d4;">
                                     <t t-foreach="docs[0]" t-as="doc">
-                                        <th style="text-align:center;color:#FFFFFF">
+                                        <th style="text-align:center;">
                                             <t t-esc="doc"/>
                                         </th>
                                     </t>
@@ -135,9 +136,6 @@
                                         </td>
                                         <td>
                                             <t t-esc="o.employee_id.name"/>
-                                        </td>
-                                        <td>
-                                            <t t-esc="o.employee_id.first_hiring_date"/>
                                         </td>
                                         <td>
                                             <t t-esc="o.holiday_status_id.name"/>

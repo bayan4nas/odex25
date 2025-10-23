@@ -11,6 +11,61 @@
         </record>
 
 
+        <record model="ir.actions.act_window" id="leaves_balancee_action">
+            <field name="name">Leaves Balance</field>
+            <field name="res_model">hr.holidays</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('type','=','add'),('check_allocation_view','=','balance')]</field>
+            <field name="context">{'default_type':'add', 'default_check_allocation_view': 'balance'}</field>
+            <field name="search_view_id" ref="hr_holidays_community.view_hr_holidays_filter"/>
+
+        </record>
+
+
+
+
+        <!--        <record id="view_employee_form_leave_inherit_custome" model="ir.ui.view">-->
+        <!--            <field name="name">hr.employee.leave.form.inherit.custom</field>-->
+        <!--            <field name="model">hr.employee</field>-->
+        <!--            <field name="inherit_id" ref="hr_holidays_community.view_employee_form_leave_inherit"/>-->
+        <!--            <field name="arch" type="xml">-->
+        <!--                <xpath expr="//button[@name='%(hr_holidays_community.act_hr_employee_holiday_request)d']" position="attributes">-->
+        <!--                    <attribute name="name">%(hr_holidays_public.leaves_balancee_action)d</attribute>-->
+        <!--&lt;!&ndash;                    <attribute name="name">%(hr_holidays_public.leaves_balance_action)d</attribute>&ndash;&gt;-->
+        <!--&lt;!&ndash;                    <attribute name="context">{'search_default_employee_id': active_id}</attribute>&ndash;&gt;-->
+        <!--                </xpath>-->
+        <!--            </field>-->
+        <!--        </record>-->
+
+
+
+        <record id="view_employee_form_leave_inherit_actionn" model="ir.ui.view">
+            <field name="name">hr.employee.leave.form.inherit.custom</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr_holidays_community.view_employee_form_leave_inherit"/>
+            <field name="arch" type="xml">
+                  <xpath expr="//button[child::field[@name='leaves_count']]" position="attributes">
+                <attribute name="name">%(hr_holidays_public.leaves_balance_action)d</attribute>
+                <attribute name="context">{'search_default_employee_id': active_id}</attribute>
+            </xpath>
+            </field>
+
+
+        </record>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         <record model="ir.ui.view" id="leaves_balance_form_view">
             <field name="name">Leaves Balance</field>
@@ -57,7 +112,9 @@
             <field name="model">hr.holidays</field>
             <field name="arch" type="xml">
                 <tree create="false" edit="false" delete="false">
+                    <field name="emp_number" string="Employee number"/>
                     <field name="employee_id" string="Employee"/>
+                    <field name="department_id" string="Department" optional="hide"/>
                     <field name="holiday_status_id" string="Leave Type"/>
                     <field name="state" invisible="1"/>
                     <field name="leaves_taken" string="Leaves Taken"/>

@@ -36,16 +36,17 @@
                     <attribute name="attrs">{'readonly':[('state','!=','draft')]}</attribute>
                 </xpath>
                 <xpath expr="//field[@name='department_id']" position="after">
+                    <field name="create_date" readonly="1"/>
                     <field name="company_id" groups="base.group_multi_company" readonly="1"/>
                     <field name="emp_id" invisible="1" attrs="{'readonly':[('state','!=','draft')]}"/>
                     <field name="last_employee_contract" string="Last Employee Contract"/>
                     <field name="employee_type" string="Employee Type" readonly="1"/>
-                    <field name="replace_by" string="Replace By" required="0"
+                    <field name="replace_by" string="Replace By"
                            attrs="{'invisible':['|',('holiday_type','=','category'),('type','!=','remove')],
                                   'readonly':[('state','not in',('draft','confirm','validate'))]}"
                            groups="hr_holidays_community.group_hr_holidays_user,hr_base.group_division_manager"
                            domain="[('id', '!=', employee_id),('state', '=', 'open')]"/>
-                    <field name="delegate_acc" attrs="{'readonly':[('state','!=','confirm')],'invisible':[('type','!=','remove')]}"
+                    <field name="delegate_acc" attrs="{'readonly':[('state','!=','confirm')],'invisible':['|',('replace_by', '=', False),('type','!=','remove')]}"
                            groups="hr_base.group_division_manager,hr_holidays_community.group_hr_holidays_user"/>
                     <field name="notes" string="Notes" invisible="1"/>
                     <field name="canceled_duration" string="Canceled Duration"
@@ -61,6 +62,7 @@
                            attrs="{'invisible':['|',('check_unlimit','=',False),('type','!=','remove')],'readonly':[('state','!=','draft')]}"/>
                     <!--<field name="number_days" string="number of days"/>-->
                     <!--<field name="number_of_days_temp" force_save="1" />-->
+
                 </xpath>
                 <xpath expr="//div[2]" position="before">
                     <div attrs="{'invisible':[('official_holiday_days', '&lt;=', 0.0)]}">
@@ -166,7 +168,8 @@
                                 groups="hr_base.group_department_manager,hr_base.group_executive_manager"
                                 class="oe_highlight"/-->
                         <field name="state" widget="statusbar"
-                               statusbar_visible="draft,confirm,validate,approved,validate1,refuse"/>
+                               statusbar_visible="draft,confirm,validate,validate1,refuse"
+                        />
 
                     </header>
                 </header>
@@ -211,11 +214,50 @@
             </field>
         </record>
 
+        <record id="view_holiday_allocation_tree_hr_holidays_community" model="ir.ui.view">
+            <field name="name">hr.holidays.allocation.tree.inherit</field>
+            <field name="model">hr.holidays</field>
+            <field name="inherit_id" ref="hr_holidays_community.view_holiday_allocation_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//tree/field[@name='state']" position="attributes">
+                    <attribute name="widget">badge</attribute>
+                    <attribute name="decoration-warning">state in ['confirm', 'validate']</attribute>
+                    <attribute name="decoration-success">state == 'validate1'</attribute>
+                </xpath>
+                <xpath expr="//tree/field[@name='employee_id']" position="before">
+                    <field name="emp_number"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_holiday_simple_hr_holidays_community" model="ir.ui.view">
+            <field name="name">hr.holidays.allocation.tree.inherit</field>
+            <field name="model">hr.holidays</field>
+            <field name="inherit_id" ref="hr_holidays_community.view_holiday_simple"/>
+            <field name="arch" type="xml">
+                <xpath expr="//tree/field[@name='state']" position="attributes">
+                    <attribute name="widget">badge</attribute>
+                    <attribute name="decoration-warning">state in ['confirm', 'validate']</attribute>
+                    <attribute name="decoration-success">state == 'validate1'</attribute>
+                </xpath>
+            </field>
+        </record>
+
         <record id="custom_view_holiday" model="ir.ui.view">
             <field name="name">hr.holidays.tree.custom</field>
             <field name="model">hr.holidays</field>
             <field name="inherit_id" ref="hr_holidays_community.view_holiday"/>
             <field name="arch" type="xml">
+                <xpath expr="//tree/field[@name='state']" position="attributes">
+                    <attribute name="widget">badge</attribute>
+                    <attribute name="decoration-warning">state in ['confirm', 'validate']</attribute>
+                    <attribute name="decoration-success">state == 'validate1'</attribute>
+                </xpath>
+                <xpath expr="//tree/field[@name='number_of_days']" position="attributes">
+                    <attribute name="name">number_of_days_temp</attribute>
+                    <attribute name="decoration-bf">1</attribute>
+                </xpath>
+
                 <xpath expr="//field[@name='date_from']" position="attributes">
                     <attribute name="widget">date</attribute>
                 </xpath>
@@ -225,6 +267,15 @@
                 <xpath expr="//field[@name='name']" position="attributes">
                     <attribute name="invisible">1</attribute>
                 </xpath>
+                <xpath expr="//field[@name='date_to']" position="after">
+                    <field name="create_date"/>
+                </xpath>
+                <xpath expr="//tree/field[@name='employee_id']" position="before">
+                    <field name="emp_number"/>
+                </xpath>
+                <xpath expr="//field[@name='employee_id']" position="after">
+                    <field name="department_id"/>
+                </xpath>
 
                 <xpath expr="//field[@name='payslip_status']" position="attributes">
                     <attribute name="invisible">1</attribute>
@@ -233,9 +284,9 @@
                 <xpath expr="//field[@name='holiday_type']" position="attributes">
                     <attribute name="invisible">1</attribute>
                 </xpath>
-                 <field name="state" position="after">
-                     <field name="return_from_leave"/>
-                     <field name="canceled_duration"/>
+                 <field name="state" position="before">
+                     <field name="return_from_leave" optional="hide"/>
+                     <!--field name="canceled_duration"/-->
                  </field>
 
             </field>
@@ -257,11 +308,16 @@
                         <filter name="state" string="State" context="{'group_by':'state'}"/>
                         <filter name="group_department" string="Department" domain="[]" context="{'group_by': 'department_id'}"/>
                         <filter name="group_branch" string="Branch" domain="[]" context="{'group_by': 'is_branch'}"/>
+                       <filter string="Holidays Today" name="today_less" domain="[('to_date', '=', 'True')]"/>
 
                     </group>
                 </search>
             </field>
         </record>
         <!-- view_hr_holidays_filter_inherit end -->
+
+        <record id="hr_holidays_community.open_company_allocation" model="ir.actions.act_window">
+            <field name="domain" eval="[('holiday_type', '=', 'employee'), ('type', '=', 'remove')]" />
+        </record>
     </data>
 </odoo>

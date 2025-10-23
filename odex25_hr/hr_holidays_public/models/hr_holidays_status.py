@@ -28,7 +28,7 @@ class HrHolidaysStatus(models.Model):
                                            ('other', _('Holiday2')), 
                                            ('displaced', _('Holiday3')),
                                            ('external', _('Holiday4')),
-                                           ('external2', _('Other')), ('all', _('All'))], tracking=True)
+                                           ('external2', _('Other')), ('all', _('All'))],string='Annual Leave Entitlement', tracking=True)
     gender = fields.Selection(selection=[('male', _('Male')),
                                          ('female', _('Female')),
                                          ('both', _('Both'))], tracking=True)
@@ -52,6 +52,7 @@ class HrHolidaysStatus(models.Model):
     mission_chick = fields.Boolean(tracking=True)
     attach_chick = fields.Boolean(tracking=True)
     alternative_chick = fields.Boolean(default=True,tracking=True)
+    alternative_days = fields.Integer(string='Alternative Days')
     limit = fields.Boolean(tracking=True)
     '''color_name = fields.Selection(selection=[('red', _('Red')),
                                              ('blue', _('Blue')),
@@ -73,7 +74,7 @@ class HrHolidaysStatus(models.Model):
                                                ('exclusion', _('Exclusion'))], string='Payslip Type',tracking=True)
     percentage = fields.Float(string='Percentage')
     salary_rules_ids = fields.Many2many('hr.salary.rule', string='Rules',
-                                        domain="[('special','!=',True),('rules_type','in',('salary','house'))]")
+                                        domain="[('special','!=',True)]")
     leave_annual_type = fields.Selection(
         selection=[('open_balance', _('Opening Balance')), ('save_annual_year', _('Save Annual'))],
         string='Annual Type', default='open_balance',tracking=True)
@@ -113,44 +114,26 @@ class HrHolidaysStatus(models.Model):
                                                           count=count, access_rights_uid=access_rights_uid)
         if not count and not order and self._context.get('employee_id'):
             leaves = self.browse(leave_ids)
-            # sort_key = lambda l: (l.leave_type, l.sickness_severity, l.virtual_remaining_leaves)
-            sort_key = lambda l: (
-                l.leave_type or "",
-                l.sickness_severity or "",
-                l.virtual_remaining_leaves if isinstance(l.virtual_remaining_leaves, (int, float)) else 0.0
-            )
-
+            sort_key = lambda l: (l.leave_type, l.sickness_severity, l.virtual_remaining_leaves)
             employee_id = self._context.get('employee_id')
             type_holiday = self._context.get('type')
-
             if type_holiday == "remove":
-                # Fetching non-sick leave balances
                 balance = self.env['hr.holidays'].search([
                     ('employee_id', '=', int(employee_id)),
                     ('holiday_status_id.leave_type', '!=', 'sick'),
                     ('type', '=', 'add'),
                     ('check_allocation_view', '=', 'balance')
                 ]).mapped('holiday_status_id')
-
-                # Fetching sick leave balances
                 balance_sick = self.env['hr.holidays'].search([
                     ('employee_id', '=', int(employee_id)),
                     ('holiday_status_id.leave_type', '=', 'sick'),
                     ('type', '=', 'add'),
                     ('check_allocation_view', '=', 'balance'),
                     ('remaining_leaves', '>', 0)
-                ]).mapped('holiday_status_id')  # Convert to hr.holidays.status
-
-                if balance_sick:
-                    balance_sick = balance_sick.sorted(key=lambda eval: eval.sickness_severity, reverse=False)
-                    balance_sick = balance_sick[0] if balance_sick else balance_sick  # Keep only the first sick leave status
-
-                # Ensure both are the same model before union
-                leaves = balance | balance_sick if balance_sick else balance
-
-            if leaves and sort_key:
-                return leaves.sorted(key=sort_key, reverse=False).ids
-
+                ]).mapped('holiday_status_id').sorted(key=lambda eval: eval.sickness_severity, reverse=False)
+                balance_sick = balance_sick and balance_sick[0] or balance_sick
+                leaves = balance | balance_sick
+            return leaves.sorted(key=sort_key, reverse=False).ids
         return leave_ids
 
     @api.onchange('number_of_years', 'duration')
@@ -204,6 +187,12 @@ class HrHolidaysStatus(models.Model):
                 raise ValidationError(
                     "Sorry past years balance can not be greater than "
                     "allowed holiday years balance to be carried to next years")
+
+    @api.constrains('alternative_days', 'alternative_chick')
+    def check_alternative_days(self):
+        for rec in self:
+            if rec.alternative_chick==True and rec.alternative_days <= 0:
+                raise ValidationError(_("Sorry, The Alternative Employee Days Must Be Greater Than One Day."))
 
 
 class CalenderEventType(models.Model):

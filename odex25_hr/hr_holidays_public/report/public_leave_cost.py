@@ -128,7 +128,7 @@ class EmployeeLeaveBalanceReport(models.AbstractModel):
         holidays = self.env['hr.holidays'].sudo().search(value)
         holidays = holidays.sorted(key=lambda r: r.holiday_status_id.id)
         labels = [
-            (_('#')), (_('Employee NO')), (_('Employee Name')), (_('Join Date')), (_('Type Of Leave')),
+            (_('#')), (_('Employee NO')), (_('Employee Name')), (_('Type Of Leave')),
             (_('Department')),
             (_('Deducted Leave Balance')), (_('Leave Balance')), (_('Overall Leave Balance'))]
         return [labels, holidays]
@@ -154,17 +154,17 @@ class EmployeeLeaveBalanceReportXlsx(models.AbstractModel):
         if self.env.user.lang != 'en_US':
             sheet.right_to_left()
         format0 = workbook.add_format(
-            {'bottom': True, 'bg_color': '#263f79', 'right': True, 'left': True, 'top': True, 'align': 'center'})
+            {'bottom': True, 'bg_color': '#b9d7d4', 'right': True, 'left': True, 'top': True, 'align': 'center'})
         format1 = workbook.add_format({'bottom': True, 'right': True, 'left': True, 'top': True, 'align': 'center'})
         format2 = workbook.add_format(
-            {'font_size': 14, 'bottom': True, 'right': True, 'left': True, 'top': True, 'align': 'center',
+            {'font_size': 14, 'align': 'center',
              'bold': True, 'bg_color': '#ffffff', 'font_color': 'black'})
         format2.set_align('center')
-        sheet.merge_range('A9:L9', (_("Leave Balance Report")) + " ", format2)
+        sheet.merge_range('F9:H9', (_("Leave Balance Report")) + " ", format2)
         sheet.set_column('B:D', 15)
         sheet.set_column('E:I', 10)
         row = 9
-        clm = 0
+        clm = 3
         for res in docs[0]:
             sheet.write(row, clm, res, format0)
             clm += 1
@@ -173,14 +173,13 @@ class EmployeeLeaveBalanceReportXlsx(models.AbstractModel):
         for doc in docs[1]:
             for rec in doc:
                 seq += 1
-                clm = 0
+                clm = 3
                 sheet.write(row, clm, seq, format1)
                 sheet.write(row, clm + 1, rec.employee_id.emp_no, format1)
                 sheet.write(row, clm + 2, rec.employee_id.name, format1)
-                sheet.write(row, clm + 3, rec.employee_id.joining_date, format1)
-                sheet.write(row, clm + 4, rec.holiday_status_id.name, format1)
-                sheet.write(row, clm + 5, rec.employee_id.department_id.name, format1)
-                sheet.write(row, clm + 6, round(rec.leaves_taken, 2), format1)
-                sheet.write(row, clm + 7, round(rec.remaining_leaves, 2), format1)
-                sheet.write(row, clm + 8, round(rec.remaining_leaves + rec.leaves_taken, 2), format1)
+                sheet.write(row, clm + 3, rec.holiday_status_id.name, format1)
+                sheet.write(row, clm + 4, rec.employee_id.department_id.name, format1)
+                sheet.write(row, clm + 5, round(rec.leaves_taken, 2), format1)
+                sheet.write(row, clm + 6, round(rec.remaining_leaves, 2), format1)
+                sheet.write(row, clm + 7, round(rec.remaining_leaves + rec.leaves_taken, 2), format1)
                 row += 1

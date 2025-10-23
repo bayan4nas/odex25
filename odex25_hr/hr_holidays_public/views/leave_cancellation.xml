@@ -40,13 +40,15 @@
                     <sheet>
                         <group>
                             <group>
+                                <field name="cancellation_type" attrs="{'readonly':[('state','!=','draft')]}"/>
                                 <field name="from_hr_department" string="Another Employee" attrs="{'readonly':[('state','!=','draft')]}"/>
                                 <field name="employee_id" string="Employee"
                                        attrs="{'readonly':['|',('from_hr_department' , '=' , False),('state','!=','draft')]}" required="1"/>
+                                <field name="manager_id" invisible="1"/>
                                 <field name="job_id" string="Job Title" readonly="1"/>
                                 <field name="department_id" string="Department" readonly="1"/>
 
-                                <field name="from_date" string="Last Leave Date" required="1" attrs="{'readonly':[('state','!=','draft')]}" widget="date"/>
+                                <field name="from_date" string="Last Leave Date" attrs="{'readonly':[('state','!=','draft')], 'required': [('cancellation_type', '!=', 'cancel')], 'invisible': [('cancellation_type', '=', 'cancel')]}" widget="date"/>
                                 <field name="leave_cancellation_date" required="1" string="Leave Cancellation Date" invisible="1"
                                        attrs="{'readonly':[('state','!=','draft')]}" widget="date"/>
                                 <field name="duration_canceled" string="Duration Canceled" readonly="1" force_save="1"/>
@@ -94,6 +96,7 @@
             <field name="arch" type="xml">
                 <tree decoration-success="state=='approve'" decoration-danger="state == 'refuse'" decoration-info="state == 'draft'" string="Leave Cancellation">
                     <field name="employee_id" string="Employee"/>
+                    <field name="department_id" />
                     <field name="leave_request_id"  />
                     <field name="from_date" widget="date"/>
                     <!--field name="leave_cancellation_date" widget="date"/-->
